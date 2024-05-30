@@ -9,3 +9,4 @@ SPDX-License-Identifier: MIT
   * Write a unit test that calls that function and verifies its result
 * add_subdirectory(src bin)? Why would we want to do that?
 * Enable warnings (which ones? Those from vtgcore, or maybe we have a look at doctest?)
+* Have some sort of prefix for our own modules in cmake? I mean, Testing is a very generic name, isn't it?
