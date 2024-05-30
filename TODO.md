@@ -4,6 +4,7 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Unit test: we haven't executed add_test yet. So, if we run tests though cmake, nothing is going to happen, no?
 * Testing.cmake
   * Maybe we should use the local Catch2 if it is available? Should be easy on Linux
 * Toplevel makefile:
