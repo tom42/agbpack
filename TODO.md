@@ -4,6 +4,14 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Checklist for a new code base
+  * Automate the build => That is, have a top level shell script that runs stuff
+    * configure
+    * build
+    * run tests
+    * reuse lint
+  * Turn on all error messages, treat warnings as errors
+  * Set up reuse to check licensing stuff
 * Unit test: we haven't executed add_test yet. So, if we run tests though cmake, nothing is going to happen, no?
 * Testing.cmake
   * Maybe we should use the local Catch2 if it is available? Should be easy on Linux
@@ -15,4 +23,3 @@ SPDX-License-Identifier: MIT
   * Write a unit test that calls that function and verifies its result
 * add_subdirectory(src bin)? Why would we want to do that?
 * Enable warnings (which ones? Those from vtgcore, or maybe we have a look at doctest?)
-* Have some sort of prefix for our own modules in cmake? I mean, Testing is a very generic name, isn't it?
