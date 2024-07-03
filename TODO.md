@@ -4,6 +4,21 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Wrap up testing business
+  * VtgTesting.cmake
+    * Do we really want to call the function enable_testing_with_catch2?
+      * Thing is, that name suggests it calls enable_testing, which it does not.
+      * Document that in order to use this, include(CTest) should be done, but at the top level of the file
+      * Maybe we call the thing setup_catch2() (or vtg_setup_catch2)
+      * And maybe we call it in the top level if BUILD_TESTING is true_
+* THEN
+  * Enable warnings
+  * Set up our first real test (e.g. rle_decoder)
+* See what other ideas from the cmake book we'd like to put into place
+  * valgrind
+  * code coverage for unit tests
+  * clang-fmt
+  * clang-tidy
 * Checklist for a new code base
   * Automate the build => That is, have a top level shell script that runs stuff
     * configure

@@ -2,8 +2,6 @@
 # SPDX-License-Identifier: MIT
 
 function(enable_testing_with_catch2 version)
-  enable_testing()
-
   # Try installed Catch2 package first.
   find_package(Catch2 ${version} QUIET)
 
@@ -23,8 +21,6 @@ function(enable_testing_with_catch2 version)
     # Make Catch.cmake and CatchShardTests.cmake available.
     list(APPEND CMAKE_MODULE_PATH "${catch2_SOURCE_DIR}/extras")
   endif()
-
-  include(CTest)
 
   # Include Catch.cmake to get the catch_discover_tests function.
   include(Catch)

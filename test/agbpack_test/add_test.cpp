@@ -10,3 +10,9 @@ TEST_CASE("add_test")
     REQUIRE(agbpack::add(2, 3) == 5);
     REQUIRE(agbpack::add(3, 5) == 8);
 }
+
+TEST_CASE("add_test2")
+{
+    REQUIRE(agbpack::add(2, 3) == 5);
+    REQUIRE(agbpack::add(3, 5) == 8);
+}
