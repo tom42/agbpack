@@ -2,4 +2,4 @@
 # SPDX-License-Identifier: MIT
 
 include(Testing)
-add_subdirectory(agbpack)
+add_subdirectory(agbpack_test)
