@@ -1,7 +1,12 @@
 # SPDX-FileCopyrightText: 2024 Thomas Mathys
 # SPDX-License-Identifier: MIT
 
-function(enable_testing_with_catch2 version)
+# Set up Catch2.
+# This makes Catch2 available.
+# find_package is tried first. If that fails, FetchContent is tried.
+# Note that this function does not include CTest. This must be done
+# manually, in the top level CMakeLists.txt (as required by CTest).
+function(vtg_testing_setup_catch2 version)
   # Try installed Catch2 package first.
   find_package(Catch2 ${version} QUIET)
 
