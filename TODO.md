@@ -6,6 +6,10 @@ SPDX-License-Identifier: MIT
 # TODO
 * THEN
   * Enable warnings
+    * see how doctest checks for compiler ID, if it looks better, use that approach
+    * enable warnings from vtgcore: we already established we want these
+    * see what warnings doctest has enabled, see whether these make sense
+    * see what other warnings we have noted in vtgcore's TODO.md?
   * Set up our first real test (e.g. rle_decoder)
 * See what other ideas from the cmake book we'd like to put into place
   * valgrind
