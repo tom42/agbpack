@@ -5,7 +5,7 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * THEN
-  * Enable warnings
+  * Enable warnings for g++ and clang
     * see how doctest checks for compiler ID, if it looks better, use that approach
     * enable warnings from vtgcore: we already established we want these
     * see what warnings doctest has enabled, see whether these make sense
@@ -33,3 +33,4 @@ SPDX-License-Identifier: MIT
   * Write a unit test that calls that function and verifies its result
 * add_subdirectory(src bin)? Why would we want to do that?
 * Enable warnings (which ones? Those from vtgcore, or maybe we have a look at doctest?)
+  * Well we can try /Wall with MSVC, but probably it's insane
