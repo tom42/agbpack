@@ -47,6 +47,12 @@ namespace
             throw std::runtime_error(std::string("Could not open ") + name.string());
         }
 
+        // TODO: which overload do we want to use? the one throwing exceptions, or the one returning an error code?
+        auto size = std::filesystem::file_size(name);
+
+        // TODO: remove
+        (void)size;
+
         return std::vector<unsigned char>();
     }
 }
