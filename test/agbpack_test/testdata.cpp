@@ -49,7 +49,6 @@ std::uintmax_t get_file_size(const std::filesystem::path& name)
 namespace agbpack_test
 {
 
-// TODO: review
 std::vector<unsigned char> read_testdata_file(const std::string& basename)
 {
     const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
@@ -58,6 +57,7 @@ std::vector<unsigned char> read_testdata_file(const std::string& basename)
     auto filesize = get_file_size(name);
 
     // Create vector with sufficient capacity to hold entire file.
+    // filesize may not fit into std::size_t (e.g. on 32 bit systems), so we check before casting.
     std::vector<unsigned char> data;
     if (filesize > std::numeric_limits<std::size_t>::max())
     {
@@ -72,7 +72,7 @@ std::vector<unsigned char> read_testdata_file(const std::string& basename)
         std::istream_iterator<unsigned char>());
 
     // Sanity check
-    if (filestream.bad() || (data.size() != filesize)) // TODO: port that over into the shrinkler-gba test suite
+    if (filestream.bad() || (data.size() != filesize))
     {
         throw std::runtime_error("Could not read entire content of file " + name.string());
     }
