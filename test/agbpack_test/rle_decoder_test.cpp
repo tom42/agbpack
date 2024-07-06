@@ -6,6 +6,7 @@ import agbpack;
 #include <catch2/catch_test_macros.hpp>
 #include <fstream>
 #include <iterator>
+#include <string>
 #include <vector>
 
 namespace
@@ -33,13 +34,17 @@ namespace
         return output;
     }
 
-    std::vector<unsigned char> read_file(const char* /*name*/)
+    std::vector<unsigned char> read_file(const char* name)
     {
-        // TODO: open file, throw exception if failed (orly?)
-        // TODO: what ios flags do we need? which ones we don't?
         // TODO: do we need to disable white space skipping?
         // TODO: get size of file. How? seek/tell hack? Filesystem library
         // TODO: create vector, somehow read data
+
+        std::ifstream f(name, std::ios_base::binary);
+        if (!f)
+        {
+            throw std::runtime_error(std::string("Could not open ") + name);
+        }
 
         return std::vector<unsigned char>();
     }
