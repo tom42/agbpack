@@ -11,6 +11,7 @@ import agbpack;
 #include <system_error>
 #include <vector>
 #include "agbpack_test_config.hpp"
+#include "testdata.hpp"
 
 namespace
 {
