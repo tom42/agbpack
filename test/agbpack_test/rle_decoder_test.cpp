@@ -20,6 +20,7 @@ namespace
         std::ifstream f;
         f.exceptions(std::ifstream::badbit | std::ifstream::failbit | std::ifstream::eofbit); // TODO: do we want eofbit too?
 
+        // TODO: do we need to disable whitespace skipping here?
         // TODO: unhardcode path, one way or another.
         // TODO: letting streams throw exceptions is somewhat silly: if the file cannot be opened we tend to get rather useless error messages ("failbit set", "stream error", that sort)
         // TODO: definitely should handle errors ourselves here and only later set exceptions: exception messages suck, srsly.
@@ -51,6 +52,7 @@ namespace
             throw std::system_error(error, std::generic_category(), "Could not open " + name.string());
         }
 
+        f.unsetf(std::ios::skipws);
         return f;
     }
 
@@ -68,7 +70,6 @@ namespace
 
     std::vector<unsigned char> read_file(std::filesystem::path basename)
     {
-        // TODO: do we need to disable white space skipping?
         const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
 
         auto file_stream = open_binary_file(name);
