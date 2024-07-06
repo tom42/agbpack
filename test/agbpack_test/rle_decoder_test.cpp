@@ -69,17 +69,22 @@ namespace
     std::vector<unsigned char> read_file(std::filesystem::path basename)
     {
         // TODO: do we need to disable white space skipping?
-        // TODO: create vector, somehow read data
-
         const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
 
-        auto f = open_binary_file(name);
+        auto file_stream = open_binary_file(name);
         auto size = get_file_size(name);
 
-        // TODO: remove
-        (void)size;
+        // Create vector with sufficient capacity to hold entire file.
+        std::vector<unsigned char> data;
+        data.reserve(size); // TODO: that does not work on 32 bit systems, does it?
 
-        return std::vector<unsigned char>();
+        // Read entire file
+        data.insert(
+            data.begin(),
+            std::istream_iterator<unsigned char>(file_stream),
+            std::istream_iterator<unsigned char>());
+
+        return data;
     }
 }
 
