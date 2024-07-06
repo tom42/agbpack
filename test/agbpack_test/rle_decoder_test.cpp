@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: MIT
 
 import agbpack;
-#include <vector>
+
 #include <catch2/catch_test_macros.hpp>
+#include <iterator>
+#include <vector>
 
 namespace
 {
@@ -12,7 +14,13 @@ namespace
         // TODO: somehow, pass in data to decode (e.g. a file. Maybe name it decode_file, or rle_decode_file)
         // TODO: open file, pass stream stuff to decoder for decoding
         // TODO: decoder should take a back_inserter or something
-        return std::vector<unsigned char>{'a', 'b', 'c'};
+        agbpack::rle_decoder decoder;
+        // TODO: pass start to input
+        // TODO: pass end of input
+
+        std::vector<unsigned char> output;
+        decoder.decode(std::back_inserter(output));
+        return output;
     }
 }
 
@@ -25,10 +33,9 @@ TEST_CASE("rle_decoder")
     // TODO: need to figure out a way how to make data files available to tests:
     //       * Bake path into test suite
     //       * Copy data files to output directory
-    agbpack::rle_decoder decoder;
+
 
     // TODO: assert something: return value (hardcode, can be 'abc'
     //       Problem is much more: how do we specify element type? unsigned char, or std::byte? Are we even going to make it using std::byte? Should we attempt to do so?
-    (void)decoder; // TODO: remove this
     REQUIRE(decode() == std::vector<unsigned char>{'a', 'b', 'c'});
 }
