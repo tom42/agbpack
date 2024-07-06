@@ -3,6 +3,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <iterator>
 #include <system_error>
 #include "agbpack_test_config.hpp"
 #include "testdata.hpp"
