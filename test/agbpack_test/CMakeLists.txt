@@ -8,7 +8,8 @@ configure_file(
 
 add_executable(
   agbpack_test
-  rle_decoder_test.cpp)
+  rle_decoder_test.cpp
+  testdata.cpp)
 
 target_include_directories(agbpack_test PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 
