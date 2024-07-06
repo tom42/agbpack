@@ -8,7 +8,6 @@ import agbpack;
 #include <filesystem>
 #include <fstream>
 #include <iterator>
-#include <system_error>
 #include <vector>
 #include "agbpack_test_config.hpp"
 #include "testdata.hpp"
@@ -41,23 +40,7 @@ namespace
         return output;
     }
 
-    // TODO: review, move to utility file
-    std::ifstream open_binary_file(const std::filesystem::path& name)
-    {
-        // The exceptions thrown by ifstream when opening fails have rather useless error messages.
-        // For instance, MSVC throws an exception with the following message: 'ios_base::failbit set: iostream stream error'.
-        // So we don't use stream exceptions and try our luck with errno and std::system_error.
-        std::ifstream f(name, std::ios_base::binary);
-
-        if (!f)
-        {
-            auto error = errno;
-            throw std::system_error(error, std::generic_category(), "Could not open " + name.string());
-        }
-
-        f.unsetf(std::ios::skipws);
-        return f;
-    }
+    /*
 
     // TODO: review, move to utility file
     std::uintmax_t get_file_size(const std::filesystem::path& name)
@@ -97,7 +80,7 @@ namespace
         }
 
         return data;
-    }
+    }*/
 }
 
 TEST_CASE("rle_decoder")
@@ -116,5 +99,5 @@ TEST_CASE("rle_decoder")
     // TODO: no but maybe test with different types of inputs? We're already doing this, after all...
     // TODO: pass in input file name from here
     // TODO: unhardcode expected uncompressed data
-    REQUIRE(decode_testdata_file("rle.literals-only.txt.compressed") == read_testdata_file("rle.literals-only.txt.uncompressed"));
+    REQUIRE(decode_testdata_file("rle.literals-only.txt.compressed") == agbpack_test::read_testdata_file("rle.literals-only.txt.uncompressed"));
 }
