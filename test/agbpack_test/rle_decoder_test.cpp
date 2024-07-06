@@ -40,7 +40,6 @@ namespace
     std::vector<unsigned char> read_file(std::filesystem::path basename)
     {
         // TODO: do we need to disable white space skipping?
-        // TODO: get size of file. How? seek/tell hack? Filesystem library
         // TODO: create vector, somehow read data
 
         const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
@@ -52,8 +51,12 @@ namespace
             throw std::system_error(error, std::generic_category(), "Could not open " + name.string());
         }
 
-        // TODO: which overload do we want to use? the one throwing exceptions, or the one returning an error code?
-        auto size = std::filesystem::file_size(name);
+        std::error_code ec;
+        auto size = std::filesystem::file_size(name, ec);
+        if (ec)
+        {
+            throw std::runtime_error("Could not determine size of " + name.string() + ": " + ec.message());
+        }
 
         // TODO: remove
         (void)size;
