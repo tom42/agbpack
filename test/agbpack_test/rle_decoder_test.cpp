@@ -42,19 +42,6 @@ namespace
 
     /*
 
-    // TODO: review, move to utility file
-    std::uintmax_t get_file_size(const std::filesystem::path& name)
-    {
-        std::error_code ec;
-        auto size = std::filesystem::file_size(name, ec);
-        if (ec)
-        {
-            throw std::runtime_error("Could not determine size of " + name.string() + ": " + ec.message());
-        }
-
-        return size;
-    }
-
     // TODO: review, mode to utility file
     std::vector<unsigned char> read_testdata_file(std::filesystem::path basename)
     {

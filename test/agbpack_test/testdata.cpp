@@ -28,6 +28,18 @@ std::ifstream open_binary_file(const std::filesystem::path& name)
     return f;
 }
 
+std::uintmax_t get_file_size(const std::filesystem::path& name)
+{
+    std::error_code ec;
+    auto size = std::filesystem::file_size(name, ec);
+    if (ec)
+    {
+        throw std::runtime_error("Could not determine size of " + name.string() + ": " + ec.message());
+    }
+
+    return size;
+}
+
 }
 
 namespace agbpack_test
