@@ -15,7 +15,7 @@ import agbpack;
 namespace
 {
     // TODO: pass filename from test
-    std::vector<unsigned char> decode_file(const char* /*name*/)
+    std::vector<unsigned char> decode_testdata_file(const char* /*name*/)
     {
         std::ifstream f;
         f.exceptions(std::ifstream::badbit | std::ifstream::failbit | std::ifstream::eofbit); // TODO: do we want eofbit too?
@@ -72,7 +72,7 @@ namespace
     }
 
     // TODO: review, mode to utility file
-    std::vector<unsigned char> read_file(std::filesystem::path basename)
+    std::vector<unsigned char> read_testdata_file(std::filesystem::path basename)
     {
         const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
 
@@ -115,5 +115,5 @@ TEST_CASE("rle_decoder")
     // TODO: no but maybe test with different types of inputs? We're already doing this, after all...
     // TODO: pass in input file name from here
     // TODO: unhardcode expected uncompressed data
-    REQUIRE(decode_file("rle.literals-only.txt.compressed") == read_file("rle.literals-only.txt.uncompressed"));
+    REQUIRE(decode_testdata_file("rle.literals-only.txt.compressed") == read_testdata_file("rle.literals-only.txt.uncompressed"));
 }
