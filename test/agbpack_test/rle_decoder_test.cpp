@@ -11,7 +11,7 @@ import agbpack;
 namespace
 {
     // TODO: pass filename from test
-    std::vector<unsigned char> decode_file()
+    std::vector<unsigned char> decode_file(const char* /*name*/)
     {
         std::ifstream f;
         f.exceptions(std::ifstream::badbit | std::ifstream::failbit | std::ifstream::eofbit); // TODO: do we want eofbit too?
@@ -32,6 +32,17 @@ namespace
         decoder.decode(input, eof, std::back_inserter(output));
         return output;
     }
+
+    std::vector<unsigned char> read_file(const char* /*name*/)
+    {
+        // TODO: open file, throw exception if failed (orly?)
+        // TODO: what ios flags do we need? which ones we don't?
+        // TODO: do we need to disable white space skipping?
+        // TODO: get size of file. How? seek/tell hack? Filesystem library
+        // TODO: create vector, somehow read data
+
+        return std::vector<unsigned char>();
+    }
 }
 
 TEST_CASE("rle_decoder")
@@ -47,5 +58,8 @@ TEST_CASE("rle_decoder")
 
     // TODO: assert something: return value (hardcode, can be 'abc'
     //       Problem is much more: how do we specify element type? unsigned char, or std::byte? Are we even going to make it using std::byte? Should we attempt to do so?
-    REQUIRE(decode_file() == std::vector<unsigned char>{'a', 'b', 'c'});
+    // TODO: no but maybe test with different types of inputs? We're already doing this, after all...
+    // TODO: pass in input file name from here
+    // TODO: unhardcode expected uncompressed data
+    REQUIRE(decode_file("rle.literals-only.txt.compressed") == read_file("rle.literals-only.txt.uncompressed"));
 }
