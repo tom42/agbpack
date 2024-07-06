@@ -45,10 +45,6 @@ TEST_CASE("rle_decoder")
     // TODO: decode a file with compression
     // TODO: decode a zero length file
     // TODO: pathological stuff: malformed streams, too long, too short, malformed header
-    // TODO: need to figure out a way how to make data files available to tests:
-    //       * Bake path into test suite
-    //       * Copy data files to output directory
-
 
     // TODO: assert something: return value (hardcode, can be 'abc'
     //       Problem is much more: how do we specify element type? unsigned char, or std::byte? Are we even going to make it using std::byte? Should we attempt to do so?
