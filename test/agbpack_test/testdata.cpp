@@ -58,7 +58,8 @@ std::vector<unsigned char> read_testdata_file(const std::string& basename)
 
     // Create vector with sufficient capacity to hold entire file.
     std::vector<unsigned char> data;
-    data.reserve(filesize); // TODO: that does not work on 32 bit systems, does it?
+    // TODO: check filesize fits into size_t before casting
+    data.reserve(static_cast<std::size_t>(filesize)); // TODO: that does not work on 32 bit systems, does it?
 
     // Read entire file
     data.insert(
