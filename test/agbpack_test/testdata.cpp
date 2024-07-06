@@ -1,9 +1,11 @@
 // SPDX-FileCopyrightText: 2024 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+#include <cstddef>
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <limits>
 #include <system_error>
 #include "agbpack_test_config.hpp"
 #include "testdata.hpp"
@@ -58,8 +60,11 @@ std::vector<unsigned char> read_testdata_file(const std::string& basename)
 
     // Create vector with sufficient capacity to hold entire file.
     std::vector<unsigned char> data;
-    // TODO: check filesize fits into size_t before casting
-    data.reserve(static_cast<std::size_t>(filesize)); // TODO: that does not work on 32 bit systems, does it?
+    if (filesize > std::numeric_limits<std::size_t>::max())
+    {
+        throw std::runtime_error("Cannot read file " + name.string() + ": file is too big");
+    }
+    data.reserve(static_cast<std::size_t>(filesize));
 
     // Read entire file
     data.insert(
