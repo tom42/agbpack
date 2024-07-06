@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <fstream>
 #include <system_error>
+#include "agbpack_test_config.hpp"
 #include "testdata.hpp"
 
 namespace
@@ -45,9 +46,32 @@ std::uintmax_t get_file_size(const std::filesystem::path& name)
 namespace agbpack_test
 {
 
-std::vector<unsigned char> read_testdata_file(const std::string& /*basename*/)
+// TODO: review
+// TODO: note: in shrinkler test we test whether the stream is good or eof. Maybe better than what we have here?
+std::vector<unsigned char> read_testdata_file(const std::string& basename)
 {
-    return std::vector<unsigned char>();
+    const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
+
+    auto filestream = open_binary_file(name);
+    auto filesize = get_file_size(name);
+
+    // Create vector with sufficient capacity to hold entire file.
+    std::vector<unsigned char> data;
+    data.reserve(filesize); // TODO: that does not work on 32 bit systems, does it?
+
+    // Read entire file
+    data.insert(
+        data.begin(),
+        std::istream_iterator<unsigned char>(filestream),
+        std::istream_iterator<unsigned char>());
+
+    // Sanity check
+    if (data.size() != filesize)
+    {
+        throw std::runtime_error("Could not read entire content of file " + basename);
+    }
+
+    return data;
 }
 
 }
