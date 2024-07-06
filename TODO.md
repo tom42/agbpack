@@ -17,6 +17,7 @@ SPDX-License-Identifier: MIT
   * clang-fmt
   * clang-tidy
   * Add reuse custom target to CMakeLists.txt?
+  * Cmake Built-in static analyzers, e.g. "include only what you need". Anything else?
 * Checklist for a new code base
   * Automate the build => That is, have a top level shell script that runs stuff
     * configure
