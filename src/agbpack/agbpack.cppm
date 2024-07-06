@@ -6,4 +6,10 @@ export module agbpack;
 namespace agbpack
 {
 
+export class rle_decoder final
+{
+public:
+private:
+};
+
 }
