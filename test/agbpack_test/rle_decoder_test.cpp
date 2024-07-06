@@ -9,6 +9,7 @@ import agbpack;
 #include <iterator>
 #include <string>
 #include <vector>
+#include "agbpack_test_config.hpp"
 
 namespace
 {
