@@ -7,7 +7,7 @@ import agbpack;
 #include <filesystem>
 #include <fstream>
 #include <iterator>
-#include <string>
+#include <system_error>
 #include <vector>
 #include "agbpack_test_config.hpp"
 
@@ -48,7 +48,8 @@ namespace
         std::ifstream f(name, std::ios_base::binary);
         if (!f)
         {
-            throw std::runtime_error(std::string("Could not open file ") + name.string());
+            auto error = errno;
+            throw std::system_error(error, std::generic_category(), "Could not open " + name.string());
         }
 
         // TODO: which overload do we want to use? the one throwing exceptions, or the one returning an error code?
