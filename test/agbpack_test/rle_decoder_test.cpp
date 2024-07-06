@@ -41,7 +41,7 @@ namespace
 
 TEST_CASE("rle_decoder")
 {
-    // TODO: decode a first simple file: maybe one without any compression at all
+    // TODO: decode another simple file: no compression, but different size => this will mean that we have to read the depacked size from the header
     // TODO: decode a file with compression
     // TODO: decode a zero length file
     // TODO: pathological stuff: malformed streams, too long, too short, malformed header
@@ -55,4 +55,5 @@ TEST_CASE("rle_decoder")
     // TODO: no but maybe test with different types of inputs? We're already doing this, after all...
     //       => E.g. read std::byte but output unsigned char
     REQUIRE(decode_testdata_file("rle.literals-only.txt.compressed") == agbpack_test::read_testdata_file("rle.literals-only.txt.uncompressed"));
+    REQUIRE(decode_testdata_file("rle.literals-only-2.txt.compressed") == agbpack_test::read_testdata_file("rle.literals-only-2.txt.uncompressed"));
 }

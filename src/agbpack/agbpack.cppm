@@ -23,7 +23,7 @@ public:
         // TODO: actually decode stuff from input stream
         //       currently we assume a particular file with three literals at the end only, which we copy to output, after skipping the header and the one and only flag byte)
         (void)input; // TODO: remove
-        (void)eof; // TODO: remove
+        (void)eof; // TODO: remove: should not ignore eof, but instead check it before reading more data (if according to stream parsing we need more data but we reached eof, the stream is corrupt)
         ++input;
         ++input;
         ++input;
