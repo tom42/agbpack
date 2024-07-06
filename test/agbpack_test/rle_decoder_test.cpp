@@ -14,25 +14,22 @@ import agbpack;
 
 namespace
 {
-    // TODO: pass filename from test
-    std::vector<unsigned char> decode_testdata_file(const char* /*name*/)
+    std::vector<unsigned char> decode_testdata_file(const char* basename)
     {
+        const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
+
         std::ifstream f;
         f.exceptions(std::ifstream::badbit | std::ifstream::failbit | std::ifstream::eofbit); // TODO: do we want eofbit too?
 
         // TODO: do we need to disable whitespace skipping here?
-        // TODO: unhardcode path, one way or another.
         // TODO: letting streams throw exceptions is somewhat silly: if the file cannot be opened we tend to get rather useless error messages ("failbit set", "stream error", that sort)
         // TODO: definitely should handle errors ourselves here and only later set exceptions: exception messages suck, srsly.
-        // TODO: use utility file to get path to test data directory
-        f.open("C:\\Users\\mathy\\Desktop\\work\\github\\agbpack\\test\\agbpack_test\\testdata\\rle.literals-only.txt.compressed", std::ios_base::binary);
+        // TODO: use utility file to get path to test data directory (and put agbpack_test_testdata_directory into a namespace?)
+        f.open(name, std::ios_base::binary);
 
         std::istreambuf_iterator<char> input(f.rdbuf());
         std::istreambuf_iterator<char> eof;
 
-        // TODO: somehow, pass in data to decode (e.g. a file. Maybe name it decode_file, or rle_decode_file)
-        // TODO: open file, pass stream stuff to decoder for decoding
-        // TODO: decoder should take a back_inserter or something
         agbpack::rle_decoder decoder;
 
         std::vector<unsigned char> output;
@@ -40,12 +37,6 @@ namespace
         return output;
     }
 
-    /*
-
-    // TODO: review, mode to utility file
-    std::vector<unsigned char> read_testdata_file(std::filesystem::path basename)
-    {
-    }*/
 }
 
 TEST_CASE("rle_decoder")
@@ -62,7 +53,6 @@ TEST_CASE("rle_decoder")
     // TODO: assert something: return value (hardcode, can be 'abc'
     //       Problem is much more: how do we specify element type? unsigned char, or std::byte? Are we even going to make it using std::byte? Should we attempt to do so?
     // TODO: no but maybe test with different types of inputs? We're already doing this, after all...
-    // TODO: pass in input file name from here
-    // TODO: unhardcode expected uncompressed data
+    //       => E.g. read std::byte but output unsigned char
     REQUIRE(decode_testdata_file("rle.literals-only.txt.compressed") == agbpack_test::read_testdata_file("rle.literals-only.txt.uncompressed"));
 }
