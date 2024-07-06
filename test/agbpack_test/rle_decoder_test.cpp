@@ -24,6 +24,7 @@ namespace
         // TODO: unhardcode path, one way or another.
         // TODO: letting streams throw exceptions is somewhat silly: if the file cannot be opened we tend to get rather useless error messages ("failbit set", "stream error", that sort)
         // TODO: definitely should handle errors ourselves here and only later set exceptions: exception messages suck, srsly.
+        // TODO: use utility file to get path to test data directory
         f.open("C:\\Users\\mathy\\Desktop\\work\\github\\agbpack\\test\\agbpack_test\\testdata\\rle.literals-only.txt.compressed", std::ios_base::binary);
 
         std::istreambuf_iterator<char> input(f.rdbuf());
@@ -39,6 +40,7 @@ namespace
         return output;
     }
 
+    // TODO: review, move to utility file
     std::ifstream open_binary_file(const std::filesystem::path& name)
     {
         // The exceptions thrown by ifstream when opening fails have rather useless error messages.
@@ -56,7 +58,8 @@ namespace
         return f;
     }
 
-    uintmax_t get_file_size(const std::filesystem::path& name)
+    // TODO: review, move to utility file
+    std::uintmax_t get_file_size(const std::filesystem::path& name)
     {
         std::error_code ec;
         auto size = std::filesystem::file_size(name, ec);
@@ -68,6 +71,7 @@ namespace
         return size;
     }
 
+    // TODO: review, mode to utility file
     std::vector<unsigned char> read_file(std::filesystem::path basename)
     {
         const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
