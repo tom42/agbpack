@@ -21,7 +21,8 @@ namespace
 
         // TODO: unhardcode path, one way or another.
         // TODO: letting streams throw exceptions is somewhat silly: if the file cannot be opened we tend to get rather useless error messages ("failbit set", "stream error", that sort)
-        f.open("C:\\Users\\mathy\\Desktop\\work\\github\\agbpack\\test\\agbpack_test\\data\\rle.literals-only.txt.compressed", std::ios_base::binary);
+        // TODO: definitely should handle errors ourselves here and only later set exceptions: exception messages suck, srsly.
+        f.open("C:\\Users\\mathy\\Desktop\\work\\github\\agbpack\\test\\agbpack_test\\testdata\\rle.literals-only.txt.compressed", std::ios_base::binary);
 
         std::istreambuf_iterator<char> input(f.rdbuf());
         std::istreambuf_iterator<char> eof;
@@ -36,11 +37,13 @@ namespace
         return output;
     }
 
-    std::vector<unsigned char> read_file(std::filesystem::path name)
+    std::vector<unsigned char> read_file(std::filesystem::path basename)
     {
         // TODO: do we need to disable white space skipping?
         // TODO: get size of file. How? seek/tell hack? Filesystem library
         // TODO: create vector, somehow read data
+
+        const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
 
         std::ifstream f(name, std::ios_base::binary);
         if (!f)
