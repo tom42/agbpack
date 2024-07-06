@@ -72,18 +72,24 @@ namespace
     {
         const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
 
-        auto file_stream = open_binary_file(name);
-        auto size = get_file_size(name);
+        auto filestream = open_binary_file(name);
+        auto filesize = get_file_size(name);
 
         // Create vector with sufficient capacity to hold entire file.
         std::vector<unsigned char> data;
-        data.reserve(size); // TODO: that does not work on 32 bit systems, does it?
+        data.reserve(filesize); // TODO: that does not work on 32 bit systems, does it?
 
         // Read entire file
         data.insert(
             data.begin(),
-            std::istream_iterator<unsigned char>(file_stream),
+            std::istream_iterator<unsigned char>(filestream),
             std::istream_iterator<unsigned char>());
+
+        // Sanity check
+        if (data.size() != filesize)
+        {
+            throw std::runtime_error("Could not read entire content of file " + basename.string());
+        }
 
         return data;
     }
