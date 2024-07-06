@@ -70,7 +70,7 @@ std::vector<unsigned char> read_testdata_file(const std::string& basename)
     // Sanity check
     if (data.size() != filesize)
     {
-        throw std::runtime_error("Could not read entire content of file " + basename);
+        throw std::runtime_error("Could not read entire content of file " + name.string());
     }
 
     return data;
