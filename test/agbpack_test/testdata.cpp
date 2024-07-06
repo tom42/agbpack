@@ -50,7 +50,6 @@ namespace agbpack_test
 {
 
 // TODO: review
-// TODO: note: in shrinkler test we test whether the stream is good or eof. Maybe better than what we have here?
 std::vector<unsigned char> read_testdata_file(const std::string& basename)
 {
     const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
@@ -73,7 +72,7 @@ std::vector<unsigned char> read_testdata_file(const std::string& basename)
         std::istream_iterator<unsigned char>());
 
     // Sanity check
-    if (data.size() != filesize)
+    if (filestream.bad() || (data.size() != filesize)) // TODO: port that over into the shrinkler-gba test suite
     {
         throw std::runtime_error("Could not read entire content of file " + name.string());
     }
