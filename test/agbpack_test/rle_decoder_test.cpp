@@ -4,13 +4,22 @@
 import agbpack;
 
 #include <catch2/catch_test_macros.hpp>
+#include <fstream>
 #include <iterator>
 #include <vector>
 
 namespace
 {
-    std::vector<unsigned char> decode()
+    // TODO: pass filename from test
+    std::vector<unsigned char> decode_file()
     {
+        std::ifstream f;
+        f.exceptions(std::ifstream::badbit | std::ifstream::failbit); // TODO: do we want eofbit too?
+
+        // TODO: unhardcode path, one way or another.
+        // TODO: letting streams throw exceptions is somewhat silly: if the file cannot be opened we tend to get rather useless error messages ("failbit set", "stream error", that sort)
+        f.open("C:\\Users\\mathy\\Desktop\\work\\github\\agbpack\\test\\agbpack_test\\data\\rle.literals-only.txt.compressed", std::ios_base::binary);
+
         // TODO: somehow, pass in data to decode (e.g. a file. Maybe name it decode_file, or rle_decode_file)
         // TODO: open file, pass stream stuff to decoder for decoding
         // TODO: decoder should take a back_inserter or something
@@ -37,5 +46,5 @@ TEST_CASE("rle_decoder")
 
     // TODO: assert something: return value (hardcode, can be 'abc'
     //       Problem is much more: how do we specify element type? unsigned char, or std::byte? Are we even going to make it using std::byte? Should we attempt to do so?
-    REQUIRE(decode() == std::vector<unsigned char>{'a', 'b', 'c'});
+    REQUIRE(decode_file() == std::vector<unsigned char>{'a', 'b', 'c'});
 }
