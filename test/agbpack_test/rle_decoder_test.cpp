@@ -15,11 +15,11 @@ namespace
         // TODO: open file, pass stream stuff to decoder for decoding
         // TODO: decoder should take a back_inserter or something
         agbpack::rle_decoder decoder;
-        // TODO: pass start to input
-        // TODO: pass end of input
+        // TODO: pass real start to input (what we're doing below is not good and is only there to satisfy the compiler)
+        // TODO: pass real end of input
 
         std::vector<unsigned char> output;
-        decoder.decode(std::back_inserter(output));
+        decoder.decode(output.begin(), output.end(), std::back_inserter(output));
         return output;
     }
 }
