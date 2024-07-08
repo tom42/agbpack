@@ -4,6 +4,7 @@
 module;
 
 #include <iterator>
+#include <type_traits>
 
 export module agbpack;
 
@@ -17,9 +18,12 @@ public:
     //       do we restrict ourselves to byte/unsigned char/signed char/char?
     // TODO: well we can't even assume that InputIterator has the same element type as output iterator:
     //       ifstream::rdbuf() returns something that works with char, but if we'd like to decompress to e.g. vector<unsigned char>, then there you go. ouch.
-    template <typename InputIterator, typename OutputIterator>
+    template <std::input_iterator InputIterator, std::output_iterator<unsigned char> OutputIterator>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
+        // TODO: enable this
+        //static_assert(std::is_same_v<decltype(*input), unsigned char>, "Input iterator should read values of type unsigned char");
+
         // TODO: actually decode stuff from input stream
         //       currently we assume a particular file with three literals at the end only, which we copy to output, after skipping the header and the one and only flag byte)
         (void)eof; // TODO: remove: should not ignore eof, but instead check it before reading more data (if according to stream parsing we need more data but we reached eof, the stream is corrupt)
