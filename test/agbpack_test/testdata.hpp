@@ -10,7 +10,9 @@
 namespace agbpack_test
 {
 
-std::vector<unsigned char> read_testdata_file(const std::string& basename);
+std::string get_testfile_path(const std::string& basename);
+
+std::vector<unsigned char> read_testfile(const std::string& basename);
 
 }
 

@@ -4,7 +4,8 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Revisit decision whether to use iterator concepts or not
+* Become reuse compliant again: our test data files break it. Use a REUSE.toml to fix
+  * Note: dep5 file is deprecated, so get rid of that
 * doctest has the flags below for g++ and clang. Which ones do we need too?
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
       add_compiler_flags(-Werror)

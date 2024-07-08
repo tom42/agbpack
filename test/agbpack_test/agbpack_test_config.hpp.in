@@ -4,6 +4,11 @@
 #ifndef AGBPACK_TEST_CONFIG_HPP_20240706
 #define AGBPACK_TEST_CONFIG_HPP_20240706
 
+namespace agbpack_test
+{
+
 constexpr inline const char* agbpack_test_testdata_directory = "@AGBPACK_TEST_TESTDATA_DIRECTORY@";
+
+}
 
 #endif
