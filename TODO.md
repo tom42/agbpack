@@ -5,6 +5,19 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Revisit decision whether to use iterator concepts or not
+* doctest has the flags below for g++ and clang. Which ones do we need too?
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+      add_compiler_flags(-Werror)
+      add_compiler_flags(-fstrict-aliasing)
+
+      # The following options are not valid when clang-cl is used.
+      if(NOT MSVC)
+        add_compiler_flags(-pedantic)
+        add_compiler_flags(-pedantic-errors)
+        add_compiler_flags(-fvisibility=hidden)
+      endif()
+    endif()
+* vtgcore: should this also use -Wsign-conversion?
 * THEN
   * Figure out how to deal with 3rd party libs and warning flags
     * In principle we want to set warning flags ONCE for all my projects
@@ -36,9 +49,6 @@ SPDX-License-Identifier: MIT
 * Toplevel makefile:
   * Do we want to disable unit tests by default if not the main project?
   * Do we want to have an option to enable/disable unit tests explicitly?
-* Next: we have a library with an empty module.
-  * Add a bogus function to the module
-  * Write a unit test that calls that function and verifies its result
 * add_subdirectory(src bin)? Why would we want to do that?
 * Enable warnings (which ones? Those from vtgcore, or maybe we have a look at doctest?)
   * Well we can try /Wall with MSVC, but probably it's insane
