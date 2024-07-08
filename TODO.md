@@ -4,6 +4,7 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Revisit decision whether to use iterator concepts or not
 * THEN
   * Figure out how to deal with 3rd party libs and warning flags
     * In principle we want to set warning flags ONCE for all my projects
