@@ -27,17 +27,31 @@ public:
             unsigned char>,
             "Input iterator should read values of type unsigned char");
 
+        (void)eof; // TODO: remove: should not ignore eof, but instead check it before reading more data (if according to stream parsing we need more data but we reached eof, the stream is corrupt)
+
+        // TODO: hack: "process header"
+        // TODO: in principle, each read operation should check whether input != eof, no? (Also later during decompression)
+        ++input;
+        unsigned int uncompressed_size = *input++;
+        uncompressed_size += static_cast<unsigned int>((*input++) << 8u); // TODO: can we get rid of these casts?
+        uncompressed_size += static_cast<unsigned int>((*input++) << 8u);
+        (void)uncompressed_size;
+
         // TODO: actually decode stuff from input stream
         //       currently we assume a particular file with three literals at the end only, which we copy to output, after skipping the header and the one and only flag byte)
-        (void)eof; // TODO: remove: should not ignore eof, but instead check it before reading more data (if according to stream parsing we need more data but we reached eof, the stream is corrupt)
         ++input;
-        ++input;
-        ++input;
-        ++input;
-        ++input;
-        *output++ = *input++;
-        *output++ = *input++;
-        *output++ = *input; // TODO: hack: do not increment input last time. Doing so triggers exceptions.
+        while (uncompressed_size--)
+        {
+            *output++ = *input;
+            // TODO: hack: in some cases, incrementing after last read causes exceptions in streams.
+            //             Reason: we read past EOF.
+            //             As for why it only happens sometimes: compressed data is padded to next multiple of 4 bytes.
+            //             If there are padding bytes, then no exception happens.
+            if (uncompressed_size >= 1)
+            {
+                input++;
+            }
+        }
     }
 private:
 };
