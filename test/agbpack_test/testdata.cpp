@@ -51,7 +51,7 @@ namespace agbpack_test
 
 std::string get_testfile_path(const std::string& basename)
 {
-    return std::filesystem::path(agbpack_test_testdata_directory) / basename;
+    return (std::filesystem::path(agbpack_test_testdata_directory) / basename).string();
 }
 
 std::vector<unsigned char> read_testfile(const std::string& basename)
