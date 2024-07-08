@@ -28,9 +28,13 @@ public:
         ++input;
         ++input;
         ++input;
-        *output++ = *input++;
-        *output++ = *input++;
-        *output++ = *input++;
+        // TODO: figure out what to do about the casts here:
+        //       * I am not sure whether we can ensure that input and output works on the same element type
+        //         That very much depends on what we can do with input stream stuff.
+        //       * Eithwe way, we can maybe abstract things a bit here
+        *output++ = static_cast<unsigned char>(*input++);
+        *output++ = static_cast<unsigned char>(*input++);
+        *output++ = static_cast<unsigned char>(*input++);
     }
 private:
 };

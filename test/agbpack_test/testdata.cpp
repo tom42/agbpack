@@ -59,10 +59,11 @@ std::vector<unsigned char> read_testdata_file(const std::string& basename)
     // Create vector with sufficient capacity to hold entire file.
     // filesize may not fit into std::size_t (e.g. on 32 bit systems), so we check before casting.
     std::vector<unsigned char> data;
-    if (filesize > std::numeric_limits<std::size_t>::max())
-    {
-        throw std::runtime_error("Cannot read file " + name.string() + ": file is too big");
-    }
+    // TODO: in principle we want to have this, but this issues some inane clang warning I wasn't aware of
+    //if (filesize > std::numeric_limits<std::size_t>::max())
+    //{
+    //    throw std::runtime_error("Cannot read file " + name.string() + ": file is too big");
+    //}
     data.reserve(static_cast<std::size_t>(filesize));
 
     // Read entire file
