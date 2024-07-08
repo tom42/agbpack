@@ -16,13 +16,16 @@ export class rle_decoder final
 public:
     // TODO: do we want to check what output points to? Or do we simply check that iterators point all to the same element type?
     //       do we restrict ourselves to byte/unsigned char/signed char/char?
-    // TODO: well we can't even assume that InputIterator has the same element type as output iterator:
-    //       ifstream::rdbuf() returns something that works with char, but if we'd like to decompress to e.g. vector<unsigned char>, then there you go. ouch.
+    // TODO: For the time being we process unsigned char only. Will figure out later whether we need anything else.
+    //       We might at the very least want to have a typedef/using alias for this, though.
+    //       Not sure whether we want to allow stuff such as input reads char, output takes unsigned char.
     template <std::input_iterator InputIterator, std::output_iterator<unsigned char> OutputIterator>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
-        // TODO: enable this
-        //static_assert(std::is_same_v<decltype(*input), unsigned char>, "Input iterator should read values of type unsigned char");
+        static_assert(
+            std::is_same_v<std::remove_cv_t<std::remove_reference_t<decltype(*input)>>,
+            unsigned char>,
+            "Input iterator should read values of type unsigned char");
 
         // TODO: actually decode stuff from input stream
         //       currently we assume a particular file with three literals at the end only, which we copy to output, after skipping the header and the one and only flag byte)
@@ -32,13 +35,9 @@ public:
         ++input;
         ++input;
         ++input;
-        // TODO: figure out what to do about the casts here:
-        //       * I am not sure whether we can ensure that input and output works on the same element type
-        //         That very much depends on what we can do with input stream stuff.
-        //       * Eithwe way, we can maybe abstract things a bit here
-        *output++ = static_cast<unsigned char>(*input++);
-        *output++ = static_cast<unsigned char>(*input++);
-        *output++ = static_cast<unsigned char>(*input++);
+        *output++ = *input++;
+        *output++ = *input++;
+        *output++ = *input++;
     }
 private:
 };
