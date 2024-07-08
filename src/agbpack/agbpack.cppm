@@ -31,8 +31,9 @@ public:
 
         // TODO: hack: "process header"
         // TODO: in principle, each read operation should check whether input != eof, no? (Also later during decompression)
-        ++input;
+        ++input; // TODO: skip type byte: should verify this!
         unsigned int uncompressed_size = *input++;
+        // TODO: read uncompressed size. Do we verify this in any way? It should be a multiple of 4, but probably we don't enforce this. This is just a GBA requirement, really.
         uncompressed_size += static_cast<unsigned int>((*input++) << 8u); // TODO: can we get rid of these casts?
         uncompressed_size += static_cast<unsigned int>((*input++) << 8u);
         (void)uncompressed_size;
