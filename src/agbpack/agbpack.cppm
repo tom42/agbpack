@@ -37,7 +37,7 @@ public:
         ++input;
         *output++ = *input++;
         *output++ = *input++;
-        *output++ = *input++;
+        *output++ = *input; // TODO: hack: do not increment input last time. Doing so triggers exceptions.
     }
 private:
 };
