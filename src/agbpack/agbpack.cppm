@@ -92,17 +92,33 @@ public:
         // TODO: read uncompressed size. Do we verify this in any way? It should be a multiple of 4, but probably we don't enforce this. This is just a GBA requirement, really.
         auto uncompressed_size = reader.read24();
 
-        reader.read8(); // TODO: skip flag byte: need to process that later, once we can do actual RLE decoding.
+        // TODO: in some cases, incrementing after last read causes exceptions in streams.
+        //       Reason: we read past EOF.
+        //       As for why it only happens sometimes: compressed data is padded to next multiple of 4 bytes.
+        //       If there are padding bytes, then no exception happens. => Well test with a vector, no?
+        // TODO: this needs to go into a loop
 
-        // TODO: actually decode stuff from input stream
-        //       currently we assume a particular file with three literals at the end only, which we copy to output, after skipping the header and the one and only flag byte)
-        while (uncompressed_size--)
+        auto flag = reader.read8();
+        if (flag & 0x80)
         {
-            writer.write8(reader.read8());
-            // TODO: hack: in some cases, incrementing after last read causes exceptions in streams.
-            //             Reason: we read past EOF.
-            //             As for why it only happens sometimes: compressed data is padded to next multiple of 4 bytes.
-            //             If there are padding bytes, then no exception happens.
+            // TODO: detect when we go past uncompressed_size
+            auto n = (flag & 127) + 3;
+            auto byte = reader.read8();
+            while (n--)
+            {
+                writer.write8(byte);
+            }
+        }
+        else
+        {
+            // TODO: actually decode stuff from input stream
+            //       currently we assume a particular file with three literals at the end only, which we copy to output, after skipping the header and the one and only flag byte)
+            // TODO: wrong: loop counter comes from  flag
+            while (uncompressed_size--)
+            {
+                writer.write8(reader.read8());
+            }
+
         }
     }
 private:
