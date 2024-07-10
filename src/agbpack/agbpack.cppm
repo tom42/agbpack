@@ -13,7 +13,8 @@ namespace agbpack
 {
 
 // TODO: do we really want this? Shouldn't we simply use uint8_t, uint16_t etc.?
-using agbpack_byte = uint_fast8_t;
+using agbpack_u8 = uint_fast8_t;
+using agbpack_u32 = uint_fast32_t;
 
 // TODO: flesh this out
 // TODO: do we want to ensure *input points to something we understand?
@@ -27,11 +28,19 @@ public:
     {}
 
     // TODO: not sure this is such a good idea: shouldn't we simply use directly something usable? or fixed size types?
-    agbpack_byte read8()
+    agbpack_u8 read8()
     {
         // TODO: this is where we'd throw if we read past the end of the input:
         //       If according to parsing we need more input but reached the end of the stream, then the stream is corrupt.
         return *m_input++;
+    }
+
+    agbpack_u32 read24()
+    {
+        agbpack_u32 result = read8();
+        result = read8() * 256;
+        result = read8() * 256 * 256;
+        return result;
     }
 
 private:
@@ -48,7 +57,7 @@ class byte_writer final
 public:
     byte_writer(OutputIterator output) : m_output(output) {}
 
-    void write8(agbpack_byte byte)
+    void write8(agbpack_u8 byte)
     {
         *m_output++ = byte;
     }
