@@ -3,6 +3,7 @@
 
 module;
 
+#include <cstdint>
 #include <iterator>
 #include <type_traits>
 
@@ -10,6 +11,32 @@ export module agbpack;
 
 namespace agbpack
 {
+
+// TODO: do we really want this? Shouldn't we simply use uint8_t, uint16_t etc.?
+using agbpack_byte = uint_fast8_t;
+
+// TODO: flesh this out
+// TODO: do we want to ensure *input points to something we understand?
+template <std::input_iterator InputIterator>
+class byte_reader final
+{
+public:
+    byte_reader(InputIterator input, InputIterator eof)
+        : m_input(input)
+        , m_eof(eof)
+    {}
+
+    // TODO: not sure this is such a good idea: shouldn't we simply use directly something usable? or fixed size types?
+    agbpack_byte read8()
+    {
+        // TODO: this is where we'd throw if we read past the end of the input
+        return *m_input++;
+    }
+
+private:
+    InputIterator m_input;
+    InputIterator m_eof;
+};
 
 export class rle_decoder final
 {
