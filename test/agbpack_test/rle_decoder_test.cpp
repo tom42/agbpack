@@ -35,6 +35,8 @@ TEST_CASE("rle_decoder")
     // TODO: decode a zero length file
     // TODO: pathological stuff: malformed streams, too long, too short, malformed header
     // TODO: also test using a container as input? E.g. read from vector<unsigned char>?
+    // TODO: test a file with a longer than maximum run of compressed byte
+    // TODO: test a file with a longer than maximum run of literal bytes
 
     // TODO: assert something: return value (hardcode, can be 'abc'
     //       Problem is much more: how do we specify element type? unsigned char, or std::byte? Are we even going to make it using std::byte? Should we attempt to do so?
