@@ -22,6 +22,13 @@ namespace
         // TODO: letting streams throw exceptions is somewhat silly: if the file cannot be opened we tend to get rather useless error messages ("failbit set", "stream error", that sort)
         // TODO: definitely should handle errors ourselves here and only later set exceptions: exception messages suck, srsly.
         file.open(name, std::ios_base::binary);
+        if (!file)
+        {
+            auto error = errno;
+            throw std::system_error(error, std::generic_category(), "Could not open " + name);
+        }
+
+        // This is required to correctly read binary files using some APIs, e.g. std::istream_iterator.
         file.unsetf(std::ios::skipws);
 
         agbpack::rle_decoder decoder;
