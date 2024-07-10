@@ -48,6 +48,7 @@ TEST_CASE("rle_decoder")
     //       Problem is much more: how do we specify element type? unsigned char, or std::byte? Are we even going to make it using std::byte? Should we attempt to do so?
     // TODO: no but maybe test with different types of inputs? We're already doing this, after all...
     //       => E.g. read std::byte but output unsigned char
+    // TODO: should probably also decode from vector: this might have better debug facility than a stream
     CHECK(decode_testfile("rle.literals-only.txt.compressed") == agbpack_test::read_testfile("rle.literals-only.txt.uncompressed"));
     CHECK(decode_testfile("rle.literals-only-2.txt.compressed") == agbpack_test::read_testfile("rle.literals-only-2.txt.uncompressed"));
 }
