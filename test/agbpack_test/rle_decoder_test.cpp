@@ -22,7 +22,6 @@ namespace
         // TODO: letting streams throw exceptions is somewhat silly: if the file cannot be opened we tend to get rather useless error messages ("failbit set", "stream error", that sort)
         // TODO: definitely should handle errors ourselves here and only later set exceptions: exception messages suck, srsly.
         f.open(name, std::ios_base::binary);
-        //f.exceptions(std::ifstream::badbit | std::ifstream::failbit); // TODO: do we want eofbit too? Do we want ANY exceptions? Looks like actually not, no?
         f.unsetf(std::ios::skipws);
 
         agbpack::rle_decoder decoder;
