@@ -94,9 +94,8 @@ public:
         // TODO: in principle, each read operation should check whether input != eof, no? (Also later during decompression)
         reader.read8(); // TODO: skip type byte: should verify this!
 
-        // TODO: do we use size_t here or not?
-        std::size_t uncompressed_size = reader.read24();
-        std::size_t decompressed = 0;
+        agbpack_u32 uncompressed_size = reader.read24();
+        agbpack_u32 decompressed = 0;
 
         // TODO: in some cases, incrementing after last read causes exceptions in streams.
         //       Reason: we read past EOF.
