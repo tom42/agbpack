@@ -30,7 +30,8 @@ namespace
 
 TEST_CASE("rle_decoder")
 {
-    // TODO: decode a file with compression
+    // TODO: decode a file with compression only
+    // TODO: decode a file with literals and runs
     // TODO: decode a zero length file
     // TODO: pathological stuff: malformed streams, too long, too short, malformed header
     // TODO: also test using a container as input? E.g. read from vector<unsigned char>?
