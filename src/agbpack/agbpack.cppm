@@ -32,6 +32,11 @@ public:
     {
         // TODO: this is where we'd throw if we read past the end of the input:
         //       If according to parsing we need more input but reached the end of the stream, then the stream is corrupt.
+        if (m_input == m_eof)
+        {
+            // TODO: throw a proper exception. And write a test
+            throw "DAMIT";
+        }
         return *m_input++;
     }
 
