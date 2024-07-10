@@ -18,18 +18,18 @@ std::ifstream open_binary_file(const std::filesystem::path& name)
     // The exceptions thrown by ifstream when opening fails have rather useless error messages.
     // For instance, MSVC throws an exception with the following message: 'ios_base::failbit set: iostream stream error'.
     // So we don't use stream exceptions and try our luck with errno and std::system_error.
-    std::ifstream f(name, std::ios_base::binary);
+    std::ifstream file(name, std::ios_base::binary);
 
-    if (!f)
+    if (!file)
     {
         auto error = errno;
         throw std::system_error(error, std::generic_category(), "Could not open " + name.string());
     }
 
     // This is required to correctly read binary files using some APIs, e.g. std::istream_iterator.
-    f.unsetf(std::ios::skipws);
+    file.unsetf(std::ios::skipws);
 
-    return f;
+    return file;
 }
 
 std::uintmax_t get_file_size(const std::filesystem::path& name)

@@ -16,19 +16,19 @@ namespace
     {
         const auto name = agbpack_test::get_testfile_path(basename);
 
-        std::ifstream f;
+        std::ifstream file;
 
         // TODO: do we need to disable whitespace skipping here? => Yes, definitely, especially now that we use istream_iterator!
         // TODO: letting streams throw exceptions is somewhat silly: if the file cannot be opened we tend to get rather useless error messages ("failbit set", "stream error", that sort)
         // TODO: definitely should handle errors ourselves here and only later set exceptions: exception messages suck, srsly.
-        f.open(name, std::ios_base::binary);
-        f.unsetf(std::ios::skipws);
+        file.open(name, std::ios_base::binary);
+        file.unsetf(std::ios::skipws);
 
         agbpack::rle_decoder decoder;
 
         std::vector<unsigned char> output;
         decoder.decode(
-            std::istream_iterator<unsigned char>(f),
+            std::istream_iterator<unsigned char>(file),
             std::istream_iterator<unsigned char>(),
             std::back_inserter(output));
         return output;
