@@ -4,7 +4,6 @@
 import agbpack;
 
 #include <catch2/catch_test_macros.hpp>
-#include <cerrno>
 #include <fstream>
 #include <iterator>
 #include <vector>
@@ -12,22 +11,11 @@ import agbpack;
 
 namespace
 {
-    // TODO: the code we use to open the file is pretty much the same as in testdata.cpp, so probably we'll want to call open_binary_file, no?
     std::vector<unsigned char> decode_testfile(const char* basename)
     {
         const auto name = agbpack_test::get_testfile_path(basename);
 
-        std::ifstream file(name, std::ios_base::binary);
-
-        if (!file)
-        {
-            auto error = errno;
-            throw std::system_error(error, std::generic_category(), "Could not open " + name);
-        }
-
-        // This is required to correctly read binary files using some APIs, e.g. std::istream_iterator.
-        file.unsetf(std::ios::skipws);
-
+        auto file = agbpack_test::open_binary_file(name);
         agbpack::rle_decoder decoder;
 
         std::vector<unsigned char> output;
