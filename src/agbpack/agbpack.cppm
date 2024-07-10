@@ -89,33 +89,39 @@ public:
         // TODO: hack: "process header"
         // TODO: in principle, each read operation should check whether input != eof, no? (Also later during decompression)
         reader.read8(); // TODO: skip type byte: should verify this!
-        // TODO: read uncompressed size. Do we verify this in any way? It should be a multiple of 4, but probably we don't enforce this. This is just a GBA requirement, really.
-        auto uncompressed_size = reader.read24();
-        (void)uncompressed_size; // TODO: Remove
+
+        // TODO: do we use size_t here or not?
+        std::size_t uncompressed_size = reader.read24();
+        std::size_t decompressed = 0;
 
         // TODO: in some cases, incrementing after last read causes exceptions in streams.
         //       Reason: we read past EOF.
         //       As for why it only happens sometimes: compressed data is padded to next multiple of 4 bytes.
         //       If there are padding bytes, then no exception happens. => Well test with a vector, no?
 
-        // TODO: this needs to go into a loop, so we can decode mixes of compressed bytes and literal runs
-        auto flag = reader.read8();
-        if (flag & 0x80)
+        while (decompressed < uncompressed_size)
         {
-            // TODO: detect when we go past uncompressed_size
-            auto n = (flag & 127) + 3;
-            auto byte = reader.read8();
-            while (n--)
+            auto flag = reader.read8();
+            if (flag & 0x80)
             {
-                writer.write8(byte);
+                // TODO: detect when we go past uncompressed_size
+                auto n = (flag & 127) + 3;
+                auto byte = reader.read8();
+                decompressed += n;
+                while (n--)
+                {
+                    writer.write8(byte);
+                }
             }
-        }
-        else
-        {
-            auto n = (flag & 127) + 1;
-            while (n--)
+            else
             {
-                writer.write8(reader.read8());
+                // TODO: detect when we go past uncompressed_size
+                auto n = (flag & 127) + 1;
+                decompressed += n;
+                while (n--)
+                {
+                    writer.write8(reader.read8());
+                }
             }
         }
     }
