@@ -39,6 +39,16 @@ private:
     InputIterator m_eof;
 };
 
+// TODO: flesh this out
+// TODO: do we want to ensure T is something we understand?
+template <typename T, std::output_iterator<T> OutputIterator>
+class byte_writer final
+{
+public:
+private:
+    OutputIterator m_output;
+};
+
 export class rle_decoder final
 {
 public:
