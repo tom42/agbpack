@@ -56,7 +56,7 @@ std::vector<unsigned char> read_testfile(const std::string& basename)
 {
     const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
 
-    auto filestream = open_binary_file(name);
+    auto filestream = open_binary_file(name.string());
     auto filesize = get_file_size(name);
 
     // Create vector with sufficient capacity to hold entire file.
