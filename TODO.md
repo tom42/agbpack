@@ -28,12 +28,6 @@ SPDX-License-Identifier: MIT
     endif()
 * vtgcore: should this also use -Wsign-conversion?
 * THEN
-  * Figure out how to deal with 3rd party libs and warning flags
-    * In principle we want to set warning flags ONCE for all my projects
-    * Otoh we must not to this before we've compiled all 3rd party libraries
-    * As it is we cannot built for x86 with MSVC due to some Catch2 header causing C4324
-      * See how it is done in the cmake book
-      * Or simply fetchcontent everything we need before setting warning options
   * Enable warnings for g++ and clang
     * see how doctest checks for compiler ID, if it looks better, use that approach
     * enable warnings from vtgcore: we already established we want these

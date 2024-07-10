@@ -7,6 +7,13 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 include(CTest)
 
+# Build all 3rd party code before globally raising warning levels.
+if(BUILD_TESTING)
+  include(VtgTesting)
+  vtg_testing_setup_catch2(3.4.0)
+endif()
+
+# Raise warning levels. From now on we should only build our own code.
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
