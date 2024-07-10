@@ -41,10 +41,18 @@ private:
 
 // TODO: flesh this out
 // TODO: do we want to ensure T is something we understand?
-template <typename T, std::output_iterator<T> OutputIterator>
+// TODO: wouldn't we want to use std::output_iterator again?
+template <typename OutputIterator>
 class byte_writer final
 {
 public:
+    byte_writer(OutputIterator output) : m_output(output) {}
+
+    void write8(agbpack_byte byte)
+    {
+        *m_output++ = byte;
+    }
+
 private:
     OutputIterator m_output;
 };
@@ -67,6 +75,7 @@ public:
 
         // TODO: need to specify this because of some odd warning (-Wctad-maybe-unsupported). Do we want this?
         byte_reader<InputIterator> reader(input, eof);
+        byte_writer<OutputIterator> writer(output);
 
         // TODO: hack: "process header"
         // TODO: in principle, each read operation should check whether input != eof, no? (Also later during decompression)
@@ -82,7 +91,7 @@ public:
         //       currently we assume a particular file with three literals at the end only, which we copy to output, after skipping the header and the one and only flag byte)
         while (uncompressed_size--)
         {
-            *output++ = reader.read8();
+            writer.write8(reader.read8());
             // TODO: hack: in some cases, incrementing after last read causes exceptions in streams.
             //             Reason: we read past EOF.
             //             As for why it only happens sometimes: compressed data is padded to next multiple of 4 bytes.
