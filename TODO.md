@@ -4,8 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Revisit current usage of static_cast and other casts: those we currently have
-  could probably be replaced by std::to_integer.
 * Data processing:
   * Maybe we define an internal type alias which we use to do all byte processing:
     * Bytes read from input get converted to that internal type
