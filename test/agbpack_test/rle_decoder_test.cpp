@@ -22,7 +22,7 @@ namespace
         // TODO: letting streams throw exceptions is somewhat silly: if the file cannot be opened we tend to get rather useless error messages ("failbit set", "stream error", that sort)
         // TODO: definitely should handle errors ourselves here and only later set exceptions: exception messages suck, srsly.
         f.open(name, std::ios_base::binary);
-        f.exceptions(std::ifstream::badbit | std::ifstream::failbit); // TODO: do we want eofbit too? Do we want ANY exceptions? Looks like actually not, no?
+        //f.exceptions(std::ifstream::badbit | std::ifstream::failbit); // TODO: do we want eofbit too? Do we want ANY exceptions? Looks like actually not, no?
         f.unsetf(std::ios::skipws);
 
         agbpack::rle_decoder decoder;
@@ -48,6 +48,6 @@ TEST_CASE("rle_decoder")
     //       Problem is much more: how do we specify element type? unsigned char, or std::byte? Are we even going to make it using std::byte? Should we attempt to do so?
     // TODO: no but maybe test with different types of inputs? We're already doing this, after all...
     //       => E.g. read std::byte but output unsigned char
-    REQUIRE(decode_testfile("rle.literals-only.txt.compressed") == agbpack_test::read_testfile("rle.literals-only.txt.uncompressed"));
-    REQUIRE(decode_testfile("rle.literals-only-2.txt.compressed") == agbpack_test::read_testfile("rle.literals-only-2.txt.uncompressed"));
+    CHECK(decode_testfile("rle.literals-only.txt.compressed") == agbpack_test::read_testfile("rle.literals-only.txt.uncompressed"));
+    CHECK(decode_testfile("rle.literals-only-2.txt.compressed") == agbpack_test::read_testfile("rle.literals-only-2.txt.uncompressed"));
 }
