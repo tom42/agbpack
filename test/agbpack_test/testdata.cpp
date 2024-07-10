@@ -3,34 +3,13 @@
 
 #include <cstddef>
 #include <filesystem>
-#include <fstream>
 #include <iterator>
-#include <limits>
 #include <system_error>
 #include "agbpack_test_config.hpp"
 #include "testdata.hpp"
 
 namespace
 {
-
-std::ifstream open_binary_file(const std::filesystem::path& name)
-{
-    // The exceptions thrown by ifstream when opening fails have rather useless error messages.
-    // For instance, MSVC throws an exception with the following message: 'ios_base::failbit set: iostream stream error'.
-    // So we don't use stream exceptions and try our luck with errno and std::system_error.
-    std::ifstream file(name, std::ios_base::binary);
-
-    if (!file)
-    {
-        auto error = errno;
-        throw std::system_error(error, std::generic_category(), "Could not open " + name.string());
-    }
-
-    // This is required to correctly read binary files using some APIs, e.g. std::istream_iterator.
-    file.unsetf(std::ios::skipws);
-
-    return file;
-}
 
 std::uintmax_t get_file_size(const std::filesystem::path& name)
 {
@@ -48,6 +27,25 @@ std::uintmax_t get_file_size(const std::filesystem::path& name)
 
 namespace agbpack_test
 {
+
+std::ifstream open_binary_file(const std::string& name)
+{
+    // The exceptions thrown by ifstream when opening fails have rather useless error messages.
+    // For instance, MSVC throws an exception with the following message: 'ios_base::failbit set: iostream stream error'.
+    // So we don't use stream exceptions and try our luck with errno and std::system_error.
+    std::ifstream file(name, std::ios_base::binary);
+
+    if (!file)
+    {
+        auto error = errno;
+        throw std::system_error(error, std::generic_category(), "Could not open " + name);
+    }
+
+    // This is required to correctly read binary files using some APIs, e.g. std::istream_iterator.
+    file.unsetf(std::ios::skipws);
+
+    return file;
+}
 
 std::string get_testfile_path(const std::string& basename)
 {
