@@ -38,8 +38,8 @@ public:
     agbpack_u32 read24()
     {
         agbpack_u32 result = read8();
-        result = read8() * 256;
-        result = read8() * 256 * 256;
+        result += read8() * 256;
+        result += read8() * 256 * 256;
         return result;
     }
 
@@ -90,9 +90,7 @@ public:
         // TODO: in principle, each read operation should check whether input != eof, no? (Also later during decompression)
         reader.read8(); // TODO: skip type byte: should verify this!
         // TODO: read uncompressed size. Do we verify this in any way? It should be a multiple of 4, but probably we don't enforce this. This is just a GBA requirement, really.
-        unsigned int uncompressed_size = reader.read8();
-        uncompressed_size += reader.read8() * 256;
-        uncompressed_size += reader.read8() * 256 * 256;
+        auto uncompressed_size = reader.read24();
 
         reader.read8(); // TODO: skip flag byte: need to process that later, once we can do actual RLE decoding.
 
