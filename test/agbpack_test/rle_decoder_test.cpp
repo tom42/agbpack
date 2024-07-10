@@ -12,16 +12,13 @@ import agbpack;
 
 namespace
 {
+    // TODO: the code we use to open the file is pretty much the same as in testdata.cpp, so probably we'll want to call open_binary_file, no?
     std::vector<unsigned char> decode_testfile(const char* basename)
     {
         const auto name = agbpack_test::get_testfile_path(basename);
 
-        std::ifstream file;
+        std::ifstream file(name, std::ios_base::binary);
 
-        // TODO: do we need to disable whitespace skipping here? => Yes, definitely, especially now that we use istream_iterator!
-        // TODO: letting streams throw exceptions is somewhat silly: if the file cannot be opened we tend to get rather useless error messages ("failbit set", "stream error", that sort)
-        // TODO: definitely should handle errors ourselves here and only later set exceptions: exception messages suck, srsly.
-        file.open(name, std::ios_base::binary);
         if (!file)
         {
             auto error = errno;
