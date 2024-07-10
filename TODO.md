@@ -33,7 +33,6 @@ SPDX-License-Identifier: MIT
     * enable warnings from vtgcore: we already established we want these
     * see what warnings doctest has enabled, see whether these make sense
     * see what other warnings we have noted in vtgcore's TODO.md?
-  * Set up our first real test (e.g. rle_decoder)
 * See what other ideas from the cmake book we'd like to put into place
   * valgrind
   * code coverage for unit tests
@@ -53,5 +52,3 @@ SPDX-License-Identifier: MIT
   * Do we want to disable unit tests by default if not the main project?
   * Do we want to have an option to enable/disable unit tests explicitly?
 * add_subdirectory(src bin)? Why would we want to do that?
-* Enable warnings (which ones? Those from vtgcore, or maybe we have a look at doctest?)
-  * Well we can try /Wall with MSVC, but probably it's insane
