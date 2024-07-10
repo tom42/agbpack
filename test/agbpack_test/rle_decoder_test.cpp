@@ -47,4 +47,5 @@ TEST_CASE("rle_decoder")
     CHECK(decode_testfile("rle.literals-only.txt.compressed") == agbpack_test::read_testfile("rle.literals-only.txt.uncompressed"));
     CHECK(decode_testfile("rle.literals-only-2.txt.compressed") == agbpack_test::read_testfile("rle.literals-only-2.txt.uncompressed"));
     CHECK(decode_testfile("rle.runs-only-1.txt.compressed") == agbpack_test::read_testfile("rle.runs-only-1.txt.uncompressed"));
+    CHECK(decode_testfile("rle.literals-and-runs-1.txt.compressed") == agbpack_test::read_testfile("rle.literals-and-runs-1.txt.uncompressed"));
 }
