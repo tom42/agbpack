@@ -29,7 +29,8 @@ public:
     // TODO: not sure this is such a good idea: shouldn't we simply use directly something usable? or fixed size types?
     agbpack_byte read8()
     {
-        // TODO: this is where we'd throw if we read past the end of the input
+        // TODO: this is where we'd throw if we read past the end of the input:
+        //       If according to parsing we need more input but reached the end of the stream, then the stream is corrupt.
         return *m_input++;
     }
 
@@ -54,16 +55,17 @@ public:
             unsigned char>,
             "Input iterator should read values of type unsigned char");
 
-        (void)eof; // TODO: remove: should not ignore eof, but instead check it before reading more data (if according to stream parsing we need more data but we reached eof, the stream is corrupt)
+        // TODO: need to specify this because of some odd warning (-Wctad-maybe-unsupported). Do we want this?
+        byte_reader<InputIterator> reader(input, eof);
 
         // TODO: hack: "process header"
         // TODO: in principle, each read operation should check whether input != eof, no? (Also later during decompression)
-        ++input; // TODO: skip type byte: should verify this!
-        unsigned int uncompressed_size = *input++;
+        reader.read8(); // TODO: skip type byte: should verify this!
         // TODO: read uncompressed size. Do we verify this in any way? It should be a multiple of 4, but probably we don't enforce this. This is just a GBA requirement, really.
-        uncompressed_size += static_cast<unsigned int>((*input++) << 8u); // TODO: can we get rid of these casts?
-        uncompressed_size += static_cast<unsigned int>((*input++) << 8u);
-        (void)uncompressed_size;
+        unsigned int uncompressed_size = reader.read8();
+        uncompressed_size += reader.read8() * 256;
+        uncompressed_size += reader.read8() * 256 * 256;
+
 
         // TODO: actually decode stuff from input stream
         //       currently we assume a particular file with three literals at the end only, which we copy to output, after skipping the header and the one and only flag byte)
