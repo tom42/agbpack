@@ -82,7 +82,6 @@ public:
             unsigned char>,
             "Input iterator should read values of type unsigned char");
 
-        // TODO: need to specify this because of some odd warning (-Wctad-maybe-unsupported). Do we want this?
         byte_reader<InputIterator> reader(input, eof);
         byte_writer<OutputIterator> writer(output);
 
