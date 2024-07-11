@@ -44,8 +44,13 @@ TEST_CASE("rle_decoder")
     //       => E.g. read std::byte but output unsigned char
     // TODO: should probably also decode from vector: this might have better debug facility than a stream
     // TODO: naming of files: what's a literal? what's a run? Maybe use GBATEK terminology (compressed/uncompressed byte)
-    CHECK(decode_testfile("rle.literals-only.txt.compressed") == agbpack_test::read_testfile("rle.literals-only.txt.uncompressed"));
-    CHECK(decode_testfile("rle.literals-only-2.txt.compressed") == agbpack_test::read_testfile("rle.literals-only-2.txt.uncompressed"));
-    CHECK(decode_testfile("rle.runs-only-1.txt.compressed") == agbpack_test::read_testfile("rle.runs-only-1.txt.uncompressed"));
-    CHECK(decode_testfile("rle.literals-and-runs-1.txt.compressed") == agbpack_test::read_testfile("rle.literals-and-runs-1.txt.uncompressed"));
+
+    SECTION("valid input")
+    {
+        CHECK(decode_testfile("rle.literals-only.txt.compressed") == agbpack_test::read_testfile("rle.literals-only.txt.uncompressed"));
+        CHECK(decode_testfile("rle.literals-only-2.txt.compressed") == agbpack_test::read_testfile("rle.literals-only-2.txt.uncompressed"));
+        CHECK(decode_testfile("rle.runs-only-1.txt.compressed") == agbpack_test::read_testfile("rle.runs-only-1.txt.uncompressed"));
+        CHECK(decode_testfile("rle.literals-and-runs-1.txt.compressed") == agbpack_test::read_testfile("rle.literals-and-runs-1.txt.uncompressed"));
+    }
+
 }
