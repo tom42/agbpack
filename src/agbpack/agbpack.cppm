@@ -89,8 +89,10 @@ public:
         byte_reader<InputIterator> reader(input, eof);
         byte_writer<OutputIterator> writer(output);
 
-        // TODO: hack: "process header"
-        reader.read8(); // TODO: skip type byte: should verify this!
+        // TODO: hack: verify header. Suggestion: we read the header at once (that is, 4 bytes. Only then do we verify it)
+        // Bit 0-3   Reserved => should definitely test this for zero
+        // Bit 4-7   Compressed type (must be 3 for run-length) => should definitely test this, too
+        reader.read8();
 
         agbpack_u32 uncompressed_size = reader.read24();
         agbpack_u32 decompressed = 0;
