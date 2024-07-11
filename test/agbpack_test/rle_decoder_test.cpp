@@ -30,6 +30,8 @@ namespace
 
 TEST_CASE("rle_decoder")
 {
+    // TODO: NEXT: decode a file with a broken header
+    // TODO: Figure out how to best organize catc2 test cases
     // TODO: decode a file with compression only
     // TODO: decode a file with literals and runs
     // TODO: decode a zero length file
