@@ -3,6 +3,7 @@
 
 module;
 
+#include <cstddef>
 #include <cstdint>
 #include <iterator>
 #include <type_traits>
@@ -108,7 +109,7 @@ public:
             if (flag & 0x80)
             {
                 // TODO: detect when we go past uncompressed_size
-                auto n = (flag & 127) + 3;
+                std::size_t n = (flag & 127) + 3;
                 auto byte = reader.read8();
                 decompressed += n;
                 while (n--)
@@ -119,7 +120,7 @@ public:
             else
             {
                 // TODO: detect when we go past uncompressed_size
-                auto n = (flag & 127) + 1;
+                std::size_t n = (flag & 127) + 1;
                 decompressed += n;
                 while (n--)
                 {
