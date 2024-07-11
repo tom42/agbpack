@@ -12,7 +12,6 @@ export module agbpack;
 namespace agbpack
 {
 
-// TODO: do we really want this? Shouldn't we simply use uint8_t, uint16_t etc.?
 using agbpack_u8 = uint_fast8_t;
 using agbpack_u32 = uint_fast32_t;
 
