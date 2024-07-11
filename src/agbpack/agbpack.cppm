@@ -59,7 +59,7 @@ template <typename OutputIterator>
 class byte_writer final
 {
 public:
-    byte_writer(OutputIterator output) : m_output(output) {}
+    explicit byte_writer(OutputIterator output) : m_output(output) {}
 
     void write8(agbpack_u8 byte)
     {
