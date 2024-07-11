@@ -90,7 +90,6 @@ public:
         byte_writer<OutputIterator> writer(output);
 
         // TODO: hack: "process header"
-        // TODO: in principle, each read operation should check whether input != eof, no? (Also later during decompression)
         reader.read8(); // TODO: skip type byte: should verify this!
 
         agbpack_u32 uncompressed_size = reader.read24();
