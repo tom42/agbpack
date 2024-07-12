@@ -50,10 +50,15 @@ TEST_CASE("rle_decoder")
 
     SECTION("Valid input")
     {
-        CHECK(decode_testfile("rle.literals-only.txt.compressed") == agbpack_test::read_testfile("rle.literals-only.txt.uncompressed"));
-        CHECK(decode_testfile("rle.literals-only-2.txt.compressed") == agbpack_test::read_testfile("rle.literals-only-2.txt.uncompressed"));
-        CHECK(decode_testfile("rle.runs-only-1.txt.compressed") == agbpack_test::read_testfile("rle.runs-only-1.txt.uncompressed"));
-        CHECK(decode_testfile("rle.literals-and-runs-1.txt.compressed") == agbpack_test::read_testfile("rle.literals-and-runs-1.txt.uncompressed"));
+        string filename_part = GENERATE(
+            "rle.literals-only.txt",
+            "rle.literals-only-2.txt",
+            "rle.runs-only-1.txt",
+            "rle.literals-and-runs-1.txt");
+
+        auto uncompressed_data = decode_testfile(filename_part + ".compressed");
+
+        CHECK(uncompressed_data == agbpack_test::read_testfile(filename_part + ".uncompressed"));
     }
 
     SECTION("Premature end of input")
