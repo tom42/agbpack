@@ -29,8 +29,6 @@ namespace
 
 TEST_CASE("rle_decoder")
 {
-    // TODO: NEXT: decode a file with a broken header
-    // TODO: Figure out how to best organize catc2 test cases
     // TODO: decode a file with compression only
     // TODO: decode a file with literals and runs
     // TODO: decode a zero length file
@@ -56,8 +54,7 @@ TEST_CASE("rle_decoder")
 
     SECTION("EOF inside header")
     {
-        // TODO: rename this file to eof-inside-header
         // TODO: add test cases for all places where we read input so far
-        CHECK_THROWS_AS(decode_testfile("rle.broken.incomplete-header.txt.compressed"), agbpack::bad_compressed_data);
+        CHECK_THROWS_AS(decode_testfile("rle.broken.eof-inside-header.txt.compressed"), agbpack::bad_compressed_data);
     }
 }
