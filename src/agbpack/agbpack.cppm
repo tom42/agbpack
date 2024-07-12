@@ -22,13 +22,12 @@ protected:
     explicit agbpack_exception(const char* message) : std::runtime_error(message) {}
 };
 
-// TODO: give this a better name
 // TODO: give this a better message
 // TODO: move this to own file, it gets cluttered in here.
-export class corrupt_stream_exception : public agbpack_exception
+export class bad_compressed_data : public agbpack_exception
 {
 public:
-    corrupt_stream_exception() : agbpack_exception("meh") {}
+    bad_compressed_data() : agbpack_exception("meh") {}
 };
 
 // TODO: do we want to ensure *input points to something we understand?
@@ -45,7 +44,7 @@ public:
     {
         if (m_input == m_eof)
         {
-            throw corrupt_stream_exception();
+            throw bad_compressed_data();
         }
         return *m_input++;
     }
