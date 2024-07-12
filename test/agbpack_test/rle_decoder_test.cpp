@@ -57,7 +57,7 @@ TEST_CASE("rle_decoder")
         // TODO: add test cases for all places where we read input so far:
         //       * compressed byte
         //       * inside a literal run
-        CHECK_THROWS_AS(decode_testfile("rle.broken.eof-inside-header.txt.compressed"), agbpack::bad_compressed_data);
-        CHECK_THROWS_AS(decode_testfile("rle.broken.eof-at-flag-byte.txt.compressed"), agbpack::bad_compressed_data);
+        CHECK_THROWS_AS(decode_testfile("rle.bad.eof-inside-header.txt.compressed"), agbpack::bad_compressed_data);
+        CHECK_THROWS_AS(decode_testfile("rle.bad.eof-at-flag-byte.txt.compressed"), agbpack::bad_compressed_data);
     }
 }
