@@ -18,7 +18,7 @@ using agbpack_u32 = uint_fast32_t;
 
 export class agbpack_exception : public std::runtime_error
 {
-public:
+protected:
     explicit agbpack_exception(const char* message) : std::runtime_error(message) {}
 };
 
