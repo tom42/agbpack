@@ -12,6 +12,8 @@ SPDX-License-Identifier: MIT
     * => The entity doing the conversion could be a template, so could adapt to input/output types
 * Become reuse compliant again: our test data files break it. Use a REUSE.toml to fix
   * Note: dep5 file is deprecated, so get rid of that
+* clang++: reconsider the decision to use -Weverything. Maybe change that to be an option or so.
+  * https://quuxplusone.github.io/blog/2018/12/06/dont-use-weverything/
 * doctest has the flags below for g++ and clang. Which ones do we need too?
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
       add_compiler_flags(-Werror)
