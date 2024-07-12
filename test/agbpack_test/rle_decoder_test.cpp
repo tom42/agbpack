@@ -52,12 +52,11 @@ TEST_CASE("rle_decoder")
         CHECK(decode_testfile("rle.literals-and-runs-1.txt.compressed") == agbpack_test::read_testfile("rle.literals-and-runs-1.txt.uncompressed"));
     }
 
-    SECTION("EOF inside header")
+    SECTION("Premature end of input")
     {
-        // TODO: add test cases for all places where we read input so far:
-        //       * inside a literal run
         CHECK_THROWS_AS(decode_testfile("rle.bad.eof-inside-header.txt.compressed"), agbpack::bad_compressed_data);
         CHECK_THROWS_AS(decode_testfile("rle.bad.eof-at-flag-byte.txt.compressed"), agbpack::bad_compressed_data);
         CHECK_THROWS_AS(decode_testfile("rle.bad.eof-at-compressed-byte.txt.compressed"), agbpack::bad_compressed_data);
+        CHECK_THROWS_AS(decode_testfile("rle.bad.eof-inside-uncompressed-run.txt.compressed"), agbpack::bad_compressed_data);
     }
 }
