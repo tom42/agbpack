@@ -4,10 +4,11 @@
 module;
 
 #include <cstdint>
+#include <iterator>
+#include <type_traits>
 
 export module agbpack;
 export import agbpack.exceptions;
-import std;
 
 namespace agbpack
 {
