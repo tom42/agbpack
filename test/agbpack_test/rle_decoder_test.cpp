@@ -63,12 +63,12 @@ TEST_CASE("rle_decoder")
 
     SECTION("Premature end of input")
     {
-        auto filename = GENERATE(
+        auto encoded_file = GENERATE(
             "rle.bad.eof-inside-header.txt.compressed",
             "rle.bad.eof-at-flag-byte.txt.compressed",
             "rle.bad.eof-at-compressed-byte.txt.compressed",
             "rle.bad.eof-inside-uncompressed-run.txt.compressed");
 
-        CHECK_THROWS_AS(decode_testfile(filename), agbpack::bad_compressed_data);
+        CHECK_THROWS_AS(decode_testfile(encoded_file), agbpack::bad_compressed_data);
     }
 }
