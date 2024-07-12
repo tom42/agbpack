@@ -92,11 +92,9 @@ public:
         agbpack_u32 uncompressed_size = reader.read24();
         agbpack_u32 decompressed = 0;
 
-        // TODO: in some cases, incrementing after last read causes exceptions in streams.
-        //       Reason: we read past EOF.
-        //       As for why it only happens sometimes: compressed data is padded to next multiple of 4 bytes.
-        //       If there are padding bytes, then no exception happens. => Well test with a vector, no?
-
+        // TODO: Input should be padded to a multiple of 4 bytes.
+        //       Question is then, should we require these padding bytes and skip them?
+        //       If we want to be able to decompress multiple files from a single stream, then yes. If not, then not.
         while (decompressed < uncompressed_size)
         {
             auto flag = reader.read8();
