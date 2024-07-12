@@ -1,14 +1,12 @@
 // SPDX-FileCopyrightText: 2024 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-import agbpack;
-
 #include <catch2/catch_test_macros.hpp>
-#include <fstream>
 #include <iterator>
-#include <stdexcept>
 #include <vector>
 #include "testdata.hpp"
+
+import agbpack;
 
 namespace
 {
