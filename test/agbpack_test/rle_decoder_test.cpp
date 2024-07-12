@@ -58,7 +58,7 @@ TEST_CASE("rle_decoder")
 
     SECTION("EOF inside header")
     {
-        CHECK_THROWS_AS(decode_testfile("rle.broken.incomplete-header.txt.compressed"), std::runtime_error);
+        CHECK_THROWS_AS(decode_testfile("rle.broken.incomplete-header.txt.compressed"), agbpack::corrupt_stream_exception);
     }
 
 }

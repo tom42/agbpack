@@ -16,6 +16,16 @@ namespace agbpack
 using agbpack_u8 = uint_fast8_t;
 using agbpack_u32 = uint_fast32_t;
 
+// TODO: give this a better name
+// TODO: give this a better message
+// TODO: derive this from agbpack specific base class
+// TODO: move this to own file, it gets cluttered in here.
+export class corrupt_stream_exception : public std::runtime_error
+{
+public:
+    corrupt_stream_exception() : std::runtime_error("meh") {}
+};
+
 // TODO: do we want to ensure *input points to something we understand?
 template <std::input_iterator InputIterator>
 class byte_reader final
@@ -26,15 +36,11 @@ public:
         , m_eof(eof)
     {}
 
-    // TODO: not sure this is such a good idea: shouldn't we simply use directly something usable? or fixed size types?
     agbpack_u8 read8()
     {
-        // TODO: this is where we'd throw if we read past the end of the input:
-        //       If according to parsing we need more input but reached the end of the stream, then the stream is corrupt.
         if (m_input == m_eof)
         {
-            // TODO: throw a proper exception. And write a test
-            throw std::runtime_error("YIKES");
+            throw corrupt_stream_exception();
         }
         return *m_input++;
     }
