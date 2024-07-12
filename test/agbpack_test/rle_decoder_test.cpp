@@ -4,14 +4,17 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #include <iterator>
+#include <string>
 #include <vector>
 #include "testdata.hpp"
 
 import agbpack;
 
+using string = std::string;
+
 namespace
 {
-    std::vector<unsigned char> decode_testfile(const char* basename)
+    std::vector<unsigned char> decode_testfile(const string& basename)
     {
         const auto name = agbpack_test::get_testfile_path(basename);
 
