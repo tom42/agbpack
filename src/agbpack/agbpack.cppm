@@ -30,7 +30,7 @@ public:
     {
         if (m_input == m_eof)
         {
-            throw bad_compressed_data();
+            throw bad_encoded_data();
         }
         return *m_input++;
     }

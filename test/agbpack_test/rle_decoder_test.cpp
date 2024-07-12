@@ -69,6 +69,6 @@ TEST_CASE("rle_decoder")
             "rle.bad.eof-at-compressed-byte.txt.compressed",
             "rle.bad.eof-inside-uncompressed-run.txt.compressed");
 
-        CHECK_THROWS_AS(decode_testfile(encoded_file), agbpack::bad_compressed_data);
+        CHECK_THROWS_AS(decode_testfile(encoded_file), agbpack::bad_encoded_data);
     }
 }
