@@ -56,9 +56,9 @@ TEST_CASE("rle_decoder")
             "rle.runs-only-1.txt",
             "rle.literals-and-runs-1.txt");
 
-        auto decoded_data = decode_file(filename_part + ".compressed");
+        auto decoded_data = decode_file(filename_part + ".encoded");
 
-        CHECK(decoded_data == agbpack_test::read_testfile(filename_part + ".uncompressed"));
+        CHECK(decoded_data == agbpack_test::read_testfile(filename_part + ".decoded"));
     }
 
     SECTION("Premature end of input")
