@@ -5,6 +5,7 @@ module;
 
 #include <cstdint>
 #include <iterator>
+#include <stdexcept>
 #include <type_traits>
 
 export module agbpack;
@@ -33,7 +34,7 @@ public:
         if (m_input == m_eof)
         {
             // TODO: throw a proper exception. And write a test
-            throw "DAMIT";
+            throw std::runtime_error("YIKES");
         }
         return *m_input++;
     }

@@ -6,6 +6,7 @@ import agbpack;
 #include <catch2/catch_test_macros.hpp>
 #include <fstream>
 #include <iterator>
+#include <stdexcept>
 #include <vector>
 #include "testdata.hpp"
 
@@ -55,9 +56,9 @@ TEST_CASE("rle_decoder")
         CHECK(decode_testfile("rle.literals-and-runs-1.txt.compressed") == agbpack_test::read_testfile("rle.literals-and-runs-1.txt.uncompressed"));
     }
 
-    SECTION("Incomplete header")
+    SECTION("EOF inside header")
     {
-        decode_testfile("rle.broken.incomplete-header.txt.compressed");
+        CHECK_THROWS_AS(decode_testfile("rle.broken.incomplete-header.txt.compressed"), std::runtime_error);
     }
 
 }
