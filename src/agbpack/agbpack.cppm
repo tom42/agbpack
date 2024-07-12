@@ -5,33 +5,16 @@ module;
 
 #include <cstdint>
 #include <iterator>
-#include <stdexcept>
 #include <type_traits>
 
 export module agbpack;
+export import agbpack.exceptions;
 
 namespace agbpack
 {
 
 using agbpack_u8 = uint_fast8_t;
 using agbpack_u32 = uint_fast32_t;
-
-export class agbpack_exception : public std::runtime_error
-{
-protected:
-    explicit agbpack_exception(const char* message) : std::runtime_error(message) {}
-
-    virtual ~agbpack_exception() override = default;
-};
-
-// TODO: move this to own file, it gets cluttered in here.
-export class bad_compressed_data : public agbpack_exception
-{
-public:
-    bad_compressed_data() : agbpack_exception("compressed data is corrupt") {}
-
-    virtual ~bad_compressed_data() override = default;
-};
 
 // TODO: do we want to ensure *input points to something we understand?
 template <std::input_iterator InputIterator>
