@@ -14,7 +14,7 @@ using string = std::string;
 
 namespace
 {
-    std::vector<unsigned char> decode_testfile(const string& basename)
+    std::vector<unsigned char> decode_file(const string& basename)
     {
         const auto name = agbpack_test::get_testfile_path(basename);
 
@@ -56,9 +56,9 @@ TEST_CASE("rle_decoder")
             "rle.runs-only-1.txt",
             "rle.literals-and-runs-1.txt");
 
-        auto uncompressed_data = decode_testfile(filename_part + ".compressed");
+        auto decoded_data = decode_file(filename_part + ".compressed");
 
-        CHECK(uncompressed_data == agbpack_test::read_testfile(filename_part + ".uncompressed"));
+        CHECK(decoded_data == agbpack_test::read_testfile(filename_part + ".uncompressed"));
     }
 
     SECTION("Premature end of input")
@@ -69,6 +69,6 @@ TEST_CASE("rle_decoder")
             "rle.bad.eof-at-compressed-byte.txt.encoded",
             "rle.bad.eof-inside-uncompressed-run.txt.encoded");
 
-        CHECK_THROWS_AS(decode_testfile(encoded_file), agbpack::bad_encoded_data);
+        CHECK_THROWS_AS(decode_file(encoded_file), agbpack::bad_encoded_data);
     }
 }
