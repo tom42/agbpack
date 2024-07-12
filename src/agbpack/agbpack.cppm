@@ -16,14 +16,19 @@ namespace agbpack
 using agbpack_u8 = uint_fast8_t;
 using agbpack_u32 = uint_fast32_t;
 
-// TODO: give this a better name
-// TODO: give this a better message
-// TODO: derive this from agbpack specific base class
-// TODO: move this to own file, it gets cluttered in here.
-export class corrupt_stream_exception : public std::runtime_error
+export class agbpack_exception : public std::runtime_error
 {
 public:
-    corrupt_stream_exception() : std::runtime_error("meh") {}
+    explicit agbpack_exception(const char* message) : std::runtime_error(message) {}
+};
+
+// TODO: give this a better name
+// TODO: give this a better message
+// TODO: move this to own file, it gets cluttered in here.
+export class corrupt_stream_exception : public agbpack_exception
+{
+public:
+    corrupt_stream_exception() : agbpack_exception("meh") {}
 };
 
 // TODO: do we want to ensure *input points to something we understand?
