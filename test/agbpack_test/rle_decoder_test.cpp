@@ -56,6 +56,8 @@ TEST_CASE("rle_decoder")
 
     SECTION("EOF inside header")
     {
+        // TODO: rename this file to eof-inside-header
+        // TODO: add test cases for all places where we read input so far
         CHECK_THROWS_AS(decode_testfile("rle.broken.incomplete-header.txt.compressed"), agbpack::bad_compressed_data);
     }
 }
