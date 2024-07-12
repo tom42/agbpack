@@ -4,11 +4,10 @@
 module;
 
 #include <cstdint>
-#include <iterator>
-#include <type_traits>
 
 export module agbpack;
 export import agbpack.exceptions;
+import std;
 
 namespace agbpack
 {
@@ -87,6 +86,7 @@ public:
         // TODO: hack: verify header. Suggestion: we read the header at once (that is, 4 bytes. Only then do we verify it)
         // Bit 0-3   Reserved => should definitely test this for zero
         // Bit 4-7   Compressed type (must be 3 for run-length) => should definitely test this, too
+        // TODO: should we read the entire header in one go? we need it anyway, and it reduces the amount of error checking we'd have to do if not using exceptions
         reader.read8();
 
         agbpack_u32 uncompressed_size = reader.read24();

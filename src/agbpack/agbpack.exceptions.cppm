@@ -3,9 +3,8 @@
 
 module;
 
-#include <stdexcept>
-
 export module agbpack.exceptions;
+import std;
 
 namespace agbpack
 {
