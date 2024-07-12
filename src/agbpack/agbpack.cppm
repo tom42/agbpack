@@ -22,12 +22,11 @@ protected:
     explicit agbpack_exception(const char* message) : std::runtime_error(message) {}
 };
 
-// TODO: give this a better message
 // TODO: move this to own file, it gets cluttered in here.
 export class bad_compressed_data : public agbpack_exception
 {
 public:
-    bad_compressed_data() : agbpack_exception("meh") {}
+    bad_compressed_data() : agbpack_exception("compressed data is corrupt") {}
 };
 
 // TODO: do we want to ensure *input points to something we understand?
