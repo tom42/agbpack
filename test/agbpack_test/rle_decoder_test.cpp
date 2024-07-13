@@ -39,7 +39,6 @@ TEST_CASE("rle_decoder")
     // TODO: decode a zero length file
     // TODO: pathological stuff: malformed streams, too long, too short, malformed header
     // TODO: also test using a container as input? E.g. read from vector<unsigned char>?
-    // TODO: test a file with a longer than maximum run of compressed byte
     // TODO: test a file with a longer than maximum run of literal bytes
 
     // TODO: Make the decoder work with different element types. E.g. have it be able to process char, unsigned char, byte, whatever.
@@ -52,7 +51,8 @@ TEST_CASE("rle_decoder")
             "rle.good.uncompressed-bytes-only-1.txt",
             "rle.good.uncompressed-bytes-only-2.txt",
             "rle.good.compressed-bytes-only.txt",
-            "rle.good.compressed-and-uncompressed-bytes.txt");
+            "rle.good.compressed-and-uncompressed-bytes.txt",
+            "rle.good.very-long-compressed-run.txt");
         auto expected_data = agbpack_test::read_testfile(filename_part + ".decoded");
 
         auto decoded_data = decode_file(filename_part + ".encoded");
