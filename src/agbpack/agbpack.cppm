@@ -21,7 +21,7 @@ template <std::input_iterator InputIterator>
 class byte_reader final
 {
 public:
-    byte_reader(InputIterator input, InputIterator eof)
+    explicit byte_reader(InputIterator input, InputIterator eof)
         : m_input(input)
         , m_eof(eof)
     {}
@@ -54,14 +54,25 @@ template <typename OutputIterator>
 class byte_writer final
 {
 public:
-    explicit byte_writer(OutputIterator output) : m_output(output) {}
+    explicit byte_writer(agbpack_u32 uncompressed_size, OutputIterator output)
+        : m_uncompressed_size(uncompressed_size)
+        , m_output(output)
+    {}
 
     void write8(agbpack_u8 byte)
     {
+        if (m_nuncompressed_bytes >= m_uncompressed_size)
+        {
+            throw bad_encoded_data();
+        }
+
+        ++m_nuncompressed_bytes;
         *m_output++ = byte;
     }
 
 private:
+    const agbpack_u32 m_uncompressed_size;
+    agbpack_u32 m_nuncompressed_bytes = 0;
     OutputIterator m_output;
 };
 
@@ -82,7 +93,6 @@ public:
             "Input iterator should read values of type unsigned char");
 
         byte_reader<InputIterator> reader(input, eof);
-        byte_writer<OutputIterator> writer(output);
 
         // TODO: hack: verify header. Suggestion: we read the header at once (that is, 4 bytes. Only then do we verify it)
         // Bit 0-3   Reserved => should definitely test this for zero
@@ -90,12 +100,13 @@ public:
         // TODO: should we read the entire header in one go? we need it anyway, and it reduces the amount of error checking we'd have to do if not using exceptions
         reader.read8();
 
-        agbpack_u32 uncompressed_size = reader.read24();
-        agbpack_u32 decompressed = 0;
+        agbpack_u32 uncompressed_size = reader.read24(); // TODO: in principle we don't need this in a temporary variable here: we can take it out of the header structure once it exists and pass it to the writer
+        agbpack_u32 decompressed = 0; // TODO: in principle the writer can entirely take care of this, no?
 
         // TODO: Input should be padded to a multiple of 4 bytes.
         //       Question is then, should we require these padding bytes and skip them?
         //       If we want to be able to decompress multiple files from a single stream, then yes. If not, then not.
+        byte_writer<OutputIterator> writer(uncompressed_size, output);
         while (decompressed < uncompressed_size)
         {
             auto flag = reader.read8();
@@ -112,7 +123,6 @@ public:
             }
             else
             {
-                // TODO: detect when we go past uncompressed_size
                 agbpack_u32 n = (flag & 127) + 1;
                 decompressed += n;
                 while (n--)
