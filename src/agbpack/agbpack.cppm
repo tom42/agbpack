@@ -82,15 +82,19 @@ private:
     OutputIterator m_output;
 };
 
+enum class compression_type
+{
+    rle = 3
+};
+
 class header final
 {
 public:
     explicit header(uint32_t header_data) : m_header_data(header_data) {}
 
-    // TODO: introduce scoped enum for "compression type"
-    uint32_t compression_type() const
+    compression_type type() const
     {
-        return (m_header_data >> 4) & 0xf;
+        return static_cast<compression_type>((m_header_data >> 4) & 0xf);
     }
 
     uint32_t uncompressed_size() const
@@ -123,7 +127,7 @@ public:
         // TODO: hack: verify header. Suggestion: we read the header at once (that is, 4 bytes. Only then do we verify it)
         // Bit 0-3   Reserved => should definitely test this for zero
         header header(reader.read32());
-        if (header.compression_type() != 3) // TODO: use scoped enum for comparison
+        if (header.type() != compression_type::rle)
         {
             throw bad_encoded_data();
         }
