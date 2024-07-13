@@ -61,13 +61,18 @@ public:
 
     void write8(agbpack_u8 byte)
     {
-        if (m_nuncompressed_bytes >= m_uncompressed_size)
+        if (done())
         {
             throw bad_encoded_data();
         }
 
         ++m_nuncompressed_bytes;
         *m_output++ = byte;
+    }
+
+    bool done() const
+    {
+        return m_nuncompressed_bytes >= m_uncompressed_size;
     }
 
 private:
