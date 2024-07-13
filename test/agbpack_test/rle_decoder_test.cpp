@@ -42,10 +42,8 @@ TEST_CASE("rle_decoder")
     // TODO: test a file with a longer than maximum run of compressed byte
     // TODO: test a file with a longer than maximum run of literal bytes
 
-    // TODO: assert something: return value (hardcode, can be 'abc'
-    //       Problem is much more: how do we specify element type? unsigned char, or std::byte? Are we even going to make it using std::byte? Should we attempt to do so?
-    // TODO: no but maybe test with different types of inputs? We're already doing this, after all...
-    //       => E.g. read std::byte but output unsigned char
+    // TODO: Make the decoder work with different element types. E.g. have it be able to process char, unsigned char, byte, whatever.
+    //       Question is then, do we allow input element type to be different from output element type?
     // TODO: should probably also decode from vector: this might have better debug facility than a stream
     // TODO: naming of files: what's a literal? what's a run? Maybe use GBATEK terminology (compressed/uncompressed byte)
 
