@@ -35,11 +35,12 @@ public:
         return *m_input++;
     }
 
-    agbpack_u32 read24()
+    agbpack_u32 read32()
     {
         agbpack_u32 result = read8();
         result += read8() * 256;
         result += read8() * 256 * 256;
+        result += read8() * 256 * 256 * 256;
         return result;
     }
 
