@@ -126,17 +126,7 @@ public:
 
         byte_reader<InputIterator> reader(input, eof);
         header header(reader.read32());
-
-        // TODO: hack: verify header. Suggestion: we read the header at once (that is, 4 bytes. Only then do we verify it)
-        // Bit 0-3   Reserved => should definitely test this for zero
-        if (header.type() != compression_type::rle)
-        {
-            throw bad_encoded_data();
-        }
-        if (header.options() != 0)
-        {
-            throw bad_encoded_data();
-        }
+        verify_header(header);
 
         // TODO: Input should be padded to a multiple of 4 bytes.
         //       Question is then, should we require these padding bytes and skip them?
@@ -166,6 +156,18 @@ public:
     }
 
 private:
+    static void verify_header(const header& header)
+    {
+        if (header.type() != compression_type::rle)
+        {
+            throw bad_encoded_data();
+        }
+        if (header.options() != 0)
+        {
+            throw bad_encoded_data();
+        }
+    }
+
     template <typename InputIterator>
     static void static_assert_input_type(InputIterator& input)
     {
