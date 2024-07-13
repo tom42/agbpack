@@ -34,8 +34,6 @@ std::vector<unsigned char> decode_file(const string& basename)
 
 TEST_CASE("rle_decoder")
 {
-    // TODO: decode a file with compression only
-    // TODO: decode a file with literals and runs
     // TODO: pathological stuff: malformed streams, too long, too short, malformed header
     // TODO: also test using a container as input? E.g. read from vector<unsigned char>?
 
@@ -52,7 +50,8 @@ TEST_CASE("rle_decoder")
             "rle.good.compressed-and-uncompressed-bytes.txt",
             "rle.good.very-long-compressed-run.txt",
             "rle.good.very-long-uncompressed-run.txt",
-            "rle.good.zero-length-file.txt");
+            "rle.good.zero-length-file.txt",
+            "rle.good.foo.txt");
         auto expected_data = agbpack_test::read_testfile(filename_part + ".decoded");
 
         auto decoded_data = decode_file(filename_part + ".encoded");

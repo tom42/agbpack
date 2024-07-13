@@ -1,0 +1,8 @@
+# Keep git from mangling our test data.
+#
+# Particularly the decoded files are prone to auto CRLF mangling,
+# but also encoded files may theoretically be recognized as text if
+# we're extremely unlucky, so we simply treat all files as binary.
+
+*.encoded binary
+*.decoded binary
