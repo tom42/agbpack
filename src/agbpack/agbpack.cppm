@@ -117,10 +117,7 @@ public:
     template <std::input_iterator InputIterator, std::output_iterator<unsigned char> OutputIterator>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
-        static_assert(
-            std::is_same_v<std::remove_cv_t<std::remove_reference_t<decltype(*input)>>,
-            unsigned char>,
-            "Input iterator should read values of type unsigned char");
+        static_assert_input_type(input);
 
         byte_reader<InputIterator> reader(input, eof);
 
@@ -157,6 +154,16 @@ public:
                 }
             }
         }
+    }
+
+private:
+    template <typename InputIterator>
+    static void static_assert_input_type(InputIterator& input)
+    {
+        static_assert(
+            std::is_same_v<std::remove_cv_t<std::remove_reference_t<decltype(*input)>>,
+            unsigned char>,
+            "Input iterator should read values of type unsigned char");
     }
 };
 
