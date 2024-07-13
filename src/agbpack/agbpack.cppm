@@ -87,6 +87,12 @@ class header final
 public:
     explicit header(uint32_t header_data) : m_header_data(header_data) {}
 
+    // TODO: introduce scoped enum for "compression type"
+    uint32_t compression_type() const
+    {
+        return (m_header_data >> 4) & 0xf;
+    }
+
     uint32_t uncompressed_size() const
     {
         return m_header_data >> 8;
@@ -116,8 +122,11 @@ public:
 
         // TODO: hack: verify header. Suggestion: we read the header at once (that is, 4 bytes. Only then do we verify it)
         // Bit 0-3   Reserved => should definitely test this for zero
-        // Bit 4-7   Compressed type (must be 3 for run-length) => should definitely test this, too
         header header(reader.read32());
+        if (header.compression_type() != 3) // TODO: use scoped enum for comparison
+        {
+            throw bad_encoded_data();
+        }
 
         // TODO: Input should be padded to a multiple of 4 bytes.
         //       Question is then, should we require these padding bytes and skip them?
