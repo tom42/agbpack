@@ -81,6 +81,15 @@ private:
     OutputIterator m_output;
 };
 
+class header final
+{
+public:
+    explicit header(uint32_t header_data) : m_header_data(header_data) {}
+
+private:
+    uint32_t m_header_data;
+};
+
 export class rle_decoder final
 {
 public:
