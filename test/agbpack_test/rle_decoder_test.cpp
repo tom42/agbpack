@@ -14,20 +14,21 @@ using string = std::string;
 
 namespace
 {
-    std::vector<unsigned char> decode_file(const string& basename)
-    {
-        const auto name = agbpack_test::get_testfile_path(basename);
+    
+std::vector<unsigned char> decode_file(const string& basename)
+{
+    const auto name = agbpack_test::get_testfile_path(basename);
 
-        auto file = agbpack_test::open_binary_file(name);
-        agbpack::rle_decoder decoder;
+    auto file = agbpack_test::open_binary_file(name);
+    agbpack::rle_decoder decoder;
 
-        std::vector<unsigned char> output;
-        decoder.decode(
-            std::istream_iterator<unsigned char>(file),
-            std::istream_iterator<unsigned char>(),
-            std::back_inserter(output));
-        return output;
-    }
+    std::vector<unsigned char> output;
+    decoder.decode(
+        std::istream_iterator<unsigned char>(file),
+        std::istream_iterator<unsigned char>(),
+        std::back_inserter(output));
+    return output;
+}
 
 }
 
