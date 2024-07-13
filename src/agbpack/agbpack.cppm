@@ -116,7 +116,6 @@ public:
             auto flag = reader.read8();
             if (flag & 0x80)
             {
-                // TODO: detect when we go past uncompressed_size
                 agbpack_u32 n = (flag & 127) + 3;
                 auto byte = reader.read8();
                 while (n--)
