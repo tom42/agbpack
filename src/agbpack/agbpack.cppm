@@ -13,8 +13,8 @@ export import agbpack.exceptions;
 namespace agbpack
 {
 
-using agbpack_u8 = uint_fast8_t;
-using agbpack_u32 = uint_fast32_t;
+using agbpack_u8 = uint8_t;
+using agbpack_u32 = uint32_t;
 
 // TODO: do we want to ensure *input points to something we understand?
 template <std::input_iterator InputIterator>
