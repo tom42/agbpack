@@ -76,7 +76,7 @@ public:
     }
 
 private:
-    const agbpack_u32 m_uncompressed_size;
+    agbpack_u32 m_uncompressed_size;
     agbpack_u32 m_nuncompressed_bytes = 0;
     OutputIterator m_output;
 };
