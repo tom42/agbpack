@@ -128,6 +128,10 @@ public:
         {
             throw bad_encoded_data();
         }
+        if (header.options() != 0)
+        {
+            throw bad_encoded_data();
+        }
 
         // TODO: Input should be padded to a multiple of 4 bytes.
         //       Question is then, should we require these padding bytes and skip them?
