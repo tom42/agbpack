@@ -106,13 +106,12 @@ public:
         reader.read8();
 
         agbpack_u32 uncompressed_size = reader.read24(); // TODO: in principle we don't need this in a temporary variable here: we can take it out of the header structure once it exists and pass it to the writer
-        agbpack_u32 decompressed = 0; // TODO: in principle the writer can entirely take care of this, no?
 
         // TODO: Input should be padded to a multiple of 4 bytes.
         //       Question is then, should we require these padding bytes and skip them?
         //       If we want to be able to decompress multiple files from a single stream, then yes. If not, then not.
         byte_writer<OutputIterator> writer(uncompressed_size, output);
-        while (decompressed < uncompressed_size)
+        while (!writer.done())
         {
             auto flag = reader.read8();
             if (flag & 0x80)
@@ -120,7 +119,6 @@ public:
                 // TODO: detect when we go past uncompressed_size
                 agbpack_u32 n = (flag & 127) + 3;
                 auto byte = reader.read8();
-                decompressed += n;
                 while (n--)
                 {
                     writer.write8(byte);
@@ -129,7 +127,6 @@ public:
             else
             {
                 agbpack_u32 n = (flag & 127) + 1;
-                decompressed += n;
                 while (n--)
                 {
                     writer.write8(reader.read8());
