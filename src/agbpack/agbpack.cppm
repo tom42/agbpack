@@ -120,10 +120,10 @@ public:
         static_assert_input_type(input);
 
         byte_reader<InputIterator> reader(input, eof);
+        header header(reader.read32());
 
         // TODO: hack: verify header. Suggestion: we read the header at once (that is, 4 bytes. Only then do we verify it)
         // Bit 0-3   Reserved => should definitely test this for zero
-        header header(reader.read32());
         if (header.type() != compression_type::rle)
         {
             throw bad_encoded_data();
