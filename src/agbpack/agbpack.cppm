@@ -86,6 +86,11 @@ class header final
 public:
     explicit header(uint32_t header_data) : m_header_data(header_data) {}
 
+    uint32_t uncompressed_size() const
+    {
+        return m_header_data >> 8;
+    }
+
 private:
     uint32_t m_header_data;
 };
