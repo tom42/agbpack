@@ -45,15 +45,14 @@ TEST_CASE("rle_decoder")
     // TODO: Make the decoder work with different element types. E.g. have it be able to process char, unsigned char, byte, whatever.
     //       Question is then, do we allow input element type to be different from output element type?
     // TODO: should probably also decode from vector: this might have better debug facility than a stream
-    // TODO: naming of files: what's a literal? what's a run? Maybe use GBATEK terminology (compressed/uncompressed byte)
 
     SECTION("Valid input")
     {
         string filename_part = GENERATE(
-            "rle.literals-only.txt",
-            "rle.literals-only-2.txt",
-            "rle.runs-only-1.txt",
-            "rle.literals-and-runs-1.txt");
+            "rle.good.uncompressed-bytes-only-1.txt",
+            "rle.good.uncompressed-bytes-only-2.txt",
+            "rle.good.compressed-bytes-only.txt",
+            "rle.good.compressed-and-uncompressed-bytes.txt");
         auto expected_data = agbpack_test::read_testfile(filename_part + ".decoded");
 
         auto decoded_data = decode_file(filename_part + ".encoded");
