@@ -117,15 +117,12 @@ public:
         // TODO: hack: verify header. Suggestion: we read the header at once (that is, 4 bytes. Only then do we verify it)
         // Bit 0-3   Reserved => should definitely test this for zero
         // Bit 4-7   Compressed type (must be 3 for run-length) => should definitely test this, too
-        // TODO: should we read the entire header in one go? we need it anyway, and it reduces the amount of error checking we'd have to do if not using exceptions
-        reader.read8();
-
-        agbpack_u32 uncompressed_size = reader.read24(); // TODO: in principle we don't need this in a temporary variable here: we can take it out of the header structure once it exists and pass it to the writer
+        header header(reader.read32());
 
         // TODO: Input should be padded to a multiple of 4 bytes.
         //       Question is then, should we require these padding bytes and skip them?
         //       If we want to be able to decompress multiple files from a single stream, then yes. If not, then not.
-        byte_writer<OutputIterator> writer(uncompressed_size, output);
+        byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
         while (!writer.done())
         {
             auto flag = reader.read8();
