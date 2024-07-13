@@ -34,9 +34,7 @@ std::vector<unsigned char> decode_file(const string& basename)
 
 TEST_CASE("rle_decoder")
 {
-    // TODO: pathological stuff: malformed streams, too long, too short, malformed header
     // TODO: also test using a container as input? E.g. read from vector<unsigned char>?
-
     // TODO: Make the decoder work with different element types. E.g. have it be able to process char, unsigned char, byte, whatever.
     //       Question is then, do we allow input element type to be different from output element type?
     // TODO: should probably also decode from vector: this might have better debug facility than a stream
