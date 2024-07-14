@@ -57,7 +57,7 @@ TEST_CASE("rle_decoder")
         CHECK(decoded_data == expected_data);
     }
 
-    SECTION("Premature end of input")
+    SECTION("Invalid input")
     {
         auto encoded_file = GENERATE(
             "rle.bad.eof-inside-header.txt.encoded",
