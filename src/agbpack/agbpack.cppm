@@ -16,7 +16,6 @@ namespace agbpack
 using agbpack_u8 = uint8_t;
 using agbpack_u32 = uint32_t;
 
-// TODO: do we want to ensure *input points to something we understand?
 template <std::input_iterator InputIterator>
 class byte_reader final
 {
@@ -49,8 +48,6 @@ private:
     InputIterator m_eof;
 };
 
-// TODO: do we want to ensure T is something we understand?
-// TODO: wouldn't we want to use std::output_iterator again?
 template <typename OutputIterator>
 class byte_writer final
 {
