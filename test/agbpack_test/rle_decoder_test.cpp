@@ -23,28 +23,14 @@ vector<unsigned char> decode_file(const string& basename)
     agbpack::rle_decoder decoder;
     decoder.decode(input.begin(), input.end(), back_inserter(output));
     return output;
-
-
-    // TODO: old code: do this only once
-    /*auto file = agbpack_test::open_binary_file(name);
-    agbpack::rle_decoder decoder;
-
-    vector<unsigned char> output;
-    decoder.decode(
-        std::istream_iterator<unsigned char>(file),
-        std::istream_iterator<unsigned char>(),
-        std::back_inserter(output));
-    return output;*/
 }
 
 }
 
 TEST_CASE("rle_decoder")
 {
-    // TODO: also test using a container as input? E.g. read from vector<unsigned char>?
     // TODO: Make the decoder work with different element types. E.g. have it be able to process char, unsigned char, byte, whatever.
     //       Question is then, do we allow input element type to be different from output element type?
-    // TODO: should probably also decode from vector: this might have better debug facility than a stream
 
     SECTION("Valid input")
     {
@@ -77,5 +63,20 @@ TEST_CASE("rle_decoder")
             "rle.bad.wrong-compression-options-in-header.txt.encoded");
 
         CHECK_THROWS_AS(decode_file(encoded_file), agbpack::bad_encoded_data);
+    }
+
+    SECTION("Input from ifstream")
+    {
+        auto path = agbpack_test::get_testfile_path("rle.good.foo.txt.encoded");
+        auto file = agbpack_test::open_binary_file(path);
+        vector<unsigned char> decoded_data;
+        agbpack::rle_decoder decoder;
+
+        decoder.decode(
+            std::istream_iterator<unsigned char>(file),
+            std::istream_iterator<unsigned char>(),
+            back_inserter(decoded_data));
+
+        CHECK(decoded_data == agbpack_test::read_testfile("rle.good.foo.txt.decoded"));
     }
 }
