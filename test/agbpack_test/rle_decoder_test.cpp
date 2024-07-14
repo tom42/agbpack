@@ -79,4 +79,12 @@ TEST_CASE("rle_decoder")
 
         CHECK(decoded_data == agbpack_test::read_testfile("rle.good.foo.txt.decoded"));
     }
+
+    SECTION("TODO: name")
+    {
+        // TODO: write test:
+        //       * Get input data as e.g. std::byte
+        //       * Decode to e.g. char
+        //       * Verify decoded data
+    }
 }
