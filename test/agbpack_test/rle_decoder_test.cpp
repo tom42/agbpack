@@ -82,11 +82,18 @@ TEST_CASE("rle_decoder")
 
     SECTION("TODO: name")
     {
-        vector<std::byte> encoded_data = agbpack_test::read_file("rle.good.foo.txt.encoded");
+        //vector<char> encoded_data = agbpack_test::read_file("rle.good.foo.txt.encoded");
 
         // TODO: write test:
         //       * Get input data as e.g. std::byte
         //       * Decode to e.g. char
         //       * Verify decoded data
+        vector<char> input; // TODO: actually load input somehow
+        vector<unsigned char> decoded_data;
+        agbpack::rle_decoder decoder;
+
+        decoder.decode(input.begin(), input.end(), back_inserter(decoded_data));
+
+        // TODO: verify decoded data as usual
     }
 }
