@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2024 Thomas Mathys
+# SPDX-License-Identifier: CC0-1.0
+#
 # Keep git from mangling our test data.
 #
 # Particularly the decoded files are prone to auto CRLF mangling,
