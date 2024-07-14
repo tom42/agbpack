@@ -11,23 +11,30 @@
 import agbpack;
 
 using string = std::string;
+template <typename T> using vector = std::vector<T>;
 
 namespace
 {
     
-std::vector<unsigned char> decode_file(const string& basename)
+vector<unsigned char> decode_file(const string& basename)
 {
-    const auto name = agbpack_test::get_testfile_path(basename);
+    vector<unsigned char> input = agbpack_test::read_testfile(basename);
+    vector<unsigned char> output;
+    agbpack::rle_decoder decoder;
+    decoder.decode(input.begin(), input.end(), back_inserter(output));
+    return output;
 
-    auto file = agbpack_test::open_binary_file(name);
+
+    // TODO: old code: do this only once
+    /*auto file = agbpack_test::open_binary_file(name);
     agbpack::rle_decoder decoder;
 
-    std::vector<unsigned char> output;
+    vector<unsigned char> output;
     decoder.decode(
         std::istream_iterator<unsigned char>(file),
         std::istream_iterator<unsigned char>(),
         std::back_inserter(output));
-    return output;
+    return output;*/
 }
 
 }
