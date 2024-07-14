@@ -13,6 +13,7 @@ export import agbpack.exceptions;
 namespace agbpack
 {
 
+using agbpack_io_datatype = unsigned char;
 using agbpack_u8 = uint8_t;
 using agbpack_u32 = uint32_t;
 
@@ -111,12 +112,7 @@ private:
 export class rle_decoder final
 {
 public:
-    // TODO: do we want to check what output points to? Or do we simply check that iterators point all to the same element type?
-    //       do we restrict ourselves to byte/unsigned char/signed char/char?
-    // TODO: For the time being we process unsigned char only. Will figure out later whether we need anything else.
-    //       We might at the very least want to have a typedef/using alias for this, though.
-    //       Not sure whether we want to allow stuff such as input reads char, output takes unsigned char.
-    template <std::input_iterator InputIterator, std::output_iterator<unsigned char> OutputIterator>
+    template <std::input_iterator InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type(input);
@@ -170,7 +166,7 @@ private:
     {
         static_assert(
             std::is_same_v<std::remove_cv_t<std::remove_reference_t<decltype(*input)>>,
-            unsigned char>,
+            agbpack_io_datatype>,
             "Input iterator should read values of type unsigned char");
     }
 };
