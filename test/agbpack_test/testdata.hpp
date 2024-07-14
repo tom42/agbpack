@@ -15,7 +15,7 @@ std::ifstream open_binary_file(const std::string& name);
 
 std::string get_testfile_path(const std::string& basename);
 
-std::vector<unsigned char> read_testfile(const std::string& basename);
+std::vector<unsigned char> read_file(const std::string& basename);
 
 }
 

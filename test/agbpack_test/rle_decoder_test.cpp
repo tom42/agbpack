@@ -18,7 +18,7 @@ namespace
     
 vector<unsigned char> decode_file(const string& basename)
 {
-    vector<unsigned char> input = agbpack_test::read_testfile(basename);
+    vector<unsigned char> input = agbpack_test::read_file(basename);
     vector<unsigned char> output;
     agbpack::rle_decoder decoder;
     decoder.decode(input.begin(), input.end(), back_inserter(output));
@@ -43,7 +43,7 @@ TEST_CASE("rle_decoder")
             "rle.good.very-long-uncompressed-run.txt",
             "rle.good.zero-length-file.txt",
             "rle.good.foo.txt");
-        auto expected_data = agbpack_test::read_testfile(filename_part + ".decoded");
+        auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
 
         auto decoded_data = decode_file(filename_part + ".encoded");
 
@@ -77,7 +77,7 @@ TEST_CASE("rle_decoder")
             std::istream_iterator<unsigned char>(),
             back_inserter(decoded_data));
 
-        CHECK(decoded_data == agbpack_test::read_testfile("rle.good.foo.txt.decoded"));
+        CHECK(decoded_data == agbpack_test::read_file("rle.good.foo.txt.decoded"));
     }
 
     SECTION("TODO: name")
