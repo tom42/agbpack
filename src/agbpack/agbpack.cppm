@@ -26,12 +26,18 @@ public:
         , m_eof(eof)
     {}
 
+    agbpack_u32 nbytes_read() const
+    {
+        return m_nbytes_read;
+    }
+
     agbpack_u8 read8()
     {
         if (m_input == m_eof)
         {
             throw bad_encoded_data();
         }
+        ++m_nbytes_read;
         return *m_input++;
     }
 
@@ -45,6 +51,7 @@ public:
     }
 
 private:
+    agbpack_u32 m_nbytes_read = 0;
     InputIterator m_input;
     InputIterator m_eof;
 };
@@ -121,9 +128,6 @@ public:
         header header(reader.read32());
         verify_header(header);
 
-        // TODO: Input should be padded to a multiple of 4 bytes.
-        //       Question is then, should we require these padding bytes and skip them?
-        //       If we want to be able to decompress multiple files from a single stream, then yes. If not, then not.
         byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
         while (!writer.done())
         {
@@ -145,6 +149,12 @@ public:
                     writer.write8(reader.read8());
                 }
             }
+        }
+
+        // Require padding bytes at end of compressed data to be present.
+        while ((reader.nbytes_read() % 4) != 0)
+        {
+            reader.read8();
         }
     }
 
