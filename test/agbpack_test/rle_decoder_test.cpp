@@ -57,7 +57,8 @@ TEST_CASE("rle_decoder")
             "rle.bad.compressed-run-goes-past-decompressed-size.txt.encoded",
             "rle.bad.uncompressed-run-goes-past-decompressed-size.txt.encoded",
             "rle.bad.wrong-compression-type-in-header.txt.encoded",
-            "rle.bad.wrong-compression-options-in-header.txt.encoded");
+            "rle.bad.wrong-compression-options-in-header.txt.encoded",
+            "rle.bad.missing-padding-at-end-of-data.txt.encoded");
 
         CHECK_THROWS_AS(decode_file(encoded_file), agbpack::bad_encoded_data);
     }
