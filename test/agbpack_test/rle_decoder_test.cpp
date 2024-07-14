@@ -29,9 +29,6 @@ vector<unsigned char> decode_file(const string& basename)
 
 TEST_CASE("rle_decoder")
 {
-    // TODO: Make the decoder work with different element types. E.g. have it be able to process char, unsigned char, byte, whatever.
-    //       Question is then, do we allow input element type to be different from output element type?
-
     SECTION("Valid input")
     {
         string filename_part = GENERATE(
@@ -78,22 +75,5 @@ TEST_CASE("rle_decoder")
             back_inserter(decoded_data));
 
         CHECK(decoded_data == agbpack_test::read_file("rle.good.foo.txt.decoded"));
-    }
-
-    SECTION("TODO: name")
-    {
-        //vector<char> encoded_data = agbpack_test::read_file("rle.good.foo.txt.encoded");
-
-        // TODO: write test:
-        //       * Get input data as e.g. std::byte
-        //       * Decode to e.g. char
-        //       * Verify decoded data
-        vector<char> input; // TODO: actually load input somehow
-        vector<unsigned char> decoded_data;
-        agbpack::rle_decoder decoder;
-
-        decoder.decode(input.begin(), input.end(), back_inserter(decoded_data));
-
-        // TODO: verify decoded data as usual
     }
 }
