@@ -4,6 +4,9 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Next:
+  * delta decoder
+    * This will probably require module partitions, so that we can share byte_reader and byte_writer
 * Become reuse compliant again: our test data files break it. Use a REUSE.toml to fix
   * Note: dep5 file is deprecated, so get rid of that
 * clang++: reconsider the decision to use -Weverything. Maybe change that to be an option or so.
