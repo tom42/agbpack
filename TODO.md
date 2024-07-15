@@ -7,6 +7,10 @@ SPDX-License-Identifier: MIT
 * Next:
   * delta decoder
     * This will probably require module partitions, so that we can share byte_reader and byte_writer
+      * Finish partitioning:
+        * Put most stuff into a common partition. We can break that up later as necessary
+        * Put rle stuff into an rle partition
+        * Ensure that stuff from common is not accidentally reachable from e.g. the test suite
 * Become reuse compliant again: our test data files break it. Use a REUSE.toml to fix
   * Note: dep5 file is deprecated, so get rid of that
 * clang++: reconsider the decision to use -Weverything. Maybe change that to be an option or so.
