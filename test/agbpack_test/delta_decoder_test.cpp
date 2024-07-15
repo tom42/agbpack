@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators.hpp>
 
 import agbpack;
 
@@ -31,6 +32,13 @@ TEST_CASE("delta_decoder_test")
 {
     SECTION("Valid input")
     {
+        // TODO: figure out a very simple test case (e.g. just one byte, or word) and implement that. Zero length output would be pretty simple too.
+        string filename_part = GENERATE();
+        auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
+
+        auto decoded_data = decode_file(filename_part + ".encoded");
+
+        CHECK(decoded_data == expected_data);
     }
 
     SECTION("Invalid input")
