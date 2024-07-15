@@ -21,7 +21,7 @@ protected:
 export class bad_encoded_data : public agbpack_exception
 {
 public:
-    bad_encoded_data() : agbpack_exception("encoded data is corrupt") {}
+    explicit bad_encoded_data() : agbpack_exception("encoded data is corrupt") {}
 
     virtual ~bad_encoded_data() override = default;
 };
