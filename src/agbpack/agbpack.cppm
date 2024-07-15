@@ -8,7 +8,7 @@ module;
 #include <type_traits>
 
 export module agbpack;
-export import agbpack.exceptions;
+export import :exceptions;
 
 namespace agbpack
 {

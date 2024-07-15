@@ -5,7 +5,7 @@ module;
 
 #include <stdexcept>
 
-export module agbpack.exceptions;
+export module agbpack:exceptions;
 
 namespace agbpack
 {

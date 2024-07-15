@@ -6,5 +6,5 @@ target_sources(
   agbpack
   PUBLIC FILE_SET CXX_MODULES FILES
   agbpack.cppm
-  agbpack.exceptions.cppm
+  agbpack-exceptions.cppm
 )
