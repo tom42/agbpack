@@ -27,7 +27,7 @@ vector<unsigned char> decode_file(const string& basename)
 
 }
 
-TEST_CASE("rle_decoder")
+TEST_CASE("rle_decoder_test")
 {
     SECTION("Valid input")
     {
