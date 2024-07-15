@@ -33,7 +33,8 @@ TEST_CASE("delta_decoder_test")
     SECTION("Valid input")
     {
         // TODO: figure out a very simple test case (e.g. just one byte, or word) and implement that. Zero length output would be pretty simple too.
-        string filename_part = GENERATE();
+        // TODO: also have delta.16.good-1-word.txt
+        string filename_part = GENERATE("delta.8.good-1-byte.txt");
         auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
 
         auto decoded_data = decode_file(filename_part + ".encoded");
@@ -43,5 +44,9 @@ TEST_CASE("delta_decoder_test")
 
     SECTION("Invalid input")
     {
+        // TODO: eof while reading header
+        // TODO: wrong compression type
+        // TODO: wrong compression options
+        // ...
     }
 }
