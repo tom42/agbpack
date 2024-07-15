@@ -181,4 +181,21 @@ private:
     }
 };
 
+// TODO: this should go into its own partition
+//       => But so should rle_decoder
+//       => And the common stuff at the top should go into another one
+//       => And agbpack.exceptions.cppm is currently a submodule, but should be a partition too
+export class delta_decoder final
+{
+public:
+    template <std::input_iterator InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
+    void decode(InputIterator /*input*/, InputIterator /*eof*/, OutputIterator /*output*/)
+    {
+        // TODO: assert input type
+        // TODO: parse header
+        // TODO: decode (8 and 16 bit variants)
+    }
+private:
+};
+
 }
