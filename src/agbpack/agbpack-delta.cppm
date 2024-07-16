@@ -32,7 +32,9 @@ public:
 
         do_decode(header, output);
 
-        // TODO: ensure padding at end of input
+        // TODO: ensure padding at end of input:
+        //       * We could do this in the byte_writer dtor, but we must not throw in there. Sigh?
+        //       * Well if we only want to do it once we must create the byte_writer up here and pass it to callees
     }
 
 private:
