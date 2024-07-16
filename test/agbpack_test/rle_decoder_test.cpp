@@ -13,22 +13,10 @@ import agbpack;
 using string = std::string;
 template <typename T> using vector = std::vector<T>;
 
-namespace
-{
-    
-vector<unsigned char> decode_file(const string& basename)
-{
-    vector<unsigned char> input = agbpack_test::read_file(basename);
-    vector<unsigned char> output;
-    agbpack::rle_decoder decoder;
-    decoder.decode(input.begin(), input.end(), back_inserter(output));
-    return output;
-}
-
-}
-
 TEST_CASE("rle_decoder_test")
 {
+    agbpack::rle_decoder decoder;
+
     SECTION("Valid input")
     {
         string filename_part = GENERATE(
@@ -42,7 +30,7 @@ TEST_CASE("rle_decoder_test")
             "rle.good.foo.txt");
         auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
 
-        auto decoded_data = decode_file(filename_part + ".encoded");
+        auto decoded_data = agbpack_test::decode_file(decoder, filename_part + ".encoded");
 
         CHECK(decoded_data == expected_data);
     }
@@ -60,7 +48,7 @@ TEST_CASE("rle_decoder_test")
             "rle.bad.wrong-compression-options-in-header.txt.encoded",
             "rle.bad.missing-padding-at-end-of-data.txt.encoded");
 
-        CHECK_THROWS_AS(decode_file(encoded_file), agbpack::bad_encoded_data);
+        CHECK_THROWS_AS(agbpack_test::decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
     }
 
     SECTION("Input from ifstream")
@@ -68,7 +56,6 @@ TEST_CASE("rle_decoder_test")
         auto path = agbpack_test::get_testfile_path("rle.good.foo.txt.encoded");
         auto file = agbpack_test::open_binary_file(path);
         vector<unsigned char> decoded_data;
-        agbpack::rle_decoder decoder;
 
         decoder.decode(
             std::istream_iterator<unsigned char>(file),
