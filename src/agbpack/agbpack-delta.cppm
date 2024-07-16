@@ -32,8 +32,11 @@ public:
             throw bad_encoded_data();
         }
 
-        // TODO: for symmetry, should we also pass a writer by reference rather than the output iterator?
-        decode8or16(header, reader, output);
+        if (header.uncompressed_size())
+        {
+            // TODO: for symmetry, should we also pass a writer by reference rather than the output iterator?
+            decode8or16(header, reader, output);
+        }
 
         // TODO: ensure padding at end of input:
         //       * We could do this in the byte_reader dtor, but we must not throw in there. Sigh?
