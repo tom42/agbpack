@@ -28,11 +28,10 @@ TEST_CASE("delta_decoder_test")
 
     SECTION("Invalid input")
     {
-        // TODO: wrong compression options
-        // ...
         auto encoded_file = GENERATE(
             "delta.bad.8.eof-inside-header.txt.encoded",
-            "delta.bad.wrong-compression-type-in-header.txt.encoded");
+            "delta.bad.wrong-compression-type-in-header.txt.encoded",
+            "delta.bad.wrong-compression-options-in-header.txt.encoded");
 
         CHECK_THROWS_AS(agbpack_test::decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
     }

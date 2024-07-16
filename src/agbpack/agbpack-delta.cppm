@@ -52,7 +52,6 @@ private:
                 return;
         }
 
-        // TODO: write a test for this branch
         throw bad_encoded_data();
     }
 
