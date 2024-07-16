@@ -16,7 +16,8 @@ TEST_CASE("delta_decoder_test")
 
     SECTION("Valid input")
     {
-        // TODO: figure out a very simple test case (e.g. just one byte, or word) and implement that. Zero length output would be pretty simple too.
+        // TODO: figure out a very simple test case (e.g. just one byte, or word) and implement that.
+        // TODO: zero length output
         // TODO: also have delta.16.good-1-word.txt
         string filename_part = GENERATE(
             "delta.good.8.1-byte.txt",
@@ -30,6 +31,7 @@ TEST_CASE("delta_decoder_test")
 
     SECTION("Invalid input")
     {
+        // TODO: 8 bit: uncompressed size in header too big
         auto encoded_file = GENERATE(
             "delta.bad.8.eof-inside-header.txt.encoded",
             "delta.bad.wrong-compression-type-in-header.txt.encoded",

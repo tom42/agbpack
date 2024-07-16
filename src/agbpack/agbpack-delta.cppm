@@ -63,7 +63,15 @@ private:
     {
         // TODO: write a test for this branch
         byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
-        writer.write8(reader.read8());
+
+        auto current_value = reader.read8();
+        writer.write8(current_value);
+
+        while (!writer.done())
+        {
+            current_value += reader.read8();
+            writer.write8(current_value);
+        }
     }
 
     static void decode16()
