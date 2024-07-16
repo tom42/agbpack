@@ -20,6 +20,8 @@ public:
     {
         static_assert_input_type(input);
 
+        // TODO: forbid copying byte_reader?
+        // TODO: forbid copying byte_writer?
         byte_reader<InputIterator> reader(input, eof);
         header header(reader.read32());
 
@@ -30,7 +32,8 @@ public:
             throw bad_encoded_data();
         }
 
-        do_decode(header, output);
+        // TODO: for symmetry, should we also pass a writer by reference rather than the output iterator?
+        do_decode(header, reader, output);
 
         // TODO: ensure padding at end of input:
         //       * We could do this in the byte_reader dtor, but we must not throw in there. Sigh?
@@ -38,14 +41,14 @@ public:
     }
 
 private:
-    template <std::output_iterator<agbpack_io_datatype> OutputIterator>
-    static void do_decode(header header, OutputIterator output)
+    template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
+    static void do_decode(header header, byte_reader<InputIterator>& reader, OutputIterator output)
     {
         // TODO: this cast is rather ugly. Should we model header as a variant type of sorts?
         switch (static_cast<delta_options>(header.options()))
         {
             case delta_options::delta8:
-                decode8(header, output);
+                decode8(header, reader, output);
                 return;
             case delta_options::delta16:
                 decode16();
@@ -55,12 +58,12 @@ private:
         throw bad_encoded_data();
     }
 
-    template <std::output_iterator<agbpack_io_datatype> OutputIterator>
-    static void decode8(header header, OutputIterator output)
+    template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
+    static void decode8(header header, byte_reader<InputIterator>& reader, OutputIterator output)
     {
         // TODO: write a test for this branch
         byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
-        writer.write8('a');
+        writer.write8(reader.read8());
     }
 
     static void decode16()
