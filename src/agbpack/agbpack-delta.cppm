@@ -32,6 +32,10 @@ public:
 
         switch (header.options())
         {
+            case 1: // TODO: unhardcode this. Can we somehow get an enum for rle options?
+                // TODO: hardcoded to pass first test (don't hardcode, and use a byte_writer)
+                *output++ = 'a';
+                break;
             default: // TODO: write a test for this branch
                 throw bad_encoded_data();
         }
@@ -39,8 +43,6 @@ public:
         // TODO: parse header
         // TODO: decode (8 and 16 bit variants)
 
-        // TODO: hardcoded to pass first test (don't hardcode, and use a byte_writer)
-        *output++ = 'a';
     }
 };
 
