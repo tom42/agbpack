@@ -7,6 +7,7 @@ module;
 
 export module agbpack:delta;
 import :common;
+import :exceptions;
 
 namespace agbpack
 {
@@ -21,6 +22,13 @@ public:
 
         byte_reader<InputIterator> reader(input, eof);
         header header(reader.read32());
+
+        // TODO: also check options
+        // TODO: move to static method
+        if (header.type() != compression_type::delta)
+        {
+            throw bad_encoded_data();
+        }
 
         // TODO: parse header
         // TODO: decode (8 and 16 bit variants)

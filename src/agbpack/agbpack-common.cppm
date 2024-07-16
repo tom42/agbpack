@@ -88,7 +88,8 @@ private:
 
 enum class compression_type
 {
-    rle = 3
+    rle = 3,
+    delta = 8
 };
 
 class header final
