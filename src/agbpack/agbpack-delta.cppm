@@ -30,7 +30,7 @@ public:
             throw bad_encoded_data();
         }
 
-        do_decode(static_cast<delta_options>(header.options()));
+        do_decode(header);
 
         /*switch ()
         {
@@ -45,9 +45,9 @@ public:
     }
 
 private:
-    static void do_decode(delta_options options)
+    static void do_decode(header header)
     {
-        switch (options)
+        switch (static_cast<delta_options>(header.options()))
         {
             case delta_options::delta8:
                 decode8();
