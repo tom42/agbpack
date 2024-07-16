@@ -12,13 +12,14 @@ using string = std::string;
 
 TEST_CASE("delta_decoder_test")
 {
+    agbpack::delta_decoder decoder;
+
     SECTION("Valid input")
     {
         // TODO: figure out a very simple test case (e.g. just one byte, or word) and implement that. Zero length output would be pretty simple too.
         // TODO: also have delta.16.good-1-word.txt
         string filename_part = GENERATE("delta.8.good-1-byte.txt");
         auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
-        agbpack::delta_decoder decoder; // TODO: where do we create this? does it even matter?
 
         auto decoded_data = agbpack_test::decode_file(decoder, filename_part + ".encoded");
 
