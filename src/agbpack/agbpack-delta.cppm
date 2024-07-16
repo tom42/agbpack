@@ -16,7 +16,7 @@ export class delta_decoder final
 {
 public:
     template <std::input_iterator InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
-    void decode(InputIterator input, InputIterator eof, OutputIterator output)
+    void decode(InputIterator input, InputIterator eof, OutputIterator /*output*/)
     {
         static_assert_input_type(input);
 
@@ -30,19 +30,45 @@ public:
             throw bad_encoded_data();
         }
 
-        switch (header.options())
+        do_decode(static_cast<delta_options>(header.options()));
+
+        /*switch ()
         {
-            case 1: // TODO: unhardcode this. Can we somehow get an enum for rle options?
+            case delta_options::delta8:
                 // TODO: hardcoded to pass first test (don't hardcode, and use a byte_writer)
                 *output++ = 'a';
                 break;
-            default: // TODO: write a test for this branch
-                throw bad_encoded_data();
+
+        }*/
+
+
+    }
+
+private:
+    static void do_decode(delta_options options)
+    {
+        switch (options)
+        {
+            case delta_options::delta8:
+                decode8();
+                return;
+            case delta_options::delta16:
+                decode16();
+                return;
         }
 
-        // TODO: parse header
-        // TODO: decode (8 and 16 bit variants)
+        // TODO: write a test for this branch
+        throw bad_encoded_data();
+    }
 
+    static void decode8()
+    {
+        // TODO: write a test for this branch
+    }
+
+    static void decode16()
+    {
+        // TODO: write a test for this branch
     }
 };
 
