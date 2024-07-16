@@ -7,6 +7,7 @@ module;
 
 export module agbpack:rle;
 import :common;
+import :exceptions;
 
 namespace agbpack
 {
