@@ -94,8 +94,8 @@ enum class compression_type
 
 enum class delta_options
 {
-    delta8,
-    delta16
+    delta8 = 1,
+    delta16 = 2
 };
 
 class header final
