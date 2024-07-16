@@ -28,6 +28,7 @@ TEST_CASE("delta_decoder_test")
 
     SECTION("Invalid input")
     {
+        // TODO: possibly swap options and good/bad tag
         // TODO: wrong compression options
         // ...
         auto encoded_file = GENERATE(
