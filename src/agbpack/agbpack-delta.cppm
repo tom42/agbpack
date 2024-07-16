@@ -54,7 +54,7 @@ private:
                 decode8(header, reader, output);
                 return;
             case delta_options::delta16:
-                decode16();
+                decode16(header, reader, output);
                 return;
         }
 
@@ -77,9 +77,20 @@ private:
         }
     }
 
-    static void decode16()
+    template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
+    static void decode16(header header, byte_reader<InputIterator>& reader, OutputIterator output)
     {
         // TODO: write a test for this branch
+        byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
+
+        auto current_value = reader.read16();
+        writer.write16(current_value);
+
+        while (!writer.done())
+        {
+            current_value += reader.read16();
+            writer.write16(current_value);
+        }
     }
 };
 

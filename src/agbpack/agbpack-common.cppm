@@ -14,6 +14,7 @@ namespace agbpack
 
 using agbpack_io_datatype = unsigned char;
 using agbpack_u8 = uint8_t;
+using agbpack_u16 = uint16_t;
 using agbpack_u32 = uint32_t;
 
 template <std::input_iterator InputIterator>
@@ -38,6 +39,13 @@ public:
         }
         ++m_nbytes_read;
         return *m_input++;
+    }
+
+    agbpack_u16 read16()
+    {
+        agbpack_u16 result = read8();
+        result += read8() * 256;
+        return result;
     }
 
     agbpack_u32 read32()
@@ -73,6 +81,12 @@ public:
 
         ++m_nuncompressed_bytes;
         *m_output++ = byte;
+    }
+
+    void write16(agbpack_u16 word)
+    {
+        write8(word & 255);
+        write8((word >> 8) & 255);
     }
 
     bool done() const
