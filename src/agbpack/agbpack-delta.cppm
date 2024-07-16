@@ -64,7 +64,6 @@ private:
     template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
     static void decode8(header header, byte_reader<InputIterator>& reader, OutputIterator output)
     {
-        // TODO: write a test for this branch
         byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
 
         auto current_value = reader.read8();
@@ -80,7 +79,6 @@ private:
     template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
     static void decode16(header header, byte_reader<InputIterator>& reader, OutputIterator output)
     {
-        // TODO: write a test for this branch
         byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
 
         auto current_value = reader.read16();
