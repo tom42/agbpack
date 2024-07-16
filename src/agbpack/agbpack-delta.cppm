@@ -15,9 +15,13 @@ export class delta_decoder final
 {
 public:
     template <std::input_iterator InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
-    void decode(InputIterator input, InputIterator /*eof*/, OutputIterator output)
+    void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type(input);
+
+        byte_reader<InputIterator> reader(input, eof);
+        header header(reader.read32());
+
         // TODO: parse header
         // TODO: decode (8 and 16 bit variants)
 
