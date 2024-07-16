@@ -33,7 +33,7 @@ public:
         }
 
         // TODO: for symmetry, should we also pass a writer by reference rather than the output iterator?
-        do_decode(header, reader, output);
+        decode8or16(header, reader, output);
 
         // TODO: ensure padding at end of input:
         //       * We could do this in the byte_reader dtor, but we must not throw in there. Sigh?
@@ -42,7 +42,7 @@ public:
 
 private:
     template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
-    static void do_decode(header header, byte_reader<InputIterator>& reader, OutputIterator output)
+    static void decode8or16(header header, byte_reader<InputIterator>& reader, OutputIterator output)
     {
         // TODO: this cast is rather ugly. Should we model header as a variant type of sorts?
         switch (static_cast<delta_options>(header.options()))
