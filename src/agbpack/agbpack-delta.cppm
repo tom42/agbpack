@@ -33,14 +33,15 @@ public:
         do_decode(header, output);
 
         // TODO: ensure padding at end of input:
-        //       * We could do this in the byte_writer dtor, but we must not throw in there. Sigh?
-        //       * Well if we only want to do it once we must create the byte_writer up here and pass it to callees
+        //       * We could do this in the byte_reader dtor, but we must not throw in there. Sigh?
+        //       * Well if we only want to do it once we must create the byte_reader up here and pass it to callees
     }
 
 private:
     template <std::output_iterator<agbpack_io_datatype> OutputIterator>
     static void do_decode(header header, OutputIterator output)
     {
+        // TODO: this cast is rather ugly. Should we model header as a variant type of sorts?
         switch (static_cast<delta_options>(header.options()))
         {
             case delta_options::delta8:
@@ -58,11 +59,9 @@ private:
     template <std::output_iterator<agbpack_io_datatype> OutputIterator>
     static void decode8(header header, OutputIterator output)
     {
-        byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
-
         // TODO: write a test for this branch
-        // TODO: hardcoded to pass first test (don't hardcode, and use a byte_writer)
-        *output++ = 'a';
+        byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
+        writer.write8('a');
     }
 
     static void decode16()
