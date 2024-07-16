@@ -20,6 +20,7 @@ TEST_CASE("delta_decoder_test")
         // TODO: zero length output
         // TODO: also have delta.16.good-1-word.txt
         string filename_part = GENERATE(
+            "delta.good.8.zero-length-file.txt",
             "delta.good.8.one-byte.txt",
             "delta.good.8.sine.bin");
         auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
