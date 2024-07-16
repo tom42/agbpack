@@ -6,6 +6,7 @@ module;
 #include <iterator>
 
 export module agbpack:rle;
+import :common;
 
 namespace agbpack
 {
