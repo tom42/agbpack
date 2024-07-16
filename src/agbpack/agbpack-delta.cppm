@@ -30,6 +30,12 @@ public:
             throw bad_encoded_data();
         }
 
+        switch (header.options())
+        {
+            default: // TODO: write a test for this branch
+                throw bad_encoded_data();
+        }
+
         // TODO: parse header
         // TODO: decode (8 and 16 bit variants)
 
