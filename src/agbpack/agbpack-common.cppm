@@ -115,4 +115,13 @@ private:
     uint32_t m_header_data;
 };
 
+template <typename InputIterator>
+void static_assert_input_type(InputIterator& input)
+{
+    static_assert(
+        std::is_same_v<std::remove_cv_t<std::remove_reference_t<decltype(*input)>>,
+        agbpack_io_datatype>,
+        "Input iterator should read values of type unsigned char");
+}
+
 }

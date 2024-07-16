@@ -6,6 +6,7 @@ module;
 #include <iterator>
 
 export module agbpack:delta;
+import :common;
 
 namespace agbpack
 {
@@ -18,9 +19,9 @@ export class delta_decoder final
 public:
     // TODO: 'unsigned char': use agbpack_io_datatype again. Problem: I don't have access to that yet.
     template <std::input_iterator InputIterator, std::output_iterator<unsigned char> OutputIterator>
-    void decode(InputIterator /*input*/, InputIterator /*eof*/, OutputIterator output)
+    void decode(InputIterator input, InputIterator /*eof*/, OutputIterator output)
     {
-        // TODO: assert input type
+        static_assert_input_type(input);
         // TODO: parse header
         // TODO: decode (8 and 16 bit variants)
 
