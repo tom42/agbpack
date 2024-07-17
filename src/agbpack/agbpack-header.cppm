@@ -52,6 +52,12 @@ class delta_header final
 public:
     uint32_t uncompressed_size() const { return m_generic_header.uncompressed_size(); }
 
+    delta_options options() const
+    {
+        // TODO: can we factor out this cast?
+        return static_cast<delta_options>(m_generic_header.options());
+    }
+
     static std::optional<delta_header> parse(uint32_t /*header_data*/)
     {
         // TODO: check type
