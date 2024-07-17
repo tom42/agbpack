@@ -8,6 +8,7 @@ module;
 export module agbpack:rle;
 import :common;
 import :exceptions;
+import :header;
 
 namespace agbpack
 {
@@ -21,10 +22,17 @@ public:
         static_assert_input_type(input);
 
         byte_reader<InputIterator> reader(input, eof);
-        header header(reader.read32());
-        verify_header(header);
+        auto header = rle_header::parse(reader.read32());
+        if (!header)
+        {
+            throw bad_encoded_data();
+        }
 
-        byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
+        // TODO: remove
+        //header header();
+        //verify_header(header);
+
+        byte_writer<OutputIterator> writer(header.value().uncompressed_size(), output);
         while (!writer.done())
         {
             auto flag = reader.read8();
