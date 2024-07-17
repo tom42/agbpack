@@ -40,7 +40,6 @@ public:
 
     uint32_t uncompressed_size() const
     {
-        // TODO: does this need a test?
         return (m_header_data >> 8) & 0xffffff;
     }
 
