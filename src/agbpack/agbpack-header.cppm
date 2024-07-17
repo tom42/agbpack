@@ -58,6 +58,8 @@ public:
 
     static std::optional<rle_header> parse(uint32_t header_data)
     {
+        generic_header header(header_data);
+
         // TODO: obtaining this should be factored out
         if (static_cast<compression_type>((header_data >> 4) & 0xf) != compression_type::rle)
         {
@@ -70,11 +72,11 @@ public:
             return {};
         }
 
-        return rle_header(header_data);
+        return rle_header(header);
     }
 
 private:
-    explicit rle_header(uint32_t header_data) : m_generic_header(header_data) {}
+    explicit rle_header(generic_header header) : m_generic_header(header) {}
 
     generic_header m_generic_header;
 };
