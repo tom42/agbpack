@@ -32,14 +32,6 @@ public:
 
         auto header = maybe_header.value(); // TODO: not pretty. can we get rid of it?
 
-        // TODO: also check options
-        // TODO: move to static method
-        // TODO: remove
-        //if (header.type() != compression_type::delta)
-        //{
-        //    throw bad_encoded_data();
-        //}
-
         if (header.uncompressed_size())
         {
             // TODO: for symmetry, should we also pass a writer by reference rather than the output iterator?
