@@ -36,7 +36,6 @@ public:
     uint32_t uncompressed_size() const
     {
         // TODO: does this need a test?
-        // TODO: this should be factored out
         return (m_header_data >> 8) & 0xffffff;
     }
 
