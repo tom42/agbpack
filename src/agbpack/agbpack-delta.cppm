@@ -54,8 +54,7 @@ private:
     template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
     static void decode8or16(delta_header header, byte_reader<InputIterator>& reader, OutputIterator output)
     {
-        // TODO: this cast is rather ugly. Should we model header as a variant type of sorts?
-        switch (static_cast<delta_options>(header.options()))
+        switch (header.options())
         {
             case delta_options::delta8:
                 decode8(header, reader, output);
