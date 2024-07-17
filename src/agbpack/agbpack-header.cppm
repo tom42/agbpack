@@ -73,6 +73,19 @@ public:
 private:
     explicit delta_header(generic_header header) : m_generic_header(header) {}
 
+    static bool are_options_valid(generic_header header)
+    {
+        // TODO: can we get rid of this?
+        switch (static_cast<delta_options>(header.options()))
+        {
+            case delta_options::delta8:
+            case delta_options::delta16:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     generic_header m_generic_header;
 };
 
