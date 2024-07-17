@@ -58,11 +58,13 @@ public:
         return static_cast<delta_options>(m_generic_header.options());
     }
 
-    static std::optional<delta_header> parse(uint32_t /*header_data*/)
+    static std::optional<delta_header> parse(uint32_t header_data)
     {
         // TODO: check type
         // TODO: checl options
-        throw "todo: implement";
+        generic_header header(header_data);
+
+        return delta_header(header);
     }
 private:
     explicit delta_header(generic_header header) : m_generic_header(header) {}
