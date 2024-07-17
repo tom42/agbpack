@@ -23,11 +23,16 @@ enum class delta_options
     delta16 = 2
 };
 
+class delta_header final
+{
+public:
+private:
+    uint32_t m_header_data;
+};
+
 class rle_header final
 {
 public:
-    rle_header(uint32_t header_data) : m_header_data(header_data) {}
-
     uint32_t uncompressed_size() const
     {
         // TODO: does this need a test?
@@ -53,6 +58,8 @@ public:
     }
 
 private:
+    explicit rle_header(uint32_t header_data) : m_header_data(header_data) {}
+
     uint32_t m_header_data;
 };
 
