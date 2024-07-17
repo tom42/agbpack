@@ -16,14 +16,12 @@ TEST_CASE("delta_decoder_test")
 
     SECTION("Valid input")
     {
-        // TODO: figure out a very simple test case (e.g. just one byte, or word) and implement that.
-        // TODO: zero length output
-        // TODO: also have delta.16.good-1-word.txt
         // TODO: have each of these tests also for 16 bits?
         string filename_part = GENERATE(
             "delta.good.8.zero-length-file.txt",
             "delta.good.8.one-byte.txt",
             "delta.good.8.sine.bin",
+            "delta.good.16.zero-length-file.txt",
             "delta.good.16.one-word.bin");
         auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
 
