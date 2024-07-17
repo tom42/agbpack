@@ -28,10 +28,6 @@ public:
             throw bad_encoded_data();
         }
 
-        // TODO: remove
-        //header header();
-        //verify_header(header);
-
         byte_writer<OutputIterator> writer(header.value().uncompressed_size(), output);
         while (!writer.done())
         {
@@ -59,23 +55,6 @@ public:
         while ((reader.nbytes_read() % 4) != 0)
         {
             reader.read8();
-        }
-    }
-
-private:
-    // TODO: move this into some sort of parse_header method
-    //       * feature envy
-    //       * parse, don't validate
-    //       * parse_rle_header, should return an rle_header structure, or nothing. Yay? Yay.
-    static void verify_header(const header& header)
-    {
-        if (header.type() != compression_type::rle)
-        {
-            throw bad_encoded_data();
-        }
-        if (header.options() != 0)
-        {
-            throw bad_encoded_data();
         }
     }
 };
