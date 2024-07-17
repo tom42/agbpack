@@ -50,6 +50,8 @@ private:
 class delta_header final
 {
 public:
+    uint32_t uncompressed_size() const { return m_generic_header.uncompressed_size(); }
+
     static std::optional<delta_header> parse(uint32_t /*header_data*/)
     {
         // TODO: check type
@@ -57,6 +59,7 @@ public:
         throw "todo: implement";
     }
 private:
+    generic_header m_generic_header;
 };
 
 class rle_header final
