@@ -8,6 +8,7 @@ module;
 
 export module agbpack:common;
 import :exceptions;
+import :header; // TODO: does common need access to :header?
 
 namespace agbpack
 {
@@ -100,18 +101,7 @@ private:
     OutputIterator m_output;
 };
 
-enum class compression_type
-{
-    rle = 3,
-    delta = 8
-};
-
-enum class delta_options
-{
-    delta8 = 1,
-    delta16 = 2
-};
-
+// TODO: this goes away: we'll have rle_header and delta_header instead.
 class header final
 {
 public:
