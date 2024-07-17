@@ -24,6 +24,11 @@ public:
         // TODO: forbid copying byte_writer?
         byte_reader<InputIterator> reader(input, eof);
         auto maybe_header = delta_header::parse(reader.read32());
+        if (!maybe_header)
+        {
+            throw bad_encoded_data();
+        }
+
         auto header = maybe_header.value(); // TODO: not pretty. can we get rid of it?
 
         // TODO: also check options
