@@ -68,6 +68,7 @@ public:
             return {};
         }
 
+
         return delta_header(header);
     }
 private:
@@ -98,12 +99,12 @@ public:
     {
         generic_header header(header_data);
 
-        if ((header.type() != compression_type::rle) || (header.options() != 0))
+        if ((header.type() == compression_type::rle) && (header.options() == 0))
         {
-            return {};
+            return rle_header(header);
         }
 
-        return rle_header(header);
+        return {};
     }
 
 private:
