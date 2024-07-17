@@ -63,13 +63,7 @@ public:
     {
         generic_header header(header_data);
 
-        if (header.type() != compression_type::rle)
-        {
-            return {};
-        }
-
-        // TODO: obtaining this should be factored out
-        if (header_data & 0xf)
+        if ((header.type() != compression_type::rle) || (header.options() != 0))
         {
             return {};
         }
