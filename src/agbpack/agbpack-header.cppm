@@ -28,6 +28,11 @@ class generic_header final
 public:
     explicit generic_header(uint32_t header_data) : m_header_data(header_data) {}
 
+    compression_type type() const
+    {
+        return static_cast<compression_type>((m_header_data >> 4) & 0xf);
+    }
+
     uint32_t uncompressed_size() const
     {
         // TODO: does this need a test?
