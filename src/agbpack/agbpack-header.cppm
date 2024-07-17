@@ -65,6 +65,8 @@ public:
         throw "todo: implement";
     }
 private:
+    explicit delta_header(generic_header header) : m_generic_header(header) {}
+
     generic_header m_generic_header;
 };
 
