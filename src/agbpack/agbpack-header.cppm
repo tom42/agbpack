@@ -23,6 +23,14 @@ enum class delta_options
     delta16 = 2
 };
 
+class generic_header final
+{
+public:
+    explicit generic_header(uint32_t header_data) : m_header_data(header_data) {}
+private:
+    uint32_t m_header_data;
+};
+
 class delta_header final
 {
 public:
