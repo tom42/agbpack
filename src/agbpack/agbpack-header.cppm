@@ -50,6 +50,10 @@ private:
 class delta_header final
 {
 public:
+    static std::optional<delta_header> parse(uint32_t header_data)
+    {
+        throw "todo: implement";
+    }
 private:
 };
 
