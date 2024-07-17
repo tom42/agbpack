@@ -8,7 +8,6 @@ module;
 
 export module agbpack:common;
 import :exceptions;
-import :header; // TODO: does common need access to :header?
 
 namespace agbpack
 {

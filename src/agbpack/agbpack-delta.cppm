@@ -7,6 +7,7 @@ module;
 
 export module agbpack:delta;
 import :common;
+import :header;
 import :exceptions;
 
 namespace agbpack
