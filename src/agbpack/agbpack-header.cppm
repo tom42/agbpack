@@ -60,16 +60,14 @@ public:
 
     static std::optional<delta_header> parse(uint32_t header_data)
     {
-        // TODO: checl options
         generic_header header(header_data);
 
-        if (header.type() != compression_type::delta)
+        if ((header.type() == compression_type::delta) && are_options_valid(header))
         {
-            return {};
+            return delta_header(header);
         }
 
-
-        return delta_header(header);
+        return {};
     }
 private:
     explicit delta_header(generic_header header) : m_generic_header(header) {}
