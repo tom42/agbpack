@@ -34,7 +34,7 @@ TEST_CASE("delta_decoder_test")
     {
         // TODO: 8 bit: uncompressed size in header too big
         auto encoded_file = GENERATE(
-            "delta.bad.8.eof-inside-header.txt.encoded",
+            "delta.bad.eof-inside-header.txt.encoded",
             "delta.bad.wrong-compression-type-in-header.txt.encoded",
             "delta.bad.wrong-compression-options-in-header.txt.encoded");
 
