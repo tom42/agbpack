@@ -48,7 +48,6 @@ class delta_header final
 {
 public:
 private:
-    uint32_t m_header_data;
 };
 
 class rle_header final
