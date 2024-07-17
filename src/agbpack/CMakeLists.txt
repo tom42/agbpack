@@ -9,5 +9,5 @@ target_sources(
   agbpack-common.cppm
   agbpack-delta.cppm
   agbpack-exceptions.cppm
-  agbpack-rle.cppm
-)
+  agbpack-header.cppm
+  agbpack-rle.cppm)

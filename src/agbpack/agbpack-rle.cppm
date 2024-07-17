@@ -55,6 +55,10 @@ public:
     }
 
 private:
+    // TODO: move this into some sort of parse_header method
+    //       * feature envy
+    //       * parse, don't validate
+    //       * parse_rle_header, should return an rle_header structure, or nothing. Yay? Yay.
     static void verify_header(const header& header)
     {
         if (header.type() != compression_type::rle)
