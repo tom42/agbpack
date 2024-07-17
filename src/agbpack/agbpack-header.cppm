@@ -27,6 +27,14 @@ class generic_header final
 {
 public:
     explicit generic_header(uint32_t header_data) : m_header_data(header_data) {}
+
+    uint32_t uncompressed_size() const
+    {
+        // TODO: does this need a test?
+        // TODO: this should be factored out
+        return (m_header_data >> 8) & 0xffffff;
+    }
+
 private:
     uint32_t m_header_data;
 };
@@ -41,12 +49,7 @@ private:
 class rle_header final
 {
 public:
-    uint32_t uncompressed_size() const
-    {
-        // TODO: does this need a test?
-        // TODO: this should be factored out
-        return (m_header_data >> 8) & 0xffffff;
-    }
+    uint32_t uncompressed_size() const { return m_generic_header.uncompressed_size(); }
 
     static std::optional<rle_header> parse(uint32_t header_data)
     {
@@ -66,9 +69,9 @@ public:
     }
 
 private:
-    explicit rle_header(uint32_t header_data) : m_header_data(header_data) {}
+    explicit rle_header(uint32_t header_data) : m_generic_header(header_data) {}
 
-    uint32_t m_header_data;
+    generic_header m_generic_header;
 };
 
 }
