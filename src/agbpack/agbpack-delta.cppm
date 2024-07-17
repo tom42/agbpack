@@ -23,14 +23,15 @@ public:
         // TODO: forbid copying byte_reader?
         // TODO: forbid copying byte_writer?
         byte_reader<InputIterator> reader(input, eof);
-        header header(reader.read32());
+        auto header = delta_header::parse(reader.read32());
 
         // TODO: also check options
         // TODO: move to static method
-        if (header.type() != compression_type::delta)
-        {
-            throw bad_encoded_data();
-        }
+        // TODO: remove
+        //if (header.type() != compression_type::delta)
+        //{
+        //    throw bad_encoded_data();
+        //}
 
         if (header.uncompressed_size())
         {
