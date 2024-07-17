@@ -59,8 +59,7 @@ public:
     {
         generic_header header(header_data);
 
-        // TODO: obtaining this should be factored out
-        if (static_cast<compression_type>((header_data >> 4) & 0xf) != compression_type::rle)
+        if (header.type() != compression_type::rle)
         {
             return {};
         }
