@@ -33,6 +33,11 @@ public:
         return static_cast<compression_type>((m_header_data >> 4) & 0xf);
     }
 
+    uint32_t options() const
+    {
+        return m_header_data & 0xf;
+    }
+
     uint32_t uncompressed_size() const
     {
         // TODO: does this need a test?
