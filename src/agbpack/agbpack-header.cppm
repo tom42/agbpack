@@ -35,7 +35,13 @@ public:
 
     uint32_t options() const
     {
-        return m_header_data & 0xf;
+        return options_as<uint32_t>();
+    }
+
+    template <typename TOptions>
+    TOptions options_as() const
+    {
+        return static_cast<TOptions>(m_header_data & 0xf);
     }
 
     uint32_t uncompressed_size() const
@@ -54,8 +60,7 @@ public:
 
     delta_options options() const
     {
-        // TODO: can we factor out this cast?
-        return static_cast<delta_options>(m_generic_header.options());
+        return m_generic_header.options_as<delta_options>();
     }
 
     static std::optional<delta_header> parse(uint32_t header_data)
@@ -74,8 +79,7 @@ private:
 
     static bool are_options_valid(generic_header header)
     {
-        // TODO: can we get rid of this?
-        switch (static_cast<delta_options>(header.options()))
+        switch (header.options_as<delta_options>())
         {
             case delta_options::delta8:
             case delta_options::delta16:
