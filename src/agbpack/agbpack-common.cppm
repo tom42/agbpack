@@ -101,31 +101,6 @@ private:
     OutputIterator m_output;
 };
 
-// TODO: this goes away: we'll have rle_header and delta_header instead.
-class header final
-{
-public:
-    explicit header(uint32_t header_data) : m_header_data(header_data) {}
-
-    compression_type type() const
-    {
-        return static_cast<compression_type>((m_header_data >> 4) & 0xf);
-    }
-
-    uint32_t options() const
-    {
-        return m_header_data & 0xf;
-    }
-
-    uint32_t uncompressed_size() const
-    {
-        return m_header_data >> 8;
-    }
-
-private:
-    uint32_t m_header_data;
-};
-
 template <typename InputIterator>
 void static_assert_input_type(InputIterator& input)
 {
