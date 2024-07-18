@@ -84,9 +84,9 @@ private:
             case delta_options::delta8:
             case delta_options::delta16:
                 return true;
-            default:
-                return false;
         }
+
+        return false;
     }
 
     generic_header m_generic_header;
