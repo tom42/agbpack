@@ -148,13 +148,15 @@ public:
     }
 
 private:
-    explicit header2(compression_type type, compression_options options)
+    explicit header2(compression_type type, compression_options options, uint32_t uncompresssed_size)
         : m_type(type)
         , m_options(options)
+        , m_uncompressed_size(uncompresssed_size)
     {}
 
     compression_type m_type;
     compression_options m_options;
+    uint32_t m_uncompressed_size;
 
     static std::optional<header2> parse(uint32_t header_data)
     {
@@ -171,7 +173,7 @@ private:
             return {};
         }
 
-        return header2(type, *options);
+        return header2(type, *options, header_data & 0xffffff);
     }
 
     static std::optional<compression_options> create_options(compression_type type, uint32_t options)
