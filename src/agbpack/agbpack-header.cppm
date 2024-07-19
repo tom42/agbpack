@@ -206,9 +206,12 @@ private:
         return false;
     }
 
-    static bool is_valid(compression_options /*options*/)
+    template<class... Ts>
+    struct overloaded : Ts... { using Ts::operator()...; };
+
+    static bool is_valid(compression_options options)
     {
-        return true;
+        return std::visit([](auto&&) { return true; }, options);
     }
 };
 
