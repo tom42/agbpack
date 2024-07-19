@@ -50,8 +50,6 @@ bool is_valid(delta_options options)
 
 bool is_valid(compression_options options)
 {
-    // TODO: consider putting validation functions into a namespace so we can confine them a bit?
-    // TODO: well consider putting lots of stuff not inside the header class...
     return std::visit([](auto&& opts) { return is_valid(opts); }, options);
 }
 
