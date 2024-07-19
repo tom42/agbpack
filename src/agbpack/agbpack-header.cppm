@@ -37,7 +37,7 @@ enum class delta_options
 
 using compression_options = std::variant<lzss_options, rle_options, delta_options>;
 
-class header2 final // TODO: rename
+class header final
 {
 public:
     compression_type type() const { return m_type; }
@@ -52,7 +52,7 @@ public:
 
     uint32_t uncompressed_size() const { return m_uncompressed_size; }
 
-    static std::optional<header2> parse_for_type(compression_type wanted_type, uint32_t header_data)
+    static std::optional<header> parse_for_type(compression_type wanted_type, uint32_t header_data)
     {
         auto header = parse(header_data);
         if (!header || (header->type() != wanted_type))
@@ -64,7 +64,7 @@ public:
     }
 
 private:
-    explicit header2(compression_type type, compression_options options, uint32_t uncompressed_size)
+    explicit header(compression_type type, compression_options options, uint32_t uncompressed_size)
         : m_type(type)
         , m_options(options)
         , m_uncompressed_size(uncompressed_size)
@@ -74,7 +74,7 @@ private:
     compression_options m_options;
     uint32_t m_uncompressed_size;
 
-    static std::optional<header2> parse(uint32_t header_data)
+    static std::optional<header> parse(uint32_t header_data)
     {
         auto type = static_cast<compression_type>((header_data >> 4) & 0xf);
         if (!is_valid(type))
@@ -88,7 +88,7 @@ private:
             return {};
         }
 
-        return header2(type, *options, (header_data >> 8) & 0xffffff);
+        return header(type, *options, (header_data >> 8) & 0xffffff);
     }
 
     static std::optional<compression_options> create_options(compression_type type, uint32_t options)
