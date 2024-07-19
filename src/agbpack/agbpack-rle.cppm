@@ -51,11 +51,7 @@ public:
             }
         }
 
-        // Require padding bytes at end of compressed data to be present.
-        while ((reader.nbytes_read() % 4) != 0)
-        {
-            reader.read8();
-        }
+        reader.parse_padding_bytes();
     }
 };
 

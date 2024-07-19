@@ -69,6 +69,14 @@ public:
 
     auto read(size16_tag) { return read16(); }
 
+    void parse_padding_bytes()
+    {
+        while ((nbytes_read() % 4) != 0)
+        {
+            read8();
+        }
+    }
+
 private:
     agbpack_u32 m_nbytes_read = 0;
     InputIterator m_input;
