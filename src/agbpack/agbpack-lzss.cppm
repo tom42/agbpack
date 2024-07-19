@@ -33,12 +33,25 @@ public:
 
         // TODO: decode stuff
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
-        auto flags = reader.read8(); // TODO: test if we hit EOF here
-        (void)flags; // TODO: remove this
 
-        // TODO: test: EOF input when reading single literal byte
-        // TODO: test: too much ouput when writing single literal byte
-        writer.write8(reader.read8());
+
+
+        unsigned int mask = 0;
+        unsigned int flags = 0;
+        while (!writer.done())
+        {
+            mask >>= 1;
+            if (!mask)
+            {
+                flags = reader.read8(); // TODO: test if we hit EOF here
+                mask = 0x80;
+            }
+
+            // TODO: test: EOF input when reading single literal byte
+            // TODO: test: too much ouput when writing single literal byte
+            writer.write8(reader.read8());
+        }
+
 
         // TODO: parse padding bytes
     }
