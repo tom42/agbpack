@@ -13,6 +13,7 @@ namespace agbpack
 
 enum class compression_type
 {
+    lzss = 1,
     rle = 3,
     delta = 8
 };
