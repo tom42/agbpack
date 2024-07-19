@@ -166,12 +166,11 @@ private:
         }
 
         auto options = create_options(type);
-        if (!options)
+        if (!options || !is_valid(*options))
         {
             return {};
         }
         // TODO: parse options too, here. Can now go and use visitor pattern
-        // TODO: one question: do we really want to have a monostate in there? This always yields the possibility of not having known/valid options...
 
         return header2(type, *options);
     }
@@ -205,6 +204,11 @@ private:
         }
 
         return false;
+    }
+
+    static bool is_valid(compression_options /*options*/)
+    {
+        return true;
     }
 };
 
