@@ -121,11 +121,16 @@ private:
 class header2 final // TODO: rename
 {
 public:
+    compression_type type() const { return m_type; }
 
-    static std::optional<header2> parse_for_type(compression_type /*wanted_type*/, uint32_t header_data)
+    static std::optional<header2> parse_for_type(compression_type wanted_type, uint32_t header_data)
     {
         auto header = parse(header_data);
-        // TODO: check wanted type here. If it's bad, return empty optional. Otherwise return what we got from parse().
+        if (!header || (header->type() != wanted_type))
+        {
+            return {};
+        }
+
         return header;
     }
 
