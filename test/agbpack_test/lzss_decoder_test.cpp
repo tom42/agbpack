@@ -7,6 +7,8 @@
 
 import agbpack;
 
+using string = std::string;
+
 TEST_CASE("lzss_decoder_test")
 {
     agbpack::lzss_decoder decoder;
@@ -20,6 +22,13 @@ TEST_CASE("lzss_decoder_test")
         //       * longest offset
         //       * shortest length
         //       * longest length
+        string filename_part = GENERATE(
+            "lzss.good.uncompressed-bytes-only-1.txt");
+        auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
+
+        auto decoded_data = agbpack_test::decode_file(decoder, filename_part + ".encoded");
+
+        CHECK(decoded_data == expected_data);
     }
 
     SECTION("Invalid input")
