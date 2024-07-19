@@ -65,22 +65,7 @@ private:
     compression_options m_options;
     uint32_t m_uncompressed_size;
 
-    static std::optional<header> parse(uint32_t header_data)
-    {
-        auto type = static_cast<compression_type>((header_data >> 4) & 0xf);
-        if (!is_valid(type))
-        {
-            return {};
-        }
-
-        auto options = create_options(type, header_data & 0xf);
-        if (!options || !is_valid(*options))
-        {
-            return {};
-        }
-
-        return header(type, *options, (header_data >> 8) & 0xffffff);
-    }
+    static std::optional<header> parse(uint32_t header_data);
 
     static std::optional<compression_options> create_options(compression_type type, uint32_t options)
     {
