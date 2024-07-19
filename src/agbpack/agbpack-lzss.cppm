@@ -24,8 +24,8 @@ public:
         static_assert_input_type(input);
 
         byte_reader<InputIterator> reader(input, eof);
-        auto header = header2::parse(reader.read32());
-        if (!header) // TODO: since we don't explicitly mention what header to parse we have now to check the type here, no? On the other hand we know that options are already good.
+        auto header = header2::parse_for_type(compression_type::lzss, reader.read32());
+        if (!header)
         {
             throw bad_encoded_data();
         }

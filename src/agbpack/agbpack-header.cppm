@@ -132,7 +132,7 @@ public:
             return {};
         }
 
-        throw "TODO: Yikes: this branch is not yet implementd";
+        return header2(type);
     }
 
 private:
