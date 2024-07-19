@@ -211,7 +211,10 @@ private:
 
     static bool is_valid(compression_options options)
     {
-        return std::visit([](auto&&) { return true; }, options);
+        return std::visit(overloaded
+            {
+                [](auto&&) {return true; } // TODO: get rid of this default branch. We want compilation errors when a new variant is introduced.
+            }, options);
     }
 };
 
