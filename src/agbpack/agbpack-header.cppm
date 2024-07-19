@@ -226,10 +226,16 @@ private:
         return options == rle_options::reserved;
     }
 
-    static bool is_valid(delta_options)
+    static bool is_valid(delta_options options)
     {
-        // TODO: actually validate delta options
-        throw "TODO: Yikes: this branch is not implemented";
+        switch (options)
+        {
+            case delta_options::delta8:
+            case delta_options::delta16:
+                return true;
+        }
+
+        return false;
     }
 
     static bool is_valid(compression_options options)
