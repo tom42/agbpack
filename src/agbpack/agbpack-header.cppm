@@ -164,7 +164,6 @@ private:
 
     static std::optional<header2> parse(uint32_t header_data)
     {
-        // TODO: parse compression options (depends on type), return that too.
         auto type = static_cast<compression_type>((header_data >> 4) & 0xf);
         if (!is_valid(type))
         {
@@ -216,10 +215,9 @@ private:
         return options == lzss_options::reserved;
     }
 
-    static bool is_valid(rle_options)
+    static bool is_valid(rle_options options)
     {
-        // TODO: actually validate rle options
-        return true;
+        return options == rle_options::reserved;
     }
 
     static bool is_valid(delta_options)

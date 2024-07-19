@@ -22,7 +22,7 @@ public:
         static_assert_input_type(input);
 
         byte_reader<InputIterator> reader(input, eof);
-        auto header = rle_header::parse(reader.read32());
+        auto header = header2::parse_for_type(compression_type::rle, reader.read32());
         if (!header)
         {
             throw bad_encoded_data();

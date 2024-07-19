@@ -20,9 +20,9 @@ TEST_CASE("lzss_decoder_test")
             //       * completely invalid compression type
             //       * Once we drop in new header parsing code into other decoders we must do so there too.
             //         * That is, once we've settled for an API, change other tests too!
-            "lzss.bad.invalid-compression-type-in-header.txt.encoded",
-            "lzss.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
-            "lzss.bad.invalid-compression-options-in-header.txt.encoded");
+            "lzss.bad.invalid-compression-type-in-header.txt.encoded",                 // TODO: ensure this is an otherwise valid zero length file
+            "lzss.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",    // TODO: ensure this is an otherwise valid zero length file
+            "lzss.bad.invalid-compression-options-in-header.txt.encoded");             // TODO: ensure this is an otherwise valid zero length file
 
         CHECK_THROWS_AS(agbpack_test::decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
     }
