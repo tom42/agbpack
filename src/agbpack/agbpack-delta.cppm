@@ -50,43 +50,28 @@ private:
         switch (header.options())
         {
             case delta_options::delta8:
-                decode8(header, reader, output);
+                generic_decode(size8, header, reader, output);
                 return;
             case delta_options::delta16:
-                decode16(header, reader, output);
+                generic_decode(size16, header, reader, output);
                 return;
         }
 
         throw bad_encoded_data();
     }
 
-    template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
-    static void decode8(delta_header header, byte_reader<InputIterator>& reader, OutputIterator output)
+    template <typename SizeTag, typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
+    static void generic_decode(SizeTag size_tag, delta_header header, byte_reader<InputIterator>& reader, OutputIterator output)
     {
         byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
 
-        auto current_value = reader.read8();
-        writer.write8(current_value);
+        auto current_value = reader.read(size_tag);
+        writer.write(size_tag, current_value);
 
         while (!writer.done())
         {
-            current_value += reader.read8();
-            writer.write8(current_value);
-        }
-    }
-
-    template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
-    static void decode16(delta_header header, byte_reader<InputIterator>& reader, OutputIterator output)
-    {
-        byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
-
-        auto current_value = reader.read16();
-        writer.write16(current_value);
-
-        while (!writer.done())
-        {
-            current_value += reader.read16();
-            writer.write16(current_value);
+            current_value += reader.read(size_tag);
+            writer.write(size_tag, current_value);
         }
     }
 };
