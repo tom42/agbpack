@@ -165,7 +165,7 @@ private:
             return {};
         }
 
-        auto options = create_options(type);
+        auto options = create_options(type, header_data & 0xf);
         if (!options || !is_valid(*options))
         {
             return {};
@@ -174,14 +174,14 @@ private:
         return header2(type, *options);
     }
 
-    static std::optional<compression_options> create_options(compression_type type)
+    static std::optional<compression_options> create_options(compression_type type, uint32_t options)
     {
         // TODO: create option variant for each type
         // TODO: throw for unknown types (throw? assert? return empty?)
         switch (type)
         {
             case compression_type::lzss:
-                return lzss_options(); // TODO: we want to pass in the value here, no?
+                return lzss_options(options);
             case compression_type::rle:
                 return rle_options(); // TODO: pass in the value!
             case compression_type::delta:
@@ -205,10 +205,9 @@ private:
         return false;
     }
 
-    static bool is_valid(lzss_options /*lzss_options*/)
+    static bool is_valid(lzss_options options)
     {
-        // TODO: actually validate lzss options
-        return true;
+        return options == lzss_options::reserved;
     }
 
     static bool is_valid(rle_options)
