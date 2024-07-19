@@ -8,4 +8,6 @@ import agbpack;
 
 TEST_CASE("lzss_decoder_test")
 {
+    agbpack::lzss_decoder decoder;
+    (void)decoder; // TODO: remove
 }

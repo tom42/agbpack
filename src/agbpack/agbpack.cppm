@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 export module agbpack;
-export import :rle;
 export import :delta;
 export import :exceptions;
+export import :lzss;
+export import :rle;
