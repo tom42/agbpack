@@ -25,7 +25,8 @@ TEST_CASE("lzss_decoder_test")
         string filename_part = GENERATE(
             "lzss.good.1-uncompressed-byte.txt",
             "lzss.good.8-uncompressed-bytes.txt",
-            "lzss.good.17-uncompressed-bytes.txt");
+            "lzss.good.17-uncompressed-bytes.txt",
+            "meh"); // TODO: different name, but lets make it work first, shall we
         auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
 
         auto decoded_data = agbpack_test::decode_file(decoder, filename_part + ".encoded");
