@@ -32,7 +32,6 @@ TEST_CASE("delta_decoder_test")
 
     SECTION("Invalid input")
     {
-        // TODO: 8 bit: garbage at end of file
         // TODO: 16 bit: garbage at end of file
         auto encoded_file = GENERATE(
             "delta.bad.eof-inside-header.txt.encoded",

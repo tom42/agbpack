@@ -67,6 +67,8 @@ private:
             current_value += reader.read(size_tag);
             writer.write(size_tag, current_value);
         }
+
+        reader.parse_padding_bytes();
     }
 };
 
