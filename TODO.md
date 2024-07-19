@@ -7,9 +7,6 @@ SPDX-License-Identifier: MIT
 * Header parsing: next time we extend this, consider coming up with a singler class that keeps decoder specific data ('options') in a variant
   * Still obey 'parse, don't validate'
   * Can we have some template utility to validate all members of an enum? (Srsly how many times do we need this?)
-* Finish partitioning:
-  * Ensure that stuff from common is not accidentally reachable from e.g. the test suite
-    * Interesting question: can we access e.g. agbpack_io_datatype from tests? Yes/no? Why/whynot?
 * Become reuse compliant again: our test data files break it. Use a REUSE.toml to fix
   * Note: dep5 file is deprecated, so get rid of that
 * clang++: reconsider the decision to use -Weverything. Maybe change that to be an option or so.
