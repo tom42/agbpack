@@ -34,8 +34,8 @@ public:
 
         if (header.uncompressed_size())
         {
-            // TODO: for symmetry, should we also pass a writer by reference rather than the output iterator?
-            decode8or16(header, reader, output);
+            byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
+            decode8or16(header, reader, writer);
         }
 
         // TODO: ensure padding at end of input:
@@ -45,15 +45,15 @@ public:
 
 private:
     template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
-    static void decode8or16(delta_header header, byte_reader<InputIterator>& reader, OutputIterator output)
+    static void decode8or16(delta_header header, byte_reader<InputIterator>& reader, byte_writer<OutputIterator>& writer)
     {
         switch (header.options())
         {
             case delta_options::delta8:
-                generic_decode(size8, header, reader, output);
+                generic_decode(size8, reader, writer);
                 return;
             case delta_options::delta16:
-                generic_decode(size16, header, reader, output);
+                generic_decode(size16, reader, writer);
                 return;
         }
 
@@ -61,10 +61,8 @@ private:
     }
 
     template <typename SizeTag, typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
-    static void generic_decode(SizeTag size_tag, delta_header header, byte_reader<InputIterator>& reader, OutputIterator output)
+    static void generic_decode(SizeTag size_tag, byte_reader<InputIterator>& reader, byte_writer<OutputIterator>& writer)
     {
-        byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
-
         auto current_value = reader.read(size_tag);
         writer.write(size_tag, current_value);
 
