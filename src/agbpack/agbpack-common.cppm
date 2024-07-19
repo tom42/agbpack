@@ -26,6 +26,9 @@ template <std::input_iterator InputIterator>
 class byte_reader final
 {
 public:
+    byte_reader(const byte_reader&) = delete;
+    byte_reader& operator=(const byte_reader&) = delete;
+
     explicit byte_reader(InputIterator input, InputIterator eof)
         : m_input(input)
         , m_eof(eof)
@@ -76,6 +79,9 @@ template <typename OutputIterator>
 class byte_writer final
 {
 public:
+    byte_writer(const byte_writer&) = delete;
+    byte_writer& operator=(const byte_writer&) = delete;
+
     explicit byte_writer(agbpack_u32 uncompressed_size, OutputIterator output)
         : m_uncompressed_size(uncompressed_size)
         , m_output(output)

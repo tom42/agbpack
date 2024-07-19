@@ -21,8 +21,6 @@ public:
     {
         static_assert_input_type(input);
 
-        // TODO: forbid copying byte_reader?
-        // TODO: forbid copying byte_writer?
         byte_reader<InputIterator> reader(input, eof);
         auto header = delta_header::parse(reader.read32());
         if (!header)
