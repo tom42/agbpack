@@ -206,6 +206,24 @@ private:
         return false;
     }
 
+    static bool is_valid(lzss_options /*lzss_options*/)
+    {
+        // TODO: actually validate lzss options
+        return true;
+    }
+
+    static bool is_valid(rle_options)
+    {
+        // TODO: actually validate rle options
+        return true;
+    }
+
+    static bool is_valid(delta_options)
+    {
+        // TODO: actually validate delta options
+        return true;
+    }
+
     template<class... Ts>
     struct overloaded : Ts... { using Ts::operator()...; };
 
