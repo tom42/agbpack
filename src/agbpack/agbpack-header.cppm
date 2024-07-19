@@ -214,7 +214,7 @@ private:
     static bool is_valid(rle_options)
     {
         // TODO: actually validate rle options
-        throw "TODO: Yikes: this branch is not implemented";
+        return true;
     }
 
     static bool is_valid(delta_options)
