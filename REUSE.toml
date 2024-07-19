@@ -1,0 +1,5 @@
+version = 1
+SPDX-PackageName = "agbpack"
+SPDX-PackageSupplier = "Thomas Mathys"
+SPDX-PackageDownloadLocation = "https://github.com/tom42/agbpack"
+annotations = []
