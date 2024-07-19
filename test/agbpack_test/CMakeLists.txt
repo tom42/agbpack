@@ -9,6 +9,7 @@ configure_file(
 add_executable(
   agbpack_test
   delta_decoder_test.cpp
+  lzss_decoder_test.cpp
   rle_decoder_test.cpp
   testdata.cpp)
 
