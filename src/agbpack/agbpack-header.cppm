@@ -215,26 +215,19 @@ private:
     static bool is_valid(rle_options)
     {
         // TODO: actually validate rle options
-        return true;
+        throw "TODO: Yikes: this branch is not implemented";
     }
 
     static bool is_valid(delta_options)
     {
         // TODO: actually validate delta options
-        return true;
+        throw "TODO: Yikes: this branch is not implemented";
     }
-
-    template<class... Ts>
-    struct overloaded : Ts... { using Ts::operator()...; };
 
     static bool is_valid(compression_options options)
     {
-        return std::visit(overloaded
-            {
-                [](lzss_options) { return true; }, // TODO: actually validate lzss options
-                [](rle_options) { return true; }, // TODO: actually validate rle options
-                [](delta_options) { return true; } // TODO: actually validate delta options
-            }, options);
+        // TODO: consider putting validation functions into a namespace so we can confine them a bit?
+        return std::visit([](auto&& options) { return is_valid(options); }, options);
     }
 };
 
