@@ -52,16 +52,7 @@ public:
 
     uint32_t uncompressed_size() const { return m_uncompressed_size; }
 
-    static std::optional<header> parse_for_type(compression_type wanted_type, uint32_t header_data)
-    {
-        auto header = parse(header_data);
-        if (!header || (header->type() != wanted_type))
-        {
-            return {};
-        }
-
-        return header;
-    }
+    static std::optional<header> parse_for_type(compression_type wanted_type, uint32_t header_data);
 
 private:
     explicit header(compression_type type, compression_options options, uint32_t uncompressed_size)
