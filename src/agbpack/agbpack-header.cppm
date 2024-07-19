@@ -138,6 +138,12 @@ public:
 
     compression_options options() const { return m_options; }
 
+    template <typename TOptions>
+    TOptions options_as() const
+    {
+        return std::get<TOptions>(options());
+    }
+
     uint32_t uncompressed_size() const { return m_uncompressed_size; }
 
     static std::optional<header2> parse_for_type(compression_type wanted_type, uint32_t header_data)
