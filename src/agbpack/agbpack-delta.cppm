@@ -31,7 +31,7 @@ public:
         if (header->uncompressed_size())
         {
             byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
-            decode8or16(header->options_as<delta_options>(), reader, writer);
+            decode8or16(header->template options_as<delta_options>(), reader, writer);
         }
     }
 

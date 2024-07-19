@@ -7,6 +7,7 @@ module;
 
 export module agbpack:lzss;
 import :common;
+import :exceptions;
 import :header;
 
 namespace agbpack
