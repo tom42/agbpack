@@ -1,6 +1,10 @@
 // SPDX-FileCopyrightText: 2024 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+module;
+
+#include <variant>
+
 module agbpack;
 
 namespace agbpack
