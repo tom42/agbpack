@@ -5,8 +5,6 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Finish delta decoder
-  * Can we have the actual decoding loop templated and only once?
-    * Well maybe, but maybe fix all TODOs in test code first, no?
   * Fix all todos, both in production code and tests
   * Beautify the code a bit, maybe.
 * Header parsing: next time we extend this, consider coming up with a singler class that keeps decoder specific data ('options') in a variant
