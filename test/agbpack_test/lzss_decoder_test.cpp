@@ -23,8 +23,8 @@ TEST_CASE("lzss_decoder_test")
         //       * shortest length
         //       * longest length
         string filename_part = GENERATE(
-            "lzss.good.uncompressed-bytes-only-1.txt", // TODO: rename: one byte
-            "lzss.good.uncompressed-bytes-only-2.txt"); // TODO: rename: eight bytes
+            "lzss.good.1-uncompressed-byte.txt",
+            "lzss.good.8-uncompressed-bytes.txt");
         auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
 
         auto decoded_data = agbpack_test::decode_file(decoder, filename_part + ".encoded");

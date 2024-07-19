@@ -43,7 +43,7 @@ public:
             mask >>= 1;
             if (!mask)
             {
-                flags = reader.read8(); // TODO: test if we hit EOF here
+                flags = reader.read8(); // TODO: test if we hit EOF here (reading flag byte)
                 mask = 0x80;
             }
 
