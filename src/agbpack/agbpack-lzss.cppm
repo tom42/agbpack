@@ -17,7 +17,7 @@ export class lzss_decoder final
 {
 public:
     template <std::input_iterator InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
-    void decode(InputIterator input, InputIterator eof, OutputIterator /*output*/)
+    void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         // TODO: Do we want to have a mode where the decoder is explicitly asked to decode VRAM safe data?
         //       Such a thing would be used as verification. Such a decoder would then bark if the data
@@ -31,8 +31,15 @@ public:
             throw bad_encoded_data();
         }
 
-        // TODO: parse/validate header
         // TODO: decode stuff
+        byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
+        auto flags = reader.read8(); // TODO: test if we hit EOF here
+        (void)flags; // TODO: remove this
+
+        // TODO: test: EOF input when reading single literal byte
+        // TODO: test: too much ouput when writing single literal byte
+        writer.write8(reader.read8());
+
         // TODO: parse padding bytes
     }
 };
