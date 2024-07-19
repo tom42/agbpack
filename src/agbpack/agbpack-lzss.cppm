@@ -47,9 +47,30 @@ public:
                 mask = 0x80;
             }
 
-            // TODO: test: EOF input when reading single literal byte
-            // TODO: test: too much ouput when writing single literal byte
-            writer.write8(reader.read8());
+            if (flags & mask)
+            {
+                // TODO: read back reference correctly
+                // TODO: test if we hit EOF whily reading a back reference
+                auto x0 = reader.read8();
+                reader.read8();
+                int nbytes = ((x0 >> 4) & 0xf) + 3;
+                while (nbytes--)
+                {
+                    // TODO: actually read bytes to copy from output
+                    // TODO: this requires us to have an RANDOM ITERATOR!
+                    // TODO: well we could also write a version that has its own sliding window, no?
+                    // TODO: tests for invalid input
+                    //       * too many bytes written
+                    //       * read outside of sliding window
+                    writer.write8('a'); // TODO: actually copy data from output
+                }
+            }
+            else
+            {
+                // TODO: test: EOF input when reading single literal byte
+                // TODO: test: too much ouput when writing single literal byte
+                writer.write8(reader.read8());
+            }
         }
 
 
