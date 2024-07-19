@@ -166,13 +166,17 @@ private:
         }
 
         auto options = create_options(type);
+        if (!options)
+        {
+            return {};
+        }
         // TODO: parse options too, here. Can now go and use visitor pattern
         // TODO: one question: do we really want to have a monostate in there? This always yields the possibility of not having known/valid options...
 
-        return header2(type, options);
+        return header2(type, *options);
     }
 
-    static compression_options create_options(compression_type type)
+    static std::optional<compression_options> create_options(compression_type type)
     {
         // TODO: create option variant for each type
         // TODO: throw for unknown types
