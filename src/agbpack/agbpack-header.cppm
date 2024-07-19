@@ -122,14 +122,25 @@ class header2 final // TODO: rename
 {
 public:
 
-    static std::optional<header2> parse(uint32_t /*header_data*/)
+    static std::optional<header2> parse(uint32_t header_data)
     {
         // TODO: parse compression type, and return that.
         // TODO: parse compression options (depends on type), return that too.
-        return {};
+        auto type = static_cast<compression_type>((header_data >> 4) & 0xf);
+        if (!is_valid(type))
+        {
+            return {};
+        }
+
+        throw "TODO: Yikes: this branch is not yet implementd";
     }
 
 private:
+
+    static bool is_valid(compression_type /*type*/)
+    {
+        return false;
+    }
 };
 
 }
