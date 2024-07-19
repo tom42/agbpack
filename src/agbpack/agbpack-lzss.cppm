@@ -32,16 +32,16 @@ public:
             throw bad_encoded_data();
         }
 
-        // TODO: decode stuff
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
 
-
         // TODO: that's a a rather temporary hack. Also, shouldn't we use a deque?
+        //       => Well what we should do is we should wrap this into a class so we can easily replace it
         std::vector<agbpack_u8> sliding_window;
 
 
         unsigned int mask = 0;
         unsigned int flags = 0;
+
         while (!writer.done())
         {
             mask >>= 1;
@@ -55,9 +55,12 @@ public:
             {
                 // TODO: read back reference correctly
                 // TODO: test if we hit EOF whily reading a back reference
-                auto x0 = reader.read8();
-                reader.read8();
-                int nbytes = ((x0 >> 4) & 0xf) + 3;
+                auto b0 = reader.read8();
+                auto b1 = reader.read8();
+                int nbytes = ((b0 >> 4) & 0xf) + 3;
+                std::size_t displacement = ((b0 & 0xf) << 8) | b1;
+                std::size_t src = sliding_window.size() - displacement - 1; // TODO: must check if this under/overflows!
+
                 while (nbytes--)
                 {
                     // TODO: actually read bytes to copy from output
@@ -70,7 +73,7 @@ public:
 
                     // TODO: now we need to copy stuff from our sliding window (copy from dest - disp - 1)
 
-                    auto byte = 'a'; // TODO: actually copy data from output
+                    auto byte = sliding_window[src++];
                     writer.write8(byte);
                     sliding_window.push_back(byte);
                 }
