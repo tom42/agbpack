@@ -152,7 +152,7 @@ private:
         {
             // TODO: add remaining compression types, but do so in a test first manner
             case compression_type::lzss:
-            //case compression_type::rle:
+            case compression_type::rle:
             //case compression_type::delta:
                 return true;
         }
