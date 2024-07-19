@@ -129,6 +129,8 @@ private:
 
 // TODO: experimental new header parsing code
 
+using compression_options = std::variant<lzss_options>;
+
 class header2 final // TODO: rename
 {
 public:
@@ -146,13 +148,13 @@ public:
     }
 
 private:
-    explicit header2(compression_type type, std::variant<std::monostate> options)
+    explicit header2(compression_type type, compression_options options)
         : m_type(type)
         , m_options(options)
     {}
 
     compression_type m_type;
-    std::variant<std::monostate> m_options;
+    compression_options m_options;
 
     static std::optional<header2> parse(uint32_t header_data)
     {
@@ -170,10 +172,17 @@ private:
         return header2(type, options);
     }
 
-    static std::variant<std::monostate> create_options(compression_type /*type*/)
+    static compression_options create_options(compression_type type)
     {
         // TODO: create option variant for each type
         // TODO: throw for unknown types
+        switch (type)
+        {
+            case compression_type::lzss:
+                return lzss_options(); // TODO: we want to pass in the value here, no?
+        }
+
+        // TODO: do we assert here, or do we return empty? (for the time being, both would work)
         return {};
     }
 
