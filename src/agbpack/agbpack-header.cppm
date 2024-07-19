@@ -189,9 +189,9 @@ private:
             case compression_type::lzss:
                 return lzss_options(options);
             case compression_type::rle:
-                return rle_options(); // TODO: pass in the value!
+                return rle_options(options);
             case compression_type::delta:
-                return delta_options(); // TODO: pass in the value
+                return delta_options(options);
         }
 
         // TODO: do we assert here, or do we return empty? (for the time being, both would work)
