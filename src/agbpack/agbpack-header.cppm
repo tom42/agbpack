@@ -152,10 +152,10 @@ public:
     }
 
 private:
-    explicit header2(compression_type type, compression_options options, uint32_t uncompresssed_size)
+    explicit header2(compression_type type, compression_options options, uint32_t uncompressed_size)
         : m_type(type)
         , m_options(options)
-        , m_uncompressed_size(uncompresssed_size)
+        , m_uncompressed_size(uncompressed_size)
     {}
 
     compression_type m_type;
