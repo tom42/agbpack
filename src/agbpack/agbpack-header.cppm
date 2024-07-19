@@ -5,6 +5,7 @@ module;
 
 #include <cstdint>
 #include <optional>
+#include <variant>
 
 export module agbpack:header;
 
@@ -135,9 +136,13 @@ public:
     }
 
 private:
-    explicit header2(compression_type type) : m_type(type) {}
+    explicit header2(compression_type type, std::variant<std::monostate> options)
+        : m_type(type)
+        , m_options(options)
+    {}
 
     compression_type m_type;
+    std::variant<std::monostate> m_options;
 
     static std::optional<header2> parse(uint32_t header_data)
     {
@@ -148,7 +153,18 @@ private:
             return {};
         }
 
-        return header2(type);
+        auto options = create_options(type);
+        // TODO: parse options too, here. Can now go and use visitor pattern
+        // TODO: one question: do we really want to have a monostate in there? This always yields the possibility of not having known/valid options...
+
+        return header2(type, options);
+    }
+
+    static std::variant<std::monostate> create_options(compression_type /*type*/)
+    {
+        // TODO: create option variant for each type
+        // TODO: throw for unknown types
+        return {};
     }
 
     static bool is_valid(compression_type type)
