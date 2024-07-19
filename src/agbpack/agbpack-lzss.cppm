@@ -25,7 +25,7 @@ public:
 
         byte_reader<InputIterator> reader(input, eof);
         auto header = header2::parse(reader.read32());
-        if (!header)
+        if (!header) // TODO: since we don't explicitly mention what header to parse we have now to check the type here, no? On the other hand we know that options are already good.
         {
             throw bad_encoded_data();
         }

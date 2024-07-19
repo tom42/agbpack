@@ -136,9 +136,21 @@ public:
     }
 
 private:
+    explicit header2(compression_type type) : m_type(type) {}
 
-    static bool is_valid(compression_type /*type*/)
+    compression_type m_type;
+
+    static bool is_valid(compression_type type)
     {
+        switch (type)
+        {
+            // TODO: add remaining compression types, but do so in a test first manner
+            case compression_type::lzss:
+            //case compression_type::rle:
+            //case compression_type::delta:
+                return true;
+        }
+
         return false;
     }
 };
