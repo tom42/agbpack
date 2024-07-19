@@ -32,6 +32,11 @@ TEST_CASE("delta_decoder_test")
 
     SECTION("Invalid input")
     {
+        // TODO: align wrong/invalid type and invalid option tests with LZSS
+        //       * invalid type
+        //       * valid but unexpected type
+        //       * invalid options
+        //       TAKE CARE: these files should be otherwise valid zero length input files
         auto encoded_file = GENERATE(
             "delta.bad.eof-inside-header.txt.encoded",
             "delta.bad.wrong-compression-type-in-header.txt.encoded",
