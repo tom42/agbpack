@@ -129,7 +129,7 @@ private:
 
 // TODO: experimental new header parsing code
 
-using compression_options = std::variant<lzss_options>;
+using compression_options = std::variant<lzss_options, rle_options, delta_options>;
 
 class header2 final // TODO: rename
 {
@@ -179,7 +179,7 @@ private:
     static std::optional<compression_options> create_options(compression_type type)
     {
         // TODO: create option variant for each type
-        // TODO: throw for unknown types
+        // TODO: throw for unknown types (throw? assert? return empty?)
         switch (type)
         {
             case compression_type::lzss:
