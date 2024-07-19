@@ -35,7 +35,7 @@ public:
         if (header.uncompressed_size())
         {
             byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
-            decode8or16(header, reader, writer);
+            decode8or16(header.options(), reader, writer);
         }
 
         // TODO: ensure padding at end of input:
@@ -45,9 +45,9 @@ public:
 
 private:
     template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
-    static void decode8or16(delta_header header, byte_reader<InputIterator>& reader, byte_writer<OutputIterator>& writer)
+    static void decode8or16(delta_options options, byte_reader<InputIterator>& reader, byte_writer<OutputIterator>& writer)
     {
-        switch (header.options())
+        switch (options)
         {
             case delta_options::delta8:
                 generic_decode(size8, reader, writer);
