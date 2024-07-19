@@ -19,6 +19,16 @@ enum class compression_type
     delta = 8
 };
 
+enum class lzss_options
+{
+    reserved = 0
+};
+
+enum class rle_options
+{
+    reserved = 0
+};
+
 enum class delta_options
 {
     delta8 = 1,
