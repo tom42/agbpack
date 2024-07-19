@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2024 Thomas Mathys
+# SPDX-License-Identifier: CC0-1.0
+
 version = 1
 SPDX-PackageName = "agbpack"
 SPDX-PackageSupplier = "Thomas Mathys"
