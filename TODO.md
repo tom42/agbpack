@@ -4,9 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Finish delta decoder
-  * Fix all todos, both in production code and tests
-  * Beautify the code a bit, maybe.
 * Header parsing: next time we extend this, consider coming up with a singler class that keeps decoder specific data ('options') in a variant
   * Still obey 'parse, don't validate'
   * Can we have some template utility to validate all members of an enum? (Srsly how many times do we need this?)

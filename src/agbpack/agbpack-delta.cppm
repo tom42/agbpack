@@ -33,10 +33,6 @@ public:
             byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
             decode8or16(header->options(), reader, writer);
         }
-
-        // TODO: ensure padding at end of input:
-        //       * We could do this in the byte_reader dtor, but we must not throw in there. Sigh?
-        //       * Well if we only want to do it once we must create the byte_reader up here and pass it to callees
     }
 
 private:
