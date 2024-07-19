@@ -3,6 +3,8 @@
 
 module;
 
+#include <cstdint>
+#include <optional>
 #include <variant>
 
 module agbpack;
