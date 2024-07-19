@@ -39,6 +39,7 @@ TEST_CASE("delta_decoder_test")
             "delta.bad.wrong-compression-type-in-header.txt.encoded",
             "delta.bad.wrong-compression-options-in-header.txt.encoded",
             "delta.bad.8.eof-inside-stream.bin.encoded",
+            "delta.bad.8.missing-padding-at-end-of-data.txt.encoded",
             "delta.bad.16.eof-inside-stream.bin.encoded");
 
         CHECK_THROWS_AS(agbpack_test::decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
