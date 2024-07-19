@@ -116,4 +116,18 @@ private:
     generic_header m_generic_header;
 };
 
+// TODO: experimental new header parsing code
+
+class header2 final // TODO: rename
+{
+public:
+
+    static std::optional<header2> parse(uint32_t /*header_data*/)
+    {
+        throw "TODO: Yikes. This is not implemented!";
+    }
+
+private:
+};
+
 }
