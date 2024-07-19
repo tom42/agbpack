@@ -7,6 +7,7 @@ module;
 
 export module agbpack:lzss;
 import :common;
+import :header;
 
 namespace agbpack
 {
@@ -23,7 +24,11 @@ public:
         static_assert_input_type(input);
 
         byte_reader<InputIterator> reader(input, eof);
-        reader.read32();
+        auto header = header2::parse(reader.read32());
+        if (!header)
+        {
+            throw bad_encoded_data();
+        }
 
         // TODO: parse/validate header
         // TODO: decode stuff

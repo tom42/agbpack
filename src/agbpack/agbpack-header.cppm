@@ -124,7 +124,9 @@ public:
 
     static std::optional<header2> parse(uint32_t /*header_data*/)
     {
-        throw "TODO: Yikes. This is not implemented!";
+        // TODO: parse compression type, and return that.
+        // TODO: parse compression options (depends on type), return that too.
+        return {};
     }
 
 private:
