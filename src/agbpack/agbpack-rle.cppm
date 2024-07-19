@@ -28,7 +28,7 @@ public:
             throw bad_encoded_data();
         }
 
-        byte_writer<OutputIterator> writer(header.value().uncompressed_size(), output);
+        byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
         while (!writer.done())
         {
             auto flag = reader.read8();
