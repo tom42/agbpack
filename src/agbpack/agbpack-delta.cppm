@@ -24,18 +24,16 @@ public:
         // TODO: forbid copying byte_reader?
         // TODO: forbid copying byte_writer?
         byte_reader<InputIterator> reader(input, eof);
-        auto maybe_header = delta_header::parse(reader.read32());
-        if (!maybe_header)
+        auto header = delta_header::parse(reader.read32());
+        if (!header)
         {
             throw bad_encoded_data();
         }
 
-        auto header = maybe_header.value(); // TODO: not pretty. can we get rid of it?
-
-        if (header.uncompressed_size())
+        if (header->uncompressed_size())
         {
-            byte_writer<OutputIterator> writer(header.uncompressed_size(), output);
-            decode8or16(header.options(), reader, writer);
+            byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
+            decode8or16(header->options(), reader, writer);
         }
 
         // TODO: ensure padding at end of input:
