@@ -122,6 +122,12 @@ class header2 final // TODO: rename
 {
 public:
 
+    static std::optional<header2> parse_for_type(compression_type /*wanted_type*/, uint32_t header_data)
+    {
+        auto header = parse(header_data);
+        // TODO: check wanted type here. If it's bad, return empty optional. Otherwise return what we got from parse().
+        return header;
+    }
 
 private:
     explicit header2(compression_type type) : m_type(type) {}
@@ -130,7 +136,6 @@ private:
 
     static std::optional<header2> parse(uint32_t header_data)
     {
-        // TODO: parse compression type, and return that.
         // TODO: parse compression options (depends on type), return that too.
         auto type = static_cast<compression_type>((header_data >> 4) & 0xf);
         if (!is_valid(type))
