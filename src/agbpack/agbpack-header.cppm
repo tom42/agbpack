@@ -122,6 +122,12 @@ class header2 final // TODO: rename
 {
 public:
 
+
+private:
+    explicit header2(compression_type type) : m_type(type) {}
+
+    compression_type m_type;
+
     static std::optional<header2> parse(uint32_t header_data)
     {
         // TODO: parse compression type, and return that.
@@ -134,11 +140,6 @@ public:
 
         return header2(type);
     }
-
-private:
-    explicit header2(compression_type type) : m_type(type) {}
-
-    compression_type m_type;
 
     static bool is_valid(compression_type type)
     {
