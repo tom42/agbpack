@@ -67,6 +67,9 @@ public:
                     // TODO: tests for invalid input
                     //       * too many bytes written
                     //       * read outside of sliding window
+
+                    // TODO: now we need to copy stuff from our sliding window (copy from dest - disp - 1)
+
                     auto byte = 'a'; // TODO: actually copy data from output
                     writer.write8(byte);
                     sliding_window.push_back(byte);
