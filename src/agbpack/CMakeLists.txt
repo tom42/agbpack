@@ -11,4 +11,6 @@ target_sources(
   agbpack-exceptions.cppm
   agbpack-lzss.cppm
   agbpack-header.cppm
-  agbpack-rle.cppm)
+  agbpack-rle.cppm
+  PRIVATE
+  agbpack-header.cpp)
