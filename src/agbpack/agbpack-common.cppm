@@ -17,6 +17,11 @@ using agbpack_u8 = uint8_t;
 using agbpack_u16 = uint16_t;
 using agbpack_u32 = uint32_t;
 
+class size8_tag {};
+class size16_tag {};
+constexpr size8_tag size8;
+constexpr size16_tag size16;
+
 template <std::input_iterator InputIterator>
 class byte_reader final
 {
@@ -57,6 +62,10 @@ public:
         return result;
     }
 
+    auto read(size8_tag) { return read8(); }
+
+    auto read(size16_tag) { return read16(); }
+
 private:
     agbpack_u32 m_nbytes_read = 0;
     InputIterator m_input;
@@ -88,6 +97,10 @@ public:
         write8(word & 255);
         write8((word >> 8) & 255);
     }
+
+    void write(size8_tag, agbpack_u8 byte) { write8(byte); }
+
+    void write(size16_tag, agbpack_u16 word) { write16(word); }
 
     bool done() const
     {
