@@ -11,6 +11,17 @@ TEST_CASE("lzss_decoder_test")
 {
     agbpack::lzss_decoder decoder;
 
+    SECTION("Valid input")
+    {
+        // TODO: short simple file without compression (e.g. 1 byte)
+        // TODO: not so short file without compression
+        // TODO: files with compression
+        //       * shortest offset
+        //       * longest offset
+        //       * shortest length
+        //       * longest length
+    }
+
     SECTION("Invalid input")
     {
         auto encoded_file = GENERATE(
