@@ -136,6 +136,10 @@ class header2 final // TODO: rename
 public:
     compression_type type() const { return m_type; }
 
+    compression_options options() const { return m_options; }
+
+    uint32_t uncompressed_size() const { return m_uncompressed_size; }
+
     static std::optional<header2> parse_for_type(compression_type wanted_type, uint32_t header_data)
     {
         auto header = parse(header_data);
