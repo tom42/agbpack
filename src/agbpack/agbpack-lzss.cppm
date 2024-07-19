@@ -4,6 +4,7 @@
 module;
 
 #include <iterator>
+#include <vector> // TODO: remove if not needed anymore
 
 export module agbpack:lzss;
 import :common;
@@ -35,6 +36,9 @@ public:
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
 
 
+        // TODO: that's a a rather temporary hack. Also, shouldn't we use a deque?
+        std::vector<agbpack_u8> sliding_window;
+
 
         unsigned int mask = 0;
         unsigned int flags = 0;
@@ -59,17 +63,22 @@ public:
                     // TODO: actually read bytes to copy from output
                     // TODO: this requires us to have an RANDOM ITERATOR!
                     // TODO: well we could also write a version that has its own sliding window, no?
+                    //       => Well since our test setup actually prefers that, let's do just that.
                     // TODO: tests for invalid input
                     //       * too many bytes written
                     //       * read outside of sliding window
-                    writer.write8('a'); // TODO: actually copy data from output
+                    auto byte = 'a'; // TODO: actually copy data from output
+                    writer.write8(byte);
+                    sliding_window.push_back(byte);
                 }
             }
             else
             {
                 // TODO: test: EOF input when reading single literal byte
                 // TODO: test: too much ouput when writing single literal byte
-                writer.write8(reader.read8());
+                auto byte = reader.read8();
+                writer.write8(byte);
+                sliding_window.push_back(byte);
             }
         }
 
