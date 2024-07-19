@@ -170,7 +170,6 @@ private:
         {
             return {};
         }
-        // TODO: parse options too, here. Can now go and use visitor pattern
 
         return header2(type, *options);
     }
