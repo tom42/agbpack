@@ -177,7 +177,7 @@ private:
             return {};
         }
 
-        return header2(type, *options, header_data & 0xffffff);
+        return header2(type, *options, (header_data >> 8) & 0xffffff);
     }
 
     static std::optional<compression_options> create_options(compression_type type, uint32_t options)
