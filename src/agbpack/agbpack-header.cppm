@@ -231,6 +231,7 @@ private:
     static bool is_valid(compression_options options)
     {
         // TODO: consider putting validation functions into a namespace so we can confine them a bit?
+        // TODO: well consider putting lots of stuff not inside the header class...
         return std::visit([](auto&& options) { return is_valid(options); }, options);
     }
 };
