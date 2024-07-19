@@ -93,8 +93,6 @@ private:
 
     static std::optional<compression_options> create_options(compression_type type, uint32_t options)
     {
-        // TODO: create option variant for each type
-        // TODO: throw for unknown types (throw? assert? return empty?)
         switch (type)
         {
             case compression_type::lzss:
@@ -105,7 +103,7 @@ private:
                 return delta_options(options);
         }
 
-        // TODO: do we assert here, or do we return empty? (for the time being, both would work)
+        // TODO: throw for unknown types (throw? assert? return empty?)
         return {};
     }
 
