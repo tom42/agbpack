@@ -7,8 +7,6 @@ SPDX-License-Identifier: MIT
 * Header parsing: next time we extend this, consider coming up with a singler class that keeps decoder specific data ('options') in a variant
   * Still obey 'parse, don't validate'
   * Can we have some template utility to validate all members of an enum? (Srsly how many times do we need this?)
-* Become reuse compliant again: our test data files break it. Use a REUSE.toml to fix
-  * Note: dep5 file is deprecated, so get rid of that
 * clang++: reconsider the decision to use -Weverything. Maybe change that to be an option or so.
   * https://quuxplusone.github.io/blog/2018/12/06/dont-use-weverything/
 * doctest has the flags below for g++ and clang. Which ones do we need too?
