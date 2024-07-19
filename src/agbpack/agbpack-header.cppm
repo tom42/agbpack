@@ -213,7 +213,9 @@ private:
     {
         return std::visit(overloaded
             {
-                [](auto&&) {return true; } // TODO: get rid of this default branch. We want compilation errors when a new variant is introduced.
+                [](lzss_options) { return true; }, // TODO: actually validate lzss options
+                [](rle_options) { return true; }, // TODO: actually validate rle options
+                [](delta_options) { return true; } // TODO: actually validate delta options
             }, options);
     }
 };
