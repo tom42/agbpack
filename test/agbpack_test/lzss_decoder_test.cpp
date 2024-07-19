@@ -16,14 +16,16 @@ TEST_CASE("lzss_decoder_test")
     SECTION("Valid input")
     {
         // TODO: short simple file without compression (e.g. 1 byte)
-        // TODO: not so short file without compression
+        // TODO: not so short file without compression (e.g. 8 bytes)
+        //       * And an even longer file > 8 bytes => That would require us to start reading flag bytes
         // TODO: files with compression
         //       * shortest offset
         //       * longest offset
         //       * shortest length
         //       * longest length
         string filename_part = GENERATE(
-            "lzss.good.uncompressed-bytes-only-1.txt");
+            "lzss.good.uncompressed-bytes-only-1.txt", // TODO: rename: one byte
+            "lzss.good.uncompressed-bytes-only-2.txt"); // TODO: rename: eight bytes
         auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
 
         auto decoded_data = agbpack_test::decode_file(decoder, filename_part + ".encoded");
