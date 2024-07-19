@@ -14,7 +14,9 @@ TEST_CASE("lzss_decoder_test")
 
     SECTION("Invalid input")
     {
-        auto encoded_file = GENERATE("lzss.bad.eof-inside-header.txt.encoded");
+        auto encoded_file = GENERATE(
+            "lzss.bad.eof-inside-header.txt.encoded",
+            "lzss.bad.wrong-compression-type-in-header.txt.encoded");
 
         CHECK_THROWS_AS(agbpack_test::decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
     }
