@@ -31,7 +31,6 @@ class lzss_sliding_window final
 public:
     agbpack_u8 read8(std::size_t displacement)
     {
-        // TODO: have some debug mode where we assert that no uninitialized position is read from?
         return m_buf[(m_write_position - displacement) & position_mask];
     }
 
