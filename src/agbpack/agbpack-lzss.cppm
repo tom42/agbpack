@@ -22,13 +22,10 @@ constexpr std::size_t maximum_match_length = 18;
 
 // TODO: maybe ringbuffer is the wrong name. maybe it's a sliding_window nevertheless
 //       => The special thing is, it has a fixed size and does wrapped around reads, no?
-// TODO: define constant for position mask
 template <std::size_t Size>
 class ringbuffer final
 {
 public:
-    static_assert(std::popcount(Size) == 1, "Size must be a power of 2 for index calculations using operator & to work");
-
     // TODO: size is not quite what we're after. We simply want to know the number of bytes written so far
     //       => Is this not simply not our problem? => Can this not the decoder know? => Well he can ask the writer, he knows
     std::size_t size()
@@ -40,16 +37,18 @@ public:
     {
         // TODO: here we want to wrap around, no?
         // TODO: have some debug mode where we assert that no uninitialized position is read from?
-        return m_buf[position & (Size - 1)];
+        return m_buf[position & position_mask];
     }
 
     void write8(agbpack_u8 byte)
     {
         m_buf[write_position] = byte;
-        write_position = (write_position + 1) & (Size - 1);
+        write_position = (write_position + 1) & position_mask;
     }
 
 private:
+    static_assert(std::popcount(Size) == 1, "Size must be a power of 2 for index calculations using operator & to work");
+    static constexpr std::size_t position_mask = Size - 1;
     std::size_t write_position = 0;
     std::array<agbpack_u8, Size> m_buf;
 };
