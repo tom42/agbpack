@@ -75,7 +75,7 @@ public:
     {
         // TODO: must check if this under/overflows! (well since all is unsigned, can't we just do the comparison unsigned? no need to have ssize_t)
         //       * The important bit here is this: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
-        std::size_t src = m_window.size() - displacement - 1;
+        std::size_t src = m_window.size() - displacement;
         while (nbytes--)
         {
             auto byte = m_window.read8(src++);
@@ -131,10 +131,10 @@ public:
                 auto b0 = reader.read8();
                 auto b1 = reader.read8();
                 unsigned int nbytes = ((b0 >> 4) & 0xf) + minimum_match_length;
-                std::size_t displacement = ((b0 & 0xfu) << 8) | b1;
+                std::size_t displacement = (((b0 & 0xfu) << 8) | b1) + 1;
 
                 assert((minimum_match_length <= nbytes) && (nbytes <= maximum_match_length) && "lzss_decoder is broken");
-                assert((displacement < sliding_window_size) && "lzss_decoder is broken");
+                assert((1 <= displacement) && (displacement <= sliding_window_size) && "lzss_decoder is broken");
 
                 // TODO: tests for invalid input
                 //       * too many bytes written
