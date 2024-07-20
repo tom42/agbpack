@@ -32,7 +32,7 @@ class lzss_sliding_window final
 public:
     agbpack_u8 read8(std::size_t displacement)
     {
-        assert((m_nbytes_written > 0) && "Cannot read from sliding window before anything has been written to it");
+        assert((m_nbytes_written > 0) && "Cannot read from empty sliding window");
         assert((displacement > 0) && "Cannot read from current write position. Nothing has been written to that position yet)");
         assert((displacement <= m_nbytes_written) && "Displacement too big. Sliding window is not yet full");
         return m_buf[(m_nbytes_written - displacement) & index_mask];
