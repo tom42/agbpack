@@ -15,9 +15,6 @@ import :header;
 namespace agbpack
 {
 
-namespace
-{
-
 constexpr std::size_t sliding_window_size = 4096;
 constexpr std::size_t minimum_match_length = 3;
 constexpr std::size_t maximum_match_length = 18;
@@ -94,8 +91,6 @@ private:
     byte_writer<OutputIterator> m_writer;
     ringbuffer<sliding_window_size> m_window;
 };
-
-}
 
 export class lzss_decoder final
 {
