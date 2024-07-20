@@ -36,22 +36,22 @@ public:
         //       => If we don't write back the modulo operation in the write position, then we
         //          can maybe use the write position and don't need another counter.
         //          The only question remaining is then, how should the assertion look like
-        assert(m_write_position > 0); // TODO: document why?
+        assert(m_nbytes_written > 0); // TODO: document why?
         assert(displacement > 0); // TODO: document why (and is there an upper limit?)
-        assert(displacement <= m_write_position);
-        return m_buf[(m_write_position - displacement) & index_mask];
+        assert(displacement <= m_nbytes_written);
+        return m_buf[(m_nbytes_written - displacement) & index_mask];
     }
 
     void write8(agbpack_u8 byte)
     {
-        m_buf[m_write_position & index_mask] = byte;
-        ++m_write_position;
+        m_buf[m_nbytes_written & index_mask] = byte;
+        ++m_nbytes_written;
     }
 
 private:
     static_assert(std::popcount(Size) == 1, "Size must be a power of 2 for index calculations using operator & to work");
     static constexpr std::size_t index_mask = Size - 1;
-    std::size_t m_write_position = 0;
+    std::size_t m_nbytes_written = 0;
     std::array<agbpack_u8, Size> m_buf;
 };
 
