@@ -14,14 +14,13 @@ import :header;
 namespace agbpack
 {
 
-// TODO: maybe rename to sliding_window_writer?
 // TODO: specialize this for the case when the output iterator is a random access iterator?
 //       * Well yes but if we do this we must run all of our tests twice. Not that that's much of a problem, though.
 template <std::output_iterator<agbpack_io_datatype> OutputIterator>
-class sliding_window final
+class sliding_window_writer final
 {
 public:
-    sliding_window(agbpack_u32 uncompressed_size, OutputIterator output)
+    sliding_window_writer(agbpack_u32 uncompressed_size, OutputIterator output)
         : m_writer(uncompressed_size, output) {}
 
     void write8(agbpack_u8 byte)
@@ -69,12 +68,12 @@ public:
             throw bad_encoded_data();
         }
 
-        sliding_window<OutputIterator> sliding_window(header->uncompressed_size(), output);
+        sliding_window_writer<OutputIterator> writer(header->uncompressed_size(), output);
 
         unsigned int mask = 0;
         unsigned int flags = 0;
 
-        while (!sliding_window.done())
+        while (!writer.done())
         {
             mask >>= 1;
             if (!mask)
@@ -94,14 +93,14 @@ public:
                 // TODO: tests for invalid input
                 //       * too many bytes written
                 //       * read outside of sliding window
-                sliding_window.copy_from_window(nbytes, displacement);
+                writer.copy_from_window(nbytes, displacement);
             }
             else
             {
                 // TODO: test: EOF input when reading single literal byte
                 // TODO: test: too much ouput when writing single literal byte
                 auto byte = reader.read8();
-                sliding_window.write8(byte);
+                writer.write8(byte);
             }
         }
 
