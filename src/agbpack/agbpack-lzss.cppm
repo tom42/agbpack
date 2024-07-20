@@ -26,7 +26,7 @@ constexpr std::size_t maximum_match_length = 18;
 //   Note: the buffer is not initialized. Reading from a position that has not yet been
 //   written to returns uninitialized data.
 template <std::size_t Size>
-class ringbuffer final
+class ringbuffer final // TODO: maybe rename it to sliding window again and special case it for that purpose. If we pass in a displacement into read8 we then don't need any other support. like size()
 {
 public:
     // TODO: size is not quite what we're after. We simply want to know the number of bytes written so far
