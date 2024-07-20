@@ -67,9 +67,6 @@ public:
 
     void write8(agbpack_u8 byte)
     {
-        // TODO: would we want to limit the size of the sliding window? => Well yes but probably we should then use a deque?
-        //       => Might not want to do this here: this will invalidate iterators for copy_from_window, no?
-        //       => No we don't need a deque. We need a vector and treat it as a ring buffer.
         m_writer.write8(byte);
         m_window.write8(byte);
     }
