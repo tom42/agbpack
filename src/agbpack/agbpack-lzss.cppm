@@ -36,6 +36,9 @@ public:
         //       => If we don't write back the modulo operation in the write position, then we
         //          can maybe use the write position and don't need another counter.
         //          The only question remaining is then, how should the assertion look like
+        assert(m_write_position > 0); // TODO: document why?
+        assert(displacement > 0); // TODO: document why (and is there an upper limit?)
+        assert(displacement <= m_write_position);
         return m_buf[(m_write_position - displacement) & position_mask];
     }
 
