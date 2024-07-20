@@ -103,7 +103,7 @@ public:
             throw bad_encoded_data();
         }
 
-        ++m_nuncompressed_bytes;
+        ++m_nbytes_written;
         *m_output++ = byte;
     }
 
@@ -119,12 +119,12 @@ public:
 
     bool done() const
     {
-        return m_nuncompressed_bytes >= m_uncompressed_size;
+        return m_nbytes_written >= m_uncompressed_size;
     }
 
 private:
     agbpack_u32 m_uncompressed_size;
-    agbpack_u32 m_nuncompressed_bytes = 0;
+    agbpack_u32 m_nbytes_written = 0;
     OutputIterator m_output;
 };
 
