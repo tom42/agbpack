@@ -41,8 +41,8 @@ public:
 
     void write8(agbpack_u8 byte)
     {
-        m_buf[m_write_position] = byte;
-        m_write_position = (m_write_position + 1) & position_mask;
+        m_buf[m_write_position & position_mask] = byte;
+        ++m_write_position;
     }
 
 private:
