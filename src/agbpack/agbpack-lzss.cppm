@@ -40,7 +40,7 @@ public:
         //       => Might not want to do this here: this will invalidate iterators for copy_from_window, no?
         //       => No we don't need a deque. We need a vector and treat it as a ring buffer.
         m_writer.write8(byte);
-        m_window.push_back(byte);
+        window_write(byte);
     }
 
     void copy_from_window(int nbytes, std::size_t displacement)
@@ -50,7 +50,7 @@ public:
         std::size_t src = m_window.size() - displacement - 1;
         while (nbytes--)
         {
-            auto byte = m_window[src++];
+            auto byte = window_read(src++);
             write8(byte);
         }
     }
@@ -61,6 +61,16 @@ public:
     }
 
 private:
+    agbpack_u8 window_read(std::size_t index)
+    {
+       return m_window[index];
+    }
+
+    void window_write(agbpack_u8 byte)
+    {
+        m_window.push_back(byte);
+    }
+
     byte_writer<OutputIterator> m_writer;
     std::vector<agbpack_u8> m_window;
 };
