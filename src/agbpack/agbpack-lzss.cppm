@@ -14,6 +14,8 @@ import :header;
 namespace agbpack
 {
 
+constexpr std::size_t sliding_window_size = 4096;
+
 // TODO: specialize this for the case when the output iterator is a random access iterator?
 //       * Well yes but if we do this we must run all of our tests twice. Not that that's much of a problem, though.
 template <std::output_iterator<agbpack_io_datatype> OutputIterator>
@@ -88,7 +90,9 @@ public:
                 auto b0 = reader.read8();
                 auto b1 = reader.read8();
                 int nbytes = ((b0 >> 4) & 0xf) + 3;
-                std::size_t displacement = ((b0 & 0xfu) << 8) | b1; // TODO: assert this is in the range 0..??? (2047?) => Well yes, but maybe do that inside the sliding window?
+                std::size_t displacement = ((b0 & 0xfu) << 8) | b1;
+                // TODO: assert displacement is in the range [0..4096] (or whatever it is?)
+                // TODO: do we want to test a maximum displacement? (well why not? then we know?)
 
                 // TODO: tests for invalid input
                 //       * too many bytes written
