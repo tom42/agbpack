@@ -14,6 +14,16 @@ import :header;
 namespace agbpack
 {
 
+template <std::output_iterator<agbpack_io_datatype> OutputIterator>
+class sliding_window final
+{
+public:
+    sliding_window(OutputIterator /*output*/) {}
+private:
+    OutputIterator m_output;
+    std::vector<agbpack_u8> m_window;
+};
+
 export class lzss_decoder final
 {
 public:
@@ -37,7 +47,6 @@ public:
         // TODO: that's a a rather temporary hack. Also, shouldn't we use a deque?
         //       => Well what we should do is we should wrap this into a class so we can easily replace it
         std::vector<agbpack_u8> sliding_window;
-
 
         unsigned int mask = 0;
         unsigned int flags = 0;
