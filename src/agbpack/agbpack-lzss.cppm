@@ -3,6 +3,7 @@
 
 module;
 
+#include <cassert>
 #include <iterator>
 #include <vector> // TODO: remove if not needed anymore
 
@@ -90,13 +91,16 @@ public:
                 auto b0 = reader.read8();
                 auto b1 = reader.read8();
                 int nbytes = ((b0 >> 4) & 0xf) + 3;
+
                 std::size_t displacement = ((b0 & 0xfu) << 8) | b1;
-                // TODO: assert displacement is in the range [0..4096] (or whatever it is?)
-                // TODO: do we want to test a maximum displacement? (well why not? then we know?)
+                assert((displacement < sliding_window_size) && "lzss_decoder is broken");
+
 
                 // TODO: tests for invalid input
                 //       * too many bytes written
                 //       * read outside of sliding window
+
+
                 writer.copy_from_window(nbytes, displacement);
             }
             else
