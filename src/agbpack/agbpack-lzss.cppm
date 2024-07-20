@@ -70,7 +70,7 @@ public:
         m_window.write8(byte);
     }
 
-    void copy_from_window(int nbytes, std::size_t displacement)
+    void copy_from_window(unsigned int nbytes, std::size_t displacement)
     {
         // TODO: must check if this under/overflows! (well since all is unsigned, can't we just do the comparison unsigned? no need to have ssize_t)
         //       * The important bit here is this: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
@@ -129,7 +129,7 @@ public:
                 // TODO: test if we hit EOF whily reading a back reference
                 auto b0 = reader.read8();
                 auto b1 = reader.read8();
-                int nbytes = ((b0 >> 4) & 0xf) + minimum_match_length;
+                unsigned int nbytes = ((b0 >> 4) & 0xf) + minimum_match_length;
                 std::size_t displacement = ((b0 & 0xfu) << 8) | b1;
 
                 assert((minimum_match_length <= nbytes) && (nbytes <= maximum_match_length) && "lzss_decoder is broken");
