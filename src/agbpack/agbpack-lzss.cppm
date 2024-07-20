@@ -58,7 +58,7 @@ public:
                 auto b0 = reader.read8();
                 auto b1 = reader.read8();
                 int nbytes = ((b0 >> 4) & 0xf) + 3;
-                std::size_t displacement = ((b0 & 0xf) << 8) | b1;
+                std::size_t displacement = ((b0 & 0xfu) << 8) | b1;
                 std::size_t src = sliding_window.size() - displacement - 1; // TODO: must check if this under/overflows!
 
                 while (nbytes--)
