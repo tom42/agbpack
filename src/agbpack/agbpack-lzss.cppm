@@ -33,6 +33,12 @@ public:
         m_buf.reserve(sliding_window_size);
     }
 
+    // TODO: size is not quite what we're after. We simply want to know the number of bytes written so far
+    std::size_t size()
+    {
+        return m_buf.size();
+    }
+
     agbpack_u8 read8(std::size_t position)
     {
         // TODO: here we want to wrap around, no?
@@ -55,10 +61,7 @@ class sliding_window_writer final
 {
 public:
     sliding_window_writer(agbpack_u32 uncompressed_size, OutputIterator output)
-        : m_writer(uncompressed_size, output)
-    {
-        m_window.reserve(sliding_window_size);
-    }
+        : m_writer(uncompressed_size, output) {}
 
     void write8(agbpack_u8 byte)
     {
@@ -66,7 +69,7 @@ public:
         //       => Might not want to do this here: this will invalidate iterators for copy_from_window, no?
         //       => No we don't need a deque. We need a vector and treat it as a ring buffer.
         m_writer.write8(byte);
-        window_write(byte);
+        m_window.write8(byte);
     }
 
     void copy_from_window(int nbytes, std::size_t displacement)
@@ -76,7 +79,7 @@ public:
         std::size_t src = m_window.size() - displacement - 1;
         while (nbytes--)
         {
-            auto byte = window_read(src++);
+            auto byte = m_window.read8(src++);
             write8(byte);
         }
     }
@@ -87,18 +90,8 @@ public:
     }
 
 private:
-    agbpack_u8 window_read(std::size_t index)
-    {
-       return m_window[index];
-    }
-
-    void window_write(agbpack_u8 byte)
-    {
-        m_window.push_back(byte);
-    }
-
     byte_writer<OutputIterator> m_writer;
-    std::vector<agbpack_u8> m_window;
+    ringbuffer m_window;
 };
 
 }
