@@ -3,9 +3,9 @@
 
 module;
 
+#include <array>
 #include <cassert>
 #include <iterator>
-#include <vector>
 
 export module agbpack:lzss;
 import :common;
@@ -24,34 +24,35 @@ constexpr std::size_t maximum_match_length = 18;
 
 // TODO: maybe ringbuffer is the wrong name. maybe it's a sliding_window nevertheless
 //       => The special thing is, it has a fixed size and does wrapped around reads, no?
+// TODO: static_assert that Size is a power of two
+// TODO: define constant for position mask
 template <std::size_t Size>
 class ringbuffer final
 {
 public:
-    ringbuffer()
-    {
-        m_buf.reserve(Size);
-    }
-
     // TODO: size is not quite what we're after. We simply want to know the number of bytes written so far
+    //       => Is this not simply not our problem? => Can this not the decoder know? => Well he can ask the writer, he knows
     std::size_t size()
     {
-        return m_buf.size();
+        return write_position;
     }
 
     agbpack_u8 read8(std::size_t position)
     {
         // TODO: here we want to wrap around, no?
-        return m_buf[position];
+        // TODO: have some debug mode where we assert that no uninitialized position is read from?
+        return m_buf[position & (Size - 1)];
     }
 
     void write8(agbpack_u8 byte)
     {
-        // TODO: here too we want to wrap around => maybe use a unique_ptr to a std::array?
-        m_buf.push_back(byte);
+        m_buf[write_position] = byte;
+        write_position = (write_position + 1) & (Size - 1);
     }
+
 private:
-    std::vector<agbpack_u8> m_buf;
+    std::size_t write_position = 0;
+    std::array<agbpack_u8, Size> m_buf;
 };
 
 // TODO: specialize this for the case when the output iterator is a random access iterator?
@@ -60,7 +61,7 @@ template <std::output_iterator<agbpack_io_datatype> OutputIterator>
 class sliding_window_writer final
 {
 public:
-    sliding_window_writer(agbpack_u32 uncompressed_size, OutputIterator output)
+    explicit sliding_window_writer(agbpack_u32 uncompressed_size, OutputIterator output)
         : m_writer(uncompressed_size, output) {}
 
     void write8(agbpack_u8 byte)
