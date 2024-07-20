@@ -16,6 +16,7 @@ import :header;
 namespace agbpack
 {
 
+// TODO: reconsider the use of size_t here: on a 16 bit platform this is too small
 constexpr std::size_t sliding_window_size = 4096;
 constexpr std::size_t minimum_match_length = 3;
 constexpr std::size_t maximum_match_length = 18;
@@ -31,6 +32,10 @@ class lzss_sliding_window final
 public:
     agbpack_u8 read8(std::size_t displacement)
     {
+        // TODO: have some debug mode where we assert that no uninitialized position is read from?
+        //       => If we don't write back the modulo operation in the write position, then we
+        //          can maybe use the write position and don't need another counter.
+        //          The only question remaining is then, how should the assertion look like
         return m_buf[(m_write_position - displacement) & position_mask];
     }
 
