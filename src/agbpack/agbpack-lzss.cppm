@@ -22,6 +22,32 @@ constexpr std::size_t sliding_window_size = 4096;
 constexpr std::size_t minimum_match_length = 3;
 constexpr std::size_t maximum_match_length = 18;
 
+// TODO: maybe make the size a template argument and don't even refer to sliding_window_size?
+// TODO: maybe ringbuffer is the wrong name. maybe it's a sliding_window nevertheless
+//       => The special thing is, it has a fixed size and does wrapped around reads, no?
+class ringbuffer final
+{
+public:
+    ringbuffer()
+    {
+        m_buf.reserve(sliding_window_size);
+    }
+
+    agbpack_u8 read8(std::size_t position)
+    {
+        // TODO: here we want to wrap around, no?
+        return m_buf[position];
+    }
+
+    void write8(agbpack_u8 byte)
+    {
+        // TODO: here too we want to wrap around => maybe use a unique_ptr to a std::array?
+        m_buf.push_back(byte);
+    }
+private:
+    std::vector<agbpack_u8> m_buf;
+};
+
 // TODO: specialize this for the case when the output iterator is a random access iterator?
 //       * Well yes but if we do this we must run all of our tests twice. Not that that's much of a problem, though.
 template <std::output_iterator<agbpack_io_datatype> OutputIterator>
