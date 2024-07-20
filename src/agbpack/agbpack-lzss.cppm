@@ -29,18 +29,10 @@ template <std::size_t Size>
 class ringbuffer final // TODO: maybe rename it to sliding window again and special case it for that purpose. If we pass in a displacement into read8 we then don't need any other support. like size()
 {
 public:
-    // TODO: size is not quite what we're after. We simply want to know the number of bytes written so far
-    //       => Is this not simply not our problem? => Can this not the decoder know? => Well he can ask the writer, he knows
-    std::size_t size()
+    agbpack_u8 read8(std::size_t displacement)
     {
-        return m_write_position;
-    }
-
-    agbpack_u8 read8(std::size_t position)
-    {
-        // TODO: here we want to wrap around, no?
         // TODO: have some debug mode where we assert that no uninitialized position is read from?
-        return m_buf[position & position_mask];
+        return m_buf[(m_write_position - displacement) & position_mask];
     }
 
     void write8(agbpack_u8 byte)
@@ -75,10 +67,9 @@ public:
     {
         // TODO: must check if this under/overflows! (well since all is unsigned, can't we just do the comparison unsigned? no need to have ssize_t)
         //       * The important bit here is this: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
-        std::size_t src = m_window.size() - displacement;
         while (nbytes--)
         {
-            auto byte = m_window.read8(src++);
+            auto byte = m_window.read8(displacement);
             write8(byte);
         }
     }
