@@ -20,8 +20,11 @@ constexpr std::size_t sliding_window_size = 4096;
 constexpr std::size_t minimum_match_length = 3;
 constexpr std::size_t maximum_match_length = 18;
 
-// TODO: maybe ringbuffer is the wrong name. maybe it's a sliding_window nevertheless
-//       => The special thing is, it has a fixed size and does wrapped around reads, no?
+// Sort of ringbuffer:
+// * Maintains an internal write position which wraps around when the buffer is written to.
+// * Allows reading from arbitrary position, where the read index wraps around.
+//   Note: the buffer is not initialized. Reading from a position that has not yet been
+//   written to returns uninitialized data.
 template <std::size_t Size>
 class ringbuffer final
 {
