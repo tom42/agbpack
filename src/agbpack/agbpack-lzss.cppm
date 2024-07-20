@@ -20,13 +20,13 @@ constexpr std::size_t sliding_window_size = 4096;
 constexpr std::size_t minimum_match_length = 3;
 constexpr std::size_t maximum_match_length = 18;
 
-// Sort of ringbuffer:
-// * Maintains an internal write position which wraps around when the buffer is written to.
-// * Allows reading from arbitrary position, where the read index wraps around.
-//   Note: the buffer is not initialized. Reading from a position that has not yet been
-//   written to returns uninitialized data.
+// Sliding window for LZSS decoder.
+// * Maintains an internal write position which wraps around when the window is written to.
+// * Allows reading relative to the write position. The final read position wraps around.
+//   Note: the sliding window is not initialized. Reading from a position that has not yet
+//   been written to returns uninitialized data.
 template <std::size_t Size>
-class ringbuffer final // TODO: maybe rename it to sliding window again and special case it for that purpose. If we pass in a displacement into read8 we then don't need any other support. like size()
+class lzss_sliding_window final
 {
 public:
     agbpack_u8 read8(std::size_t displacement)
@@ -81,7 +81,7 @@ public:
 
 private:
     byte_writer<OutputIterator> m_writer;
-    ringbuffer<sliding_window_size> m_window;
+    lzss_sliding_window<sliding_window_size> m_window;
 };
 
 export class lzss_decoder final
