@@ -22,15 +22,15 @@ constexpr std::size_t sliding_window_size = 4096;
 constexpr std::size_t minimum_match_length = 3;
 constexpr std::size_t maximum_match_length = 18;
 
-// TODO: maybe make the size a template argument and don't even refer to sliding_window_size?
 // TODO: maybe ringbuffer is the wrong name. maybe it's a sliding_window nevertheless
 //       => The special thing is, it has a fixed size and does wrapped around reads, no?
+template <std::size_t Size>
 class ringbuffer final
 {
 public:
     ringbuffer()
     {
-        m_buf.reserve(sliding_window_size);
+        m_buf.reserve(Size);
     }
 
     // TODO: size is not quite what we're after. We simply want to know the number of bytes written so far
@@ -91,7 +91,7 @@ public:
 
 private:
     byte_writer<OutputIterator> m_writer;
-    ringbuffer m_window;
+    ringbuffer<sliding_window_size> m_window;
 };
 
 }
