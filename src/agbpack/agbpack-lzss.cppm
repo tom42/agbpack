@@ -14,13 +14,40 @@ import :header;
 namespace agbpack
 {
 
+// TODO: maybe rename to sliding_window_writer?
+// TODO: specialize this for the case when the output iterator is a random access iterator?
+//       * Well yes but if we do this we must run all of our tests twice. Not that that's much of a problem, though.
 template <std::output_iterator<agbpack_io_datatype> OutputIterator>
 class sliding_window final
 {
 public:
-    sliding_window(OutputIterator /*output*/) {}
+    sliding_window(agbpack_u32 uncompressed_size, OutputIterator output)
+        : m_writer(uncompressed_size, output) {}
+
+    void write8(agbpack_u8 byte)
+    {
+        // TODO: would we want to limit the size of the sliding window? => Well yes but probably we should then use a deque?
+        m_writer.write8(byte);
+        m_window.push_back(byte);
+    }
+
+    void copy_from_window(int nbytes, std::size_t displacement)
+    {
+        std::size_t src = m_window.size() - displacement - 1; // TODO: must check if this under/overflows!
+        while (nbytes--)
+        {
+            auto byte = m_window[src++];
+            write8(byte);
+        }
+    }
+
+    bool done() const
+    {
+        return m_writer.done();
+    }
+
 private:
-    OutputIterator m_output;
+    byte_writer<OutputIterator> m_writer;
     std::vector<agbpack_u8> m_window;
 };
 
@@ -42,16 +69,12 @@ public:
             throw bad_encoded_data();
         }
 
-        byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
-
-        // TODO: that's a a rather temporary hack. Also, shouldn't we use a deque?
-        //       => Well what we should do is we should wrap this into a class so we can easily replace it
-        std::vector<agbpack_u8> sliding_window;
+        sliding_window<OutputIterator> sliding_window(header->uncompressed_size(), output);
 
         unsigned int mask = 0;
         unsigned int flags = 0;
 
-        while (!writer.done())
+        while (!sliding_window.done())
         {
             mask >>= 1;
             if (!mask)
@@ -62,36 +85,23 @@ public:
 
             if (flags & mask)
             {
-                // TODO: read back reference correctly
                 // TODO: test if we hit EOF whily reading a back reference
                 auto b0 = reader.read8();
                 auto b1 = reader.read8();
                 int nbytes = ((b0 >> 4) & 0xf) + 3;
-                std::size_t displacement = ((b0 & 0xfu) << 8) | b1;
-                std::size_t src = sliding_window.size() - displacement - 1; // TODO: must check if this under/overflows!
+                std::size_t displacement = ((b0 & 0xfu) << 8) | b1; // TODO: assert this is in the range 0..??? (2047?) => Well yes, but maybe do that inside the sliding window?
 
-                while (nbytes--)
-                {
-                    // TODO: this requires us to have an RANDOM ITERATOR!
-                    // TODO: well we could also write a version that has its own sliding window, no?
-                    //       => Well since our test setup actually prefers that, let's do just that.
-                    // TODO: tests for invalid input
-                    //       * too many bytes written
-                    //       * read outside of sliding window
-                    // TODO: now we need to copy stuff from our sliding window (copy from dest - disp - 1)
-
-                    auto byte = sliding_window[src++];
-                    writer.write8(byte);
-                    sliding_window.push_back(byte);
-                }
+                // TODO: tests for invalid input
+                //       * too many bytes written
+                //       * read outside of sliding window
+                sliding_window.copy_from_window(nbytes, displacement);
             }
             else
             {
                 // TODO: test: EOF input when reading single literal byte
                 // TODO: test: too much ouput when writing single literal byte
                 auto byte = reader.read8();
-                writer.write8(byte);
-                sliding_window.push_back(byte);
+                sliding_window.write8(byte);
             }
         }
 
