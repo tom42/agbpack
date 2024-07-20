@@ -15,7 +15,12 @@ import :header;
 namespace agbpack
 {
 
+namespace
+{
+
 constexpr std::size_t sliding_window_size = 4096;
+constexpr std::size_t minimum_match_length = 3;
+constexpr std::size_t maximum_match_length = 18;
 
 // TODO: specialize this for the case when the output iterator is a random access iterator?
 //       * Well yes but if we do this we must run all of our tests twice. Not that that's much of a problem, though.
@@ -29,13 +34,16 @@ public:
     void write8(agbpack_u8 byte)
     {
         // TODO: would we want to limit the size of the sliding window? => Well yes but probably we should then use a deque?
+        //       => Might not want to do this here: this will invalidate iterators for copy_from_window, no?
         m_writer.write8(byte);
         m_window.push_back(byte);
     }
 
     void copy_from_window(int nbytes, std::size_t displacement)
     {
-        std::size_t src = m_window.size() - displacement - 1; // TODO: must check if this under/overflows!
+        // TODO: must check if this under/overflows! (well since all is unsigned, can't we just do the comparison unsigned? no need to have ssize_t)
+        //       * The important bit here is this: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
+        std::size_t src = m_window.size() - displacement - 1;
         while (nbytes--)
         {
             auto byte = m_window[src++];
@@ -52,6 +60,8 @@ private:
     byte_writer<OutputIterator> m_writer;
     std::vector<agbpack_u8> m_window;
 };
+
+}
 
 export class lzss_decoder final
 {
@@ -90,9 +100,10 @@ public:
                 // TODO: test if we hit EOF whily reading a back reference
                 auto b0 = reader.read8();
                 auto b1 = reader.read8();
-                int nbytes = ((b0 >> 4) & 0xf) + 3;
-
+                int nbytes = ((b0 >> 4) & 0xf) + minimum_match_length;
                 std::size_t displacement = ((b0 & 0xfu) << 8) | b1;
+
+                assert((minimum_match_length <= nbytes) && (nbytes <= maximum_match_length) && "lzss_decoder is broken");
                 assert((displacement < sliding_window_size) && "lzss_decoder is broken");
 
 
