@@ -59,10 +59,10 @@ private:
 // TODO: specialize this for the case when the output iterator is a random access iterator?
 //       * Well yes but if we do this we must run all of our tests twice. Not that that's much of a problem, though.
 template <std::output_iterator<agbpack_io_datatype> OutputIterator>
-class sliding_window_writer final
+class lzss_byte_writer final
 {
 public:
-    explicit sliding_window_writer(agbpack_u32 uncompressed_size, OutputIterator output)
+    explicit lzss_byte_writer(agbpack_u32 uncompressed_size, OutputIterator output)
         : m_writer(uncompressed_size, output) {}
 
     void write8(agbpack_u8 byte)
@@ -71,7 +71,7 @@ public:
         m_window.write8(byte);
     }
 
-    void copy_from_window(unsigned int nbytes, std::size_t displacement)
+    void copy_from_output(unsigned int nbytes, std::size_t displacement)
     {
         // TODO: must check if this under/overflows! (well since all is unsigned, can't we just do the comparison unsigned? no need to have ssize_t)
         //       * The important bit here is this: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
@@ -111,7 +111,7 @@ public:
             throw bad_encoded_data();
         }
 
-        sliding_window_writer<OutputIterator> writer(header->uncompressed_size(), output);
+        lzss_byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
 
         unsigned int mask = 0;
         unsigned int flags = 0;
@@ -136,13 +136,10 @@ public:
                 assert((minimum_match_length <= nbytes) && (nbytes <= maximum_match_length) && "lzss_decoder is broken");
                 assert((displacement < sliding_window_size) && "lzss_decoder is broken");
 
-
                 // TODO: tests for invalid input
                 //       * too many bytes written
                 //       * read outside of sliding window
-
-
-                writer.copy_from_window(nbytes, displacement);
+                writer.copy_from_output(nbytes, displacement);
             }
             else
             {
