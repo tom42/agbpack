@@ -32,13 +32,9 @@ class lzss_sliding_window final
 public:
     agbpack_u8 read8(std::size_t displacement)
     {
-        // TODO: have some debug mode where we assert that no uninitialized position is read from?
-        //       => If we don't write back the modulo operation in the write position, then we
-        //          can maybe use the write position and don't need another counter.
-        //          The only question remaining is then, how should the assertion look like
-        assert(m_nbytes_written > 0); // TODO: document why?
-        assert(displacement > 0); // TODO: document why (and is there an upper limit?)
-        assert(displacement <= m_nbytes_written);
+        assert((m_nbytes_written > 0) && "Cannot read from sliding window before anything has been written to it");
+        assert((displacement > 0) && "Cannot read from current write position. Nothing has been written to that position yet)");
+        assert((displacement <= m_nbytes_written) && "Displacement too big. Sliding window is not yet full");
         return m_buf[(m_nbytes_written - displacement) & index_mask];
     }
 
