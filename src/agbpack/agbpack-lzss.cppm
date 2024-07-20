@@ -4,6 +4,7 @@
 module;
 
 #include <array>
+#include <bit>
 #include <cassert>
 #include <iterator>
 
@@ -21,12 +22,13 @@ constexpr std::size_t maximum_match_length = 18;
 
 // TODO: maybe ringbuffer is the wrong name. maybe it's a sliding_window nevertheless
 //       => The special thing is, it has a fixed size and does wrapped around reads, no?
-// TODO: static_assert that Size is a power of two
 // TODO: define constant for position mask
 template <std::size_t Size>
 class ringbuffer final
 {
 public:
+    static_assert(std::popcount(Size) == 1, "Size must be a power of 2 for index calculations using operator & to work");
+
     // TODO: size is not quite what we're after. We simply want to know the number of bytes written so far
     //       => Is this not simply not our problem? => Can this not the decoder know? => Well he can ask the writer, he knows
     std::size_t size()
