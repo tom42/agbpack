@@ -29,7 +29,10 @@ class sliding_window_writer final
 {
 public:
     sliding_window_writer(agbpack_u32 uncompressed_size, OutputIterator output)
-        : m_writer(uncompressed_size, output) {}
+        : m_writer(uncompressed_size, output)
+    {
+        m_window.reserve(sliding_window_size);
+    }
 
     void write8(agbpack_u8 byte)
     {
