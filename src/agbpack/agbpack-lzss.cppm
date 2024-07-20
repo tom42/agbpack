@@ -63,14 +63,12 @@ public:
 
                 while (nbytes--)
                 {
-                    // TODO: actually read bytes to copy from output
                     // TODO: this requires us to have an RANDOM ITERATOR!
                     // TODO: well we could also write a version that has its own sliding window, no?
                     //       => Well since our test setup actually prefers that, let's do just that.
                     // TODO: tests for invalid input
                     //       * too many bytes written
                     //       * read outside of sliding window
-
                     // TODO: now we need to copy stuff from our sliding window (copy from dest - disp - 1)
 
                     auto byte = sliding_window[src++];
