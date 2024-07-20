@@ -30,7 +30,7 @@ public:
     //       => Is this not simply not our problem? => Can this not the decoder know? => Well he can ask the writer, he knows
     std::size_t size()
     {
-        return write_position;
+        return m_write_position;
     }
 
     agbpack_u8 read8(std::size_t position)
@@ -42,14 +42,14 @@ public:
 
     void write8(agbpack_u8 byte)
     {
-        m_buf[write_position] = byte;
-        write_position = (write_position + 1) & position_mask;
+        m_buf[m_write_position] = byte;
+        m_write_position = (m_write_position + 1) & position_mask;
     }
 
 private:
     static_assert(std::popcount(Size) == 1, "Size must be a power of 2 for index calculations using operator & to work");
     static constexpr std::size_t position_mask = Size - 1;
-    std::size_t write_position = 0;
+    std::size_t m_write_position = 0;
     std::array<agbpack_u8, Size> m_buf;
 };
 
