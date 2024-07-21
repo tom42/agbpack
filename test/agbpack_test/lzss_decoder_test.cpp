@@ -42,13 +42,12 @@ TEST_CASE("lzss_decoder_test")
 
     SECTION("Valid input")
     {
-        // TODO: not so short file without compression (e.g. 8 bytes)
-        //       * And an even longer file > 8 bytes => That would require us to start reading flag bytes
         // TODO: files with compression
         //       * shortest offset
         //       * longest offset
         //       * shortest length
         //       * longest length
+        // TODO: file with and without compressed runs
         string filename_part = GENERATE(
             "lzss.good.1-uncompressed-byte.txt",
             "lzss.good.8-uncompressed-bytes.txt",
