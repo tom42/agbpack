@@ -86,7 +86,7 @@ std::optional<header> header::parse_for_type(compression_type wanted_type, uint3
 
 std::optional<header> header::parse(uint32_t header_data)
 {
-    auto type = static_cast<compression_type>((header_data >> 4) & 0xf);
+    auto type = compression_type((header_data >> 4) & 0xf);
     if (!is_valid(type))
     {
         return {};
