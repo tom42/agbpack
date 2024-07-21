@@ -20,10 +20,10 @@ std::vector<unsigned char> decode_file_to_vector(TDecoder& decoder, const std::s
 {
     // TODO: hack: read file to determine its size. Use getfilesize method. We have something like that
     // TODO: hack: also ugly: the fact that we need to replace extensions here again
-    //auto uncompressed_size = agbpack_test::read_file(std::filesystem::path(basename).replace_extension("decoded").string()).size();
+    auto uncompressed_size = agbpack_test::read_file(std::filesystem::path(basename).replace_extension("decoded").string()).size();
 
     std::vector<unsigned char> input = agbpack_test::read_file(basename);
-    std::vector<unsigned char> output; // TODO: this is going to break: we need to size the vector...
+    std::vector<unsigned char> output(uncompressed_size);
     decoder.decode(input.begin(), input.end(), begin(output));
     return output;
 }
