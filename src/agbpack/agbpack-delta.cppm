@@ -53,15 +53,15 @@ private:
     }
 
     template <typename SizeTag, typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
-    static void generic_decode(SizeTag size_tag, byte_reader<InputIterator>& reader, byte_writer<OutputIterator>& writer)
+    static void generic_decode(SizeTag symbol_size, byte_reader<InputIterator>& reader, byte_writer<OutputIterator>& writer)
     {
-        auto current_value = reader.read(size_tag);
-        writer.write(size_tag, current_value);
+        auto current_value = reader.read(symbol_size);
+        writer.write(symbol_size, current_value);
 
         while (!writer.done())
         {
-            current_value += reader.read(size_tag);
-            writer.write(size_tag, current_value);
+            current_value += reader.read(symbol_size);
+            writer.write(symbol_size, current_value);
         }
 
         reader.parse_padding_bytes();
