@@ -3,11 +3,32 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
+#include <filesystem> // TODO: remove
 #include "testdata.hpp"
 
 import agbpack;
 
 using string = std::string;
+
+namespace
+{
+
+// TODO: put this into common code?
+// TODO: review thoroughly
+template <typename TDecoder>
+std::vector<unsigned char> decode_file_to_vector(TDecoder& decoder, const std::string& basename)
+{
+    // TODO: hack: read file to determine its size. Use getfilesize method. We have something like that
+    // TODO: hack: also ugly: the fact that we need to replace extensions here again
+    //auto uncompressed_size = agbpack_test::read_file(std::filesystem::path(basename).replace_extension("decoded").string()).size();
+
+    std::vector<unsigned char> input = agbpack_test::read_file(basename);
+    std::vector<unsigned char> output; // TODO: this is going to break: we need to size the vector...
+    decoder.decode(input.begin(), input.end(), begin(output));
+    return output;
+}
+
+}
 
 TEST_CASE("lzss_decoder_test")
 {
@@ -31,9 +52,12 @@ TEST_CASE("lzss_decoder_test")
             "foo.txt"); // TODO: rename this: this is a file with a maximum offset
         auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
 
-        auto decoded_data = agbpack_test::decode_file(decoder, filename_part + ".encoded");
-
-        CHECK(decoded_data == expected_data);
+        // TODO: get rid of these agbpack_test:: qualifications:
+        //       * either use the namespace or the symbol
+        //       * or put tests into the same namespace
+        //       * Do so everywhere. It's hideous, really. And ridiculous, not even funny.
+        CHECK(agbpack_test::decode_file(decoder, filename_part + ".encoded") == expected_data);
+        CHECK(decode_file_to_vector(decoder, filename_part + ".encoded") == expected_data);
     }
 
     SECTION("Invalid input")
