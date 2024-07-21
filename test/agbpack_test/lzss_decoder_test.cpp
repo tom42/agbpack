@@ -18,11 +18,15 @@ namespace
 
 // TODO: review thoroughly
 template <typename TDecoder>
-std::vector<unsigned char> decode_file_to_vector(TDecoder& decoder, const std::string& basename)
+std::vector<unsigned char> decode_file_to_vector(TDecoder& decoder, const std::string& basename, bool expect_successful_decoding)
 {
     // TODO: hack: read file to determine its size. Use getfilesize method. We have something like that
     // TODO: hack: also ugly: the fact that we need to replace extensions here again
-    auto uncompressed_size = read_file(std::filesystem::path(basename).replace_extension("decoded").string()).size();
+    // TODO: the expect_successful_decoding thing is also a hack. But it gets us going for the moment.
+    //       What we really want is go get at the ader, so that we can do header parsing ourselves.
+    auto uncompressed_size = expect_successful_decoding
+        ? read_file(std::filesystem::path(basename).replace_extension("decoded").string()).size()
+        : 16384;
 
     std::vector<unsigned char> input = read_file(basename);
     std::vector<unsigned char> output(uncompressed_size);
@@ -55,7 +59,7 @@ TEST_CASE("lzss_decoder_test")
         auto expected_data = read_file(filename_part + ".decoded");
 
         CHECK(decode_file(decoder, filename_part + ".encoded") == expected_data);
-        CHECK(decode_file_to_vector(decoder, filename_part + ".encoded") == expected_data);
+        CHECK(decode_file_to_vector(decoder, filename_part + ".encoded", true) == expected_data);
     }
 
     SECTION("Invalid input")
@@ -72,7 +76,7 @@ TEST_CASE("lzss_decoder_test")
             "lzss.bad.invalid-compression-options-in-header.txt.encoded");             // TODO: ensure this is an otherwise valid zero length file
 
         CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
-        CHECK_THROWS_AS(decode_file_to_vector(decoder, encoded_file), agbpack::bad_encoded_data);
+        CHECK_THROWS_AS(decode_file_to_vector(decoder, encoded_file, false), agbpack::bad_encoded_data);
     }
 }
 
