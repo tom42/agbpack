@@ -6,6 +6,7 @@ module;
 #include <array>
 #include <bit>
 #include <cassert>
+#include <concepts>
 #include <iterator>
 
 export module agbpack:lzss;
@@ -117,7 +118,7 @@ public:
     {
         while (nbytes--)
         {
-            auto byte = *(m_output - static_cast<long>(displacement)); // TODO: fix this correctly
+            auto byte = *(m_output - make_signed(displacement));
             write8(byte);
         }
     }
@@ -128,6 +129,12 @@ public:
     }
 
 private:
+    template <std::unsigned_integral UnsignedIntegral>
+    static auto make_signed(UnsignedIntegral value)
+    {
+        return static_cast<std::make_signed_t<UnsignedIntegral>>(value);
+    }
+
     agbpack_u32 m_uncompressed_size;
     agbpack_u32 m_nbytes_written = 0;
     RandomAccessIterator m_output;
