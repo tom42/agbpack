@@ -117,7 +117,7 @@ public:
     {
         while (nbytes--)
         {
-            auto byte = *(m_output - displacement);
+            auto byte = *(m_output - static_cast<long>(displacement)); // TODO: fix this correctly
             write8(byte);
         }
     }
