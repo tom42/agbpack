@@ -110,6 +110,10 @@ public:
 
     void write8(agbpack_u8 byte)
     {
+        // TODO: by directly writing to the output iterator we bypass any output buffer overrun protection byte_writer gives us
+        //       => EITHER reimplement that protection here
+        //       => OR implement this specialization in terms of byte_writer
+        //       Anyway: our tests should catch this, no?
         *m_output++ = byte;
         ++m_nbytes_written;
     }
