@@ -76,8 +76,8 @@ public:
 
     void copy_from_output(unsigned int nbytes, std::size_t displacement)
     {
-        // TODO: must check if this under/overflows! (well since all is unsigned, can't we just do the comparison unsigned? no need to have ssize_t)
-        //       * The important bit here is this: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
+        // TODO: must check if this under/overflows!
+        //       Note: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
         // TODO: well if we do this here we need to do so in the specialization for random_access_iterator too, so it's better done in the actual decoder, no?
         while (nbytes--)
         {
