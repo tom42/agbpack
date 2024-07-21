@@ -73,6 +73,7 @@ TEST_CASE("lzss_decoder_test")
             "lzss.bad.invalid-compression-options-in-header.txt.encoded");             // TODO: ensure this is an otherwise valid zero length file
 
         CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
+        CHECK_THROWS_AS(decode_file_to_vector(decoder, encoded_file), agbpack::bad_encoded_data);
     }
 }
 
