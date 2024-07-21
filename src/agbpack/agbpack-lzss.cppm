@@ -59,7 +59,8 @@ private:
 
 // TODO: specialize this for the case when the output iterator is a random access iterator?
 //       * Well yes but if we do this we must run all of our tests twice. Not that that's much of a problem, though.
-template <std::output_iterator<agbpack_io_datatype> OutputIterator>
+// TODO: document what this is?
+template <typename OutputIterator>
 class lzss_byte_writer final
 {
 public:
@@ -93,16 +94,46 @@ private:
     lzss_sliding_window<sliding_window_size> m_window;
 };
 
+// TODO: document what this is?
+// TODO: implement
+// TODO: review
+template <std::random_access_iterator RandomAccessIterator>
+class lzss_byte_writer<RandomAccessIterator> final
+{
+public:
+    explicit lzss_byte_writer(agbpack_u32 /*uncompressed_size*/, RandomAccessIterator /*output*/)
+    {
+        // TODO: do something useful here
+    }
+
+    void write8(agbpack_u8 /*byte*/)
+    {
+        throw "TODO: implement write8";
+    }
+
+    void copy_from_output(unsigned int /*nbytes*/, std::size_t /*displacement*/)
+    {
+        throw "TODO: implement copy_from_output";
+    }
+
+    bool done() const
+    {
+        throw "TODO: implement done";
+    }
+
+private:
+};
+
 export class lzss_decoder final
 {
 public:
-    template <std::input_iterator InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
+    template <std::input_iterator InputIterator, typename OutputIterator> // TODO: if this is the signature we're going to use, align the other decoders with tjis
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         // TODO: Do we want to have a mode where the decoder is explicitly asked to decode VRAM safe data?
         //       Such a thing would be used as verification. Such a decoder would then bark if the data
         //       is not actually VRAM safe.
-        static_assert_input_type(input);
+        static_assert_input_type(input); // TODO: probably we want to either remove this or extend it with the output iterator?
 
         byte_reader<InputIterator> reader(input, eof);
         auto header = header::parse_for_type(compression_type::lzss, reader.read32());
