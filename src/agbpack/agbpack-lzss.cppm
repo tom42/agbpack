@@ -77,6 +77,7 @@ public:
     {
         // TODO: must check if this under/overflows! (well since all is unsigned, can't we just do the comparison unsigned? no need to have ssize_t)
         //       * The important bit here is this: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
+        // TODO: well if we do this here we need to do so in the specialization for random_access_iterator too, so it's better done in the actual decoder, no?
         while (nbytes--)
         {
             auto byte = m_window.read8(displacement);
@@ -101,27 +102,35 @@ template <std::random_access_iterator RandomAccessIterator>
 class lzss_byte_writer<RandomAccessIterator> final
 {
 public:
-    explicit lzss_byte_writer(agbpack_u32 /*uncompressed_size*/, RandomAccessIterator /*output*/)
+    explicit lzss_byte_writer(agbpack_u32 uncompressed_size, RandomAccessIterator output)
+        : m_uncompressed_size(uncompressed_size)
+        , m_output(output)
+    {}
+
+    void write8(agbpack_u8 byte)
     {
-        // TODO: do something useful here
+        *m_output++ = byte;
+        ++m_nbytes_written;
     }
 
-    void write8(agbpack_u8 /*byte*/)
+    void copy_from_output(unsigned int nbytes, std::size_t displacement)
     {
-        throw "TODO: implement write8";
-    }
-
-    void copy_from_output(unsigned int /*nbytes*/, std::size_t /*displacement*/)
-    {
-        throw "TODO: implement copy_from_output";
+        while (nbytes--)
+        {
+            auto byte = *(m_output - displacement);
+            write8(byte);
+        }
     }
 
     bool done() const
     {
-        throw "TODO: implement done";
+        return m_nbytes_written >= m_uncompressed_size;
     }
 
 private:
+    agbpack_u32 m_uncompressed_size;
+    agbpack_u32 m_nbytes_written = 0;
+    RandomAccessIterator m_output;
 };
 
 export class lzss_decoder final
