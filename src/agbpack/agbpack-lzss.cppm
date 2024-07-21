@@ -18,7 +18,7 @@ namespace agbpack
 {
 
 // TODO: reconsider the use of size_t here: on a 16 bit platform this is too small
-constexpr std::size_t sliding_window_size = 4096;
+constexpr unsigned int sliding_window_size = 4096;
 constexpr unsigned int minimum_match_length = 3;
 constexpr unsigned int maximum_match_length = 18;
 
