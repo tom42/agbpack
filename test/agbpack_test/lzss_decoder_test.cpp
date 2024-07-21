@@ -16,7 +16,6 @@ namespace agbpack_test
 namespace
 {
 
-// TODO: put this into common code?
 // TODO: review thoroughly
 template <typename TDecoder>
 std::vector<unsigned char> decode_file_to_vector(TDecoder& decoder, const std::string& basename)
