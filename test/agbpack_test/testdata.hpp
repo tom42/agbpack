@@ -20,7 +20,7 @@ std::vector<unsigned char> read_file(const std::string& basename);
 template <typename TDecoder>
 std::vector<unsigned char> decode_file(TDecoder& decoder, const std::string& basename)
 {
-    std::vector<unsigned char> input = agbpack_test::read_file(basename);
+    std::vector<unsigned char> input = read_file(basename);
     std::vector<unsigned char> output;
     decoder.decode(input.begin(), input.end(), back_inserter(output));
     return output;

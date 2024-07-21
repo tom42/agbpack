@@ -8,6 +8,9 @@
 
 import agbpack;
 
+namespace agbpack_test
+{
+
 using string = std::string;
 
 TEST_CASE("delta_decoder_test")
@@ -23,9 +26,9 @@ TEST_CASE("delta_decoder_test")
             "delta.good.16.zero-length-file.txt",
             "delta.good.16.one-word.bin",
             "delta.good.16.sine.bin");
-        auto expected_data = agbpack_test::read_file(filename_part + ".decoded");
+        auto expected_data = read_file(filename_part + ".decoded");
 
-        auto decoded_data = agbpack_test::decode_file(decoder, filename_part + ".encoded");
+        auto decoded_data = decode_file(decoder, filename_part + ".encoded");
 
         CHECK(decoded_data == expected_data);
     }
@@ -46,6 +49,8 @@ TEST_CASE("delta_decoder_test")
             "delta.bad.16.eof-inside-stream.bin.encoded",
             "delta.bad.16.missing-padding-at-end-of-data.bin.encoded");
 
-        CHECK_THROWS_AS(agbpack_test::decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
+        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
     }
+}
+
 }
