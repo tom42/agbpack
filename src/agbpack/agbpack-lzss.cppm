@@ -21,7 +21,7 @@ constexpr std::size_t sliding_window_size = 4096;
 constexpr std::size_t minimum_match_length = 3;
 constexpr std::size_t maximum_match_length = 18;
 
-// Sliding window for LZSS decoder.
+// Sliding window for LZSS decoder. Used when the output iterator does not allow random access.
 // * Maintains an internal write position which wraps around when the window is written to.
 // * Allows reading relative to the write position. The final read position wraps around.
 //   Note: the sliding window is not initialized. Reading from a position that has not yet
@@ -32,9 +32,7 @@ class lzss_sliding_window final
 public:
     agbpack_u8 read8(std::size_t displacement)
     {
-        assert((m_nbytes_written > 0) && "Cannot read from empty sliding window");
-        assert((displacement > 0) && "Cannot read from current write position. Nothing has been written to that position yet)");
-        assert((displacement <= m_nbytes_written) && "Displacement too big. Sliding window is not yet full");
+        assert_read_allowed(displacement);
         return m_buf[(m_nbytes_written - displacement) & index_mask];
     }
 
@@ -47,6 +45,14 @@ public:
 private:
     static_assert(std::popcount(Size) == 1, "Size must be a power of 2 for index calculations using operator & to work");
     static constexpr std::size_t index_mask = Size - 1;
+
+    void assert_read_allowed([[maybe_unused]] std::size_t displacement)
+    {
+        assert((m_nbytes_written > 0) && "Cannot read from empty sliding window");
+        assert((displacement > 0) && "Cannot read from current write position. Nothing has been written to that position yet)");
+        assert((displacement <= m_nbytes_written) && "Displacement too big. Sliding window is not yet full");
+    }
+
     std::size_t m_nbytes_written = 0;
     std::array<agbpack_u8, Size> m_buf;
 };
