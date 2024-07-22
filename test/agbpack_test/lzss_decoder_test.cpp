@@ -18,7 +18,7 @@ namespace
 
 // TODO: review thoroughly
 template <typename TDecoder>
-std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decoder, const std::string& basename, bool expect_successful_decoding)
+std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decoder, const string& basename, bool expect_successful_decoding)
 {
     // TODO: hack: read file to determine its size. Use getfilesize method. We have something like that
     // TODO: hack: also ugly: the fact that we need to replace extensions here again
