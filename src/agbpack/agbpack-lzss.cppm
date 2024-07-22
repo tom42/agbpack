@@ -58,9 +58,9 @@ private:
     std::array<agbpack_u8, Size> m_buf;
 };
 
-// TODO: specialize this for the case when the output iterator is a random access iterator?
-//       * Well yes but if we do this we must run all of our tests twice. Not that that's much of a problem, though.
-// TODO: document what this is?
+// General case LZSS byte writer.
+// Works with any kind of output iterator, including those that cannot be read from.
+// In order to decode references it maintains an internal sliding window.
 template <typename OutputIterator>
 class lzss_byte_writer final
 {
