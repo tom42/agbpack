@@ -31,10 +31,10 @@ template <std::size_t Size>
 class lzss_sliding_window final
 {
 public:
-    agbpack_u8 read8(std::size_t displacement)
+    agbpack_u8 read8(std::size_t offset)
     {
-        assert_read_allowed(displacement);
-        return m_buf[(m_nbytes_written - displacement) & index_mask];
+        assert_read_allowed(offset);
+        return m_buf[(m_nbytes_written - offset) & index_mask];
     }
 
     void write8(agbpack_u8 byte)
@@ -47,11 +47,12 @@ private:
     static_assert(std::popcount(Size) == 1, "Size must be a power of 2 for index calculations using operator & to work");
     static constexpr std::size_t index_mask = Size - 1;
 
-    void assert_read_allowed([[maybe_unused]] std::size_t displacement)
+    void assert_read_allowed([[maybe_unused]] std::size_t offset)
     {
         assert((m_nbytes_written > 0) && "Cannot read from empty sliding window");
-        assert((displacement > 0) && "Cannot read from current write position. Nothing has been written to that position yet)");
-        assert((displacement <= m_nbytes_written) && "Displacement too big. Sliding window is not yet full");
+        assert((offset > 0) && "Cannot read from current write position");
+        assert((offset <= Size) && "Offset is too big");
+        assert((offset <= m_nbytes_written) && "Offset is too big for amount of data currently in sliding window");
     }
 
     std::size_t m_nbytes_written = 0;
@@ -74,14 +75,14 @@ public:
         m_window.write8(byte);
     }
 
-    void copy_from_output(unsigned int nbytes, std::size_t displacement)
+    void copy_from_output(unsigned int nbytes, std::size_t offset)
     {
         // TODO: must check if this under/overflows!
         //       Note: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
         // TODO: well if we do this here we need to do so in the specialization for random_access_iterator too, so it's better done in the actual decoder, no?
         while (nbytes--)
         {
-            auto byte = m_window.read8(displacement);
+            auto byte = m_window.read8(offset);
             write8(byte);
         }
     }
@@ -118,11 +119,11 @@ public:
         ++m_nbytes_written;
     }
 
-    void copy_from_output(unsigned int nbytes, std::size_t displacement)
+    void copy_from_output(unsigned int nbytes, std::size_t offset)
     {
         while (nbytes--)
         {
-            auto byte = *(m_output - make_signed(displacement));
+            auto byte = *(m_output - make_signed(offset));
             write8(byte);
         }
     }
@@ -182,15 +183,15 @@ public:
                 auto b0 = reader.read8();
                 auto b1 = reader.read8();
                 unsigned int nbytes = ((b0 >> 4) & 0xf) + minimum_match_length;
-                std::size_t displacement = (((b0 & 0xfu) << 8) | b1) + 1;
+                std::size_t offset = (((b0 & 0xfu) << 8) | b1) + 1;
 
                 assert((minimum_match_length <= nbytes) && (nbytes <= maximum_match_length) && "lzss_decoder is broken");
-                assert((1 <= displacement) && (displacement <= sliding_window_size) && "lzss_decoder is broken");
+                assert((1 <= offset) && (offset <= sliding_window_size) && "lzss_decoder is broken");
 
                 // TODO: tests for invalid input
                 //       * too many bytes written
                 //       * read outside of sliding window
-                writer.copy_from_output(nbytes, displacement);
+                writer.copy_from_output(nbytes, offset);
             }
             else
             {
