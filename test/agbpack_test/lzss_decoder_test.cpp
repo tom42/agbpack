@@ -55,7 +55,7 @@ TEST_CASE("lzss_decoder_test")
             "lzss.good.compressed-bytes-1.txt",
             "lzss.good.compressed-bytes-2.txt",
             "lzss.good.zero-length-file.txt",
-            "foo.txt"); // TODO: rename this: this is a file with a maximum offset
+            "lzss.good.reference-with-maximum-offset.txt");
         auto expected_data = read_file(filename_part + ".decoded");
 
         CHECK(decode_file(decoder, filename_part + ".encoded") == expected_data);
