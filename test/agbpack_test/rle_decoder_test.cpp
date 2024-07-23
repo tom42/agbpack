@@ -40,11 +40,6 @@ TEST_CASE("rle_decoder_test")
 
     SECTION("Invalid input")
     {
-        // TODO: align wrong/invalid type and invalid option tests with LZSS
-        //       * invalid type
-        //       * valid but unexpected type
-        //       * invalid options
-        //       TAKE CARE: these files should be otherwise valid zero length input files
         auto encoded_file = GENERATE(
             "rle.bad.eof-inside-header.txt.encoded",
             "rle.bad.eof-at-flag-byte.txt.encoded",
@@ -54,7 +49,7 @@ TEST_CASE("rle_decoder_test")
             "rle.bad.uncompressed-run-goes-past-decompressed-size.txt.encoded",
             "rle.bad.invalid-compression-type-in-header.txt.encoded",
             "rle.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
-            "rle.bad.wrong-compression-options-in-header.txt.encoded",  // TODO: => this becomes "invalod options"
+            "rle.bad.invalid-compression-options-in-header.txt.encoded",
             "rle.bad.missing-padding-at-end-of-data.txt.encoded");
 
         CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
