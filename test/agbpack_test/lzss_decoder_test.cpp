@@ -48,8 +48,6 @@ TEST_CASE("lzss_decoder_test")
     SECTION("Valid input")
     {
         // TODO: files with compression
-        //       * shortest offset
-        //       * longest offset
         //       * shortest length
         //       * longest length
         // TODO: file with and without compressed runs
@@ -60,6 +58,7 @@ TEST_CASE("lzss_decoder_test")
             "lzss.good.compressed-bytes-1.txt",
             "lzss.good.compressed-bytes-2.txt",
             "lzss.good.zero-length-file.txt",
+            "lzss.good.reference-with-minimum-offset.txt",
             "lzss.good.reference-with-maximum-offset.txt");
         auto expected_data = read_file(filename_part + ".decoded");
 
