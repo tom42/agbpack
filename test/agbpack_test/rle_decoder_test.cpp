@@ -52,8 +52,9 @@ TEST_CASE("rle_decoder_test")
             "rle.bad.eof-inside-uncompressed-run.txt.encoded",
             "rle.bad.compressed-run-goes-past-decompressed-size.txt.encoded",
             "rle.bad.uncompressed-run-goes-past-decompressed-size.txt.encoded",
-            "rle.bad.wrong-compression-type-in-header.txt.encoded",
-            "rle.bad.wrong-compression-options-in-header.txt.encoded",
+            "rle.bad.invalid-compression-type-in-header.txt.encoded",
+            // TODO: here we insert valid-but-unexpected type
+            "rle.bad.wrong-compression-options-in-header.txt.encoded",  // TODO: => this becomes "invalod options"
             "rle.bad.missing-padding-at-end-of-data.txt.encoded");
 
         CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
