@@ -48,8 +48,7 @@ TEST_CASE("lzss_decoder_test")
     SECTION("Valid input")
     {
         // TODO: files with compression
-        //       * shortest length
-        //       * longest length
+        //       * longest match (0xf => 0xf + 3 = 18 repeatet characters)
         // TODO: file with and without compressed runs
         string filename_part = GENERATE(
             "lzss.good.1-uncompressed-byte.txt",
@@ -59,7 +58,8 @@ TEST_CASE("lzss_decoder_test")
             "lzss.good.compressed-bytes-2.txt",
             "lzss.good.zero-length-file.txt",
             "lzss.good.reference-with-minimum-offset.txt",
-            "lzss.good.reference-with-maximum-offset.txt");
+            "lzss.good.reference-with-maximum-offset.txt",
+            "lzss.good.reference-with-minimum-match-length.txt");
         auto expected_data = read_file(filename_part + ".decoded");
 
         CHECK(decode_file(decoder, filename_part + ".encoded") == expected_data);
