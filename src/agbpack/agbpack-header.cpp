@@ -59,12 +59,12 @@ std::optional<compression_options> create_options(compression_type type, uint32_
 {
     switch (type)
     {
-    case compression_type::lzss:
-        return lzss_options(options);
-    case compression_type::rle:
-        return rle_options(options);
-    case compression_type::delta:
-        return delta_options(options);
+        case compression_type::lzss:
+            return lzss_options(options);
+        case compression_type::rle:
+            return rle_options(options);
+        case compression_type::delta:
+            return delta_options(options);
     }
 
     // TODO: throw for unknown types (throw? assert? return empty?)
