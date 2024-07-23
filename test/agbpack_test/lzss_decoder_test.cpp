@@ -24,6 +24,11 @@ std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decod
     // TODO: hack: also ugly: the fact that we need to replace extensions here again
     // TODO: the expect_successful_decoding thing is also a hack. But it gets us going for the moment.
     //       What we really want is go get at the ader, so that we can do header parsing ourselves.
+    // TODO: this is what should really happen:
+    //       * We look whether there is a decoded file. If so we use that to determine size file size
+    //       * If there is no decoded file, then, if we can read the header, take the file size from there
+    //       * Finally, if header parsing fails, assume no decoding is going to take place. In this case,
+    //         Even a vector of size zero should do the job.
     auto uncompressed_size = expect_successful_decoding
         ? read_file(std::filesystem::path(basename).replace_extension("decoded").string()).size()
         : 16384;
