@@ -3,6 +3,7 @@
 
 module;
 
+#include <cassert>
 #include <cstdint>
 #include <optional>
 #include <variant>
@@ -67,7 +68,7 @@ std::optional<compression_options> create_unvalidated_options(compression_type t
             return delta_options(options);
     }
 
-    // TODO: throw for unknown types (throw? assert? return empty?)
+    assert(false && "Unknown compression type passed to create_unvalidated_options");
     return {};
 }
 
