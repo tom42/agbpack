@@ -55,7 +55,7 @@ bool is_valid(compression_options options)
     return std::visit([](auto&& opts) { return is_valid(opts); }, options);
 }
 
-std::optional<compression_options> create_options(compression_type type, uint32_t options)
+std::optional<compression_options> create_unvalidated_options(compression_type type, uint32_t options)
 {
     switch (type)
     {
@@ -92,7 +92,7 @@ std::optional<header> header::parse(uint32_t header_data)
         return {};
     }
 
-    auto options = create_options(type, header_data & 0xf);
+    auto options = create_unvalidated_options(type, header_data & 0xf);
     if (!options || !is_valid(*options))
     {
         return {};
