@@ -53,7 +53,7 @@ TEST_CASE("rle_decoder_test")
             "rle.bad.compressed-run-goes-past-decompressed-size.txt.encoded",
             "rle.bad.uncompressed-run-goes-past-decompressed-size.txt.encoded",
             "rle.bad.invalid-compression-type-in-header.txt.encoded",
-            // TODO: here we insert valid-but-unexpected type
+            "rle.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
             "rle.bad.wrong-compression-options-in-header.txt.encoded",  // TODO: => this becomes "invalod options"
             "rle.bad.missing-padding-at-end-of-data.txt.encoded");
 
