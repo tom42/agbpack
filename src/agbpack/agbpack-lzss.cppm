@@ -97,8 +97,8 @@ private:
     lzss_sliding_window<sliding_window_size> m_window;
 };
 
-// TODO: document what this is?
-// TODO: review
+// Specialized LZSS byte writer for random access iterators.
+// Does not need memory for a separate sliding window because references can be read from the output buffer.
 template <std::random_access_iterator RandomAccessIterator>
 class lzss_byte_writer<RandomAccessIterator> final
 {
