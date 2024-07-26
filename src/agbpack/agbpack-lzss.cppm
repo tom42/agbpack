@@ -98,7 +98,6 @@ private:
 };
 
 // TODO: document what this is?
-// TODO: implement
 // TODO: review
 template <std::random_access_iterator RandomAccessIterator>
 class lzss_byte_writer<RandomAccessIterator> final
