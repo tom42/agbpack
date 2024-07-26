@@ -172,7 +172,7 @@ public:
             mask >>= 1;
             if (!mask)
             {
-                flags = reader.read8(); // TODO: test if we hit EOF here (reading flag byte)
+                flags = reader.read8();
                 mask = 0x80;
             }
 
