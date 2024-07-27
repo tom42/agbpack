@@ -71,7 +71,6 @@ public:
 
     void parse_padding_bytes()
     {
-        // TODO: do we require padding bytes to be zero?
         while ((nbytes_read() % 4) != 0)
         {
             read8();
