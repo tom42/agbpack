@@ -193,7 +193,6 @@ public:
             }
             else
             {
-                // TODO: test: EOF input when reading single literal byte
                 // TODO: test: too much ouput when writing single literal byte
                 auto byte = reader.read8();
                 writer.write8(byte);

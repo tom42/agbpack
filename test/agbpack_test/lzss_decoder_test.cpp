@@ -72,6 +72,7 @@ TEST_CASE("lzss_decoder_test")
             "lzss.bad.eof-at-flag-byte.txt.encoded",
             "lzss.bad.eof-at-reference-byte-1.txt.encoded",
             "lzss.bad.eof-at-reference-byte-2.txt.encoded",
+            "lzss.bad.eof-at-literal-byte.txt.encoded",
             "lzss.bad.invalid-compression-type-in-header.txt.encoded",
             "lzss.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
             "lzss.bad.invalid-compression-options-in-header.txt.encoded");
