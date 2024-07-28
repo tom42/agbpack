@@ -178,7 +178,6 @@ public:
 
             if (flags & mask)
             {
-                // TODO: test if we hit EOF whily reading a back reference
                 auto b0 = reader.read8();
                 auto b1 = reader.read8();
                 unsigned int nbytes = ((b0 >> 4) & 0xf) + minimum_match_length;
