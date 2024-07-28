@@ -147,7 +147,7 @@ private:
 export class lzss_decoder final
 {
 public:
-    template <std::input_iterator InputIterator, typename OutputIterator> // TODO: if this is the signature we're going to use, align the other decoders with tjis
+    template <std::input_iterator InputIterator, typename OutputIterator>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         // TODO: Do we want to have a mode where the decoder is explicitly asked to decode VRAM safe data?

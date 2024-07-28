@@ -16,7 +16,7 @@ namespace agbpack
 export class rle_decoder final
 {
 public:
-    template <std::input_iterator InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
+    template <std::input_iterator InputIterator, typename OutputIterator>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type(input);
