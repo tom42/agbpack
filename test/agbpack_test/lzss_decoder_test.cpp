@@ -47,7 +47,9 @@ TEST_CASE("lzss_decoder_test")
 
     SECTION("Valid input")
     {
-        // TODO: file with and without compressed runs
+        // TODO:
+        // * file with and without compressed runs
+        // * Decide whether to use literal/reference vs. compressed/uncompressed
         string filename_part = GENERATE(
             "lzss.good.1-uncompressed-byte.txt",
             "lzss.good.8-uncompressed-bytes.txt",
