@@ -199,8 +199,7 @@ public:
             }
         }
 
-
-        // TODO: parse padding bytes
+        reader.parse_padding_bytes();
     }
 };
 
