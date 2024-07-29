@@ -3,7 +3,8 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
-#include <filesystem> // TODO: remove
+#include <cstddef>
+#include <filesystem>
 #include "testdata.hpp"
 
 import agbpack;
@@ -16,24 +17,37 @@ namespace agbpack_test
 namespace
 {
 
+std::size_t guess_uncompressed_size(const string& basename)
+{
+    auto decoded_file_path = get_testfile_path(std::filesystem::path(basename).replace_extension("decoded"));
+    if (std::filesystem::exists(decoded_file_path))
+    {
+        // Get size of uncompressed data from .decoded file if it exists.
+        return get_file_size(decoded_file_path);
+    }
+
+    // TODO: guess file size from header
+
+    // TODO: if all else fails, return 0. For now we return a sufficiently large size, otherwise tests may crash.
+    return 65536;
+}
+
 template <typename TDecoder>
-std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decoder, const string& basename, bool expect_successful_decoding)
+std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decoder, const string& basename)
 {
     // TODO: hack: read file to determine its size. Use getfilesize method. We have something like that
     // TODO: hack: also ugly: the fact that we need to replace extensions here again
-    // TODO: the expect_successful_decoding thing is also a hack. But it gets us going for the moment.
-    //       What we really want is go get at the ader, so that we can do header parsing ourselves.
     // TODO: this is what should really happen:
     //       * We look whether there is a decoded file. If so we use that to determine size file size
     //       * If there is no decoded file, then, if we can read the header, take the file size from there
     //       * Finally, if header parsing fails, assume no decoding is going to take place. In this case,
     //         Even a vector of size zero should do the job.
-    auto uncompressed_size = expect_successful_decoding
-        ? read_file(std::filesystem::path(basename).replace_extension("decoded").string()).size()
-        : 16384;
+    /*auto uncompressed_size = expect_successful_decoding
+        ? read_file(.string()).size()
+        : 16384;*/
 
     std::vector<unsigned char> input = read_file(basename);
-    std::vector<unsigned char> output(uncompressed_size);
+    std::vector<unsigned char> output(guess_uncompressed_size(basename));
     decoder.decode(input.begin(), input.end(), begin(output));
     return output;
 }
@@ -61,7 +75,7 @@ TEST_CASE("lzss_decoder_test")
         auto expected_data = read_file(filename_part + ".decoded");
 
         CHECK(decode_file(decoder, filename_part + ".encoded") == expected_data);
-        CHECK(decode_file_to_random_access_iterator(decoder, filename_part + ".encoded", true) == expected_data);
+        CHECK(decode_file_to_random_access_iterator(decoder, filename_part + ".encoded") == expected_data);
     }
 
     SECTION("Invalid input")
@@ -78,7 +92,7 @@ TEST_CASE("lzss_decoder_test")
             "lzss.bad.missing-padding-at-end-of-data.txt.encoded");
 
         CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
-        CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, encoded_file, false), agbpack::bad_encoded_data);
+        CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, encoded_file), agbpack::bad_encoded_data);
     }
 }
 
