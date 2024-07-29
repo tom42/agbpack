@@ -49,13 +49,12 @@ TEST_CASE("lzss_decoder_test")
     {
         // TODO:
         // * file with and without compressed runs
-        // * Decide whether to use literal/reference vs. compressed/uncompressed
         string filename_part = GENERATE(
-            "lzss.good.1-uncompressed-byte.txt",
-            "lzss.good.8-uncompressed-bytes.txt",
-            "lzss.good.17-uncompressed-bytes.txt",
-            "lzss.good.compressed-bytes-1.txt",
-            "lzss.good.compressed-bytes-2.txt",
+            "lzss.good.1-literal.txt",
+            "lzss.good.8-literals.txt",
+            "lzss.good.17-literals.txt",
+            "lzss.good.reference-1.txt",
+            "lzss.good.reference-2.txt",
             "lzss.good.zero-length-file.txt",
             "lzss.good.reference-with-minimum-offset.txt",
             "lzss.good.reference-with-maximum-offset.txt",
@@ -74,7 +73,7 @@ TEST_CASE("lzss_decoder_test")
             "lzss.bad.eof-at-flag-byte.txt.encoded",
             "lzss.bad.eof-at-reference-byte-1.txt.encoded",
             "lzss.bad.eof-at-reference-byte-2.txt.encoded",
-            "lzss.bad.eof-at-literal-byte.txt.encoded",
+            "lzss.bad.eof-at-literal.txt.encoded",
             "lzss.bad.invalid-compression-type-in-header.txt.encoded",
             "lzss.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
             "lzss.bad.invalid-compression-options-in-header.txt.encoded",
