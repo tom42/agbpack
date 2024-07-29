@@ -193,7 +193,6 @@ public:
             }
             else
             {
-                // TODO: test: too much ouput when writing single literal byte
                 auto byte = reader.read8();
                 writer.write8(byte);
             }
