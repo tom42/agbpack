@@ -11,7 +11,7 @@
 namespace
 {
 
-std::uintmax_t get_file_size(const std::filesystem::path& name)
+std::size_t get_file_size(const std::filesystem::path& name)
 {
     std::error_code ec;
     auto size = std::filesystem::file_size(name, ec);
@@ -20,7 +20,10 @@ std::uintmax_t get_file_size(const std::filesystem::path& name)
         throw std::runtime_error("Could not determine size of " + name.string() + ": " + ec.message());
     }
 
-    return size;
+    // File size may not fit into std::size_t (e.g. on 32 bit systems), so we have to cast.
+    // The cast should be harmless considering the size of files we test with and
+    // the target CPUs we're aiming for.
+    return static_cast<std::size_t>(size);
 }
 
 }
@@ -60,11 +63,8 @@ std::vector<unsigned char> read_file(const std::string& basename)
     auto filesize = get_file_size(name);
 
     // Create vector with sufficient capacity to hold entire file.
-    // filesize may not fit into std::size_t (e.g. on 32 bit systems), so we have to cast.
-    // The cast should be harmless considering the size of files we test with and
-    // the target CPUs we're aiming for.
     std::vector<unsigned char> data;
-    data.reserve(static_cast<std::size_t>(filesize));
+    data.reserve(filesize);
 
     // Read entire file
     data.insert(
