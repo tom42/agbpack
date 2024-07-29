@@ -16,7 +16,6 @@ namespace agbpack_test
 namespace
 {
 
-// TODO: review thoroughly
 template <typename TDecoder>
 std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decoder, const string& basename, bool expect_successful_decoding)
 {
