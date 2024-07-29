@@ -4,12 +4,15 @@
 #ifndef AGBPACK_TESTDATA_HPP_20240706
 #define AGBPACK_TESTDATA_HPP_20240706
 
+#include <cstdint>
 #include <fstream>
 #include <string>
 #include <vector>
 
 namespace agbpack_test
 {
+
+std::size_t get_file_size(const std::string& name);
 
 std::ifstream open_binary_file(const std::string& name);
 

@@ -1,23 +1,22 @@
 // SPDX-FileCopyrightText: 2024 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-#include <cstddef>
 #include <filesystem>
 #include <iterator>
 #include <system_error>
 #include "agbpack_test_config.hpp"
 #include "testdata.hpp"
 
-namespace
+namespace agbpack_test
 {
 
-std::size_t get_file_size(const std::filesystem::path& name)
+std::size_t get_file_size(const std::string& name)
 {
     std::error_code ec;
     auto size = std::filesystem::file_size(name, ec);
     if (ec)
     {
-        throw std::runtime_error("Could not determine size of " + name.string() + ": " + ec.message());
+        throw std::runtime_error("Could not determine size of " + name + ": " + ec.message());
     }
 
     // File size may not fit into std::size_t (e.g. on 32 bit systems), so we have to cast.
@@ -25,11 +24,6 @@ std::size_t get_file_size(const std::filesystem::path& name)
     // the target CPUs we're aiming for.
     return static_cast<std::size_t>(size);
 }
-
-}
-
-namespace agbpack_test
-{
 
 std::ifstream open_binary_file(const std::string& name)
 {
