@@ -19,7 +19,7 @@ namespace
 
 std::size_t guess_uncompressed_size(const string& basename)
 {
-    auto decoded_file_path = get_testfile_path(std::filesystem::path(basename).replace_extension("decoded"));
+    auto decoded_file_path = get_testfile_path(std::filesystem::path(basename).replace_extension("decoded").string());
     if (std::filesystem::exists(decoded_file_path))
     {
         // Get size of uncompressed data from .decoded file if it exists.
