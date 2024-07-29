@@ -19,33 +19,31 @@ namespace
 
 std::size_t guess_uncompressed_size(const string& basename)
 {
+    // Get size of uncompressed data from .decoded file if it exists.
     auto decoded_file_path = get_testfile_path(std::filesystem::path(basename).replace_extension("decoded").string());
     if (std::filesystem::exists(decoded_file_path))
     {
-        // Get size of uncompressed data from .decoded file if it exists.
         return get_file_size(decoded_file_path);
     }
 
-    // TODO: guess file size from header
+    // No .decoded file. Then try reading uncompressed size from .encoded file.
+    auto encoded_file_content = read_file(std::filesystem::path(basename).replace_extension("encoded").string());
+    if (encoded_file_content.size() >= 4)
+    {
+        std::size_t ucs = encoded_file_content[1];
+        ucs += encoded_file_content[2] * 256;
+        ucs += encoded_file_content[3] * 256 * 256;
+        return ucs;
+    }
 
-    // TODO: if all else fails, return 0. For now we return a sufficiently large size, otherwise tests may crash.
-    return 65536;
+    // Cannot even guess size from header.
+    // Assume encoded file is so broken that no output will be created.
+    return 0;
 }
 
 template <typename TDecoder>
 std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decoder, const string& basename)
 {
-    // TODO: hack: read file to determine its size. Use getfilesize method. We have something like that
-    // TODO: hack: also ugly: the fact that we need to replace extensions here again
-    // TODO: this is what should really happen:
-    //       * We look whether there is a decoded file. If so we use that to determine size file size
-    //       * If there is no decoded file, then, if we can read the header, take the file size from there
-    //       * Finally, if header parsing fails, assume no decoding is going to take place. In this case,
-    //         Even a vector of size zero should do the job.
-    /*auto uncompressed_size = expect_successful_decoding
-        ? read_file(.string()).size()
-        : 16384;*/
-
     std::vector<unsigned char> input = read_file(basename);
     std::vector<unsigned char> output(guess_uncompressed_size(basename));
     decoder.decode(input.begin(), input.end(), begin(output));
