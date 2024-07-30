@@ -4,5 +4,6 @@
 export module agbpack;
 export import :delta;
 export import :exceptions;
+export import :huffman;
 export import :lzss;
 export import :rle;
