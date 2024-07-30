@@ -12,6 +12,8 @@ namespace agbpack_test
 
 TEST_CASE("huffman_decoder_test")
 {
+    agbpack::huffman_decoder decoder;
+    (void)decoder; // TODO: remove
 }
 
 }
