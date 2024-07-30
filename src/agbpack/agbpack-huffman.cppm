@@ -30,6 +30,10 @@ public:
         // TODO: at some point we'll have to parse compression options, but which do we support?
         //       => Depends mostly on what the GBA BIOS supports, no? If it can do 1 and 2 bit we'll do so too, no?
 
+        // TODO: read huffman tree (what sizes do we support?)
+
+        // TODO: decode data (what sizes do we support?)
+
         // TODO: parse padding bytes here
     }
 private:

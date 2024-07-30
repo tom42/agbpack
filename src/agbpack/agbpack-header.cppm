@@ -27,7 +27,7 @@ enum class lzss_options
 
 enum class huffman_options
 {
-    // TODO: add valid values
+    h8 = 8
 };
 
 enum class rle_options
