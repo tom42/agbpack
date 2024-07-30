@@ -21,7 +21,7 @@ TEST_CASE("huffman_decoder_test")
         // TODO: invalid compression options
         auto encoded_file = GENERATE(
             "huffman.bad.eof-inside-header.txt.encoded",
-            "huffman.bad.invalid-compression-type-in-header.txt.encoded"); // TODO: Fix this file: it has invalid options. Also, debug
+            "huffman.bad.invalid-compression-type-in-header.txt.encoded");
 
         CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
     }
