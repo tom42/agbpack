@@ -21,6 +21,7 @@ bool is_valid(compression_type type)
     switch (type)
     {
         case compression_type::lzss:
+        case compression_type::huffman:
         case compression_type::rle:
         case compression_type::delta:
             return true;
@@ -62,6 +63,8 @@ std::optional<compression_options> create_unvalidated_options(compression_type t
     {
         case compression_type::lzss:
             return lzss_options(options);
+        case compression_type::huffman:
+            return huffman_options(options);
         case compression_type::rle:
             return rle_options(options);
         case compression_type::delta:

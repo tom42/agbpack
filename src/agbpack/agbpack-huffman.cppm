@@ -7,6 +7,8 @@ module;
 
 export module agbpack:huffman;
 import :common;
+import :exceptions;
+import :header;
 
 namespace agbpack
 {
@@ -20,8 +22,12 @@ public:
         static_assert_input_type(input);
 
         byte_reader<InputIterator> reader(input, eof);
-        reader.read32();
-        // TODO: parse header: compression typename
+        auto header = header::parse_for_type(compression_type::huffman, reader.read32());
+        if (!header)
+        {
+            throw bad_encoded_data();
+        }
+        // TODO: parse header: compression type: this is implemented, but verify with debugger
         // TODO: at some point we'll have to parse compression options, but which do we support?
         //       => Depends mostly on what the GBA BIOS supports, no? If it can do 1 and 2 bit we'll do so too, no?
 

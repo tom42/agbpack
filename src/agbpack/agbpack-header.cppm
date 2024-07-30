@@ -15,6 +15,7 @@ namespace agbpack
 enum class compression_type
 {
     lzss = 1,
+    huffman = 2,
     rle = 3,
     delta = 8
 };
@@ -22,6 +23,11 @@ enum class compression_type
 enum class lzss_options
 {
     reserved = 0
+};
+
+enum class huffman_options
+{
+    // TODO: add valid values
 };
 
 enum class rle_options
@@ -35,7 +41,7 @@ enum class delta_options
     delta16 = 2
 };
 
-using compression_options = std::variant<lzss_options, rle_options, delta_options>;
+using compression_options = std::variant<lzss_options, huffman_options, rle_options, delta_options>;
 
 class header final
 {
