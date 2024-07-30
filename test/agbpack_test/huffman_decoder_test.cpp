@@ -14,6 +14,13 @@ TEST_CASE("huffman_decoder_test")
 {
     agbpack::huffman_decoder decoder;
     (void)decoder; // TODO: remove
+
+    SECTION("Invalid input")
+    {
+        auto encoded_file = GENERATE("huffman.bad.eof-inside-header.txt.encoded");
+
+        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
+    }
 }
 
 }
