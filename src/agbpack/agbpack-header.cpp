@@ -35,6 +35,17 @@ bool is_valid(lzss_options options)
     return options == lzss_options::reserved;
 }
 
+bool is_valid(huffman_options options)
+{
+    switch (options)
+    {
+        case huffman_options::h8:
+            return true;
+    }
+
+    return false;
+}
+
 bool is_valid(rle_options options)
 {
     return options == rle_options::reserved;
@@ -52,7 +63,7 @@ bool is_valid(delta_options options)
     return false;
 }
 
-bool is_valid(compression_options options)
+bool is_valid_variant(compression_options options)
 {
     return std::visit([](auto&& opts) { return is_valid(opts); }, options);
 }
@@ -97,7 +108,7 @@ std::optional<header> header::parse(uint32_t header_data)
     }
 
     auto options = create_unvalidated_options(type, header_data & 0xf);
-    if (!options || !is_valid(*options))
+    if (!options || !is_valid_variant(*options))
     {
         return {};
     }
