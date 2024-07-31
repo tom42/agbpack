@@ -188,7 +188,6 @@ public:
                 assert((1 <= offset) && (offset <= sliding_window_size) && "lzss_decoder is broken");
 
                 // TODO: tests for invalid input
-                //       * too many bytes written
                 //       * read outside of sliding window
                 writer.copy_from_output(nbytes, offset);
             }
