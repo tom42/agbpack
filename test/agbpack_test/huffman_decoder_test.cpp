@@ -3,6 +3,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
+#include <string>
 #include "testdata.hpp"
 
 import agbpack;
@@ -10,9 +11,21 @@ import agbpack;
 namespace agbpack_test
 {
 
+using string = std::string;
+
 TEST_CASE("huffman_decoder_test")
 {
     agbpack::huffman_decoder decoder;
+
+    SECTION("Valid input")
+    {
+        string filename_part = GENERATE("huffman.good.8.1-symbol.txt");
+        auto expected_data = read_file(filename_part + ".decoded");
+
+        auto decoded_data = decode_file(decoder, filename_part + ".encoded");
+
+        CHECK(decoded_data == expected_data);
+    }
 
     SECTION("Invalid input")
     {

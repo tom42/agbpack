@@ -28,6 +28,9 @@ public:
             throw bad_encoded_data();
         }
 
+        // TODO: read tree size (1 byte)
+        //       => Here's another test case: EOF at tree size.
+
         // TODO: read huffman tree (what sizes do we support?)
 
         // TODO: decode data (what sizes do we support?)
