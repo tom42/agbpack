@@ -37,7 +37,8 @@ TEST_CASE("huffman_decoder_test")
             //           * ab   => CUE seems to be able to encode this
             //           * abc  => CUE seems to be able to encode this
             //           * Do we start with 8 bit only, or do we also do 4 bit huffman?
-            "huffman.good.8.1-symbol.txt");
+            //"huffman.good.8.1-symbol.txt", // TODO: have not yet found an encoder that encodes a file consisting of a single letter 'a' correctly. Deleted test file for the time being
+            "huffman.good.8.2-symbols.txt"); // TODO: also add 4 bit variant of this test: with any kind of luck, GBACrusher and CUE produce the same output, which might indicate that they both are OK.
         auto expected_data = read_file(filename_part + ".decoded");
 
         auto decoded_data = decode_file(decoder, filename_part + ".encoded");
