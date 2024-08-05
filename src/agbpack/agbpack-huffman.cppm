@@ -28,8 +28,8 @@ public:
             throw bad_encoded_data();
         }
 
-        // TODO: read tree size (1 byte)
-        //       => Here's another test case: EOF at tree size.
+        // TODO: actually calculate and store tree size
+        reader.read8();
 
         // TODO: read huffman tree (what sizes do we support?)
 
