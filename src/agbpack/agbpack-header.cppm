@@ -27,6 +27,7 @@ enum class lzss_options
 
 enum class huffman_options
 {
+    h4 = 4,
     h8 = 8
 };
 

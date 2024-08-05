@@ -39,6 +39,7 @@ bool is_valid(huffman_options options)
 {
     switch (options)
     {
+        case huffman_options::h4:
         case huffman_options::h8:
             return true;
     }
