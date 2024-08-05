@@ -19,7 +19,19 @@ TEST_CASE("huffman_decoder_test")
 
     SECTION("Valid input")
     {
-        string filename_part = GENERATE("huffman.good.8.1-symbol.txt");
+        string filename_part = GENERATE(
+            // TODO: find a reference encoder that compresses this
+            //       * GBACrusher will not work. It will produce a compressed file, but that file appears to be broken:
+            //         The compressed file appears to have the tree size field, but no actual tree.
+            //         The CUE decoder does not correctly decompress it and prints WARNING: unexpected end of encoded file!
+            //       * The CUE encoder seems to silently not compress this file, presumably because the resulting file
+            //         will obviously be bigger.
+            //         => Might have to find another reference encoder, or modify CUE
+            //       * Might also be useful to find out what GBACrusher's problem is:
+            //         * Does the following input work: aa (I'd expect not, since it's still only one symbol)
+            //         * Does the following input work: ab (It seems so, and that would hint that GBACrusher has problems
+            //           if the huffman tree contains only one node)
+            "huffman.good.8.1-symbol.txt");
         auto expected_data = read_file(filename_part + ".decoded");
 
         auto decoded_data = decode_file(decoder, filename_part + ".encoded");
