@@ -3,6 +3,7 @@
 
 module;
 
+#include <cassert>
 #include <iterator>
 #include <vector>
 
@@ -58,8 +59,10 @@ private:
         // TODO: testcase: EOF while reading rest of tree (tree size is already covered)
         // TODO: it may be advantageous to store the tree size byte in the tree. If so, do so.
         //       => Take care to store the original byte, not the true tree size (it won't fit into 8 bits)
+        // TODO: tests: minimum/maximum tree size?
         std::vector<agbpack_u8> tree;
-        auto tree_size = 2 * (reader.read8() + 1); // TODO: verify tree size. In particular for a maximum size tree (assert?)
+        auto tree_size = 2 * (reader.read8() + 1);
+        assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
 
         // TODO: read in remaining bits of tree. Note that tree size counts toward the tree, so read one byte less
         // TODO: test: EOF when reading tree
