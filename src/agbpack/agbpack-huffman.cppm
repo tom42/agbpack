@@ -66,7 +66,10 @@ private:
 
         // TODO: read in remaining bits of tree. Note that tree size counts toward the tree, so read one byte less
         // TODO: test: EOF when reading tree
-        (void)tree_size; // TODO: remove
+        for (int i = 0; i < tree_size - 1; ++i)
+        {
+            tree.push_back(reader.read8());
+        }
 
         return tree;
     }
