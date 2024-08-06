@@ -48,6 +48,7 @@ public:
         while (!writer.done())
         {
             // TODO: actually decode stuff
+            // TODO: when writing an output byte, test buffer overrun on output buffer
             writer.write8('a');
             writer.write8('b');
         }
