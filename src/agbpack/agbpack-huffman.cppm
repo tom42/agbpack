@@ -44,6 +44,11 @@ public:
         //         * We need to read 32 bit units into our bit buffer
         //         * Data is automatically aligned, so there should never be any padding bytes
         //         * ??? There might be padding between the huffman tree and the bit stream ???
+
+        // TODO: no cast here (does it even make sense for huffman_options to be an enum? Probably yes)
+        const int symbol_size = (int)header->options_as<huffman_options>();
+        (void)symbol_size; // TODO: remove
+
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
         while (!writer.done())
         {
