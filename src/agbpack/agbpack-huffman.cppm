@@ -52,15 +52,33 @@ public:
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
         while (!writer.done())
         {
-            // TODO: actually decode stuff
+            agbpack_u8 decoded_byte = 0;
+            for (int nbits = 0; nbits < 8; nbits += symbol_size)
+            {
+                decoded_byte |= decode_symbol(symbol_size) << nbits;
+            }
+
             // TODO: when writing an output byte, test buffer overrun on output buffer
-            writer.write8('a');
-            writer.write8('b');
+            writer.write8(decoded_byte);
         }
 
         // TODO: parse padding bytes here
     }
 private:
+    // TODO: remove symbol size argument
+    agbpack_u8 decode_symbol(int symbol_size)
+    {
+        // TODO: actually decode stuff
+        if (symbol_size == 8)
+        {
+            return "ab"[m_cnt++];
+        }
+        else
+        {
+            agbpack_u8 arr[] = { 'a' & 15, 'a' >> 4, 'b' & 15, 'b' >> 4 };
+            return arr[m_cnt++];
+        }
+    }
 
     template <std::input_iterator InputIterator>
     static std::vector<agbpack_u8> read_huffman_tree(byte_reader<InputIterator>& reader)
@@ -85,6 +103,8 @@ private:
 
         return tree;
     }
+
+    int m_cnt = 0; // TODO: remove
 };
 
 }
