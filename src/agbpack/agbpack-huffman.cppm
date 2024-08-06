@@ -44,8 +44,13 @@ public:
         //         * We need to read 32 bit units into our bit buffer
         //         * Data is automatically aligned, so there should never be any padding bytes
         //         * ??? There might be padding between the huffman tree and the bit stream ???
-        *output++ = 'a';
-        *output++ = 'b';
+        byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
+        while (!writer.done())
+        {
+            // TODO: actually decode stuff
+            writer.write8('a');
+            writer.write8('b');
+        }
 
         // TODO: parse padding bytes here
     }
