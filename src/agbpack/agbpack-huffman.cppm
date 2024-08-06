@@ -66,6 +66,7 @@ private:
 
         // TODO: read in remaining bits of tree. Note that tree size counts toward the tree, so read one byte less
         // TODO: test: EOF when reading tree
+        // TODO: do we need to align anything here? I think so, no? After all, the bit stream needs to be 4 byte aligned no?
         for (int i = 0; i < tree_size - 1; ++i)
         {
             tree.push_back(reader.read8());
