@@ -61,6 +61,39 @@ public:
         read_tree(reader);
     }
 
+    agbpack_u8 decode_symbol(bitstream_reader<InputIterator>& bit_reader)
+    {
+        constexpr auto mask_left = 0x80;
+        constexpr auto mask_right = 0x40;
+        constexpr auto mask_next_node_offset = 63;
+
+        bool character_found = false;
+        std::size_t current_node_index = 0;
+        auto current_node_value = tree[1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
+
+        while (!character_found)
+        {
+            current_node_index += 2 * ((current_node_value & mask_next_node_offset) + 1);
+
+            if (!bit_reader.get_bit())
+            {
+                character_found = current_node_value & mask_left;
+                current_node_value = tree[current_node_index]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
+            }
+            else
+            {
+                character_found = current_node_value & mask_right;
+                current_node_value = tree[current_node_index + 1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
+            }
+        }
+
+        // TODO: fail if there is garbage in the upper unused bits of the node. They should be 0.
+        // TODO: test what happens if there is garbage
+
+        return current_node_value;
+    }
+
+
 //private: // TODO: make this private
     void read_tree(byte_reader<InputIterator>& reader)
     {
@@ -122,7 +155,7 @@ public:
             agbpack_u8 decoded_byte = 0;
             for (int nbits = 0; nbits < 8; nbits += symbol_size)
             {
-                decoded_byte |= decode_symbol(bit_reader, tree.tree) << nbits;
+                decoded_byte |= tree.decode_symbol(bit_reader) << nbits;
             }
 
             // TODO: when writing an output byte, test buffer overrun on output buffer
@@ -130,40 +163,6 @@ public:
         }
 
         // TODO: parse padding bytes here
-    }
-private:
-    // TODO: consider putting this elsewhere? => huffman_tree class
-    template <std::input_iterator InputIterator>
-    agbpack_u8 decode_symbol(bitstream_reader<InputIterator>& bit_reader, const std::vector<agbpack_u8>& huffman_tree)
-    {
-        constexpr auto mask_left = 0x80;
-        constexpr auto mask_right = 0x40;
-        constexpr auto mask_next_node_offset = 63;
-
-        bool character_found = false;
-        std::size_t current_node_index = 0;
-        auto current_node_value = huffman_tree[1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
-
-        while (!character_found)
-        {
-            current_node_index += 2 * ((current_node_value & mask_next_node_offset) + 1);
-
-            if (!bit_reader.get_bit())
-            {
-                character_found = current_node_value & mask_left;
-                current_node_value = huffman_tree[current_node_index]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
-            }
-            else
-            {
-                character_found = current_node_value & mask_right;
-                current_node_value = huffman_tree[current_node_index + 1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
-            }
-        }
-
-        // TODO: fail if there is garbage in the upper unused bits of the node. They should be 0.
-        // TODO: test what happens if there is garbage
-
-        return current_node_value;
     }
 };
 
