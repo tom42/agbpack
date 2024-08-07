@@ -164,7 +164,11 @@ private:
         // TODO: is this really necessary?
         // TODO: document why we're doing this
         // TODO: do we need tree_size_byte as a variable? can't we directly push_back and then access front() or back() to calculate tree_size?
-        tree.push_back(tree_size_byte);
+
+        // The address calculations as documented in GBATEK and implemented in decode_symbol
+        // work relative to the address of the tree size byte. It is therefore simplest if we
+        // put a byte in front of our huffman tree in memory. The value of that byte does not matter.
+        tree.push_back(0);
 
         // TODO: test: EOF when reading tree
         // TODO: do we need to align anything here? I think so, no? After all, the bit stream needs to be 4 byte aligned no?
