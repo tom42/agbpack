@@ -85,6 +85,7 @@ private:
     {
         // TODO: actually read huffman tree
         // TODO: document tree size and the tree a bit
+        //       => Maybe also document the wording from gbatek
         // TODO: testcase: EOF while reading rest of tree (tree size is already covered)
         // TODO: it may be advantageous to store the tree size byte in the tree. If so, do so.
         //       => Take care to store the original byte, not the true tree size (it won't fit into 8 bits)
@@ -93,9 +94,12 @@ private:
         std::size_t tree_size = 2 * (reader.read8() + 1);
         assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
 
-        // TODO: read in remaining bits of tree. Note that tree size counts toward the tree, so read one byte less
         // TODO: test: EOF when reading tree
         // TODO: do we need to align anything here? I think so, no? After all, the bit stream needs to be 4 byte aligned no?
+
+        // Read huffman tree. Note that the tree size byte counts towards the tree size.
+        // Obviously we have already read the tree size byte, so we need to read one byte
+        // less than the value in tree_size.
         reader.read8(tree_size - 1, back_inserter(tree));
 
         return tree;
