@@ -83,7 +83,6 @@ private:
     template <std::input_iterator InputIterator>
     static std::vector<agbpack_u8> read_huffman_tree(byte_reader<InputIterator>& reader)
     {
-        // TODO: actually read huffman tree
         // TODO: document tree size and the tree a bit
         //       => Maybe also document the wording from gbatek
         // TODO: testcase: EOF while reading rest of tree (tree size is already covered)
