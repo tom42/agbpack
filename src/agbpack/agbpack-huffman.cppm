@@ -23,7 +23,7 @@ inline int get_symbol_size(header h)
 }
 
 template <std::input_iterator InputIterator>
-class bitstream_reader
+class bitstream_reader final
 {
 public:
     bitstream_reader(const bitstream_reader&) = delete;
