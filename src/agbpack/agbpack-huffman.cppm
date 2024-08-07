@@ -26,7 +26,8 @@ template <std::input_iterator InputIterator>
 class bitstream_reader
 {
 public:
-    // TODO: make this noncopyable
+    bitstream_reader(const bitstream_reader&) = delete;
+    bitstream_reader& operator=(const bitstream_reader&) = delete;
 
     explicit bitstream_reader(byte_reader<InputIterator>& byte_reader)
         : m_byte_reader(byte_reader)
