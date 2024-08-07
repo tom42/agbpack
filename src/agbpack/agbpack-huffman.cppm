@@ -30,10 +30,8 @@ public:
             throw bad_encoded_data();
         }
 
-        // TODO: actually calculate and store tree size
         // TODO: also document a bit how to interpret this?
         //       Basically it points at the bitstream?
-        // TODO: probably we want to read the entire tree including the tree size into a vector...
         read_huffman_tree(reader);
 
         // TODO: read huffman tree (what sizes do we support? => depends mostly on what the BIOS can do)
