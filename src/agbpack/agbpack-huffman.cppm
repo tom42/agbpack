@@ -90,16 +90,13 @@ private:
         //       => Take care to store the original byte, not the true tree size (it won't fit into 8 bits)
         // TODO: tests: minimum/maximum tree size?
         std::vector<agbpack_u8> tree;
-        auto tree_size = 2 * (reader.read8() + 1);
+        std::size_t tree_size = 2 * (reader.read8() + 1);
         assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
 
         // TODO: read in remaining bits of tree. Note that tree size counts toward the tree, so read one byte less
         // TODO: test: EOF when reading tree
         // TODO: do we need to align anything here? I think so, no? After all, the bit stream needs to be 4 byte aligned no?
-        for (int i = 0; i < tree_size - 1; ++i)
-        {
-            tree.push_back(reader.read8());
-        }
+        reader.read8(tree_size - 1, back_inserter(tree));
 
         return tree;
     }

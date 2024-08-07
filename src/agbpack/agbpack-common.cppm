@@ -49,6 +49,15 @@ public:
         return *m_input++;
     }
 
+    template <typename OutputIterator>
+    void read8(std::size_t nbytes, OutputIterator output)
+    {
+        while (nbytes--)
+        {
+            *output++ = read8();
+        }
+    }
+
     agbpack_u16 read16()
     {
         agbpack_u16 result = read8();
