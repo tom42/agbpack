@@ -96,23 +96,7 @@ public:
         // TODO: parse padding bytes here
     }
 private:
-    // TODO: remove this overload
-    agbpack_u8 decode_symbol(int symbol_size)
-    {
-        // TODO: actually decode stuff
-        if (symbol_size == 8)
-        {
-            std::vector<agbpack_u8> buf{ 'a', 'b' };
-            return static_cast<agbpack_u8>(buf[m_cnt++]);
-        }
-        else
-        {
-            std::vector<agbpack_u8> arr{ 'a' & 15, 'a' >> 4, 'b' & 15, 'b' >> 4 };
-            return arr[m_cnt++];
-        }
-    }
-
-    // TODO: consider putting this elsewhere?
+    // TODO: consider putting this elsewhere? => huffman_tree class
     template <std::input_iterator InputIterator>
     agbpack_u8 decode_symbol(bitstream_reader<InputIterator>& bit_reader, const std::vector<agbpack_u8>& huffman_tree)
     {
@@ -173,8 +157,6 @@ private:
 
         return tree;
     }
-
-    std::size_t m_cnt = 0; // TODO: remove
 };
 
 }
