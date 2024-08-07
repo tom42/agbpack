@@ -21,6 +21,21 @@ inline int get_symbol_size(header h)
     return std::to_underlying(h.options_as<huffman_options>());
 }
 
+// TODO: document what this is (dedicated for huffman decoding, not a general thing)
+template <std::input_iterator InputIterator>
+class bitstream_reader
+{
+public:
+    // TODO: make this noncopyable
+
+    explicit bitstream_reader(byte_reader<InputIterator>& byte_reader)
+        : m_byte_reader(byte_reader)
+    {}
+
+private:
+    byte_reader<InputIterator>& m_byte_reader;
+};
+
 export class huffman_decoder final
 {
 public:
@@ -47,6 +62,7 @@ public:
         //         * Data is automatically aligned, so there should never be any padding bytes
         //         * ??? There might be padding between the huffman tree and the bit stream ???
         const int symbol_size = get_symbol_size(*header);
+        bitstream_reader bit_reader(reader);
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
 
         while (!writer.done())
