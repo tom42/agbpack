@@ -152,8 +152,6 @@ private:
         // TODO: document tree size and the tree a bit
         //       => Maybe also document the wording from gbatek
         // TODO: testcase: EOF while reading rest of tree (tree size is already covered)
-        // TODO: it may be advantageous to store the tree size byte in the tree. If so, do so.
-        //       => Take care to store the original byte, not the true tree size (it won't fit into 8 bits)
         // TODO: tests: minimum/maximum tree size?
         std::vector<agbpack_u8> tree;
 
