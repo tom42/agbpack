@@ -46,7 +46,7 @@ public:
         //         * ??? There might be padding between the huffman tree and the bit stream ???
 
         // TODO: no cast here (does it even make sense for huffman_options to be an enum? Probably yes)
-        const int symbol_size = (int)header->options_as<huffman_options>();
+        const int symbol_size = static_cast<int>(header->template options_as<huffman_options>());
         (void)symbol_size; // TODO: remove
 
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
@@ -71,11 +71,12 @@ private:
         // TODO: actually decode stuff
         if (symbol_size == 8)
         {
-            return "ab"[m_cnt++];
+            std::vector<agbpack_u8> buf{ 'a', 'b' };
+            return static_cast<agbpack_u8>(buf[m_cnt++]);
         }
         else
         {
-            agbpack_u8 arr[] = { 'a' & 15, 'a' >> 4, 'b' & 15, 'b' >> 4 };
+            std::vector<agbpack_u8> arr{ 'a' & 15, 'a' >> 4, 'b' & 15, 'b' >> 4 };
             return arr[m_cnt++];
         }
     }
@@ -104,7 +105,7 @@ private:
         return tree;
     }
 
-    int m_cnt = 0; // TODO: remove
+    std::size_t m_cnt = 0; // TODO: remove
 };
 
 }
