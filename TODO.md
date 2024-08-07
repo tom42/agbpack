@@ -4,6 +4,8 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Use uint8_t or std::uint8_t?
+  * Same for other <cstdint> types
 * clang++: reconsider the decision to use -Weverything. Maybe change that to be an option or so.
   * https://quuxplusone.github.io/blog/2018/12/06/dont-use-weverything/
 * doctest has the flags below for g++ and clang. Which ones do we need too?
