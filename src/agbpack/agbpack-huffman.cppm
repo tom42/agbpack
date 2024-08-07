@@ -47,7 +47,6 @@ public:
 
         // TODO: no cast here (does it even make sense for huffman_options to be an enum? Probably yes)
         const int symbol_size = static_cast<int>(header->template options_as<huffman_options>());
-        (void)symbol_size; // TODO: remove
 
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
         while (!writer.done())
