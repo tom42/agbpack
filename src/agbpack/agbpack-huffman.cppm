@@ -67,7 +67,7 @@ public:
             throw bad_encoded_data();
         }
 
-        read_huffman_tree(reader);
+        auto huffman_tree = read_huffman_tree(reader);
 
         // TODO: read huffman tree (what sizes do we support? => depends mostly on what the BIOS can do)
 
@@ -86,7 +86,7 @@ public:
             agbpack_u8 decoded_byte = 0;
             for (int nbits = 0; nbits < 8; nbits += symbol_size)
             {
-                decoded_byte |= decode_symbol(symbol_size) << nbits;
+                decoded_byte |= decode_symbol(bit_reader, huffman_tree) << nbits;
             }
 
             // TODO: when writing an output byte, test buffer overrun on output buffer
@@ -96,7 +96,7 @@ public:
         // TODO: parse padding bytes here
     }
 private:
-    // TODO: remove symbol size argument
+    // TODO: remove this overload
     agbpack_u8 decode_symbol(int symbol_size)
     {
         // TODO: actually decode stuff
@@ -110,6 +110,13 @@ private:
             std::vector<agbpack_u8> arr{ 'a' & 15, 'a' >> 4, 'b' & 15, 'b' >> 4 };
             return arr[m_cnt++];
         }
+    }
+
+    // TODO: consider putting this elsewhere?
+    template <std::input_iterator InputIterator>
+    agbpack_u8 decode_symbol(bitstream_reader<InputIterator>& /*bit_reader*/, const std::vector<agbpack_u8>& /*huffman_tree*/)
+    {
+        return 'x';
     }
 
     template <std::input_iterator InputIterator>
