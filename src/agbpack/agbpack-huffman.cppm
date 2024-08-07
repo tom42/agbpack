@@ -5,6 +5,7 @@ module;
 
 #include <cassert>
 #include <iterator>
+#include <utility>
 #include <vector>
 
 export module agbpack:huffman;
@@ -17,8 +18,7 @@ namespace agbpack
 
 inline int get_symbol_size(header h)
 {
-    // TODO: no cast here (does it even make sense for huffman_options to be an enum? Probably yes)
-    return static_cast<int>(h.options_as<huffman_options>());
+    return std::to_underlying(h.options_as<huffman_options>());
 }
 
 export class huffman_decoder final
