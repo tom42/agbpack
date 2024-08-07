@@ -78,7 +78,7 @@ public:
         //         * Data is automatically aligned, so there should never be any padding bytes
         //         * ??? There might be padding between the huffman tree and the bit stream ???
         const int symbol_size = get_symbol_size(*header);
-        bitstream_reader bit_reader(reader);
+        bitstream_reader<InputIterator> bit_reader(reader);
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
 
         while (!writer.done())
