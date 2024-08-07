@@ -36,8 +36,6 @@ public:
             throw bad_encoded_data();
         }
 
-        // TODO: also document a bit how to interpret this?
-        //       Basically it points at the bitstream?
         read_huffman_tree(reader);
 
         // TODO: read huffman tree (what sizes do we support? => depends mostly on what the BIOS can do)
