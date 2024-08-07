@@ -122,7 +122,7 @@ private:
 
         bool character_found = false;
         std::size_t current_node_index = 0;
-        auto current_node_value = huffman_tree[1]; // TODO: test: out of bounds access of huffman tree?
+        auto current_node_value = huffman_tree[1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
 
         while (!character_found)
         {
@@ -131,12 +131,12 @@ private:
             if (!bit_reader.get_bit())
             {
                 character_found = current_node_value & mask_left;
-                current_node_value = huffman_tree[current_node_index]; // TODO: test: out of bounds access of huffman tree?
+                current_node_value = huffman_tree[current_node_index]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
             }
             else
             {
                 character_found = current_node_value & mask_right;
-                current_node_value = huffman_tree[current_node_index + 1]; // TODO: test: out of bounds access of huffman tree?
+                current_node_value = huffman_tree[current_node_index + 1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
             }
         }
 
