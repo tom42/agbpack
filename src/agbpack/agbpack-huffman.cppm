@@ -40,6 +40,7 @@ public:
         {
             m_bitmask = 0x80000000;
             // TODO: test case: eof while refilling the bit buffer
+            // TODO: document why we're reading 32 bits at once?
             m_bitbuffer = m_byte_reader.read32();
         }
 
