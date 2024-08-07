@@ -33,6 +33,19 @@ public:
         : m_byte_reader(byte_reader)
     {}
 
+    bool get_bit()
+    {
+        m_bitmask >>= 1;
+        if (!m_bitmask)
+        {
+            m_bitmask = 0x80000000;
+            // TODO: test case: eof while refilling the bit buffer
+            m_bitbuffer = m_byte_reader.read32();
+        }
+
+        return m_bitbuffer & m_bitmask;
+    }
+
 private:
     std::uint32_t m_bitbuffer = 0;
     std::uint32_t m_bitmask = 0;
