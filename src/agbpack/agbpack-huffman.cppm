@@ -69,7 +69,7 @@ public:
 
         bool character_found = false;
         std::size_t current_node_index = 0;
-        auto current_node_value = tree[1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
+        auto current_node_value = m_tree[1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
 
         while (!character_found)
         {
@@ -78,12 +78,12 @@ public:
             if (!bit_reader.get_bit())
             {
                 character_found = current_node_value & mask_left;
-                current_node_value = tree[current_node_index]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
+                current_node_value = m_tree[current_node_index]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
             }
             else
             {
                 character_found = current_node_value & mask_right;
-                current_node_value = tree[current_node_index + 1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
+                current_node_value = m_tree[current_node_index + 1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
             }
         }
 
@@ -94,7 +94,7 @@ public:
     }
 
 
-//private: // TODO: make this private
+private:
     void read_tree(byte_reader<InputIterator>& reader)
     {
         // TODO: document tree size and the tree a bit
@@ -107,7 +107,7 @@ public:
         // The address calculations as documented in GBATEK and implemented in decode_symbol
         // work relative to the address of the tree size byte. It is therefore simplest if we
         // put a byte in front of our huffman tree in memory. The value of that byte does not matter.
-        tree.push_back(0);
+        m_tree.push_back(0);
 
         // TODO: test: EOF when reading tree
         // TODO: do we need to align anything here? I think so, no? After all, the bit stream needs to be 4 byte aligned no?
@@ -115,10 +115,10 @@ public:
         // Read huffman tree. Note that the tree size byte counts towards the tree size.
         // Obviously we have already read the tree size byte, so we need to read one byte
         // less than the value in tree_size.
-        reader.read8(tree_size - 1, back_inserter(tree));
+        reader.read8(tree_size - 1, back_inserter(m_tree));
     }
 
-    std::vector<agbpack_u8> tree; // TODO: add m_ prefix
+    std::vector<agbpack_u8> m_tree;
 };
 
 export class huffman_decoder final
