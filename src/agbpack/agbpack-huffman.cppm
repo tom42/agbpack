@@ -52,17 +52,40 @@ private:
     byte_reader<InputIterator>& m_byte_reader;
 };
 
+template <std::input_iterator InputIterator>
 class huffman_tree final
 {
 public:
-    template <std::input_iterator InputIterator>
-    explicit huffman_tree(byte_reader<InputIterator>& /*reader*/)
+    explicit huffman_tree(byte_reader<InputIterator>& reader)
     {
-
+        read_tree(reader);
     }
 
-private:
-    std::vector<agbpack_u8> tree;
+//private: // TODO: make this private
+    void read_tree(byte_reader<InputIterator>& reader)
+    {
+        // TODO: document tree size and the tree a bit
+        //       => Maybe also document the wording from gbatek
+        // TODO: testcase: EOF while reading rest of tree (tree size is already covered)
+        // TODO: tests: minimum/maximum tree size?
+        std::size_t tree_size = 2 * (reader.read8() + 1);
+        assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
+
+        // The address calculations as documented in GBATEK and implemented in decode_symbol
+        // work relative to the address of the tree size byte. It is therefore simplest if we
+        // put a byte in front of our huffman tree in memory. The value of that byte does not matter.
+        tree.push_back(0);
+
+        // TODO: test: EOF when reading tree
+        // TODO: do we need to align anything here? I think so, no? After all, the bit stream needs to be 4 byte aligned no?
+
+        // Read huffman tree. Note that the tree size byte counts towards the tree size.
+        // Obviously we have already read the tree size byte, so we need to read one byte
+        // less than the value in tree_size.
+        reader.read8(tree_size - 1, back_inserter(tree));
+    }
+
+    std::vector<agbpack_u8> tree; // TODO: add m_ prefix
 };
 
 export class huffman_decoder final
@@ -80,8 +103,7 @@ public:
             throw bad_encoded_data();
         }
 
-        auto htree = read_huffman_tree(reader); // TODO: delete this (and read_huffman_tree)
-        huffman_tree tree(reader);
+        huffman_tree<InputIterator> tree(reader);
 
         // TODO: read huffman tree (what sizes do we support? => depends mostly on what the BIOS can do)
 
@@ -100,7 +122,7 @@ public:
             agbpack_u8 decoded_byte = 0;
             for (int nbits = 0; nbits < 8; nbits += symbol_size)
             {
-                decoded_byte |= decode_symbol(bit_reader, htree) << nbits;
+                decoded_byte |= decode_symbol(bit_reader, tree.tree) << nbits;
             }
 
             // TODO: when writing an output byte, test buffer overrun on output buffer
@@ -142,34 +164,6 @@ private:
         // TODO: test what happens if there is garbage
 
         return current_node_value;
-    }
-
-    template <std::input_iterator InputIterator>
-    static std::vector<agbpack_u8> read_huffman_tree(byte_reader<InputIterator>& reader)
-    {
-        // TODO: document tree size and the tree a bit
-        //       => Maybe also document the wording from gbatek
-        // TODO: testcase: EOF while reading rest of tree (tree size is already covered)
-        // TODO: tests: minimum/maximum tree size?
-        std::vector<agbpack_u8> tree;
-
-        std::size_t tree_size = 2 * (reader.read8() + 1);
-        assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
-
-        // The address calculations as documented in GBATEK and implemented in decode_symbol
-        // work relative to the address of the tree size byte. It is therefore simplest if we
-        // put a byte in front of our huffman tree in memory. The value of that byte does not matter.
-        tree.push_back(0);
-
-        // TODO: test: EOF when reading tree
-        // TODO: do we need to align anything here? I think so, no? After all, the bit stream needs to be 4 byte aligned no?
-
-        // Read huffman tree. Note that the tree size byte counts towards the tree size.
-        // Obviously we have already read the tree size byte, so we need to read one byte
-        // less than the value in tree_size.
-        reader.read8(tree_size - 1, back_inserter(tree));
-
-        return tree;
     }
 };
 
