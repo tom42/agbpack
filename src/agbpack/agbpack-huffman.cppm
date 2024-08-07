@@ -52,6 +52,19 @@ private:
     byte_reader<InputIterator>& m_byte_reader;
 };
 
+class huffman_tree final
+{
+public:
+    template <std::input_iterator InputIterator>
+    explicit huffman_tree(byte_reader<InputIterator>& /*reader*/)
+    {
+
+    }
+
+private:
+    std::vector<agbpack_u8> tree;
+};
+
 export class huffman_decoder final
 {
 public:
@@ -67,7 +80,8 @@ public:
             throw bad_encoded_data();
         }
 
-        auto huffman_tree = read_huffman_tree(reader);
+        auto htree = read_huffman_tree(reader); // TODO: delete this (and read_huffman_tree)
+        huffman_tree tree(reader);
 
         // TODO: read huffman tree (what sizes do we support? => depends mostly on what the BIOS can do)
 
@@ -86,7 +100,7 @@ public:
             agbpack_u8 decoded_byte = 0;
             for (int nbits = 0; nbits < 8; nbits += symbol_size)
             {
-                decoded_byte |= decode_symbol(bit_reader, huffman_tree) << nbits;
+                decoded_byte |= decode_symbol(bit_reader, htree) << nbits;
             }
 
             // TODO: when writing an output byte, test buffer overrun on output buffer
