@@ -15,6 +15,12 @@ import :header;
 namespace agbpack
 {
 
+inline int get_symbol_size(header h)
+{
+    // TODO: no cast here (does it even make sense for huffman_options to be an enum? Probably yes)
+    return static_cast<int>(h.options_as<huffman_options>());
+}
+
 export class huffman_decoder final
 {
 public:
@@ -42,11 +48,9 @@ public:
         //         * We need to read 32 bit units into our bit buffer
         //         * Data is automatically aligned, so there should never be any padding bytes
         //         * ??? There might be padding between the huffman tree and the bit stream ???
-
-        // TODO: no cast here (does it even make sense for huffman_options to be an enum? Probably yes)
-        const int symbol_size = static_cast<int>(header->template options_as<huffman_options>());
-
+        const int symbol_size = get_symbol_size(*header);
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
+
         while (!writer.done())
         {
             agbpack_u8 decoded_byte = 0;
