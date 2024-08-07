@@ -157,13 +157,8 @@ private:
         // TODO: tests: minimum/maximum tree size?
         std::vector<agbpack_u8> tree;
 
-        auto tree_size_byte = reader.read8();
-        std::size_t tree_size = 2 * (tree_size_byte + 1);
+        std::size_t tree_size = 2 * (reader.read8() + 1);
         assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
-
-        // TODO: is this really necessary?
-        // TODO: document why we're doing this
-        // TODO: do we need tree_size_byte as a variable? can't we directly push_back and then access front() or back() to calculate tree_size?
 
         // The address calculations as documented in GBATEK and implemented in decode_symbol
         // work relative to the address of the tree size byte. It is therefore simplest if we
