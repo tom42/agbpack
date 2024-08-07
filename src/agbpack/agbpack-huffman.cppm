@@ -21,7 +21,6 @@ inline int get_symbol_size(header h)
     return std::to_underlying(h.options_as<huffman_options>());
 }
 
-// TODO: document what this is (dedicated for huffman decoding, not a general thing)
 template <std::input_iterator InputIterator>
 class bitstream_reader
 {
