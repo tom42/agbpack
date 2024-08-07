@@ -4,6 +4,7 @@
 module;
 
 #include <cassert>
+#include <cstdint>
 #include <iterator>
 #include <utility>
 #include <vector>
@@ -33,6 +34,8 @@ public:
     {}
 
 private:
+    std::uint32_t m_bitbuffer = 0;
+    std::uint32_t m_bitmask = 0;
     byte_reader<InputIterator>& m_byte_reader;
 };
 
