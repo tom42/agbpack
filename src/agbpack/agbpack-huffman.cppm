@@ -38,9 +38,11 @@ public:
         m_bitmask >>= 1;
         if (!m_bitmask)
         {
+            // The encoded bitstream is stored in units of 32 bits, with padding bits at the
+            // end of the stream. Within a 32 bit unit, the MSB is to be processed first.
+            // So we read 4 bytes from the byte stream whenever our bit buffer is empty.
             m_bitmask = 0x80000000;
             // TODO: test case: eof while refilling the bit buffer
-            // TODO: document why we're reading 32 bits at once?
             m_bitbuffer = m_byte_reader.read32();
         }
 
