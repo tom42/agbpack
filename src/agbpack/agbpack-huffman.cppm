@@ -144,7 +144,6 @@ public:
         // TODO: decode data (what sizes do we support?)
         //       * Note: Quote: "Compressed Bitstream (stored in units of 32bits)"
         //       * This means that
-        //         * We need to read 32 bit units into our bit buffer
         //         * Data is automatically aligned, so there should never be any padding bytes
         //         * ??? There might be padding between the huffman tree and the bit stream ???
         const int symbol_size = get_symbol_size(*header);
