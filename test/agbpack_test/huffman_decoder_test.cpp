@@ -55,6 +55,7 @@ TEST_CASE("huffman_decoder_test")
             "huffman.bad.eof-inside-header.txt.encoded",
             "huffman.bad.eof-at-tree-size.txt.encoded",
             "huffman.bad.eof-inside-tree.txt.encoded",
+            "huffman.bad.eof-while-reading-bitstream.txt.encoded",
             "huffman.bad.invalid-compression-type-in-header.txt.encoded",
             "huffman.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
             "huffman.bad.invalid-compression-options-in-header.txt.encoded");
