@@ -40,6 +40,7 @@ TEST_CASE("huffman_decoder_test")
             //"huffman.good.8.1-symbol.txt", // TODO: have not yet found an encoder that encodes a file consisting of a single letter 'a' correctly. Deleted test file for the time being
             // TODO: also test with 3 symbols (e.g. abc)
             "huffman.good.8.2-symbols.txt",
+            "huffman.good.8.3-symbols.txt",
             "huffman.good.4.2-symbols.txt");
         auto expected_data = read_file(filename_part + ".decoded");
 
