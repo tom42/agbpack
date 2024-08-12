@@ -102,7 +102,6 @@ private:
     {
         // TODO: document tree size and the tree a bit
         //       => Maybe also document the wording from gbatek
-        // TODO: testcase: EOF while reading rest of tree (tree size is already covered)
         // TODO: tests: minimum/maximum tree size?
         std::size_t tree_size = 2 * (reader.read8() + 1);
         assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
@@ -112,7 +111,6 @@ private:
         // put a byte in front of our huffman tree in memory. The value of that byte does not matter.
         m_tree.push_back(0);
 
-        // TODO: test: EOF when reading tree
         // TODO: do we need to align anything here? I think so, no? After all, the bit stream needs to be 4 byte aligned no?
 
         // Read huffman tree. Note that the tree size byte counts towards the tree size.
