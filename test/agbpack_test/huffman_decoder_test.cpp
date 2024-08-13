@@ -31,12 +31,6 @@ TEST_CASE("huffman_decoder_test")
             //         * Does the following input work: aa (I'd expect not, since it's still only one symbol)
             //         * Does the following input work: ab (It seems so, and that would hint that GBACrusher has problems
             //           if the huffman tree contains only one node)
-            //       * SIDE NOTE:
-            //         * It seems that CUE cannot compress such a file either.
-            //         * So maybe we start with the following inputs then:
-            //           * ab   => CUE seems to be able to encode this
-            //           * abc  => CUE seems to be able to encode this
-            //           * Do we start with 8 bit only, or do we also do 4 bit huffman?
             //"huffman.good.8.1-symbol.txt", // TODO: have not yet found an encoder that encodes a file consisting of a single letter 'a' correctly. Deleted test file for the time being
             "huffman.good.8.2-symbols.txt",
             "huffman.good.8.3-symbols.txt",
