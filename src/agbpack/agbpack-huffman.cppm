@@ -42,7 +42,6 @@ public:
             // end of the stream. Within a 32 bit unit, the MSB is to be processed first.
             // So we read 4 bytes from the byte stream whenever our bit buffer is empty.
             m_bitmask = 0x80000000;
-            // TODO: test case: eof while refilling the bit buffer
             m_bitbuffer = m_byte_reader.read32();
         }
 
