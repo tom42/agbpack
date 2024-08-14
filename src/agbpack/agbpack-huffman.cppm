@@ -138,9 +138,7 @@ public:
 
         huffman_tree<InputIterator> tree(reader);
 
-        // TODO: read huffman tree (what sizes do we support? => depends mostly on what the BIOS can do)
-
-        // TODO: decode data (what sizes do we support?)
+        // TODO: decode data (what sizes do we support? => depends mostly on what the BIOS can do)
         //       * Note: Quote: "Compressed Bitstream (stored in units of 32bits)"
         //       * This means that
         //         * Data is automatically aligned, so there should never be any padding bytes
