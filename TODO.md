@@ -4,6 +4,11 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Figure out whether the GBA BIOS can decode CUEs 1 and 2 bit modes.
+  * If it can, then we test them in the decoder too and possibly even implement them
+  * Note that GBATEK says (quote) "Data size in bit units (normally 4 or 8)"
+    * It does NOT say must be 4 or 8. This might indicate that the BIOS indeed does
+      support data sizes other than 4 or 8.
 * Use uint8_t or std::uint8_t?
   * Same for other <cstdint> types
 * clang++: reconsider the decision to use -Weverything. Maybe change that to be an option or so.
