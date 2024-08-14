@@ -99,9 +99,17 @@ public:
 private:
     void read_tree(byte_reader<InputIterator>& reader)
     {
-        // TODO: document tree size and the tree a bit
-        //       => Maybe also document the wording from gbatek
         // TODO: tests: minimum tree size?
+
+        // Read tree size byte and calculate tree size from that.
+        //
+        // Quote from GBATEK: "Size of Tree Table/2-1 (ie. Offset to Compressed Bitstream)"
+        //
+        // Now "size of table" and "offset to bitstream" are two rather different things.
+        // Probably the latter is the correct interpretation, meaning that there might be
+        // padding bytes between the tree data and the bitstream. That in turn would make
+        // sense, since the format seems to be designed such that the bitstream can be
+        // processed in units of 32 bits by an ARM CPU.
         std::size_t tree_size = 2 * (reader.read8() + 1);
         assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
 
