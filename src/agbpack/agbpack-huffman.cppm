@@ -101,7 +101,7 @@ private:
     {
         // TODO: document tree size and the tree a bit
         //       => Maybe also document the wording from gbatek
-        // TODO: tests: minimum/maximum tree size?
+        // TODO: tests: minimum tree size?
         std::size_t tree_size = 2 * (reader.read8() + 1);
         assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
 
