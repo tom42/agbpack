@@ -147,11 +147,8 @@ public:
 
         huffman_tree<InputIterator> tree(reader);
 
-        // TODO: decode data (what sizes do we support? => depends mostly on what the BIOS can do)
-        //       * Note: Quote: "Compressed Bitstream (stored in units of 32bits)"
-        //       * This means that
-        //         * Data is automatically aligned, so there should never be any padding bytes
-        //         * ??? There might be padding between the huffman tree and the bit stream ???
+        // TODO: do we check here whether the bitstream is aligned at a 4 byte boundary?
+
         const int symbol_size = get_symbol_size(*header);
         bitstream_reader<InputIterator> bit_reader(reader);
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
