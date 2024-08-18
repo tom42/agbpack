@@ -89,8 +89,7 @@ public:
             }
         }
 
-        // TODO: fail if there is garbage in the upper unused bits of the node. They should be 0.
-        // TODO: test what happens if there is garbage
+        // TODO: fail if there is garbage in the upper unused bits of the node. They should be 0 (also test this!)
 
         return current_node_value;
     }
