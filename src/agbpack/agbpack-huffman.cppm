@@ -71,7 +71,7 @@ public:
 
         bool character_found = false;
         std::size_t current_node_index = 0;
-        auto current_node_value = m_tree[1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
+        auto current_node_value = read_tree_node(1); // TODO: this should always succeed. Should we assert tree size (would be redundant, though)
 
         while (!character_found)
         {
@@ -80,12 +80,12 @@ public:
             if (!bit_reader.get_bit())
             {
                 character_found = current_node_value & mask_left;
-                current_node_value = m_tree[current_node_index]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
+                current_node_value = read_tree_node(current_node_index); // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
             }
             else
             {
                 character_found = current_node_value & mask_right;
-                current_node_value = m_tree[current_node_index + 1]; // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
+                current_node_value = read_tree_node(current_node_index + 1); // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
             }
         }
 
@@ -125,6 +125,12 @@ private:
         // Obviously we have already read the tree size byte, so we need to read one byte
         // less than the value in tree_size.
         reader.read8(tree_size - 1, back_inserter(m_tree));
+    }
+
+    auto read_tree_node(std::size_t node_index)
+    {
+        // TODO: implement range check here
+        return m_tree[node_index];
     }
 
     std::vector<agbpack_u8> m_tree;
