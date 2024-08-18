@@ -63,7 +63,7 @@ public:
         read_tree(reader);
     }
 
-    agbpack_u8 decode_symbol(bitstream_reader<InputIterator>& bit_reader)
+    agbpack_u8 decode_symbol(bitstream_reader<InputIterator>& bit_reader) const
     {
         constexpr auto mask_left = 0x80;
         constexpr auto mask_right = 0x40;
@@ -126,9 +126,13 @@ private:
         reader.read8(tree_size - 1, back_inserter(m_tree));
     }
 
-    auto read_tree_node(std::size_t node_index)
+    auto read_tree_node(std::size_t node_index) const
     {
-        // TODO: implement range check here
+        if ((node_index < 1) || (node_index >= m_tree.size()))
+        {
+            throw bad_encoded_data();
+        }
+
         return m_tree[node_index];
     }
 
