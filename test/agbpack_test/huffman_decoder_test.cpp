@@ -31,11 +31,13 @@ TEST_CASE("huffman_decoder_test")
             //         * Does the following input work: aa (I'd expect not, since it's still only one symbol)
             //         * Does the following input work: ab (It seems so, and that would hint that GBACrusher has problems
             //           if the huffman tree contains only one node)
-            //"huffman.good.8.1-symbol.txt", // TODO: have not yet found an encoder that encodes a file consisting of a single letter 'a' correctly. Deleted test file for the time being
             // TODO: rename "symbols" to "bytes"
+            // TODO: document how the 1-character and if we manage to produce them 0-character inputs came to be?
+            "huffman.good.8.1-character.txt",
             "huffman.good.8.2-symbols.txt",
             "huffman.good.8.3-symbols.txt",
             "huffman.good.8.256-symbols.bin",
+            "huffman.good.4.1-character.txt",
             "huffman.good.4.2-symbols.txt",
             "huffman.good.4.3-symbols.txt",
             "huffman.good.4.256-symbols.bin");
