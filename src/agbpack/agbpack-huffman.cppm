@@ -165,7 +165,7 @@ public:
             writer.write8(decoded_byte);
         }
 
-        // TODO: parse padding bytes here
+        // TODO: parse padding bytes here (there should not be any parsing bytes, but we could of course throw if we're misaligned, but that would indicate an error in the decoder, not in the data)
     }
 };
 
