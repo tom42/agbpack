@@ -26,11 +26,12 @@ TEST_CASE("huffman_decoder_test")
             //   which doesn't seem to be available on github anymore.
             //   The encoded data subsequently needed manual fixing, since the uncompressed size in the header
             //   was wrong (4 bytes when it should have been 1 byte)
-            "huffman.good.8.0-bytes.txt", // TODO: also add 4 bit variant
+            "huffman.good.8.0-bytes.txt",
             "huffman.good.8.1-byte.txt",
             "huffman.good.8.2-bytes.txt",
             "huffman.good.8.3-bytes.txt",
             "huffman.good.8.256-bytes.bin",
+            "huffman.good.4.0-bytes.txt",
             "huffman.good.4.1-byte.txt",
             "huffman.good.4.2-bytes.txt",
             "huffman.good.4.3-bytes.txt",
