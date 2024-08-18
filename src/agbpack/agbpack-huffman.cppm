@@ -71,7 +71,7 @@ public:
 
         bool character_found = false;
         std::size_t current_node_index = 0;
-        auto current_node_value = read_tree_node(1); // TODO: this should always succeed. Should we assert tree size (would be redundant, though)
+        auto current_node_value = read_tree_node(1);
 
         while (!character_found)
         {
