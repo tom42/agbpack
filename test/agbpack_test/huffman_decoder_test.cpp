@@ -20,18 +20,12 @@ TEST_CASE("huffman_decoder_test")
     SECTION("Valid input")
     {
         string filename_part = GENERATE(
-            // TODO: find a reference encoder that compresses this
-            //       * GBACrusher will not work. It will produce a compressed file, but that file appears to be broken:
-            //         The compressed file appears to have the tree size field, but no actual tree.
-            //         The CUE decoder does not correctly decompress it and prints WARNING: unexpected end of encoded file!
-            //       * The CUE encoder seems to silently not compress this file, presumably because the resulting file
-            //         will obviously be bigger.
-            //         => Might have to find another reference encoder, or modify CUE
-            //       * Might also be useful to find out what GBACrusher's problem is:
-            //         * Does the following input work: aa (I'd expect not, since it's still only one symbol)
-            //         * Does the following input work: ab (It seems so, and that would hint that GBACrusher has problems
-            //           if the huffman tree contains only one node)
-            // TODO: document how the 1-character and if we manage to produce them 0-character inputs came to be?
+            // TODO: somehow find/construct a file with 0 bytes of input. Also document how that file came to be
+            // Notes on test files:
+            // * Files consisting of a single byte of input have been created using GValiente's gba-huff.h,
+            //   which doesn't seem to be available on github anymore.
+            //   The encoded data subsequently needed manual fixing, since the uncompressed size in the header
+            //   was wrong (4 bytes when it should have been 1 byte)
             "huffman.good.8.1-byte.txt",
             "huffman.good.8.2-bytes.txt",
             "huffman.good.8.3-bytes.txt",
