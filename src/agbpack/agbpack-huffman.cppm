@@ -98,8 +98,6 @@ public:
 private:
     void read_tree(byte_reader<InputIterator>& reader)
     {
-        // TODO: tests: minimum tree size?
-
         // Read tree size byte and calculate tree size from that.
         //
         // Quote from GBATEK: "Size of Tree Table/2-1 (ie. Offset to Compressed Bitstream)"
