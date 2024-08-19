@@ -56,7 +56,8 @@ TEST_CASE("huffman_decoder_test")
             "huffman.bad.eof-while-reading-bitstream.txt.encoded",
             "huffman.bad.invalid-compression-type-in-header.txt.encoded",
             "huffman.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
-            "huffman.bad.invalid-compression-options-in-header.txt.encoded");
+            "huffman.bad.invalid-compression-options-in-header.txt.encoded",
+            "huffman.bad.8.garbage-in-unused-bits-of-leaf-node.txt.encoded"); // TODO: also for 4 bits (requires different test input)
 
         CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
     }
