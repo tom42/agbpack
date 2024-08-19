@@ -80,12 +80,12 @@ public:
             if (!bit_reader.get_bit())
             {
                 character_found = current_node_value & mask_left;
-                current_node_value = read_tree_node(current_node_index); index is 1
+                current_node_value = read_tree_node(current_node_index);
             }
             else
             {
                 character_found = current_node_value & mask_right;
-                current_node_value = read_tree_node(current_node_index + 1);good index is 1
+                current_node_value = read_tree_node(current_node_index + 1);
             }
         }
 
