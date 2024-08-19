@@ -71,7 +71,7 @@ public:
 
         bool character_found = false;
         std::size_t current_node_index = 0;
-        auto current_node_value = read_tree_node(1);
+        auto current_node_value = read_tree_node(root_node_index);
 
         while (!character_found)
         {
@@ -126,7 +126,7 @@ private:
 
     auto read_tree_node(std::size_t node_index) const
     {
-        if ((node_index < 1) || (node_index >= m_tree.size()))
+        if ((node_index < root_node_index) || (node_index >= m_tree.size()))
         {
             throw bad_encoded_data();
         }
@@ -134,6 +134,7 @@ private:
         return m_tree[node_index];
     }
 
+    static constexpr std::size_t root_node_index = 1;
     std::vector<agbpack_u8> m_tree;
 };
 
