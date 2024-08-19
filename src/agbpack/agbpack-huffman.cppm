@@ -80,12 +80,12 @@ public:
             if (!bit_reader.get_bit())
             {
                 character_found = current_node_value & mask_left;
-                current_node_value = read_tree_node(current_node_index); // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
+                current_node_value = read_tree_node(current_node_index); index is 1
             }
             else
             {
                 character_found = current_node_value & mask_right;
-                current_node_value = read_tree_node(current_node_index + 1); // TODO: test: out of bounds access of huffman tree? Note: smallest good index is 1
+                current_node_value = read_tree_node(current_node_index + 1);good index is 1
             }
         }
 
@@ -126,6 +126,7 @@ private:
 
     auto read_tree_node(std::size_t node_index) const
     {
+        // TODO: test out of bounds access (too big should be enough)
         if ((node_index < root_node_index) || (node_index >= m_tree.size()))
         {
             throw bad_encoded_data();
