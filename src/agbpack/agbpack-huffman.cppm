@@ -91,7 +91,10 @@ public:
             }
         }
 
-        // TODO: fail if there is garbage in the upper unused bits of the node. They should be 0 (also test this!)
+        if (current_node_value > m_symbol_max_value)
+        {
+            throw bad_encoded_data();
+        }
 
         return current_node_value;
     }
