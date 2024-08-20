@@ -60,6 +60,7 @@ class huffman_tree final
 public:
     explicit huffman_tree(int symbol_size, byte_reader<InputIterator>& reader)
         : m_symbol_size(symbol_size)
+        , m_symbol_max_value((1 << symbol_size) - 1) // TODO: verify this is good
     {
         read_tree(reader);
     }
@@ -137,7 +138,8 @@ private:
     }
 
     static constexpr std::size_t root_node_index = 1;
-    int m_symbol_size;
+    int m_symbol_size; // TODO: do we need the size here? We need the maximum value, no?
+    int m_symbol_max_value;
     std::vector<agbpack_u8> m_tree;
 };
 
