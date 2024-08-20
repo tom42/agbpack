@@ -58,7 +58,8 @@ template <std::input_iterator InputIterator>
 class huffman_tree final
 {
 public:
-    explicit huffman_tree(byte_reader<InputIterator>& reader)
+    explicit huffman_tree(int symbol_size, byte_reader<InputIterator>& reader)
+        : m_symbol_size(symbol_size)
     {
         read_tree(reader);
     }
@@ -136,6 +137,7 @@ private:
     }
 
     static constexpr std::size_t root_node_index = 1;
+    int m_symbol_size;
     std::vector<agbpack_u8> m_tree;
 };
 
@@ -154,12 +156,12 @@ public:
             throw bad_encoded_data();
         }
 
-        huffman_tree<InputIterator> tree(reader);
+        const int symbol_size = get_symbol_size(*header);
+        huffman_tree<InputIterator> tree(symbol_size, reader);
 
         // TODO: do we check here whether the bitstream is aligned at a 4 byte boundary?
 
-        const int symbol_size = get_symbol_size(*header);
-        bitstream_reader<InputIterator> bit_reader(reader);
+        bitstream_reader<InputIterator> bit_reader(reader); // TODO: consider having this inside huffman_tree
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
 
         while (!writer.done())
