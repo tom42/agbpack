@@ -159,6 +159,8 @@ public:
         huffman_tree<InputIterator> tree(symbol_size, reader);
 
         // TODO: do we check here whether the bitstream is aligned at a 4 byte boundary?
+        //       => We can do this, but if we do so we should be very sure that this is
+        //          indeed always the case.
 
         bitstream_reader<InputIterator> bit_reader(reader);
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
