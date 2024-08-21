@@ -59,7 +59,7 @@ class huffman_tree final
 {
 public:
     explicit huffman_tree(int symbol_size, byte_reader<InputIterator>& reader)
-        : m_symbol_max_value((1 << symbol_size) - 1) // TODO: verify this is good
+        : m_symbol_max_value((1 << symbol_size) - 1)
     {
         read_tree(reader);
     }
