@@ -171,7 +171,6 @@ public:
                 decoded_byte |= tree.decode_symbol(bit_reader) << nbits;
             }
 
-            // TODO: when writing an output byte, test buffer overrun on output buffer
             writer.write8(decoded_byte);
         }
 
