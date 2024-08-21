@@ -127,7 +127,6 @@ private:
 
     auto read_tree_node(std::size_t node_index) const
     {
-        // TODO: test out of bounds access (too big should be enough)
         if ((node_index < root_node_index) || (node_index >= m_tree.size()))
         {
             throw bad_encoded_data();
