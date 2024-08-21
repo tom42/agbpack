@@ -164,7 +164,7 @@ public:
 
         // TODO: do we check here whether the bitstream is aligned at a 4 byte boundary?
 
-        bitstream_reader<InputIterator> bit_reader(reader); // TODO: consider having this inside huffman_tree
+        bitstream_reader<InputIterator> bit_reader(reader);
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
 
         while (!writer.done())
