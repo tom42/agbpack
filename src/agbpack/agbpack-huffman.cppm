@@ -17,7 +17,6 @@ import :header;
 namespace agbpack
 {
 
-// TODO: should this possibly be unsigned?
 inline int get_symbol_size(header h)
 {
     return std::to_underlying(h.options_as<huffman_options>());
