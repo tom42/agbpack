@@ -174,7 +174,9 @@ public:
             writer.write8(decoded_byte);
         }
 
-        // TODO: parse padding bytes here (there should not be any parsing bytes, but we could of course throw if we're misaligned, but that would indicate an error in the decoder, not in the data)
+        // We already checked whether the bitstream is aligned, and we read it 32 bit wise.
+        // So if at this point we're not 32 bit aligned, then the decoder is broken.
+        assert(((reader.nbytes_read() % 4) == 0) && "huffman_decoder is broken");
     }
 };
 
