@@ -119,9 +119,6 @@ private:
         // put a byte in front of our huffman tree in memory. The value of that byte does not matter.
         m_tree.push_back(0);
 
-        // TODO: do we need to align anything here? I think so, no? After all, the bit stream needs to be 4 byte aligned no?
-        //       => No but we might want to check whether we ARE aligned. But actually the decoder can do that too
-
         // Read huffman tree. Note that the tree size byte counts towards the tree size.
         // Obviously we have already read the tree size byte, so we need to read one byte
         // less than the value in tree_size.
