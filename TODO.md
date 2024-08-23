@@ -4,6 +4,20 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Bad news regarding huffman:
+  * https://github.com/devkitPro/grit/pull/7
+    * Seems that GBA requires the tree to occupy 0x200 bytes?
+      * NDS doesn't, so that'd be wasted space there.
+    * Well I cannot believe that. Actually I think it's just that
+      the tree needs to be aligned to a word boundary?
+      Should verify this:
+      * Maybe ther input data just does not have the bitstream aligned?
+* Good news: huffman encoder:
+  * Libgrit says this:
+    * Apart from FreeImage, the LZ77 compressor and GBFS, everything is
+      licenced under the MIT licence (see mit-licence.txt)
+    * So that would also affect the huffman encoder. Good news, then.
+      We could simply take their huffman encoder.
 * Figure out whether the GBA BIOS can decode CUEs 1 and 2 bit modes.
   * If it can, then we test them in the decoder too and possibly even implement them
   * Note that GBATEK says (quote) "Data size in bit units (normally 4 or 8)"
