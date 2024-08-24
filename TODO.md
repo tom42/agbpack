@@ -4,17 +4,25 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Maybe, just to be sure:
+  * Can we prove/disprove that the bitstream needs to be aligned?
+    * We would have to somehow construct an image where the huffman tree contains padding at the end
+    * We would then have to somehow remove that padding and fix up the tree size field
+      * A decoder that does not check bitstream alignment should then still be able to decode
+      * A decoder that does check bitstream alignment should bark
+      * And the ultimate interesting thing: what does a real GBA BIOS on a real GBA do?
+* Maybe we should document our insights on huffman a bit
+  * Copy documentation from GBATEK.txt
+  * Annotate it
+    * Tree size/offset (It's an offset, respectively at the end of the tree are padding bytes to align the bitstream)
+    * Alignment of bitstream (see above)
+    * Encoding types (personal tests with real BIOS on emulators have shown that 1 and 2 bit is not supported, so other more exotic encodings probably aren't, either)
 * Good news: huffman encoder:
   * Libgrit says this:
     * Apart from FreeImage, the LZ77 compressor and GBFS, everything is
       licenced under the MIT licence (see mit-licence.txt)
     * So that would also affect the huffman encoder. Good news, then.
       We could simply take their huffman encoder.
-* Figure out whether the GBA BIOS can decode CUEs 1 and 2 bit modes.
-  * If it can, then we test them in the decoder too and possibly even implement them
-  * Note that GBATEK says (quote) "Data size in bit units (normally 4 or 8)"
-    * It does NOT say must be 4 or 8. This might indicate that the BIOS indeed does
-      support data sizes other than 4 or 8.
 * Use uint8_t or std::uint8_t?
   * Same for other <cstdint> types
 * clang++: reconsider the decision to use -Weverything. Maybe change that to be an option or so.
