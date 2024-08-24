@@ -4,6 +4,11 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* This is somewhat unexpected:
+  * A test (huffman-bitstream-alignment) indicates that the GBA BIOS does not decode data correctly
+    when the uncompressed data is an odd number of bytes (not sure whether it needs to be a multiple of 2 or 4)
+    * Well since the BIOS seems to be able to decode to VRAM it's to be expected that it needs some sort of alignment/padding
+    * Instead of guessing around we might simply want to disassemble the damn thing.
 * Maybe, just to be sure:
   * Can we prove/disprove that the bitstream needs to be aligned?
     * We would have to somehow construct an image where the huffman tree contains padding at the end
