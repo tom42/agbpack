@@ -79,7 +79,14 @@ TEST_CASE("huffman_decoder_test")
     //       * Stop messing around: just get a good disassembler (Ghidra? REDasm?) and finally disassemble that BIOS
     SECTION("tmp")
     {
-
+        // TODO: take this file and add it to the invalid input test above. Then fix the code.
+        auto file = open_binary_file("C:\\Users\\mathy\\Desktop\\work\\github\\shrinkler-arm\\own-gba-compression-technology\\gba-tests\\huffman-bitstream-alignment\\source\\encoded.misaligned-bitstream.h8");
+        agbpack::huffman_decoder ddecoder;
+        std::vector<unsigned char> v;
+        ddecoder.decode(
+            std::istream_iterator<unsigned char>(file),
+            std::istream_iterator<unsigned char>(),
+            back_inserter(v));
     }
 }
 
