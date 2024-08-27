@@ -63,28 +63,6 @@ TEST_CASE("huffman_decoder_test")
 
         CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
     }
-
-    // TODO: aw fuck it:
-    //       * Anyway: we should probably conclude this experiment:
-    //         * In reference decoder sources, can we find a trace of the bitstream getting aligned?
-    //           * Well CUE apparently does it right, so we ought to find it somewhere in there, no?
-    //             Here you go (need to verify)
-    //             * Tree size byte calculation: codetree[i] = (num_leafs - 1) | 1;
-    //             * Should we mention that in the documentation?
-    //       * Stop messing around: just get a good disassembler (Ghidra? REDasm?) and finally disassemble that BIOS
-    SECTION("tmp")
-    {
-        /*
-        // TODO: take this file and add it to the invalid input test above. Then fix the code.
-        auto file = open_binary_file("C:\\Users\\mathy\\Desktop\\work\\github\\shrinkler-arm\\own-gba-compression-technology\\gba-tests\\huffman-bitstream-alignment\\source\\encoded.misaligned-bitstream.h8");
-        agbpack::huffman_decoder ddecoder;
-        std::vector<unsigned char> v;
-        ddecoder.decode(
-            std::istream_iterator<unsigned char>(file),
-            std::istream_iterator<unsigned char>(),
-            back_inserter(v));
-        */
-    }
 }
 
 }

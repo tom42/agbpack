@@ -20,6 +20,7 @@ SPDX-License-Identifier: MIT
   * Copy documentation from GBATEK.txt
   * Annotate it
     * Tree size/offset (It's an offset, respectively at the end of the tree are padding bytes to align the bitstream)
+      * Note: CUE encoder has the following tree size byte calculation: codetree[i] = (num_leafs - 1) | 1;
     * Alignment of bitstream (see above)
     * Encoding types (personal tests with real BIOS on emulators have shown that 1 and 2 bit is not supported, so other more exotic encodings probably aren't, either)
 * Good news: huffman encoder:
