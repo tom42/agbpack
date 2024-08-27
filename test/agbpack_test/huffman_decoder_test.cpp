@@ -64,17 +64,8 @@ TEST_CASE("huffman_decoder_test")
         CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
     }
 
-    // TODO: delete/incorporate into existing other tests
     // TODO: aw fuck it:
     //       * Anyway: we should probably conclude this experiment:
-    //         * Can our own decoder decode these files without a bitstream alignment check?
-    //           * #include "decoded.aligned-bitstream.txt.h"
-    //           * #include "encoded.aligned-bitstream.h8.h"
-    //           * #include "decoded.misaligned-bitstream.txt.h"
-    //           * #include "encoded.misaligned-bitstream.h8.h"
-    //           * #include "decoded.aligned-bitstream-even-length.txt.h"
-    //           * #include "encoded.aligned-bitstream-even-length.h8.h"
-    //         * If we add a bitstream alignment check, can it still decode them?
     //         * In reference decoder sources, can we find a trace of the bitstream getting aligned?
     //           * Well CUE apparently does it right, so we ought to find it somewhere in there, no?
     //       * Stop messing around: just get a good disassembler (Ghidra? REDasm?) and finally disassemble that BIOS
