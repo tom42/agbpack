@@ -158,9 +158,7 @@ public:
         const int symbol_size = get_symbol_size(*header);
         huffman_tree<InputIterator> tree(symbol_size, reader);
 
-        // TODO: do we check here whether the bitstream is aligned at a 4 byte boundary?
-        //       => We can do this, but if we do so we should be very sure that this is
-        //          indeed always the case.
+        throw_if_bitstream_is_misaligned(reader);
 
         bitstream_reader<InputIterator> bit_reader(reader);
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
@@ -179,6 +177,16 @@ public:
         // We already checked whether the bitstream is aligned, and we read it 32 bit wise.
         // So if at this point we're not 32 bit aligned, then the decoder is broken.
         assert(((reader.nbytes_read() % 4) == 0) && "huffman_decoder is broken");
+    }
+
+private:
+    template <std::input_iterator InputIterator>
+    static void throw_if_bitstream_is_misaligned(const byte_reader<InputIterator>& reader)
+    {
+        if ((reader.nbytes_read() % 4) != 0)
+        {
+            throw bad_encoded_data();
+        }
     }
 };
 
