@@ -68,6 +68,9 @@ TEST_CASE("huffman_decoder_test")
     //       * Anyway: we should probably conclude this experiment:
     //         * In reference decoder sources, can we find a trace of the bitstream getting aligned?
     //           * Well CUE apparently does it right, so we ought to find it somewhere in there, no?
+    //             Here you go (need to verify)
+    //             * Tree size byte calculation: codetree[i] = (num_leafs - 1) | 1;
+    //             * Should we mention that in the documentation?
     //       * Stop messing around: just get a good disassembler (Ghidra? REDasm?) and finally disassemble that BIOS
     SECTION("tmp")
     {
