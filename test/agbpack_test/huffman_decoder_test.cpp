@@ -57,6 +57,7 @@ TEST_CASE("huffman_decoder_test")
             "huffman.bad.invalid-compression-type-in-header.txt.encoded",
             "huffman.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
             "huffman.bad.invalid-compression-options-in-header.txt.encoded",
+            "huffman.bad.misaligned-bitstream.txt.encoded",
             "huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt.encoded",
             "huffman.bad.8.huffman-tree-access-past-end-of-tree.txt.encoded");
 
