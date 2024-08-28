@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <vector>
 
 import agbpack;
 
@@ -22,8 +23,12 @@ TEST_CASE("delta_encoder_test")
         // TODO: verify using the decoder
         //       * The decoder must be able to decode
         //       * The decoded data must be the same as the original data
+
+        std::vector<unsigned char> input;
+        std::vector<unsigned char> output;
+
         agbpack::delta_encoder encoder;
-        encoder.encode();
+        encoder.encode(input.begin(), input.end(), back_inserter(output));
     }
 
     SECTION("16 bit")
