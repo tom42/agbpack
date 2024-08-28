@@ -84,6 +84,13 @@ public:
         // TODO: unhardcode data
         // TODO: need a way to create headers (as opposed to parsing headers)
         // TODO: what if data is too big to fit into a compression header? We should test this, no?
+
+        // TODO: pass real size (not 0)
+        // TODO: size must fit into 24 bits. who checks this?
+        // TODO: to do: if the header is not valid, what do we to? Throw? And what?
+        // TODO: unhardcode compression options. How can client code specify these?
+        header::create(compression_type::delta, delta_options::delta8, 0);
+
         byte_writer<OutputIterator> writer(4, output);
         writer.write8(0x81);
         writer.write8(0);
