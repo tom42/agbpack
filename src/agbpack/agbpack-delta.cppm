@@ -91,7 +91,9 @@ public:
         // TODO: unhardcode compression options. How can client code specify these?
         header::create(compression_type::delta, delta_options::delta8, 0);
 
-        byte_writer<OutputIterator> writer(4, output);
+        byte_writer<OutputIterator> writer(4, output); // TODO: unhardcode 4? what do we want to pass here? Do we even want to pass anything?
+
+        // TODO: somehow get binary representation of header and write that
         writer.write8(0x81);
         writer.write8(0);
         writer.write8(0);

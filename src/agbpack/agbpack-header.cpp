@@ -93,6 +93,9 @@ header header::create(compression_type type, compression_options options, uint32
 {
     // TODO: In principle we'd like to delegate to parse, somehow
     //       Maybe we create another overload where we can supply type, options and uncompressed_size?
+    // TODO: type needs validation
+    // TODO: options needs validation
+    // TODO: uncompressed_size needs validation
     return header(type, options, 0);
 }
 
