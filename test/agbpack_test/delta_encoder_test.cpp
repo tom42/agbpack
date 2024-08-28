@@ -2,36 +2,40 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
-#include <vector>
+#include <catch2/generators/catch_generators.hpp>
+#include <string>
+#include "testdata.hpp"
 
 import agbpack;
 
 namespace agbpack_test
 {
 
+using string = std::string;
+
 TEST_CASE("delta_encoder_test")
 {
+    agbpack::delta_encoder encoder;
+
     SECTION("8 bit")
     {
-        // TODO: zero bytes of input
         // TODO: one byte of input
         // TODO: many bytes of input
 
         // TODO: sketch out how encoding works
         //       * set options
         //       * call encode
-        // TODO: verify using the decoder
+        // TODO: verify using the decoder (orly?)
         //       * The decoder must be able to decode
         //       * The decoded data must be the same as the original data
 
-        std::vector<unsigned char> encoded_data;
-        std::vector<unsigned char> decoded_data;
+        string filename_part = GENERATE(
+            "delta.good.8.zero-length-file.txt");
+        auto expected_data = read_file(filename_part + ".encoded");
 
-        agbpack::delta_encoder encoder;
-        encoder.encode(encoded_data.begin(), encoded_data.end(), back_inserter(decoded_data));
+        auto encoded_data = encode_file(encoder, filename_part + ".decoded");
 
-        // TODO: real expected data (easy: header + zero bytes of output)
-        CHECK(decoded_data == std::vector<unsigned char>{ 0x81, 0, 0, 0 });
+        CHECK(encoded_data == expected_data);
     }
 
     SECTION("16 bit")
