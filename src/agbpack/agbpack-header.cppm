@@ -36,7 +36,7 @@ enum class rle_options
     reserved = 0
 };
 
-enum class delta_options
+export enum class delta_options
 {
     delta8 = 1,
     delta16 = 2

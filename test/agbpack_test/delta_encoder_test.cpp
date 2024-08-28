@@ -29,6 +29,8 @@ TEST_CASE("delta_encoder_test")
         //       * The decoder must be able to decode
         //       * The decoded data must be the same as the original data
 
+        encoder.options(agbpack::delta_options::delta8);
+
         string filename_part = GENERATE(
             "delta.good.8.zero-length-file.txt");
         auto expected_data = read_file(filename_part + ".encoded");
