@@ -40,9 +40,17 @@ TEST_CASE("delta_encoder_test")
 
     SECTION("16 bit")
     {
-        // TODO: zero bytes of input
-        // TODO: one byte of input
+        // TODO: one byte of input (orly? should it not be a word?)
         // TODO: many bytes of input
+        // TODO: what if input is an odd number of bytes?
+
+        string filename_part = GENERATE(
+            "delta.good.16.zero-length-file.txt");
+        auto expected_data = read_file(filename_part + ".encoded");
+
+        auto encoded_data = encode_file(encoder, filename_part + ".decoded");
+
+        CHECK(encoded_data == expected_data);
     }
 }
 
