@@ -72,13 +72,23 @@ export class delta_encoder final
 {
 public:
     template <std::input_iterator InputIterator, typename OutputIterator>
-    void encode(InputIterator input, InputIterator /*eof*/, OutputIterator /*output*/)
+    void encode(InputIterator input, InputIterator /*eof*/, OutputIterator output)
     {
         static_assert_input_type(input);
         // TODO: encode to temporary buffer
+        // TODO: do we want to optimize for RandomAccessIterator?
         // TODO: write to output
         //       * For starters we can probably use the existing byte_writer, but maybe we want to have an unchecked variant?
         //       * Yeah but in the spirit of C++ you'd then make many of the write functions non-element functions, no?
+
+        // TODO: unhardcode data
+        // TODO: need a way to create headers (as opposed to parsing headers)
+        // TODO: what if data is too big to fit into a compression header? We should test this, no?
+        byte_writer<OutputIterator> writer(4, output);
+        writer.write8(0x81);
+        writer.write8(0);
+        writer.write8(0);
+        writer.write8(0);
     }
 };
 
