@@ -4,6 +4,10 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* The interface for encoding and decoding is virtually the same
+  * Should we give this a generic name?
+    * process()
+    * Function call operator
 * This is somewhat unexpected:
   * A test (huffman-bitstream-alignment) indicates that the GBA BIOS does not decode data correctly
     when the uncompressed data is an odd number of bytes (not sure whether it needs to be a multiple of 2 or 4)
