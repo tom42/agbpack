@@ -94,11 +94,20 @@ public:
         byte_writer<OutputIterator> writer(4, output); // TODO: unhardcode 4? what do we want to pass here? Do we even want to pass anything?
 
         // TODO: somehow get binary representation of header and write that
-        writer.write8(0x81);
+        writer.write8((static_cast<unsigned char>(compression_type::delta) << 4) | static_cast<unsigned char>(m_options));
         writer.write8(0);
         writer.write8(0);
         writer.write8(0);
     }
+
+    void options(delta_options options)
+    {
+        // TODO: should we verify options right here?
+        m_options = options;
+    }
+
+private:
+    delta_options m_options = delta_options::delta8;
 };
 
 }
