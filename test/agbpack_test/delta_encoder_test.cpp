@@ -24,11 +24,14 @@ TEST_CASE("delta_encoder_test")
         //       * The decoder must be able to decode
         //       * The decoded data must be the same as the original data
 
-        std::vector<unsigned char> input;
-        std::vector<unsigned char> output;
+        std::vector<unsigned char> encoded_data;
+        std::vector<unsigned char> decoded_data;
 
         agbpack::delta_encoder encoder;
-        encoder.encode(input.begin(), input.end(), back_inserter(output));
+        encoder.encode(encoded_data.begin(), encoded_data.end(), back_inserter(decoded_data));
+
+        // TODO: real expected data (easy: header + zero bytes of output)
+        CHECK(decoded_data == std::vector<unsigned char>{ 0x81, 0, 0, 0 });
     }
 
     SECTION("16 bit")
