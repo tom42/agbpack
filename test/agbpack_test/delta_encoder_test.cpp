@@ -23,6 +23,7 @@ TEST_CASE("delta_encoder_test")
         //       * The decoder must be able to decode
         //       * The decoded data must be the same as the original data
         agbpack::delta_encoder encoder;
+        encoder.encode();
     }
 
     SECTION("16 bit")
