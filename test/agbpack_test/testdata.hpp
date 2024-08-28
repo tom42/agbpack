@@ -29,6 +29,15 @@ std::vector<unsigned char> decode_file(TDecoder& decoder, const std::string& bas
     return output;
 }
 
+template <typename TEncoder>
+std::vector<unsigned char> encode_file(TEncoder& encoder, const std::string& basename)
+{
+    std::vector<unsigned char> input = read_file(basename);
+    std::vector<unsigned char> output;
+    encoder.encode(input.begin(), input.end(), back_inserter(output));
+    return output;
+}
+
 }
 
 #endif
