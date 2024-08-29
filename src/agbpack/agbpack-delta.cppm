@@ -55,6 +55,13 @@ private:
     template <typename SizeTag, typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
     static void generic_decode(SizeTag symbol_size, byte_reader<InputIterator>& reader, byte_writer<OutputIterator>& writer)
     {
+        // TODO: can we not simplify this?
+        //       * We should be able to start with current_value set to 0
+        //       * We can then treat the first sample as a delta too
+        //       * Only problem here is how to get the type of current_value right
+        //         * Pass it as another template parameter
+        //         * Somehow obtain it using decltype
+        //         * Somehow extent the size tag types, so that we can obtain agbpack_u8 from size8, agbpack_u16 from size16 etc.
         auto current_value = reader.read(symbol_size);
         writer.write(symbol_size, current_value);
 
