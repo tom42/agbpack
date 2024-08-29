@@ -116,10 +116,19 @@ public:
         *m_output++ = byte;
     }
 
-    void write16(agbpack_u16 word)
+    void write16(agbpack_u16 hword)
     {
+        write8(hword & 255);
+        write8((hword >> 8) & 255);
+    }
+
+    void write32(agbpack_u32 word)
+    {
+        // TODO: review this thorougly
         write8(word & 255);
         write8((word >> 8) & 255);
+        write8((word >> 16) & 255);
+        write8((word >> 24) & 255);
     }
 
     void write(size8_tag, agbpack_u8 byte) { write8(byte); }
