@@ -88,8 +88,7 @@ public:
         // TODO: pass real size (not 0)
         // TODO: size must fit into 24 bits. who checks this?
         // TODO: to do: if the header is not valid, what do we to? Throw? And what?
-        // TODO: unhardcode compression options. How can client code specify these?
-        auto header = header::create(compression_type::delta, delta_options::delta8, 0);
+        auto header = header::create(compression_type::delta, m_options, 0);
 
         byte_writer<OutputIterator> writer(4, output); // TODO: unhardcode 4? what do we want to pass here? Do we even want to pass anything?
 
