@@ -72,6 +72,9 @@ public:
     void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type(input);
+
+        // TODO: this should be generic, so there should be no agbpack_u8 being directly used in here.
+
         // TODO: encode to temporary buffer
         // TODO: do we want to optimize for RandomAccessIterator?
         // TODO: write to output
@@ -84,15 +87,17 @@ public:
 
         // TODO: implement encoding loop: encode to temporary buffer.
         std::size_t nbytes_written = 0; // TODO: writer could expose this
-        agbpack_u8 current_value = 0; // TODO: need to use 8 or 16 bits here (get it from size_type)
+        agbpack_u8 old_value = 0; // TODO: need to use 8 or 16 bits here (get it from size_type)
         std::vector<agbpack_u8> tmp; // TODO: name (call it buf or so. It's going into a separate method anyway)
         byte_reader<InputIterator> reader(input, eof);
-        // TODO: it's really unfortunate if we have to pass a size here (unhardcode/remove 4. see also todo below)
-        byte_writer writer2(4, back_inserter(tmp)); // TODO: writer2: silly name. Move the encoding step into a separate method and call it just "writer"
+        // TODO: it's really unfortunate if we have to pass a size here (unhardcode/remove 1024. see also todo below)
+        byte_writer writer2(1024, back_inserter(tmp)); // TODO: writer2: silly name. Move the encoding step into a separate method and call it just "writer"
         while (!reader.eof())
         {
-            current_value = reader.read8() - current_value; // TODO: need to read 8 or 16 bits here
-            writer2.write8(current_value); // TODO: need to write 8 or 16 bits here
+            agbpack_u8 current_value = reader.read8(); // TODO: need to read 8 or 16 bits here
+            agbpack_u8 delta = current_value - old_value; // TODO: need to process 8 or 16 bits here
+            old_value = current_value;
+            writer2.write8(delta); // TODO: need to write 8 or 16 bits here
             ++nbytes_written; // TODO: need to bump this by 2 for word encoding.
         }
 
@@ -114,7 +119,7 @@ public:
         // TODO: write output
         //       * Create and write header to output
         //       * Copy temporary buffer to output
-        byte_writer<OutputIterator> writer(8, output); // TODO: unhardcode 8? what do we want to pass here? Do we even want to pass anything?
+        byte_writer<OutputIterator> writer(1024, output); // TODO: unhardcode 1024? what do we want to pass here? Do we even want to pass anything?
         writer.write32(header.to_uint32_t());
 
         // TODO: copy tmp buffer to output. Question is, do we even need to write a loop, or can we simply copy stuff using an STL algorithm?
