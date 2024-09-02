@@ -153,8 +153,8 @@ private:
         symbol_type old_value = 0;
         while (!reader.eof())
         {
-            symbol_type current_value = reader.read(SizeTag()); // TODO: need to read 8 or 16 bits here
-            symbol_type delta = current_value - old_value; // TODO: need to process 8 or 16 bits here
+            symbol_type current_value = reader.read(SizeTag());
+            symbol_type delta = current_value - old_value;
             old_value = current_value;
             writer2.write(SizeTag(), delta); // TODO: need to write 8 or 16 bits here
             ++nbytes_written; // TODO: need to bump this by 2 for word encoding.
