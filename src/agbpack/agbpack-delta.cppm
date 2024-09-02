@@ -139,7 +139,7 @@ private:
     template <typename SizeTag, typename InputIterator>
     std::vector<agbpack_u8> generic_encode(SizeTag, InputIterator input, InputIterator eof)
     {
-        using symbol_type = SizeTag::type;
+        using symbol_type = typename SizeTag::type;
 
         std::vector<agbpack_u8> tmp; // TODO: name (call it buf or so. It's going into a separate method anyway)
         byte_reader<InputIterator> reader(input, eof);
