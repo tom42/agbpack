@@ -80,7 +80,6 @@ public:
         //       * For starters we can probably use the existing byte_writer, but maybe we want to have an unchecked variant?
         //       * Yeah but in the spirit of C++ you'd then make many of the write functions non-element functions, no?
 
-        // TODO: unhardcode data
         // TODO: need a way to create headers (as opposed to parsing headers)
         // TODO: what if data is too big to fit into a compression header? We should test this, no?
 
