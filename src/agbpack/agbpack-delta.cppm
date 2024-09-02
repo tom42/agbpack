@@ -86,7 +86,7 @@ public:
         // TODO: what if data is too big to fit into a compression header? We should test this, no?
 
         // TODO: implement encoding loop: encode to temporary buffer.
-        std::size_t nbytes_written = 0; // TODO: writer could expose this
+        /*std::size_t nbytes_written = 0; // TODO: writer could expose this
         agbpack_u8 old_value = 0; // TODO: need to use 8 or 16 bits here (get it from size_type)
         std::vector<agbpack_u8> tmp; // TODO: name (call it buf or so. It's going into a separate method anyway)
         byte_reader<InputIterator> reader(input, eof);
@@ -99,15 +99,17 @@ public:
             old_value = current_value;
             writer2.write8(delta); // TODO: need to write 8 or 16 bits here
             ++nbytes_written; // TODO: need to bump this by 2 for word encoding.
-        }
+        }*/
+        auto tmp = encode8or16(input, eof);
 
         // TODO: beautify: we need a tmp copy of nbytes_written, because when we write the padding bytes we'll screw up the counter
-        auto tmp_siz = nbytes_written;
+        auto tmp_siz = tmp.size();
 
         // TODO: add padding bytes
+        auto nbytes_written = tmp.size();
         while (nbytes_written % 4 != 0)
         {
-            writer2.write8(0);
+            tmp.push_back(0);
             ++nbytes_written;
         }
 
@@ -153,6 +155,7 @@ private:
             writer2.write8(delta); // TODO: need to write 8 or 16 bits here
             ++nbytes_written; // TODO: need to bump this by 2 for word encoding.
         }
+        return tmp;
     }
 
     delta_options m_options = delta_options::delta8;
