@@ -32,7 +32,8 @@ TEST_CASE("delta_encoder_test")
 
         string filename_part = GENERATE(
             "delta.good.8.zero-length-file.txt",
-            "delta.good.8.one-byte.txt");
+            "delta.good.8.one-byte.txt",
+            "delta.good.8.sine.bin");
         auto expected_data = read_file(filename_part + ".encoded");
 
         auto encoded_data = encode_file(encoder, filename_part + ".decoded");
