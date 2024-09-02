@@ -19,7 +19,9 @@ namespace agbpack
 
 inline int get_symbol_size(header h)
 {
-    return std::to_underlying(h.options_as<huffman_options>());
+    // TODO: static_cast is a fix for clang++
+    //       * Remove. Instead, treat all symbol_size things as unsigned
+    return static_cast<int>(std::to_underlying(h.options_as<huffman_options>()));
 }
 
 template <std::input_iterator InputIterator>

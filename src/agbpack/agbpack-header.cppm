@@ -13,7 +13,7 @@ export module agbpack:header;
 namespace agbpack
 {
 
-enum class compression_type
+enum class compression_type : unsigned int
 {
     lzss = 1,
     huffman = 2,
@@ -21,23 +21,23 @@ enum class compression_type
     delta = 8
 };
 
-enum class lzss_options
+enum class lzss_options : unsigned int
 {
     reserved = 0
 };
 
-enum class huffman_options
+enum class huffman_options : unsigned int
 {
     h4 = 4,
     h8 = 8
 };
 
-enum class rle_options
+enum class rle_options : unsigned int
 {
     reserved = 0
 };
 
-export enum class delta_options
+export enum class delta_options : unsigned int
 {
     delta8 = 1,
     delta16 = 2
