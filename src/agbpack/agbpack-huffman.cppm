@@ -17,11 +17,9 @@ import :header;
 namespace agbpack
 {
 
-inline int get_symbol_size(header h)
+inline unsigned int get_symbol_size(header h)
 {
-    // TODO: static_cast is a fix for clang++
-    //       * Remove. Instead, treat all symbol_size things as unsigned
-    return static_cast<int>(std::to_underlying(h.options_as<huffman_options>()));
+    return std::to_underlying(h.options_as<huffman_options>());
 }
 
 template <std::input_iterator InputIterator>
@@ -60,7 +58,7 @@ template <std::input_iterator InputIterator>
 class huffman_tree final
 {
 public:
-    explicit huffman_tree(int symbol_size, byte_reader<InputIterator>& reader)
+    explicit huffman_tree(unsigned int symbol_size, byte_reader<InputIterator>& reader)
         : m_symbol_max_value((1 << symbol_size) - 1)
     {
         read_tree(reader);
@@ -157,7 +155,7 @@ public:
             throw bad_encoded_data();
         }
 
-        const int symbol_size = get_symbol_size(*header);
+        const unsigned int symbol_size = get_symbol_size(*header);
         huffman_tree<InputIterator> tree(symbol_size, reader);
 
         throw_if_bitstream_is_misaligned(reader);
@@ -168,7 +166,7 @@ public:
         while (!writer.done())
         {
             agbpack_u8 decoded_byte = 0;
-            for (int nbits = 0; nbits < 8; nbits += symbol_size)
+            for (unsigned int nbits = 0; nbits < 8; nbits += symbol_size)
             {
                 decoded_byte |= tree.decode_symbol(bit_reader) << nbits;
             }
