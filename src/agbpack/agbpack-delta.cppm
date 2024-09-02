@@ -3,6 +3,7 @@
 
 module;
 
+#include <cstdint>
 #include <iterator>
 #include <vector>
 
