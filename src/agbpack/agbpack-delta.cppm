@@ -108,11 +108,7 @@ public:
         byte_writer<OutputIterator> writer(8192, output); // TODO: unhardcode 8192? what do we want to pass here? Do we even want to pass anything?
         writer.write32(header.to_uint32_t());
 
-        // TODO: copy tmp buffer to output. Question is, do we even need to write a loop, or can we simply copy stuff using an STL algorithm?
-        for (auto byte : tmp)
-        {
-            writer.write8(byte);
-        }
+        write(writer, tmp.begin(), tmp.end());
     }
 
     void options(delta_options options)
