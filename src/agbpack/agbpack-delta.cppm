@@ -82,13 +82,8 @@ public:
         // TODO: need a way to create headers (as opposed to parsing headers)
         // TODO: what if data is too big to fit into a compression header? We should test this, no?
 
-        // TODO: pass real size (not 0)
-        // TODO: size must fit into 24 bits. who checks this?
-        // TODO: to do: if the header is not valid, what do we to? Throw? And what?
-        auto header = header::create(compression_type::delta, m_options, 0);
-
-
         // TODO: implement encoding loop: encode to temporary buffer.
+        std::size_t nbytes_written = 0; // TODO: writer could expose this
         agbpack_u8 current_value = 0; // TODO: need to use 8 or 16 bits here (get it from size_type)
         std::vector<agbpack_u8> tmp; // TODO: name (call it buf or so. It's going into a separate method anyway)
         byte_reader<InputIterator> reader(input, eof);
@@ -98,16 +93,35 @@ public:
         {
             current_value = reader.read8() - current_value; // TODO: need to read 8 or 16 bits here
             writer2.write8(current_value); // TODO: need to write 8 or 16 bits here
+            ++nbytes_written; // TODO: need to bump this by 2 for word encoding.
         }
 
+        // TODO: beautify: we need a tmp copy of nbytes_written, because when we write the padding bytes we'll screw up the counter
+        auto tmp_siz = nbytes_written;
+
         // TODO: add padding bytes
+        while (nbytes_written % 4 != 0)
+        {
+            writer2.write8(0);
+            ++nbytes_written;
+        }
+
+        // TODO: pass real size (not 0)
+        // TODO: size must fit into 24 bits. who checks this?
+        // TODO: to do: if the header is not valid, what do we to? Throw? And what?
+        auto header = header::create(compression_type::delta, m_options, static_cast<uint32_t>(tmp_siz)); // TODO: no cast here
 
         // TODO: write output
         //       * Create and write header to output
         //       * Copy temporary buffer to output
-        byte_writer<OutputIterator> writer(4, output); // TODO: unhardcode 4? what do we want to pass here? Do we even want to pass anything?
+        byte_writer<OutputIterator> writer(8, output); // TODO: unhardcode 8? what do we want to pass here? Do we even want to pass anything?
         writer.write32(header.to_uint32_t());
+
         // TODO: copy tmp buffer to output. Question is, do we even need to write a loop, or can we simply copy stuff using an STL algorithm?
+        for (auto byte : tmp)
+        {
+            writer.write8(byte);
+        }
     }
 
     void options(delta_options options)
