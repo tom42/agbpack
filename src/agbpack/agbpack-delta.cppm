@@ -101,12 +101,9 @@ public:
         // TODO: to do: if the header is not valid, what do we to? Throw? And what?
         auto header = header::create(compression_type::delta, m_options, static_cast<uint32_t>(tmp_siz)); // TODO: no cast here
 
-        // TODO: write output
-        //       * Create and write header to output
-        //       * Copy temporary buffer to output
+        // Copy header and encoded data to output
         byte_writer<OutputIterator> writer(8192, output); // TODO: unhardcode 8192? what do we want to pass here? Do we even want to pass anything?
         writer.write32(header.to_uint32_t());
-
         writer.write(tmp.begin(), tmp.end());
     }
 
