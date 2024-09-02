@@ -86,9 +86,6 @@ public:
         // TODO: to do: if the header is not valid, what do we to? Throw? And what?
         auto header = header::create(compression_type::delta, m_options, 0);
 
-        byte_writer<OutputIterator> writer(4, output); // TODO: unhardcode 4? what do we want to pass here? Do we even want to pass anything?
-
-        writer.write32(header.to_uint32_t());
 
         // TODO: implement encoding loop: encode to temporary buffer.
 
@@ -97,6 +94,9 @@ public:
         // TODO: write output
         //       * Create and write header to output
         //       * Copy temporary buffer to output
+        byte_writer<OutputIterator> writer(4, output); // TODO: unhardcode 4? what do we want to pass here? Do we even want to pass anything?
+        writer.write32(header.to_uint32_t());
+        // TODO: copy tmp buffer to output. Question is, do we even need to write a loop, or can we simply copy stuff using an STL algorithm?
     }
 
     void options(delta_options options)
