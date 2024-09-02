@@ -4,6 +4,7 @@
 module;
 
 #include <iterator>
+#include <vector>
 
 export module agbpack:delta;
 import :common;
@@ -68,7 +69,7 @@ export class delta_encoder final
 {
 public:
     template <std::input_iterator InputIterator, typename OutputIterator>
-    void encode(InputIterator input, InputIterator /*eof*/, OutputIterator output)
+    void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type(input);
         // TODO: encode to temporary buffer
@@ -88,6 +89,16 @@ public:
 
 
         // TODO: implement encoding loop: encode to temporary buffer.
+        agbpack_u8 current_value = 0; // TODO: need to use 8 or 16 bits here (get it from size_type)
+        std::vector<agbpack_u8> tmp; // TODO: name (call it buf or so. It's going into a separate method anyway)
+        byte_reader<InputIterator> reader(input, eof);
+        // TODO: it's really unfortunate if we have to pass a size here (unhardcode/remove 4. see also todo below)
+        byte_writer writer2(4, back_inserter(tmp)); // TODO: writer2: silly name. Move the encoding step into a separate method and call it just "writer"
+        while (!reader.eof())
+        {
+            current_value = reader.read8() - current_value; // TODO: need to read 8 or 16 bits here
+            writer2.write8(current_value); // TODO: need to write 8 or 16 bits here
+        }
 
         // TODO: add padding bytes
 
