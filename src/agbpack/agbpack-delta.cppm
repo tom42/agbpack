@@ -127,6 +127,22 @@ private:
     template <typename InputIterator>
     std::vector<agbpack_u8> encode8or16(InputIterator input, InputIterator eof)
     {
+        switch (m_options)
+        {
+            case delta_options::delta8:
+                return generic_encode(size8, input, eof);
+            case delta_options::delta16:
+                return generic_encode(size16, input, eof);
+        }
+
+        throw "TODO: proper exception here";
+    }
+
+    template <typename SizeTag, typename InputIterator>
+    std::vector<agbpack_u8> generic_encode(SizeTag, InputIterator input, InputIterator eof)
+    {
+        using symbol_type = SizeTag::type;
+
         std::size_t nbytes_written = 0; // TODO: writer could expose this
 
         std::vector<agbpack_u8> tmp; // TODO: name (call it buf or so. It's going into a separate method anyway)
@@ -134,13 +150,13 @@ private:
         // TODO: it's really unfortunate if we have to pass a size here (unhardcode/remove 1024. see also todo below)
         byte_writer writer2(1024, back_inserter(tmp)); // TODO: writer2: silly name. Move the encoding step into a separate method and call it just "writer"
 
-        agbpack_u8 old_value = 0; // TODO: need to use 8 or 16 bits here (get it from size_type)
+        symbol_type old_value = 0; // TODO: need to use 8 or 16 bits here (get it from size_type)
         while (!reader.eof())
         {
-            agbpack_u8 current_value = reader.read8(); // TODO: need to read 8 or 16 bits here
-            agbpack_u8 delta = current_value - old_value; // TODO: need to process 8 or 16 bits here
+            symbol_type current_value = reader.read(SizeTag()); // TODO: need to read 8 or 16 bits here
+            symbol_type delta = current_value - old_value; // TODO: need to process 8 or 16 bits here
             old_value = current_value;
-            writer2.write8(delta); // TODO: need to write 8 or 16 bits here
+            writer2.write(SizeTag(), delta); // TODO: need to write 8 or 16 bits here
             ++nbytes_written; // TODO: need to bump this by 2 for word encoding.
         }
         return tmp;
