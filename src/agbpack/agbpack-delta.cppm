@@ -99,8 +99,9 @@ public:
 
         byte_writer<OutputIterator> writer(4, output); // TODO: unhardcode 4? what do we want to pass here? Do we even want to pass anything?
 
-        // TODO: somehow get binary representation of header and write that
         writer.write32(header.to_uint32_t());
+
+        // TODO: implement encoding loop
     }
 
     void options(delta_options options)

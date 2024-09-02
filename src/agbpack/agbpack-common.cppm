@@ -124,7 +124,6 @@ public:
 
     void write32(agbpack_u32 word)
     {
-        // TODO: review this thorougly
         write8(word & 255);
         write8((word >> 8) & 255);
         write8((word >> 16) & 255);
