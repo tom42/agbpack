@@ -52,8 +52,7 @@ private:
     template <typename SizeTag, typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
     static void generic_decode(SizeTag, byte_reader<InputIterator>& reader, byte_writer<OutputIterator>& writer)
     {
-        // TODO: decltype works, but looks hideous. Get symbol_type from symbol_size?
-        decltype(reader.read(SizeTag())) current_value = 0;
+        typename SizeTag::type current_value = 0;
 
         while (!writer.done())
         {

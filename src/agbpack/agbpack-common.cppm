@@ -17,8 +17,8 @@ using agbpack_u8 = uint8_t;
 using agbpack_u16 = uint16_t;
 using agbpack_u32 = uint32_t;
 
-class size8_tag {};
-class size16_tag {};
+struct size8_tag { using type = agbpack_u8; };
+struct size16_tag { using type = agbpack_u16; };
 constexpr size8_tag size8;
 constexpr size16_tag size16;
 
