@@ -90,7 +90,13 @@ public:
 
         writer.write32(header.to_uint32_t());
 
-        // TODO: implement encoding loop
+        // TODO: implement encoding loop: encode to temporary buffer.
+
+        // TODO: add padding bytes
+
+        // TODO: write output
+        //       * Create and write header to output
+        //       * Copy temporary buffer to output
     }
 
     void options(delta_options options)
