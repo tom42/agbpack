@@ -5,6 +5,7 @@ module;
 
 #include <cstdint>
 #include <optional>
+#include <utility>
 #include <variant>
 
 export module agbpack:header;
