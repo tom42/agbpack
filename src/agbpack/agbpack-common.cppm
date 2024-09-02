@@ -150,6 +150,15 @@ private:
     OutputIterator m_output;
 };
 
+template <typename Writer, std::input_iterator InputIterator>
+void write(Writer& writer, InputIterator start, InputIterator end)
+{
+    for (; start != end; ++start)
+    {
+        writer.write8(*start);
+    }
+}
+
 template <typename InputIterator>
 void static_assert_input_type(InputIterator& input)
 {
