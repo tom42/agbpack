@@ -108,7 +108,7 @@ public:
         byte_writer<OutputIterator> writer(8192, output); // TODO: unhardcode 8192? what do we want to pass here? Do we even want to pass anything?
         writer.write32(header.to_uint32_t());
 
-        write(writer, tmp.begin(), tmp.end());
+        writer.write(tmp.begin(), tmp.end());
     }
 
     void options(delta_options options)

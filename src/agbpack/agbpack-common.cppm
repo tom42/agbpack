@@ -139,6 +139,15 @@ public:
 
     void write(size16_tag, agbpack_u16 word) { write16(word); }
 
+    template <std::input_iterator InputIterator>
+    void write(InputIterator start, InputIterator end)
+    {
+        for (; start != end; ++start)
+        {
+            write8(*start);
+        }
+    }
+
     bool done() const
     {
         return m_nbytes_written >= m_uncompressed_size;
@@ -149,15 +158,6 @@ private:
     agbpack_u32 m_nbytes_written = 0;
     OutputIterator m_output;
 };
-
-template <typename Writer, std::input_iterator InputIterator>
-void write(Writer& writer, InputIterator start, InputIterator end)
-{
-    for (; start != end; ++start)
-    {
-        writer.write8(*start);
-    }
-}
 
 template <typename InputIterator>
 void static_assert_input_type(InputIterator& input)
