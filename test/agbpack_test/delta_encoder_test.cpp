@@ -38,11 +38,11 @@ TEST_CASE("delta_encoder_test")
 
     SECTION("16 bit")
     {
-        // TODO: one byte of input (orly? should it not be a word?)
         // TODO: many bytes of input
         // TODO: what if input is an odd number of bytes?
         string filename_part = GENERATE(
-            "delta.good.16.zero-length-file.txt");
+            "delta.good.16.zero-length-file.txt",
+            "delta.good.16.one-word.bin");
         auto expected_data = read_file(filename_part + ".encoded");
 
         encoder.options(agbpack::delta_options::delta16);
