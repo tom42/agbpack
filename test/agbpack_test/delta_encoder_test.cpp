@@ -19,8 +19,6 @@ TEST_CASE("delta_encoder_test")
 
     SECTION("8 bit")
     {
-        // TODO: many bytes of input
-
         // TODO: verify using the decoder (orly?)
         //       * The decoder must be able to decode
         //       * The decoded data must be the same as the original data
