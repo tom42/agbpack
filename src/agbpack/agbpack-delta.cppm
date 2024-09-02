@@ -97,7 +97,6 @@ public:
             ++nbytes_written;
         }
 
-        // TODO: pass real size (not 0)
         // TODO: size must fit into 24 bits. who checks this?
         // TODO: to do: if the header is not valid, what do we to? Throw? And what?
         auto header = header::create(compression_type::delta, m_options, static_cast<uint32_t>(tmp_siz)); // TODO: no cast here
