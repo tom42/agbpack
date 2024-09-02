@@ -73,8 +73,6 @@ public:
     {
         static_assert_input_type(input);
 
-        // TODO: this should be generic, so there should be no agbpack_u8 being directly used in here.
-
         // TODO: encode to temporary buffer
         // TODO: do we want to optimize for RandomAccessIterator?
         // TODO: write to output
