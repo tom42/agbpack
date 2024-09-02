@@ -128,11 +128,13 @@ private:
     std::vector<agbpack_u8> encode8or16(InputIterator input, InputIterator eof)
     {
         std::size_t nbytes_written = 0; // TODO: writer could expose this
-        agbpack_u8 old_value = 0; // TODO: need to use 8 or 16 bits here (get it from size_type)
+
         std::vector<agbpack_u8> tmp; // TODO: name (call it buf or so. It's going into a separate method anyway)
         byte_reader<InputIterator> reader(input, eof);
         // TODO: it's really unfortunate if we have to pass a size here (unhardcode/remove 1024. see also todo below)
         byte_writer writer2(1024, back_inserter(tmp)); // TODO: writer2: silly name. Move the encoding step into a separate method and call it just "writer"
+
+        agbpack_u8 old_value = 0; // TODO: need to use 8 or 16 bits here (get it from size_type)
         while (!reader.eof())
         {
             agbpack_u8 current_value = reader.read8(); // TODO: need to read 8 or 16 bits here
