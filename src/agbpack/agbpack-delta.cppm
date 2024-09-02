@@ -137,11 +137,11 @@ private:
     {
         using symbol_type = typename SizeTag::type;
 
-        std::vector<agbpack_u8> tmp; // TODO: name (call it buf or so. It's going into a separate method anyway)
+        std::vector<agbpack_u8> encoded_data;
         byte_reader<InputIterator> reader(input, eof);
         // TODO: it's really unfortunate if we have to pass a size here (unhardcode/remove 8192. see also todo below)
         // TODO: decltype: temporary hack to suppress clang++ warning about CTAD
-        byte_writer<decltype(back_inserter(tmp))> writer(8192, back_inserter(tmp));
+        byte_writer<decltype(back_inserter(encoded_data))> writer(8192, back_inserter(encoded_data));
 
         symbol_type old_value = 0;
         while (!reader.eof())
@@ -151,7 +151,8 @@ private:
             old_value = current_value;
             writer.write(SizeTag(), delta);
         }
-        return tmp;
+
+        return encoded_data;
     }
 
     delta_options m_options = delta_options::delta8;
