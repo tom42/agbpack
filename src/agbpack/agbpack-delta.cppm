@@ -145,7 +145,7 @@ private:
         byte_reader<InputIterator> reader(input, eof);
         // TODO: it's really unfortunate if we have to pass a size here (unhardcode/remove 8192. see also todo below)
         // TODO: decltype: temporary hack to suppress clang++ warning about CTAD
-        byte_writer<decltype(back_inserter(tmp))> writer2(8192, back_inserter(tmp)); // TODO: writer2: silly name. Move the encoding step into a separate method and call it just "writer"
+        byte_writer<decltype(back_inserter(tmp))> writer(8192, back_inserter(tmp));
 
         symbol_type old_value = 0;
         while (!reader.eof())
@@ -153,7 +153,7 @@ private:
             symbol_type current_value = reader.read(SizeTag());
             symbol_type delta = current_value - old_value;
             old_value = current_value;
-            writer2.write(SizeTag(), delta);
+            writer.write(SizeTag(), delta);
         }
         return tmp;
     }
