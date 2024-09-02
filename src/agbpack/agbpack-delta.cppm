@@ -143,8 +143,6 @@ private:
     {
         using symbol_type = SizeTag::type;
 
-        std::size_t nbytes_written = 0; // TODO: writer could expose this
-
         std::vector<agbpack_u8> tmp; // TODO: name (call it buf or so. It's going into a separate method anyway)
         byte_reader<InputIterator> reader(input, eof);
         // TODO: it's really unfortunate if we have to pass a size here (unhardcode/remove 1024. see also todo below)
@@ -157,7 +155,6 @@ private:
             symbol_type delta = current_value - old_value;
             old_value = current_value;
             writer2.write(SizeTag(), delta);
-            ++nbytes_written; // TODO: need to bump this by 2 for word encoding.
         }
         return tmp;
     }
