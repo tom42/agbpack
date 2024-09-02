@@ -34,6 +34,11 @@ public:
         , m_eof(eof)
     {}
 
+    bool eof() const
+    {
+        return m_input == m_eof;
+    }
+
     agbpack_u32 nbytes_read() const
     {
         return m_nbytes_read;
@@ -41,7 +46,7 @@ public:
 
     agbpack_u8 read8()
     {
-        if (m_input == m_eof)
+        if (eof())
         {
             throw bad_encoded_data();
         }
