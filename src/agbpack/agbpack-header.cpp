@@ -52,18 +52,6 @@ bool is_valid(rle_options options)
     return options == rle_options::reserved;
 }
 
-bool is_valid(delta_options options)
-{
-    switch (options)
-    {
-        case delta_options::delta8:
-        case delta_options::delta16:
-            return true;
-    }
-
-    return false;
-}
-
 bool is_valid_variant(compression_options options)
 {
     return std::visit([](auto&& opts) { return is_valid(opts); }, options);

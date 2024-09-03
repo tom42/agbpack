@@ -43,6 +43,21 @@ export enum class delta_options : unsigned int
     delta16 = 2
 };
 
+// TODO: this is a hack: originally I did not want this to be here
+//       * Do we want this to be available from library users
+//       * Should this be inline (well for the time being yes, because it's in a module interface unit, says clang++)
+inline bool is_valid(delta_options options)
+{
+    switch (options)
+    {
+    case delta_options::delta8:
+    case delta_options::delta16:
+        return true;
+    }
+
+    return false;
+}
+
 using compression_options = std::variant<lzss_options, huffman_options, rle_options, delta_options>;
 
 class header final
