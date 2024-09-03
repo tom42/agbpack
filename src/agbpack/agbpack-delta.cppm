@@ -92,7 +92,7 @@ public:
         // TODO: beautify: we need a tmp copy of nbytes_written, because when we write the padding bytes we'll screw up the counter
         auto tmp_siz = tmp.size();
 
-        // TODO: add padding bytes
+        // TODO: add padding bytes: move that into encode8or16/generic_encode
         auto nbytes_written = tmp.size();
         while (nbytes_written % 4 != 0)
         {
