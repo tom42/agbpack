@@ -104,9 +104,8 @@ public:
     byte_writer(const byte_writer&) = delete;
     byte_writer& operator=(const byte_writer&) = delete;
 
-    // TODO: rename uncompressed_size to something more generic (expected number of bytes or somesuch)
-    explicit byte_writer(agbpack_u32 uncompressed_size, OutputIterator output)
-        : m_uncompressed_size(uncompressed_size)
+    explicit byte_writer(agbpack_u32 nbytes_to_write, OutputIterator output)
+        : m_nbytes_to_write(nbytes_to_write)
         , m_output(output)
     {}
 
@@ -150,11 +149,11 @@ public:
 
     bool done() const
     {
-        return m_nbytes_written >= m_uncompressed_size;
+        return m_nbytes_written >= m_nbytes_to_write;
     }
 
 private:
-    agbpack_u32 m_uncompressed_size;
+    agbpack_u32 m_nbytes_to_write;
     agbpack_u32 m_nbytes_written = 0;
     OutputIterator m_output;
 };
