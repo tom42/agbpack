@@ -83,8 +83,11 @@ public:
         // TODO: need a way to create headers (as opposed to parsing headers)
         // TODO: what if data is too big to fit into a compression header? We should test this, no?
 
-        // TODO: implement encoding loop: encode to temporary buffer.
-        auto tmp = encode8or16(input, eof);
+        // We have to encode to a temporary buffer first, because
+        // * We don't know yet how many bytes of input there is, so we don't know the header content yet
+        // * If the output iterator does not provide random access we cannot output encoded data first and fix up the header last
+        std::vector<agbpack_u8> tmp;
+        encode8or16(input, eof, back_inserter(tmp));
 
         // TODO: beautify: we need a tmp copy of nbytes_written, because when we write the padding bytes we'll screw up the counter
         auto tmp_siz = tmp.size();
@@ -118,30 +121,31 @@ public:
     }
 
 private:
-    template <typename InputIterator>
-    std::vector<agbpack_u8> encode8or16(InputIterator input, InputIterator eof)
+    template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
+    void encode8or16(InputIterator input, InputIterator eof, OutputIterator output)
     {
         switch (m_options)
         {
             case delta_options::delta8:
-                return generic_encode(size8, input, eof);
+                generic_encode(size8, input, eof, output);
+                return;
             case delta_options::delta16:
-                return generic_encode(size16, input, eof);
+                generic_encode(size16, input, eof, output);
+                return;
         }
 
         throw std::logic_error("Bug: invalid delta compression options");
     }
 
-    template <typename SizeTag, typename InputIterator>
-    std::vector<agbpack_u8> generic_encode(SizeTag, InputIterator input, InputIterator eof)
+    template <typename SizeTag, typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
+    void generic_encode(SizeTag, InputIterator input, InputIterator eof, OutputIterator output)
     {
         using symbol_type = typename SizeTag::type;
 
         std::vector<agbpack_u8> encoded_data;
         byte_reader<InputIterator> reader(input, eof);
-        // TODO: it's really unfortunate if we have to pass a size here (unhardcode/remove 8192. see also todo below)
-        // TODO: decltype: temporary hack to suppress clang++ warning about CTAD
-        byte_writer<decltype(back_inserter(encoded_data))> writer(8192, back_inserter(encoded_data));
+        // TODO: it's really unfortunate that we have to pass a size here (unhardcode/remove 8192. see also todo below)
+        byte_writer<OutputIterator> writer(8192, output);
 
         symbol_type old_value = 0;
         while (!reader.eof())
@@ -151,8 +155,6 @@ private:
             old_value = current_value;
             writer.write(SizeTag(), delta);
         }
-
-        return encoded_data;
     }
 
     delta_options m_options = delta_options::delta8;
