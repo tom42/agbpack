@@ -109,6 +109,11 @@ public:
         , m_output(output)
     {}
 
+    agbpack_u32 nbytes_written() const
+    {
+        return m_nbytes_written;
+    }
+
     void write8(agbpack_u8 byte)
     {
         if (done())
