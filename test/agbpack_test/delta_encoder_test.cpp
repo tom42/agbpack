@@ -3,6 +3,8 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include <stdexcept>
 #include <string>
 #include "testdata.hpp"
@@ -49,8 +51,10 @@ TEST_CASE("delta_encoder_test")
 
     SECTION("Invalid options")
     {
-        // TODO: also check exception message?
-        CHECK_THROWS_AS(encoder.options(agbpack::delta_options(-1)), std::invalid_argument);
+        CHECK_THROWS_MATCHES(
+            encoder.options(agbpack::delta_options(-1)),
+            std::invalid_argument,
+            Catch::Matchers::Message("Invalid delta compression options"));
     }
 }
 
