@@ -74,7 +74,6 @@ public:
     {
         static_assert_input_type(input);
 
-        // TODO: encode to temporary buffer
         // TODO: do we want to optimize for RandomAccessIterator?
         // TODO: write to output
         //       * For starters we can probably use the existing byte_writer, but maybe we want to have an unchecked variant?
