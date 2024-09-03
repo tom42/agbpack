@@ -129,7 +129,7 @@ private:
                 return generic_encode(size16, input, eof);
         }
 
-        throw "TODO: proper exception here";
+        throw std::logic_error("Bug: invalid delta compression options");
     }
 
     template <typename SizeTag, typename InputIterator>
