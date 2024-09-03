@@ -3,6 +3,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
+#include <stdexcept>
 #include <string>
 #include "testdata.hpp"
 
@@ -48,7 +49,8 @@ TEST_CASE("delta_encoder_test")
 
     SECTION("Invalid options")
     {
-        encoder.options(agbpack::delta_options(-1));
+        // TODO: also check exception message?
+        CHECK_THROWS_AS(encoder.options(agbpack::delta_options(-1)), std::invalid_argument);
     }
 }
 
