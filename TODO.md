@@ -73,4 +73,3 @@ SPDX-License-Identifier: MIT
 * Toplevel makefile:
   * Do we want to disable unit tests by default if not the main project?
   * Do we want to have an option to enable/disable unit tests explicitly?
-* add_subdirectory(src bin)? Why would we want to do that?
