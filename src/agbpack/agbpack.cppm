@@ -3,7 +3,7 @@
 
 export module agbpack;
 
-// TODO: need to go through these: is any of these exposting too many symbols to library users?
+// TODO: need to go through these: is any of these exposing too many symbols to library users?
 //       * Examples:
 //         * For instance: do we export too much header functionality?
 //         * Are LZSS internal classes available from outside?
