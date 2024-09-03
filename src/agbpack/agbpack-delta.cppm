@@ -5,6 +5,7 @@ module;
 
 #include <cstdint>
 #include <iterator>
+#include <stdexcept>
 #include <vector>
 
 export module agbpack:delta;
@@ -108,7 +109,11 @@ public:
 
     void options(delta_options options)
     {
-        // TODO: should we verify options right here?
+        if (!is_valid(options))
+        {
+            throw std::invalid_argument("Invalid delta compression options");
+        }
+
         m_options = options;
     }
 
