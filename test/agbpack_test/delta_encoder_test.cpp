@@ -45,6 +45,11 @@ TEST_CASE("delta_encoder_test")
 
         CHECK(encoded_data == expected_data);
     }
+
+    SECTION("Invalid options")
+    {
+        encoder.options(agbpack::delta_options(-1));
+    }
 }
 
 }
