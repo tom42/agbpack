@@ -151,7 +151,11 @@ private:
             writer.write(SizeTag(), delta);
         }
 
-        return writer.nbytes_written();
+        agbpack_u32 uncompressed_size = writer.nbytes_written();
+
+        // TODO: tell writer to add padding bytes here
+
+        return uncompressed_size;
     }
 
     delta_options m_options = delta_options::delta8;
