@@ -50,9 +50,9 @@ inline bool is_valid(delta_options options)
 {
     switch (options)
     {
-    case delta_options::delta8:
-    case delta_options::delta16:
-        return true;
+        case delta_options::delta8:
+        case delta_options::delta16:
+            return true;
     }
 
     return false;
