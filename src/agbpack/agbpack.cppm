@@ -2,6 +2,11 @@
 // SPDX-License-Identifier: MIT
 
 export module agbpack;
+
+// TODO: need to go through these: is any of these exposting too many symbols to library users?
+//       * Examples:
+//         * For instance: do we export too much header functionality?
+//         * Are LZSS internal classes available from outside?
 export import :delta;
 export import :exceptions;
 export import :header;
