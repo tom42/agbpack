@@ -80,16 +80,13 @@ public:
         //       * For starters we can probably use the existing byte_writer, but maybe we want to have an unchecked variant?
         //       * Yeah but in the spirit of C++ you'd then make many of the write functions non-element functions, no?
 
-        // TODO: need a way to create headers (as opposed to parsing headers)
-        // TODO: what if data is too big to fit into a compression header? We should test this, no?
-
         // We have to encode to a temporary buffer first, because
         // * We don't know yet how many bytes of input there is, so we don't know the header content yet
         // * If the output iterator does not provide random access we cannot output encoded data first and fix up the header last
         std::vector<agbpack_u8> tmp;
         auto uncompressed_size = encode8or16(input, eof, back_inserter(tmp));
 
-        // TODO: size must fit into 24 bits. who checks this?
+        // TODO: size must fit into 24 bits. who checks this? => Well we do. And it needs to be tested.
         // TODO: to do: if the header is not valid, what do we to? Throw? And what?
         auto header = header::create(compression_type::delta, m_options, uncompressed_size);
 
