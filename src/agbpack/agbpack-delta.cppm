@@ -145,11 +145,7 @@ private:
 
         agbpack_u32 uncompressed_size = writer.nbytes_written();
 
-        // TODO: add padding bytes: move that into writer. We'll need it again
-        while (writer.nbytes_written() % 4 != 0)
-        {
-            writer.write8(0);
-        }
+        writer.write_padding_bytes();
 
         return uncompressed_size;
     }

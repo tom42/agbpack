@@ -157,6 +157,14 @@ public:
         }
     }
 
+    void write_padding_bytes()
+    {
+        while (nbytes_written() % 4 != 0)
+        {
+            write8(0);
+        }
+    }
+
 private:
     agbpack_u32 m_nbytes_to_write;
     agbpack_u32 m_nbytes_written = 0;
