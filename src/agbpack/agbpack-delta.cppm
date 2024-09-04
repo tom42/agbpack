@@ -128,8 +128,7 @@ private:
 
         std::vector<agbpack_u8> encoded_data;
         byte_reader<InputIterator> reader(input, eof);
-        // TODO: it's really unfortunate that we have to pass a size here (unhardcode/remove 8192. see also todo below)
-        byte_writer<OutputIterator> writer(8192, output);
+        unbounded_byte_writer<OutputIterator> writer(output);
 
         symbol_type old_value = 0;
         while (!reader.eof())
