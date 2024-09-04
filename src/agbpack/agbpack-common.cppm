@@ -153,6 +153,15 @@ private:
     OutputIterator m_output;
 };
 
+template <typename OutputIterator>
+class unbounded_byte_writer final
+{
+public:
+    unbounded_byte_writer(OutputIterator output) : m_output(output) {}
+private:
+    OutputIterator m_output;
+};
+
 template <typename ByteWriter>
 void write8(ByteWriter& writer, agbpack_u8 byte)
 {
