@@ -130,17 +130,18 @@ public:
         *m_output++ = byte;
     }
 
-    void write16(agbpack_u16 hword)
-    {
-        write8(hword & 255);
-        write8((hword >> 8) & 255);
-    }
-
 private:
     agbpack_u32 m_nbytes_to_write;
     agbpack_u32 m_nbytes_written = 0;
     OutputIterator m_output;
 };
+
+template <typename ByteWriter>
+void write16(ByteWriter& writer, agbpack_u16 hword)
+{
+    writer.write8(hword & 255);
+    writer.write8((hword >> 8) & 255);
+}
 
 template <typename ByteWriter>
 void write32(ByteWriter& writer, agbpack_u32 word)
@@ -160,7 +161,7 @@ void write(ByteWriter& writer, size8_tag, agbpack_u8 byte)
 template <typename ByteWriter>
 void write(ByteWriter& writer, size16_tag, agbpack_u16 word)
 {
-    writer.write16(word);
+    write16(writer, word);
 }
 
 template <typename ByteWriter, std::input_iterator InputIterator>
