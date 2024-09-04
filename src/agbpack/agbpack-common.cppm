@@ -136,19 +136,20 @@ public:
         write8((hword >> 8) & 255);
     }
 
-    void write32(agbpack_u32 word)
-    {
-        write8(word & 255);
-        write8((word >> 8) & 255);
-        write8((word >> 16) & 255);
-        write8((word >> 24) & 255);
-    }
-
 private:
     agbpack_u32 m_nbytes_to_write;
     agbpack_u32 m_nbytes_written = 0;
     OutputIterator m_output;
 };
+
+template <typename ByteWriter>
+void write32(ByteWriter& writer, agbpack_u32 word)
+{
+    writer.write8(word & 255);
+    writer.write8((word >> 8) & 255);
+    writer.write8((word >> 16) & 255);
+    writer.write8((word >> 24) & 255);
+}
 
 template <typename ByteWriter>
 void write(ByteWriter& writer, size8_tag, agbpack_u8 byte)
