@@ -158,7 +158,20 @@ class unbounded_byte_writer final
 {
 public:
     unbounded_byte_writer(OutputIterator output) : m_output(output) {}
+
+    agbpack_u32 nbytes_written() const
+    {
+        return m_nbytes_written;
+    }
+
+    void write8(agbpack_u8 byte)
+    {
+        ++m_nbytes_written;
+        *m_output++ = byte;
+    }
+
 private:
+    agbpack_u32 m_nbytes_written = 0;
     OutputIterator m_output;
 };
 
