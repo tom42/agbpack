@@ -42,7 +42,7 @@ public:
             // end of the stream. Within a 32 bit unit, the MSB is to be processed first.
             // So we read 4 bytes from the byte stream whenever our bit buffer is empty.
             m_bitmask = 0x80000000;
-            m_bitbuffer = m_byte_reader.read32();
+            m_bitbuffer = read32(m_byte_reader);
         }
 
         return m_bitbuffer & m_bitmask;
@@ -149,7 +149,7 @@ public:
         static_assert_input_type(input);
 
         byte_reader<InputIterator> reader(input, eof);
-        auto header = header::parse_for_type(compression_type::huffman, reader.read32());
+        auto header = header::parse_for_type(compression_type::huffman, read32(reader));
         if (!header)
         {
             throw bad_encoded_data();

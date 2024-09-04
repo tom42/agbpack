@@ -157,7 +157,7 @@ public:
         static_assert_input_type(input); // TODO: probably we want to either remove this or extend it with the output iterator?
 
         byte_reader<InputIterator> reader(input, eof);
-        auto header = header::parse_for_type(compression_type::lzss, reader.read32());
+        auto header = header::parse_for_type(compression_type::lzss, read32(reader));
         if (!header)
         {
             throw bad_encoded_data();

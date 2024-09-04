@@ -25,7 +25,7 @@ public:
         static_assert_input_type(input);
 
         byte_reader<InputIterator> reader(input, eof);
-        auto header = header::parse_for_type(compression_type::delta, reader.read32());
+        auto header = header::parse_for_type(compression_type::delta, read32(reader));
         if (!header)
         {
             throw bad_encoded_data();
