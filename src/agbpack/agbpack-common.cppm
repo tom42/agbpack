@@ -148,20 +148,20 @@ public:
 
     void write(size16_tag, agbpack_u16 word) { write16(word); }
 
-    template <std::input_iterator InputIterator>
-    void write(InputIterator start, InputIterator end)
-    {
-        for (; start != end; ++start)
-        {
-            write8(*start);
-        }
-    }
-
 private:
     agbpack_u32 m_nbytes_to_write;
     agbpack_u32 m_nbytes_written = 0;
     OutputIterator m_output;
 };
+
+template <typename ByteWriter, std::input_iterator InputIterator>
+void write(ByteWriter& writer, InputIterator start, InputIterator end)
+{
+    for (; start != end; ++start)
+    {
+        writer.write8(*start);
+    }
+}
 
 template <typename ByteWriter>
 void write_padding_bytes(ByteWriter& writer)
