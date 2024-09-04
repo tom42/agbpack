@@ -60,7 +60,7 @@ private:
         while (!writer.done())
         {
             current_value += reader.read(SizeTag());
-            writer.write(SizeTag(), current_value);
+            write(writer, SizeTag(), current_value);
         }
 
         reader.parse_padding_bytes();
@@ -137,7 +137,7 @@ private:
             symbol_type current_value = reader.read(SizeTag());
             symbol_type delta = current_value - old_value;
             old_value = current_value;
-            writer.write(SizeTag(), delta);
+            write(writer, SizeTag(), delta);
         }
 
         agbpack_u32 uncompressed_size = writer.nbytes_written();

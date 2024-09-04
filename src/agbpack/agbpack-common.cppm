@@ -144,15 +144,23 @@ public:
         write8((word >> 24) & 255);
     }
 
-    void write(size8_tag, agbpack_u8 byte) { write8(byte); }
-
-    void write(size16_tag, agbpack_u16 word) { write16(word); }
-
 private:
     agbpack_u32 m_nbytes_to_write;
     agbpack_u32 m_nbytes_written = 0;
     OutputIterator m_output;
 };
+
+template <typename ByteWriter>
+void write(ByteWriter& writer, size8_tag, agbpack_u8 byte)
+{
+    writer.write8(byte);
+}
+
+template <typename ByteWriter>
+void write(ByteWriter& writer, size16_tag, agbpack_u16 word)
+{
+    writer.write16(word);
+}
 
 template <typename ByteWriter, std::input_iterator InputIterator>
 void write(ByteWriter& writer, InputIterator start, InputIterator end)
