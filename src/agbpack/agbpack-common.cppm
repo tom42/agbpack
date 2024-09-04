@@ -64,18 +64,19 @@ public:
         }
     }
 
-    agbpack_u16 read16()
-    {
-        agbpack_u16 result = read8();
-        result += read8() * 256;
-        return result;
-    }
-
 private:
     agbpack_u32 m_nbytes_read = 0;
     InputIterator m_input;
     InputIterator m_eof;
 };
+
+template <typename ByteReader>
+agbpack_u16 read16(ByteReader& reader)
+{
+    agbpack_u16 result = reader.read8();
+    result += reader.read8() * 256;
+    return result;
+}
 
 template <typename ByteReader>
 agbpack_u32 read32(ByteReader& reader)
@@ -96,7 +97,7 @@ auto read(ByteReader& reader, size8_tag)
 template <typename ByteReader>
 auto read(ByteReader& reader, size16_tag)
 {
-    return reader.read16();
+    return read16(reader);
 }
 
 template <typename ByteReader>
