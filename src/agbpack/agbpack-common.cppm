@@ -22,7 +22,6 @@ struct size16_tag { using type = agbpack_u16; };
 constexpr size8_tag size8;
 constexpr size16_tag size16;
 
-// TODO: align API with byte_writer, where most functions are free functions that work with other class templates too
 template <std::input_iterator InputIterator>
 class byte_reader final
 {
@@ -61,37 +60,43 @@ private:
     InputIterator m_eof;
 };
 
+template <typename ByteReader>
+agbpack_u8 read8(ByteReader& reader)
+{
+    return reader.read8();
+}
+
 template <typename ByteReader, typename OutputIterator>
 void read8(ByteReader& reader, std::size_t nbytes, OutputIterator output)
 {
     while (nbytes--)
     {
-        *output++ = reader.read8();
+        *output++ = read8(reader);
     }
 }
 
 template <typename ByteReader>
 agbpack_u16 read16(ByteReader& reader)
 {
-    agbpack_u16 result = reader.read8();
-    result += reader.read8() * 256;
+    agbpack_u16 result = read8(reader);
+    result += read8(reader) * 256;
     return result;
 }
 
 template <typename ByteReader>
 agbpack_u32 read32(ByteReader& reader)
 {
-    agbpack_u32 result = reader.read8();
-    result += reader.read8() * 256;
-    result += reader.read8() * 256 * 256;
-    result += reader.read8() * 256 * 256 * 256;
+    agbpack_u32 result = read8(reader);
+    result += read8(reader) * 256;
+    result += read8(reader) * 256 * 256;
+    result += read8(reader) * 256 * 256 * 256;
     return result;
 }
 
 template <typename ByteReader>
 auto read(ByteReader& reader, size8_tag)
 {
-    return reader.read8();
+    return read8(reader);
 }
 
 template <typename ByteReader>
@@ -105,7 +110,7 @@ void parse_padding_bytes(ByteReader& reader)
 {
     while ((reader.nbytes_read() % 4) != 0)
     {
-        reader.read8();
+        read8(reader);
     }
 }
 

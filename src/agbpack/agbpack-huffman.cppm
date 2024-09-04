@@ -111,7 +111,7 @@ private:
         // padding bytes between the tree data and the bitstream. That in turn would make
         // sense, since the format seems to be designed such that the bitstream can be
         // processed in units of 32 bits by an ARM CPU.
-        std::size_t tree_size = 2 * (reader.read8() + 1);
+        std::size_t tree_size = 2 * (read8(reader) + 1);
         assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
 
         // The address calculations as documented in GBATEK and implemented in decode_symbol

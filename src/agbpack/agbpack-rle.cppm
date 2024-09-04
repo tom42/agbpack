@@ -31,11 +31,11 @@ public:
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
         while (!writer.done())
         {
-            auto flag = reader.read8();
+            auto flag = read8(reader);
             if (flag & 0x80)
             {
                 agbpack_u32 n = (flag & 127) + 3;
-                auto byte = reader.read8();
+                auto byte = read8(reader);
                 while (n--)
                 {
                     write8(writer, byte);
@@ -46,7 +46,7 @@ public:
                 agbpack_u32 n = (flag & 127) + 1;
                 while (n--)
                 {
-                    write8(writer, reader.read8());
+                    write8(writer, read8(reader));
                 }
             }
         }

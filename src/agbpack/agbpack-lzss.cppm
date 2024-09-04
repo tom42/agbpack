@@ -173,14 +173,14 @@ public:
             mask >>= 1;
             if (!mask)
             {
-                flags = reader.read8();
+                flags = read8(reader);
                 mask = 0x80;
             }
 
             if (flags & mask)
             {
-                auto b0 = reader.read8();
-                auto b1 = reader.read8();
+                auto b0 = read8(reader);
+                auto b1 = read8(reader);
                 unsigned int nbytes = ((b0 >> 4) & 0xf) + minimum_match_length;
                 std::size_t offset = (((b0 & 0xfu) << 8) | b1) + 1;
 
@@ -193,7 +193,7 @@ public:
             }
             else
             {
-                auto byte = reader.read8();
+                auto byte = read8(reader);
                 writer.write8(byte);
             }
         }
