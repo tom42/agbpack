@@ -60,6 +60,11 @@ inline bool is_valid(delta_options options)
 
 using compression_options = std::variant<lzss_options, huffman_options, rle_options, delta_options>;
 
+inline auto as_integer(compression_options options)
+{
+    return std::visit([](auto&& opts) { return std::to_underlying(opts); }, options);
+}
+
 class header final
 {
 public:
