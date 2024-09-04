@@ -55,20 +55,20 @@ public:
         return *m_input++;
     }
 
-    template <typename OutputIterator>
-    void read8(std::size_t nbytes, OutputIterator output)
-    {
-        while (nbytes--)
-        {
-            *output++ = read8();
-        }
-    }
-
 private:
     agbpack_u32 m_nbytes_read = 0;
     InputIterator m_input;
     InputIterator m_eof;
 };
+
+template <typename ByteReader, typename OutputIterator>
+void read8(ByteReader& reader, std::size_t nbytes, OutputIterator output)
+{
+    while (nbytes--)
+    {
+        *output++ = reader.read8();
+    }
+}
 
 template <typename ByteReader>
 agbpack_u16 read16(ByteReader& reader)

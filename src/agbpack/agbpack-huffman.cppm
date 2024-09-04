@@ -122,7 +122,7 @@ private:
         // Read huffman tree. Note that the tree size byte counts towards the tree size.
         // Obviously we have already read the tree size byte, so we need to read one byte
         // less than the value in tree_size.
-        reader.read8(tree_size - 1, back_inserter(m_tree));
+        read8(reader, tree_size - 1, back_inserter(m_tree));
     }
 
     auto read_tree_node(std::size_t node_index) const
