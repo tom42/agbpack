@@ -89,14 +89,6 @@ public:
         std::vector<agbpack_u8> tmp;
         auto uncompressed_size = encode8or16(input, eof, back_inserter(tmp));
 
-        // TODO: add padding bytes: move that into encode8or16/generic_encode
-        auto nbytes_written = tmp.size();
-        while (nbytes_written % 4 != 0)
-        {
-            tmp.push_back(0);
-            ++nbytes_written;
-        }
-
         // TODO: size must fit into 24 bits. who checks this?
         // TODO: to do: if the header is not valid, what do we to? Throw? And what?
         auto header = header::create(compression_type::delta, m_options, uncompressed_size);
@@ -153,7 +145,11 @@ private:
 
         agbpack_u32 uncompressed_size = writer.nbytes_written();
 
-        // TODO: tell writer to add padding bytes here
+        // TODO: add padding bytes: move that into writer. We'll need it again
+        while (writer.nbytes_written() % 4 != 0)
+        {
+            writer.write8(0);
+        }
 
         return uncompressed_size;
     }
