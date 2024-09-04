@@ -109,6 +109,11 @@ public:
         , m_output(output)
     {}
 
+    bool done() const
+    {
+        return m_nbytes_written >= m_nbytes_to_write;
+    }
+
     agbpack_u32 nbytes_written() const
     {
         return m_nbytes_written;
@@ -150,11 +155,6 @@ public:
         {
             write8(*start);
         }
-    }
-
-    bool done() const
-    {
-        return m_nbytes_written >= m_nbytes_to_write;
     }
 
 private:
