@@ -82,9 +82,8 @@ public:
 
     uint32_t to_uint32_t() const
     {
-        // TODO: review this, heavily. Particularly not sure about the uncompressed_size thing.
-        auto options_as_integer = std::visit([](auto&& opts) { return std::to_underlying(opts); }, options());
-        return (uncompressed_size() << 8) | (std::to_underlying(type()) << 4) | options_as_integer;
+        // TODO: review/test: is the uncompressed size correctly serialized?
+        return (uncompressed_size() << 8) | (std::to_underlying(type()) << 4) | as_integer(options());
     }
 
     static header create(compression_type type, compression_options options, uint32_t uncompressed_size);
