@@ -91,7 +91,7 @@ public:
         auto header = header::create(compression_type::delta, m_options, uncompressed_size);
 
         // Copy header and encoded data to output
-        byte_writer<OutputIterator> writer(8192, output); // TODO: unhardcode 8192? what do we want to pass here? Do we even want to pass anything?
+        unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
         write(writer, tmp.begin(), tmp.end());
     }
