@@ -76,9 +76,6 @@ public:
         static_assert_input_type(input);
 
         // TODO: do we want to optimize for RandomAccessIterator?
-        // TODO: write to output
-        //       * For starters we can probably use the existing byte_writer, but maybe we want to have an unchecked variant?
-        //       * Yeah but in the spirit of C++ you'd then make many of the write functions non-element functions, no?
 
         // We have to encode to a temporary buffer first, because
         // * We don't know yet how many bytes of input there is, so we don't know the header content yet
