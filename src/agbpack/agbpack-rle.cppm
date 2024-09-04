@@ -38,7 +38,7 @@ public:
                 auto byte = reader.read8();
                 while (n--)
                 {
-                    writer.write8(byte);
+                    write8(writer, byte);
                 }
             }
             else
@@ -46,7 +46,7 @@ public:
                 agbpack_u32 n = (flag & 127) + 1;
                 while (n--)
                 {
-                    writer.write8(reader.read8());
+                    write8(writer, reader.read8());
                 }
             }
         }

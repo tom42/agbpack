@@ -171,7 +171,7 @@ public:
                 decoded_byte |= tree.decode_symbol(bit_reader) << nbits;
             }
 
-            writer.write8(decoded_byte);
+            write8(writer, decoded_byte);
         }
 
         // We already checked whether the bitstream is aligned, and we read it 32 bit wise.

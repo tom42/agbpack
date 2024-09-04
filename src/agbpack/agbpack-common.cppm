@@ -137,25 +137,31 @@ private:
 };
 
 template <typename ByteWriter>
+void write8(ByteWriter& writer, agbpack_u8 byte)
+{
+    writer.write8(byte);
+}
+
+template <typename ByteWriter>
 void write16(ByteWriter& writer, agbpack_u16 hword)
 {
-    writer.write8(hword & 255);
-    writer.write8((hword >> 8) & 255);
+    write8(writer, hword & 255);
+    write8(writer, (hword >> 8) & 255);
 }
 
 template <typename ByteWriter>
 void write32(ByteWriter& writer, agbpack_u32 word)
 {
-    writer.write8(word & 255);
-    writer.write8((word >> 8) & 255);
-    writer.write8((word >> 16) & 255);
-    writer.write8((word >> 24) & 255);
+    write8(writer, word & 255);
+    write8(writer, (word >> 8) & 255);
+    write8(writer, (word >> 16) & 255);
+    write8(writer, (word >> 24) & 255);
 }
 
 template <typename ByteWriter>
 void write(ByteWriter& writer, size8_tag, agbpack_u8 byte)
 {
-    writer.write8(byte);
+    write8(writer, byte);
 }
 
 template <typename ByteWriter>
@@ -169,7 +175,7 @@ void write(ByteWriter& writer, InputIterator start, InputIterator end)
 {
     for (; start != end; ++start)
     {
-        writer.write8(*start);
+        write8(writer, *start);
     }
 }
 
@@ -178,7 +184,7 @@ void write_padding_bytes(ByteWriter& writer)
 {
     while (writer.nbytes_written() % 4 != 0)
     {
-        writer.write8(0);
+        write8(writer, 0);
     }
 }
 
