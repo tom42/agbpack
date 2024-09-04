@@ -142,7 +142,7 @@ private:
 
         agbpack_u32 uncompressed_size = writer.nbytes_written();
 
-        writer.write_padding_bytes();
+        write_padding_bytes(writer);
 
         return uncompressed_size;
     }

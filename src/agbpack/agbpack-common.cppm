@@ -157,19 +157,20 @@ public:
         }
     }
 
-    void write_padding_bytes()
-    {
-        while (nbytes_written() % 4 != 0)
-        {
-            write8(0);
-        }
-    }
-
 private:
     agbpack_u32 m_nbytes_to_write;
     agbpack_u32 m_nbytes_written = 0;
     OutputIterator m_output;
 };
+
+template <typename ByteWriter>
+void write_padding_bytes(ByteWriter& writer)
+{
+    while (writer.nbytes_written() % 4 != 0)
+    {
+        writer.write8(0);
+    }
+}
 
 template <typename InputIterator>
 void static_assert_input_type(InputIterator& input)
