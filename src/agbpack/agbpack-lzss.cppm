@@ -198,7 +198,7 @@ public:
             }
         }
 
-        reader.parse_padding_bytes();
+        parse_padding_bytes(reader);
     }
 };
 
