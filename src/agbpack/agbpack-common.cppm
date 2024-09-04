@@ -22,6 +22,7 @@ struct size16_tag { using type = agbpack_u16; };
 constexpr size8_tag size8;
 constexpr size16_tag size16;
 
+// TODO: align API with byte_writer, where most functions are free functions that work with other class templates too
 template <std::input_iterator InputIterator>
 class byte_reader final
 {
