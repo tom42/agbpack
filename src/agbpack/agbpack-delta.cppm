@@ -59,7 +59,7 @@ private:
 
         while (!writer.done())
         {
-            current_value += reader.read(SizeTag());
+            current_value += read(reader, SizeTag());
             write(writer, SizeTag(), current_value);
         }
 
@@ -134,7 +134,7 @@ private:
         symbol_type old_value = 0;
         while (!reader.eof())
         {
-            symbol_type current_value = reader.read(SizeTag());
+            symbol_type current_value = read(reader, SizeTag());
             symbol_type delta = current_value - old_value;
             old_value = current_value;
             write(writer, SizeTag(), delta);

@@ -80,15 +80,23 @@ public:
         return result;
     }
 
-    auto read(size8_tag) { return read8(); }
-
-    auto read(size16_tag) { return read16(); }
-
 private:
     agbpack_u32 m_nbytes_read = 0;
     InputIterator m_input;
     InputIterator m_eof;
 };
+
+template <typename ByteReader>
+auto read(ByteReader& reader, size8_tag)
+{
+    return reader.read8();
+}
+
+template <typename ByteReader>
+auto read(ByteReader& reader, size16_tag)
+{
+    return reader.read16();
+}
 
 template <typename ByteReader>
 void parse_padding_bytes(ByteReader& reader)
