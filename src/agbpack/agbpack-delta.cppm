@@ -84,7 +84,7 @@ public:
         auto uncompressed_size = encode8or16(input, eof, back_inserter(tmp));
 
         // TODO: size must fit into 24 bits. who checks this? => Well we do. And it needs to be tested.
-        // TODO: to do: if the header is not valid, what do we to? Throw? And what?
+        //       => header::create probably already throws, but we should possibly use a different exception.
         auto header = header::create(m_options, uncompressed_size);
 
         // Copy header and encoded data to output
