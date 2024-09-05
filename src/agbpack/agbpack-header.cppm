@@ -95,18 +95,7 @@ private:
     compression_options m_options;
     uint32_t m_uncompressed_size;
 
-    explicit header(compression_type type, compression_options options, uint32_t uncompressed_size)
-        : m_type(type)
-        , m_options(options)
-        , m_uncompressed_size(uncompressed_size)
-    {
-        // TODO: In principle we'd like to delegate to parse, somehow
-        //       Maybe we create another overload where we can supply type, options and uncompressed_size?
-        //       => Not really. We simply throw if any value is invalid
-        //          => If the type is not valid, throw
-        //          => If the compression options for the already validated type are bad, throw
-        //          => If the uncompressed size is too big, throw
-    }
+    explicit header(compression_type type, compression_options options, uint32_t uncompressed_size);
 
     static std::optional<header> parse(uint32_t header_data);
 };
