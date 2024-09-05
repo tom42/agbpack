@@ -13,6 +13,8 @@ export module agbpack:header;
 namespace agbpack
 {
 
+constexpr uint32_t maximum_uncompressed_size = 0xffffff;
+
 enum class compression_type : unsigned int
 {
     lzss = 1,

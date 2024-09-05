@@ -115,8 +115,7 @@ header::header(compression_type type, compression_options options, uint32_t unco
         throw std::invalid_argument("Invalid compression options");
     }
 
-    // TODO: verify number and define a constant for it
-    if (m_uncompressed_size > 0xffffff)
+    if (m_uncompressed_size > maximum_uncompressed_size)
     {
         throw std::invalid_argument("Uncompressed size is too big");
     }
