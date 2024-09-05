@@ -108,6 +108,11 @@ header::header(compression_type type, compression_options options, uint32_t unco
     {
         throw std::invalid_argument("Invalid compression type");
     }
+
+    // TODO: ugh: now we need to validate the compression options. There's two problems here:
+    //            * We need to validate the options themselves
+    //            * We need to ensure the options match the type
+    //              * Well we can keep this knowledge away from the callers and have more specific create methods, no?
 }
 
 std::optional<header> header::parse(uint32_t header_data)
