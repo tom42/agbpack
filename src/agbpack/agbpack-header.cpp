@@ -79,11 +79,6 @@ std::optional<compression_options> create_unvalidated_options(compression_type t
 
 header header::create(compression_type type, compression_options options, uint32_t uncompressed_size)
 {
-    // TODO: In principle we'd like to delegate to parse, somehow
-    //       Maybe we create another overload where we can supply type, options and uncompressed_size?
-    // TODO: type needs validation
-    // TODO: options needs validation
-    // TODO: uncompressed_size needs validation
     return header(type, options, uncompressed_size);
 }
 
