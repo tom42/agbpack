@@ -75,8 +75,6 @@ public:
     {
         static_assert_input_type(input);
 
-        // TODO: do we want to optimize for RandomAccessIterator?
-
         // We have to encode to a temporary buffer first, because
         // * We don't know yet how many bytes of input there is, so we don't know the header content yet
         // * If the output iterator does not provide random access we cannot output encoded data first and fix up the header last
