@@ -104,7 +104,7 @@ header::header(compression_type type, compression_options options, uint32_t unco
     //       => Not really. We simply throw if any value is invalid
     //          => If the compression options for the already validated type are bad, throw
     //          => If the uncompressed size is too big, throw
-    if (!is_valid(type))
+    if (!is_valid(m_type))
     {
         throw std::invalid_argument("Invalid compression type");
     }
