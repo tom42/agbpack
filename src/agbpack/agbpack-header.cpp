@@ -99,16 +99,10 @@ header::header(compression_type type, compression_options options, uint32_t unco
     , m_options(options)
     , m_uncompressed_size(uncompressed_size)
 {
-    // TODO: In principle we'd like to delegate to parse, somehow
-    //       Well, actually we might want to consider having parse delegating to here? It'd then have to handle exceptions, tho.
     if (!is_valid(m_type))
     {
         throw std::invalid_argument("Invalid compression type");
     }
-
-    // TODO: we're missing something here: we don't know whether the type matches the options.
-    //       * We can for the time being ignore this problem by keeping this ctor private, I guess.
-    //       * We can then maybe instead of having a generic create() method a create_delta method. Much better, actually.
 
     if (!is_valid_variant(m_options))
     {
