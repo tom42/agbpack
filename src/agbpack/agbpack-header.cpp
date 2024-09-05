@@ -100,19 +100,22 @@ header::header(compression_type type, compression_options options, uint32_t unco
     , m_uncompressed_size(uncompressed_size)
 {
     // TODO: In principle we'd like to delegate to parse, somehow
-    //       Maybe we create another overload where we can supply type, options and uncompressed_size?
-    //       => Not really. We simply throw if any value is invalid
-    //          => If the compression options for the already validated type are bad, throw
-    //          => If the uncompressed size is too big, throw
+    //       Well, actually we might want to consider having parse delegating to here? It'd then have to handle exceptions, tho.
     if (!is_valid(m_type))
     {
         throw std::invalid_argument("Invalid compression type");
     }
 
-    // TODO: ugh: now we need to validate the compression options. There's two problems here:
-    //            * We need to validate the options themselves
-    //            * We need to ensure the options match the type
-    //              * Well we can keep this knowledge away from the callers and have more specific create methods, no?
+    // TODO: we're missing something here: we don't know whether the type matches the options.
+    //       * We can for the time being ignore this problem by keeping this ctor private, I guess.
+    //       * We can then maybe instead of having a generic create() method a create_delta method. Much better, actually.
+
+    if (!is_valid_variant(m_options))
+    {
+        throw std::invalid_argument("Invalid compression options");
+    }
+
+    // TODO: sanity check uncompressed size here, no?
 }
 
 std::optional<header> header::parse(uint32_t header_data)
