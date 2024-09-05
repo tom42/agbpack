@@ -86,7 +86,7 @@ public:
         return (uncompressed_size() << 8) | (std::to_underlying(type()) << 4) | as_integer(options());
     }
 
-    static header create(compression_type type, compression_options options, uint32_t uncompressed_size);
+    static header create(delta_options options, uint32_t uncompressed_size);
 
     static std::optional<header> parse_for_type(compression_type wanted_type, uint32_t header_data);
 

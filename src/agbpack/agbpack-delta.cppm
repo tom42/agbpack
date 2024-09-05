@@ -85,7 +85,7 @@ public:
 
         // TODO: size must fit into 24 bits. who checks this? => Well we do. And it needs to be tested.
         // TODO: to do: if the header is not valid, what do we to? Throw? And what?
-        auto header = header::create(compression_type::delta, m_options, uncompressed_size);
+        auto header = header::create(m_options, uncompressed_size);
 
         // Copy header and encoded data to output
         unbounded_byte_writer<OutputIterator> writer(output);

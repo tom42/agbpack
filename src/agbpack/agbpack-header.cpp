@@ -78,9 +78,9 @@ std::optional<compression_options> create_unvalidated_options(compression_type t
 
 }
 
-header header::create(compression_type type, compression_options options, uint32_t uncompressed_size)
+header header::create(delta_options options, uint32_t uncompressed_size)
 {
-    return header(type, options, uncompressed_size);
+    return header(compression_type::delta, options, uncompressed_size);
 }
 
 std::optional<header> header::parse_for_type(compression_type wanted_type, uint32_t header_data)
