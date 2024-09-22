@@ -4,6 +4,11 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Compile with clang 18
+  * Sort out mess regarding switch default and enum related warnings.
+* Compile with g++ again
+  * Figure out how to compile modules
+  * Should g++ use -Wmissing-variable-declarations, since it is using -Wmissing-declarations?
 * The interface for encoding and decoding is virtually the same
   * Should we give this a generic name?
     * process()
