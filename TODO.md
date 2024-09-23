@@ -4,8 +4,10 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Compile with clang 18
-  * Sort out mess regarding switch default and enum related warnings.
+* github workflow
+  * On ubuntu, install Catch2 through apt so that it does need to be rebuilt?
+  * Get gcc build running
+  * Get MSVC build running
 * Compile with g++ again
   * Figure out how to compile modules
   * Should g++ use -Wmissing-variable-declarations, since it is using -Wmissing-declarations?
