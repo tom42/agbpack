@@ -7,6 +7,7 @@ export module agbpack;
 //       * Examples:
 //         * For instance: do we export too much header functionality?
 //         * Are LZSS internal classes available from outside?
+export import :common; // TODO: there is nothing I'd like to export from :common, yet g++ wants me to do so. Figure out why?
 export import :delta;
 export import :exceptions;
 export import :header;
