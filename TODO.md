@@ -5,11 +5,12 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * github workflow
-  * On ubuntu, install Catch2 through apt so that it does need to be rebuilt?
-  * Get gcc build running
-  * Get MSVC build running
+  * Somehow install Catch2 so that it does not need to be built
+    * On Ubuntu, use apt
+    * But what about windows?
+  * Get gcc build running => Works, but need a more recent g++ on github (14.2 seems to work locally)
+  * Enable fail-fast (in the yml file)
 * Compile with g++ again
-  * Figure out how to compile modules
   * Should g++ use -Wmissing-variable-declarations, since it is using -Wmissing-declarations?
 * The interface for encoding and decoding is virtually the same
   * Should we give this a generic name?
