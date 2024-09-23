@@ -61,7 +61,7 @@ SPDX-License-Identifier: MIT
     * enable warnings from vtgcore: we already established we want these
     * see what warnings doctest has enabled, see whether these make sense
     * see what other warnings we have noted in vtgcore's TODO.md?
-* See what other ideas from the cmake book we'd like to put into place
+* See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
   * code coverage for unit tests
   * clang-fmt
