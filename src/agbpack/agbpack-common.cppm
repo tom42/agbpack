@@ -87,9 +87,9 @@ template <typename ByteReader>
 agbpack_u32 read32(ByteReader& reader)
 {
     agbpack_u32 result = read8(reader);
-    result += read8(reader) * 256;
-    result += read8(reader) * 256 * 256;
-    result += read8(reader) * 256 * 256 * 256;
+    result += read8(reader) * 256u;
+    result += read8(reader) * 256u * 256u;
+    result += read8(reader) * 256u * 256u * 256u;
     return result;
 }
 

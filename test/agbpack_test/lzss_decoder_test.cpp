@@ -30,10 +30,10 @@ std::size_t guess_uncompressed_size(const string& basename)
     auto encoded_file_content = read_file(std::filesystem::path(basename).replace_extension("encoded").string());
     if (encoded_file_content.size() >= 4)
     {
-        std::size_t ucs = encoded_file_content[1];
-        ucs += encoded_file_content[2] * 256;
-        ucs += encoded_file_content[3] * 256 * 256;
-        return ucs;
+        std::size_t uncompressed_size = encoded_file_content[1];
+        uncompressed_size += encoded_file_content[2] * 256u;
+        uncompressed_size += encoded_file_content[3] * 256u * 256u;
+        return uncompressed_size;
     }
 
     // Cannot even guess size from header.

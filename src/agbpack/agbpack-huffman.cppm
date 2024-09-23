@@ -59,7 +59,7 @@ class huffman_tree final
 {
 public:
     explicit huffman_tree(unsigned int symbol_size, byte_reader<InputIterator>& reader)
-        : m_symbol_max_value((1 << symbol_size) - 1)
+        : m_symbol_max_value((1 << symbol_size) - 1u)
     {
         read_tree(reader);
     }
@@ -76,7 +76,7 @@ public:
 
         while (!character_found)
         {
-            current_node_index += 2 * ((current_node_value & mask_next_node_offset) + 1);
+            current_node_index += 2u * ((current_node_value & mask_next_node_offset) + 1);
 
             if (!bit_reader.get_bit())
             {
@@ -111,7 +111,7 @@ private:
         // padding bytes between the tree data and the bitstream. That in turn would make
         // sense, since the format seems to be designed such that the bitstream can be
         // processed in units of 32 bits by an ARM CPU.
-        std::size_t tree_size = 2 * (read8(reader) + 1);
+        std::size_t tree_size = 2u * (read8(reader) + 1);
         assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
 
         // The address calculations as documented in GBATEK and implemented in decode_symbol
