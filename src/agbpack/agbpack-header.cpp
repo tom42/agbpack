@@ -55,7 +55,7 @@ bool is_valid(rle_options options)
 
 bool is_valid_variant(compression_options options)
 {
-    return std::visit([](auto&& opts) { return is_valid(opts); }, options);
+    return std::visit([](auto&& opts) noexcept { return is_valid(opts); }, options);
 }
 
 std::optional<compression_options> create_unvalidated_options(compression_type type, uint32_t options)
