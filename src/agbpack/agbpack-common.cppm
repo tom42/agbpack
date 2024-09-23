@@ -19,8 +19,8 @@ using agbpack_u32 = uint32_t;
 
 struct size8_tag { using type = agbpack_u8; };
 struct size16_tag { using type = agbpack_u16; };
-constexpr size8_tag size8;
-constexpr size16_tag size16;
+inline constexpr size8_tag size8;
+inline constexpr size16_tag size16;
 
 template <std::input_iterator InputIterator>
 class byte_reader final
