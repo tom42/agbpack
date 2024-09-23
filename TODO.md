@@ -10,8 +10,6 @@ SPDX-License-Identifier: MIT
     * But what about windows?
   * Get gcc build running => Works, but need a more recent g++ on github (14.2 seems to work locally)
   * Enable fail-fast (in the yml file)
-* Compile with g++ again
-  * Should g++ use -Wmissing-variable-declarations, since it is using -Wmissing-declarations?
 * The interface for encoding and decoding is virtually the same
   * Should we give this a generic name?
     * process()
