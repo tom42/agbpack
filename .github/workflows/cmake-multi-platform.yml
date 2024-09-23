@@ -32,7 +32,7 @@ jobs:
             cpp_compiler: cl
           - os: ubuntu-24.04
             c_compiler: gcc
-            cpp_compiler: g++
+            cpp_compiler: g++-14
           - os: ubuntu-24.04
             c_compiler: clang
             cpp_compiler: clang++
