@@ -18,9 +18,9 @@ namespace agbpack
 {
 
 // TODO: reconsider the use of size_t here: on a 16 bit platform this is too small
-constexpr unsigned int sliding_window_size = 4096;
-constexpr unsigned int minimum_match_length = 3;
-constexpr unsigned int maximum_match_length = 18;
+inline constexpr unsigned int sliding_window_size = 4096;
+inline constexpr unsigned int minimum_match_length = 3;
+inline constexpr unsigned int maximum_match_length = 18;
 
 // Sliding window for LZSS decoder. Used when the output iterator does not allow random access.
 // * Maintains an internal write position which wraps around when the window is written to.
