@@ -18,6 +18,7 @@ function(vtg_testing_setup_catch2 version)
     include(FetchContent)
     FetchContent_Declare(
       Catch2
+      SYSTEM
       GIT_REPOSITORY https://github.com/catchorg/Catch2.git
       GIT_TAG        v${version}
     )
