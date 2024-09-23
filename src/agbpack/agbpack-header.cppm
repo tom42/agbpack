@@ -45,9 +45,6 @@ export enum class delta_options : unsigned int
     delta16 = 2
 };
 
-// TODO: this is a hack: originally I did not want this to be here
-//       * Do we want this to be available from library users
-//       * Should this be inline (well for the time being yes, because it's in a module interface unit, says clang++)
 inline bool is_valid(delta_options options)
 {
     switch (options)
