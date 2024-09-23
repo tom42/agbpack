@@ -30,12 +30,15 @@ jobs:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
+            generator: ''
           - os: ubuntu-24.04
             c_compiler: gcc
             cpp_compiler: g++-14
+            generator: -GNinja
           - os: ubuntu-24.04
             c_compiler: clang
             cpp_compiler: clang++
+            generator: -GNinja
         exclude:
           - os: windows-latest
             c_compiler: gcc
@@ -62,7 +65,7 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }}
-        -G Ninja
+        ${{ matrix.generator }}
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -S ${{ github.workspace }}
