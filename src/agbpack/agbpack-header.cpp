@@ -101,17 +101,17 @@ header::header(compression_type type, compression_options options, uint32_t unco
 {
     if (!is_valid(m_type))
     {
-        throw std::invalid_argument("Invalid compression type");
+        throw std::invalid_argument("invalid compression type");
     }
 
     if (!is_valid_variant(m_options))
     {
-        throw std::invalid_argument("Invalid compression options");
+        throw std::invalid_argument("invalid compression options");
     }
 
     if (m_uncompressed_size > maximum_uncompressed_size)
     {
-        throw std::invalid_argument("Uncompressed size is too big");
+        throw std::invalid_argument("uncompressed size is too big");
     }
 }
 

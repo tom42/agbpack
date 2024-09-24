@@ -16,7 +16,7 @@ std::size_t get_file_size(const std::string& path)
     auto size = std::filesystem::file_size(path, ec);
     if (ec)
     {
-        throw std::runtime_error("Could not determine size of " + path + ": " + ec.message());
+        throw std::runtime_error("could not determine size of " + path + ": " + ec.message());
     }
 
     // File size may not fit into std::size_t (e.g. on 32 bit systems), so we have to cast.
@@ -35,7 +35,7 @@ std::ifstream open_binary_file(const std::string& path)
     if (!file)
     {
         auto error = errno;
-        throw std::system_error(error, std::generic_category(), "Could not open " + path);
+        throw std::system_error(error, std::generic_category(), "could not open " + path);
     }
 
     // This is required to correctly read binary files using some APIs, e.g. std::istream_iterator.
@@ -69,7 +69,7 @@ const std::vector<unsigned char> read_file(const std::string& basename)
     // Sanity check
     if (filestream.bad() || (data.size() != filesize))
     {
-        throw std::runtime_error("Could not read entire content of file " + name.string());
+        throw std::runtime_error("could not read entire content of file " + name.string());
     }
 
     return data;

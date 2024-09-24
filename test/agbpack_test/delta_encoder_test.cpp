@@ -54,14 +54,13 @@ TEST_CASE("delta_encoder_test")
         CHECK_THROWS_MATCHES(
             encoder.options(agbpack::delta_options(-1)),
             std::invalid_argument,
-            Catch::Matchers::Message("Invalid delta compression options"));
+            Catch::Matchers::Message("invalid delta compression options"));
     }
 
     SECTION("Input data too big")
     {
         std::vector<unsigned char> input(agbpack::maximum_uncompressed_size + 1);
 
-        // TODO: standardize all exception messages to start with lowercase character
         CHECK_THROWS_AS(encode_vector(encoder, input), agbpack::encode_exception);
     }
 }

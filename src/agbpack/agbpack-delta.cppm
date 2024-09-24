@@ -98,7 +98,7 @@ public:
     {
         if (!is_valid(options))
         {
-            throw std::invalid_argument("Invalid delta compression options");
+            throw std::invalid_argument("invalid delta compression options");
         }
 
         m_options = options;
@@ -116,7 +116,7 @@ private:
                 return generic_encode(size16, input, eof, output);
         }
 
-        throw std::logic_error("Bug: invalid delta compression options");
+        throw std::logic_error("bug: invalid delta compression options");
     }
 
     template <typename SizeTag, typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
