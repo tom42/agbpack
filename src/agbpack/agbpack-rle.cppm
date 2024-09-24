@@ -58,6 +58,18 @@ public:
 export class rle_encoder final
 {
 public:
+    template <std::input_iterator InputIterator, typename OutputIterator>
+    void encode(InputIterator /*input*/, InputIterator /*eof*/, OutputIterator output)
+    {
+        // TODO: implement (see delta_encoder)
+        //       * Encode to tmp buffer
+        //       * Create and write header to output
+        //       * Copy tmp to output
+        *output++ = 0x30;
+        *output++ = 0;
+        *output++ = 0;
+        *output++ = 0;
+    }
 };
 
 }
