@@ -52,7 +52,7 @@ TEST_CASE("rle_decoder_test")
             "rle.bad.invalid-compression-options-in-header.txt.encoded",
             "rle.bad.missing-padding-at-end-of-data.txt.encoded");
 
-        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
+        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::decode_exception);
     }
 
     SECTION("Input from ifstream")

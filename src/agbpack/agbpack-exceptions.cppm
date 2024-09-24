@@ -18,12 +18,12 @@ protected:
     virtual ~agbpack_exception() override = default;
 };
 
-export class bad_encoded_data : public agbpack_exception
+export class decode_exception : public agbpack_exception
 {
 public:
-    explicit bad_encoded_data() : agbpack_exception("encoded data is corrupt") {}
+    explicit decode_exception() : agbpack_exception("encoded data is corrupt") {}
 
-    virtual ~bad_encoded_data() override = default;
+    virtual ~decode_exception() override = default;
 };
 
 }

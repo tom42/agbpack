@@ -45,7 +45,7 @@ TEST_CASE("delta_decoder_test")
             "delta.bad.16.eof-inside-stream.bin.encoded",
             "delta.bad.16.missing-padding-at-end-of-data.bin.encoded");
 
-        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
+        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::decode_exception);
     }
 }
 

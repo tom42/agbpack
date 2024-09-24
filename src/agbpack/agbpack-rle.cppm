@@ -25,7 +25,7 @@ public:
         auto header = header::parse_for_type(compression_type::rle, read32(reader));
         if (!header)
         {
-            throw bad_encoded_data();
+            throw decode_exception();
         }
 
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);

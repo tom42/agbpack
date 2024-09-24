@@ -92,7 +92,7 @@ public:
 
         if (current_node_value > m_symbol_max_value)
         {
-            throw bad_encoded_data();
+            throw decode_exception();
         }
 
         return current_node_value;
@@ -129,7 +129,7 @@ private:
     {
         if ((node_index < root_node_index) || (node_index >= m_tree.size()))
         {
-            throw bad_encoded_data();
+            throw decode_exception();
         }
 
         return m_tree[node_index];
@@ -152,7 +152,7 @@ public:
         auto header = header::parse_for_type(compression_type::huffman, read32(reader));
         if (!header)
         {
-            throw bad_encoded_data();
+            throw decode_exception();
         }
 
         const unsigned int symbol_size = get_symbol_size(*header);
@@ -185,7 +185,7 @@ private:
     {
         if ((reader.nbytes_read() % 4) != 0)
         {
-            throw bad_encoded_data();
+            throw decode_exception();
         }
     }
 };

@@ -48,7 +48,7 @@ public:
     {
         if (eof())
         {
-            throw bad_encoded_data();
+            throw decode_exception();
         }
         ++m_nbytes_read;
         return *m_input++;
@@ -140,7 +140,7 @@ public:
     {
         if (done())
         {
-            throw bad_encoded_data();
+            throw decode_exception();
         }
 
         ++m_nbytes_written;

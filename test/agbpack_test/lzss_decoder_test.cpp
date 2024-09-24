@@ -90,8 +90,8 @@ TEST_CASE("lzss_decoder_test")
             "lzss.bad.invalid-compression-options-in-header.txt.encoded",
             "lzss.bad.missing-padding-at-end-of-data.txt.encoded");
 
-        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
-        CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, encoded_file), agbpack::bad_encoded_data);
+        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::decode_exception);
+        CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, encoded_file), agbpack::decode_exception);
     }
 }
 

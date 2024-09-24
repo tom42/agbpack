@@ -61,7 +61,7 @@ TEST_CASE("huffman_decoder_test")
             "huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt.encoded",
             "huffman.bad.8.huffman-tree-access-past-end-of-tree.txt.encoded");
 
-        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::bad_encoded_data);
+        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::decode_exception);
     }
 }
 

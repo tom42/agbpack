@@ -112,7 +112,7 @@ public:
     {
         if (done())
         {
-            throw bad_encoded_data();
+            throw decode_exception();
         }
 
         *m_output++ = byte;
@@ -160,7 +160,7 @@ public:
         auto header = header::parse_for_type(compression_type::lzss, read32(reader));
         if (!header)
         {
-            throw bad_encoded_data();
+            throw decode_exception();
         }
 
         lzss_byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
