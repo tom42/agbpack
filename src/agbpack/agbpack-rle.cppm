@@ -55,4 +55,9 @@ public:
     }
 };
 
+export class rle_encoder final
+{
+public:
+};
+
 }
