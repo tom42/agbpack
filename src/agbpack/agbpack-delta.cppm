@@ -81,8 +81,11 @@ public:
         std::vector<agbpack_u8> tmp;
         auto uncompressed_size = encode8or16(input, eof, back_inserter(tmp));
 
-        // TODO: size must fit into 24 bits. who checks this? => Well we do. And it needs to be tested.
-        //       => header::create probably already throws, but we should possibly use a different exception.
+        // Verify uncompressed size is not too big, then create header for later use.
+        if (uncompressed_size > maximum_uncompressed_size)
+        {
+            throw encode_exception();
+        }
         auto header = header::create(m_options, uncompressed_size);
 
         // Copy header and encoded data to output
