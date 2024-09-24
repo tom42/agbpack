@@ -59,9 +59,11 @@ TEST_CASE("delta_encoder_test")
 
     SECTION("Input data too big")
     {
-        std::vector<unsigned char> input; // TODO: fill this with max. amount of data
+        std::vector<unsigned char> input(agbpack::maximum_uncompressed_size + 1);
 
-        encode_vector(encoder, input); // TODO: this should throw encode_exception
+        // TODO: this should throw encode_exception with appropriate message
+        // TODO: standardize all exception messages to start with lowercase character
+        encode_vector(encoder, input);
     }
 }
 
