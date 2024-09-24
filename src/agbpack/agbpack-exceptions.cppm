@@ -18,6 +18,15 @@ protected:
     virtual ~agbpack_exception() override = default;
 };
 
+export class encode_exception : public agbpack_exception
+{
+public:
+    // TODO: fix message: something along the lines that data to encode is too big
+    explicit encode_exception() : agbpack_exception("encoded data is corrupt") {}
+
+    virtual ~encode_exception() override = default;
+};
+
 export class decode_exception : public agbpack_exception
 {
 public:
