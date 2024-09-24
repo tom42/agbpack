@@ -20,7 +20,7 @@ TEST_CASE("delta_encoder_test")
 {
     agbpack::delta_encoder encoder;
 
-    SECTION("8 bit")
+    SECTION("Successful 8 bit encoding")
     {
         string filename_part = GENERATE(
             "delta.good.8.zero-length-file.txt",
@@ -34,7 +34,7 @@ TEST_CASE("delta_encoder_test")
         CHECK(encoded_data == expected_data);
     }
 
-    SECTION("16 bit")
+    SECTION("Successful 16 bit encoding")
     {
         // TODO: what if input is an odd number of bytes? => Well that's an error, innit? What do other encoders do in that case?
         string filename_part = GENERATE(
