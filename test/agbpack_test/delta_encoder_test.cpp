@@ -61,9 +61,9 @@ TEST_CASE("delta_encoder_test")
     {
         std::vector<unsigned char> input(agbpack::maximum_uncompressed_size + 1);
 
-        // TODO: this should throw encode_exception with appropriate message
+        // TODO: this should throw encode_exception with appropriate message => can hardcode message for the time being
         // TODO: standardize all exception messages to start with lowercase character
-        encode_vector(encoder, input);
+        CHECK_THROWS_AS(encode_vector(encoder, input), agbpack::encode_exception);
     }
 }
 
