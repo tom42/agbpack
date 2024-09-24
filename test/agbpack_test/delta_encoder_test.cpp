@@ -56,6 +56,13 @@ TEST_CASE("delta_encoder_test")
             std::invalid_argument,
             Catch::Matchers::Message("Invalid delta compression options"));
     }
+
+    SECTION("Input data too big")
+    {
+        std::vector<unsigned char> input; // TODO: fill this with max. amount of data
+
+        encode_vector(encoder, input); // TODO: this should throw encode_exception
+    }
 }
 
 }
