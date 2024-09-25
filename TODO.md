@@ -67,7 +67,6 @@ SPDX-License-Identifier: MIT
         * Or, more detailed: https://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings/9862800#9862800
           * This list has
             * -Wshadow
-            * -Wsign-conversion
             * -Wsign-promo
             * -Wstrict-overflow=5
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
