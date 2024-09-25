@@ -58,8 +58,6 @@ SPDX-License-Identifier: MIT
 * vtgcore: should this also use -Wsign-conversion?
 * THEN
   * Enable warnings for g++ and clang
-    * enable warnings from vtgcore: we already established we want these
-    * see what warnings doctest has enabled, see whether these make sense
     * see what other warnings we have noted in vtgcore's TODO.md?
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
