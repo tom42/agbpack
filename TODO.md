@@ -73,7 +73,6 @@ SPDX-License-Identifier: MIT
           * This list explicitly excludes the following, which we might want to look at anyway:
             * -Weffc++
             * -Wstrict-aliasing=3: 3 is default, be more strict?
-            * -Wswitch-enum
             * -Wunsafe-loop-optimizations
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
