@@ -55,10 +55,25 @@ SPDX-License-Identifier: MIT
         add_compiler_flags(-fvisibility=hidden)
       endif()
     endif()
-* vtgcore: should this also use -Wsign-conversion?
+* vtgcore: should probably start using VtgEnableWarnings.cmake, since this is best we have atm
 * THEN
   * Enable warnings for g++ and clang
     * see what other warnings we have noted in vtgcore's TODO.md?
+      * Raise warning level in gcc/clang: add -Wconversion and -Wsign-conversion?
+        * Well, probably we should go ourselves through https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+          * Ugh: there is also https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
+          * And: https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html (C++)
+        * Or, more detailed: https://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings/9862800#9862800
+          * This list has
+            * -Wshadow
+            * -Wsign-conversion
+            * -Wsign-promo
+            * -Wstrict-overflow=5
+          * This list explicitly excludes the following, which we might want to look at anyway:
+            * -Weffc++
+            * -Wstrict-aliasing=3: 3 is default, be more strict?
+            * -Wswitch-enum
+            * -Wunsafe-loop-optimizations
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
   * code coverage for unit tests
