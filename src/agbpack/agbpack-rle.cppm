@@ -63,12 +63,17 @@ public:
     {
         // TODO: implement (see delta_encoder)
         //       * Encode to tmp buffer
-        //       * Create and write header to output
+        //       * Add padding bytes (that's required, innit?)
+        //       * Create and write header to output => good place to start: we cannot create a header.
         //       * Copy tmp to output
-        *output++ = 0x30;
-        *output++ = 0;
-        *output++ = 0;
-        *output++ = 0;
+
+        // TODO: verify uncompressed size and throw appropriate exception!
+        auto header = header::create(rle_options::reserved, 0); // TODO: unhardcode uncompressed size
+
+        // Copy header and encoded data to output
+        unbounded_byte_writer<OutputIterator> writer(output);
+        write32(writer, header.to_uint32_t());
+        // TODO: copy data
     }
 };
 
