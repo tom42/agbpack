@@ -58,6 +58,7 @@ SPDX-License-Identifier: MIT
 * vtgcore: should probably start using VtgEnableWarnings.cmake, since this is best we have atm
 * THEN
   * Enable warnings for g++ and clang
+    * See what warnings doctest has enabled for g++, see whether these make sense?
     * see what other warnings we have noted in vtgcore's TODO.md?
       * Raise warning level in gcc/clang: add -Wconversion and -Wsign-conversion?
         * Well, probably we should go ourselves through https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
