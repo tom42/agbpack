@@ -76,7 +76,7 @@ public:
         static_assert_input_type(input);
 
         // We have to encode to a temporary buffer first, because
-        // * We don't know yet how many bytes of input there is, so we don't know the header content yet
+        // * We don't know yet how many bytes of input there are, so we don't know the header content yet
         // * If the output iterator does not provide random access we cannot output encoded data first and fix up the header last
         std::vector<agbpack_u8> tmp;
         auto uncompressed_size = encode8or16(input, eof, back_inserter(tmp));
