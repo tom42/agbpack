@@ -64,6 +64,7 @@ public:
         static_assert_input_type(input);
 
         // TODO: implement (see delta_encoder)
+        //       * Copy comment from delta_encoder(?)
         //       * Encode to tmp buffer
         //       * Add padding bytes (that's required, innit?)
         //       * Create and write header to output => good place to start: we cannot create a header.
