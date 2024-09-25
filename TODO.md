@@ -70,8 +70,6 @@ SPDX-License-Identifier: MIT
             * -Wsign-conversion
             * -Wsign-promo
             * -Wstrict-overflow=5
-          * This list explicitly excludes the following, which we might want to look at anyway:
-            * -Wstrict-aliasing=3: 3 is default, be more strict?
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
   * code coverage for unit tests
