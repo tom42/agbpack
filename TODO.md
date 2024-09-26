@@ -43,22 +43,10 @@ SPDX-License-Identifier: MIT
   * Same for other <cstdint> types
 * clang++: reconsider the decision to use -Weverything. Maybe change that to be an option or so.
   * https://quuxplusone.github.io/blog/2018/12/06/dont-use-weverything/
-* doctest has the flags below for g++ and clang. Which ones do we need too?
-    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-      add_compiler_flags(-Werror)
-      add_compiler_flags(-fstrict-aliasing)
-
-      # The following options are not valid when clang-cl is used.
-      if(NOT MSVC)
-        add_compiler_flags(-pedantic)
-        add_compiler_flags(-pedantic-errors)
-        add_compiler_flags(-fvisibility=hidden)
-      endif()
-    endif()
 * vtgcore: should probably start using VtgEnableWarnings.cmake, since this is best we have atm
 * THEN
   * Enable warnings for g++ and clang
-    * See what warnings doctest has enabled for g++, see whether these make sense?
+    * See what warnings doctest has enabled for g++, see whether these make sense? (see snippet below)
     * see what other warnings we have noted in vtgcore's TODO.md?
       * Raise warning level in gcc/clang: add -Wconversion and -Wsign-conversion?
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
@@ -79,3 +67,138 @@ SPDX-License-Identifier: MIT
 * Toplevel makefile:
   * Do we want to disable unit tests by default if not the main project?
   * Do we want to have an option to enable/disable unit tests explicitly?
+
+---8<--- doctest common.cmake ---
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    add_compiler_flags(-Werror)
+    add_compiler_flags(-fstrict-aliasing)
+
+    # The following options are not valid when clang-cl is used.
+    if(NOT MSVC)
+        add_compiler_flags(-pedantic)
+        add_compiler_flags(-pedantic-errors)
+        add_compiler_flags(-fvisibility=hidden)
+    endif()
+endif()
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    #add_compiler_flags(-Wno-unknown-pragmas)
+    add_compiler_flags(-Wall)
+    add_compiler_flags(-Wextra)
+    add_compiler_flags(-fdiagnostics-show-option)
+    add_compiler_flags(-Wconversion)
+    add_compiler_flags(-Wold-style-cast)
+    add_compiler_flags(-Wfloat-equal)
+    add_compiler_flags(-Wlogical-op)
+    add_compiler_flags(-Wundef)
+    add_compiler_flags(-Wredundant-decls)
+    add_compiler_flags(-Wshadow)
+    add_compiler_flags(-Wstrict-overflow=5)
+    add_compiler_flags(-Wwrite-strings)
+    add_compiler_flags(-Wpointer-arith)
+    add_compiler_flags(-Wcast-qual)
+    add_compiler_flags(-Wformat=2)
+    add_compiler_flags(-Wswitch-default)
+    add_compiler_flags(-Wmissing-include-dirs)
+    add_compiler_flags(-Wcast-align)
+    add_compiler_flags(-Wswitch-enum)
+    add_compiler_flags(-Wnon-virtual-dtor)
+    add_compiler_flags(-Wctor-dtor-privacy)
+    add_compiler_flags(-Wsign-conversion)
+    add_compiler_flags(-Wdisabled-optimization)
+    add_compiler_flags(-Weffc++)
+    add_compiler_flags(-Winvalid-pch)
+    add_compiler_flags(-Wmissing-declarations)
+    add_compiler_flags(-Woverloaded-virtual)
+    add_compiler_flags(-Wunused-but-set-variable)
+    add_compiler_flags(-Wunused-result)
+
+    # add_compiler_flags(-Wsuggest-override)
+    # add_compiler_flags(-Wmultiple-inheritance)
+    # add_compiler_flags(-Wcatch-value)
+    # add_compiler_flags(-Wsuggest-attribute=cold)
+    # add_compiler_flags(-Wsuggest-attribute=const)
+    # add_compiler_flags(-Wsuggest-attribute=format)
+    # add_compiler_flags(-Wsuggest-attribute=malloc)
+    # add_compiler_flags(-Wsuggest-attribute=noreturn)
+    # add_compiler_flags(-Wsuggest-attribute=pure)
+    # add_compiler_flags(-Wsuggest-final-methods)
+    # add_compiler_flags(-Wsuggest-final-types)
+
+    if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.6)
+        add_compiler_flags(-Wnoexcept)
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
+        add_compiler_flags(-Wno-missing-field-initializers)
+    endif()
+
+    # no way to silence it in the expression decomposition macros: _Pragma() in macros doesn't work for the c++ front-end of g++
+    # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=55578
+    # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=69543
+    # Also the warning is completely worthless nowadays - https://stackoverflow.com/questions/14016993
+    #add_compiler_flags(-Waggregate-return)
+
+    if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
+        add_compiler_flags(-Wdouble-promotion)
+        add_compiler_flags(-Wtrampolines)
+        add_compiler_flags(-Wzero-as-null-pointer-constant)
+        add_compiler_flags(-Wuseless-cast)
+        add_compiler_flags(-Wvector-operation-performance)
+    endif()
+
+    if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
+        add_compiler_flags(-Wshift-overflow=2)
+        add_compiler_flags(-Wnull-dereference)
+        add_compiler_flags(-Wduplicated-cond)
+    endif()
+
+    if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
+        add_compiler_flags(-Walloc-zero)
+        add_compiler_flags(-Walloca)
+        add_compiler_flags(-Wduplicated-branches)
+    endif()
+
+    if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 8.0)
+        add_compiler_flags(-Wcast-align=strict)
+    endif()
+endif()
+
+# necessary for some older compilers which don't default to C++11
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    add_compiler_flags(-Weverything)
+    add_compiler_flags(-Wno-c++98-compat)
+    add_compiler_flags(-Wno-c++98-compat-pedantic)
+    add_compiler_flags(-Wno-c++98-compat-bind-to-temporary-copy)
+    add_compiler_flags(-Wno-c++98-compat-local-type-template-args)
+    add_compiler_flags(-Qunused-arguments -fcolor-diagnostics) # needed for ccache integration
+endif()
+
+if(MSVC)
+    add_compiler_flags(/std:c++latest) # for post c++14 updates in MSVC
+    add_compiler_flags(/permissive-)   # force standard conformance - this is the better flag than /Za
+    add_compiler_flags(/WX)
+    add_compiler_flags(/Wall) # turns on warnings from levels 1 through 4 which are off by default - https://msdn.microsoft.com/en-us/library/23k5d385.aspx
+
+    add_compiler_flags(
+        /wd4514 # unreferenced inline function has been removed
+        /wd4571 # SEH related
+        /wd5264 # const variable is not used
+        /wd4710 # function not inlined
+        /wd4711 # function 'x' selected for automatic inline expansion
+
+        /wd4616 # invalid compiler warnings - https://msdn.microsoft.com/en-us/library/t7ab6xtd.aspx
+        /wd4619 # invalid compiler warnings - https://msdn.microsoft.com/en-us/library/tacee08d.aspx
+
+        #/wd4820 # padding in structs
+        #/wd4625 # copy constructor was implicitly defined as deleted
+        #/wd4626 # assignment operator was implicitly defined as deleted
+        #/wd5027 # move assignment operator was implicitly defined as deleted
+        #/wd5026 # move constructor was implicitly defined as deleted
+        #/wd4623 # default constructor was implicitly defined as deleted
+    )
+endif()
