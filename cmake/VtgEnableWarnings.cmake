@@ -2,6 +2,9 @@
 # SPDX-License-Identifier: MIT
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  # Using -Weverything is not recommended by clang developers, see
+  # https://quuxplusone.github.io/blog/2018/12/06/dont-use-weverything
+  # We start out with it anyway and see how it goes.
   add_compile_options(-Werror)
   add_compile_options(-Weverything)
   add_compile_options(-Wno-c++98-compat)

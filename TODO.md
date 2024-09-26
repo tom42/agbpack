@@ -41,8 +41,6 @@ SPDX-License-Identifier: MIT
       We could simply take their huffman encoder.
 * Use uint8_t or std::uint8_t?
   * Same for other <cstdint> types
-* clang++: reconsider the decision to use -Weverything. Maybe change that to be an option or so.
-  * https://quuxplusone.github.io/blog/2018/12/06/dont-use-weverything/
 * vtgcore: should probably start using VtgEnableWarnings.cmake, since this is best we have atm
 * THEN
   * Enable warnings for g++ and clang
