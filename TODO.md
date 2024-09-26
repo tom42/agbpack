@@ -46,7 +46,7 @@ SPDX-License-Identifier: MIT
   * Enable warnings for g++ and clang
     * See what warnings doctest has enabled for g++, see whether these make sense? (see snippet below)
     * see what other warnings we have noted in vtgcore's TODO.md?
-      * Raise warning level in gcc/clang: add -Wconversion and -Wsign-conversion?
+      * Raise warning level in gcc/clang: add -Wconversion?
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
   * code coverage for unit tests
