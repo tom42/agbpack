@@ -69,7 +69,6 @@ SPDX-License-Identifier: MIT
 ---8<--- doctest common.cmake ---
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    add_compiler_flags(-Werror)
     add_compiler_flags(-fstrict-aliasing)
 
     # The following options are not valid when clang-cl is used.
