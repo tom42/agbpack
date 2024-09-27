@@ -98,7 +98,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     add_compiler_flags(-Wunused-but-set-variable)
     add_compiler_flags(-Wunused-result)
 
-    # add_compiler_flags(-Wcatch-value)
     # add_compiler_flags(-Wsuggest-attribute=cold)
     # add_compiler_flags(-Wsuggest-attribute=const)
     # add_compiler_flags(-Wsuggest-attribute=format)
