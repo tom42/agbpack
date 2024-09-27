@@ -103,7 +103,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     add_compiler_flags(-Wunused-but-set-variable)
     add_compiler_flags(-Wunused-result)
 
-    # add_compiler_flags(-Wsuggest-override)
     # add_compiler_flags(-Wmultiple-inheritance)
     # add_compiler_flags(-Wcatch-value)
     # add_compiler_flags(-Wsuggest-attribute=cold)
