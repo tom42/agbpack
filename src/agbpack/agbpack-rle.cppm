@@ -60,7 +60,7 @@ export class rle_encoder final
 {
 public:
     template <std::input_iterator InputIterator, typename OutputIterator>
-    void encode(InputIterator input, InputIterator /*eof*/, OutputIterator output)
+    void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type(input);
 
@@ -68,6 +68,13 @@ public:
         // * We don't know yet how many bytes of input there are, so we don't know the header content yet
         // * If the output iterator does not provide random access we cannot output encoded data first and fix up the header last
         std::vector<agbpack_u8> tmp;
+        byte_reader<InputIterator> reader(input, eof);
+
+        while (!reader.eof())
+        {
+            // TODO: danger: infinite loop: this works only for empty inputs.
+            // TODO: next: maybe try encoding some literal runs first? These need less special handling because there is no minimum run length, only a maximum one.
+        }
 
         // TODO: implement (see delta_encoder)
         //       * Encode to tmp buffer
