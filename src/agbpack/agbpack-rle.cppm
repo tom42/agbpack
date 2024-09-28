@@ -14,6 +14,10 @@ import :header;
 namespace agbpack
 {
 
+// TODO: type? do we care?
+// TODO: should this not be inline?
+constexpr auto max_literal_run_length = 0x80;
+
 export class rle_decoder final
 {
 public:
@@ -68,6 +72,8 @@ public:
         // * We don't know yet how many bytes of input there are, so we don't know the header content yet
         // * If the output iterator does not provide random access we cannot output encoded data first and fix up the header last
         std::vector<agbpack_u8> tmp;
+        std::vector<agbpack_u8> literal_buffer;
+        literal_buffer.reserve(max_literal_run_length);
         byte_reader<InputIterator> reader(input, eof);
 
         while (!reader.eof())
