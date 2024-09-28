@@ -80,6 +80,9 @@ public:
         {
             // TODO: danger: infinite loop: this works only for empty inputs.
             // TODO: next: maybe try encoding some literal runs first? These need less special handling because there is no minimum run length, only a maximum one.
+            //             => Basically we can just ebery loop iteration add a literal to the literal buffer
+            //             => If the literal buffer is full we flush it (that is, we write a maximum run)
+            //             => After the loop we need to check whether there is still data in the literal buffer. If so we need to flush it. Simple? Simple.
         }
 
         // TODO: implement (see delta_encoder)
