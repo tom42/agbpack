@@ -4,6 +4,7 @@
 module;
 
 #include <iterator>
+#include <vector>
 
 export module agbpack:rle;
 import :common;
@@ -63,8 +64,12 @@ public:
     {
         static_assert_input_type(input);
 
+        // We have to encode to a temporary buffer first, because
+        // * We don't know yet how many bytes of input there are, so we don't know the header content yet
+        // * If the output iterator does not provide random access we cannot output encoded data first and fix up the header last
+        std::vector<agbpack_u8> tmp;
+
         // TODO: implement (see delta_encoder)
-        //       * Copy comment from delta_encoder(?)
         //       * Encode to tmp buffer
         //       * Add padding bytes (that's required, innit?)
         //       * Create and write header to output => good place to start: we cannot create a header.
@@ -76,7 +81,7 @@ public:
         // Copy header and encoded data to output
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
-        // TODO: copy data
+        write(writer, tmp.begin(), tmp.end());
     }
 };
 
