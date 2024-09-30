@@ -112,8 +112,9 @@ private:
         {
             // TODO: flush literal buffer (that's so not the real implementation, but good enough to pass the next test)
             // TODO: assert max. literal run?
-            writer.write8(0);   // TODO: unhardcode literal run length
-            writer.write8('a'); // TODO: unhardcode literal
+            // TODO: consider reusing this code inside the main encoding loop. If we do so then we need to clear the literal buffer, though!
+            writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - 1));
+            write(writer, literal_buffer.begin(), literal_buffer.end());
         }
 
         write_padding_bytes(writer);
