@@ -106,6 +106,14 @@ private:
             //             => If the literal buffer is full we flush it (that is, we write a maximum run)
             //             => After the loop we need to check whether there is still data in the literal buffer. If so we need to flush it. Simple? Simple.
             literal_buffer.push_back(reader.read8()); // TODO: obviously that's only half the truth
+
+            if (literal_buffer.size() == max_literal_run_length) // TODO: == or >= ?
+            {
+                // TODO: same code as below: factor out!
+                writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - 1));
+                write(writer, literal_buffer.begin(), literal_buffer.end());
+                literal_buffer.clear();
+            }
         }
 
         if (!literal_buffer.empty())
@@ -115,6 +123,7 @@ private:
             // TODO: consider reusing this code inside the main encoding loop. If we do so then we need to clear the literal buffer, though!
             writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - 1));
             write(writer, literal_buffer.begin(), literal_buffer.end());
+            literal_buffer.clear();
         }
 
         write_padding_bytes(writer);
