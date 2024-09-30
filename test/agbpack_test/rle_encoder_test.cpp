@@ -25,8 +25,7 @@ TEST_CASE("rle_encoder_test")
         // TODO: see what else we want to test (same as for the decoder? otoh it is also given by the test first development of the encoder)
         string filename_part = GENERATE(
             "rle.good.zero-length-file.txt",
-            "rle.good.1-literal.txt" // TODO: test file from CUE is 6 bytes long. THIS LOOKS WRONG. gbatek? GBACrusher?
-            // TODO: 1 literal
+            "rle.good.1-literal.txt"
             // TODO: 2 literals
             // TODO: multiple of max literals and then some, so that buffer flush is required inside loop
             );
