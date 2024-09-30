@@ -26,10 +26,8 @@ TEST_CASE("rle_encoder_test")
         string filename_part = GENERATE(
             "rle.good.zero-length-file.txt",
             "rle.good.1-literal.txt",
-            "rle.good.2-literals.txt" // TODO: warning: test data created with CUE rle, so it's missing padding.
-            // TODO: 2 literals
-            // TODO: multiple of max literals and then some, so that buffer flush is required inside loop
-            );
+            "rle.good.2-literals.txt",
+            "rle.good.131-literals.txt");
         auto expected_data = read_file(filename_part + ".encoded");
 
         auto encoded_data = encode_file(encoder, filename_part + ".decoded");
