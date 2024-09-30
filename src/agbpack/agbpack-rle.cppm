@@ -114,10 +114,9 @@ private:
             // TODO: assert max. literal run?
             writer.write8(0);   // TODO: unhardcode literal run length
             writer.write8('a'); // TODO: unhardcode literal
-            writer.write8(0);   // TODO: unhardcode writing of padding bytes (and don't do it here - needs to be a finalization step on some output buffer)
-            writer.write8(0);   // TODO: unhardcode writing of padding bytes (and don't do it here - needs to be a finalization step on some output buffer)
         }
 
+        write_padding_bytes(writer);
         return reader.nbytes_read();
     }
 };
