@@ -73,9 +73,31 @@ public:
         // * We don't know yet how many bytes of input there are, so we don't know the header content yet
         // * If the output iterator does not provide random access we cannot output encoded data first and fix up the header last
         std::vector<agbpack_u8> tmp;
+        auto uncompressed_size = encode_internal(input, eof, back_inserter(tmp));
+
+        // TODO: verify uncompressed size and throw appropriate exception!
+        auto header = header::create(rle_options::reserved, uncompressed_size);
+
+        // Copy header and encoded data to output
+        unbounded_byte_writer<OutputIterator> writer(output);
+        write32(writer, header.to_uint32_t());
+        write(writer, tmp.begin(), tmp.end());
+    }
+
+private:
+    template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
+    agbpack_u32 encode_internal(InputIterator input, InputIterator eof, OutputIterator output)
+    {
         std::vector<agbpack_u8> literal_buffer;
         literal_buffer.reserve(max_literal_run_length);
         byte_reader<InputIterator> reader(input, eof);
+        unbounded_byte_writer<OutputIterator> writer(output);
+
+        // TODO: implement (see delta_encoder)
+        //       * Encode to tmp buffer
+        //       * Add padding bytes (that's required, innit?)
+        //       * Create and write header to output => good place to start: we cannot create a header.
+        //       * Copy tmp to output
 
         while (!reader.eof())
         {
@@ -86,31 +108,17 @@ public:
             literal_buffer.push_back(reader.read8()); // TODO: obviously that's only half the truth
         }
 
-        // TODO: implement (see delta_encoder)
-        //       * Encode to tmp buffer
-        //       * Add padding bytes (that's required, innit?)
-        //       * Create and write header to output => good place to start: we cannot create a header.
-        //       * Copy tmp to output
-
-        std::size_t siz = reader.nbytes_read(); // TODO: siz is a hack, remove. Get uncompressed size from encoding loop, which can get it from the reader or wherever from
         if (!literal_buffer.empty())
         {
             // TODO: flush literal buffer (that's so not the real implementation, but good enough to pass the next test)
             // TODO: assert max. literal run?
-            // TODO: do not write like that to tmp. Use an unbounded_byte_writer
-            tmp.push_back(0);   // TODO: unhardcode literal run length
-            tmp.push_back('a'); // TODO: unhardcode literal
-            tmp.push_back(0);   // TODO: unhardcode writing of padding bytes (and don't do it here - needs to be a finalization step on some output buffer)
-            tmp.push_back(0);   // TODO: unhardcode writing of padding bytes (and don't do it here - needs to be a finalization step on some output buffer)
+            writer.write8(0);   // TODO: unhardcode literal run length
+            writer.write8('a'); // TODO: unhardcode literal
+            writer.write8(0);   // TODO: unhardcode writing of padding bytes (and don't do it here - needs to be a finalization step on some output buffer)
+            writer.write8(0);   // TODO: unhardcode writing of padding bytes (and don't do it here - needs to be a finalization step on some output buffer)
         }
 
-        // TODO: verify uncompressed size and throw appropriate exception!
-        auto header = header::create(rle_options::reserved, static_cast<uint32_t>(siz)); // TODO: write compressed size correctly (see delta_encoder)
-
-        // Copy header and encoded data to output
-        unbounded_byte_writer<OutputIterator> writer(output);
-        write32(writer, header.to_uint32_t());
-        write(writer, tmp.begin(), tmp.end());
+        return reader.nbytes_read();
     }
 };
 
