@@ -25,7 +25,8 @@ TEST_CASE("rle_encoder_test")
         // TODO: see what else we want to test (same as for the decoder? otoh it is also given by the test first development of the encoder)
         string filename_part = GENERATE(
             "rle.good.zero-length-file.txt",
-            "rle.good.1-literal.txt"
+            "rle.good.1-literal.txt",
+            "rle.good.2-literals.txt" // TODO: warning: test data created with CUE rle, so it's missing padding.
             // TODO: 2 literals
             // TODO: multiple of max literals and then some, so that buffer flush is required inside loop
             );
