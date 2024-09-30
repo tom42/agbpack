@@ -136,11 +136,8 @@ private:
             write(writer, SizeTag(), delta);
         }
 
-        agbpack_u32 uncompressed_size = writer.nbytes_written();
-
         write_padding_bytes(writer);
-
-        return uncompressed_size;
+        return reader.nbytes_read();
     }
 
     delta_options m_options = delta_options::delta8;
