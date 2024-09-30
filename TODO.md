@@ -4,6 +4,10 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Overflow with files > 4GB
+  * Affects byte_reader/byte_writer/unbounded_byte_writer
+  * These have m_nbytes_read and m_nbytes_written variables, which are 32 bit
+  * If we attempt to process a file > 4GB, then things will go wrong
 * github workflow
   * Somehow install Catch2 so that it does not need to be built
     * On Ubuntu, use apt
