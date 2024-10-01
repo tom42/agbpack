@@ -100,11 +100,15 @@ private:
 
         while (!reader.eof())
         {
+            // TODO: find longest run
+            // TODO: own function?
+            auto byte = reader.read8();
+
             // TODO: next: maybe try encoding some literal runs first? These need less special handling because there is no minimum run length, only a maximum one.
             //             => Basically we can just ebery loop iteration add a literal to the literal buffer
             //             => If the literal buffer is full we flush it (that is, we write a maximum run)
             //             => After the loop we need to check whether there is still data in the literal buffer. If so we need to flush it. Simple? Simple.
-            literal_buffer.push_back(reader.read8()); // TODO: obviously that's only half the truth
+            literal_buffer.push_back(byte); // TODO: obviously that's only half the truth
 
             if (literal_buffer.size() == max_literal_run_length) // TODO: == or >= ?
             {
