@@ -3,7 +3,6 @@
 
 module;
 
-#include <cstdint> // TODO: remove once not needed anymore
 #include <iterator>
 #include <vector>
 
