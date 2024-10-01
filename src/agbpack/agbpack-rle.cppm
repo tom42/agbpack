@@ -103,6 +103,12 @@ private:
             // TODO: find longest run
             // TODO: own function?
             auto byte = reader.read8();
+            int run_length = 1;
+            //while (!reader.eof()) // TODO: umm...needlookahead?
+            {
+
+            }
+            (void)run_length; // TODO: remove
 
             // TODO: next: maybe try encoding some literal runs first? These need less special handling because there is no minimum run length, only a maximum one.
             //             => Basically we can just ebery loop iteration add a literal to the literal buffer
