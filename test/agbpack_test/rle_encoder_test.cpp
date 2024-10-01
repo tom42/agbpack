@@ -19,15 +19,15 @@ TEST_CASE("rle_encoder_test")
 
     SECTION("Successful encoding")
     {
-        // TODO: clean up rle test file names
+        // TODO: clean up rle test file names (also those from the decoder test!)
         //       * "compressed [byte(s)]" => "repeated [byte(s)]"
         //       * uncompressed => literal
         // TODO: see what else we want to test (same as for the decoder? otoh it is also given by the test first development of the encoder)
         string filename_part = GENERATE(
             "rle.good.zero-length-file.txt",
-            "rle.good.1-literal.txt",
-            "rle.good.2-literals.txt",
-            "rle.good.131-literals.txt");
+            "rle.good.1-literal-byte.txt",
+            "rle.good.2-literal-bytes.txt",
+            "rle.good.131-literal-bytes.txt");
         auto expected_data = read_file(filename_part + ".encoded");
 
         auto encoded_data = encode_file(encoder, filename_part + ".decoded");
