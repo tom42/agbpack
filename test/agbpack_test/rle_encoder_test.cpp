@@ -27,7 +27,9 @@ TEST_CASE("rle_encoder_test")
             "rle.good.zero-length-file.txt",
             "rle.good.1-literal-byte.txt",
             "rle.good.2-literal-bytes.txt",
-            "rle.good.131-literal-bytes.txt");
+            "rle.good.131-literal-bytes.txt",
+            // TODO: also test special case of 2 repeated bytes (possibly also followed by something else?)
+            "rle.good.3-repeated-bytes.txt");
         auto expected_data = read_file(filename_part + ".encoded");
 
         auto encoded_data = encode_file(encoder, filename_part + ".decoded");
