@@ -18,6 +18,7 @@ namespace agbpack
 // TODO: should these not be inline?
 constexpr auto min_literal_run_length = 1; // TODO: use wherever applicable (decoder and encoder)
 constexpr auto max_literal_run_length = 0x80;
+constexpr auto min_repeated_run_length = 3; // TODO: use wherever applicable (decoder and encoder)
 
 export class rle_decoder final
 {
