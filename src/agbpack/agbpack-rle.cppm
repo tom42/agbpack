@@ -131,9 +131,10 @@ private:
             }
             else
             {
-
+                // TODO: unhardcode 0x80
+                writer.write8(static_cast<agbpack_u8>(0x80 | (run_length - min_repeated_run_length)));
+                writer.write8(byte);
             }
-
         }
 
         if (!literal_buffer.empty())
