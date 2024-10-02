@@ -14,8 +14,9 @@ import :header;
 namespace agbpack
 {
 
-// TODO: type? do we care?
-// TODO: should this not be inline?
+// TODO: types? do we care?
+// TODO: should these not be inline?
+constexpr auto min_literal_run_length = 1; // TODO: use wherever applicable (decoder and encoder)
 constexpr auto max_literal_run_length = 0x80;
 
 export class rle_decoder final
