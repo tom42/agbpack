@@ -18,7 +18,7 @@ namespace agbpack
 // TODO: should these not be inline?
 constexpr auto min_literal_run_length = 1; // TODO: use wherever applicable (decoder and encoder)
 constexpr auto max_literal_run_length = 0x80;
-constexpr auto min_repeated_run_length = 3; // TODO: use wherever applicable (decoder and encoder)
+constexpr auto min_repeated_run_length = 3;
 
 export class rle_decoder final
 {
@@ -41,7 +41,7 @@ public:
             auto flag = read8(reader);
             if (flag & 0x80)
             {
-                agbpack_u32 n = (flag & 127) + 3;
+                agbpack_u32 n = (flag & 127) + min_repeated_run_length;
                 auto byte = read8(reader);
                 while (n--)
                 {
@@ -50,7 +50,7 @@ public:
             }
             else
             {
-                agbpack_u32 n = (flag & 127) + 1;
+                agbpack_u32 n = (flag & 127) + min_literal_run_length;
                 while (n--)
                 {
                     write8(writer, read8(reader));
@@ -116,7 +116,7 @@ private:
             //             => Basically we can just ebery loop iteration add a literal to the literal buffer
             //             => If the literal buffer is full we flush it (that is, we write a maximum run)
             //             => After the loop we need to check whether there is still data in the literal buffer. If so we need to flush it. Simple? Simple.
-            // TODO: need special handling of runs < 3
+            // TODO: need special handling of runs < min_repeated_run_length
             if (run_length == 1) // TODO: temporary hack to get scanning/encoding of runs correct (transition from run to no run still missing)
             {
                 literal_buffer.push_back(byte); // TODO: obviously that's only half the truth: for runs of 2 we need to push 2 bytes, no?
