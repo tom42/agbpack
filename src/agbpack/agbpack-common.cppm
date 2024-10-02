@@ -54,6 +54,13 @@ public:
         return *m_input++;
     }
 
+    // TODO: rle: do we really want this here?
+    agbpack_u8 peek8()
+    {
+        // TODO: rle: check eof? (probably, no?)
+        return *m_input;
+    }
+
 private:
     agbpack_u32 m_nbytes_read = 0;
     InputIterator m_input;
