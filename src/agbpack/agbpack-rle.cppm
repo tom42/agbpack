@@ -104,9 +104,10 @@ private:
             // TODO: own function?
             auto byte = reader.read8();
             int run_length = 1;
-            //while (!reader.eof()) // TODO: umm...needlookahead?
+            while (!reader.eof() && (reader.peek8() == byte)) // TODO: umm...needlookahead?
             {
-
+                reader.read8();
+                ++run_length;
             }
             (void)run_length; // TODO: remove
 
@@ -114,7 +115,7 @@ private:
             //             => Basically we can just ebery loop iteration add a literal to the literal buffer
             //             => If the literal buffer is full we flush it (that is, we write a maximum run)
             //             => After the loop we need to check whether there is still data in the literal buffer. If so we need to flush it. Simple? Simple.
-            literal_buffer.push_back(byte); // TODO: obviously that's only half the truth
+            literal_buffer.push_back(byte); // TODO: obviously that's only half the truth: for runs of 2 we need to push 2 bytes, no?
 
             if (literal_buffer.size() == max_literal_run_length) // TODO: == or >= ?
             {
