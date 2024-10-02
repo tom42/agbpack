@@ -16,7 +16,7 @@ namespace agbpack
 
 // TODO: types? do we care?
 // TODO: should these not be inline?
-constexpr auto min_literal_run_length = 1; // TODO: use wherever applicable (decoder and encoder)
+constexpr auto min_literal_run_length = 1;
 constexpr auto max_literal_run_length = 0x80;
 constexpr auto min_repeated_run_length = 3;
 
@@ -124,7 +124,7 @@ private:
                 if (literal_buffer.size() == max_literal_run_length) // TODO: == or >= ?
                 {
                     // TODO: same code as below: factor out!
-                    writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - 1));
+                    writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - min_literal_run_length));
                     write(writer, literal_buffer.begin(), literal_buffer.end());
                     literal_buffer.clear();
                 }
@@ -141,7 +141,7 @@ private:
             // TODO: flush literal buffer (that's so not the real implementation, but good enough to pass the next test)
             // TODO: assert max. literal run? => Nah assertion should be done prior to push_back to literal buffer, no?
             // TODO: consider reusing this code inside the main encoding loop. If we do so then we need to clear the literal buffer, though!
-            writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - 1));
+            writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - min_literal_run_length));
             write(writer, literal_buffer.begin(), literal_buffer.end());
             literal_buffer.clear();
         }
