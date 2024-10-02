@@ -109,21 +109,29 @@ private:
                 reader.read8();
                 ++run_length;
             }
-            (void)run_length; // TODO: remove
 
             // TODO: next: maybe try encoding some literal runs first? These need less special handling because there is no minimum run length, only a maximum one.
             //             => Basically we can just ebery loop iteration add a literal to the literal buffer
             //             => If the literal buffer is full we flush it (that is, we write a maximum run)
             //             => After the loop we need to check whether there is still data in the literal buffer. If so we need to flush it. Simple? Simple.
-            literal_buffer.push_back(byte); // TODO: obviously that's only half the truth: for runs of 2 we need to push 2 bytes, no?
-
-            if (literal_buffer.size() == max_literal_run_length) // TODO: == or >= ?
+            // TODO: need special handling of runs < 3
+            if (run_length == 1) // TODO: temporary hack to get scanning/encoding of runs correct (transition from run to no run still missing)
             {
-                // TODO: same code as below: factor out!
-                writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - 1));
-                write(writer, literal_buffer.begin(), literal_buffer.end());
-                literal_buffer.clear();
+                literal_buffer.push_back(byte); // TODO: obviously that's only half the truth: for runs of 2 we need to push 2 bytes, no?
+
+                if (literal_buffer.size() == max_literal_run_length) // TODO: == or >= ?
+                {
+                    // TODO: same code as below: factor out!
+                    writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - 1));
+                    write(writer, literal_buffer.begin(), literal_buffer.end());
+                    literal_buffer.clear();
+                }
             }
+            else
+            {
+
+            }
+
         }
 
         if (!literal_buffer.empty())
