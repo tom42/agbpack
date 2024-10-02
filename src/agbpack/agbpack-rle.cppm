@@ -129,7 +129,7 @@ private:
         if (!literal_buffer.empty())
         {
             // TODO: flush literal buffer (that's so not the real implementation, but good enough to pass the next test)
-            // TODO: assert max. literal run?
+            // TODO: assert max. literal run? => Nah assertion should be done prior to push_back to literal buffer, no?
             // TODO: consider reusing this code inside the main encoding loop. If we do so then we need to clear the literal buffer, though!
             writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - 1));
             write(writer, literal_buffer.begin(), literal_buffer.end());
