@@ -71,6 +71,31 @@ public:
     {
         m_buffer.reserve(max_literal_run_length);
     }
+
+    void add(agbpack_u8 literal)
+    {
+        m_buffer.push_back(literal);
+    }
+
+    // TODO: for whatever inane reason I cannot use an std::outputiterator thing here. Now why again? Da fuk?
+    template <typename TByteWriter>
+    void flush(TByteWriter& writer)
+    {
+        writer.write8(static_cast<agbpack_u8>(m_buffer.size() - min_literal_run_length));
+        write(writer, m_buffer.begin(), m_buffer.end());
+        m_buffer.clear();
+    }
+
+    auto size()
+    {
+        return m_buffer.size();
+    }
+
+    auto empty()
+    {
+        return m_buffer.empty();
+    }
+
 private:
     std::vector<agbpack_u8> m_buffer;
 };
@@ -102,7 +127,7 @@ private:
     template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
     agbpack_u32 encode_internal(InputIterator input, InputIterator eof, OutputIterator output)
     {
-        std::vector<agbpack_u8> literal_buffer; // TODO: replace this completely by class literal_buffer
+        literal_buffer literal_buffer;
         byte_reader<InputIterator> reader(input, eof);
         unbounded_byte_writer<OutputIterator> writer(output);
 
@@ -134,15 +159,12 @@ private:
                 // TODO: still not correct: we need to check whether to flush the literal buffer for each byte that we add
                 for (int i = 0; i < run_length; ++i)
                 {
-                    literal_buffer.push_back(byte);
+                    literal_buffer.add(byte);
                 }
 
                 if (literal_buffer.size() == max_literal_run_length) // TODO: == or >= ?
                 {
-                    // TODO: same code as below: factor out!
-                    writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - min_literal_run_length));
-                    write(writer, literal_buffer.begin(), literal_buffer.end());
-                    literal_buffer.clear();
+                    literal_buffer.flush(writer);
                 }
             }
             else
@@ -156,12 +178,8 @@ private:
 
         if (!literal_buffer.empty())
         {
-            // TODO: flush literal buffer (that's so not the real implementation, but good enough to pass the next test)
             // TODO: assert max. literal run? => Nah assertion should be done prior to push_back to literal buffer, no?
-            // TODO: consider reusing this code inside the main encoding loop. If we do so then we need to clear the literal buffer, though!
-            writer.write8(static_cast<agbpack_u8>(literal_buffer.size() - min_literal_run_length));
-            write(writer, literal_buffer.begin(), literal_buffer.end());
-            literal_buffer.clear();
+            literal_buffer.flush(writer);
         }
 
         write_padding_bytes(writer);
