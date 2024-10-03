@@ -3,6 +3,7 @@
 
 module;
 
+#include <cassert>
 #include <iterator>
 #include <vector>
 
@@ -19,6 +20,7 @@ namespace agbpack
 constexpr auto min_literal_run_length = 1;
 constexpr auto max_literal_run_length = 0x80;
 constexpr auto min_repeated_run_length = 3;
+constexpr auto max_repeated_run_length = 0x82;
 
 export class rle_decoder final
 {
@@ -102,11 +104,11 @@ private:
 
         while (!reader.eof())
         {
-            // TODO: find longest run
-            // TODO: own function?
+            // TODO: find longest run => own function?
+            // TODO: honor maximum repeated run length here!
             auto byte = reader.read8();
             int run_length = 1;
-            while (!reader.eof() && (reader.peek8() == byte)) // TODO: umm...needlookahead?
+            while (!reader.eof() && (reader.peek8() == byte))
             {
                 reader.read8();
                 ++run_length;
@@ -117,7 +119,7 @@ private:
             //             => If the literal buffer is full we flush it (that is, we write a maximum run)
             //             => After the loop we need to check whether there is still data in the literal buffer. If so we need to flush it. Simple? Simple.
             // TODO: need special handling of runs < min_repeated_run_length
-            if (run_length == 1) // TODO: temporary hack to get scanning/encoding of runs correct (transition from run to no run still missing)
+            if (run_length < min_repeated_run_length) // TODO: temporary hack to get scanning/encoding of runs correct (transition from run to no run still missing)
             {
                 literal_buffer.push_back(byte); // TODO: obviously that's only half the truth: for runs of 2 we need to push 2 bytes, no?
 
@@ -132,6 +134,7 @@ private:
             else
             {
                 // TODO: unhardcode 0x80
+                assert((min_repeated_run_length <= run_length) && (run_length <= max_repeated_run_length));
                 writer.write8(static_cast<agbpack_u8>(0x80 | (run_length - min_repeated_run_length)));
                 writer.write8(byte);
             }
