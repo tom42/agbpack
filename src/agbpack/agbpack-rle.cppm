@@ -64,6 +64,17 @@ public:
     }
 };
 
+class literal_buffer final
+{
+public:
+    explicit literal_buffer()
+    {
+        m_buffer.reserve(max_literal_run_length);
+    }
+private:
+    std::vector<agbpack_u8> m_buffer;
+};
+
 export class rle_encoder final
 {
 public:
@@ -91,8 +102,7 @@ private:
     template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
     agbpack_u32 encode_internal(InputIterator input, InputIterator eof, OutputIterator output)
     {
-        std::vector<agbpack_u8> literal_buffer;
-        literal_buffer.reserve(max_literal_run_length);
+        std::vector<agbpack_u8> literal_buffer; // TODO: replace this completely by class literal_buffer
         byte_reader<InputIterator> reader(input, eof);
         unbounded_byte_writer<OutputIterator> writer(output);
 
