@@ -121,7 +121,11 @@ private:
             // TODO: need special handling of runs < min_repeated_run_length
             if (run_length < min_repeated_run_length) // TODO: temporary hack to get scanning/encoding of runs correct (transition from run to no run still missing)
             {
-                literal_buffer.push_back(byte); // TODO: obviously that's only half the truth: for runs of 2 we need to push 2 bytes, no?
+                // TODO: still not correct: we need to check whether to flush the literal buffer for each byte that we add
+                for (int i = 0; i < run_length; ++i)
+                {
+                    literal_buffer.push_back(byte);
+                }
 
                 if (literal_buffer.size() == max_literal_run_length) // TODO: == or >= ?
                 {
