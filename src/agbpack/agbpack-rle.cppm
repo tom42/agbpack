@@ -132,12 +132,6 @@ private:
         byte_reader<InputIterator> reader(input, eof);
         unbounded_byte_writer<OutputIterator> writer(output);
 
-        // TODO: implement (see delta_encoder)
-        //       * Encode to tmp buffer
-        //       * Add padding bytes (that's required, innit?)
-        //       * Create and write header to output => good place to start: we cannot create a header.
-        //       * Copy tmp to output
-
         while (!reader.eof())
         {
             // Find longest run of repeated bytes, but not longer than the maximum repeated run length.
@@ -149,10 +143,6 @@ private:
                 ++run_length;
             }
 
-            // TODO: next: maybe try encoding some literal runs first? These need less special handling because there is no minimum run length, only a maximum one.
-            //             => Basically we can just ebery loop iteration add a literal to the literal buffer
-            //             => If the literal buffer is full we flush it (that is, we write a maximum run)
-            //             => After the loop we need to check whether there is still data in the literal buffer. If so we need to flush it. Simple? Simple.
             if (run_length < min_repeated_run_length)
             {
                 // Add anything too short to be encoded as a repeated run to the literal buffer.
