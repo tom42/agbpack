@@ -152,22 +152,22 @@ private:
             //             => Basically we can just ebery loop iteration add a literal to the literal buffer
             //             => If the literal buffer is full we flush it (that is, we write a maximum run)
             //             => After the loop we need to check whether there is still data in the literal buffer. If so we need to flush it. Simple? Simple.
-            // TODO: need special handling of runs < min_repeated_run_length
-            if (run_length < min_repeated_run_length) // TODO: temporary hack to get scanning/encoding of runs correct (transition from run to no run still missing)
+            if (run_length < min_repeated_run_length)
             {
-                // TODO: still not correct: we need to check whether to flush the literal buffer for each byte that we add
+                // Add anything too short to be encoded as a repeated run to the literal buffer.
+                // If the literal buffer is full, write out a literal run of maximum length.
                 for (int i = 0; i < run_length; ++i)
                 {
                     literal_buffer.add(byte);
-                }
-
-                if (literal_buffer.size() == max_literal_run_length) // TODO: == or >= ?
-                {
-                    literal_buffer.flush(writer);
+                    if (literal_buffer.size() == max_literal_run_length)
+                    {
+                        literal_buffer.flush(writer);
+                    }
                 }
             }
             else
             {
+                // TODO: transition from run to no run still missing. That is, flush literal buffer here if it is not empty
                 // TODO: unhardcode 0x80
                 assert((min_repeated_run_length <= run_length) && (run_length <= max_repeated_run_length));
                 writer.write8(static_cast<agbpack_u8>(0x80 | (run_length - min_repeated_run_length)));
