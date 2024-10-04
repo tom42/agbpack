@@ -26,7 +26,7 @@ TEST_CASE("rle_decoder_test")
             "rle.good.uncompressed-bytes-only-1.txt",
             "rle.good.uncompressed-bytes-only-2.txt",
             "rle.good.compressed-bytes-only.txt",
-            "rle.good.compressed-and-uncompressed-bytes.txt",
+            "rle.good.literal-bytes-followed-by-repeated-bytes.txt",
             "rle.good.very-long-compressed-run.txt",
             "rle.good.very-long-uncompressed-run.txt",
             "rle.good.zero-length-file.txt",
