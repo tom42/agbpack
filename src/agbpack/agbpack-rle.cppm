@@ -20,6 +20,7 @@ inline constexpr auto max_literal_run_length = 0x80;
 inline constexpr auto min_repeated_run_length = 3;
 inline constexpr auto max_repeated_run_length = 0x82;
 inline constexpr auto run_type_mask = 0x80;
+inline constexpr auto run_length_mask = 127;
 
 export class rle_decoder final
 {
@@ -42,7 +43,7 @@ public:
             auto flag = read8(reader);
             if (flag & run_type_mask)
             {
-                agbpack_u32 n = (flag & 127) + min_repeated_run_length;
+                agbpack_u32 n = (flag & run_length_mask) + min_repeated_run_length;
                 auto byte = read8(reader);
                 while (n--)
                 {
@@ -51,7 +52,7 @@ public:
             }
             else
             {
-                agbpack_u32 n = (flag & 127) + min_literal_run_length;
+                agbpack_u32 n = (flag & run_length_mask) + min_literal_run_length;
                 while (n--)
                 {
                     write8(writer, read8(reader));
