@@ -15,12 +15,10 @@ import :header;
 namespace agbpack
 {
 
-// TODO: types? do we care?
-// TODO: should these not be inline?
-constexpr auto min_literal_run_length = 1;
-constexpr auto max_literal_run_length = 0x80;
-constexpr auto min_repeated_run_length = 3;
-constexpr auto max_repeated_run_length = 0x82;
+inline constexpr auto min_literal_run_length = 1;
+inline constexpr auto max_literal_run_length = 0x80;
+inline constexpr auto min_repeated_run_length = 3;
+inline constexpr auto max_repeated_run_length = 0x82;
 
 export class rle_decoder final
 {
