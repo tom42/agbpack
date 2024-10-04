@@ -30,10 +30,10 @@ TEST_CASE("rle_encoder_test")
             "rle.good.131-literal-bytes.txt",
             // TODO: also test special case of 2 repeated bytes followed by something else (?)
             // TODO: also test very special case of 2 repeated bytes where adding them to the literal buffer overflows the buffer (max literal run length)
-            // TODO: also test longer than maximum length repeated run
             "rle.good.2-repeated-bytes.txt",
             "rle.good.3-repeated-bytes.txt",
-            "rle.good.4-repeated-bytes.txt");
+            "rle.good.4-repeated-bytes.txt",
+            "rle.good.131-repeated-bytes.txt");
         auto expected_data = read_file(filename_part + ".encoded");
 
         auto encoded_data = encode_file(encoder, filename_part + ".decoded");
