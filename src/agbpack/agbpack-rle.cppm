@@ -139,11 +139,10 @@ private:
 
         while (!reader.eof())
         {
-            // TODO: find longest run => own function?
-            // TODO: honor maximum repeated run length here!
+            // Find longest run of repeated bytes, but not longer than the maximum repeated run length.
             auto byte = reader.read8();
             int run_length = 1;
-            while (!reader.eof() && (reader.peek8() == byte))
+            while (!reader.eof() && (run_length < max_repeated_run_length) && (reader.peek8() == byte))
             {
                 reader.read8();
                 ++run_length;
