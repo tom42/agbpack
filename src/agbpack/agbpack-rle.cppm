@@ -78,7 +78,6 @@ public:
         m_buffer.push_back(literal);
     }
 
-    // TODO: for whatever inane reason I cannot use an std::outputiterator thing here. Now why again? Da fuk?
     template <typename TByteWriter>
     void flush(TByteWriter& writer)
     {
