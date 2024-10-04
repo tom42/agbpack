@@ -158,7 +158,12 @@ private:
             }
             else
             {
-                // TODO: transition from run to no run still missing. That is, flush literal buffer here if it is not empty
+                // TODO: factor out? (flush_if_not_empty)
+                if (!literal_buffer.empty())
+                {
+                    literal_buffer.flush(writer);
+                }
+
                 assert((min_repeated_run_length <= run_length) && (run_length <= max_repeated_run_length));
                 writer.write8(static_cast<agbpack_u8>(run_type_mask | (run_length - min_repeated_run_length)));
                 writer.write8(byte);
