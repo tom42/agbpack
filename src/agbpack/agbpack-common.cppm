@@ -3,6 +3,7 @@
 
 module;
 
+#include <cassert>
 #include <cstdint>
 #include <iterator>
 
@@ -56,7 +57,7 @@ public:
 
     agbpack_u8 peek8()
     {
-        // TODO: rle: check eof? (probably, no?)
+        assert(!eof());
         return *m_input;
     }
 
