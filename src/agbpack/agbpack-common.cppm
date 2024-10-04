@@ -54,7 +54,6 @@ public:
         return *m_input++;
     }
 
-    // TODO: rle: do we really want this here?
     agbpack_u8 peek8()
     {
         // TODO: rle: check eof? (probably, no?)
