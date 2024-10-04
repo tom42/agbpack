@@ -72,6 +72,7 @@ public:
 
     void add(agbpack_u8 literal)
     {
+        assert(size() < max_literal_run_length);
         m_buffer.push_back(literal);
     }
 
@@ -175,7 +176,6 @@ private:
 
         if (!literal_buffer.empty())
         {
-            // TODO: assert max. literal run? => Nah assertion should be done prior to push_back to literal buffer, no?
             literal_buffer.flush(writer);
         }
 
