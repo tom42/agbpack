@@ -79,21 +79,19 @@ public:
     }
 
     template <typename TByteWriter>
-    void flush(TByteWriter& writer)
+    void flush_if_not_empty(TByteWriter& writer)
     {
-        writer.write8(static_cast<agbpack_u8>(m_buffer.size() - min_literal_run_length));
-        write(writer, m_buffer.begin(), m_buffer.end());
-        m_buffer.clear();
+        if (!m_buffer.empty())
+        {
+            writer.write8(static_cast<agbpack_u8>(m_buffer.size() - min_literal_run_length));
+            write(writer, m_buffer.begin(), m_buffer.end());
+            m_buffer.clear();
+        }
     }
 
     auto size()
     {
         return m_buffer.size();
-    }
-
-    auto empty()
-    {
-        return m_buffer.empty();
     }
 
 private:
@@ -151,28 +149,22 @@ private:
                     literal_buffer.add(byte);
                     if (literal_buffer.size() == max_literal_run_length)
                     {
-                        literal_buffer.flush(writer);
+                        literal_buffer.flush_if_not_empty(writer);
                     }
                 }
             }
             else
             {
-                // TODO: factor out? (flush_if_not_empty)
-                if (!literal_buffer.empty())
-                {
-                    literal_buffer.flush(writer);
-                }
-
+                // Encode repeated run.
+                // There may still be buffered literals in the literal buffer, so flush that first.
                 assert((min_repeated_run_length <= run_length) && (run_length <= max_repeated_run_length));
+                literal_buffer.flush_if_not_empty(writer);
                 writer.write8(static_cast<agbpack_u8>(run_type_mask | (run_length - min_repeated_run_length)));
                 writer.write8(byte);
             }
         }
 
-        if (!literal_buffer.empty())
-        {
-            literal_buffer.flush(writer);
-        }
+        literal_buffer.flush_if_not_empty(writer);
 
         write_padding_bytes(writer);
         return reader.nbytes_read();
