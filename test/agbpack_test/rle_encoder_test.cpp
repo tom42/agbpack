@@ -33,7 +33,8 @@ TEST_CASE("rle_encoder_test")
             "rle.good.2-repeated-bytes.txt",
             "rle.good.3-repeated-bytes.txt",
             "rle.good.4-repeated-bytes.txt",
-            "rle.good.131-repeated-bytes.txt");
+            "rle.good.131-repeated-bytes.txt",
+            "rle.good.literal-buffer-overflow-by-2-repeated-bytes.txt");
         auto expected_data = read_file(filename_part + ".encoded");
 
         auto encoded_data = encode_file(encoder, filename_part + ".decoded");
