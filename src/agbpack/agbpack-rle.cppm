@@ -19,6 +19,7 @@ inline constexpr auto min_literal_run_length = 1;
 inline constexpr auto max_literal_run_length = 0x80;
 inline constexpr auto min_repeated_run_length = 3;
 inline constexpr auto max_repeated_run_length = 0x82;
+inline constexpr auto run_type_mask = 0x80;
 
 export class rle_decoder final
 {
@@ -39,7 +40,7 @@ public:
         while (!writer.done())
         {
             auto flag = read8(reader);
-            if (flag & 0x80)
+            if (flag & run_type_mask)
             {
                 agbpack_u32 n = (flag & 127) + min_repeated_run_length;
                 auto byte = read8(reader);
@@ -167,9 +168,8 @@ private:
             else
             {
                 // TODO: transition from run to no run still missing. That is, flush literal buffer here if it is not empty
-                // TODO: unhardcode 0x80
                 assert((min_repeated_run_length <= run_length) && (run_length <= max_repeated_run_length));
-                writer.write8(static_cast<agbpack_u8>(0x80 | (run_length - min_repeated_run_length)));
+                writer.write8(static_cast<agbpack_u8>(run_type_mask | (run_length - min_repeated_run_length)));
                 writer.write8(byte);
             }
         }
