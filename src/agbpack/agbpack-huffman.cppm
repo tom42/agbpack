@@ -194,6 +194,7 @@ export class huffman_encoder final
 {
 public:
 private:
+    huffman_options m_options = huffman_options::h8;
 };
 
 }
