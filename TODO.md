@@ -106,7 +106,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
         add_compiler_flags(-Wdouble-promotion)
         add_compiler_flags(-Wtrampolines)
-        add_compiler_flags(-Wuseless-cast)
         add_compiler_flags(-Wvector-operation-performance)
     endif()
 
