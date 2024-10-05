@@ -96,7 +96,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     add_compiler_flags(-Wnon-virtual-dtor)
     add_compiler_flags(-Woverloaded-virtual)
     add_compiler_flags(-Wunused-but-set-variable)
-    add_compiler_flags(-Wunused-result)
 
     # add_compiler_flags(-Wsuggest-final-methods)
     # add_compiler_flags(-Wsuggest-final-types)
