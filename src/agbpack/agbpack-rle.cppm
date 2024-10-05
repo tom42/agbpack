@@ -72,6 +72,11 @@ public:
         m_buffer.reserve(max_literal_run_length);
     }
 
+    auto size()
+    {
+        return m_buffer.size();
+    }
+
     void add(agbpack_u8 literal)
     {
         assert(size() < max_literal_run_length);
@@ -87,11 +92,6 @@ public:
             write(writer, m_buffer.begin(), m_buffer.end());
             m_buffer.clear();
         }
-    }
-
-    auto size()
-    {
-        return m_buffer.size();
     }
 
 private:
