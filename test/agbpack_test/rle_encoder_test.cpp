@@ -28,7 +28,6 @@ TEST_CASE("rle_encoder_test")
             "rle.good.1-literal-byte.txt",
             "rle.good.2-literal-bytes.txt",
             "rle.good.131-literal-bytes.txt",
-            // TODO: also test special case of 2 repeated bytes followed by something else (?) => Well maybe merge with the overflow thing...it's quite all the same.
             "rle.good.2-repeated-bytes.txt",
             "rle.good.3-repeated-bytes.txt",
             "rle.good.4-repeated-bytes.txt",
