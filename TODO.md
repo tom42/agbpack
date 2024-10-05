@@ -84,7 +84,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    #add_compiler_flags(-Wno-unknown-pragmas)
     add_compiler_flags(-fdiagnostics-show-option)
     add_compiler_flags(-Wconversion)
     add_compiler_flags(-Wfloat-equal)
