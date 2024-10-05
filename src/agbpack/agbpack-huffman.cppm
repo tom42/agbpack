@@ -206,16 +206,21 @@ public:
         //       * serialize tree to output
         //       * encode data to output
 
-        // TODO: real implementation
-        // TODO: for starters we could create the header, and write the bits that copy stuff to output
-        *output++ = m_options == huffman_options::h8 ? 0x28 : 0x24; // TODO: create header correctly. That is, use header::create
-        *output++ = 0;
-        *output++ = 0;
-        *output++ = 0;
-        *output++ = 1;
-        *output++ = 0xc0;
-        *output++ = 0;
-        *output++ = 0;
+        // TODO: unhardcode uncompressed size
+        // TODO: check uncompressed size and throw appropriate exception if too big
+        auto header = header::create(m_options, 0);
+
+        // Copy header and encoded data to output
+        unbounded_byte_writer<OutputIterator> writer(output);
+        write32(writer, header.to_uint32_t());
+
+        // TODO: unhardcode tree data
+        writer.write8(1);
+        writer.write8(0xc0);
+        writer.write8(0);
+        writer.write8(0);
+
+        // TODO: write encoded data
     }
 
     void options(huffman_options options)
