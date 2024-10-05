@@ -190,4 +190,10 @@ private:
     }
 };
 
+export class huffman_encoder final
+{
+public:
+private:
+};
+
 }
