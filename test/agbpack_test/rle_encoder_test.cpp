@@ -19,8 +19,8 @@ TEST_CASE("rle_encoder_test")
 
     SECTION("Successful encoding")
     {
-        // TODO: see what else we want to test (same as for the decoder? otoh it is also given by the test first development of the encoder)
         string filename_part = GENERATE(
+            // Test data designed for encoder development
             "rle.good.zero-length-file.txt",
             "rle.good.1-literal-byte.txt",
             "rle.good.2-literal-bytes.txt",
@@ -30,7 +30,13 @@ TEST_CASE("rle_encoder_test")
             "rle.good.4-repeated-bytes.txt",
             "rle.good.131-repeated-bytes.txt",
             "rle.good.literal-buffer-overflow-by-2-repeated-bytes.txt",
-            "rle.good.literal-bytes-followed-by-repeated-bytes.txt");
+            "rle.good.literal-bytes-followed-by-repeated-bytes.txt",
+            // Test data from decoder development, added here for good measure
+            "rle.good.3-literal-bytes.txt",
+            "rle.good.5-literal-bytes.txt",
+            "rle.good.foo.txt",
+            "rle.good.very-long-literal-run.txt",
+            "rle.good.very-long-repeated-run.txt");
         auto expected_data = read_file(filename_part + ".encoded");
 
         auto encoded_data = encode_file(encoder, filename_part + ".decoded");
