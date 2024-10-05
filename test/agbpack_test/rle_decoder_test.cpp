@@ -27,8 +27,8 @@ TEST_CASE("rle_decoder_test")
             "rle.good.5-literal-bytes.txt",
             "rle.good.3-repeated-bytes.txt",
             "rle.good.literal-bytes-followed-by-repeated-bytes.txt",
-            "rle.good.very-long-compressed-run.txt",
-            "rle.good.very-long-uncompressed-run.txt",
+            "rle.good.very-long-literal-run.txt",
+            "rle.good.very-long-repeated-run.txt",
             "rle.good.zero-length-file.txt",
             "rle.good.foo.txt");
         auto expected_data = read_file(filename_part + ".decoded");
@@ -43,10 +43,10 @@ TEST_CASE("rle_decoder_test")
         auto encoded_file = GENERATE(
             "rle.bad.eof-inside-header.txt.encoded",
             "rle.bad.eof-at-flag-byte.txt.encoded",
-            "rle.bad.eof-at-compressed-byte.txt.encoded",
-            "rle.bad.eof-inside-uncompressed-run.txt.encoded",
-            "rle.bad.compressed-run-goes-past-decompressed-size.txt.encoded",
-            "rle.bad.uncompressed-run-goes-past-decompressed-size.txt.encoded",
+            "rle.bad.eof-at-repeated-byte.txt.encoded",
+            "rle.bad.eof-inside-literal-run.txt.encoded",
+            "rle.bad.literal-run-goes-past-decompressed-size.txt.encoded",
+            "rle.bad.repeated-run-goes-past-decompressed-size.txt.encoded",
             "rle.bad.invalid-compression-type-in-header.txt.encoded",
             "rle.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
             "rle.bad.invalid-compression-options-in-header.txt.encoded",

@@ -19,9 +19,6 @@ TEST_CASE("rle_encoder_test")
 
     SECTION("Successful encoding")
     {
-        // TODO: clean up rle test file names (also those from the decoder test!)
-        //       * "compressed [byte(s)]" => "repeated [byte(s)]"
-        //       * uncompressed => literal
         // TODO: see what else we want to test (same as for the decoder? otoh it is also given by the test first development of the encoder)
         string filename_part = GENERATE(
             "rle.good.zero-length-file.txt",
