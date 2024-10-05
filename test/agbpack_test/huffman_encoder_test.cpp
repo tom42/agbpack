@@ -8,6 +8,10 @@ import agbpack;
 namespace agbpack_test
 {
 
+// TODO: add test: successful 8 bit encoding
+// TODO: add test: successful 4 bit encoding
+// TODO: add test: invalid options
+// TODO: add test: input data too big
 TEST_CASE("huffman_encoder_test")
 {
 }
