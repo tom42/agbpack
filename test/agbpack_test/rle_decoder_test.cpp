@@ -23,8 +23,8 @@ TEST_CASE("rle_decoder_test")
     SECTION("Valid input")
     {
         string filename_part = GENERATE(
-            "rle.good.uncompressed-bytes-only-1.txt",
-            "rle.good.uncompressed-bytes-only-2.txt",
+            "rle.good.3-literal-bytes.txt",
+            "rle.good.5-literal-bytes.txt",
             "rle.good.compressed-bytes-only.txt",
             "rle.good.literal-bytes-followed-by-repeated-bytes.txt",
             "rle.good.very-long-compressed-run.txt",
