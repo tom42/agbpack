@@ -2,21 +2,38 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <stdexcept>
+#include <string>
+#include "testdata.hpp"
 
 import agbpack;
 
 namespace agbpack_test
 {
 
-// TODO: add test: successful 8 bit encoding
+using string = std::string;
+
 // TODO: add test: successful 4 bit encoding
 // TODO: add test: input data too big
 TEST_CASE("huffman_encoder_test")
 {
     agbpack::huffman_encoder encoder;
+
+    SECTION("Successful 8 bit encoding")
+    {
+        // TODO: add necessary tests
+        string filename_part = GENERATE(
+            "huffman.good.8.0-bytes.txt");
+        auto expected_data = read_file(filename_part + ".encoded");
+
+        encoder.options(agbpack::huffman_options::h8);
+        auto encoded_data = encode_file(encoder, filename_part + ".decoded");
+
+        CHECK(encoded_data == expected_data);
+    }
 
     SECTION("Invalid options")
     {

@@ -194,6 +194,30 @@ private:
 export class huffman_encoder final
 {
 public:
+    template <std::input_iterator InputIterator, typename OutputIterator>
+    void encode(InputIterator input, InputIterator /*eof*/, OutputIterator output)
+    {
+        static_assert_input_type(input);
+
+        // TODO: as usual, need to encode stuff to temporary buffer
+        // TODO: actually encode stuff
+        //       * create histogram
+        //       * create tree/codes
+        //       * serialize tree to output
+        //       * encode data to output
+
+        // TODO: real implementation
+        // TODO: for starters we could create the header, and write the bits that copy stuff to output
+        *output++ = 0x28;
+        *output++ = 0;
+        *output++ = 0;
+        *output++ = 0;
+        *output++ = 1;
+        *output++ = 0xc0;
+        *output++ = 0;
+        *output++ = 0;
+    }
+
     void options(huffman_options options)
     {
         if (!is_valid(options))
