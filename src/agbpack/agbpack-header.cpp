@@ -36,18 +36,6 @@ bool is_valid(lzss_options options)
     return options == lzss_options::reserved;
 }
 
-bool is_valid(huffman_options options)
-{
-    switch (options)
-    {
-        case huffman_options::h4:
-        case huffman_options::h8:
-            return true;
-    }
-
-    return false;
-}
-
 bool is_valid(rle_options options)
 {
     return options == rle_options::reserved;

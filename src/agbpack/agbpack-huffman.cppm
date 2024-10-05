@@ -6,6 +6,7 @@ module;
 #include <cassert>
 #include <cstdint>
 #include <iterator>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -193,6 +194,16 @@ private:
 export class huffman_encoder final
 {
 public:
+    void options(huffman_options options)
+    {
+        if (!is_valid(options))
+        {
+            throw std::invalid_argument("invalid huffman compression options");
+        }
+
+        m_options = options;
+    }
+
 private:
     huffman_options m_options = huffman_options::h8;
 };

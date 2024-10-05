@@ -28,7 +28,7 @@ enum class lzss_options : unsigned int
     reserved = 0
 };
 
-enum class huffman_options : unsigned int
+export enum class huffman_options : unsigned int
 {
     h4 = 4,
     h8 = 8
@@ -52,6 +52,18 @@ inline bool is_valid(delta_options options)
         case delta_options::delta8:
         case delta_options::delta16:
             return true;
+    }
+
+    return false;
+}
+
+inline bool is_valid(huffman_options options)
+{
+    switch (options)
+    {
+    case huffman_options::h4:
+    case huffman_options::h8:
+        return true;
     }
 
     return false;
