@@ -11,6 +11,7 @@ add_executable(
   delta_decoder_test.cpp
   delta_encoder_test.cpp
   huffman_decoder_test.cpp
+  huffman_encoder_test.cpp
   lzss_decoder_test.cpp
   rle_encoder_test.cpp
   rle_decoder_test.cpp
