@@ -208,7 +208,7 @@ public:
 
         // TODO: real implementation
         // TODO: for starters we could create the header, and write the bits that copy stuff to output
-        *output++ = 0x28;
+        *output++ = m_options == huffman_options::h8 ? 0x28 : 0x24; // TODO: create header correctly. That is, use header::create
         *output++ = 0;
         *output++ = 0;
         *output++ = 0;

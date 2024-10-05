@@ -16,7 +16,6 @@ namespace agbpack_test
 
 using string = std::string;
 
-// TODO: add test: successful 4 bit encoding
 // TODO: add test: input data too big
 TEST_CASE("huffman_encoder_test")
 {
@@ -30,6 +29,19 @@ TEST_CASE("huffman_encoder_test")
         auto expected_data = read_file(filename_part + ".encoded");
 
         encoder.options(agbpack::huffman_options::h8);
+        auto encoded_data = encode_file(encoder, filename_part + ".decoded");
+
+        CHECK(encoded_data == expected_data);
+    }
+
+    SECTION("Successful 4 bit encoding")
+    {
+        // TODO: add necessary tests
+        string filename_part = GENERATE(
+            "huffman.good.4.0-bytes.txt");
+        auto expected_data = read_file(filename_part + ".encoded");
+
+        encoder.options(agbpack::huffman_options::h4);
         auto encoded_data = encode_file(encoder, filename_part + ".decoded");
 
         CHECK(encoded_data == expected_data);
