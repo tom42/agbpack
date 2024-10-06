@@ -23,7 +23,9 @@ TEST_CASE("huffman_encoder_test")
 
     SECTION("Successful 8 bit encoding with reference encoded data")
     {
-        // TODO: add necessary tests
+        // TODO: add necessary tests:
+        //       - 1 byte
+        //       - 2 byte
         const string filename_part = GENERATE(
             "huffman.good.8.0-bytes.txt");
         const auto expected_data = read_file(filename_part + ".encoded");
@@ -38,7 +40,8 @@ TEST_CASE("huffman_encoder_test")
     SECTION("Successful 8 bit encoding with check against decoder")
     {
         const string filename = GENERATE(
-            "huffman.good.8.0-bytes.txt.decoded");
+            "huffman.good.8.0-bytes.txt.decoded",
+            "huffman.good.histogram-test.txt.decoded");
         const auto original_data = read_file(filename);
 
         // Encode
@@ -54,7 +57,7 @@ TEST_CASE("huffman_encoder_test")
 
     SECTION("Successful 4 bit encoding with reference encoded data")
     {
-        // TODO: add necessary tests
+        // TODO: add necessary tests (see 8 bit counterpart)
         const string filename_part = GENERATE(
             "huffman.good.4.0-bytes.txt");
         const auto expected_data = read_file(filename_part + ".encoded");
