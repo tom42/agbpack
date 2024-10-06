@@ -191,6 +191,12 @@ private:
     }
 };
 
+class histogram final
+{
+public:
+private:
+};
+
 export class huffman_encoder final
 {
 public:
