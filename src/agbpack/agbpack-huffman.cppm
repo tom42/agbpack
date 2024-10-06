@@ -201,7 +201,10 @@ using symbol_frequency = uint32_t;
 class frequency_table final
 {
 public:
-    frequency_table(unsigned int symbol_size) : m_frequencies(get_nsymbols(symbol_size)) {}
+    frequency_table(unsigned int symbol_size)
+        : m_symbol_size(symbol_size)
+        , m_frequencies(get_nsymbols(symbol_size))
+    {}
 
     template <std::input_iterator InputIterator>
     std::vector<agbpack_u8> update(InputIterator input, InputIterator eof)
@@ -217,13 +220,20 @@ public:
             auto byte = reader.read8();
             data.push_back(byte);
 
-            // TODO: loop over bits and update frequency
+            // TODO: verify this works correctly for 8 bit symbols
+            // TODO: verify this works correctly for 4 bit symbols
+            for (unsigned int nbits = 0; nbits < 8; nbits += m_symbol_size)
+            {
+                // TODO: look at lower N bits of byte: this is our symbol (mask out upper bits!)
+                // TODO: shift
+            }
         }
 
         return data;
     }
 
 private:
+    unsigned int m_symbol_size;
     std::vector<symbol_frequency> m_frequencies;
 };
 
