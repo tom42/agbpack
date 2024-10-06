@@ -4,6 +4,9 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* There is a test for the RLE decoder which tests decoding through a file stream
+  * This is confusing, and what we really want is probably such a test for each encoder/decoder
+    * Just because it works with the RLE decoder doesn't automatically mean it works with all other decoders/encoders, no?
 * Encoders:
   * These use all byte_reader to read input data.
   * This is not wrong, but byte_reader.read8() throws decode_exception if eof is reached
