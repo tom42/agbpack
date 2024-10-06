@@ -277,7 +277,6 @@ private:
 class tree_node_compare final
 {
 public:
-    // TODO: can we somehow get away without shared_ptr here?
     bool operator()(std::shared_ptr<tree_node> a, std::shared_ptr<tree_node> b)
     {
         return a->frequency() > b->frequency();
