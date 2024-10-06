@@ -21,7 +21,7 @@ TEST_CASE("huffman_encoder_test")
 {
     agbpack::huffman_encoder encoder;
 
-    SECTION("Successful 8 bit encoding")
+    SECTION("Successful 8 bit encoding with reference encoded data")
     {
         // TODO: add necessary tests
         string filename_part = GENERATE(
@@ -34,7 +34,7 @@ TEST_CASE("huffman_encoder_test")
         CHECK(encoded_data == expected_data);
     }
 
-    SECTION("Successful 4 bit encoding")
+    SECTION("Successful 4 bit encoding with reference encoded data")
     {
         // TODO: add necessary tests
         string filename_part = GENERATE(
