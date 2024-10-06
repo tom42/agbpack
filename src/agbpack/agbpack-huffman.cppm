@@ -239,6 +239,17 @@ private:
     std::vector<symbol_frequency> m_frequencies;
 };
 
+// TODO: figure out what this needs:
+//       * frequency?
+//       * symbol?
+//       * Left child
+//       * Right child
+class tree_node final
+{
+public:
+private:
+};
+
 class huffman_encoder_tree final
 {
 public:
