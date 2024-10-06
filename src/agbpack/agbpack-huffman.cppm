@@ -23,6 +23,11 @@ inline unsigned int get_symbol_size(huffman_options options)
     return std::to_underlying(options);
 }
 
+inline unsigned int get_nsymbols(unsigned int symbol_size)
+{
+    return 1 << symbol_size;
+}
+
 template <std::input_iterator InputIterator>
 class bitstream_reader final
 {
@@ -196,6 +201,8 @@ using symbol_frequency = uint32_t;
 class frequency_table final
 {
 public:
+    frequency_table(unsigned int symbol_size) : m_frequencies(get_nsymbols(symbol_size)) {}
+
 private:
     std::vector<symbol_frequency> m_frequencies;
 };
@@ -209,9 +216,7 @@ public:
         static_assert_input_type(input);
 
         const unsigned int symbol_size = get_symbol_size(m_options);
-        const unsigned int nsymbols = 1 << symbol_size;
-
-        (void)nsymbols; //TODO: remove
+        frequency_table ftable(symbol_size);
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
