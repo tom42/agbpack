@@ -4,6 +4,11 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Encoders:
+  * These use all byte_reader to read input data.
+  * This is not wrong, but byte_reader.read8() throws decode_exception if eof is reached
+  * That's fine, since the encoders are written such that this cannot happen
+  * Still, it's conceptually ugly/wrong. Need to do something about this (?)
 * Overflow with files > 4GB
   * Affects byte_reader/byte_writer/unbounded_byte_writer
   * These have m_nbytes_read and m_nbytes_written variables, which are 32 bit
