@@ -203,6 +203,14 @@ class frequency_table final
 public:
     frequency_table(unsigned int symbol_size) : m_frequencies(get_nsymbols(symbol_size)) {}
 
+    template <std::input_iterator InputIterator>
+    void update(InputIterator /*input*/, InputIterator /*eof*/)
+    {
+        // TODO: iterate from input => end
+        // TODO: take symbol size into account: a single byte of input may contain more than one symbol!
+        // TODO: also return input data as return value.
+    }
+
 private:
     std::vector<symbol_frequency> m_frequencies;
 };
@@ -211,12 +219,16 @@ export class huffman_encoder final
 {
 public:
     template <std::input_iterator InputIterator, typename OutputIterator>
-    void encode(InputIterator input, InputIterator /*eof*/, OutputIterator output)
+    void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type(input);
 
         const unsigned int symbol_size = get_symbol_size(m_options);
+
+        // Create frequency table.
+        // We need to re-read the input, so we also create a buffer with the input.
         frequency_table ftable(symbol_size);
+        ftable.update(input, eof);
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
