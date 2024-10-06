@@ -259,6 +259,14 @@ public:
         , m_frequency(frequency)
     {}
 
+    // TODO: review
+    tree_node(std::shared_ptr<tree_node> left, std::shared_ptr<tree_node> right)
+        : m_symbol(0)
+        , m_frequency(left->frequency() + right->frequency())
+        , m_left(left)
+        , m_right(right)
+    {}
+
     symbol sym() const { return m_symbol; }
 
     symbol_frequency frequency() const { return m_frequency; }
