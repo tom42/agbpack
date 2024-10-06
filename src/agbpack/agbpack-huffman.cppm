@@ -191,10 +191,13 @@ private:
     }
 };
 
+using symbol_frequency = uint32_t;
+
 class frequency_table final
 {
 public:
 private:
+    std::vector<symbol_frequency> m_frequencies;
 };
 
 export class huffman_encoder final
