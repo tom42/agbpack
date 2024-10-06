@@ -277,9 +277,9 @@ public:
         //       * Classic: create a bunch of nodes on some sort of heap/queue. Note: C++ has a priority queue
         //       * Do as in The Data Compression Book (not sure this is really better)
         std::priority_queue<std::unique_ptr<tree_node>> meh; // TODO: name. Just experimenting: can we create one?
-        meh.push(std::make_unique<tree_node>());
-        meh.push(std::make_unique<tree_node>());
-        meh.push(std::make_unique<tree_node>());
+        meh.push(std::make_unique<tree_node>('a', 23));
+        meh.push(std::make_unique<tree_node>('b', 11));
+        meh.push(std::make_unique<tree_node>('c', 13));
     }
 private:
 };
