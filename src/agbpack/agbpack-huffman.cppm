@@ -204,11 +204,23 @@ public:
     frequency_table(unsigned int symbol_size) : m_frequencies(get_nsymbols(symbol_size)) {}
 
     template <std::input_iterator InputIterator>
-    void update(InputIterator /*input*/, InputIterator /*eof*/)
+    void update(InputIterator input, InputIterator eof)
     {
         // TODO: iterate from input => end
         // TODO: take symbol size into account: a single byte of input may contain more than one symbol!
         // TODO: also return input data as return value.
+        std::vector<agbpack_u8> data;
+
+        byte_reader reader(input, eof); // TODO: clang++ is not gonna like this, no?
+        while (!reader.eof())
+        {
+            auto byte = reader.read8();
+            data.push_back(byte);
+
+            // TODO: loop over bits and update frequency
+        }
+
+        // TODO: also return data
     }
 
 private:
@@ -232,8 +244,7 @@ public:
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
-        //       * create histogram
-        //       * create tree/codes
+        //       * create tree/codes from frequency table
         //       * serialize tree to output
         //       * encode data to output
 
