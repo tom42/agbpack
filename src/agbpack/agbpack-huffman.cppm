@@ -239,6 +239,18 @@ private:
     std::vector<symbol_frequency> m_frequencies;
 };
 
+class huffman_encoder_tree final
+{
+public:
+    explicit huffman_encoder_tree(unsigned int /*symbol_size*/, const frequency_table& /*ftable*/)
+    {
+        // TODO: create tree: decision: what algorithm to use?
+        //       * Classic: create a bunch of nodes on some sort of heap/queue. Note: C++ has a priority queue
+        //       * Do as in The Data Compression Book (not sure this is really better)
+    }
+private:
+};
+
 export class huffman_encoder final
 {
 public:
@@ -253,6 +265,8 @@ public:
         // We need to re-read the input during encoding, so we also create a buffer with the input.
         frequency_table ftable(symbol_size);
         ftable.update(input, eof);
+
+        huffman_encoder_tree tree(symbol_size, ftable);
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
