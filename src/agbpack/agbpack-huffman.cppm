@@ -6,6 +6,8 @@ module;
 #include <cassert>
 #include <cstdint>
 #include <iterator>
+#include <memory>
+#include <queue>
 #include <stdexcept>
 #include <utility>
 #include <vector>
@@ -258,6 +260,7 @@ public:
         // TODO: create tree: decision: what algorithm to use?
         //       * Classic: create a bunch of nodes on some sort of heap/queue. Note: C++ has a priority queue
         //       * Do as in The Data Compression Book (not sure this is really better)
+        std::priority_queue<std::unique_ptr<tree_node>> meh; // TODO: name. Just experimenting: can we create one?
     }
 private:
 };
