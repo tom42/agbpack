@@ -19,7 +19,7 @@ TEST_CASE("huffman_decoder_test")
 
     SECTION("Valid input")
     {
-        string filename_part = GENERATE(
+        const string filename_part = GENERATE(
             // Notes on test files:
             // * Files consisting of a single byte of input have been created using GValiente's gba-huff.h,
             //   which doesn't seem to be available on github anymore.
@@ -40,16 +40,16 @@ TEST_CASE("huffman_decoder_test")
             "huffman.good.4.2-bytes.txt",
             "huffman.good.4.3-bytes.txt",
             "huffman.good.4.256-bytes.bin");
-        auto expected_data = read_file(filename_part + ".decoded");
+        const auto expected_data = read_file(filename_part + ".decoded");
 
-        auto decoded_data = decode_file(decoder, filename_part + ".encoded");
+        const auto decoded_data = decode_file(decoder, filename_part + ".encoded");
 
         CHECK(decoded_data == expected_data);
     }
 
     SECTION("Invalid input")
     {
-        auto encoded_file = GENERATE(
+        const auto encoded_file = GENERATE(
             "huffman.bad.eof-inside-header.txt.encoded",
             "huffman.bad.eof-at-tree-size.txt.encoded",
             "huffman.bad.eof-inside-tree.txt.encoded",

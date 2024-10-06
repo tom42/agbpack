@@ -58,7 +58,7 @@ TEST_CASE("lzss_decoder_test")
 
     SECTION("Valid input")
     {
-        string filename_part = GENERATE(
+        const string filename_part = GENERATE(
             "lzss.good.1-literal.txt",
             "lzss.good.8-literals.txt",
             "lzss.good.17-literals.txt",
@@ -70,7 +70,7 @@ TEST_CASE("lzss_decoder_test")
             "lzss.good.reference-with-minimum-match-length.txt",
             "lzss.good.reference-with-maximum-match-length.txt",
             "lzss.good.literals-and-references.txt");
-        auto expected_data = read_file(filename_part + ".decoded");
+        const auto expected_data = read_file(filename_part + ".decoded");
 
         CHECK(decode_file(decoder, filename_part + ".encoded") == expected_data);
         CHECK(decode_file_to_random_access_iterator(decoder, filename_part + ".encoded") == expected_data);
@@ -78,7 +78,7 @@ TEST_CASE("lzss_decoder_test")
 
     SECTION("Invalid input")
     {
-        auto encoded_file = GENERATE(
+        const auto encoded_file = GENERATE(
             "lzss.bad.eof-inside-header.txt.encoded",
             "lzss.bad.eof-at-flag-byte.txt.encoded",
             "lzss.bad.eof-at-reference-byte-1.txt.encoded",

@@ -22,7 +22,7 @@ TEST_CASE("rle_decoder_test")
 
     SECTION("Valid input")
     {
-        string filename_part = GENERATE(
+        const string filename_part = GENERATE(
             "rle.good.3-literal-bytes.txt",
             "rle.good.5-literal-bytes.txt",
             "rle.good.3-repeated-bytes.txt",
@@ -31,16 +31,16 @@ TEST_CASE("rle_decoder_test")
             "rle.good.very-long-repeated-run.txt",
             "rle.good.zero-length-file.txt",
             "rle.good.foo.txt");
-        auto expected_data = read_file(filename_part + ".decoded");
+        const auto expected_data = read_file(filename_part + ".decoded");
 
-        auto decoded_data = decode_file(decoder, filename_part + ".encoded");
+        const auto decoded_data = decode_file(decoder, filename_part + ".encoded");
 
         CHECK(decoded_data == expected_data);
     }
 
     SECTION("Invalid input")
     {
-        auto encoded_file = GENERATE(
+        const auto encoded_file = GENERATE(
             "rle.bad.eof-inside-header.txt.encoded",
             "rle.bad.eof-at-flag-byte.txt.encoded",
             "rle.bad.eof-at-repeated-byte.txt.encoded",
@@ -57,7 +57,7 @@ TEST_CASE("rle_decoder_test")
 
     SECTION("Input from ifstream")
     {
-        auto path = get_testfile_path("rle.good.foo.txt.encoded");
+        const auto path = get_testfile_path("rle.good.foo.txt.encoded");
         auto file = open_binary_file(path);
         vector<unsigned char> decoded_data;
 

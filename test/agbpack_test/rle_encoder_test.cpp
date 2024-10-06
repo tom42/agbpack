@@ -19,7 +19,7 @@ TEST_CASE("rle_encoder_test")
 
     SECTION("Successful encoding")
     {
-        string filename_part = GENERATE(
+        const string filename_part = GENERATE(
             // Test data designed for encoder development
             "rle.good.zero-length-file.txt",
             "rle.good.1-literal-byte.txt",
@@ -37,9 +37,9 @@ TEST_CASE("rle_encoder_test")
             "rle.good.foo.txt",
             "rle.good.very-long-literal-run.txt",
             "rle.good.very-long-repeated-run.txt");
-        auto expected_data = read_file(filename_part + ".encoded");
+        const auto expected_data = read_file(filename_part + ".encoded");
 
-        auto encoded_data = encode_file(encoder, filename_part + ".decoded");
+        const auto encoded_data = encode_file(encoder, filename_part + ".decoded");
 
         CHECK(encoded_data == expected_data);
     }

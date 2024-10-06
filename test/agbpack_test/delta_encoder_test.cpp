@@ -22,14 +22,14 @@ TEST_CASE("delta_encoder_test")
 
     SECTION("Successful 8 bit encoding")
     {
-        string filename_part = GENERATE(
+        const string filename_part = GENERATE(
             "delta.good.8.zero-length-file.txt",
             "delta.good.8.one-byte.txt",
             "delta.good.8.sine.bin");
-        auto expected_data = read_file(filename_part + ".encoded");
+        const auto expected_data = read_file(filename_part + ".encoded");
 
         encoder.options(agbpack::delta_options::delta8);
-        auto encoded_data = encode_file(encoder, filename_part + ".decoded");
+        const auto encoded_data = encode_file(encoder, filename_part + ".decoded");
 
         CHECK(encoded_data == expected_data);
     }
@@ -37,14 +37,14 @@ TEST_CASE("delta_encoder_test")
     SECTION("Successful 16 bit encoding")
     {
         // TODO: what if input is an odd number of bytes? => Well that's an error, innit? What do other encoders do in that case?
-        string filename_part = GENERATE(
+        const string filename_part = GENERATE(
             "delta.good.16.zero-length-file.txt",
             "delta.good.16.one-word.bin",
             "delta.good.16.sine.bin");
-        auto expected_data = read_file(filename_part + ".encoded");
+        const auto expected_data = read_file(filename_part + ".encoded");
 
         encoder.options(agbpack::delta_options::delta16);
-        auto encoded_data = encode_file(encoder, filename_part + ".decoded");
+        const auto encoded_data = encode_file(encoder, filename_part + ".decoded");
 
         CHECK(encoded_data == expected_data);
     }
@@ -59,7 +59,7 @@ TEST_CASE("delta_encoder_test")
 
     SECTION("Input data too big")
     {
-        std::vector<unsigned char> input(agbpack::maximum_uncompressed_size + 1);
+        const std::vector<unsigned char> input(agbpack::maximum_uncompressed_size + 1);
 
         CHECK_THROWS_AS(encode_vector(encoder, input), agbpack::encode_exception);
     }

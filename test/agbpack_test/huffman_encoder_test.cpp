@@ -24,21 +24,20 @@ TEST_CASE("huffman_encoder_test")
     SECTION("Successful 8 bit encoding with reference encoded data")
     {
         // TODO: add necessary tests
-        string filename_part = GENERATE(
+        const string filename_part = GENERATE(
             "huffman.good.8.0-bytes.txt");
-        auto expected_data = read_file(filename_part + ".encoded");
+        const auto expected_data = read_file(filename_part + ".encoded");
 
         encoder.options(agbpack::huffman_options::h8);
-        auto encoded_data = encode_file(encoder, filename_part + ".decoded");
+        const auto encoded_data = encode_file(encoder, filename_part + ".decoded");
 
         CHECK(encoded_data == expected_data);
     }
 
-    // TODO: all tests (all encoders/decoders): declare vectors as const to prevent accidental modification?
     // TODO: have similar test for 4 bit
     SECTION("TODO: better section name (8 bit)")
     {
-        string filename = GENERATE(
+        const string filename = GENERATE(
             "huffman.good.8.0-bytes.txt.decoded");
         const auto original_data = read_file(filename);
 
@@ -56,12 +55,12 @@ TEST_CASE("huffman_encoder_test")
     SECTION("Successful 4 bit encoding with reference encoded data")
     {
         // TODO: add necessary tests
-        string filename_part = GENERATE(
+        const string filename_part = GENERATE(
             "huffman.good.4.0-bytes.txt");
-        auto expected_data = read_file(filename_part + ".encoded");
+        const auto expected_data = read_file(filename_part + ".encoded");
 
         encoder.options(agbpack::huffman_options::h4);
-        auto encoded_data = encode_file(encoder, filename_part + ".decoded");
+        const auto encoded_data = encode_file(encoder, filename_part + ".decoded");
 
         CHECK(encoded_data == expected_data);
     }

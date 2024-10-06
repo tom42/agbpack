@@ -19,23 +19,23 @@ TEST_CASE("delta_decoder_test")
 
     SECTION("Valid input")
     {
-        string filename_part = GENERATE(
+        const string filename_part = GENERATE(
             "delta.good.8.zero-length-file.txt",
             "delta.good.8.one-byte.txt",
             "delta.good.8.sine.bin",
             "delta.good.16.zero-length-file.txt",
             "delta.good.16.one-word.bin",
             "delta.good.16.sine.bin");
-        auto expected_data = read_file(filename_part + ".decoded");
+        const auto expected_data = read_file(filename_part + ".decoded");
 
-        auto decoded_data = decode_file(decoder, filename_part + ".encoded");
+        const auto decoded_data = decode_file(decoder, filename_part + ".encoded");
 
         CHECK(decoded_data == expected_data);
     }
 
     SECTION("Invalid input")
     {
-        auto encoded_file = GENERATE(
+        const auto encoded_file = GENERATE(
             "delta.bad.eof-inside-header.txt.encoded",
             "delta.bad.invalid-compression-type-in-header.txt.encoded",
             "delta.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
