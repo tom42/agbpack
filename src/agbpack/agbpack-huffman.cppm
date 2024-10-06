@@ -66,10 +66,10 @@ private:
 };
 
 template <std::input_iterator InputIterator>
-class huffman_tree final
+class huffman_decoder_tree final
 {
 public:
-    explicit huffman_tree(unsigned int symbol_size, byte_reader<InputIterator>& reader)
+    explicit huffman_decoder_tree(unsigned int symbol_size, byte_reader<InputIterator>& reader)
         : m_symbol_max_value((1 << symbol_size) - 1u)
     {
         read_tree(reader);
@@ -167,7 +167,7 @@ public:
         }
 
         const unsigned int symbol_size = get_symbol_size(header->template options_as<huffman_options>());
-        huffman_tree<InputIterator> tree(symbol_size, reader);
+        huffman_decoder_tree<InputIterator> tree(symbol_size, reader);
 
         throw_if_bitstream_is_misaligned(reader);
 
