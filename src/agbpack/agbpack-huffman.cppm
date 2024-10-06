@@ -224,8 +224,10 @@ public:
             // TODO: verify this works correctly for 4 bit symbols
             for (unsigned int nbits = 0; nbits < 8; nbits += m_symbol_size)
             {
-                // TODO: look at lower N bits of byte: this is our symbol (mask out upper bits!)
-                // TODO: shift
+                auto symbol_mask = 255; // TODO: unhardcode: this is NOT correct for 4 bit symbols
+                auto symbol = byte & symbol_mask;
+                ++m_frequencies[symbol];
+                byte >>= m_symbol_size;
             }
         }
 
