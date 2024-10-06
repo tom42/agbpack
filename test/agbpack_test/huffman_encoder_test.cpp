@@ -34,16 +34,23 @@ TEST_CASE("huffman_encoder_test")
         CHECK(encoded_data == expected_data);
     }
 
+    // TODO: all tests (all encoders/decoders): declare vectors as const to prevent accidental modification?
     // TODO: have similar test for 4 bit
     SECTION("TODO: better section name (8 bit)")
     {
-        // TODO: read original file
+        string filename = GENERATE(
+            "huffman.good.8.0-bytes.txt.decoded");
+        const auto original_data = read_file(filename);
 
-        // TODO: encode original file => encoded_data
+        // Encode
+        encoder.options(agbpack::huffman_options::h8);
+        const auto encoded_data = encode_vector(encoder, original_data);
 
-        // TODO: decode encoded_data => decoded_data
+        // Decode
+        agbpack::huffman_decoder decoder;
+        const auto decoded_data = decode_vector(decoder, encoded_data);
 
-        // TODO: compare: original_data == decoded_data
+        CHECK(decoded_data == original_data);
     }
 
     SECTION("Successful 4 bit encoding with reference encoded data")
