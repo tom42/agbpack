@@ -41,7 +41,7 @@ TEST_CASE("huffman_encoder_test")
     {
         const string filename = GENERATE(
             "huffman.good.8.0-bytes.txt.decoded",
-            "huffman.good.histogram-test.txt.decoded");
+            "huffman.good.frequency-table-test.txt.decoded");
         const auto original_data = read_file(filename);
 
         // Encode
