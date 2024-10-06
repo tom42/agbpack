@@ -265,6 +265,8 @@ public:
 
     symbol sym() const { return m_symbol; }
 
+    symbol_frequency frequency() const { return m_frequency; }
+
 private:
     symbol m_symbol;
     symbol_frequency m_frequency;
