@@ -211,7 +211,7 @@ public:
         // TODO: also return input data as return value.
         std::vector<agbpack_u8> data;
 
-        byte_reader reader(input, eof); // TODO: clang++ is not gonna like this, no?
+        byte_reader<InputIterator> reader(input, eof);
         while (!reader.eof())
         {
             auto byte = reader.read8();
