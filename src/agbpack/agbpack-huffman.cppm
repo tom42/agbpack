@@ -18,9 +18,9 @@ import :header;
 namespace agbpack
 {
 
-inline unsigned int get_symbol_size(header h)
+inline unsigned int get_symbol_size(huffman_options options)
 {
-    return std::to_underlying(h.options_as<huffman_options>());
+    return std::to_underlying(options);
 }
 
 template <std::input_iterator InputIterator>
@@ -156,7 +156,7 @@ public:
             throw decode_exception();
         }
 
-        const unsigned int symbol_size = get_symbol_size(*header);
+        const unsigned int symbol_size = get_symbol_size(header->options_as<huffman_options>());
         huffman_tree<InputIterator> tree(symbol_size, reader);
 
         throw_if_bitstream_is_misaligned(reader);
