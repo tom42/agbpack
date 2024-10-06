@@ -272,6 +272,17 @@ private:
     std::shared_ptr<tree_node> m_right;
 };
 
+class tree_node_compare final
+{
+public:
+    // TODO: can we somehow get away without shared_ptr here?
+    bool operator()(std::shared_ptr<tree_node>, std::shared_ptr<tree_node>)
+    {
+        // TODO: real comparison
+        return false;
+    }
+};
+
 class huffman_encoder_tree final
 {
 public:
@@ -280,7 +291,10 @@ public:
         // TODO: create tree: decision: what algorithm to use?
         //       * Classic: create a bunch of nodes on some sort of heap/queue. Note: C++ has a priority queue
         //       * Do as in The Data Compression Book (not sure this is really better)
-        std::priority_queue<std::shared_ptr<tree_node>> meh; // TODO: name. Just experimenting: can we create one?
+        std::priority_queue< // TODO: using alias for this monstrosity
+            std::shared_ptr<tree_node>,
+            std::vector<std::shared_ptr<tree_node>>,
+            tree_node_compare> meh; // TODO: name. Just experimenting: can we create one?
         meh.push(std::make_shared<tree_node>('a', 23));
         meh.push(std::make_shared<tree_node>('b', 11));
         meh.push(std::make_shared<tree_node>('c', 13));
