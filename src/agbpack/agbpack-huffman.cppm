@@ -249,6 +249,7 @@ private:
 //       * Right child
 // TODO: forbid copying of this class?
 // TODO: how do we easily tell leaf nodes from non-leaf nodes? Invalid symbol value or dedicated flag?
+// TODO: document why shared_ptr and not unique_ptr?
 class tree_node final
 {
 public:
@@ -264,8 +265,8 @@ public:
 private:
     symbol m_symbol;
     symbol_frequency m_frequency;
-    std::unique_ptr<tree_node> m_left;
-    std::unique_ptr<tree_node> m_right;
+    std::shared_ptr<tree_node> m_left;
+    std::shared_ptr<tree_node> m_right;
 };
 
 class huffman_encoder_tree final
@@ -276,10 +277,14 @@ public:
         // TODO: create tree: decision: what algorithm to use?
         //       * Classic: create a bunch of nodes on some sort of heap/queue. Note: C++ has a priority queue
         //       * Do as in The Data Compression Book (not sure this is really better)
-        std::priority_queue<std::unique_ptr<tree_node>> meh; // TODO: name. Just experimenting: can we create one?
-        meh.push(std::make_unique<tree_node>('a', 23));
-        meh.push(std::make_unique<tree_node>('b', 11));
-        meh.push(std::make_unique<tree_node>('c', 13));
+        std::priority_queue<std::shared_ptr<tree_node>> meh; // TODO: name. Just experimenting: can we create one?
+        meh.push(std::make_shared<tree_node>('a', 23));
+        meh.push(std::make_shared<tree_node>('b', 11));
+        meh.push(std::make_shared<tree_node>('c', 13));
+
+        while (meh.size())
+        {
+        }
     }
 private:
 };
