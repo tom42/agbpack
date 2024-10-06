@@ -35,7 +35,7 @@ TEST_CASE("huffman_encoder_test")
     }
 
     // TODO: have similar test for 4 bit
-    SECTION("TODO: better section name (8 bit)")
+    SECTION("Successful 8 bit encoding with check against decoder")
     {
         const string filename = GENERATE(
             "huffman.good.8.0-bytes.txt.decoded");
