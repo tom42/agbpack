@@ -250,7 +250,7 @@ public:
         const unsigned int symbol_size = get_symbol_size(m_options);
 
         // Create frequency table.
-        // We need to re-read the input, so we also create a buffer with the input.
+        // We need to re-read the input during encoding, so we also create a buffer with the input.
         frequency_table ftable(symbol_size);
         ftable.update(input, eof);
 
