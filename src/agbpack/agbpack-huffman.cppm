@@ -278,10 +278,9 @@ class tree_node_compare final
 {
 public:
     // TODO: can we somehow get away without shared_ptr here?
-    bool operator()(std::shared_ptr<tree_node>, std::shared_ptr<tree_node>)
+    bool operator()(std::shared_ptr<tree_node> a, std::shared_ptr<tree_node> b)
     {
-        // TODO: real comparison
-        return false;
+        return a->frequency() > b->frequency();
     }
 };
 
@@ -301,10 +300,11 @@ public:
         meh.push(std::make_shared<tree_node>('b', 11));
         meh.push(std::make_shared<tree_node>('c', 13));
 
+        // TODO: test code, remove
         std::cout << "----------\n";
         while (meh.size())
         {
-            std::cout << meh.top()->sym() << "\n";
+            std::cout << meh.top()->sym() << ": " << meh.top()->frequency() << "\n";
             meh.pop();
         }
     }
