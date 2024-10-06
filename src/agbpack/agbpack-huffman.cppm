@@ -204,7 +204,7 @@ public:
     frequency_table(unsigned int symbol_size) : m_frequencies(get_nsymbols(symbol_size)) {}
 
     template <std::input_iterator InputIterator>
-    void update(InputIterator input, InputIterator eof)
+    std::vector<agbpack_u8> update(InputIterator input, InputIterator eof)
     {
         // TODO: iterate from input => end
         // TODO: take symbol size into account: a single byte of input may contain more than one symbol!
@@ -220,7 +220,7 @@ public:
             // TODO: loop over bits and update frequency
         }
 
-        // TODO: also return data
+        return data;
     }
 
 private:
