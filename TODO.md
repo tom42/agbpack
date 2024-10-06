@@ -22,10 +22,6 @@ SPDX-License-Identifier: MIT
     * But what about windows?
   * Get gcc build running => Works, but need a more recent g++ on github (14.2 seems to work locally)
   * Enable fail-fast (in the yml file)
-* The interface for encoding and decoding is virtually the same
-  * Should we give this a generic name?
-    * process()
-    * Function call operator
 * This is somewhat unexpected:
   * A test (huffman-bitstream-alignment) indicates that the GBA BIOS does not decode data correctly
     when the uncompressed data is an odd number of bytes (not sure whether it needs to be a multiple of 2 or 4)
