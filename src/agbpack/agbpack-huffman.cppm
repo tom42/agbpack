@@ -199,6 +199,11 @@ public:
     {
         static_assert_input_type(input);
 
+        const unsigned int symbol_size = get_symbol_size(m_options);
+        const unsigned int nsymbols = 1 << symbol_size;
+
+        (void)nsymbols; //TODO: remove
+
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
         //       * create histogram
