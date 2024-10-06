@@ -203,6 +203,7 @@ private:
     }
 };
 
+using symbol = agbpack_u8;
 using symbol_frequency = uint32_t;
 
 class frequency_table final
@@ -246,10 +247,16 @@ private:
 //       * symbol?
 //       * Left child
 //       * Right child
+// TODO: forbid copying of this class?
+// TODO: how do we easily tell leaf nodes from non-leaf nodes? Invalid symbol value or dedicated flag?
 class tree_node final
 {
 public:
 private:
+    symbol m_symbol;
+    symbol_frequency m_frequency;
+    std::unique_ptr<tree_node> m_left;
+    std::unique_ptr<tree_node> m_right;
 };
 
 class huffman_encoder_tree final
