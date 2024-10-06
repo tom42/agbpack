@@ -263,6 +263,8 @@ public:
         (void)m_frequency;
     }
 
+    symbol sym() const { return m_symbol; }
+
 private:
     symbol m_symbol;
     symbol_frequency m_frequency;
@@ -283,9 +285,10 @@ public:
         meh.push(std::make_shared<tree_node>('b', 11));
         meh.push(std::make_shared<tree_node>('c', 13));
 
+        std::cout << "----------\n";
         while (meh.size())
         {
-            std::cout << meh.top() << "\n";
+            std::cout << meh.top()->sym() << "\n";
             meh.pop();
         }
     }
