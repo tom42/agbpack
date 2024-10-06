@@ -161,7 +161,7 @@ public:
             throw decode_exception();
         }
 
-        const unsigned int symbol_size = get_symbol_size(header->options_as<huffman_options>());
+        const unsigned int symbol_size = get_symbol_size(header->template options_as<huffman_options>());
         huffman_tree<InputIterator> tree(symbol_size, reader);
 
         throw_if_bitstream_is_misaligned(reader);
