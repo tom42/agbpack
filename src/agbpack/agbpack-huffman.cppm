@@ -223,8 +223,6 @@ public:
             auto byte = reader.read8();
             data.push_back(byte);
 
-            // TODO: verify this works correctly for 8 bit symbols
-            // TODO: verify this works correctly for 4 bit symbols
             for (unsigned int nbits = 0; nbits < 8; nbits += m_symbol_size)
             {
                 auto symbol = byte & symbol_mask;
