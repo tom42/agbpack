@@ -252,6 +252,15 @@ private:
 class tree_node final
 {
 public:
+    tree_node(symbol symbol, symbol_frequency frequency)
+        : m_symbol(symbol)
+        , m_frequency(frequency)
+    {
+        // TODO: remove suppressions (2x)
+        (void)m_symbol;
+        (void)m_frequency;
+    }
+
 private:
     symbol m_symbol;
     symbol_frequency m_frequency;
