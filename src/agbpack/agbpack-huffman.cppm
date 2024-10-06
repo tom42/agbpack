@@ -5,6 +5,7 @@ module;
 
 #include <cassert>
 #include <cstdint>
+#include <iostream> // TODO: remove
 #include <iterator>
 #include <memory>
 #include <queue>
@@ -284,6 +285,8 @@ public:
 
         while (meh.size())
         {
+            std::cout << meh.top() << "\n";
+            meh.pop();
         }
     }
 private:
