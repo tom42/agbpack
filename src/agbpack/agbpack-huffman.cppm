@@ -206,7 +206,7 @@ using symbol_frequency = uint32_t;
 class frequency_table final
 {
 public:
-    frequency_table(unsigned int symbol_size)
+    explicit frequency_table(unsigned int symbol_size)
         : m_symbol_size(symbol_size)
         , m_frequencies(get_nsymbols(symbol_size))
     {}
