@@ -34,6 +34,18 @@ TEST_CASE("huffman_encoder_test")
         CHECK(encoded_data == expected_data);
     }
 
+    // TODO: have similar test for 4 bit
+    SECTION("TODO: better section name (8 bit)")
+    {
+        // TODO: read original file
+
+        // TODO: encode original file => encoded_data
+
+        // TODO: decode encoded_data => decoded_data
+
+        // TODO: compare: original_data == decoded_data
+    }
+
     SECTION("Successful 4 bit encoding with reference encoded data")
     {
         // TODO: add necessary tests
