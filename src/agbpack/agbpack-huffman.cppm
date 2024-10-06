@@ -209,9 +209,6 @@ public:
     template <std::input_iterator InputIterator>
     std::vector<agbpack_u8> update(InputIterator input, InputIterator eof)
     {
-        // TODO: iterate from input => end
-        // TODO: take symbol size into account: a single byte of input may contain more than one symbol!
-        // TODO: also return input data as return value.
         std::vector<agbpack_u8> data;
 
         byte_reader<InputIterator> reader(input, eof);
