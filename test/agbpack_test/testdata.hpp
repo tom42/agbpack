@@ -18,10 +18,10 @@ std::ifstream open_binary_file(const std::string& path);
 
 std::string get_testfile_path(const std::string& basename);
 
-const std::vector<unsigned char> read_file(const std::string& basename);
+std::vector<unsigned char> read_file(const std::string& basename);
 
 template <typename TDecoder>
-const std::vector<unsigned char> decode_vector(TDecoder& decoder, const std::vector<unsigned char>& input)
+std::vector<unsigned char> decode_vector(TDecoder& decoder, const std::vector<unsigned char>& input)
 {
     std::vector<unsigned char> output;
     decoder.decode(input.begin(), input.end(), back_inserter(output));
@@ -29,13 +29,13 @@ const std::vector<unsigned char> decode_vector(TDecoder& decoder, const std::vec
 }
 
 template <typename TDecoder>
-const std::vector<unsigned char> decode_file(TDecoder& decoder, const std::string& basename)
+std::vector<unsigned char> decode_file(TDecoder& decoder, const std::string& basename)
 {
     return decode_vector(decoder, read_file(basename));
 }
 
 template <typename TEncoder>
-const std::vector<unsigned char> encode_vector(TEncoder& encoder, const std::vector<unsigned char>& input)
+std::vector<unsigned char> encode_vector(TEncoder& encoder, const std::vector<unsigned char>& input)
 {
     std::vector<unsigned char> output;
     encoder.encode(input.begin(), input.end(), back_inserter(output));
@@ -43,7 +43,7 @@ const std::vector<unsigned char> encode_vector(TEncoder& encoder, const std::vec
 }
 
 template <typename TEncoder>
-const std::vector<unsigned char> encode_file(TEncoder& encoder, const std::string& basename)
+std::vector<unsigned char> encode_file(TEncoder& encoder, const std::string& basename)
 {
     return encode_vector(encoder, read_file(basename));
 }
