@@ -28,6 +28,11 @@ inline unsigned int get_nsymbols(unsigned int symbol_size)
     return 1 << symbol_size;
 }
 
+inline unsigned int get_symbol_mask(unsigned int symbol_size)
+{
+    return get_nsymbols(symbol_size) - 1;
+}
+
 template <std::input_iterator InputIterator>
 class bitstream_reader final
 {
@@ -210,8 +215,9 @@ public:
     std::vector<agbpack_u8> update(InputIterator input, InputIterator eof)
     {
         std::vector<agbpack_u8> data;
-
         byte_reader<InputIterator> reader(input, eof);
+        auto symbol_mask = get_symbol_mask(m_symbol_size);
+
         while (!reader.eof())
         {
             auto byte = reader.read8();
@@ -221,7 +227,6 @@ public:
             // TODO: verify this works correctly for 4 bit symbols
             for (unsigned int nbits = 0; nbits < 8; nbits += m_symbol_size)
             {
-                auto symbol_mask = 255; // TODO: unhardcode: this is NOT correct for 4 bit symbols
                 auto symbol = byte & symbol_mask;
                 ++m_frequencies[symbol];
                 byte >>= m_symbol_size;
