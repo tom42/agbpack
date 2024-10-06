@@ -191,7 +191,7 @@ private:
     }
 };
 
-class histogram final
+class frequency_table final
 {
 public:
 private:
