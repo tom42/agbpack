@@ -36,7 +36,19 @@ TEST_CASE("huffman_encoder_test")
         CHECK(encoded_data == expected_data);
     }
 
-    // TODO: have similar test for 4 bit
+    SECTION("Successful 4 bit encoding with reference encoded data")
+    {
+        // TODO: add necessary tests (see 8 bit counterpart)
+        const string filename_part = GENERATE(
+            "huffman.good.4.0-bytes.txt");
+        const auto expected_data = read_file(filename_part + ".encoded");
+
+        encoder.options(agbpack::huffman_options::h4);
+        const auto encoded_data = encode_file(encoder, filename_part + ".decoded");
+
+        CHECK(encoded_data == expected_data);
+    }
+
     SECTION("Successful 8 bit encoding with check against decoder")
     {
         const string filename = GENERATE(
@@ -55,17 +67,22 @@ TEST_CASE("huffman_encoder_test")
         CHECK(decoded_data == original_data);
     }
 
-    SECTION("Successful 4 bit encoding with reference encoded data")
+    SECTION("Successful 4 bit encoding with check against decoder")
     {
-        // TODO: add necessary tests (see 8 bit counterpart)
-        const string filename_part = GENERATE(
-            "huffman.good.4.0-bytes.txt");
-        const auto expected_data = read_file(filename_part + ".encoded");
+        const string filename = GENERATE(
+            "huffman.good.4.0-bytes.txt.decoded",
+            "huffman.good.frequency-table-test.txt.decoded");
+        const auto original_data = read_file(filename);
 
+        // Encode
         encoder.options(agbpack::huffman_options::h4);
-        const auto encoded_data = encode_file(encoder, filename_part + ".decoded");
+        const auto encoded_data = encode_vector(encoder, original_data);
 
-        CHECK(encoded_data == expected_data);
+        // Decode
+        agbpack::huffman_decoder decoder;
+        const auto decoded_data = decode_vector(decoder, encoded_data);
+
+        CHECK(decoded_data == original_data);
     }
 
     SECTION("Invalid options")
