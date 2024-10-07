@@ -5,7 +5,6 @@ module;
 
 #include <cassert>
 #include <cstdint>
-#include <iostream> // TODO: remove
 #include <iterator>
 #include <memory>
 #include <queue>
@@ -298,23 +297,7 @@ class huffman_encoder_tree final
 public:
     explicit huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
         : m_root(build_tree(symbol_size, ftable))
-    {
-        // TODO: create tree: decision: what algorithm to use?
-        //       * Classic: create a bunch of nodes on some sort of heap/queue. Note: C++ has a priority queue
-        //       * Do as in The Data Compression Book (not sure this is really better)
-        /*
-        meh.push(std::make_shared<tree_node>('a', 23));
-        meh.push(std::make_shared<tree_node>('b', 11));
-        meh.push(std::make_shared<tree_node>('c', 13));
-
-        // TODO: test code, remove
-        std::cout << "----------\n";
-        while (meh.size())
-        {
-            std::cout << meh.top()->sym() << ": " << meh.top()->frequency() << "\n";
-            meh.pop();
-        }*/
-    }
+    {}
 
 private:
     using node_queue = std::priority_queue<
