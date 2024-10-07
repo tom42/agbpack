@@ -322,7 +322,7 @@ private:
         std::vector<std::shared_ptr<tree_node>>,
         tree_node_compare>;
 
-    std::unique_ptr<tree_node> build_tree(unsigned int symbol_size, const frequency_table& ftable)
+    std::shared_ptr<tree_node> build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
         node_queue nodes;
 
@@ -333,7 +333,7 @@ private:
             symbol_frequency f = ftable.frequency(symbol);
             if (f > 0)
             {
-                nodes.push(std::make_unique<tree_node>(symbol, f));
+                nodes.push(std::make_shared<tree_node>(symbol, f));
             }
         }
 
@@ -348,13 +348,15 @@ private:
             nodes.pop();
             auto right = nodes.top();
             nodes.pop();
-            nodes.push(std::make_unique<tree_node>(left, right));
+            nodes.push(std::make_shared<tree_node>(left, right));
         }
 
-        return nullptr;
+        // TODO: assert that nodes.size is exactly 1
+        auto root = nodes.top();
+        return root;
     }
 
-    std::unique_ptr<tree_node> m_root;
+    std::shared_ptr<tree_node> m_root;
 };
 
 export class huffman_encoder final
