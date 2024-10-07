@@ -204,7 +204,7 @@ private:
     }
 };
 
-using symbol = agbpack_u8;
+using symbol = unsigned int; // TODO: this should not be agbpack_u8. Document this / write test that would figure out?
 using symbol_frequency = uint32_t;
 
 class frequency_table final
@@ -328,7 +328,7 @@ private:
 
         // Create a leaf node for each symbol whose frequency is > 0
         auto nsymbols = get_nsymbols(symbol_size);
-        for (std::size_t symbol = 0; symbol < nsymbols; ++symbol)
+        for (symbol symbol = 0; symbol < nsymbols; ++symbol)
         {
             symbol_frequency f = ftable.frequency(symbol);
             if (f > 0)
