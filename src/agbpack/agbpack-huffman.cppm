@@ -260,13 +260,13 @@ private:
 class tree_node final
 {
 public:
-    tree_node(symbol symbol, symbol_frequency frequency)
+    explicit tree_node(symbol symbol, symbol_frequency frequency)
         : m_symbol(symbol)
         , m_frequency(frequency)
     {}
 
     // TODO: review
-    tree_node(std::shared_ptr<tree_node> left, std::shared_ptr<tree_node> right)
+    explicit tree_node(std::shared_ptr<tree_node> left, std::shared_ptr<tree_node> right)
         : m_symbol(0)
         , m_frequency(left->frequency() + right->frequency())
         , m_left(left)
