@@ -322,11 +322,19 @@ private:
         std::vector<std::shared_ptr<tree_node>>,
         tree_node_compare>;
 
+    std::unique_ptr<tree_node> build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
+        node_queue nodes;
+
+        // Create a leaf node for each symbol whose frequency is > 0
         auto nsymbols = get_nsymbols(symbol_size);
-        for (std::size_t i = 0; i < nsymbols; ++i)
+        for (std::size_t symbol = 0; symbol < nsymbols; ++symbol)
         {
-            // TODO: get symbol frequency from ftable. If > 0, add a leaf node
+            symbol_frequency f = ftable.frequency(symbol);
+            if (f > 0)
+            {
+                nodes.push(std::make_unique<tree_node>(symbol, f));
+            }
         }
 
         // TODO: we'll see later, but probably we need at least two leaf nodes in order
