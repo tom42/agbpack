@@ -291,7 +291,8 @@ public:
 class huffman_encoder_tree final
 {
 public:
-    explicit huffman_encoder_tree(unsigned int /*symbol_size*/, const frequency_table& /*ftable*/)
+    explicit huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
+        : m_root(build_tree(symbol_size, ftable))
     {
         // TODO: create tree: decision: what algorithm to use?
         //       * Classic: create a bunch of nodes on some sort of heap/queue. Note: C++ has a priority queue
@@ -312,7 +313,14 @@ public:
             meh.pop();
         }
     }
+
 private:
+    std::unique_ptr<tree_node> build_tree(unsigned int /*symbol_size*/, const frequency_table& /*ftable*/)
+    {
+        return nullptr;
+    }
+
+    std::unique_ptr<tree_node> m_root;
 };
 
 export class huffman_encoder final
