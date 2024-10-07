@@ -6,7 +6,7 @@ module;
 #include <cassert>
 #include <cstdint>
 #include <iterator>
-//#include <memory> // TODO: remove: creates -Wattributes warning with g++
+#include <memory>
 #include <queue>
 #include <stdexcept>
 #include <utility>
@@ -247,8 +247,6 @@ private:
     std::vector<symbol_frequency> m_frequencies;
 };
 
-/*
-----------------------------------------------------------------------------------------------------------------------------------------------
 // TODO: figure out what this needs:
 //       * frequency?
 //       * symbol?
@@ -352,26 +350,6 @@ private:
     }
 
     std::shared_ptr<tree_node> m_root;
-};
------------------------------------------------------------------------------------------------------
-*/
-
-class tree_node final
-{
-public:
-private:
-};
-
-class huffman_encoder_tree final
-{
-public:
-    explicit huffman_encoder_tree(unsigned int /*symbol_size*/, const frequency_table& /*ftable*/)
-    {
-        // TODO: implement
-        //       * Define new tree_node class
-        //       * Create a vector with tree node instances. We'll use this vector to allocate tree nodes
-    }
-private:
 };
 
 export class huffman_encoder final
