@@ -351,7 +351,7 @@ private:
             nodes.push(std::make_shared<tree_node>(left, right));
         }
 
-        // TODO: assert that nodes.size is exactly 1
+        assert(nodes.size() == 1);
         auto root = nodes.top();
         return root;
     }
