@@ -229,8 +229,8 @@ public:
 
             for (unsigned int nbits = 0; nbits < 8; nbits += m_symbol_size)
             {
-                auto symbol = byte & symbol_mask;
-                ++m_frequencies[symbol];
+                auto sym = byte & symbol_mask;
+                ++m_frequencies[sym];
                 byte >>= m_symbol_size;
             }
         }
