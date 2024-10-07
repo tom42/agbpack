@@ -238,6 +238,11 @@ public:
         return data;
     }
 
+    symbol_frequency frequency(std::size_t symbol) const
+    {
+        return m_frequencies[symbol];
+    }
+
 private:
     unsigned int m_symbol_size;
     std::vector<symbol_frequency> m_frequencies;
