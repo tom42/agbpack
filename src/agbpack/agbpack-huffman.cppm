@@ -337,8 +337,17 @@ private:
             }
         }
 
-        // TODO: we'll see later, but probably we need at least two leaf nodes in order
-        //       to serialize the tree later => create bogus leaf nodes until there are at least 2 leaf nodes
+        // Both our tree serialization code and the GBA BIOS' huffman tree storage format
+        // needs a tree with at least two leaf nodes, even if they're bogus nodes.
+        // So add bogus nodes if needed. What makes them bogus is that their frequency is 0.
+        // The symbol is irrelevant, but an obvious choice is 0.
+        while (nodes.size() < 2) // TODO: this is not yet particularly well tested
+        {
+            // TODO: out of curiosity: which ctor gets called?
+            //       * obviously we mean the one for leaf nodes, but it's very well possibly the one for intermediate notes gets called
+            //       * Well we can have factory methods instead of constructors, then things will be clear too.
+            nodes.push(std::make_shared<tree_node>(0, 0));
+        }
 
         // Standard huffman tree building algorithm:
         // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
