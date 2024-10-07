@@ -6,7 +6,7 @@ module;
 #include <cassert>
 #include <cstdint>
 #include <iterator>
-#include <memory>
+//#include <memory> // TODO: remove: creates -Wattributes warning with g++
 #include <queue>
 #include <stdexcept>
 #include <utility>
@@ -247,6 +247,8 @@ private:
     std::vector<symbol_frequency> m_frequencies;
 };
 
+/*
+----------------------------------------------------------------------------------------------------------------------------------------------
 // TODO: figure out what this needs:
 //       * frequency?
 //       * symbol?
@@ -351,6 +353,8 @@ private:
 
     std::shared_ptr<tree_node> m_root;
 };
+-----------------------------------------------------------------------------------------------------
+*/
 
 export class huffman_encoder final
 {
@@ -367,7 +371,8 @@ public:
         frequency_table ftable(symbol_size);
         ftable.update(input, eof);
 
-        huffman_encoder_tree tree(symbol_size, ftable);
+        // TODO: uncomment
+        //huffman_encoder_tree tree(symbol_size, ftable);
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
