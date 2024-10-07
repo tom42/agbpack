@@ -259,7 +259,7 @@ private:
 class tree_node final
 {
 public:
-    explicit tree_node(symbol sym, symbol_frequency frequency)
+    explicit tree_node(symbol sym, symbol_frequency frequency) noexcept // TODO: do we really want/need this to be noexcept? (recheck)
         : m_symbol(sym)
         , m_frequency(frequency)
     {}
