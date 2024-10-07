@@ -237,9 +237,9 @@ public:
         return data;
     }
 
-    symbol_frequency frequency(std::size_t symbol) const
+    symbol_frequency frequency(std::size_t sym) const
     {
-        return m_frequencies[symbol];
+        return m_frequencies[sym];
     }
 
 private:
@@ -259,8 +259,8 @@ private:
 class tree_node final
 {
 public:
-    explicit tree_node(symbol symbol, symbol_frequency frequency)
-        : m_symbol(symbol)
+    explicit tree_node(symbol sym, symbol_frequency frequency)
+        : m_symbol(sym)
         , m_frequency(frequency)
     {}
 
@@ -311,12 +311,12 @@ private:
 
         // Create a leaf node for each symbol whose frequency is > 0
         auto nsymbols = get_nsymbols(symbol_size);
-        for (symbol symbol = 0; symbol < nsymbols; ++symbol)
+        for (symbol sym = 0; sym < nsymbols; ++sym)
         {
-            symbol_frequency f = ftable.frequency(symbol);
+            symbol_frequency f = ftable.frequency(sym);
             if (f > 0)
             {
-                nodes.push(std::make_shared<tree_node>(symbol, f));
+                nodes.push(std::make_shared<tree_node>(sym, f));
             }
         }
 
