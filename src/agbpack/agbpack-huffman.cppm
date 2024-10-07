@@ -356,6 +356,24 @@ private:
 -----------------------------------------------------------------------------------------------------
 */
 
+class tree_node final
+{
+public:
+private:
+};
+
+class huffman_encoder_tree final
+{
+public:
+    explicit huffman_encoder_tree(unsigned int /*symbol_size*/, const frequency_table& /*ftable*/)
+    {
+        // TODO: implement
+        //       * Define new tree_node class
+        //       * Create a vector with tree node instances. We'll use this vector to allocate tree nodes
+    }
+private:
+};
+
 export class huffman_encoder final
 {
 public:
@@ -371,8 +389,7 @@ public:
         frequency_table ftable(symbol_size);
         ftable.update(input, eof);
 
-        // TODO: uncomment
-        //huffman_encoder_tree tree(symbol_size, ftable);
+        huffman_encoder_tree tree(symbol_size, ftable);
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
