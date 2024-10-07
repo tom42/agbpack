@@ -302,10 +302,7 @@ public:
         // TODO: create tree: decision: what algorithm to use?
         //       * Classic: create a bunch of nodes on some sort of heap/queue. Note: C++ has a priority queue
         //       * Do as in The Data Compression Book (not sure this is really better)
-        std::priority_queue< // TODO: using alias for this monstrosity
-            std::shared_ptr<tree_node>,
-            std::vector<std::shared_ptr<tree_node>>,
-            tree_node_compare> meh; // TODO: name. Just experimenting: can we create one?
+        /*
         meh.push(std::make_shared<tree_node>('a', 23));
         meh.push(std::make_shared<tree_node>('b', 11));
         meh.push(std::make_shared<tree_node>('c', 13));
@@ -316,7 +313,7 @@ public:
         {
             std::cout << meh.top()->sym() << ": " << meh.top()->frequency() << "\n";
             meh.pop();
-        }
+        }*/
     }
 
 private:
