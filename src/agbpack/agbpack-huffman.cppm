@@ -315,8 +315,19 @@ public:
     }
 
 private:
-    std::unique_ptr<tree_node> build_tree(unsigned int /*symbol_size*/, const frequency_table& /*ftable*/)
+    std::unique_ptr<tree_node> build_tree(unsigned int symbol_size, const frequency_table& /*ftable*/)
     {
+        auto nsymbols = get_nsymbols(symbol_size);
+        for (std::size_t i = 0; i < nsymbols; ++i)
+        {
+            // TODO: get symbol frequency from ftable. If > 0, add a leaf node
+        }
+
+        // TODO: we'll see later, but probably we need at least two leaf nodes in order
+        //       to serialize the tree later => create bogus leaf nodes until there are at least 2 leaf nodes
+
+        // TODO: now process nodes until there is one left. return that as root
+
         return nullptr;
     }
 
