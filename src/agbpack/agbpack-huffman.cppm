@@ -317,7 +317,11 @@ public:
     }
 
 private:
-    std::unique_ptr<tree_node> build_tree(unsigned int symbol_size, const frequency_table& /*ftable*/)
+    using node_queue = std::priority_queue<
+        std::shared_ptr<tree_node>,
+        std::vector<std::shared_ptr<tree_node>>,
+        tree_node_compare>;
+
     {
         auto nsymbols = get_nsymbols(symbol_size);
         for (std::size_t i = 0; i < nsymbols; ++i)
