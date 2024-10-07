@@ -4,6 +4,9 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* g++ currently requires -Wno-attributes, but that's due to a bug in its library headers,
+  as I understand. Not sure how to go about this. Probably we'll have to temporarily
+  suppress this warning, so that we can keep testing with g++.
 * There is a test for the RLE decoder which tests decoding through a file stream
   * This is confusing, and what we really want is probably such a test for each encoder/decoder
     * Just because it works with the RLE decoder doesn't automatically mean it works with all other decoders/encoders, no?
