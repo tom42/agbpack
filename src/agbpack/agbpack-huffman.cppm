@@ -340,7 +340,16 @@ private:
         // TODO: we'll see later, but probably we need at least two leaf nodes in order
         //       to serialize the tree later => create bogus leaf nodes until there are at least 2 leaf nodes
 
-        // TODO: now process nodes until there is one left. return that as root
+        // Standard huffman tree building algorithm:
+        // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
+        while (nodes.size() > 1)
+        {
+            auto left = nodes.top();
+            nodes.pop();
+            auto right = nodes.top();
+            nodes.pop();
+            nodes.push(std::make_unique<tree_node>(left, right));
+        }
 
         return nullptr;
     }
