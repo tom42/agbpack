@@ -4,6 +4,28 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* huffman_encoder
+  * We can now go and dump codes.
+  * Can we do the following experiment:
+    * We take some reference data and try to dump all the huffman codes from the GBA tree
+    * We take that reference data, let our huffman tree code process it and dump
+      all the codes too: do we get the same output of codes? If not we don't even need
+      to continue!
+    * BEFORE we do this:
+      * Unfortunately we used the naming left/right, but this is confusing:
+      * We should follow the naming that GBATEK uses, which is 0/1
+        * So in the decoder tree, ensure left/right is called 0/1 and is consistent with GBATEK
+        * Then in our encoder, use terms child_0/child_1 or whatever and ensure they're consistent too
+        * Only now we can dump codes and see whether we get LSB/MSB order of codes right
+    * Once all this is settled we can worry about
+      * Serializing the tree on one hand
+        * Here we need to fully understand the serialization of the tree
+          * Maybe we need to encode some data using a reference encoder and then
+            manually analyze/annotate the resulting serialized tree
+      * And encoding the data on the other hand
+  * Once all of this works, see how we get our code built with g++ again
+    * Well possibly occasionally build it with -Wno-attributes, so that we don't
+      have to fix too much stuff once we get back to g++.
 * g++ currently requires -Wno-attributes, but that's due to a bug in its library headers,
   as I understand. Not sure how to go about this. Probably we'll have to temporarily
   suppress this warning, so that we can keep testing with g++.
