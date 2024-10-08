@@ -116,7 +116,7 @@ public:
         }
 
         // TODO: initial logging: remove this!
-        std::cout << std::format("{}: {}\n", static_cast<char>(current_node_value), code);
+        ////std::cout << std::format("{}: {}\n", static_cast<char>(current_node_value), code);
 
         return current_node_value;
     }
