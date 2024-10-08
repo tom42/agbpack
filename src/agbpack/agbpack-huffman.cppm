@@ -260,11 +260,11 @@ public:
     {}
 
     // TODO: review
-    explicit tree_node(std::shared_ptr<tree_node> left, std::shared_ptr<tree_node> right)
+    explicit tree_node(std::shared_ptr<tree_node> child0, std::shared_ptr<tree_node> child1)
         : m_symbol(0)
-        , m_frequency(left->frequency() + right->frequency())
-        , m_left(left)
-        , m_right(right)
+        , m_frequency(child0->frequency() + child1->frequency())
+        , m_child0(child0)
+        , m_child1(child1)
     {}
 
     symbol sym() const { return m_symbol; }
@@ -274,8 +274,8 @@ public:
 private:
     symbol m_symbol;
     symbol_frequency m_frequency;
-    std::shared_ptr<tree_node> m_left;
-    std::shared_ptr<tree_node> m_right;
+    std::shared_ptr<tree_node> m_child0;
+    std::shared_ptr<tree_node> m_child1;
 };
 
 class tree_node_compare final
@@ -332,11 +332,11 @@ private:
         // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
         while (nodes.size() > 1)
         {
-            auto left = nodes.top();
+            auto node0 = nodes.top();
             nodes.pop();
-            auto right = nodes.top();
+            auto node1 = nodes.top();
             nodes.pop();
-            nodes.push(std::make_shared<tree_node>(left, right));
+            nodes.push(std::make_shared<tree_node>(node0, node1));
         }
 
         assert(nodes.size() == 1);

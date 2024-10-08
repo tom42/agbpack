@@ -6,16 +6,16 @@ SPDX-License-Identifier: MIT
 # TODO
 * huffman_encoder
   * We can now go and dump codes.
+    * First of all, see whether we can somehow dump the codes from the decoder_tree
+    * Write a recursive dump function
+    * To debug it, compare it against output printed during decoding
   * Can we do the following experiment:
     * We take some reference data and try to dump all the huffman codes from the GBA tree
     * We take that reference data, let our huffman tree code process it and dump
       all the codes too: do we get the same output of codes? If not we don't even need
       to continue!
     * BEFORE we do this:
-      * Unfortunately we used the naming left/right, but this is confusing:
       * We should follow the naming that GBATEK uses, which is 0/1
-        * So in the decoder tree, ensure left/right is called 0/1 and is consistent with GBATEK
-        * Then in our encoder, use terms child_0/child_1 or whatever and ensure they're consistent too
         * Only now we can dump codes and see whether we get LSB/MSB order of codes right
     * Once all this is settled we can worry about
       * Serializing the tree on one hand
