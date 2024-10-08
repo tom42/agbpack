@@ -11,6 +11,7 @@ module;
 #include <memory>
 #include <queue>
 #include <stdexcept>
+#include <string> // TODO: remove
 #include <utility>
 #include <vector>
 
@@ -89,6 +90,8 @@ public:
         std::size_t current_node_index = 0;
         auto current_node_value = read_tree_node(root_node_index);
 
+        std::string code; // TODO: remove
+
         while (!character_found)
         {
             current_node_index += 2u * ((current_node_value & mask_next_node_offset) + 1);
@@ -97,11 +100,13 @@ public:
             {
                 character_found = current_node_value & mask_0;
                 current_node_value = read_tree_node(current_node_index);
+                code += "0";
             }
             else
             {
                 character_found = current_node_value & mask_1;
                 current_node_value = read_tree_node(current_node_index + 1);
+                code += "1";
             }
         }
 
@@ -111,7 +116,7 @@ public:
         }
 
         // TODO: initial logging: remove this!
-        std::cout << std::format("{}:\n", static_cast<char>(current_node_value));
+        std::cout << std::format("{}: {}\n", static_cast<char>(current_node_value), code);
 
         return current_node_value;
     }
