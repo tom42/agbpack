@@ -327,7 +327,9 @@ public:
     {
         if (node->is_leaf())
         {
-            // TODO: dump symbol and its code
+            // TODO: also dump code
+            ////std::cout << std::format("{}: {}\n", static_cast<char>(current_node_value), code);
+            std::cout << std::format("{}:\n", static_cast<char>(node->sym()));
         }
         else
         {
