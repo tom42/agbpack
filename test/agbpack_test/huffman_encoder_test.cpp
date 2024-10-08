@@ -128,7 +128,7 @@ TEST_CASE("zzz_test")
     decode_file(decoder, "huffman.good.8.foo.txt.encoded");
 
     agbpack::huffman_encoder encoder;
-    encode_file(encoder, "huffman.good.8.foo.txt.encoded");
+    encode_file(encoder, "huffman.good.8.foo.txt.decoded");
 }
 
 }
