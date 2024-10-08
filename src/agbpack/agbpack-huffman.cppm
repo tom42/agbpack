@@ -79,8 +79,8 @@ public:
 
     agbpack_u8 decode_symbol(bitstream_reader<InputIterator>& bit_reader) const
     {
-        constexpr auto mask_left = 0x80;
-        constexpr auto mask_right = 0x40;
+        constexpr auto mask_0 = 0x80;
+        constexpr auto mask_1 = 0x40;
         constexpr auto mask_next_node_offset = 63;
 
         bool character_found = false;
@@ -93,12 +93,12 @@ public:
 
             if (!bit_reader.get_bit())
             {
-                character_found = current_node_value & mask_left;
+                character_found = current_node_value & mask_0;
                 current_node_value = read_tree_node(current_node_index);
             }
             else
             {
-                character_found = current_node_value & mask_right;
+                character_found = current_node_value & mask_1;
                 current_node_value = read_tree_node(current_node_index + 1);
             }
         }
