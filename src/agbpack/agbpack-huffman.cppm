@@ -315,6 +315,21 @@ public:
     // TODO: remove
     void dump()
     {
+        dump_internal(m_root);
+    }
+
+    // TODO: remove
+    void dump_internal(std::shared_ptr<tree_node> node)
+    {
+        if (node->is_leaf())
+        {
+            // TODO: dump symbol and its code
+        }
+        else
+        {
+            dump_internal(node->child0());
+            dump_internal(node->child1());
+        }
     }
 
 private:
