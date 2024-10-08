@@ -5,6 +5,10 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * huffman_encoder
+  * Next:
+    * Unfortunately, CUE huffman and our own tree building code generates
+      completely different codes. That may be well possible, but if we
+      count the bits in the message, do the two trees yield the same number of bits?
   * We can now go and dump codes.
     * First of all, see whether we can somehow dump the codes from the decoder_tree
     * Write a recursive dump function

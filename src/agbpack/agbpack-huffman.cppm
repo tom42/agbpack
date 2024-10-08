@@ -319,22 +319,20 @@ public:
     // TODO: remove
     void dump()
     {
-        dump_internal(m_root);
+        dump_internal(m_root, "");
     }
 
     // TODO: remove
-    void dump_internal(std::shared_ptr<tree_node> node)
+    void dump_internal(std::shared_ptr<tree_node> node, std::string code)
     {
         if (node->is_leaf())
         {
-            // TODO: also dump code
-            ////std::cout << std::format("{}: {}\n", static_cast<char>(current_node_value), code);
-            std::cout << std::format("{}:\n", static_cast<char>(node->sym()));
+            std::cout << std::format("{}: {}\n", static_cast<char>(node->sym()), code);
         }
         else
         {
-            dump_internal(node->child0());
-            dump_internal(node->child1());
+            dump_internal(node->child0(), code + "0");
+            dump_internal(node->child1(), code + "1");
         }
     }
 
