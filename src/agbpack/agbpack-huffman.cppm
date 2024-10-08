@@ -288,6 +288,10 @@ public:
 
     symbol_frequency frequency() const { return m_frequency; }
 
+    std::shared_ptr<tree_node> child0() const { return m_child0; }
+
+    std::shared_ptr<tree_node> child1() const { return m_child1; }
+
 private:
     bool m_is_leaf;
     symbol m_symbol;
