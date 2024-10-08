@@ -5,6 +5,7 @@
 #include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <iostream> // TODO: remove
 #include <stdexcept>
 #include <string>
 #include "testdata.hpp"
@@ -92,6 +93,21 @@ TEST_CASE("huffman_encoder_test")
             std::invalid_argument,
             Catch::Matchers::Message("invalid huffman compression options"));
     }
+}
+
+// TODO: for debugging, remove
+TEST_CASE("zzz_test")
+{
+    // TODO: Implement test
+    //       * get some test data
+    //         * Foo?
+    //         * Some sort of lucas sequence number thing? => Maybe the latter
+    //       * Create reference encoded data
+    //       * Dump codes
+    //       * Create codes using our tree building mechanism
+    //       * Does it print the same output?
+    //
+    std::cout << "meh\n";
 }
 
 }
