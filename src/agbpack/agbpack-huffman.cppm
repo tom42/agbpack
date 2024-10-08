@@ -5,6 +5,7 @@ module;
 
 #include <cassert>
 #include <cstdint>
+#include <format> // TODO: remove
 #include <iostream> // TODO: remove
 #include <iterator>
 #include <memory>
@@ -110,7 +111,7 @@ public:
         }
 
         // TODO: initial logging: remove this!
-        std::cout << current_node_value << "\n";
+        std::cout << std::format("{}:\n", static_cast<char>(current_node_value));
 
         return current_node_value;
     }
