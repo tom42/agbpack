@@ -304,6 +304,11 @@ public:
         : m_root(build_tree(symbol_size, ftable))
     {}
 
+    // TODO: remove
+    void dump()
+    {
+    }
+
 private:
     using node_queue = std::priority_queue<
         std::shared_ptr<tree_node>,
@@ -373,6 +378,7 @@ public:
         ftable.update(input, eof);
 
         huffman_encoder_tree tree(symbol_size, ftable);
+        tree.dump();
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
