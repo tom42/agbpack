@@ -106,6 +106,22 @@ TEST_CASE("zzz_test")
     //       * Dump codes
     //       * Create codes using our tree building mechanism
     //       * Does it print the same output?
+    //
+    // So, here are the foo codes as dumped while decoding:
+    //   o: 00
+    //   s: 100
+    //    : 111
+    //   h: 0100
+    //   l: 0101
+    //   w: 0110
+    //   e: 0111
+    //   f: 1010
+    //   t: 1011
+    //   .: 11000
+    //   a: 11010
+    //   H: 11001
+    //   b: 11011
+    //
     // TODO: see whether we have any other use for the foo file
     agbpack::huffman_decoder decoder;
     decode_file(decoder, "huffman.good.8.foo.txt.encoded");
