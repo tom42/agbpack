@@ -5,6 +5,7 @@ module;
 
 #include <cassert>
 #include <cstdint>
+#include <iostream> // TODO: remove
 #include <iterator>
 #include <memory>
 #include <queue>
@@ -107,6 +108,9 @@ public:
         {
             throw decode_exception();
         }
+
+        // TODO: initial logging: remove this!
+        std::cout << current_node_value << "\n";
 
         return current_node_value;
     }
