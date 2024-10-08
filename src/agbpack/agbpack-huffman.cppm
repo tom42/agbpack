@@ -247,11 +247,6 @@ private:
     std::vector<symbol_frequency> m_frequencies;
 };
 
-// TODO: figure out what this needs:
-//       * frequency?
-//       * symbol?
-//       * Left child
-//       * Right child
 // TODO: forbid copying of this class?
 // TODO: how do we easily tell leaf nodes from non-leaf nodes? Invalid symbol value or dedicated flag?
 // TODO: document why shared_ptr and not unique_ptr?
