@@ -106,7 +106,10 @@ TEST_CASE("zzz_test")
     //       * Dump codes
     //       * Create codes using our tree building mechanism
     //       * Does it print the same output?
-    //
+    // TODO: see whether we have any other use for the foo file
+    agbpack::huffman_decoder decoder;
+    decode_file(decoder, "huffman.good.8.foo.txt.encoded");
+
     std::cout << "meh\n";
 }
 
