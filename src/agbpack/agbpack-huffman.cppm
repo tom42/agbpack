@@ -265,23 +265,31 @@ class tree_node final
 {
 public:
     explicit tree_node(symbol sym, symbol_frequency frequency) noexcept // TODO: do we really want/need this to be noexcept? (recheck)
-        : m_symbol(sym)
+        : m_is_leaf(true)
+        , m_symbol(sym)
         , m_frequency(frequency)
     {}
 
     // TODO: review
     explicit tree_node(std::shared_ptr<tree_node> child0, std::shared_ptr<tree_node> child1)
-        : m_symbol(0)
+        : m_is_leaf(false)
+        , m_symbol(0)
         , m_frequency(child0->frequency() + child1->frequency())
         , m_child0(child0)
         , m_child1(child1)
     {}
+
+    bool is_leaf() const
+    {
+        return m_is_leaf;
+    }
 
     symbol sym() const { return m_symbol; }
 
     symbol_frequency frequency() const { return m_frequency; }
 
 private:
+    bool m_is_leaf;
     symbol m_symbol;
     symbol_frequency m_frequency;
     std::shared_ptr<tree_node> m_child0;
