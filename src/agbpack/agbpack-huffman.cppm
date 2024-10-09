@@ -181,22 +181,24 @@ private:
     }
 
     // TODO: rename
-    void foo(std::size_t /*current_node_index*/, agbpack_u8 current_node_value, bool is_leaf) const
+    void foo(std::size_t current_node_index, agbpack_u8 current_node_value, bool is_leaf) const
     {
         // TODO: recursively traverse tree, depth first.
         //       * accumulate code and code size
         //       * Once done, add symbol to code_table
-        (void)current_node_value; // TODO: remove
 
         if (is_leaf)
         {
             // TODO: we're a leaf, so current_note_value is the symbol.
             //       * Add symbol to table, along with code and code length
             //       * We still need to determine both code and code length
+            std::cout << current_node_value << "\n"; // TODO: remove
         }
         else
         {
-
+            current_node_index += 2u * ((current_node_value & mask_next_node_offset) + 1);
+            foo(current_node_index, read_tree_node(current_node_index), current_node_value & mask_0);
+            foo(current_node_index, read_tree_node(current_node_index + 1), current_node_value & mask_1);
         }
     }
 
