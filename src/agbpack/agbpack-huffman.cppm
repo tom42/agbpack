@@ -50,6 +50,19 @@ public:
 private:
 };
 
+// TODO: the table initializes itself with n empty entries. That's pretty much OK. Now
+//       * We need a function to set an entry
+//       * We need a function to get an entry
+//       * Do we also want a function to dump the table? Or rather not?
+class code_table final
+{
+public:
+    code_table(unsigned int symbol_size) : m_table(get_nsymbols(symbol_size)) {}
+
+private:
+    std::vector<code_table_entry> m_table;
+};
+
 template <std::input_iterator InputIterator>
 class bitstream_reader final
 {
