@@ -125,6 +125,16 @@ TEST_CASE("zzz_test")
     // TODO: see whether we have any other use for the following files (e.g. use them in some test)
     //       * huffman.good.8.foo.txt
     //       * huffman.good.8.helloworld.txt
+    //
+    // Hello world: output from decode tree (32 bits)
+    // l: 10
+    // d: 000
+    // e: 001
+    // r: 010
+    // w: 011
+    // o: 110
+    //  : 1110
+    // H: 1111
     std::cout << "----------------------------------------\n";
     agbpack::huffman_decoder decoder;
     decode_file(decoder, "huffman.good.8.helloworld.txt.encoded");
