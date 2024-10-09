@@ -122,13 +122,15 @@ TEST_CASE("zzz_test")
     //   H: 11001
     //   b: 11011
     //
-    // TODO: see whether we have any other use for the foo file (e.g. use it in some test)
+    // TODO: see whether we have any other use for the following files (e.g. use them in some test)
+    //       * huffman.good.8.foo.txt
+    //       * huffman.good.8.helloworld.txt
     std::cout << "----------------------------------------\n";
     agbpack::huffman_decoder decoder;
-    decode_file(decoder, "huffman.good.8.foo.txt.encoded");
+    decode_file(decoder, "huffman.good.8.helloworld.txt.encoded");
 
     agbpack::huffman_encoder encoder;
-    encode_file(encoder, "huffman.good.8.foo.txt.decoded");
+    encode_file(encoder, "huffman.good.8.helloworld.txt.decoded");
 }
 
 }
