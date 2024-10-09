@@ -146,6 +146,13 @@ public:
         return current_node_value;
     }
 
+    code_table create_code_table() const
+    {
+        // TODO: implement:
+        //       * Find out how to traverse the thing
+        //       * Add codes to the code table
+        throw "TODO: implement";
+    }
 
 private:
     void read_tree(byte_reader<InputIterator>& reader)
