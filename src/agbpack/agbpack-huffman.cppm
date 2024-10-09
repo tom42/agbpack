@@ -152,7 +152,7 @@ public:
         // TODO: implement:
         //       * Find out how to traverse the thing
         //       * Add codes to the code table
-        throw "TODO: implement";
+        return code_table(m_symbol_size);
     }
 
 private:
@@ -214,6 +214,11 @@ public:
 
         const unsigned int symbol_size = get_symbol_size(header->template options_as<huffman_options>());
         huffman_decoder_tree<InputIterator> tree(symbol_size, reader);
+
+        // TODO: testcode: remove -----------------------
+        const auto code_table = tree.create_code_table();
+        // TODO: dump the table, somehow (?)
+        // ----------------------------------------------
 
         throw_if_bitstream_is_misaligned(reader);
 
