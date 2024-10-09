@@ -23,6 +23,9 @@ import :header;
 namespace agbpack
 {
 
+using symbol = unsigned int; // TODO: this should not be agbpack_u8. Document this / write test that would figure out?
+using symbol_frequency = uint32_t;
+
 inline unsigned int get_symbol_size(huffman_options options)
 {
     return std::to_underlying(options);
@@ -212,9 +215,6 @@ private:
         }
     }
 };
-
-using symbol = unsigned int; // TODO: this should not be agbpack_u8. Document this / write test that would figure out?
-using symbol_frequency = uint32_t;
 
 class frequency_table final
 {
