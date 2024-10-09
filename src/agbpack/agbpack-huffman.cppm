@@ -194,7 +194,7 @@ private:
             // TODO: we're a leaf, so current_note_value is the symbol.
             //       * Add symbol to table, along with code and code length
             //       * We still need to determine both code and code length
-            std::cout << current_node_value << ": " << code_len << "\n"; // TODO: remove
+            std::cout << std::format("{}: len={} code={}\n", static_cast<char>(current_node_value), code_len, code);
         }
         else
         {
