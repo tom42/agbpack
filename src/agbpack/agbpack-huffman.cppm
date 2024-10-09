@@ -108,10 +108,6 @@ public:
 
     agbpack_u8 decode_symbol(bitstream_reader<InputIterator>& bit_reader) const
     {
-        constexpr auto mask_0 = 0x80;
-        constexpr auto mask_1 = 0x40;
-        constexpr auto mask_next_node_offset = 63;
-
         bool character_found = false;
         std::size_t current_node_index = 0;
         auto current_node_value = read_tree_node(root_node_index);
@@ -202,6 +198,9 @@ private:
         return m_tree[node_index];
     }
 
+    static constexpr auto mask_0 = 0x80;
+    static constexpr auto mask_1 = 0x40;
+    static constexpr auto mask_next_node_offset = 63;
     static constexpr std::size_t root_node_index = 1;
     unsigned int m_symbol_size;
     unsigned int m_symbol_max_value;
