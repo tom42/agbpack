@@ -49,6 +49,13 @@ inline unsigned int get_symbol_mask(unsigned int symbol_size)
 class code_table_entry final
 {
 public:
+    code_table_entry() : code_table_entry(0, 0) {}
+
+    code_table_entry(code /*code*/, code_length /*length*/)
+    {
+        // TODO: store data and make it accessible.
+    }
+
 private:
 };
 
@@ -61,10 +68,9 @@ class code_table final
 public:
     code_table(unsigned int symbol_size) : m_table(get_nsymbols(symbol_size)) {}
 
-    void set(symbol symbol, code /*code*/, code_length /*code_length*/)
+    void set(symbol symbol, code code, code_length code_length)
     {
-        // TODO: actually pass data to code_table_entry
-        m_table[symbol] = code_table_entry();
+        m_table[symbol] = code_table_entry(code, code_length);
     }
 
 private:
