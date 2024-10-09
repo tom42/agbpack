@@ -25,6 +25,7 @@ namespace agbpack
 
 using symbol = unsigned int; // TODO: this should not be agbpack_u8. Document this / write test that would figure out?
 using symbol_frequency = uint32_t;
+using code = unsigned int;
 using code_length = unsigned int;
 
 inline unsigned int get_symbol_size(huffman_options options)
@@ -113,7 +114,7 @@ public:
         std::size_t current_node_index = 0;
         auto current_node_value = read_tree_node(root_node_index);
 
-        std::string code; // TODO: remove
+        std::string ccode; // TODO: remove
 
         while (!character_found)
         {
@@ -123,13 +124,13 @@ public:
             {
                 character_found = current_node_value & mask_0;
                 current_node_value = read_tree_node(current_node_index);
-                code += "0";
+                ccode += "0";
             }
             else
             {
                 character_found = current_node_value & mask_1;
                 current_node_value = read_tree_node(current_node_index + 1);
-                code += "1";
+                ccode += "1";
             }
         }
 
@@ -384,16 +385,16 @@ public:
     }
 
     // TODO: remove
-    void dump_internal(std::shared_ptr<tree_node> node, std::string code)
+    void dump_internal(std::shared_ptr<tree_node> node, std::string ccode)
     {
         if (node->is_leaf())
         {
-            std::cout << std::format("{}: {}\n", static_cast<char>(node->sym()), code);
+            std::cout << std::format("{}: {}\n", static_cast<char>(node->sym()), ccode);
         }
         else
         {
-            dump_internal(node->child0(), code + "0");
-            dump_internal(node->child1(), code + "1");
+            dump_internal(node->child0(), ccode + "0");
+            dump_internal(node->child1(), ccode + "1");
         }
     }
 
