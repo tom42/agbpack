@@ -25,6 +25,7 @@ namespace agbpack
 
 using symbol = unsigned int; // TODO: this should not be agbpack_u8. Document this / write test that would figure out?
 using symbol_frequency = uint32_t;
+using code_length = unsigned int;
 
 inline unsigned int get_symbol_size(huffman_options options)
 {
@@ -149,7 +150,7 @@ public:
         //       * Find out how to traverse the thing
         //       * Add codes to the code table
 
-        foo(0, read_tree_node(root_node_index), false);
+        foo(0, read_tree_node(root_node_index), false, 0);
 
         return code_table(m_symbol_size);
     }
@@ -181,7 +182,7 @@ private:
     }
 
     // TODO: rename
-    void foo(std::size_t current_node_index, agbpack_u8 current_node_value, bool is_leaf) const
+    void foo(std::size_t current_node_index, agbpack_u8 current_node_value, bool is_leaf, code_length code_len) const
     {
         // TODO: recursively traverse tree, depth first.
         //       * accumulate code and code size
@@ -192,13 +193,13 @@ private:
             // TODO: we're a leaf, so current_note_value is the symbol.
             //       * Add symbol to table, along with code and code length
             //       * We still need to determine both code and code length
-            std::cout << current_node_value << "\n"; // TODO: remove
+            std::cout << current_node_value << ": " << code_len << "\n"; // TODO: remove
         }
         else
         {
             current_node_index += 2u * ((current_node_value & mask_next_node_offset) + 1);
-            foo(current_node_index, read_tree_node(current_node_index), current_node_value & mask_0);
-            foo(current_node_index, read_tree_node(current_node_index + 1), current_node_value & mask_1);
+            foo(current_node_index, read_tree_node(current_node_index), current_node_value & mask_0, code_len + 1);
+            foo(current_node_index, read_tree_node(current_node_index + 1), current_node_value & mask_1, code_len + 1);
         }
     }
 
