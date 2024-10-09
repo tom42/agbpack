@@ -405,7 +405,7 @@ public:
         ftable.update(input, eof);
 
         huffman_encoder_tree tree(symbol_size, ftable);
-        tree.dump();
+        //tree.dump(); // TODO: remove
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff

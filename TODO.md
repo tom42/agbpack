@@ -6,9 +6,20 @@ SPDX-License-Identifier: MIT
 # TODO
 * huffman_encoder
   * Next:
-    * Unfortunately, CUE huffman and our own tree building code generates
-      completely different codes. That may be well possible, but if we
-      count the bits in the message, do the two trees yield the same number of bits?
+    * Tree serialization
+    * Bitstream encoding
+      * We could implement that one first:
+        * We create the concept of a code table. This contains code+length for each symbol
+        * When we generate the bitstream, all we need is such a code table
+        * We can then go and first use output from CUE
+          * We need the serialized tree (can get that from a CUE file and hardcode it)
+          * From the serialized tree we can also generate a code table
+            * That is, we can have code that generates a code table from
+              * A huffman_decoder_tree
+              * Our own encoder tree
+    * Do not forget: for encoder testing we cannot use CUE input!
+      * We should mark all files generated with CUE as such!
+      * Or well at least we should it note down somewhere
   * We can now go and dump codes.
     * First of all, see whether we can somehow dump the codes from the decoder_tree
     * Write a recursive dump function
