@@ -152,6 +152,9 @@ public:
         // TODO: implement:
         //       * Find out how to traverse the thing
         //       * Add codes to the code table
+
+        foo(0, read_tree_node(root_node_index));
+
         return code_table(m_symbol_size);
     }
 
@@ -179,6 +182,14 @@ private:
         // Obviously we have already read the tree size byte, so we need to read one byte
         // less than the value in tree_size.
         read8(reader, tree_size - 1, back_inserter(m_tree));
+    }
+
+    // TODO: rename
+    void foo(std::size_t /*current_node_index*/, agbpack_u8 /*current_node_value*/) const
+    {
+        // TODO: recursively traverse tree, depth first.
+        //       * accumulate code and code size
+        //       * Once done, add symbol to code_table
     }
 
     auto read_tree_node(std::size_t node_index) const
