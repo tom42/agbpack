@@ -61,6 +61,12 @@ class code_table final
 public:
     code_table(unsigned int symbol_size) : m_table(get_nsymbols(symbol_size)) {}
 
+    void set(symbol symbol, code /*code*/, code_length /*code_length*/)
+    {
+        // TODO: actually pass data to code_table_entry
+        m_table[symbol] = code_table_entry();
+    }
+
 private:
     std::vector<code_table_entry> m_table;
 };
@@ -189,10 +195,7 @@ private:
     {
         if (is_leaf)
         {
-            // TODO: we're a leaf, so current_note_value is the symbol.
-            //       * Add symbol to table, along with code and code length
-            //       * We still need to determine both code and code length
-            std::cout << std::format("{}: len={} code={}\n", static_cast<char>(node_value), code_len, code);
+            table.set(node_value, code, code_len);
         }
         else
         {
