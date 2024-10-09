@@ -147,13 +147,9 @@ public:
 
     code_table create_code_table() const
     {
-        // TODO: implement:
-        //       * Find out how to traverse the thing
-        //       * Add codes to the code table
-
-        foo(0, read_tree_node(root_node_index), false, 0, 0);
-
-        return code_table(m_symbol_size);
+        code_table table(m_symbol_size);
+        foo(table, 0, read_tree_node(root_node_index), false, 0, 0);
+        return table;
     }
 
 private:
@@ -184,8 +180,9 @@ private:
 
     // TODO: rename
     void foo(
-        std::size_t current_node_index,
-        agbpack_u8 current_node_value,
+        code_table& table,
+        std::size_t node_index,
+        agbpack_u8 node_value,
         bool is_leaf,
         code code,
         code_length code_len) const
@@ -195,13 +192,13 @@ private:
             // TODO: we're a leaf, so current_note_value is the symbol.
             //       * Add symbol to table, along with code and code length
             //       * We still need to determine both code and code length
-            std::cout << std::format("{}: len={} code={}\n", static_cast<char>(current_node_value), code_len, code);
+            std::cout << std::format("{}: len={} code={}\n", static_cast<char>(node_value), code_len, code);
         }
         else
         {
-            current_node_index += 2u * ((current_node_value & mask_next_node_offset) + 1);
-            foo(current_node_index, read_tree_node(current_node_index), current_node_value & mask_0, code << 1, code_len + 1);
-            foo(current_node_index, read_tree_node(current_node_index + 1), current_node_value & mask_1, (code << 1) | 1, code_len + 1);
+            node_index += 2u * ((node_value & mask_next_node_offset) + 1);
+            foo(table, node_index, read_tree_node(node_index), node_value & mask_0, code << 1, code_len + 1);
+            foo(table, node_index, read_tree_node(node_index + 1), node_value & mask_1, (code << 1) | 1, code_len + 1);
         }
     }
 
