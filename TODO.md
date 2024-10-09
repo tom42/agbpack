@@ -7,6 +7,12 @@ SPDX-License-Identifier: MIT
 * huffman_encoder
   * Next:
     * Tree serialization
+      * Here we should have a couple of sanity checks:
+        * Maximum tree size
+        * Maximum child node offset
+        * Question: assert or exception?
+          * Probably exception: we're rather unsure how to do it correctly,
+            so for starters we probably want it also in release builds.
     * Bitstream encoding
       * We could implement that one first:
         * We create the concept of a code table. This contains code+length for each symbol
