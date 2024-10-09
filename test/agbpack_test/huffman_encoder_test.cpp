@@ -126,7 +126,7 @@ TEST_CASE("zzz_test")
     //       * huffman.good.8.foo.txt
     //       * huffman.good.8.helloworld.txt
     //
-    // Hello world: output from decode tree (32 bits)
+    // Hello world: output from decode tree (32 bits):
     // l: 10
     // d: 000
     // e: 001
@@ -135,6 +135,16 @@ TEST_CASE("zzz_test")
     // o: 110
     //  : 1110
     // H: 1111
+    //
+    // Hello world: output from our code generator:
+    // l: 10    * 3 = 6
+    // r: 000   * 1 = 3
+    // w: 001   * 1 = 3
+    // H: 010   * 1 = 3
+    // e: 011   * 1 = 3
+    // o: 110   * 2 = 6
+    //  : 1110  * 1 = 4
+    // d: 1111  * 1 = 4
     std::cout << "----------------------------------------\n";
     agbpack::huffman_decoder decoder;
     decode_file(decoder, "huffman.good.8.helloworld.txt.encoded");
