@@ -149,7 +149,7 @@ public:
         //       * Find out how to traverse the thing
         //       * Add codes to the code table
 
-        foo(0, read_tree_node(root_node_index));
+        foo(0, read_tree_node(root_node_index), false);
 
         return code_table(m_symbol_size);
     }
@@ -181,11 +181,23 @@ private:
     }
 
     // TODO: rename
-    void foo(std::size_t /*current_node_index*/, agbpack_u8 /*current_node_value*/) const
+    void foo(std::size_t /*current_node_index*/, agbpack_u8 current_node_value, bool is_leaf) const
     {
         // TODO: recursively traverse tree, depth first.
         //       * accumulate code and code size
         //       * Once done, add symbol to code_table
+        (void)current_node_value; // TODO: remove
+
+        if (is_leaf)
+        {
+            // TODO: we're a leaf, so current_note_value is the symbol.
+            //       * Add symbol to table, along with code and code length
+            //       * We still need to determine both code and code length
+        }
+        else
+        {
+
+        }
     }
 
     auto read_tree_node(std::size_t node_index) const
