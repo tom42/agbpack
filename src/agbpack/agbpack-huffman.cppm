@@ -100,7 +100,8 @@ class huffman_decoder_tree final
 {
 public:
     explicit huffman_decoder_tree(unsigned int symbol_size, byte_reader<InputIterator>& reader)
-        : m_symbol_max_value((1 << symbol_size) - 1u)
+        : m_symbol_size(symbol_size)
+        , m_symbol_max_value((1 << symbol_size) - 1u)
     {
         read_tree(reader);
     }
@@ -191,6 +192,7 @@ private:
     }
 
     static constexpr std::size_t root_node_index = 1;
+    unsigned int m_symbol_size;
     unsigned int m_symbol_max_value;
     std::vector<agbpack_u8> m_tree;
 };
