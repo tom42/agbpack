@@ -41,6 +41,15 @@ inline unsigned int get_symbol_mask(unsigned int symbol_size)
     return get_nsymbols(symbol_size) - 1;
 }
 
+// TODO: add fields:
+//       * The code (what type?)
+//       * The code length (again, what type?)
+class code_table_entry final
+{
+public:
+private:
+};
+
 template <std::input_iterator InputIterator>
 class bitstream_reader final
 {
