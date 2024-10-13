@@ -326,8 +326,6 @@ private:
     std::vector<symbol_frequency> m_frequencies;
 };
 
-// TODO: forbid copying of this class?
-// TODO: how do we easily tell leaf nodes from non-leaf nodes? Invalid symbol value or dedicated flag?
 // TODO: document why shared_ptr and not unique_ptr?
 //       => Maybe but more importantly factor out the pointer type somehow?
 class tree_node final
@@ -348,10 +346,7 @@ public:
         , m_child1(child1)
     {}
 
-    bool is_leaf() const
-    {
-        return m_is_leaf;
-    }
+    bool is_leaf() const { return m_is_leaf; }
 
     symbol sym() const { return m_symbol; }
 
