@@ -3,6 +3,7 @@
 
 module;
 
+#include <algorithm>
 #include <cassert>
 #include <cctype>
 #include <cstdint>
@@ -83,13 +84,14 @@ public:
 
     void dump() const
     {
-        // TODO: implement
-        // TODO: dump the table by code or sorted?
-        for (const auto& entry : m_table)
+        // TODO: factor out hideous sorting criterion
+        auto sorted_table = m_table;
+        std::sort(sorted_table.begin(), sorted_table.end(), [](const auto& a, const auto& b) { return a.l() != b.l() ? a.l() < b.l() : a.c() < b.c(); });
+
+        for (const auto& entry : sorted_table)
         {
             if (entry.l() > 0)
             {
-                // TODO: print code with length information
                 // TODO: replace static_cast<int> with something else: use make_signed or something from agbpack-lzss.cppm
                 char symbol_as_char = std::isprint(static_cast<int>(entry.s())) ? static_cast<char>(entry.s()) : '?';
                 std::cout << std::format("{:3} {}: {:0{}b}\n", entry.s(), symbol_as_char, entry.c(), entry.l());
