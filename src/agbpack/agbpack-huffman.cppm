@@ -92,7 +92,7 @@ public:
                 // TODO: print code with length information
                 // TODO: replace static_cast<int> with something else: use make_signed or something from agbpack-lzss.cppm
                 char symbol_as_char = std::isprint(static_cast<int>(entry.s())) ? static_cast<char>(entry.s()) : '?';
-                std::cout << std::format("{:3} {}: {:b}\n", entry.s(), symbol_as_char, entry.c());
+                std::cout << std::format("{:3} {}: {:0{}b}\n", entry.s(), symbol_as_char, entry.c(), entry.l());
             }
         }
     }
