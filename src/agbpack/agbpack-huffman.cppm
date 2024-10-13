@@ -51,12 +51,16 @@ class code_table_entry final
 public:
     code_table_entry() : code_table_entry(0, 0) {}
 
-    code_table_entry(code /*code*/, code_length /*length*/)
+    code_table_entry(code c, code_length l)
+        : m_code(c)
+        , m_code_length(l)
     {
         // TODO: store data and make it accessible.
     }
 
 private:
+    code m_code;
+    code_length m_code_length;
 };
 
 // TODO: the table initializes itself with n empty entries. That's pretty much OK. Now
