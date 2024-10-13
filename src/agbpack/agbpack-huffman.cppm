@@ -201,6 +201,8 @@ private:
     {
         if (is_leaf)
         {
+            // TODO: take care: if node_value contains garbage in its upper bits we'll have an array overflow
+            //       Actually that's why huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt.encoded fires a debug assertion in the runtime with MSVC
             table.set(node_value, code, code_len);
         }
         else
