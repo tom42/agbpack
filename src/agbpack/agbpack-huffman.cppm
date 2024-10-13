@@ -68,10 +68,7 @@ private:
     code_length m_l;
 };
 
-// TODO: the table initializes itself with n empty entries. That's pretty much OK. Now
-//       * We need a function to set an entry
-//       * We need a function to get an entry
-//       * Do we also want a function to dump the table? Or rather not?
+// TODO: for data encoding we still need some way to get an entry (by symbol, I guess)
 class code_table final
 {
 public:
@@ -84,9 +81,8 @@ public:
 
     void dump() const
     {
-        // TODO: factor out hideous sorting criterion
         auto sorted_table = m_table;
-        std::sort(sorted_table.begin(), sorted_table.end(), [](const auto& a, const auto& b) { return a.l() != b.l() ? a.l() < b.l() : a.c() < b.c(); });
+        std::sort(sorted_table.begin(), sorted_table.end(), compare_code_table_entry());
 
         for (const auto& entry : sorted_table)
         {
@@ -100,6 +96,21 @@ public:
     }
 
 private:
+    struct compare_code_table_entry final
+    {
+        bool operator()(const code_table_entry& a, const code_table_entry& b)
+        {
+            // Sort by code length
+            if (a.l() != b.l())
+            {
+                return a.l() < b .l();
+            }
+
+            // Then by code
+            return a.c() < b.c();
+        }
+    };
+
     std::vector<code_table_entry> m_table;
 };
 
