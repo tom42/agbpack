@@ -80,6 +80,16 @@ public:
     {
         // TODO: implement
         // TODO: dump the table by code or sorted?
+        for (const auto& entry : m_table)
+        {
+            if (entry.l() > 0)
+            {
+                // TODO: print symbol (numeric value)
+                // TODO: print symbol if printable
+                // TODO: print code with length information
+                std::cout << std::format("yikes\n");
+            }
+        }
     }
 
 private:
