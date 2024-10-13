@@ -52,15 +52,17 @@ public:
     code_table_entry() : code_table_entry(0, 0) {}
 
     code_table_entry(code c, code_length l)
-        : m_code(c)
-        , m_code_length(l)
-    {
-        // TODO: store data and make it accessible.
-    }
+        : m_c(c)
+        , m_l(l)
+    {}
+
+    code c() const { return m_c; }
+
+    code_length l() const { return m_l; }
 
 private:
-    code m_code;
-    code_length m_code_length;
+    code m_c;
+    code_length m_l;
 };
 
 // TODO: the table initializes itself with n empty entries. That's pretty much OK. Now
