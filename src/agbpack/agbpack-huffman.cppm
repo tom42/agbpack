@@ -68,9 +68,9 @@ class code_table final
 public:
     code_table(unsigned int symbol_size) : m_table(get_nsymbols(symbol_size)) {}
 
-    void set(symbol symbol, code code, code_length code_length)
+    void set(symbol s, code c, code_length l)
     {
-        m_table[symbol] = code_table_entry(code, code_length);
+        m_table[s] = code_table_entry(c, l);
     }
 
 private:
@@ -196,20 +196,20 @@ private:
         std::size_t node_index,
         agbpack_u8 node_value,
         bool is_leaf,
-        code code,
-        code_length code_len) const
+        code c,
+        code_length l) const
     {
         if (is_leaf)
         {
             // TODO: take care: if node_value contains garbage in its upper bits we'll have an array overflow
             //       Actually that's why huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt.encoded fires a debug assertion in the runtime with MSVC
-            table.set(node_value, code, code_len);
+            table.set(node_value, c, l);
         }
         else
         {
             node_index += 2u * ((node_value & mask_next_node_offset) + 1);
-            foo(table, node_index, read_tree_node(node_index), node_value & mask_0, code << 1, code_len + 1);
-            foo(table, node_index, read_tree_node(node_index + 1), node_value & mask_1, (code << 1) | 1, code_len + 1);
+            foo(table, node_index, read_tree_node(node_index), node_value & mask_0, c << 1, l + 1);
+            foo(table, node_index, read_tree_node(node_index + 1), node_value & mask_1, (c << 1) | 1, l + 1);
         }
     }
 
