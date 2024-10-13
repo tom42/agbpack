@@ -4,6 +4,7 @@
 module;
 
 #include <cassert>
+#include <cctype>
 #include <cstdint>
 #include <format> // TODO: remove
 #include <iostream> // TODO: remove
@@ -88,10 +89,10 @@ public:
         {
             if (entry.l() > 0)
             {
-                // TODO: print symbol (numeric value)
-                // TODO: print symbol if printable
                 // TODO: print code with length information
-                std::cout << std::format("yikes\n");
+                // TODO: replace static_cast<int> with something else: use make_signed or something from agbpack-lzss.cppm
+                char c = std::isprint(static_cast<int>(entry.s())) ? static_cast<char>(entry.s()) : '?';
+                std::cout << std::format("{:3} {}: yikes\n", entry.s(), c);
             }
         }
     }
