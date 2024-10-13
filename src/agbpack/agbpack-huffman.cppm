@@ -155,8 +155,11 @@ public:
 
     code_table create_code_table() const
     {
+        // Recursively create a code table from the decoder tree.
+        // This is basically the loop from decode_symbol converted into a recursive function,
+        // so you might want to refer to that function.
         code_table table(m_symbol_size);
-        foo(table, 0, read_tree_node(root_node_index), false, 0, 0);
+        create_code_table_internal(table, 0, read_tree_node(root_node_index), false, 0, 0);
         return table;
     }
 
@@ -186,8 +189,7 @@ private:
         read8(reader, tree_size - 1, back_inserter(m_tree));
     }
 
-    // TODO: rename
-    void foo(
+    void create_code_table_internal(
         code_table& table,
         std::size_t node_index,
         agbpack_u8 node_value,
@@ -204,8 +206,8 @@ private:
         else
         {
             node_index += 2u * ((node_value & mask_next_node_offset) + 1);
-            foo(table, node_index, read_tree_node(node_index), node_value & mask_0, c << 1, l + 1);
-            foo(table, node_index, read_tree_node(node_index + 1), node_value & mask_1, (c << 1) | 1, l + 1);
+            create_code_table_internal(table, node_index, read_tree_node(node_index), node_value & mask_0, c << 1, l + 1);
+            create_code_table_internal(table, node_index, read_tree_node(node_index + 1), node_value & mask_1, (c << 1) | 1, l + 1);
         }
     }
 
