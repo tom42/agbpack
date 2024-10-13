@@ -76,6 +76,12 @@ public:
         m_table[s] = code_table_entry(c, l);
     }
 
+    void dump() const
+    {
+        // TODO: implement
+        // TODO: dump the table by code or sorted?
+    }
+
 private:
     std::vector<code_table_entry> m_table;
 };
@@ -250,7 +256,7 @@ public:
 
         // TODO: testcode: remove -----------------------
         const auto code_table = tree.create_code_table();
-        // TODO: dump the table, somehow (?)
+        code_table.dump();
         // ----------------------------------------------
 
         throw_if_bitstream_is_misaligned(reader);
