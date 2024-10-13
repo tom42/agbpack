@@ -414,13 +414,13 @@ public:
         : m_root(build_tree(symbol_size, ftable))
     {}
 
-    // TODO: remove
+    // TODO: remove, respectively replace this by a create_code_table function
     void dump()
     {
         dump_internal(m_root, "");
     }
 
-    // TODO: remove
+    // TODO: remove/make private
     void dump_internal(std::shared_ptr<tree_node> node, std::string ccode)
     {
         if (node->is_leaf())
