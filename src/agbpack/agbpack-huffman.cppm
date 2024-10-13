@@ -46,18 +46,22 @@ inline unsigned int get_symbol_mask(unsigned int symbol_size)
 class code_table_entry final
 {
 public:
-    code_table_entry() : code_table_entry(0, 0) {}
+    code_table_entry() : code_table_entry(0, 0, 0) {}
 
-    code_table_entry(code c, code_length l)
-        : m_c(c)
+    code_table_entry(symbol s, code c, code_length l)
+        : m_s(s)
+        , m_c(c)
         , m_l(l)
     {}
+
+    symbol s() const { return m_s; }
 
     code c() const { return m_c; }
 
     code_length l() const { return m_l; }
 
 private:
+    symbol m_s;
     code m_c;
     code_length m_l;
 };
@@ -73,7 +77,7 @@ public:
 
     void set(symbol s, code c, code_length l)
     {
-        m_table[s] = code_table_entry(c, l);
+        m_table[s] = code_table_entry(s, c, l);
     }
 
     void dump() const
