@@ -357,6 +357,10 @@ private:
 
 // TODO: document why shared_ptr and not unique_ptr?
 //       => Maybe but more importantly factor out the pointer type somehow?
+//       => Then make the existing constructors private (?)
+//       => And have instead two factory methods that return a pointer:
+//          => make_leaf_node (or something along these lines)
+//          => make_internal_node (or something long these lines)
 class tree_node final
 {
 public:
