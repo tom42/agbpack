@@ -516,6 +516,8 @@ public:
             // From: huffman.good.8.helloworld.txt
             hardcoded_tree_data = { 0x07, 0x00, 0x00, 0x81, 0xc1, 0xc2, 0x6c, 0x82, 0x64, 0x65, 0x72, 0x77, 0x6f, 0xc0, 0x20, 0x48 };
         }
+        byte_reader br(hardcoded_tree_data.begin(), hardcoded_tree_data.end());
+        huffman_decoder_tree dt(symbol_size, br);
         // ----------------------------------------------------------
 
         // TODO: as usual, need to encode stuff to temporary buffer
