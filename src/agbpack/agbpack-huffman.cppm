@@ -536,6 +536,13 @@ public:
         write(writer, hardcoded_tree_data.begin(), hardcoded_tree_data.end());
 
         // TODO: write encoded data (ensure correct alignment!)
+        if (uncompressed_data.size())
+        {
+            writer.write8(0x50);
+            writer.write8(0x9e);
+            writer.write8(0x5b);
+            writer.write8(0xf3);
+        }
     }
 
     void options(huffman_options options)
