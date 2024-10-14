@@ -413,7 +413,7 @@ public:
     code_table create_code_table() const
     {
         code_table table(m_symbol_size);
-        create_code_table_internal(table, root);
+        create_code_table_internal(table, m_root);
         return table;
     }
 
