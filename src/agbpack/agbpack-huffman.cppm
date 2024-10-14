@@ -146,11 +146,15 @@ private:
     byte_reader<InputIterator>& m_byte_reader;
 };
 
+template <typename OutputIterator>
 class bitstream_writer final
 {
 public:
     bitstream_writer(const bitstream_writer&) = delete;
     bitstream_writer& operator=(const bitstream_writer&) = delete;
+
+    explicit bitstream_writer(unbounded_byte_writer<OutputIterator>& /*byte_writer*/) {}
+
 private:
 };
 
@@ -549,6 +553,7 @@ public:
         // TODO: write encoded data (ensure correct alignment!)
         if (uncompressed_data.size())
         {
+            bitstream_writer<OutputIterator> bit_writer(writer);
             writer.write8(0x50);
             writer.write8(0x9e);
             writer.write8(0x5b);
