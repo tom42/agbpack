@@ -413,12 +413,13 @@ public:
     code_table create_code_table() const
     {
         code_table table(m_symbol_size);
-        create_code_table_internal(table);
+        create_code_table_internal(table, root);
         return table;
     }
 
     // TODO: make private
-    void create_code_table_internal(code_table& /*table*/) const
+    // TODO: use raw pointers rather than shared pointers?
+    void create_code_table_internal(code_table& /*table*/, std::shared_ptr<tree_node> /*node*/) const
     {
         // TODO: implement
     }
