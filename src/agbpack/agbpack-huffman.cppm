@@ -501,19 +501,18 @@ public:
         // Create frequency table.
         // We need to re-read the input during encoding, so we also create a buffer with the input.
         frequency_table ftable(symbol_size);
-        ftable.update(input, eof);
+        const auto uncompressed_data = ftable.update(input, eof);
 
         huffman_encoder_tree tree(symbol_size, ftable);
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
-        //       * create tree/codes from frequency table
         //       * serialize tree to output
         //       * encode data to output
 
-        // TODO: unhardcode uncompressed size
+        // TODO: bad: static cast
         // TODO: check uncompressed size and throw appropriate exception if too big
-        auto header = header::create(m_options, 0);
+        auto header = header::create(m_options, static_cast<uint32_t>(uncompressed_data.size()));
 
         // Copy header and encoded data to output
         unbounded_byte_writer<OutputIterator> writer(output);
