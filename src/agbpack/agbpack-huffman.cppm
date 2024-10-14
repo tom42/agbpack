@@ -406,8 +406,16 @@ class huffman_encoder_tree final
 {
 public:
     explicit huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
-        : m_root(build_tree(symbol_size, ftable))
+        : m_symbol_size(symbol_size)
+        , m_root(build_tree(symbol_size, ftable))
     {}
+
+    code_table create_code_table() const
+    {
+        code_table table(m_symbol_size);
+        // TODO: implement
+        return table;
+    }
 
     // TODO: remove, respectively replace this by a create_code_table function
     void dump()
@@ -479,6 +487,7 @@ private:
         return root;
     }
 
+    unsigned int m_symbol_size;
     std::shared_ptr<tree_node> m_root;
 };
 
