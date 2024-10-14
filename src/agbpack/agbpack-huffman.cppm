@@ -509,11 +509,12 @@ public:
         std::vector<unsigned char> hardcoded_tree_data;
         if (uncompressed_data.size() == 0)
         {
-            hardcoded_tree_data = { 0x01, 0xc0, 0x00, 0x00};
+            hardcoded_tree_data = { 0x01, 0xc0, 0x00, 0x00 };
         }
         else
         {
-
+            // From: huffman.good.8.helloworld.txt
+            hardcoded_tree_data = { 0x07, 0x00, 0x00, 0x81, 0xc1, 0xc2, 0x6c, 0x82, 0x64, 0x65, 0x72, 0x77, 0x6f, 0xc0, 0x20, 0x48 };
         }
         // ----------------------------------------------------------
 
@@ -531,7 +532,7 @@ public:
         write32(writer, header.to_uint32_t());
 
         // TODO: unhardcode tree data
-        // TODO: ensure tree data is correctly padded (it DOES need padding, right?)
+        // TODO: ensure tree data is correctly padded (it DOES need padding, right? Can we test this somehow?)
         write(writer, hardcoded_tree_data.begin(), hardcoded_tree_data.end());
 
         // TODO: write encoded data (ensure correct alignment!)

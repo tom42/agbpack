@@ -7,26 +7,7 @@ SPDX-License-Identifier: MIT
 * huffman_encoder
   * Next:
     * Set up a special test where we (=> repurposed zzz_test for this)
-      * Use a hardcoded tree from CUE encoder
-        * Well here it is: just need to get it into the software somehow
-/*
-[0x00000004]	0x07 '\a'	unsigned char
-[0x00000005]	0x00 '\0'	unsigned char
-[0x00000006]	0x00 '\0'	unsigned char
-[0x00000007]	0x81 'Å'	unsigned char
-[0x00000008]	0xc1 '¡'	unsigned char
-[0x00000009]	0xc2 '¬'	unsigned char
-[0x0000000a]	0x6c 'l'	unsigned char
-[0x0000000b]	0x82 'Ç'	unsigned char
-[0x0000000c]	0x64 'd'	unsigned char
-[0x0000000d]	0x65 'e'	unsigned char
-[0x0000000e]	0x72 'r'	unsigned char
-[0x0000000f]	0x77 'w'	unsigned char
-[0x00000010]	0x6f 'o'	unsigned char
-[0x00000011]	0xc0 '¿'	unsigned char
-[0x00000012]	0x20 ' '	unsigned char
-[0x00000013]	0x48 'H'	unsigned char
-*/
+      * Use a hardcoded tree from CUE encoder (in place)
       * Generate a code table from that
       * Serialize a bitstream using our own code
     * Tree serialization
