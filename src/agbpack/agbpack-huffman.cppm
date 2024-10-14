@@ -505,6 +505,18 @@ public:
 
         huffman_encoder_tree tree(symbol_size, ftable);
 
+        // --- TODO: remove: hardcoded huffman tree data from CUE ---
+        std::vector<unsigned char> hardcoded_tree_data;
+        if (uncompressed_data.size() == 0)
+        {
+            hardcoded_tree_data = { 0x01, 0xc0, 0x00, 0x00};
+        }
+        else
+        {
+
+        }
+        // ----------------------------------------------------------
+
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
         //       * serialize tree to output
@@ -520,10 +532,7 @@ public:
 
         // TODO: unhardcode tree data
         // TODO: ensure tree data is correctly padded (it DOES need padding, right?)
-        writer.write8(1);
-        writer.write8(0xc0);
-        writer.write8(0);
-        writer.write8(0);
+        write(writer, hardcoded_tree_data.begin(), hardcoded_tree_data.end());
 
         // TODO: write encoded data (ensure correct alignment!)
     }
