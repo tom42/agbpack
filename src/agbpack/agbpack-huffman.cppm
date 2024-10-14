@@ -519,6 +519,7 @@ public:
         byte_reader br(hardcoded_tree_data.begin(), hardcoded_tree_data.end());
         huffman_decoder_tree dt(symbol_size, br);
         // ----------------------------------------------------------
+        const auto code_table = dt.create_code_table(); // TODO: obtain code table from tree, not dt (which is our temporary decoder tree)
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
