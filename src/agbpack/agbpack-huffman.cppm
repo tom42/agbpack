@@ -282,11 +282,6 @@ public:
         const unsigned int symbol_size = get_symbol_size(header->template options_as<huffman_options>());
         huffman_decoder_tree<InputIterator> tree(symbol_size, reader);
 
-        // TODO: testcode: remove -----------------------
-        const auto code_table = tree.create_code_table();
-        code_table.dump();
-        // ----------------------------------------------
-
         throw_if_bitstream_is_misaligned(reader);
 
         bitstream_reader<InputIterator> bit_reader(reader);
@@ -503,7 +498,11 @@ public:
         ftable.update(input, eof);
 
         huffman_encoder_tree tree(symbol_size, ftable);
-        //tree.dump(); // TODO: remove
+
+        // TODO: testcode: remove -----------------------
+        const auto code_table = tree.create_code_table();
+        code_table.dump();
+        // ----------------------------------------------
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
