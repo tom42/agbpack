@@ -158,6 +158,8 @@ public:
     {}
 
 private:
+    std::uint32_t m_bitbuffer = 0;
+    std::uint32_t m_bitmask = 0;
     unbounded_byte_writer<OutputIterator>& m_byte_writer;
 };
 
