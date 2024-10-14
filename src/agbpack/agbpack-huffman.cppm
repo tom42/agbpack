@@ -417,21 +417,6 @@ public:
         return table;
     }
 
-    // TODO: make private
-    // TODO: use raw pointers rather than shared pointers?
-    void create_code_table_internal(code_table& table, std::shared_ptr<tree_node> node, code c, code_length l) const
-    {
-        if (node->is_leaf())
-        {
-            table.set(node->sym(), c, l);
-        }
-        else
-        {
-            create_code_table_internal(table, node->child0(), c << 1, l + 1);
-            create_code_table_internal(table, node->child1(), (c << 1) | 1, l + 1);
-        }
-    }
-
 private:
     using node_queue = std::priority_queue<
         std::shared_ptr<tree_node>,
@@ -480,6 +465,20 @@ private:
         assert(nodes.size() == 1);
         auto root = nodes.top();
         return root;
+    }
+
+    // TODO: use raw pointers rather than shared pointers?
+    static void create_code_table_internal(code_table& table, std::shared_ptr<tree_node> node, code c, code_length l)
+    {
+        if (node->is_leaf())
+        {
+            table.set(node->sym(), c, l);
+        }
+        else
+        {
+            create_code_table_internal(table, node->child0(), c << 1, l + 1);
+            create_code_table_internal(table, node->child1(), (c << 1) | 1, l + 1);
+        }
     }
 
     unsigned int m_symbol_size;
