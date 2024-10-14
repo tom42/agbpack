@@ -427,9 +427,9 @@ public:
         }
         else
         {
-            // TODO: update code and length
-            create_code_table_internal(table, node->child0(), c, l);
-            create_code_table_internal(table, node->child1(), c, l);
+            // TODO: update code
+            create_code_table_internal(table, node->child0(), c, l + 1);
+            create_code_table_internal(table, node->child1(), c, l + 1);
         }
     }
 
