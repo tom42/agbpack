@@ -146,6 +146,14 @@ private:
     byte_reader<InputIterator>& m_byte_reader;
 };
 
+class bitstream_writer final
+{
+public:
+    bitstream_writer(const bitstream_writer&) = delete;
+    bitstream_writer& operator=(const bitstream_writer&) = delete;
+private:
+};
+
 template <std::input_iterator InputIterator>
 class huffman_decoder_tree final
 {
