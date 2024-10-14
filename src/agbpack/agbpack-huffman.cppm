@@ -153,9 +153,12 @@ public:
     bitstream_writer(const bitstream_writer&) = delete;
     bitstream_writer& operator=(const bitstream_writer&) = delete;
 
-    explicit bitstream_writer(unbounded_byte_writer<OutputIterator>& /*byte_writer*/) {}
+    explicit bitstream_writer(unbounded_byte_writer<OutputIterator>& byte_writer)
+        : m_byte_writer(byte_writer)
+    {}
 
 private:
+    unbounded_byte_writer<OutputIterator>& m_byte_writer;
 };
 
 template <std::input_iterator InputIterator>
