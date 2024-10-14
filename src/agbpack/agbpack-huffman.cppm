@@ -413,15 +413,24 @@ public:
     code_table create_code_table() const
     {
         code_table table(m_symbol_size);
-        create_code_table_internal(table, m_root);
+        create_code_table_internal(table, m_root, 0, 0);
         return table;
     }
 
     // TODO: make private
     // TODO: use raw pointers rather than shared pointers?
-    void create_code_table_internal(code_table& /*table*/, std::shared_ptr<tree_node> /*node*/) const
+    void create_code_table_internal(code_table& table, std::shared_ptr<tree_node> node, code c, code_length l) const
     {
-        // TODO: implement
+        if (node->is_leaf())
+        {
+            // TODO: add to table
+        }
+        else
+        {
+            // TODO: update code and length
+            create_code_table_internal(table, node->child0(), c, l);
+            create_code_table_internal(table, node->child1(), c, l);
+        }
     }
 
     // TODO: remove, respectively replace this by a create_code_table function
