@@ -520,12 +520,13 @@ public:
         write32(writer, header.to_uint32_t());
 
         // TODO: unhardcode tree data
+        // TODO: ensure tree data is correctly padded (it DOES need padding, right?)
         writer.write8(1);
         writer.write8(0xc0);
         writer.write8(0);
         writer.write8(0);
 
-        // TODO: write encoded data
+        // TODO: write encoded data (ensure correct alignment!)
     }
 
     void options(huffman_options options)
