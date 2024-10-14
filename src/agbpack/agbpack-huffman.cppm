@@ -157,9 +157,40 @@ public:
         : m_byte_writer(byte_writer)
     {}
 
+    // TODO: review (data compression book?)
+    void write_bit(bool bit)
+    {
+        if (bit)
+        {
+            m_bitbuffer |= m_bitmask;
+        }
+
+        m_bitmask >>= 1;
+        if (!m_bitmask)
+        {
+            m_bitmask = 0x80000000;
+            write32(m_byte_writer, m_bitbuffer);
+            m_bitbuffer = 0; // TODO: is this needed? Probably yes, no?
+        }
+    }
+
+    // TODO: review (data compression book?)
+    // TODO: this and write_bit are horribly inefficient
+    //       * Can we not write this such that it writes the entire code at once unless it does not fit?
+    //       * Do we even use write_bit?
+    void write_code(code c, code_length l)
+    {
+        code mask = 1 << (l - 1); // TODO: this breaks horribly if l is < 0. Do we care? (Can it even happen? Is not code_length unsigned?)
+        while (mask)
+        {
+            write_bit(c & mask);
+            mask >>= 1;
+        }
+    }
+
 private:
     std::uint32_t m_bitbuffer = 0;
-    std::uint32_t m_bitmask = 0;
+    std::uint32_t m_bitmask = 0x80000000;
     unbounded_byte_writer<OutputIterator>& m_byte_writer;
 };
 
@@ -559,10 +590,17 @@ public:
         if (uncompressed_data.size())
         {
             bitstream_writer<OutputIterator> bit_writer(writer);
-            writer.write8(0x50);
-            writer.write8(0x9e);
-            writer.write8(0x5b);
-            writer.write8(0xf3);
+            // TODO: loop over input bytes (and then later symbols of input bytes in the case of 4 bit huffman(
+            //       * For each byte
+            //         * Extract all the symbols (one or 2)
+            //           * For each symbol:
+            //             * Get code and length from code table
+            //             * Write to bit_writer
+            bit_writer.write_code(0xf3, 8);
+            bit_writer.write_code(0x5b, 8);
+            bit_writer.write_code(0x9e, 8);
+            bit_writer.write_code(0x50, 8);
+            // TODO: need a way to flush the input buffer (when uncompressed data is EOF and there are still bits in the bit buffer)
         }
     }
 
