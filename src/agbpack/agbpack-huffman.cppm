@@ -125,7 +125,7 @@ public:
         : m_byte_reader(byte_reader)
     {}
 
-    bool get_bit()
+    bool read_bit()
     {
         m_bitmask >>= 1;
         if (!m_bitmask)
@@ -184,7 +184,7 @@ public:
         {
             current_node_index += 2u * ((current_node_value & mask_next_node_offset) + 1);
 
-            if (!bit_reader.get_bit())
+            if (!bit_reader.read_bit())
             {
                 character_found = current_node_value & mask_0;
                 current_node_value = read_tree_node(current_node_index);
