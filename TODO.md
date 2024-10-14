@@ -6,9 +6,6 @@ SPDX-License-Identifier: MIT
 # TODO
 * huffman_encoder
   * Next:
-    * We can now also give huffman_encoder_tree a function create_code_table
-      * This gives us a way to dump that tree too
-      * And we need this later for encoding anyway
     * Tree serialization
       * Here we should have a couple of sanity checks:
         * Maximum tree size
