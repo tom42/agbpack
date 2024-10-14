@@ -413,8 +413,14 @@ public:
     code_table create_code_table() const
     {
         code_table table(m_symbol_size);
-        // TODO: implement
+        create_code_table_internal(table);
         return table;
+    }
+
+    // TODO: make private
+    void create_code_table_internal(code_table& /*table*/) const
+    {
+        // TODO: implement
     }
 
     // TODO: remove, respectively replace this by a create_code_table function
