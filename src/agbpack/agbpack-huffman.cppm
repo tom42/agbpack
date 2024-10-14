@@ -432,26 +432,6 @@ public:
         }
     }
 
-    // TODO: remove, respectively replace this by a create_code_table function
-    void dump()
-    {
-        dump_internal(m_root, "");
-    }
-
-    // TODO: remove/make private
-    void dump_internal(std::shared_ptr<tree_node> node, std::string ccode)
-    {
-        if (node->is_leaf())
-        {
-            std::cout << std::format("{}: {}\n", static_cast<char>(node->sym()), ccode);
-        }
-        else
-        {
-            dump_internal(node->child0(), ccode + "0");
-            dump_internal(node->child1(), ccode + "1");
-        }
-    }
-
 private:
     using node_queue = std::priority_queue<
         std::shared_ptr<tree_node>,
