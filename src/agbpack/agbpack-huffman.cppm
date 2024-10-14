@@ -427,9 +427,8 @@ public:
         }
         else
         {
-            // TODO: update code
-            create_code_table_internal(table, node->child0(), c, l + 1);
-            create_code_table_internal(table, node->child1(), c, l + 1);
+            create_code_table_internal(table, node->child0(), c << 1, l + 1);
+            create_code_table_internal(table, node->child1(), (c << 1) | 1, l + 1);
         }
     }
 
