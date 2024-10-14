@@ -501,11 +501,6 @@ public:
 
         huffman_encoder_tree tree(symbol_size, ftable);
 
-        // TODO: testcode: remove -----------------------
-        const auto code_table = tree.create_code_table();
-        code_table.dump();
-        // ----------------------------------------------
-
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
         //       * create tree/codes from frequency table
