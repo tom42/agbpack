@@ -6,7 +6,7 @@ SPDX-License-Identifier: MIT
 # TODO
 * huffman_encoder
   * Next:
-    * Set up a special test where we
+    * Set up a special test where we (=> repurposed zzz_test for this)
       * Use a hardcoded tree from CUE encoder
       * Generate a code table from that
       * Serialize a bitstream using our own code
