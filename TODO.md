@@ -6,6 +6,10 @@ SPDX-License-Identifier: MIT
 # TODO
 * huffman_encoder
   * Next:
+    * Set up a special test where we
+      * Use a hardcoded tree from CUE encoder
+      * Generate a code table from that
+      * Serialize a bitstream using our own code
     * Tree serialization
       * Here we should have a couple of sanity checks:
         * Maximum tree size
