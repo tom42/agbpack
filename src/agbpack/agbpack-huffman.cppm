@@ -423,7 +423,7 @@ public:
     {
         if (node->is_leaf())
         {
-            // TODO: add to table
+            table.set(node->sym(), c, l);
         }
         else
         {
