@@ -13,7 +13,6 @@ module;
 #include <memory>
 #include <queue>
 #include <stdexcept>
-#include <string> // TODO: remove
 #include <utility>
 #include <vector>
 
