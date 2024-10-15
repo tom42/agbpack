@@ -520,10 +520,8 @@ private:
         // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
         while (nodes.size() > 1)
         {
-            auto node0 = nodes.top();
-            nodes.pop();
-            auto node1 = nodes.top();
-            nodes.pop();
+            auto node0 = pop(nodes);
+            auto node1 = pop(nodes);
             nodes.push(std::make_shared<tree_node>(node0, node1));
         }
 
