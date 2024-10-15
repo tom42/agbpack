@@ -602,6 +602,7 @@ public:
             for (auto byte : uncompressed_data)
             {
                 // TODO: only half the truth: one byte does not equal one symbol
+                // TODO: use an indexing operator for code_table?
                 code_table.get(byte);
             }
             // TODO: loop over input bytes (and then later symbols of input bytes in the case of 4 bit huffman(
