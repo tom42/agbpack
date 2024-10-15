@@ -79,6 +79,15 @@ public:
         m_table[s] = code_table_entry(s, c, l);
     }
 
+    // TODO: review signature
+    // TODO: assert index
+    // TODO: assert index in set() above?
+    // TODO: are there any other indexing methods that could do with asserts?
+    const code_table_entry& get(symbol s) const
+    {
+        return m_table[s];
+    }
+
     void dump() const
     {
         auto sorted_table = m_table;
@@ -590,6 +599,11 @@ public:
         if (uncompressed_data.size())
         {
             bitstream_writer<OutputIterator> bit_writer(writer);
+            for (auto byte : uncompressed_data)
+            {
+                // TODO: only half the truth: one byte does not equal one symbol
+                code_table.get(byte);
+            }
             // TODO: loop over input bytes (and then later symbols of input bytes in the case of 4 bit huffman(
             //       * For each byte
             //         * Extract all the symbols (one or 2)
