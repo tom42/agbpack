@@ -422,7 +422,7 @@ using tree_node_ptr = std::shared_ptr<tree_node>;
 class tree_node final
 {
 public:
-    explicit tree_node(symbol sym, symbol_frequency frequency) noexcept // TODO: do we really want/need this to be noexcept? (recheck)
+    explicit tree_node(symbol sym, symbol_frequency frequency) noexcept
         : m_is_leaf(true)
         , m_symbol(sym)
         , m_frequency(frequency)
