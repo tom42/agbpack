@@ -67,7 +67,6 @@ private:
     code_length m_l;
 };
 
-// TODO: for data encoding we still need some way to get an entry (by symbol, I guess)
 class code_table final
 {
 public:
