@@ -6,10 +6,12 @@ SPDX-License-Identifier: MIT
 # TODO
 * huffman_encoder
   * Next:
+    * Start writing that tree serialization code
+      * Understand the serialized format
+      * Implement serializer (and do not forget those max. offsets!)
     * Set up a special test where we (=> repurposed zzz_test for this)
-      * Use a hardcoded tree from CUE encoder (in place)
-      * Generate a code table from that
       * Serialize a bitstream using our own code
+        * Is in place, although only for 8 bit huffman and it does not yet flush the bitbuffer
     * Tree serialization
       * Here we should have a couple of sanity checks:
         * Maximum tree size
