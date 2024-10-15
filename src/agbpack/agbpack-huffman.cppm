@@ -527,7 +527,7 @@ private:
         {
             auto node0 = pop(nodes);
             auto node1 = pop(nodes);
-            nodes.push(std::make_shared<tree_node>(node0, node1));
+            nodes.push(tree_node::make_internal(node0, node1));
         }
 
         assert(nodes.size() == 1);
