@@ -454,6 +454,12 @@ public:
         return std::make_shared<tree_node>(sym, frequency);
     }
 
+    // TODO: recheck tree generation, since we changed it so much
+    static tree_node_ptr make_internal()
+    {
+        // TODO: implement, use
+    }
+
 private:
     bool m_is_leaf;
     symbol m_symbol;
