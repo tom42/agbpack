@@ -74,15 +74,14 @@ public:
 
     void set(symbol s, code c, code_length l)
     {
+        // TODO: assert index
         m_table[s] = code_table_entry(s, c, l);
     }
 
     // TODO: review signature
-    // TODO: assert index
-    // TODO: assert index in set() above?
-    // TODO: are there any other indexing methods that could do with asserts?
     const code_table_entry& get(symbol s) const
     {
+        // TODO: assert index
         return m_table[s];
     }
 
@@ -402,6 +401,7 @@ public:
 
     symbol_frequency frequency(std::size_t sym) const
     {
+        // TODO: assert index
         return m_frequencies[sym];
     }
 
