@@ -532,6 +532,13 @@ private:
         return root;
     }
 
+    static tree_node_ptr pop(node_queue& nodes)
+    {
+        auto node = nodes.top();
+        nodes.pop();
+        return node;
+    }
+
     static void create_code_table_internal(code_table& table, tree_node* node, code c, code_length l)
     {
         if (node->is_leaf())
