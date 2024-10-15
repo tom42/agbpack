@@ -545,6 +545,21 @@ private:
     std::shared_ptr<tree_node> m_root;
 };
 
+class huffman_tree_serializer final
+{
+public:
+    // TODO: figure out public interface
+    // TODO: implement:
+    //       * Maybe annotate a tree (the one from CUE? => Hello world)
+    //         * So start that documentation?
+    //       * Naive implementation first? => Recursive?
+    //       * Somehow navigate the tree
+    //         * For each node of the tree
+    //           * Figure out where to put its children into the array
+    //           * Write its children into the array
+private:
+};
+
 export class huffman_encoder final
 {
 public:
