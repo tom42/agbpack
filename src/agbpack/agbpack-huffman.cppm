@@ -602,8 +602,10 @@ public:
             for (auto byte : uncompressed_data)
             {
                 // TODO: only half the truth: one byte does not equal one symbol
+                //       => This does not yet work for 4 bit huffman!
                 // TODO: use an indexing operator for code_table?
-                code_table.get(byte);
+                const auto& e = code_table.get(byte);
+                bit_writer.write_code(e.c(), e.l());
             }
             // TODO: loop over input bytes (and then later symbols of input bytes in the case of 4 bit huffman(
             //       * For each byte
@@ -611,10 +613,6 @@ public:
             //           * For each symbol:
             //             * Get code and length from code table
             //             * Write to bit_writer
-            bit_writer.write_code(0xf3, 8);
-            bit_writer.write_code(0x5b, 8);
-            bit_writer.write_code(0x9e, 8);
-            bit_writer.write_code(0x50, 8);
             // TODO: need a way to flush the input buffer (when uncompressed data is EOF and there are still bits in the bit buffer)
         }
     }
