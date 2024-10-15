@@ -454,9 +454,9 @@ public:
     }
 
     // TODO: recheck tree generation, since we changed it so much
-    static tree_node_ptr make_internal()
+    static tree_node_ptr make_internal(tree_node_ptr child0, tree_node_ptr child1)
     {
-        // TODO: implement, use
+        return std::make_shared<tree_node>(child0, child1);
     }
 
 private:
