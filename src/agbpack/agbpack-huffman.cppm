@@ -429,7 +429,6 @@ public:
         , m_frequency(frequency)
     {}
 
-    // TODO: review
     explicit tree_node(tree_node_ptr child0, tree_node_ptr child1)
         : m_is_leaf(false)
         , m_symbol(0)
