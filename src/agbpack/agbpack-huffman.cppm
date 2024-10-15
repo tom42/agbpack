@@ -503,7 +503,7 @@ private:
             symbol_frequency f = ftable.frequency(sym);
             if (f > 0)
             {
-                nodes.push(std::make_shared<tree_node>(sym, f));
+                nodes.push(tree_node::make_leaf(sym, f));
             }
         }
 
@@ -513,11 +513,7 @@ private:
         // The symbol is irrelevant, but an obvious choice is 0.
         while (nodes.size() < 2) // TODO: this is not yet particularly well tested
         {
-            // TODO: out of curiosity: which ctor gets called?
-            //       * obviously we mean the one for leaf nodes, but it's very well possibly the one for intermediate notes gets called
-            //       * Well we can have factory methods instead of constructors, then things will be clear too.
-            //         * Uh well no not really, make_shared does not work with private constructors. Not without jumping through hoops, anyway
-            nodes.push(std::make_shared<tree_node>(0, 0));
+            nodes.push(tree_node::make_leaf(0, 0));
         }
 
         // Standard huffman tree building algorithm:
