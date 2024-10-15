@@ -411,6 +411,9 @@ private:
     std::vector<symbol_frequency> m_frequencies;
 };
 
+class tree_node;
+using tree_node_ptr = std::shared_ptr<tree_node>;
+
 // TODO: document why shared_ptr and not unique_ptr?
 //       => Maybe but more importantly factor out the pointer type somehow?
 //       => Then make the existing constructors private (?)
@@ -427,7 +430,7 @@ public:
     {}
 
     // TODO: review
-    explicit tree_node(std::shared_ptr<tree_node> child0, std::shared_ptr<tree_node> child1)
+    explicit tree_node(tree_node_ptr child0, tree_node_ptr child1)
         : m_is_leaf(false)
         , m_symbol(0)
         , m_frequency(child0->frequency() + child1->frequency())
@@ -441,22 +444,22 @@ public:
 
     symbol_frequency frequency() const { return m_frequency; }
 
-    std::shared_ptr<tree_node> child0() const { return m_child0; }
+    tree_node_ptr child0() const { return m_child0; }
 
-    std::shared_ptr<tree_node> child1() const { return m_child1; }
+    tree_node_ptr child1() const { return m_child1; }
 
 private:
     bool m_is_leaf;
     symbol m_symbol;
     symbol_frequency m_frequency;
-    std::shared_ptr<tree_node> m_child0;
-    std::shared_ptr<tree_node> m_child1;
+    tree_node_ptr m_child0;
+    tree_node_ptr m_child1;
 };
 
 class tree_node_compare final
 {
 public:
-    bool operator()(std::shared_ptr<tree_node> a, std::shared_ptr<tree_node> b)
+    bool operator()(tree_node_ptr a, tree_node_ptr b)
     {
         return a->frequency() > b->frequency();
     }
@@ -479,11 +482,11 @@ public:
 
 private:
     using node_queue = std::priority_queue<
-        std::shared_ptr<tree_node>,
-        std::vector<std::shared_ptr<tree_node>>,
+        tree_node_ptr,
+        std::vector<tree_node_ptr>,
         tree_node_compare>;
 
-    static std::shared_ptr<tree_node> build_tree(unsigned int symbol_size, const frequency_table& ftable)
+    static tree_node_ptr build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
         node_queue nodes;
 
@@ -541,7 +544,7 @@ private:
     }
 
     unsigned int m_symbol_size;
-    std::shared_ptr<tree_node> m_root;
+    tree_node_ptr m_root;
 };
 
 class huffman_tree_serializer final
