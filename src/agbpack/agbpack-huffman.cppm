@@ -413,8 +413,7 @@ private:
 class tree_node;
 using tree_node_ptr = std::shared_ptr<tree_node>;
 
-// TODO: document why shared_ptr and not unique_ptr?
-//       => Maybe but more importantly factor out the pointer type somehow?
+// TODO: => Maybe but more importantly factor out the pointer type somehow?
 //       => And have instead two factory methods that return a pointer:
 //          => make_leaf_node (or something along these lines)
 //          => make_internal_node (or something long these lines)
