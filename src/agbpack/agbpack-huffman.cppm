@@ -448,6 +448,12 @@ public:
 
     tree_node_ptr child1() const { return m_child1; }
 
+    static tree_node_ptr make_leaf(symbol sym, symbol_frequency frequency)
+    {
+        // TODO: what does this call? Which ctor? The right one?
+        return std::make_shared<tree_node>(sym, frequency);
+    }
+
 private:
     bool m_is_leaf;
     symbol m_symbol;
