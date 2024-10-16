@@ -39,3 +39,6 @@
 
 # Qt Creator files
 CMakeLists.txt.user
+
+# Temporary files
+*~
