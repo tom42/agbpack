@@ -50,4 +50,9 @@ it is a leaf node.
 
 ### Format of leaf nodes
 
-TODO: describe it (what about upper unused bits?)
+|Bits 0 - 7                             |
+|---------------------------------------|
+|The symbol represented by the leaf node|
+
+When the symbol size is less than 8 bits, the upper unused bits must
+be zero.
