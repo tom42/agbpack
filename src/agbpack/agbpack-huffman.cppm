@@ -3,12 +3,12 @@
 
 module;
 
-//#include <algorithm> TODO: commented out to locate gcc bug / find workaround
+#include <algorithm>
 #include <cassert>
 #include <cctype>
 #include <cstdint>
-//#include <format> // TODO: remove
-//#include <iostream> // TODO: remove
+#include <format>
+#include <iostream>
 #include <iterator>
 #include <memory>
 #include <queue>
@@ -96,8 +96,7 @@ public:
             {
                 // TODO: replace static_cast<int> with something else: use make_signed or something from agbpack-lzss.cppm
                 char symbol_as_char = std::isprint(static_cast<int>(entry.s())) ? static_cast<char>(entry.s()) : '?';
-                //std::cout << std::format("{:3} {}: {:0{}b}\n", entry.s(), symbol_as_char, entry.c(), entry.l());
-                (void)symbol_as_char; // TODO: test: does it build with gcc if we do not use std::cout? If so, maybe put dump() into a cpp file?
+                std::cout << std::format("{:3} {}: {:0{}b}\n", entry.s(), symbol_as_char, entry.c(), entry.l());
             }
         }
     }
