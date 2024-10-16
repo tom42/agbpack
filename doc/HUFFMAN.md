@@ -13,13 +13,13 @@ implemented the GBA BIOS.
 Terminology is borrowed from ARM CPUs.
 Moreover, little endianness is assumed everywhere.
 
-|Term         |Description                                                               |
-|-------------|--------------------------------------------------------------------------|
-|Byte         |An 8 bit quantity                                                         |
-|Halfword     |A 16 bit quantity                                                         |
-|Word         |A 32 bit quantity                                                         |
-|node0, child0|The child node the decoder follows when it encounters a 0 in the bitstream|
-|node1, child1|The child node the decoder follows when it encounters a 1 in the bitstream|
+|Term         |Description                                            |
+|-------------|-------------------------------------------------------|
+|Byte         |An 8 bit quantity                                      |
+|Halfword     |A 16 bit quantity                                      |
+|Word         |A 32 bit quantity                                      |
+|node0, child0|Child node to follow when there is a 0 in the bitstream|
+|node1, child1|Child node to follow when there is a 1 in the bitstream|
 
 ## Huffman tree serialization
 
