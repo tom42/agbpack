@@ -33,3 +33,11 @@ stored in a byte. So a leaf node has 8 bits to store the symbol
 it represents. With 8 bit symbols this leaves no room in a node to
 store the node's type, or, for that matter, the address of the node's
 children, so that information is stored in the parent node.
+
+### Format of intermediate nodes
+
+TODO: describe it (What about the offset?)
+
+### Format of leaf nodes
+
+TODO: describe it (what about upper unused bits?)
