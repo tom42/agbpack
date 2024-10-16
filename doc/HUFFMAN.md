@@ -60,9 +60,8 @@ a multiple of 4 bytes and the TSB should always have an odd value,
 and the last 2 bytes of a serialized tree may be unused.
 
 Note that the GBA BIOS relies on the bitstream being word aligned.
-It processes the bitstream a word at a time. If the bitstream
-is misaligned, the decoder, running on an ARM CPU, will produce
-garbage.
+It reads the bitstream a word at a time. If the bitstream is
+misaligned, the decoder, running on an ARM CPU, will produce garbage.
 
 ### Format of internal nodes
 
