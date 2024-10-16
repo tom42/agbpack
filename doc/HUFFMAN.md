@@ -3,9 +3,9 @@ SPDX-FileCopyrightText: 2024 Thomas Mathys
 SPDX-License-Identifier: MIT
 -->
 
-# Huffman encoding/decoding in the GBA BIOS
+# Huffman coding in the GBA BIOS
 
-This document contains some notes on the huffman encoding scheme
+This document contains some notes on the huffman coding scheme
 implemented the GBA BIOS.
 
 ## Terminology
