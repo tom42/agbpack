@@ -40,6 +40,14 @@ The root node is implicitly assumed to be an internal node.
 
 TODO: describe it (What about the offset?)
 
+|Bit 7      |Bit 6      |Bits 0 - 5        |
+|-----------|-----------|------------------|
+|child0 type|child1 type|Offset to children|
+
+Bits 6 and 7 store the type of the internal node's child nodes,
+where 0 means the respective child is an internal node and 1 means
+it is a leaf node.
+
 ### Format of leaf nodes
 
 TODO: describe it (what about upper unused bits?)
