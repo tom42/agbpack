@@ -3,7 +3,7 @@
 
 module;
 
-#include <algorithm>
+//#include <algorithm> TODO: commented out to locate gcc bug / find workaround
 #include <cassert>
 #include <cctype>
 #include <cstdint>
