@@ -168,7 +168,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 
     if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
         add_compiler_flags(-Walloc-zero)
-        add_compiler_flags(-Walloca)
     endif()
 endif()
 
