@@ -26,15 +26,15 @@ Moreover, little endianness is assumed everywhere.
 The serialized huffman tree is best viewed as an array of halfwords,
 where each array element holds two sibling nodes.
 
-The array element at index 0 is special: rather than a pair of
-sibling nodes it stores the size of the serialized tree and
-the root node.
-
 Since each sibling node pair is stored in a halfword, each node is
 stored in a byte. So a leaf node has 8 bits to store the symbol
 it represents. With 8 bit symbols this leaves no room in a node to
 store the node's type. That information is stored in the parent node.
-The root node is implicitly assumed to be an internal node.
+
+The array element at index 0 is special: rather than a pair of
+sibling nodes it stores the size of the serialized tree and
+the root node. The root node is implicitly assumed to be an internal
+node.
 
 ### Format of internal nodes
 
