@@ -26,4 +26,10 @@ where each array element holds two sibling nodes of the tree.
 
 The array element at index 0 is special: rather than a pair of
 sibling nodes it stores the size of the serialized tree and
-the root node, which is always an internal node.
+the root node.
+
+Since each sibling node pair is stored in a halfword, each node is
+stored in a byte. So a leaf node has 8 bits to store the symbol
+it represents. With 8 bit symbols this leaves no room in a node to
+store the node's type, or, for that matter, the address of the node's
+children, so that information is stored in the parent node.
