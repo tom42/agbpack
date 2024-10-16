@@ -24,13 +24,6 @@ Moreover, little endianness is assumed everywhere.
 The serialized huffman tree is best viewed as an array of halfwords,
 where each array element holds two sibling nodes of the tree.
 
-In a huffman tree, sibling nodes are always both either internal
-nodes or leaf nodes.
-
 The array element at index 0 is special: rather than a pair of
 sibling nodes it stores the size of the serialized tree and
 the root node, which is always an internal node.
-
-# TODO: siblings are always either internal nodes or leaf nodes
-#       => document how this is relevant for the serialized tree.
-# TODO: document specialty of the root node
