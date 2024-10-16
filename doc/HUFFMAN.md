@@ -22,7 +22,7 @@ Moreover, little endianness is assumed everywhere.
 ## Huffman tree serialization
 
 The serialized huffman tree is best viewed as an array of halfwords,
-where each array element holds two sibling nodes of the tree.
+where each array element holds two sibling nodes.
 
 The array element at index 0 is special: rather than a pair of
 sibling nodes it stores the size of the serialized tree and
