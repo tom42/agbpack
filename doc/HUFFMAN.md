@@ -31,10 +31,8 @@ the root node.
 Since each sibling node pair is stored in a halfword, each node is
 stored in a byte. So a leaf node has 8 bits to store the symbol
 it represents. With 8 bit symbols this leaves no room in a node to
-store the node's type, or, for that matter, the address of the node's
-children. That information is stored in the parent node. Obviously
-the root node is special: we know its address and it is always
-an intermediate node.
+store the node's type. That information is stored in the parent node.
+The root node is implicitly assumed to be an intermediate node.
 
 ### Format of intermediate nodes
 
