@@ -36,6 +36,34 @@ sibling nodes it stores the size of the serialized tree and
 the root node. The root node is implicitly assumed to be an internal
 node.
 
+### Tree size
+
+As mentioned, the first halfword of the serialized huffman tree
+contains the tree size byte, let's call it TSB. It is an unsigned
+8 bit value. The tree size in bytes is given by 2 * (TSB + 1).
+
+The maximum tree size is therefore 2 * (255 + 1) = 512 bytes.
+
+A huffman tree for N symbols always contains 2 * N - 1 nodes.
+
+For 8 bit wide symbols, N=256, which yields 2 * 256 - 1 = 511 nodes.
+Since each node occupies one byte, the maximum tree size of
+512 bytes is just enough to hold a tree for 256 symbols plus the
+tree size byte.
+
+After the serialized tree the encoded bitstream follows.
+The encoded bitstream must be word aligned. This means that padding
+bytes may be required between the serialized tree and the encoded
+bitstream. These padding bytes must be contained in the size
+specified by the TSB. In other words, the tree size in bytes must be
+a multiple of 4 bytes and the TSB should always have an odd value,
+and the last 2 bytes of a serialized tree may be unused.
+
+Note that the GBA BIOS relies on the bitstream being word aligned.
+It processes the bitstream a word at a time. If the bitstream
+is misaligned, the decoder, running on an ARM CPU, will produce
+garbage.
+
 ### Format of internal nodes
 
 TODO: describe it (What about the offset?)
