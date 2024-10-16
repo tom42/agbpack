@@ -34,9 +34,9 @@ Since each sibling node pair is stored in a halfword, each node is
 stored in a byte. So a leaf node has 8 bits to store the symbol
 it represents. With 8 bit symbols this leaves no room in a node to
 store the node's type. That information is stored in the parent node.
-The root node is implicitly assumed to be an intermediate node.
+The root node is implicitly assumed to be an internal node.
 
-### Format of intermediate nodes
+### Format of internal nodes
 
 TODO: describe it (What about the offset?)
 
