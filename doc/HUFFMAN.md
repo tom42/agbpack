@@ -91,11 +91,12 @@ TODO: document where data comes from
 
 Consider the following message: ABBCCDDDD
 
-The following table shows the symbol frequencies for the message:
+The following table shows the symbol frequencies and the resulting
+huffman code for the message:
 
-|Symbol  |Frequency|
-|------------------|
-|A (0x41)|1        |
-|B (0x42)|2        |
-|C (0x43)|2        |
-|D (0x44)|4        |
+|Symbol  |Frequency|Code|Length|
+|--------|---------|----|------|
+|A (0x41)|1        |110 |3     |
+|B (0x42)|2        |111 |3     |
+|C (0x43)|2        |10  |2     |
+|D (0x44)|4        |0   |1     |
