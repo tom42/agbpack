@@ -87,7 +87,9 @@ be zero.
 ### Example
 
 TODO: write down example, using data from TODO.md
-TODO: document where data comes from
+
+Note: the data for the following example has been produced with CUE's
+huffman encoder: https://github.com/PeterLemon/Nintendo_DS_Compressors
 
 Consider the following message: ABBCCDDDD
 
