@@ -58,6 +58,13 @@ Done
 
 # TODO
 * huffman_encoder
+  * echo -n ABBCCDDEEEE>foo
+    * When encoded with CUE huffman, this seems to create
+      an odd tree which contains 'A' twice.
+      * I may have hallucinated this, but maybe investigate
+      * Why is that?
+        * But the code for both instances of 'A' is the same?
+      * What does our tree generation/serializaton code?
   * Next:
     * Start writing that tree serialization code
       * Understand the serialized format
