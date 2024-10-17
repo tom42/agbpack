@@ -107,12 +107,14 @@ huffman code for the message:
 |G (0x47)|3        |110 |3     |
 |H (0x48)|4        |00  |2     |
 
-TODO: redo everything below with new more interesting data
 The following hexdump shows the entire compressed file:
 
 ```
-0000000 28 09 00 00    Compression header
-0000004 03 80 44 80    Serialized tree
-0000010 43 c0 41 42    Serialized tree
-0000014 00 00 d0 df    Serialized tree (padding bytes), bitstream
+0000000 28 12 00 00    Compression header
+0000004 07 00 80 01    Serialized tree
+0000010 48 c1 c1 82    Serialized tree
+0000014 43 44 45 46    Serialized tree
+0000020 47 c0 41 42    Serialized tree
+0000024 92 9b f4 ef    Bitstrean
+0000030 00 00 b0 dd    Bitstrean
 ```
