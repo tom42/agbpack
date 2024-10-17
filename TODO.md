@@ -3,6 +3,59 @@ SPDX-FileCopyrightText: 2024 Thomas Mathys
 SPDX-License-Identifier: MIT
 -->
 
+
+-------------------------------------------------------------
+tom@notebook:~/work/github/Nintendo_DS_Compressors$ od -tx1 -w4 foo.h8 
+0000000 28 09 00 00
+0000004 03 80 44 80
+0000010 43 c0 41 42
+0000014 00 00 d0 df
+0000020
+
+
+tom@notebook:~/work/github/Nintendo_DS_Compressors$ echo -n ABBCCDDDD>foo
+tom@notebook:~/work/github/Nintendo_DS_Compressors$ ./huffman  -e8 foo foo.h8
+
+HUFFMAN - (c) CUE 2011
+Huffman coding for Nintendo GBA/DS
+
+- encoding 'foo' -> 'foo.h8'
+--- CreateFreqs -------------------------------
+s:041 w:000001
+s:042 w:000002
+s:043 w:000002
+s:044 w:000004
+
+--- CreateTree --------------------------------
+s:041 w:000001 n:000 d:004 l:--- r:--- nl:001
+s:042 w:000002 n:001 d:004 l:--- r:--- nl:001
+s:043 w:000002 n:002 d:005 l:--- r:--- nl:001
+s:044 w:000004 n:003 d:006 l:--- r:--- nl:001
+s:101 w:000003 n:004 d:005 l:000 r:001 nl:002
+s:102 w:000005 n:005 d:006 l:002 r:004 nl:003
+s:103 w:000009 n:006 d:--- l:003 r:005 nl:004
+
+--- CreateCodeTree ----------------------------
+N:000 L:03 R:00 XX|004 L-|001
+N:001 s:04 R:00 ------ L-|002
+N:002 s:03 R:00 ------ LR|003
+N:003 s:01 s:02 ------ ------
+
+--- CreateCodeWorks ---------------------------
+s:041 b:03 c:110
+s:042 b:03 c:111
+s:043 b:02 c:10
+s:044 b:01 c:0
+
+--- CreateCode --------------------------------
+28 09 00 00
+(+CodeTree)
+00 00 D0 DF 
+
+
+Done
+-------------------------------------------------------------
+
 # TODO
 * huffman_encoder
   * Next:
