@@ -102,3 +102,12 @@ huffman code for the message:
 |B (0x42)|2        |111 |3     |
 |C (0x43)|2        |10  |2     |
 |D (0x44)|4        |0   |1     |
+
+The following hexdump shows the entire compressed file:
+
+```
+0000000 28 09 00 00    Compression header
+0000004 03 80 44 80    Serialized tree
+0000010 43 c0 41 42    Serialized tree
+0000014 00 00 d0 df    Serialized tree (padding bytes), bitstream
+```

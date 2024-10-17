@@ -3,16 +3,7 @@ SPDX-FileCopyrightText: 2024 Thomas Mathys
 SPDX-License-Identifier: MIT
 -->
 
-
 -------------------------------------------------------------
-tom@notebook:~/work/github/Nintendo_DS_Compressors$ od -tx1 -w4 foo.h8 
-0000000 28 09 00 00
-0000004 03 80 44 80
-0000010 43 c0 41 42
-0000014 00 00 d0 df
-0000020
-
-
 tom@notebook:~/work/github/Nintendo_DS_Compressors$ echo -n ABBCCDDDD>foo
 tom@notebook:~/work/github/Nintendo_DS_Compressors$ ./huffman  -e8 foo foo.h8
 
@@ -31,11 +22,6 @@ N:000 L:03 R:00 XX|004 L-|001
 N:001 s:04 R:00 ------ L-|002
 N:002 s:03 R:00 ------ LR|003
 N:003 s:01 s:02 ------ ------
-
---- CreateCode --------------------------------
-28 09 00 00
-(+CodeTree)
-00 00 D0 DF 
 
 
 Done
