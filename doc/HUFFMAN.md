@@ -96,15 +96,18 @@ Consider the following message: ABBCCDDEEFFGGGHHHH
 The following table shows the symbol frequencies and the resulting
 huffman code for the message:
 
-TODO: redo everything below with new more interesting data
-
 |Symbol  |Frequency|Code|Length|
 |--------|---------|----|------|
-|A (0x41)|1        |110 |3     |
-|B (0x42)|2        |111 |3     |
-|C (0x43)|2        |10  |2     |
-|D (0x44)|4        |0   |1     |
+|A (0x41)|1        |1110|4     |
+|B (0x42)|2        |1111|4     |
+|C (0x43)|2        |010 |3     |
+|D (0x44)|2        |011 |3     |
+|E (0x45)|2        |100 |3     |
+|F (0x46)|2        |101 |3     |
+|G (0x47)|3        |110 |3     |
+|H (0x48)|4        |00  |2     |
 
+TODO: redo everything below with new more interesting data
 The following hexdump shows the entire compressed file:
 
 ```
