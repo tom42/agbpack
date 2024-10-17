@@ -83,3 +83,9 @@ it is a leaf node.
 
 When the symbol size is less than 8 bits, the upper unused bits must
 be zero.
+
+### Example
+
+Consider the following message: ABBCCDDDD
+
+TODO: write down example, using data from TODO.md
