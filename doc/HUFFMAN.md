@@ -118,3 +118,17 @@ The following hexdump shows the entire compressed file:
 0000024 92 9b f4 ef    Bitstrean
 0000030 00 00 b0 dd    Bitstrean
 ```
+
+The following table tries to explain the serialized tree:
+TODO: try explaining the internal nodes...that's the ugly bit, really.
+
+```
+0x07 TSB    0x00
+0x80        0x01
+0x48 'H'    0xc1
+0xc1        0x82
+0x43 'C'    0x44 'D'
+0x45 'E'    0x46 'F'
+0x47 'G'    0xc0
+0x41 'A'    0x42 'B'
+```
