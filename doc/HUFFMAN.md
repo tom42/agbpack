@@ -91,10 +91,12 @@ TODO: write down example, using data from TODO.md
 Note: the data for the following example has been produced with CUE's
 huffman encoder: https://github.com/PeterLemon/Nintendo_DS_Compressors
 
-Consider the following message: ABBCCDDDD
+Consider the following message: ABBCCDDEEFFGGGHHHH
 
 The following table shows the symbol frequencies and the resulting
 huffman code for the message:
+
+TODO: redo everything below with new more interesting data
 
 |Symbol  |Frequency|Code|Length|
 |--------|---------|----|------|
