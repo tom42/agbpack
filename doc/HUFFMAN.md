@@ -86,6 +86,16 @@ be zero.
 
 ### Example
 
+TODO: write down example, using data from TODO.md
+TODO: document where data comes from
+
 Consider the following message: ABBCCDDDD
 
-TODO: write down example, using data from TODO.md
+The following table shows the symbol frequencies for the message:
+
+|Symbol  |Frequency|
+|------------------|
+|A (0x41)|1        |
+|B (0x42)|2        |
+|C (0x43)|2        |
+|D (0x44)|4        |

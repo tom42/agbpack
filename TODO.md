@@ -16,15 +16,6 @@ tom@notebook:~/work/github/Nintendo_DS_Compressors$ od -tx1 -w4 foo.h8
 tom@notebook:~/work/github/Nintendo_DS_Compressors$ echo -n ABBCCDDDD>foo
 tom@notebook:~/work/github/Nintendo_DS_Compressors$ ./huffman  -e8 foo foo.h8
 
-HUFFMAN - (c) CUE 2011
-Huffman coding for Nintendo GBA/DS
-
-- encoding 'foo' -> 'foo.h8'
---- CreateFreqs -------------------------------
-s:041 w:000001
-s:042 w:000002
-s:043 w:000002
-s:044 w:000004
 
 --- CreateTree --------------------------------
 s:041 w:000001 n:000 d:004 l:--- r:--- nl:001
