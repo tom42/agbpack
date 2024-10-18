@@ -103,8 +103,6 @@ be zero.
 
 ### Example
 
-TODO: write down example, using data from TODO.md
-
 Note: the data for the following example has been produced with CUE's
 huffman encoder: https://github.com/PeterLemon/Nintendo_DS_Compressors
 
@@ -164,12 +162,25 @@ so there are no padding bytes at the end of the serialized tree.
 Assume the decoder has just decoded a symbol and encounters in
 the middle of the bitstream the following sequence of bits: 101
 
-1. The decoder starts at array index 0 with the root node, which is
-   implicitly an internal node. Note that child0 type and child1 type
-   are both 0, so both child nodes are internal nodes too.
-   Offset is also 0. The decoder reads now the next bit from the
+1. The decoder starts at current array index I=0 with the root node,
+   which is implicitly an internal node. Note that child0 type and
+   child1 type are both 0, so both child nodes are internal nodes too.
+   Offset Ofs is also 0. The decoder reads now the next bit from the
    bitstream. The bit is 1, which means that the decoder needs to
-   move to the child1 node.
-
-TODO: document how to get to the next array index. Need to introduce a current index variable
-      e.g. CI, and maybe also an abbreviation for Offset.
+   move to the child1 node. The decoder can now move to the next
+   array index: I = I + Ofs + 1 = 0 + 0 + 1 = 1
+2. The decoder is at I=1, looking at child1 because the bit just
+   read was 1. The node's value is 0x01, so child0 type and child1
+   type are again 0, so both are again internal nodes. Ofs is 1.
+   The decoder reads the next bit from the bitstream. The bit is 0,
+   so the decoder will move to the child0 node. The decoder can now
+   move to the next array index: I = I + Ofs + 1 = 1 + 1 + 1 = 3
+3. The decoder is at I=3, looking at child0 because the bit just
+   read was 0. The node's value is 0xc1 = 0b11000001, so child0 type
+   and child1 type are both 1, so both are leaf nodes. Ofs is 1.
+   The decoder reads the next bit from the bitstream. The bit is 1,
+   so the decoder will move to the child1 node. The decoder can now
+   move to the next array index: I = I + Ofs + 1 = 3 + 1 + 1 = 5
+4. The decoder is at I=5, looking at child1 because the bit just
+   read was 1. The node is a leaf node, so the node's value 0x46 is
+   the symbol 'F'. We're done.
