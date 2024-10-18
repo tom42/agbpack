@@ -561,9 +561,10 @@ public:
     //         * For each node of the tree
     //           * Figure out where to put its children into the array
     //           * Write its children into the array
-    void serialize(const huffman_encoder_tree&)
+    std::vector<agbpack_u8> serialize(const huffman_encoder_tree&)
     {
         // TODO: return something. For starters, the hardcoded data from below will do.
+        return {};
     }
 
 private:
