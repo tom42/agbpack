@@ -564,6 +564,12 @@ public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree&)
     {
         // TODO: return something. For starters, the hardcoded data from below will do.
+        // TODO: do something here.
+        //       * Basically, traverse the tree somehow [Umm...how? For starters, recursively? Or do we go for depth first right away?
+        //         * For each node, figure out where to put its children, and store that information along with the children (orly?)
+        //           * Note: The root node is always at the beginning of the aray.
+        //           * Store the child type bits in the node
+        //           * Store the offset in the node
         return {};
     }
 
