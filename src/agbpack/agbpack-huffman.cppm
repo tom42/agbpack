@@ -561,6 +561,11 @@ public:
     //         * For each node of the tree
     //           * Figure out where to put its children into the array
     //           * Write its children into the array
+    void serialize(const huffman_encoder_tree&)
+    {
+        // TODO: return something. For starters, the hardcoded data from below will do.
+    }
+
 private:
 };
 
@@ -579,7 +584,10 @@ public:
         frequency_table ftable(symbol_size);
         const auto uncompressed_data = ftable.update(input, eof);
 
+        // Create the tree for the encoder. Also create the serialized variant of the tree.
         huffman_encoder_tree tree(symbol_size, ftable);
+        huffman_tree_serializer serializer;
+        serializer.serialize(tree);
 
         // --- TODO: remove: hardcoded huffman tree data from CUE ---
         std::vector<unsigned char> hardcoded_tree_data;
