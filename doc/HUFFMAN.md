@@ -140,18 +140,20 @@ Address     Data           Description
 
 The following table tries to explain the serialized tree:
 TODO: try explaining the internal nodes...that's the ugly bit, really.
+      => We should certainly state that now one line is one halfword
+         array element
 
 ```
-Index  Child0      Child1
----------------------------
-0      0x07 TSB    0x00
-1      0x80        0x01
-2      0x48 'H'    0xc1
-3      0xc1        0x82
-4      0x43 'C'    0x44 'D'
-5      0x45 'E'    0x46 'F'
-6      0x47 'G'    0xc0
-7      0x41 'A'    0x42 'B'
+Index  Child0 (Bit 0-7)      Child1 (Bit 8-15)
+----------------------------------------------
+0      0x07 TSB              0x00
+1      0x80                  0x01
+2      0x48 'H'              0xc1
+3      0xc1                  0x82
+4      0x43 'C'              0x44 'D'
+5      0x45 'E'              0x46 'F'
+6      0x47 'G'              0xc0
+7      0x41 'A'              0x42 'B'
 ```
 
 The tree size in bytes is 2 * (TSB + 1) = 2 * (7 + 1) = 16 bytes.
