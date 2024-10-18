@@ -138,10 +138,9 @@ Address     Data           Description
 00000030    00 00 b0 dd    Bitstream
 ```
 
-The following table tries to explain the serialized tree:
-TODO: try explaining the internal nodes...that's the ugly bit, really.
-      => We should certainly state that now one line is one halfword
-         array element
+The following table tries to explain the serialized tree.
+Each row is a halfword containing two sibling nodes.
+Note that Child0 is the LSB of the halfword.
 
 ```
 Index  Child0 (Bit 0-7)      Child1 (Bit 8-15)
