@@ -18,8 +18,8 @@ Moreover, little endianness is assumed everywhere.
 |Byte         |An 8 bit quantity                                      |
 |Halfword     |A 16 bit quantity                                      |
 |Word         |A 32 bit quantity                                      |
-|node0, child0|Child node to follow when there is a 0 in the bitstream|
-|node1, child1|Child node to follow when there is a 1 in the bitstream|
+|Node0, Child0|Child node to follow when there is a 0 in the bitstream|
+|Node1, Child1|Child node to follow when there is a 1 in the bitstream|
 
 ## Huffman tree serialization
 
@@ -111,7 +111,7 @@ The following hexdump shows the entire compressed file:
 
 ```
 Address     Data           Description
------------------------------------------
+---------------------------------------------
 00000000    28 12 00 00    Compression header
 00000004    07 00 80 01    Serialized tree
 00000010    48 c1 c1 82    Serialized tree
