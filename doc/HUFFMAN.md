@@ -140,7 +140,7 @@ Address     Data           Description
 
 The following table tries to explain the serialized tree.
 Each row is a halfword containing two sibling nodes.
-Note that Child0 is the LSB of the halfword.
+Note that child0 is the LSB of the halfword, child1 the MSB.
 
 ```
 Index  Child0 (Bit 0-7)      Child1 (Bit 8-15)
