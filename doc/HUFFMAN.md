@@ -138,7 +138,7 @@ Index  Child0      Child1
 ```
 
 The tree size in bytes is 2 * (TSB + 1) = 2 * (7 + 1) = 16 bytes.
-There are 8 child nodes representing the letters A - H.
+There are 8 child nodes representing the letters A to H.
 A huffman tree with 8 child nodes has 2 * 8 - 1 = 15 nodes in total.
 Another byte is needed to store the TSB, so we end up with 16 bytes,
 so there are no padding bytes at the end of the serialized tree.
