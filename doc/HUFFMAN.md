@@ -161,7 +161,8 @@ A huffman tree with 8 child nodes has 2 * 8 - 1 = 15 nodes in total.
 Another byte is needed to store the TSB, so we end up with 16 bytes,
 so there are no padding bytes at the end of the serialized tree.
 
-Assume the bitstream contains the following sequence of bits: 101
+Assume the decoder has just decoded a symbol and encounters in
+the middle of the bitstream the following sequence of bits: 101
 
 1. The decoder starts at array index 0 with the root node, which is
    implicitly an internal node. Note that child0 type and child1 type
