@@ -110,13 +110,15 @@ huffman code for the message:
 The following hexdump shows the entire compressed file:
 
 ```
-0000000 28 12 00 00    Compression header
-0000004 07 00 80 01    Serialized tree
-0000010 48 c1 c1 82    Serialized tree
-0000014 43 44 45 46    Serialized tree
-0000020 47 c0 41 42    Serialized tree
-0000024 92 9b f4 ef    Bitstrean
-0000030 00 00 b0 dd    Bitstrean
+Address     Data           Description
+-----------------------------------------
+00000000    28 12 00 00    Compression header
+00000004    07 00 80 01    Serialized tree
+00000010    48 c1 c1 82    Serialized tree
+00000014    43 44 45 46    Serialized tree
+00000020    47 c0 41 42    Serialized tree
+00000024    92 9b f4 ef    Bitstrean
+00000030    00 00 b0 dd    Bitstrean
 ```
 
 The following table tries to explain the serialized tree:
