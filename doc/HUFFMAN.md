@@ -10,7 +10,7 @@ implemented the GBA BIOS.
 
 ## Terminology
 
-Terminology is borrowed from ARM CPUs.
+Some terminology is borrowed from ARM CPUs.
 Moreover, little endianness is assumed everywhere.
 
 |Term         |Description                                            |
@@ -65,15 +65,32 @@ misaligned, the decoder, running on an ARM CPU, will produce garbage.
 
 ### Format of internal nodes
 
-TODO: describe it (What about the offset?)
-
 |Bit 7      |Bit 6      |Bits 0 - 5        |
 |-----------|-----------|------------------|
-|child0 type|child1 type|Offset to children|
+|Child0 type|Child1 type|Offset to children|
 
 Bits 6 and 7 store the type of the internal node's child nodes,
 where 0 means the respective child is an internal node and 1 means
 it is a leaf node.
+
+GBATEK describes the offset as follows:
+
+```
+Offset to next child node,
+Next child node0 is at (CurrentAddr AND NOT 1)+Offset*2+2
+Next child node1 is at (CurrentAddr AND NOT 1)+Offset*2+2+1
+```
+
+This is totally correct, but a rather complicated way of looking at
+things. It results from treating the serialized tree as a lump of
+bytes and doing all byte addressing on it.
+
+A simpler way of looking at things is to treat the serialized tree as
+an array of halfwords, where each halfword holds two sibling nodes.
+The offset can then be interpreted as the number of array elements
+plus one to get from the current array element to the next one.
+This may not be the most practical way to implement a decoder,
+but it's a good way to understand the format of the serialized tree.
 
 ### Format of leaf nodes
 
