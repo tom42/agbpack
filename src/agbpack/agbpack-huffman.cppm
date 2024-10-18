@@ -476,6 +476,11 @@ public:
         , m_root(build_tree(symbol_size, ftable))
     {}
 
+    tree_node_ptr root() const
+    {
+        return m_root;
+    }
+
     code_table create_code_table() const
     {
         code_table table(m_symbol_size);
