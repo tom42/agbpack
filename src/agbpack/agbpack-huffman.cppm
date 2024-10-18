@@ -556,8 +556,6 @@ class huffman_tree_serializer final
 public:
     // TODO: figure out public interface
     // TODO: implement:
-    //       * Maybe annotate a tree (the one from CUE? => Hello world)
-    //         * So start that documentation?
     //       * Naive implementation first? => Recursive?
     //       * Somehow navigate the tree
     //         * For each node of the tree
