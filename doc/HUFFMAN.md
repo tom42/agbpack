@@ -124,7 +124,7 @@ huffman code for the message:
 |G (0x47)|3        |110 |3     |
 |H (0x48)|4        |00  |2     |
 
-The following hexdump shows the entire compressed file:
+The following hex dump shows the entire compressed file:
 
 ```
 Address     Data           Description
