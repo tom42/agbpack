@@ -160,3 +160,15 @@ There are 8 child nodes representing the letters A to H.
 A huffman tree with 8 child nodes has 2 * 8 - 1 = 15 nodes in total.
 Another byte is needed to store the TSB, so we end up with 16 bytes,
 so there are no padding bytes at the end of the serialized tree.
+
+Assume the bitstream contains the following sequence of bits: 101
+
+1. The decoder starts at array index 0 with the root node, which is
+   implicitly an internal node. Note that child0 type and child1 type
+   are both 0, so both child nodes are internal nodes too.
+   Offset is also 0. The decoder reads now the next bit from the
+   bitstream. The bit is 1, which means that the decoder needs to
+   move to the child1 node.
+
+TODO: document how to get to the next array index. Need to introduce a current index variable
+      e.g. CI, and maybe also an abbreviation for Offset.
