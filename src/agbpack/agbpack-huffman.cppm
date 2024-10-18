@@ -579,6 +579,12 @@ public:
     }
 
 private:
+    static tree_node_ptr pop(std::queue<tree_node_ptr>& queue)
+    {
+        auto node = queue.front();
+        queue.pop();
+        return node;
+    }
 };
 
 export class huffman_encoder final
