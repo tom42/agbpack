@@ -117,8 +117,8 @@ Address     Data           Description
 00000010    48 c1 c1 82    Serialized tree
 00000014    43 44 45 46    Serialized tree
 00000020    47 c0 41 42    Serialized tree
-00000024    92 9b f4 ef    Bitstrean
-00000030    00 00 b0 dd    Bitstrean
+00000024    92 9b f4 ef    Bitstream
+00000030    00 00 b0 dd    Bitstream
 ```
 
 The following table tries to explain the serialized tree:
