@@ -566,7 +566,7 @@ public:
     //         * For each node of the tree
     //           * Figure out where to put its children into the array
     //           * Write its children into the array
-    std::vector<agbpack_u8> serialize(const huffman_encoder_tree&)
+    std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
         // TODO: return something. For starters, the hardcoded data from below will do.
         // TODO: do something here.
@@ -575,6 +575,45 @@ public:
         //           * Note: The root node is always at the beginning of the aray.
         //           * Store the child type bits in the node
         //           * Store the offset in the node
+
+        // TODO: remove
+        std::cout << "----------\n";
+
+        // TODO: document that we do breadth first and why?
+        std::queue<tree_node_ptr> queue;
+        queue.push(tree.root());
+
+        while (!queue.empty())
+        {
+            // TODO: ugh: actually, serialization of an intermediate is very different from a leaf node:
+            //            * For the leaf node we simply write out the symbol()
+            //            * Well this means we DO need an if/else statement, no?
+
+            // TODO: do something with the current node:
+            //       * Serialize it:
+            //         * Need to know:
+            //           * child0 type
+            //           * child1 type
+            //           * Offset => When we assign the offset, do not forget it has the right range. What is it? 0..63 or what?
+            //       * Do we need to special handle anything?
+            //         * tree size byte?
+            //         * root node?
+            auto node = pop(queue);
+            if (!node->is_leaf())
+            {
+                std::cout << "<internal node>\n"; // TODO: remove
+                queue.push(node->child0());
+                queue.push(node->child1());
+            }
+            else
+            {
+                // TODO: remove
+                std::cout << static_cast<char>(node->sym()) << "\n";
+            }
+        }
+
+        // TODO: actually return serialized tree
+        // TODO: assert the tree has the right size? It should be 2 * NumNodes + OneByteForStreeSize + Padding (do we really need an assert for that? Just don't forget the padding, no?)
         return {};
     }
 
