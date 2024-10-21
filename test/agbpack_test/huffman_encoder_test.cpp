@@ -121,14 +121,9 @@ TEST_CASE("zzz_test")
     const auto original_data = read_file(basename + ".decoded");
 
     // Encode data
-    // For the time being we test data against code produced with CUE huffman.
-    // This works, because we'll first use that on'es huffman tree, write our
-    // bitstream encoder and only once we have that we'll try to use and serialize
-    // our own huffman tree
     agbpack::huffman_encoder encoder;
     encoder.options(agbpack::huffman_options::h8);
     const auto encoded_data = encode_vector(encoder, original_data);
-    CHECK(encoded_data == read_file(basename + ".encoded"));
 
     // Decode data: check whether our decoder can read the data produced by our encoder
     agbpack::huffman_decoder decoder;
