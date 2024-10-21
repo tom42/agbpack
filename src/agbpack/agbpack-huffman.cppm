@@ -678,19 +678,6 @@ public:
         const auto serialized_tree = serializer.serialize(tree);
         const auto code_table = tree.create_code_table();
 
-        // --- TODO: remove: hardcoded huffman tree data from CUE ---
-        std::vector<unsigned char> hardcoded_tree_data;
-        if (uncompressed_data.size() == 0)
-        {
-            hardcoded_tree_data = { 0x01, 0xc0, 0x00, 0x00 };
-        }
-        else
-        {
-            // From: huffman.good.8.helloworld.txt
-            hardcoded_tree_data = { 0x07, 0x00, 0x00, 0x81, 0xc1, 0xc2, 0x6c, 0x82, 0x64, 0x65, 0x72, 0x77, 0x6f, 0xc0, 0x20, 0x48 };
-        }
-        // ----------------------------------------------------------
-
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
         //       * serialize tree to output
