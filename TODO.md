@@ -7,6 +7,43 @@ SPDX-License-Identifier: MIT
 * HUFFMAN.md
   * Document problems with the offset field being only 6 bits wide
   * Some section on the overall format, just for the sake of completeness
+* Maybe have a separate debug or huffman-debug or somesuch?
+  * Well does not matter much, no?
+    * Either way, here is code to print a binary tree:
+      * https://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram-in-java
+      * Might want to implement this
+```
+public class TreeNode {
+
+  final String name;
+  final List<TreeNode> children;
+
+  public TreeNode(String name, List<TreeNode> children) {
+      this.name = name;
+      this.children = children;
+  }
+
+  public String toString() {
+      StringBuilder buffer = new StringBuilder(50);
+      print(buffer, "", "");
+      return buffer.toString();
+  }
+
+  private void print(StringBuilder buffer, String prefix, String childrenPrefix) {
+      buffer.append(prefix);
+      buffer.append(name);
+      buffer.append('\n');
+      for (Iterator<TreeNode> it = children.iterator(); it.hasNext();) {
+          TreeNode next = it.next();
+          if (it.hasNext()) {
+              next.print(buffer, childrenPrefix + "├── ", childrenPrefix + "│   ");
+          } else {
+              next.print(buffer, childrenPrefix + "└── ", childrenPrefix + "    ");
+          }
+      }
+  }
+}
+```
 * huffman_encoder implementation
   * echo -n ABBCCDDEEEE>foo
     * When encoded with CUE huffman, this seems to create
