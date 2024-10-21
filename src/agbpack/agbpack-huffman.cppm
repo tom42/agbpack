@@ -639,9 +639,16 @@ public:
         }
 
         // TODO: add necessary padding
+        std::cout << "serialized tree size: " << serialized_tree.size() << "\n"; // TODO: remove
+
+        // Fix up tree size byte
         // TODO: fix up tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
         //       * We just must make sure we have at least one test requiring padding and one requiring no padding
-        std::cout << "serialized tree size: " << serialized_tree.size() << "\n"; // TODO: remove
+        // TODO: do we need any assertions here?
+        //       * Well the tree size should not be greater than 512 bytes
+        //       * What about the minimum size?
+        //       * The tree size should be a multiple of 4 bytes
+        serialized_tree[0] = static_cast<agbpack_u8>(serialized_tree.size() / 2 - 1);
 
         // TODO: assert the tree has the right size? It should be 2 * NumNodes + OneByteForStreeSize + Padding (do we really need an assert for that? Just don't forget the padding, no?)
         return serialized_tree;
