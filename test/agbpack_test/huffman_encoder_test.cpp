@@ -55,7 +55,7 @@ TEST_CASE("huffman_encoder_test")
         // TODO: have dedicated test input that requires flushing of the bitstream (huffman.good.frequency-table-test.txt.decoded does this too, but it really has a bad name)
         const string filename = GENERATE(
             "huffman.good.8.0-bytes.txt.decoded",
-            "huffman.good.frequency-table-test.txt.decoded"); // TODO: this fails. figure out why
+            "huffman.good.frequency-table-test.txt.decoded");
         const auto original_data = read_file(filename);
 
         // Encode
