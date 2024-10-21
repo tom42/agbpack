@@ -225,12 +225,12 @@ public:
 
             if (!bit_reader.read_bit())
             {
-                character_found = current_node_value & mask_0;
+                character_found = current_node_value & mask0;
                 current_node_value = read_tree_node(current_node_index);
             }
             else
             {
-                character_found = current_node_value & mask_1;
+                character_found = current_node_value & mask1;
                 current_node_value = read_tree_node(current_node_index + 1);
             }
         }
@@ -296,8 +296,8 @@ private:
         else
         {
             node_index += 2u * ((node_value & mask_next_node_offset) + 1);
-            create_code_table_internal(table, node_index, read_tree_node(node_index), node_value & mask_0, c << 1, l + 1);
-            create_code_table_internal(table, node_index, read_tree_node(node_index + 1), node_value & mask_1, (c << 1) | 1, l + 1);
+            create_code_table_internal(table, node_index, read_tree_node(node_index), node_value & mask0, c << 1, l + 1);
+            create_code_table_internal(table, node_index, read_tree_node(node_index + 1), node_value & mask1, (c << 1) | 1, l + 1);
         }
     }
 
@@ -311,8 +311,8 @@ private:
         return m_tree[node_index];
     }
 
-    static constexpr auto mask_0 = 0x80;
-    static constexpr auto mask_1 = 0x40;
+    static constexpr auto mask0 = 0x80;
+    static constexpr auto mask1 = 0x40;
     static constexpr auto mask_next_node_offset = 63;
     static constexpr std::size_t root_node_index = 1;
     unsigned int m_symbol_size;
