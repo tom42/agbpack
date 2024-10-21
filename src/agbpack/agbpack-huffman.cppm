@@ -50,7 +50,7 @@ inline unsigned int get_symbol_mask(unsigned int symbol_size)
 }
 
 template <typename TContainer>
-void assert_symbol(symbol s, const TContainer& container)
+void assert_symbol(symbol s, [[maybe_unused]] const TContainer& container)
 {
     // TODO: verify assertion is correct
     static_assert(std::is_unsigned_v<decltype(s)>, "Must also assert that s is >= 0 if s is not of unsigned type");
