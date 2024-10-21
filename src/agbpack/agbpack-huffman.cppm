@@ -29,6 +29,8 @@ using symbol_frequency = uint32_t;
 using code = unsigned int;
 using code_length = unsigned int;
 
+inline constexpr auto max_serialized_tree_size = 512;
+
 inline unsigned int get_symbol_size(huffman_options options)
 {
     return std::to_underlying(options);
@@ -264,7 +266,7 @@ private:
         // sense, since the format seems to be designed such that the bitstream can be
         // processed in units of 32 bits by an ARM CPU.
         std::size_t tree_size = 2u * (read8(reader) + 1);
-        assert((2 <= tree_size) && (tree_size <= 512) && "huffman_decoder is broken");
+        assert((2 <= tree_size) && (tree_size <= max_serialized_tree_size) && "huffman_decoder is broken");
 
         // The address calculations as documented in GBATEK and implemented in decode_symbol
         // work relative to the address of the tree size byte. It is therefore simplest if we
