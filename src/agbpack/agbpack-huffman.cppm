@@ -566,9 +566,6 @@ class huffman_tree_serializer final
 public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
-        // TODO: remove
-        std::cout << "----------\n";
-
         std::vector<agbpack_u8> serialized_tree;
         serialized_tree.reserve(max_serialized_tree_size);
 
