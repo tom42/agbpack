@@ -728,13 +728,6 @@ public:
                 bit_writer.write_code(e.c(), e.l());
             }
             bit_writer.flush_if_not_empty();
-            // TODO: loop over input bytes (and then later symbols of input bytes in the case of 4 bit huffman(
-            //       * For each byte
-            //         * Extract all the symbols (one or 2)
-            //           * For each symbol:
-            //             * Get code and length from code table
-            //             * Write to bit_writer
-            // TODO: need a way to flush the input buffer (when uncompressed data is EOF and there are still bits in the bit buffer)
         }
     }
 
