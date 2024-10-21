@@ -222,7 +222,6 @@ public:
 private:
     bool empty() const
     {
-        // TODO: implement
         return m_bitmask == 0x80000000;
     }
 
