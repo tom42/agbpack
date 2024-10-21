@@ -13,6 +13,7 @@ module;
 #include <memory>
 #include <queue>
 #include <stdexcept>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -108,7 +109,8 @@ private:
     void assert_symbol(symbol s) const
     {
         // TODO: verify assertion is correct
-        assert((0 <= s) && (s < m_table.size()));
+        static_assert(std::is_unsigned_v<decltype(s)>, "Must also assert that s is >= 0 if s is not of unsigned type");
+        assert(s < m_table.size());
     }
 
     struct compare_code_table_entry final
