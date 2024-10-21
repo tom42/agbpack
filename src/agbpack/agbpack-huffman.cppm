@@ -156,6 +156,11 @@ private:
     byte_reader<InputIterator>& m_byte_reader;
 };
 
+// TODO: overhaul this:
+//       * It's rather ugly
+//       * write_bit should possibly be private
+//       * It has the constant 0x80000000 as a magic in several places
+//       * It's rather inefficient, since we write every bit individually
 template <typename OutputIterator>
 class bitstream_writer final
 {
@@ -198,19 +203,22 @@ public:
         }
     }
 
-    void flush()
+    void flush_if_not_empty()
     {
         if (!empty())
         {
-            // TODO: implement
+            // TODO: copypasted from above
+            m_bitmask = 0x80000000;
+            write32(m_byte_writer, m_bitbuffer);
+            m_bitbuffer = 0; // TODO: is this needed? Probably yes, no?
         }
     }
 
 private:
-    bool empty()
+    bool empty() const
     {
         // TODO: implement
-        return false;
+        return m_bitmask == 0x80000000;
     }
 
     std::uint32_t m_bitbuffer = 0;
@@ -719,7 +727,7 @@ public:
                 const auto& e = code_table.get(byte);
                 bit_writer.write_code(e.c(), e.l());
             }
-            bit_writer.flush();
+            bit_writer.flush_if_not_empty();
             // TODO: loop over input bytes (and then later symbols of input bytes in the case of 4 bit huffman(
             //       * For each byte
             //         * Extract all the symbols (one or 2)
