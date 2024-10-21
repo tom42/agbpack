@@ -616,7 +616,8 @@ public:
                 //         * How to calculate?
                 //         * Have a runtime check here (NOT just an assertion)
                 // TODO: node value calculation => own method?
-                agbpack_u8 internal_node_value = 0;
+                // TODO: runtime check: value must be in the range..err...what...0..63?
+                agbpack_u8 internal_node_value = static_cast<agbpack_u8>(next_index - (serialized_tree.size() / 2) - 1);
 
                 if (node->child0()->is_leaf())
                 {
@@ -630,8 +631,10 @@ public:
 
                 serialized_tree.push_back(internal_node_value);
 
+                // TODO: document why this works?
                 queue.push(node->child0());
                 queue.push(node->child1());
+                ++next_index;
             }
             else
             {
