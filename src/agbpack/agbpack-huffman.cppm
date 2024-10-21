@@ -397,10 +397,10 @@ public:
         return data;
     }
 
-    symbol_frequency frequency(symbol sym) const
+    symbol_frequency frequency(symbol s) const
     {
         // TODO: assert index
-        return m_frequencies[sym];
+        return m_frequencies[s];
     }
 
 private:
