@@ -684,12 +684,10 @@ public:
         // TODO: check uncompressed size and throw appropriate exception if too big
         auto header = header::create(m_options, static_cast<uint32_t>(uncompressed_data.size()));
 
-        // Copy header and encoded data to output
+        // Copy header and serialized tree to output
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
-
-        // TODO: ensure tree data is correctly padded (it DOES need padding, right? Can we test this somehow?)
-        write(writer, serialized_tree.begin(), serialized_tree.end());
+        write(writer, serialized_tree.begin(), serialized_tree.end()); // TODO: ensure tree data is correctly padded (it DOES need padding, right? Can we test this somehow?)
 
         // TODO: write encoded data (ensure correct alignment!)
         if (uncompressed_data.size()) // TODO: do we need this if? not really, no?
