@@ -508,6 +508,7 @@ public:
         return m_root;
     }
 
+    // TODO: what is the maximum code length for a symbol that we can handle, and can we detect overflows?
     code_table create_code_table() const
     {
         code_table table(m_symbol_size);
