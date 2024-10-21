@@ -690,7 +690,6 @@ public:
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
 
-        // TODO: unhardcode tree data
         // TODO: ensure tree data is correctly padded (it DOES need padding, right? Can we test this somehow?)
         write(writer, serialized_tree.begin(), serialized_tree.end());
 
