@@ -671,10 +671,12 @@ public:
         frequency_table ftable(symbol_size);
         const auto uncompressed_data = ftable.update(input, eof);
 
-        // Create the tree for the encoder. Also create the serialized variant of the tree.
+        // Create the tree for the encoder.
+        // Also create the serialized variant of the tree and the code table for the encoder.
         huffman_encoder_tree tree(symbol_size, ftable);
         huffman_tree_serializer serializer;
         const auto serialized_tree = serializer.serialize(tree);
+        const auto code_table = tree.create_code_table();
 
         // --- TODO: remove: hardcoded huffman tree data from CUE ---
         std::vector<unsigned char> hardcoded_tree_data;
@@ -687,10 +689,7 @@ public:
             // From: huffman.good.8.helloworld.txt
             hardcoded_tree_data = { 0x07, 0x00, 0x00, 0x81, 0xc1, 0xc2, 0x6c, 0x82, 0x64, 0x65, 0x72, 0x77, 0x6f, 0xc0, 0x20, 0x48 };
         }
-        byte_reader<std::vector<unsigned char>::iterator> br(hardcoded_tree_data.begin(), hardcoded_tree_data.end());
-        huffman_decoder_tree<std::vector<unsigned char>::iterator> dt(symbol_size, br);
         // ----------------------------------------------------------
-        const auto code_table = dt.create_code_table(); // TODO: obtain code table from tree, not dt (which is our temporary decoder tree)
 
         // TODO: as usual, need to encode stuff to temporary buffer
         // TODO: actually encode stuff
