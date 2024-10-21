@@ -694,7 +694,7 @@ public:
         write(writer, serialized_tree.begin(), serialized_tree.end());
 
         // TODO: write encoded data (ensure correct alignment!)
-        if (uncompressed_data.size())
+        if (uncompressed_data.size()) // TODO: do we need this if? not really, no?
         {
             bitstream_writer<OutputIterator> bit_writer(writer);
             for (auto byte : uncompressed_data)
