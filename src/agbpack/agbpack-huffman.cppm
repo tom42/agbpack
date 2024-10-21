@@ -83,7 +83,7 @@ public:
     }
 
     // TODO: review signature
-    const code_table_entry& get(symbol s) const
+    const code_table_entry& get(std::size_t s) const
     {
         // TODO: assert index
         return m_table[s];
