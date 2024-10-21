@@ -200,10 +200,19 @@ public:
 
     void flush()
     {
-        // TODO: implement: if bit buffer is not empty, then we need to do something
+        if (!empty())
+        {
+            // TODO: implement
+        }
     }
 
 private:
+    bool empty()
+    {
+        // TODO: implement
+        return false;
+    }
+
     std::uint32_t m_bitbuffer = 0;
     std::uint32_t m_bitmask = 0x80000000;
     unbounded_byte_writer<OutputIterator>& m_byte_writer;
