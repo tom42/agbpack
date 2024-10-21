@@ -267,6 +267,7 @@ public:
         return current_node_value;
     }
 
+    // TODO: delete this (and create_code_table_internal): we only needed that during development
     code_table create_code_table() const
     {
         // Recursively create a code table from the decoder tree.
