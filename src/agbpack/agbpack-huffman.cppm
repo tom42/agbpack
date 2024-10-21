@@ -616,9 +616,8 @@ public:
             }
             else
             {
-                // TODO: write leaf node to serialized tree
-                // TODO: remove
-                std::cout << static_cast<char>(node->sym()) << "\n";
+                auto leaf_node_value = static_cast<agbpack_u8>(node->sym());
+                serialized_tree.push_back(leaf_node_value);
             }
         }
 
