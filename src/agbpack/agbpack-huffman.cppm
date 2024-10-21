@@ -78,14 +78,14 @@ public:
 
     void set(symbol s, code c, code_length l)
     {
-        // TODO: assert index
+        assert_symbol(s);
         m_table[s] = code_table_entry(s, c, l);
     }
 
     // TODO: review signature
     const code_table_entry& operator[](symbol s) const
     {
-        // TODO: assert index
+        assert_symbol(s);
         return m_table[s];
     }
 
@@ -106,6 +106,12 @@ public:
     }
 
 private:
+    void assert_symbol(symbol s) const
+    {
+        // TODO: verify assertion is correct
+        assert((0 <= s) && (s < m_table.size()));
+    }
+
     struct compare_code_table_entry final
     {
         bool operator()(const code_table_entry& a, const code_table_entry& b)
