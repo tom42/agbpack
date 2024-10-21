@@ -693,7 +693,7 @@ public:
 
         // TODO: unhardcode tree data
         // TODO: ensure tree data is correctly padded (it DOES need padding, right? Can we test this somehow?)
-        write(writer, hardcoded_tree_data.begin(), hardcoded_tree_data.end());
+        write(writer, serialized_tree.begin(), serialized_tree.end());
 
         // TODO: write encoded data (ensure correct alignment!)
         if (uncompressed_data.size())
