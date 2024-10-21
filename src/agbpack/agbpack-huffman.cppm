@@ -271,17 +271,6 @@ public:
         return current_node_value;
     }
 
-    // TODO: delete this (and create_code_table_internal): we only needed that during development
-    code_table create_code_table() const
-    {
-        // Recursively create a code table from the decoder tree.
-        // This is basically the loop from decode_symbol converted into a recursive function,
-        // so you might want to refer to that function.
-        code_table table(m_symbol_size);
-        create_code_table_internal(table, 0, read_tree_node(root_node_index), false, 0, 0);
-        return table;
-    }
-
 private:
     void read_tree(byte_reader<InputIterator>& reader)
     {
@@ -306,28 +295,6 @@ private:
         // Obviously we have already read the tree size byte, so we need to read one byte
         // less than the value in tree_size.
         read8(reader, tree_size - 1, back_inserter(m_tree));
-    }
-
-    void create_code_table_internal(
-        code_table& table,
-        std::size_t node_index,
-        agbpack_u8 node_value,
-        bool is_leaf,
-        code c,
-        code_length l) const
-    {
-        if (is_leaf)
-        {
-            // TODO: take care: if node_value contains garbage in its upper bits we'll have an array overflow
-            //       Actually that's why huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt.encoded fires a debug assertion in the runtime with MSVC
-            table.set(node_value, c, l);
-        }
-        else
-        {
-            node_index += 2u * ((node_value & mask_next_node_offset) + 1);
-            create_code_table_internal(table, node_index, read_tree_node(node_index), node_value & mask0, c << 1, l + 1);
-            create_code_table_internal(table, node_index, read_tree_node(node_index + 1), node_value & mask1, (c << 1) | 1, l + 1);
-        }
     }
 
     auto read_tree_node(std::size_t node_index) const
