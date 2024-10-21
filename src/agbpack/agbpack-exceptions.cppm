@@ -4,6 +4,7 @@
 module;
 
 #include <stdexcept>
+#include <string>
 
 export module agbpack:exceptions;
 
@@ -14,6 +15,8 @@ export class agbpack_exception : public std::runtime_error
 {
 protected:
     explicit agbpack_exception(const char* message) : std::runtime_error(message) {}
+
+    explicit agbpack_exception(const std::string& message) : std::runtime_error(message) {}
 
     virtual ~agbpack_exception() override = default;
 };
@@ -30,6 +33,10 @@ export class decode_exception : public agbpack_exception
 {
 public:
     explicit decode_exception() : agbpack_exception("encoded data is corrupt") {}
+
+    explicit decode_exception(const char* reason)
+        : agbpack_exception(std::string("encoded data is corrupt: ") + reason)
+    {}
 
     virtual ~decode_exception() override = default;
 };
