@@ -52,6 +52,7 @@ TEST_CASE("huffman_encoder_test")
     SECTION("Successful 8 bit encoding with check against decoder")
     {
         // TODO: have dedicated test input that requires padding of the bitstream (huffman.good.frequency-table-test.txt.decoded does this, but it has a bad name)
+        // TODO: have dedicated test input that requires flushing of the bitstream (huffman.good.frequency-table-test.txt.decoded does this too, but it really has a bad name)
         const string filename = GENERATE(
             "huffman.good.8.0-bytes.txt.decoded",
             "huffman.good.frequency-table-test.txt.decoded"); // TODO: this fails. figure out why
