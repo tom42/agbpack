@@ -645,8 +645,11 @@ public:
             }
         }
 
-        // TODO: add necessary padding
-        std::cout << "serialized tree size: " << serialized_tree.size() << "\n"; // TODO: remove
+        // TODO: add necessary padding: It's implemented. Question is: can we use byte_writer instead?
+        while ((serialized_tree.size() % 4) != 0)
+        {
+            serialized_tree.push_back(0);
+        }
 
         // Fix up tree size byte
         // TODO: fix up tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
