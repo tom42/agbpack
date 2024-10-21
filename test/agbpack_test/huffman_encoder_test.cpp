@@ -110,6 +110,7 @@ TEST_CASE("zzz_test")
     //       * get some test data
     //         * Foo?
     //         * Some sort of lucas sequence number thing? => Maybe the latter
+    //         * Another test: equally distributed symbols with 8 and 4 bit encoding
     //       * Create reference encoded data
     //       * Dump codes
     //       * Create codes using our tree building mechanism
