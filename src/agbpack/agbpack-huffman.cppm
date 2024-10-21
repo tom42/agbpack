@@ -83,7 +83,7 @@ public:
     }
 
     // TODO: review signature
-    const code_table_entry& get(std::size_t s) const
+    const code_table_entry& operator[](std::size_t s) const
     {
         // TODO: assert index
         return m_table[s];
@@ -725,9 +725,7 @@ public:
             {
                 // TODO: only half the truth: one byte does not equal one symbol
                 //       => This does not yet work for 4 bit huffman!
-                // TODO: use an indexing operator for code_table?
-                const auto& e = code_table.get(byte);
-                bit_writer.write_code(e.c(), e.l());
+                bit_writer.write_code(code_table[byte].c(), code_table[byte].l());
             }
             bit_writer.flush_if_not_empty();
         }
