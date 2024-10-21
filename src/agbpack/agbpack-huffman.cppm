@@ -397,7 +397,7 @@ public:
         return data;
     }
 
-    symbol_frequency frequency(std::size_t sym) const
+    symbol_frequency frequency(symbol sym) const
     {
         // TODO: assert index
         return m_frequencies[sym];
