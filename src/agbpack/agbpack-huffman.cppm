@@ -674,7 +674,7 @@ public:
         // Create the tree for the encoder. Also create the serialized variant of the tree.
         huffman_encoder_tree tree(symbol_size, ftable);
         huffman_tree_serializer serializer;
-        serializer.serialize(tree);
+        const auto serialized_tree = serializer.serialize(tree);
 
         // --- TODO: remove: hardcoded huffman tree data from CUE ---
         std::vector<unsigned char> hardcoded_tree_data;
