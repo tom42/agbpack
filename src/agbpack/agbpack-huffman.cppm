@@ -610,12 +610,22 @@ public:
             if (!node->is_leaf())
             {
                 // TODO: real value of internal node:
-                //       * child0 flag
-                //       * child1 flag
                 //       * offset
                 //         * How to calculate?
                 //         * Have a runtime check here (NOT just an assertion)
+                // TODO: node value calculation => own method?
                 agbpack_u8 internal_node_value = 0;
+
+                if (node->child0()->is_leaf())
+                {
+                    internal_node_value |= mask0;
+                }
+
+                if (node->child1()->is_leaf())
+                {
+                    internal_node_value |= mask1;
+                }
+
                 serialized_tree.push_back(internal_node_value);
 
                 queue.push(node->child0());
