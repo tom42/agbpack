@@ -609,14 +609,21 @@ public:
             auto node = pop(queue);
             if (!node->is_leaf())
             {
-                // TODO: write internal node to serialized tree
-                std::cout << "<internal node>\n"; // TODO: remove
+                // TODO: real value of internal node:
+                //       * child0 flag
+                //       * child1 flag
+                //       * offset
+                //         * How to calculate?
+                //         * Have a runtime check here (NOT just an assertion)
+                agbpack_u8 internal_node_value = 0;
+                serialized_tree.push_back(internal_node_value);
+
                 queue.push(node->child0());
                 queue.push(node->child1());
             }
             else
             {
-                auto leaf_node_value = static_cast<agbpack_u8>(node->sym());
+                agbpack_u8 leaf_node_value = static_cast<agbpack_u8>(node->sym());
                 serialized_tree.push_back(leaf_node_value);
             }
         }
