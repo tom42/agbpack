@@ -198,6 +198,11 @@ public:
         }
     }
 
+    void flush()
+    {
+        // TODO: implement: if bit buffer is not empty, then we need to do something
+    }
+
 private:
     std::uint32_t m_bitbuffer = 0;
     std::uint32_t m_bitmask = 0x80000000;
@@ -705,6 +710,7 @@ public:
                 const auto& e = code_table.get(byte);
                 bit_writer.write_code(e.c(), e.l());
             }
+            bit_writer.flush();
             // TODO: loop over input bytes (and then later symbols of input bytes in the case of 4 bit huffman(
             //       * For each byte
             //         * Extract all the symbols (one or 2)
