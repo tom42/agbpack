@@ -675,11 +675,6 @@ public:
         const auto serialized_tree = serializer.serialize(tree);
         const auto code_table = tree.create_code_table();
 
-        // TODO: as usual, need to encode stuff to temporary buffer
-        // TODO: actually encode stuff
-        //       * serialize tree to output
-        //       * encode data to output
-
         // TODO: bad: static cast
         // TODO: check uncompressed size and throw appropriate exception if too big
         auto header = header::create(m_options, static_cast<uint32_t>(uncompressed_data.size()));
@@ -690,6 +685,7 @@ public:
         write(writer, serialized_tree.begin(), serialized_tree.end()); // TODO: ensure tree data is correctly padded (it DOES need padding, right? Can we test this somehow?)
 
         // TODO: write encoded data (ensure correct alignment!)
+        // TODO: is it OK to encode directly to output?
         if (uncompressed_data.size()) // TODO: do we need this if? not really, no?
         {
             bitstream_writer<OutputIterator> bit_writer(writer);
