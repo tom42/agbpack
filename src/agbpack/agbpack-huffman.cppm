@@ -581,10 +581,8 @@ public:
         // TODO: remove
         std::cout << "----------\n";
 
-        // TODO: we know the capacity, no? It's the number of leaf and internal nodes, plus the tree size, plus the padding bytes
-        //       => Or just use the maximum size, which is 512 bytes...
-        //       => Note: if we go for always using a capacity of 512: there is already a constant for this buried somewhere. Make this globally available then
         std::vector<agbpack_u8> serialized_tree;
+        serialized_tree.reserve(max_serialized_tree_size);
 
         // TODO: write the tree size byte first, no? We DO know it up front, no?
         //       => Well we could just as well write a bogus byte and fix it up when done...
