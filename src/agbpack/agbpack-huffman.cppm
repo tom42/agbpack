@@ -82,7 +82,6 @@ public:
         m_table[s] = code_table_entry(s, c, l);
     }
 
-    // TODO: review signature
     const code_table_entry& operator[](symbol s) const
     {
         assert_symbol(s);
