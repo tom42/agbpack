@@ -53,7 +53,7 @@ TEST_CASE("huffman_encoder_test")
     {
         const string filename = GENERATE(
             "huffman.good.8.0-bytes.txt.decoded",
-            "huffman.good.frequency-table-test.txt.decoded");
+            "huffman.good.frequency-table-test.txt.decoded"); // TODO: this fails. figure out why
         const auto original_data = read_file(filename);
 
         // Encode
