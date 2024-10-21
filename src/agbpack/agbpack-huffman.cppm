@@ -584,8 +584,8 @@ public:
         std::vector<agbpack_u8> serialized_tree;
         serialized_tree.reserve(max_serialized_tree_size);
 
-        // TODO: write the tree size byte first, no? We DO know it up front, no?
-        //       => Well we could just as well write a bogus byte and fix it up when done...
+        // Reserve space for tree size byte. We'll fix up its value later.
+        serialized_tree.push_back(0);
 
         // TODO: document that we do breadth first and why?
         std::queue<tree_node_ptr> queue; // TODO: we could operate all on raw pointers, no?
@@ -621,6 +621,9 @@ public:
                 std::cout << static_cast<char>(node->sym()) << "\n";
             }
         }
+
+        // TODO: add necessary padding
+        // TODO: fix up tree size byte
 
         // TODO: assert the tree has the right size? It should be 2 * NumNodes + OneByteForStreeSize + Padding (do we really need an assert for that? Just don't forget the padding, no?)
         return serialized_tree;
