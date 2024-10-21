@@ -49,6 +49,14 @@ inline unsigned int get_symbol_mask(unsigned int symbol_size)
     return get_nsymbols(symbol_size) - 1;
 }
 
+template <typename TContainer>
+void assert_symbol(symbol s, const TContainer& container)
+{
+    // TODO: verify assertion is correct
+    static_assert(std::is_unsigned_v<decltype(s)>, "Must also assert that s is >= 0 if s is not of unsigned type");
+    assert(s < container.size());
+}
+
 class code_table_entry final
 {
 public:
@@ -106,14 +114,6 @@ public:
     }
 
 private:
-    template <typename TContainer>
-    void assert_symbol(symbol s, const TContainer& container) const
-    {
-        // TODO: verify assertion is correct
-        static_assert(std::is_unsigned_v<decltype(s)>, "Must also assert that s is >= 0 if s is not of unsigned type");
-        assert(s < container.size());
-    }
-
     struct compare_code_table_entry final
     {
         bool operator()(const code_table_entry& a, const code_table_entry& b)
