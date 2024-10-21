@@ -558,6 +558,7 @@ private:
     tree_node_ptr m_root;
 };
 
+// TODO: lots of static casts in here. Reduce to one?
 class huffman_tree_serializer final
 {
 public:
@@ -590,6 +591,7 @@ public:
         // TODO: document that we do breadth first and why?
         std::queue<tree_node_ptr> queue; // TODO: we could operate all on raw pointers, no?
         queue.push(tree.root());
+        std::size_t next_index = 1; // TODO: better name/document what this is?
 
         while (!queue.empty())
         {
