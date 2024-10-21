@@ -402,7 +402,7 @@ public:
 
     symbol_frequency frequency(symbol s) const
     {
-        // TODO: assert index
+        assert_symbol(s, m_frequencies);
         return m_frequencies[s];
     }
 
