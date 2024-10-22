@@ -720,7 +720,6 @@ private:
         const std::vector<agbpack_u8>& uncompressed_data,
         unbounded_byte_writer<OutputIterator>& writer)
     {
-        // TODO: factor out to own method, really
         // TODO: write encoded data (ensure correct alignment!)
         // TODO: is it OK to encode directly to output?
         if (uncompressed_data.size()) // TODO: do we need this if? not really, no?
