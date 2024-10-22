@@ -597,18 +597,20 @@ public:
                 //         * How to calculate?
                 //         * Have a runtime check here (NOT just an assertion)
                 // TODO: runtime check: value must be in the range..err...what...0..63?
+
+                // Calculate and write internal node value
                 auto current_index = serialized_tree.size() / 2;
                 agbpack_u8 internal_node_value = calculate_internal_node_value(node, current_index, next_index);
-
                 serialized_tree.push_back(internal_node_value);
 
-                // TODO: document why this works?
+                // Schedule child nodes for serialization and allocate next slot
                 queue.push(node->child0());
                 queue.push(node->child1());
                 ++next_index;
             }
             else
             {
+                // Write leaf node value
                 agbpack_u8 leaf_node_value = static_cast<agbpack_u8>(node->sym());
                 serialized_tree.push_back(leaf_node_value);
             }
