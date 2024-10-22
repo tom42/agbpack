@@ -601,10 +601,6 @@ public:
             auto node = pop(queue);
             if (!node->is_leaf())
             {
-                // TODO: real value of internal node:
-                //       * offset
-                //         * How to calculate?
-                //         * Have a runtime check here (NOT just an assertion)
                 // TODO: runtime check: value must be in the range..err...what...0..63?
 
                 // Calculate and write internal node value
