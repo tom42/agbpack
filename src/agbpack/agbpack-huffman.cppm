@@ -446,7 +446,6 @@ public:
         return std::make_shared<tree_node>(sym, frequency);
     }
 
-    // TODO: recheck tree generation, since we changed it so much
     static tree_node_ptr make_internal(tree_node_ptr child0, tree_node_ptr child1)
     {
         return std::make_shared<tree_node>(child0, child1);
