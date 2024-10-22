@@ -83,7 +83,15 @@ private:
 class code_table final
 {
 public:
-    code_table(unsigned int symbol_size) : m_table(get_nsymbols(symbol_size)) {}
+    code_table(unsigned int symbol_size)
+        : m_symbol_size(symbol_size)
+        , m_table(get_nsymbols(symbol_size))
+    {}
+
+    unsigned int symbol_size() const
+    {
+        return m_symbol_size;
+    }
 
     void set(symbol s, code c, code_length l)
     {
@@ -129,6 +137,7 @@ private:
         }
     };
 
+    unsigned int m_symbol_size;
     std::vector<code_table_entry> m_table;
 };
 
