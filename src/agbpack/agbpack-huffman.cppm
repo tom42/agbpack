@@ -585,10 +585,6 @@ public:
 
         while (!queue.empty())
         {
-            // TODO: ugh: actually, serialization of an intermediate is very different from a leaf node:
-            //            * For the leaf node we simply write out the symbol()
-            //            * Well this means we DO need an if/else statement, no?
-
             auto node = pop(queue);
             if (!node->is_leaf())
             {
