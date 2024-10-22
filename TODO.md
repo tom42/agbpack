@@ -7,44 +7,12 @@ SPDX-License-Identifier: MIT
 * HUFFMAN.md
   * Document problems with the offset field being only 6 bits wide
   * Some section on the overall format, just for the sake of completeness
-* Maybe have a separate debug or huffman-debug or somesuch?
-  * Well does not matter much, no?
-    * Either way, here is code to print a binary tree:
-      * https://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram-in-java
-      * Might want to implement this
-```
-public class TreeNode {
-
-  final String name;
-  final List<TreeNode> children;
-
-  public TreeNode(String name, List<TreeNode> children) {
-      this.name = name;
-      this.children = children;
-  }
-
-  public String toString() {
-      StringBuilder buffer = new StringBuilder(50);
-      print(buffer, "", "");
-      return buffer.toString();
-  }
-
-  private void print(StringBuilder buffer, String prefix, String childrenPrefix) {
-      buffer.append(prefix);
-      buffer.append(name);
-      buffer.append('\n');
-      for (Iterator<TreeNode> it = children.iterator(); it.hasNext();) {
-          TreeNode next = it.next();
-          if (it.hasNext()) {
-              next.print(buffer, childrenPrefix + "├── ", childrenPrefix + "│   ");
-          } else {
-              next.print(buffer, childrenPrefix + "└── ", childrenPrefix + "    ");
-          }
-      }
-  }
-}
-```
 * huffman_encoder implementation
+  * Huffman encoder tests:
+    * Maybe abandon comparing against CUE altogether: there is little value in doing so
+      * Compare against decoder only. But maybe also test expected size
+      * And improve some tests:
+        * Like have 1 symbol, 1 time, but also 1 symbol, 32 times, 33 times
   * echo -n ABBCCDDEEEE>foo
     * When encoded with CUE huffman, this seems to create
       an odd tree which contains 'A' twice.
@@ -53,56 +21,17 @@ public class TreeNode {
         * But the code for both instances of 'A' is the same?
       * What does our tree generation/serializaton code?
   * Next:
-    * Start writing that tree serialization code
-      * Understand the serialized format
-      * Implement serializer (and do not forget those max. offsets!)
-    * Set up a special test where we (=> repurposed zzz_test for this)
-      * Serialize a bitstream using our own code
-        * Is in place, although only for 8 bit huffman and it does not yet flush the bitbuffer
     * Tree serialization
       * Here we should have a couple of sanity checks:
         * Maximum tree size
         * Maximum child node offset
+        * Do not forget sanity checks, e.g. those max. offsets
         * Question: assert or exception?
           * Probably exception: we're rather unsure how to do it correctly,
             so for starters we probably want it also in release builds.
-    * Bitstream encoding
-      * We could implement that one first:
-        * We create the concept of a code table. This contains code+length for each symbol
-        * When we generate the bitstream, all we need is such a code table
-        * We can then go and first use output from CUE
-          * We need the serialized tree (can get that from a CUE file and hardcode it)
-          * From the serialized tree we can also generate a code table
-            * That is, we can have code that generates a code table from
-              * A huffman_decoder_tree
-              * Our own encoder tree
     * Do not forget: for encoder testing we cannot use CUE input!
       * We should mark all files generated with CUE as such!
       * Or well at least we should it note down somewhere
-  * We can now go and dump codes.
-    * First of all, see whether we can somehow dump the codes from the decoder_tree
-    * Write a recursive dump function
-    * To debug it, compare it against output printed during decoding
-  * Can we do the following experiment:
-    * We take some reference data and try to dump all the huffman codes from the GBA tree
-    * We take that reference data, let our huffman tree code process it and dump
-      all the codes too: do we get the same output of codes? If not we don't even need
-      to continue!
-    * BEFORE we do this:
-      * We should follow the naming that GBATEK uses, which is 0/1
-        * Only now we can dump codes and see whether we get LSB/MSB order of codes right
-    * Once all this is settled we can worry about
-      * Serializing the tree on one hand
-        * Here we need to fully understand the serialization of the tree
-          * Maybe we need to encode some data using a reference encoder and then
-            manually analyze/annotate the resulting serialized tree
-      * And encoding the data on the other hand
-  * Once all of this works, see how we get our code built with g++ again
-    * Well possibly occasionally build it with -Wno-attributes, so that we don't
-      have to fix too much stuff once we get back to g++.
-* g++ currently requires -Wno-attributes, but that's due to a bug in its library headers,
-  as I understand. Not sure how to go about this. Probably we'll have to temporarily
-  suppress this warning, so that we can keep testing with g++.
 * There is a test for the RLE decoder which tests decoding through a file stream
   * This is confusing, and what we really want is probably such a test for each encoder/decoder
     * Just because it works with the RLE decoder doesn't automatically mean it works with all other decoders/encoders, no?
@@ -137,15 +66,8 @@ public class TreeNode {
   * Copy documentation from GBATEK.txt
   * Annotate it
     * Tree size/offset (It's an offset, respectively at the end of the tree are padding bytes to align the bitstream)
-      * Note: CUE encoder has the following tree size byte calculation: codetree[i] = (num_leafs - 1) | 1;
     * Alignment of bitstream (see above)
     * Encoding types (personal tests with real BIOS on emulators have shown that 1 and 2 bit is not supported, so other more exotic encodings probably aren't, either)
-* Good news: huffman encoder:
-  * Libgrit says this:
-    * Apart from FreeImage, the LZ77 compressor and GBFS, everything is
-      licenced under the MIT licence (see mit-licence.txt)
-    * So that would also affect the huffman encoder. Good news, then.
-      We could simply take their huffman encoder.
 * Use uint8_t or std::uint8_t?
   * Same for other <cstdint> types
 * vtgcore: should probably start using VtgEnableWarnings.cmake, since this is best we have atm
