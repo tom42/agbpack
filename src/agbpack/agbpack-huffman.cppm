@@ -700,7 +700,7 @@ public:
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
         write(writer, serialized_tree.begin(), serialized_tree.end()); // TODO: ensure tree data is correctly padded (it DOES need padding, right? Can we test this somehow?)
-        encode_internal(symbol_size, code_table, uncompressed_data, writer);
+        encode_internal(code_table, uncompressed_data, writer);
     }
 
     void options(huffman_options options)
@@ -716,7 +716,6 @@ public:
 private:
     template <typename OutputIterator>
     static void encode_internal(
-        unsigned int symbol_size, // TODO: can we put this onto code table?
         const code_table& code_table,
         const std::vector<agbpack_u8>& uncompressed_data,
         unbounded_byte_writer<OutputIterator>& writer)
@@ -726,6 +725,7 @@ private:
         // TODO: is it OK to encode directly to output?
         if (uncompressed_data.size()) // TODO: do we need this if? not really, no?
         {
+            auto symbol_size = code_table.symbol_size();
             auto symbol_mask = get_symbol_mask(symbol_size);
             bitstream_writer<OutputIterator> bit_writer(writer);
 
