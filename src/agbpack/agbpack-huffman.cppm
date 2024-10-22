@@ -699,7 +699,7 @@ public:
         // Copy header and serialized tree to output, then encode data directly to output.
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
-        write(writer, serialized_tree.begin(), serialized_tree.end()); // TODO: ensure tree data is correctly padded (it DOES need padding, right? Can we test this somehow?)
+        write(writer, serialized_tree.begin(), serialized_tree.end());
         encode_internal(code_table, uncompressed_data, writer);
     }
 
