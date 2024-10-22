@@ -687,11 +687,31 @@ public:
         // TODO: check uncompressed size and throw appropriate exception if too big
         auto header = header::create(m_options, static_cast<uint32_t>(uncompressed_data.size()));
 
-        // Copy header and serialized tree to output
+        // Copy header and serialized tree to output, then encode data directly to output.
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
         write(writer, serialized_tree.begin(), serialized_tree.end()); // TODO: ensure tree data is correctly padded (it DOES need padding, right? Can we test this somehow?)
+        encode_internal(symbol_size, code_table, uncompressed_data, writer);
+    }
 
+    void options(huffman_options options)
+    {
+        if (!is_valid(options))
+        {
+            throw std::invalid_argument("invalid huffman compression options");
+        }
+
+        m_options = options;
+    }
+
+private:
+    template <typename OutputIterator>
+    static void encode_internal(
+        unsigned int symbol_size, // TODO: can we put this onto code table?
+        const code_table& code_table,
+        const std::vector<agbpack_u8>& uncompressed_data,
+        unbounded_byte_writer<OutputIterator>& writer)
+    {
         // TODO: factor out to own method, really
         // TODO: write encoded data (ensure correct alignment!)
         // TODO: is it OK to encode directly to output?
@@ -713,17 +733,6 @@ public:
         }
     }
 
-    void options(huffman_options options)
-    {
-        if (!is_valid(options))
-        {
-            throw std::invalid_argument("invalid huffman compression options");
-        }
-
-        m_options = options;
-    }
-
-private:
     huffman_options m_options = huffman_options::h8;
 };
 
