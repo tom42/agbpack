@@ -589,15 +589,6 @@ public:
             //            * For the leaf node we simply write out the symbol()
             //            * Well this means we DO need an if/else statement, no?
 
-            // TODO: do something with the current node:
-            //       * Serialize it:
-            //         * Need to know:
-            //           * child0 type
-            //           * child1 type
-            //           * Offset => When we assign the offset, do not forget it has the right range. What is it? 0..63 or what?
-            //       * Do we need to special handle anything?
-            //         * tree size byte?
-            //         * root node?
             auto node = pop(queue);
             if (!node->is_leaf())
             {
