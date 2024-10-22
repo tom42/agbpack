@@ -17,6 +17,8 @@ namespace agbpack_test
 using string = std::string;
 
 // TODO: add test: input data too big
+// TODO: add test: 256 symbols with same frequency (do we need a 4 bit test with 16 symbols? maybe, but we can use the 256 file in principle, no?)
+// TODO: add test: deep code constructed with lucas sequence (4 bit, 8 bit is not really possible, no?)
 TEST_CASE("huffman_encoder_test")
 {
     agbpack::huffman_encoder encoder;
