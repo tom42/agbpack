@@ -596,19 +596,9 @@ public:
                 //       * offset
                 //         * How to calculate?
                 //         * Have a runtime check here (NOT just an assertion)
-                // TODO: node value calculation => own method?
                 // TODO: runtime check: value must be in the range..err...what...0..63?
-                agbpack_u8 internal_node_value = static_cast<agbpack_u8>(next_index - (serialized_tree.size() / 2) - 1);
-
-                if (node->child0()->is_leaf())
-                {
-                    internal_node_value |= mask0;
-                }
-
-                if (node->child1()->is_leaf())
-                {
-                    internal_node_value |= mask1;
-                }
+                auto current_index = serialized_tree.size() / 2;
+                agbpack_u8 internal_node_value = calculate_internal_node_value(node, current_index, next_index);
 
                 serialized_tree.push_back(internal_node_value);
 
@@ -644,6 +634,23 @@ public:
     }
 
 private:
+    static agbpack_u8 calculate_internal_node_value(tree_node_ptr node, std::size_t current_index, std::size_t next_index)
+    {
+        agbpack_u8 internal_node_value = static_cast<agbpack_u8>(next_index - current_index - 1);
+
+        if (node->child0()->is_leaf())
+        {
+            internal_node_value |= mask0;
+        }
+
+        if (node->child1()->is_leaf())
+        {
+            internal_node_value |= mask1;
+        }
+
+        return internal_node_value;
+    }
+
     static tree_node_ptr pop(std::queue<tree_node_ptr>& queue)
     {
         auto node = queue.front();
