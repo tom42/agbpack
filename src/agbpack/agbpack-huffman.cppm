@@ -721,23 +721,27 @@ private:
         unbounded_byte_writer<OutputIterator>& writer)
     {
         // TODO: is it OK to encode directly to output?
-        if (uncompressed_data.size()) // TODO: do we need this if? not really, no?
-        {
-            auto symbol_size = code_table.symbol_size();
-            auto symbol_mask = get_symbol_mask(symbol_size);
-            bitstream_writer<OutputIterator> bit_writer(writer);
 
-            for (auto byte : uncompressed_data)
-            {
-                for (unsigned int nbits = 0; nbits < 8; nbits += symbol_size)
-                {
-                    auto sym = byte & symbol_mask;
-                    bit_writer.write_code(code_table[sym].c(), code_table[sym].l());
-                    byte >>= symbol_size;
-                }
-            }
-            bit_writer.flush_if_not_empty();
+        // TODO: do we need this if? not really, no?
+        if (uncompressed_data.size())
+        {
+            return;
         }
+
+        auto symbol_size = code_table.symbol_size();
+        auto symbol_mask = get_symbol_mask(symbol_size);
+        bitstream_writer<OutputIterator> bit_writer(writer);
+
+        for (auto byte : uncompressed_data)
+        {
+            for (unsigned int nbits = 0; nbits < 8; nbits += symbol_size)
+            {
+                auto sym = byte & symbol_mask;
+                bit_writer.write_code(code_table[sym].c(), code_table[sym].l());
+                byte >>= symbol_size;
+            }
+        }
+        bit_writer.flush_if_not_empty();
     }
 
     huffman_options m_options = huffman_options::h8;
