@@ -5,7 +5,6 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * HUFFMAN.md
-  * Document problems with the offset field being only 6 bits wide
   * Some section on the overall format, just for the sake of completeness
 * huffman_encoder implementation
   * Huffman encoder tests:

@@ -92,6 +92,22 @@ plus one to get from the current array element to the next one.
 This may not be the most practical way to implement a decoder,
 but it's a good way to understand the format of the serialized tree.
 
+The fact that the offset is stored in only 6 bits makes serializing
+the huffman tree somewhat difficult: even though it is an index into
+an array of halfwords, 6 bits are obviously not enough to cover all
+of the 511 nodes that a huffman tree for 256 symbols has.
+
+This means that a naive implementation of tree serialization may fail
+for some inputs because it produces overflows in the offset field
+of some internal nodes.
+
+An example for such a naive implementation would be a simple
+depth-first traversal that writes out nodes to an array as it visits
+them. Such an implementation would produce overflows in the offset
+field of some nodes if fed with a message of 8 bit symbols where
+all of the 256 symbols have the same frequency, because it would
+place some parent and child nodes too far away from eachother.
+
 ### Format of leaf nodes
 
 |Bits 0 - 7                             |
