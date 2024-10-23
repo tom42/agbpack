@@ -579,7 +579,7 @@ public:
         serialized_tree.push_back(0);
 
         // TODO: document that we do breadth first and why?
-        std::queue<tree_node_ptr> queue; // TODO: we could operate all on raw pointers, no?
+        std::queue<tree_node_ptr> queue;
         queue.push(tree.root());
         std::size_t next_index = 1; // TODO: better name/document what this is?
 
