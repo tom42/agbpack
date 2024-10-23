@@ -573,9 +573,10 @@ public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
         auto serialized_tree = create_empty_serialized_tree();
+        unbounded_byte_writer writer(back_inserter(serialized_tree));
 
         // Reserve space for tree size byte. We'll fix up its value later.
-        serialized_tree.push_back(0);
+        writer.write8(0);
 
         // TODO: document that we do breadth first and why?
         std::queue<tree_node_ptr> queue;
@@ -590,9 +591,9 @@ public:
                 // TODO: runtime check: value must be in the range..err...what...0..63?
 
                 // Calculate and write internal node value
-                auto current_index = serialized_tree.size() / 2;
+                auto current_index = writer.nbytes_written() / 2;
                 agbpack_u8 internal_node_value = calculate_internal_node_value(node, current_index, next_index);
-                serialized_tree.push_back(internal_node_value);
+                writer.write8(internal_node_value);
 
                 // Schedule child nodes for serialization and allocate next slot
                 queue.push(node->child0());
@@ -603,15 +604,11 @@ public:
             {
                 // Write leaf node value
                 agbpack_u8 leaf_node_value = static_cast<agbpack_u8>(node->sym());
-                serialized_tree.push_back(leaf_node_value);
+                writer.write8(leaf_node_value);
             }
         }
 
-        // TODO: add necessary padding: It's implemented. Question is: can we use byte_writer instead?
-        while ((serialized_tree.size() % 4) != 0)
-        {
-            serialized_tree.push_back(0);
-        }
+        write_padding_bytes(writer);
 
         // Fix up tree size byte
         // TODO: fix up tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
@@ -620,7 +617,7 @@ public:
         //       * Well the tree size should not be greater than 512 bytes
         //       * What about the minimum size?
         //       * The tree size should be a multiple of 4 bytes
-        serialized_tree[0] = static_cast<agbpack_u8>(serialized_tree.size() / 2 - 1);
+        serialized_tree[0] = static_cast<agbpack_u8>(writer.nbytes_written() / 2 - 1);
 
         // TODO: assert the tree has the right size? It should be 2 * NumNodes + OneByteForStreeSize + Padding (do we really need an assert for that? Just don't forget the padding, no?)
         return serialized_tree;
