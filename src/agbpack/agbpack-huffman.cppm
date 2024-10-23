@@ -704,7 +704,7 @@ private:
         unbounded_byte_writer<OutputIterator>& writer)
     {
         // TODO: do we need this if? not really, no?
-        if (uncompressed_data.size())
+        if (!uncompressed_data.size())
         {
             return;
         }
