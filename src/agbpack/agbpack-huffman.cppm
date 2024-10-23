@@ -6,6 +6,7 @@ module;
 #include <algorithm>
 #include <cassert>
 #include <cctype>
+#include <concepts>
 #include <cstdint>
 #include <format>
 #include <iostream>
@@ -49,6 +50,12 @@ inline unsigned int get_nsymbols(unsigned int symbol_size)
 inline unsigned int get_symbol_mask(unsigned int symbol_size)
 {
     return get_nsymbols(symbol_size) - 1;
+}
+
+template <std::integral T>
+bool in_range(T x, T min, T max)
+{
+    return (min <= x) && (x <= max);
 }
 
 template <typename TContainer>
