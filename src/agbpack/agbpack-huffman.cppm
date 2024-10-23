@@ -641,7 +641,12 @@ private:
 
     static agbpack_u8 calculate_internal_node_value(tree_node_ptr node, std::size_t current_index, std::size_t next_index)
     {
-        agbpack_u8 internal_node_value = static_cast<agbpack_u8>(next_index - current_index - 1);
+        std::size_t offset = next_index - current_index - 1;
+        // TODO: check range with in_range, then throw
+        //       * Problem: in_range does not work well/as expected
+        //       * We should maybe have some sort of create_iternal_exception function?
+
+        agbpack_u8 internal_node_value = static_cast<agbpack_u8>(offset);
 
         if (node->child0()->is_leaf())
         {
