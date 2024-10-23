@@ -52,6 +52,7 @@ inline unsigned int get_symbol_mask(unsigned int symbol_size)
     return get_nsymbols(symbol_size) - 1;
 }
 
+// TODO: either use this or delete it. Question: does this even need a lower bound?
 template <std::integral T>
 bool in_range(T x, T min, T max)
 {
