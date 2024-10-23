@@ -581,7 +581,7 @@ public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
         auto serialized_tree = create_empty_serialized_tree();
-        unbounded_byte_writer writer(back_inserter(serialized_tree));
+        auto writer = make_unbounded_byte_writer(back_inserter(serialized_tree));
 
         // Reserve space for tree size byte. We'll fix up its value later.
         writer.write8(0);
@@ -637,6 +637,13 @@ private:
         std::vector<agbpack_u8> tree;
         tree.reserve(max_serialized_tree_size);
         return tree;
+    }
+
+    // Work around CTAD warnings from Clang. Not sure whether these should be enabled.
+    template <typename OutputIterator>
+    unbounded_byte_writer<OutputIterator> make_unbounded_byte_writer(OutputIterator iterator)
+    {
+        return unbounded_byte_writer<OutputIterator>(iterator);
     }
 
     static agbpack_u8 calculate_internal_node_value(tree_node_ptr node, std::size_t current_index, std::size_t next_index)
