@@ -30,6 +30,8 @@ using symbol_frequency = uint32_t;
 using code = unsigned int;
 using code_length = unsigned int;
 
+inline constexpr auto max_next_node_offset = 63;
+inline constexpr auto mask_next_node_offset = 63;
 inline constexpr auto max_serialized_tree_size = 512;
 inline constexpr auto mask0 = 0x80;
 inline constexpr auto mask1 = 0x40;
@@ -319,7 +321,6 @@ private:
         return m_tree[node_index];
     }
 
-    static constexpr auto mask_next_node_offset = 63;
     static constexpr std::size_t root_node_index = 1;
     unsigned int m_symbol_size;
     unsigned int m_symbol_max_value;
