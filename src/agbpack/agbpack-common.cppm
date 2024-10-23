@@ -164,7 +164,7 @@ template <typename OutputIterator>
 class unbounded_byte_writer final
 {
 public:
-    unbounded_byte_writer(OutputIterator output) : m_output(output) {}
+    explicit unbounded_byte_writer(OutputIterator output) : m_output(output) {}
 
     agbpack_u32 nbytes_written() const
     {
