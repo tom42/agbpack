@@ -58,6 +58,7 @@ bool in_range(std::unsigned_integral auto x, std::unsigned_integral auto min, st
     return (min <= x) && (x <= max);
 }
 
+// TODO: express this in terms of in_range?
 template <typename TContainer>
 void assert_symbol(symbol s, [[maybe_unused]] const TContainer& container)
 {
@@ -596,8 +597,6 @@ public:
             auto node = pop(queue);
             if (!node->is_leaf())
             {
-                // TODO: runtime check: value must be in the range..err...what...0..63?
-
                 // Calculate and write internal node value
                 auto current_index = writer.nbytes_written() / 2;
                 agbpack_u8 internal_node_value = calculate_internal_node_value(node, current_index, next_index);
@@ -642,9 +641,15 @@ private:
     static agbpack_u8 calculate_internal_node_value(tree_node_ptr node, std::size_t current_index, std::size_t next_index)
     {
         std::size_t offset = next_index - current_index - 1;
-        // TODO: check range with in_range, then throw
-        //       * Problem: in_range does not work well/as expected
-        //       * We should maybe have some sort of create_iternal_exception function?
+
+        if (!in_range(offset, min_next_node_offset, max_next_node_offset))
+        {
+            // TODO: have some create_internal_error function
+            //       * Use it here and in the other place
+            //       * The internal error bit should be added automatically
+            //       * And maybe it would also be helpful to specify where the error comes from: agbpack
+            throw std::logic_error("internal error: next node offset is out of range");
+        }
 
         agbpack_u8 internal_node_value = static_cast<agbpack_u8>(offset);
 
