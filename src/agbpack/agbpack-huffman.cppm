@@ -53,7 +53,7 @@ inline unsigned int get_symbol_mask(unsigned int symbol_size)
     return get_nsymbols(symbol_size) - 1;
 }
 
-bool in_range(std::unsigned_integral auto x, std::unsigned_integral auto min, std::unsigned_integral auto max)
+bool in_closed_range(std::unsigned_integral auto x, std::unsigned_integral auto min, std::unsigned_integral auto max)
 {
     return (min <= x) && (x <= max);
 }
@@ -63,7 +63,7 @@ void assert_symbol(symbol s, [[maybe_unused]] const TContainer& container)
 {
     // TODO: verify range is correct: is it 'size' or 'size-1'? Pretty much sure the latter, but we'll test once we have tests where we use all symbols
     // TODO: this is problematic: if container.size() is 0, this will produce garbage => need some sort of in_closed_range and in_right_open_range: this is going to be messy,tbh
-    assert(in_range(s, 0u, container.size() - 1) && "symbol value is out of range");
+    assert(in_closed_range(s, 0u, container.size() - 1) && "symbol value is out of range");
 }
 
 class code_table_entry final
@@ -641,7 +641,7 @@ private:
     {
         std::size_t offset = next_index - current_index - 1;
 
-        if (!in_range(offset, min_next_node_offset, max_next_node_offset))
+        if (!in_closed_range(offset, min_next_node_offset, max_next_node_offset))
         {
             throw internal_error("next node offset is out of range");
         }
