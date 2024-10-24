@@ -628,8 +628,6 @@ public:
         //       * We just must make sure we have at least one test requiring padding and one requiring no padding
         serialized_tree[0] = static_cast<agbpack_u8>(writer.nbytes_written() / 2 - 1);
 
-        // TODO: assert the tree has the right size? It should be 2 * NumNodes + OneByteForStreeSize + Padding (do we really need an assert for that? Just don't forget the padding, no?)
-        //       => Well it would probably be better to have that assertion in the tree generation code, no?
         return serialized_tree;
     }
 
