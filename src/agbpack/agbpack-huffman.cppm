@@ -590,10 +590,10 @@ public:
         // Reserve space for tree size byte. We'll fix up its value later.
         writer.write8(0);
 
-        // TODO: document that we do breadth first and why?
+        // TODO: document that we do breadth first and why? (well refer to HUFFMAN.md, and maybe update that one to state that breadth-first is a way to do it)
         std::queue<tree_node_ptr> queue;
         queue.push(tree.root());
-        std::size_t next_index = 1; // TODO: better name/document what this is?
+        std::size_t next_index = 1;
 
         while (!queue.empty())
         {
