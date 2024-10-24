@@ -310,7 +310,6 @@ private:
         // sense, since the format seems to be designed such that the bitstream can be
         // processed in units of 32 bits by an ARM CPU.
         std::size_t tree_size = 2u * (read8(reader) + 1);
-        assert((2 <= tree_size) && (tree_size <= max_serialized_tree_size) && "huffman_decoder is broken");
 
         // The address calculations as documented in GBATEK and implemented in decode_symbol
         // work relative to the address of the tree size byte. It is therefore simplest if we
