@@ -721,12 +721,6 @@ private:
         const std::vector<agbpack_u8>& uncompressed_data,
         unbounded_byte_writer<OutputIterator>& writer)
     {
-        // TODO: do we need this if? not really, no?
-        if (!uncompressed_data.size())
-        {
-            return;
-        }
-
         auto symbol_size = code_table.symbol_size();
         auto symbol_mask = get_symbol_mask(symbol_size);
         bitstream_writer<OutputIterator> bit_writer(writer);
