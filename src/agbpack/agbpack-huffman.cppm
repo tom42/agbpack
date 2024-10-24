@@ -644,11 +644,7 @@ private:
 
         if (!in_range(offset, min_next_node_offset, max_next_node_offset))
         {
-            // TODO: have some create_internal_error function
-            //       * Use it here and in the other place
-            //       * The internal error bit should be added automatically
-            //       * And maybe it would also be helpful to specify where the error comes from: agbpack
-            throw std::logic_error("internal error: next node offset is out of range");
+            throw internal_error("next node offset is out of range");
         }
 
         agbpack_u8 internal_node_value = static_cast<agbpack_u8>(offset);

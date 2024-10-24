@@ -115,7 +115,7 @@ private:
                 return generic_encode(size16, input, eof, output);
         }
 
-        throw std::logic_error("internal error: invalid delta compression options");
+        throw internal_error("invalid delta compression options, but this line should never be reached");
     }
 
     template <typename SizeTag, typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
