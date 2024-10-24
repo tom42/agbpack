@@ -20,14 +20,6 @@ SPDX-License-Identifier: MIT
         * But the code for both instances of 'A' is the same?
       * What does our tree generation/serializaton code?
   * Next:
-    * Tree serialization
-      * Here we should have a couple of sanity checks:
-        * Maximum tree size
-        * Maximum child node offset
-        * Do not forget sanity checks, e.g. those max. offsets
-        * Question: assert or exception?
-          * Probably exception: we're rather unsure how to do it correctly,
-            so for starters we probably want it also in release builds.
     * Do not forget: for encoder testing we cannot use CUE input!
       * We should mark all files generated with CUE as such!
       * Or well at least we should it note down somewhere
