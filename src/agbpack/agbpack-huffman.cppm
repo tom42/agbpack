@@ -621,15 +621,15 @@ public:
         write_padding_bytes(writer);
 
         assert(in_closed_range(serialized_tree.size(), min_serialized_tree_size, max_serialized_tree_size));
+        assert((serialized_tree.size() % 4) == 0);
 
         // Fix up tree size byte
         // TODO: fix up tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
         //       * We just must make sure we have at least one test requiring padding and one requiring no padding
-        // TODO: do we need any assertions here?
-        //       * The tree size should be a multiple of 4 bytes
         serialized_tree[0] = static_cast<agbpack_u8>(writer.nbytes_written() / 2 - 1);
 
         // TODO: assert the tree has the right size? It should be 2 * NumNodes + OneByteForStreeSize + Padding (do we really need an assert for that? Just don't forget the padding, no?)
+        //       => Well it would probably be better to have that assertion in the tree generation code, no?
         return serialized_tree;
     }
 
