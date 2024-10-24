@@ -58,13 +58,12 @@ bool in_range(std::unsigned_integral auto x, std::unsigned_integral auto min, st
     return (min <= x) && (x <= max);
 }
 
-// TODO: express this in terms of in_range?
 template <typename TContainer>
 void assert_symbol(symbol s, [[maybe_unused]] const TContainer& container)
 {
-    // TODO: verify assertion is correct
-    static_assert(std::is_unsigned_v<decltype(s)>, "Must also assert that s is >= 0 if s is not of unsigned type");
-    assert(s < container.size());
+    // TODO: verify range is correct: is it 'size' or 'size-1'? Pretty much sure the latter, but we'll test once we have tests where we use all symbols
+    // TODO: this is problematic: if container.size() is 0, this will produce garbage => need some sort of in_closed_range and in_right_open_range: this is going to be messy,tbh
+    assert(in_range(s, 0u, container.size() - 1) && "symbol value is out of range");
 }
 
 class code_table_entry final
