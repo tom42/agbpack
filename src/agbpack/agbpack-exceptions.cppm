@@ -11,6 +11,16 @@ export module agbpack:exceptions;
 namespace agbpack
 {
 
+// Internal error exception.
+// This is deliberately not exported and not derived from agbpack_exception.
+class internal_error final : public std::logic_error
+{
+public:
+    explicit internal_error(const char* message)
+        : std::logic_error(std::string("agbpack: internal error: ") + message)
+    {}
+};
+
 export class agbpack_exception : public std::runtime_error
 {
 protected:
