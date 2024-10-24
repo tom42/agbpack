@@ -34,8 +34,8 @@ using code_length = unsigned int;
 inline constexpr auto min_next_node_offset = 0u;
 inline constexpr auto max_next_node_offset = 63u;
 inline constexpr auto mask_next_node_offset = 63;
-inline constexpr auto min_serialized_tree_size = 4;
-inline constexpr auto max_serialized_tree_size = 512;
+inline constexpr auto min_serialized_tree_size = 4u;
+inline constexpr auto max_serialized_tree_size = 512u;
 inline constexpr auto mask0 = 0x80;
 inline constexpr auto mask1 = 0x40;
 
@@ -620,12 +620,12 @@ public:
 
         write_padding_bytes(writer);
 
+        assert(in_closed_range(serialized_tree.size(), min_serialized_tree_size, max_serialized_tree_size));
+
         // Fix up tree size byte
         // TODO: fix up tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
         //       * We just must make sure we have at least one test requiring padding and one requiring no padding
         // TODO: do we need any assertions here?
-        //       * Well the tree size should not be greater than 512 bytes
-        //       * What about the minimum size?
         //       * The tree size should be a multiple of 4 bytes
         serialized_tree[0] = static_cast<agbpack_u8>(writer.nbytes_written() / 2 - 1);
 
