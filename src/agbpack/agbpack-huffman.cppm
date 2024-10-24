@@ -31,7 +31,8 @@ using symbol_frequency = uint32_t;
 using code = unsigned int;
 using code_length = unsigned int;
 
-inline constexpr auto max_next_node_offset = 63;
+inline constexpr auto min_next_node_offset = 0u;
+inline constexpr auto max_next_node_offset = 63u;
 inline constexpr auto mask_next_node_offset = 63;
 inline constexpr auto max_serialized_tree_size = 512;
 inline constexpr auto mask0 = 0x80;
