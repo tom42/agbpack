@@ -5,6 +5,7 @@
 #include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <cstddef>
 #include <stdexcept>
 #include <string>
 #include "testdata.hpp"
@@ -16,10 +17,39 @@ namespace agbpack_test
 
 using string = std::string;
 
+// TODO: give this a better name
+struct foo
+{
+    std::string decoded_file;
+    std::size_t bar; // TODO: name
+};
+
+TEST_CASE("huffman_encoder_test")
+{
+    agbpack::huffman_encoder encoder;
+    //agbpack::huffman_decoder decoder;
+    test_data test_data("huffman_encoder"); // TODO: possibly rneame test_data to test_data_directory?
+
+    SECTION("Successful 8 bit encoding")
+    {
+        // TODO: rename ffoo
+        const auto ffoo = GENERATE(foo("huffman.good.8.0-bytes.txt")); // TODO: rethink filename pattern
+        const auto original_data = test_data.read_decoded_file(ffoo.decoded_file);
+
+        // TODO: encode the file (do we still want to use our encode helper function? probably, yes?)
+        // TODO: check encoded size
+
+        // TODO: decode the file (do we still want to use our decode helper function? probably, yes?)
+        // TODO: check decoded data is same as original data
+    }
+
+}
+
+// TODO: redo all crap below
 // TODO: add test: input data too big
 // TODO: add test: 256 symbols with same frequency (do we need a 4 bit test with 16 symbols? maybe, but we can use the 256 file in principle, no?)
 // TODO: add test: deep code constructed with lucas sequence (4 bit, 8 bit is not really possible, no?)
-TEST_CASE("huffman_encoder_test")
+TEST_CASE("huffman_encoder_test_old")
 {
     agbpack::huffman_encoder encoder;
 

@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+// TODO: see which of the free functions in here we still need
 namespace agbpack_test
 {
 
@@ -47,6 +48,21 @@ std::vector<unsigned char> encode_file(TEncoder& encoder, const std::string& bas
 {
     return encode_vector(encoder, read_file(basename));
 }
+
+// TODO: if this works out, rewrite all tests to use this class and sort test files into subdirectories
+class test_data final
+{
+public:
+    explicit test_data(const std::string&) {} // TODO: tuck away test directory name
+
+    std::vector<unsigned char> read_decoded_file(const std::string&)
+    {
+        // TODO: actually read file and return data
+        return {};
+    }
+
+private:
+};
 
 }
 
