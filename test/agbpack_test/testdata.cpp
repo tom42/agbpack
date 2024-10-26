@@ -49,6 +49,7 @@ std::string get_testfile_path(const std::string& basename)
     return (std::filesystem::path(agbpack_test_testdata_directory) / basename).string();
 }
 
+// TODO: would be totally awesome if we could make this accept std::filesystem::path
 std::vector<unsigned char> read_file(const std::string& basename)
 {
     const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
@@ -77,7 +78,7 @@ std::vector<unsigned char> read_file(const std::string& basename)
 
 std::vector<unsigned char> test_data_directory::read_decoded_file(const std::string& basename)
 {
-    return read_file(basename + ".decoded");
+    return read_file((std::filesystem::path(m_directory) / (basename + ".decoded")).string());
 }
 
 }

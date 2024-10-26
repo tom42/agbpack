@@ -31,7 +31,6 @@ TEST_CASE("huffman_encoder_test")
 
     SECTION("Successful 8 bit encoding")
     {
-        // TODO: actually get test data from subdirectory
         // TODO: rethink filename pattern
         const auto parameters = GENERATE(
             test_parameters("huffman.good.8.0-bytes.txt", 8));
