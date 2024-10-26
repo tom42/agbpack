@@ -37,7 +37,8 @@ TEST_CASE("huffman_encoder_test")
         //       * 2 bytes (err...what? 2 bytes - 2 symbols, or 2 bytes, 2 times same symbol?)
         const auto parameters = GENERATE(
             test_parameters("huffman.good.8.0-bytes.txt", 8),
-            test_parameters("huffman.good.8.helloworld.txt", 24));
+            test_parameters("huffman.good.8.helloworld.txt", 24),
+            test_parameters("huffman.good.8.foo.txt", 44));
         INFO("Test file: " + parameters.decoded_file_name);
         const auto original_data = test_data_directory.read_decoded_file(parameters.decoded_file_name);
 
@@ -140,9 +141,6 @@ TEST_CASE("zzz_test")
     //       * Dump codes
     //       * Create codes using our tree building mechanism
     //       * Does it print the same output?
-    // TODO: see whether we have any other use for the following files (e.g. use them in some test)
-    //       * huffman.good.8.foo.txt
-    //
 }
 
 }
