@@ -4,6 +4,51 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Clean up tests to use new test directory thing
+  * delta_decoder_test / delta_encoder_test
+    * Rewrite both of these
+    * Can share a directory for the time being
+  * huffman_decoder_test: rewrite this
+    * Should get its own directory
+    * Should we rename files?
+    * Maybe place a readme somewhere that files have been created using reference encoders? (CUE Huffman, GBACrusher)
+  * huffman_encoder_test: is fine for the moment
+  * lzss_decoder_test:
+    * Rewrite: directory: lzss_decoder
+    * We will probably not be able to use reference data, since there are many way to parse lzss data
+  * rle_decoder_test / rle_encoder_test
+    * Rewrite both of these
+    * Can share a directory
+  * When done, see what remains of public stuff ipn testdata.hpp. Hopefully some things can go
+* OK: huffman tree serialization is a bitch
+  * On the bright side: we're interested primarily in 4 bit coding for shrinkler-gba, so we could just call it a day :D
+  * Our breadth-first traversal does not even work for a 256 byte file where each 8 bit symbol has the same frequency
+  * Would a depth-first traversal work for this case? Maybe
+  * Should we also write a maximum depth test?
+  * Well, maybe. Prognosis:
+    * breadth-first fails at even distribution, but does lucas sequence thing
+    * depth-first fails at lucas sequence thing (orly? only if the short tree contains is more than one level deep?)
+  * Well, we need to understand the problem.
+    * A key to understanding is the following from grit's cprs_huff.cpp:
+      ```
+      if (node->numLeaves () > 0x40)
+	  {
+          // this subtree will overflow the offset field if inserted naively
+          // ...
+      }
+      ```
+    * I am not sure this is absolutely true, e.g. regarding number of nodes, but it sounds like it pinpoints the real problem:
+      It is not the depth of the tree that matters, but the number of nodes in a subtree.
+      * So we would somehow have to recognize when this happens, and kind of mix serialization of that subtree with other subtrees
+        * Problem is: how to detect that case? Obviously the root node of a tree with 256 symbols always exhibits that problem
+        * What if we try to do for example
+          * Depth first
+          * But whenever we reached a depth too deep, we somehow backtrack and do another bit of the tree?
+            * Well maybe, but
+              * How far do we backtrack?
+              * Which path do we take then?
+              * How do we get back onto the path we backtracked from?
+              * How do we know we processed all the nodes?
 * Need to write lots of huffman tests now.
   * Problem: things start getting messy in the testdata folder
     * Maybe we create subdirectories for the different tests?
