@@ -623,6 +623,7 @@ public:
         // Fix up tree size byte
         // TODO: fix up tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
         //       * We just must make sure we have at least one test requiring padding and one requiring no padding
+        //       * And maybe one for the minimum size (already have that, no?) and one for the maximum size
         serialized_tree[0] = static_cast<agbpack_u8>(writer.nbytes_written() / 2 - 1);
 
         assert(in_closed_range(serialized_tree.size(), min_serialized_tree_size, max_serialized_tree_size));
