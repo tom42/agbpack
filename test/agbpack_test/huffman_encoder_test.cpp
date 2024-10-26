@@ -124,23 +124,10 @@ TEST_CASE("huffman_encoder_test_old")
 // TODO: for development/debugging, remove
 TEST_CASE("zzz_test")
 {
-    // TODO: Get this test running:
-    //       * In the production code, hardcode a tree we obtained from CUE in some way
-    //       * Copy that tree to the compressed output
-    //       * Use that tree to encode the output
-    //       * Do this both for
-    //         * 8 bit
-    //         * 4 bit
-    //         * This gives us an encoder that is complete except for tree serialization, which we can then tackle last
     // TODO: Implement test
     //       * get some test data
-    //         * Foo?
     //         * Some sort of lucas sequence number thing? => Maybe the latter
     //         * Another test: equally distributed symbols with 8 and 4 bit encoding
-    //       * Create reference encoded data
-    //       * Dump codes
-    //       * Create codes using our tree building mechanism
-    //       * Does it print the same output?
 }
 
 }
