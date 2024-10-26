@@ -20,8 +20,8 @@ using string = std::string;
 // TODO: give this a better name
 struct foo
 {
-    std::string decoded_file;
-    std::size_t bar; // TODO: name
+    std::string decoded_file_name;
+    std::size_t expected_encoded_size;
 };
 
 TEST_CASE("huffman_encoder_test")
@@ -33,11 +33,13 @@ TEST_CASE("huffman_encoder_test")
     SECTION("Successful 8 bit encoding")
     {
         // TODO: rename ffoo
-        const auto ffoo = GENERATE(foo("huffman.good.8.0-bytes.txt")); // TODO: rethink filename pattern
-        const auto original_data = test_data.read_decoded_file(ffoo.decoded_file);
+        const auto ffoo = GENERATE(foo("huffman.good.8.0-bytes.txt", 8)); // TODO: rethink filename pattern
+        const auto original_data = test_data.read_decoded_file(ffoo.decoded_file_name);
 
-        // TODO: encode the file (do we still want to use our encode helper function? probably, yes?)
-        // TODO: check encoded size
+        // Encode
+        encoder.options(agbpack::huffman_options::h8);
+        const auto encoded_data = encode_vector(encoder, original_data);
+        REQUIRE(encoded_data.size() == ffoo.expected_encoded_size); // TODO: incorporate filename
 
         // TODO: decode the file (do we still want to use our decode helper function? probably, yes?)
         // TODO: check decoded data is same as original data
