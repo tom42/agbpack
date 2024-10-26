@@ -35,6 +35,8 @@ TEST_CASE("huffman_encoder_test")
         // TODO: add more tests
         //       * 1 byte (err...what? 1 byte - 1 symbol?
         //       * 2 bytes (err...what? 2 bytes - 2 symbols, or 2 bytes, 2 times same symbol?)
+        // TODO: maximum depth huffman code (some sort of lucas sequence thing)
+        //       * Can we even reach 31/32 bits?
         const auto parameters = GENERATE(
             test_parameters("huffman.good.8.0-bytes.txt", 8),
             test_parameters("huffman.good.8.helloworld.txt", 24),
@@ -122,14 +124,6 @@ TEST_CASE("huffman_encoder_test_old")
 
         CHECK(decoded_data == original_data);
     }
-}
-
-// TODO: for development/debugging, remove
-TEST_CASE("zzz_test")
-{
-    // TODO: Implement test
-    //       * get some test data
-    //         * Some sort of lucas sequence number thing? => Maybe the latter
 }
 
 }
