@@ -142,7 +142,6 @@ TEST_CASE("zzz_test")
     //       * Does it print the same output?
     // TODO: see whether we have any other use for the following files (e.g. use them in some test)
     //       * huffman.good.8.foo.txt
-    //       * huffman.good.8.helloworld.txt
     //
 }
 
