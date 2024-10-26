@@ -66,7 +66,13 @@ TEST_CASE("huffman_encoder_test")
         //       * 1 byte (err...what? 1 byte - 1 symbol?
         //       * 2 bytes (err...what? 2 bytes - 2 symbols, or 2 bytes, 2 times same symbol?)
         // TODO: maximum depth huffman code (some sort of lucas sequence thing)
-        //       * Can we even reach 31/32 bits?
+        //       * Can we even reach 31/32 bits? Let alone 255 bits?
+        //         * 255/256 bits is rather impossible due to storage requirements
+        //         * 31/32 bits I don't know, but it's what our decoder supports currently at most
+        //           * We could do it differently: given the maximum file uncompressed size is 2^24-1 byte (or is it?)
+        //           * What is the maximum lucas sequence thing that would fit into such a file?
+        //             * We could generate that file rather than storing it on disk, no?
+        //       * Try at least 16 bits, which is the maximum for 4 bit encoding, and which, incidentally, is what we currently care more for anyway
 
         // Note: not too much thought has been put into constructing test data for 4 bit huffman coding,
         // based on the assumption that 8 bit encoding is the hairy bit due to overflow problems in
@@ -105,7 +111,6 @@ TEST_CASE("huffman_encoder_test")
 
 // TODO: redo all crap below
 // TODO: add test: input data too big
-// TODO: add test: deep code constructed with lucas sequence (4 bit, 8 bit is not really possible, no?)
 TEST_CASE("huffman_encoder_test_old")
 {
     agbpack::huffman_encoder encoder;
