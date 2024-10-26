@@ -27,13 +27,15 @@ struct foo
 TEST_CASE("huffman_encoder_test")
 {
     agbpack::huffman_encoder encoder;
-    //agbpack::huffman_decoder decoder;
+    agbpack::huffman_decoder decoder;
     test_data test_data("huffman_encoder"); // TODO: possibly rneame test_data to test_data_directory?
 
     SECTION("Successful 8 bit encoding")
     {
+        // TODO: actually get test data from subdirectory
         // TODO: rename ffoo
-        const auto ffoo = GENERATE(foo("huffman.good.8.0-bytes.txt", 8)); // TODO: rethink filename pattern
+        // TODO: rethink filename pattern
+        const auto ffoo = GENERATE(foo("huffman.good.8.0-bytes.txt", 8));
         const auto original_data = test_data.read_decoded_file(ffoo.decoded_file_name);
         INFO("Test file: " + ffoo.decoded_file_name);
 
@@ -42,8 +44,9 @@ TEST_CASE("huffman_encoder_test")
         const auto encoded_data = encode_vector(encoder, original_data);
         REQUIRE(encoded_data.size() == ffoo.expected_encoded_size);
 
-        // TODO: decode the file (do we still want to use our decode helper function? probably, yes?)
-        // TODO: check decoded data is same as original data
+        // Decode
+        const auto decoded_data = decode_vector(decoder, encoded_data);
+        CHECK(decoded_data == original_data);
     }
 
 }
