@@ -79,6 +79,7 @@ TEST_CASE("huffman_encoder_test")
             test_parameters("huffman.good.8.foo.txt", 52, 44),
             // TODO: this file needs a better name.
             //       * The fun here is, we have 256 symbols with all the same frequency. Incidentally we fail at encoding it
+            //       * Also verify it really has each symbol exactly once?
             test_parameters("huffman.good.8.256-bytes.bin", 292, 772));
         INFO(std::format("Test parameters: {}, {} bit encoding", parameters.decoded_file_name(), std::to_underlying(huffman_options)));
         const auto original_data = test_data_directory.read_decoded_file(parameters.decoded_file_name());
@@ -104,7 +105,6 @@ TEST_CASE("huffman_encoder_test")
 
 // TODO: redo all crap below
 // TODO: add test: input data too big
-// TODO: add test: 256 symbols with same frequency (do we need a 4 bit test with 16 symbols? maybe, but we can use the 256 file in principle, no?)
 // TODO: add test: deep code constructed with lucas sequence (4 bit, 8 bit is not really possible, no?)
 TEST_CASE("huffman_encoder_test_old")
 {
