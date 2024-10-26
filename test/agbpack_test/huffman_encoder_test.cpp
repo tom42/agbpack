@@ -60,21 +60,6 @@ TEST_CASE("huffman_encoder_test_old")
 {
     agbpack::huffman_encoder encoder;
 
-    SECTION("Successful 8 bit encoding with reference encoded data")
-    {
-        // TODO: add necessary tests:
-        //       - 1 byte
-        //       - 2 byte
-        const string filename_part = GENERATE(
-            "huffman.good.8.0-bytes.txt");
-        const auto expected_data = read_file(filename_part + ".encoded");
-
-        encoder.options(agbpack::huffman_options::h8);
-        const auto encoded_data = encode_file(encoder, filename_part + ".decoded");
-
-        CHECK(encoded_data == expected_data);
-    }
-
     SECTION("Successful 4 bit encoding with reference encoded data")
     {
         // TODO: add necessary tests (see 8 bit counterpart)
