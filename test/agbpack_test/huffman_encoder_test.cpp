@@ -28,15 +28,16 @@ TEST_CASE("huffman_encoder_test")
 {
     agbpack::huffman_encoder encoder;
     agbpack::huffman_decoder decoder;
-    test_data test_data("huffman_encoder"); // TODO: possibly rneame test_data to test_data_directory?
+    test_data_directory test_data_directory("huffman_encoder");
 
     SECTION("Successful 8 bit encoding")
     {
         // TODO: actually get test data from subdirectory
         // TODO: rename ffoo
         // TODO: rethink filename pattern
-        const auto ffoo = GENERATE(foo("huffman.good.8.0-bytes.txt", 8));
-        const auto original_data = test_data.read_decoded_file(ffoo.decoded_file_name);
+        const auto ffoo = GENERATE(
+            foo("huffman.good.8.0-bytes.txt", 8));
+        const auto original_data = test_data_directory.read_decoded_file(ffoo.decoded_file_name);
         INFO("Test file: " + ffoo.decoded_file_name);
 
         // Encode
