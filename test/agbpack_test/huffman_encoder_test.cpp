@@ -17,8 +17,7 @@ namespace agbpack_test
 
 using string = std::string;
 
-// TODO: give this a better name
-struct foo
+struct test_parameters
 {
     std::string decoded_file_name;
     std::size_t expected_encoded_size;
@@ -33,17 +32,16 @@ TEST_CASE("huffman_encoder_test")
     SECTION("Successful 8 bit encoding")
     {
         // TODO: actually get test data from subdirectory
-        // TODO: rename ffoo
         // TODO: rethink filename pattern
-        const auto ffoo = GENERATE(
-            foo("huffman.good.8.0-bytes.txt", 8));
-        const auto original_data = test_data_directory.read_decoded_file(ffoo.decoded_file_name);
-        INFO("Test file: " + ffoo.decoded_file_name);
+        const auto parameters = GENERATE(
+            test_parameters("huffman.good.8.0-bytes.txt", 8));
+        const auto original_data = test_data_directory.read_decoded_file(parameters.decoded_file_name);
+        INFO("Test file: " + parameters.decoded_file_name);
 
         // Encode
         encoder.options(agbpack::huffman_options::h8);
         const auto encoded_data = encode_vector(encoder, original_data);
-        REQUIRE(encoded_data.size() == ffoo.expected_encoded_size);
+        REQUIRE(encoded_data.size() == parameters.expected_encoded_size);
 
         // Decode
         const auto decoded_data = decode_vector(decoder, encoded_data);
