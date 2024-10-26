@@ -6,8 +6,10 @@
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstddef>
+#include <format>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include "testdata.hpp"
 
 import agbpack;
@@ -19,8 +21,23 @@ using string = std::string;
 
 struct test_parameters
 {
+    // TODO: make shit private?
     std::string decoded_file_name;
-    std::size_t expected_encoded_size;
+    std::size_t expected_encoded_size_h4;
+    std::size_t expected_encoded_size_h8;
+
+    std::size_t expected_encoded_size(agbpack::huffman_options options) const
+    {
+        switch (options)
+        {
+            case agbpack::huffman_options::h4:
+                return expected_encoded_size_h4;
+            case agbpack::huffman_options::h8:
+                return expected_encoded_size_h8;
+            default:
+                throw std::invalid_argument("invalid options");
+        }
+    }
 };
 
 TEST_CASE("huffman_encoder_test")
@@ -48,19 +65,19 @@ TEST_CASE("huffman_encoder_test")
         // 8 bit huffman coding in mind also using 4 bit encoding.
         const auto huffman_options = GENERATE(agbpack::huffman_options::h4, agbpack::huffman_options::h8);
         const auto parameters = GENERATE(
-            test_parameters("huffman.good.8.0-bytes.txt", 8),
-            test_parameters("huffman.good.8.helloworld.txt", 24),
-            test_parameters("huffman.good.8.foo.txt", 44),
+            test_parameters("huffman.good.8.0-bytes.txt", 8, 8),
+            test_parameters("huffman.good.8.helloworld.txt", 32, 24),
+            test_parameters("huffman.good.8.foo.txt", 52, 44),
             // TODO: this file needs a better name.
             //       * The fun here is, we have 256 symbols with all the same frequency. Incidentally we fail at encoding it
-            test_parameters("huffman.good.8.256-bytes.bin", 772));
-        INFO("Test file: " + parameters.decoded_file_name);
+            test_parameters("huffman.good.8.256-bytes.bin", 292, 772));
+        INFO(std::format("Test parameters: {}, {} bit encoding", parameters.decoded_file_name, std::to_underlying(huffman_options)));
         const auto original_data = test_data_directory.read_decoded_file(parameters.decoded_file_name);
 
         // Encode
         encoder.options(huffman_options);
         const auto encoded_data = encode_vector(encoder, original_data);
-        CHECK(encoded_data.size() == parameters.expected_encoded_size);
+        CHECK(encoded_data.size() == parameters.expected_encoded_size(huffman_options));
 
         // Decode
         const auto decoded_data = decode_vector(decoder, encoded_data);
