@@ -35,8 +35,8 @@ TEST_CASE("huffman_encoder_test")
         // TODO: rethink filename pattern
         const auto parameters = GENERATE(
             test_parameters("huffman.good.8.0-bytes.txt", 8));
-        const auto original_data = test_data_directory.read_decoded_file(parameters.decoded_file_name);
         INFO("Test file: " + parameters.decoded_file_name);
+        const auto original_data = test_data_directory.read_decoded_file(parameters.decoded_file_name);
 
         // Encode
         encoder.options(agbpack::huffman_options::h8);
