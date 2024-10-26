@@ -29,7 +29,7 @@ TEST_CASE("huffman_encoder_test")
     agbpack::huffman_decoder decoder;
     test_data_directory test_data_directory("huffman_encoder");
 
-    SECTION("Successful 8 bit encoding")
+    SECTION("Successful encoding")
     {
         // TODO: rethink filename pattern
         // TODO: also rewrite all other tests to use codec/test specific subdirectories
@@ -41,6 +41,12 @@ TEST_CASE("huffman_encoder_test")
         //       * 2 bytes (err...what? 2 bytes - 2 symbols, or 2 bytes, 2 times same symbol?)
         // TODO: maximum depth huffman code (some sort of lucas sequence thing)
         //       * Can we even reach 31/32 bits?
+
+        // Note: not too much thought has been put into constructing test data for 4 bit huffman coding,
+        // based on the assumption that 8 bit encoding is the hairy bit due to overflow problems in
+        // huffman tree serialization. Basically we just encode all the data which is constructed with
+        // 8 bit huffman coding in mind also using 4 bit encoding.
+        const auto huffman_options = GENERATE(agbpack::huffman_options::h4, agbpack::huffman_options::h8);
         const auto parameters = GENERATE(
             test_parameters("huffman.good.8.0-bytes.txt", 8),
             test_parameters("huffman.good.8.helloworld.txt", 24),
@@ -52,9 +58,9 @@ TEST_CASE("huffman_encoder_test")
         const auto original_data = test_data_directory.read_decoded_file(parameters.decoded_file_name);
 
         // Encode
-        encoder.options(agbpack::huffman_options::h8);
+        encoder.options(huffman_options);
         const auto encoded_data = encode_vector(encoder, original_data);
-        REQUIRE(encoded_data.size() == parameters.expected_encoded_size);
+        CHECK(encoded_data.size() == parameters.expected_encoded_size);
 
         // Decode
         const auto decoded_data = decode_vector(decoder, encoded_data);
