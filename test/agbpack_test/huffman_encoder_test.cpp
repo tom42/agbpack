@@ -19,25 +19,34 @@ namespace agbpack_test
 
 using string = std::string;
 
-struct test_parameters
+class test_parameters final
 {
-    // TODO: make shit private?
-    std::string decoded_file_name;
-    std::size_t expected_encoded_size_h4;
-    std::size_t expected_encoded_size_h8;
+public:
+    explicit test_parameters(const std::string& decoded_file_name, std::size_t expected_encoded_size_h4, std::size_t expected_encoded_size_h8)
+        : m_decoded_file_name(decoded_file_name)
+        , m_expected_encoded_size_h4(expected_encoded_size_h4)
+        , m_expected_encoded_size_h8(expected_encoded_size_h8)
+    {}
+
+    const std::string& decoded_file_name() const { return m_decoded_file_name; }
 
     std::size_t expected_encoded_size(agbpack::huffman_options options) const
     {
         switch (options)
         {
             case agbpack::huffman_options::h4:
-                return expected_encoded_size_h4;
+                return m_expected_encoded_size_h4;
             case agbpack::huffman_options::h8:
-                return expected_encoded_size_h8;
+                return m_expected_encoded_size_h8;
             default:
                 throw std::invalid_argument("invalid options");
         }
     }
+
+private:
+    std::string m_decoded_file_name;
+    std::size_t m_expected_encoded_size_h4;
+    std::size_t m_expected_encoded_size_h8;
 };
 
 TEST_CASE("huffman_encoder_test")
@@ -71,8 +80,8 @@ TEST_CASE("huffman_encoder_test")
             // TODO: this file needs a better name.
             //       * The fun here is, we have 256 symbols with all the same frequency. Incidentally we fail at encoding it
             test_parameters("huffman.good.8.256-bytes.bin", 292, 772));
-        INFO(std::format("Test parameters: {}, {} bit encoding", parameters.decoded_file_name, std::to_underlying(huffman_options)));
-        const auto original_data = test_data_directory.read_decoded_file(parameters.decoded_file_name);
+        INFO(std::format("Test parameters: {}, {} bit encoding", parameters.decoded_file_name(), std::to_underlying(huffman_options)));
+        const auto original_data = test_data_directory.read_decoded_file(parameters.decoded_file_name());
 
         // Encode
         encoder.options(huffman_options);
