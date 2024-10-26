@@ -50,6 +50,13 @@ TEST_CASE("huffman_encoder_test")
         CHECK(decoded_data == original_data);
     }
 
+    SECTION("Invalid options")
+    {
+        CHECK_THROWS_MATCHES(
+            encoder.options(agbpack::huffman_options(-1)),
+            std::invalid_argument,
+            Catch::Matchers::Message("invalid huffman compression options"));
+    }
 }
 
 // TODO: redo all crap below
@@ -109,14 +116,6 @@ TEST_CASE("huffman_encoder_test_old")
         const auto decoded_data = decode_vector(decoder, encoded_data);
 
         CHECK(decoded_data == original_data);
-    }
-
-    SECTION("Invalid options")
-    {
-        CHECK_THROWS_MATCHES(
-            encoder.options(agbpack::huffman_options(-1)),
-            std::invalid_argument,
-            Catch::Matchers::Message("invalid huffman compression options"));
     }
 }
 
