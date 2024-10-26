@@ -130,5 +130,4 @@ std::optional<header> header::parse(uint32_t header_data)
     return header(type, *options, (header_data >> 8) & 0xffffff);
 }
 
-
 }
