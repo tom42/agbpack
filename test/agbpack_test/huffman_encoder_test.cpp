@@ -32,6 +32,9 @@ TEST_CASE("huffman_encoder_test")
     SECTION("Successful 8 bit encoding")
     {
         // TODO: rethink filename pattern
+        // TODO: add more tests
+        //       * 1 byte (err...what? 1 byte - 1 symbol?
+        //       * 2 bytes (err...what? 2 bytes - 2 symbols, or 2 bytes, 2 times same symbol?)
         const auto parameters = GENERATE(
             test_parameters("huffman.good.8.0-bytes.txt", 8));
         INFO("Test file: " + parameters.decoded_file_name);
