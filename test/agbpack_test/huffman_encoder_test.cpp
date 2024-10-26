@@ -58,6 +58,8 @@ TEST_CASE("huffman_encoder_test")
     SECTION("Successful encoding")
     {
         // TODO: rethink filename pattern
+        // TODO: have dedicated test input that requires padding of the bitstream (huffman.good.frequency-table-test.txt.decoded does this, but it has a bad name)
+        // TODO: have dedicated test input that requires flushing of the bitstream (huffman.good.frequency-table-test.txt.decoded does this too, but it really has a bad name)
         // TODO: also rewrite all other tests to use codec/test specific subdirectories
         //       * In the case of the huffman decoder test we should check which files are still
         //         needed in the decoder directory and wich are used by encoder tests only and
@@ -107,30 +109,6 @@ TEST_CASE("huffman_encoder_test")
             encoder.options(agbpack::huffman_options(-1)),
             std::invalid_argument,
             Catch::Matchers::Message("invalid huffman compression options"));
-    }
-}
-
-// TODO: redo all crap below
-TEST_CASE("huffman_encoder_test_old")
-{
-    agbpack::huffman_encoder encoder;
-
-    SECTION("Successful 8 bit encoding with check against decoder")
-    {
-        // TODO: have dedicated test input that requires padding of the bitstream (huffman.good.frequency-table-test.txt.decoded does this, but it has a bad name)
-        // TODO: have dedicated test input that requires flushing of the bitstream (huffman.good.frequency-table-test.txt.decoded does this too, but it really has a bad name)
-        const string filename = GENERATE("huffman.good.frequency-table-test.txt.decoded");
-        const auto original_data = read_file(filename);
-
-        // Encode
-        encoder.options(agbpack::huffman_options::h8);
-        const auto encoded_data = encode_vector(encoder, original_data);
-
-        // Decode
-        agbpack::huffman_decoder decoder;
-        const auto decoded_data = decode_vector(decoder, encoded_data);
-
-        CHECK(decoded_data == original_data);
     }
 }
 
