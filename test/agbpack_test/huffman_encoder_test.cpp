@@ -35,11 +35,12 @@ TEST_CASE("huffman_encoder_test")
         // TODO: rename ffoo
         const auto ffoo = GENERATE(foo("huffman.good.8.0-bytes.txt", 8)); // TODO: rethink filename pattern
         const auto original_data = test_data.read_decoded_file(ffoo.decoded_file_name);
+        INFO("Test file: " + ffoo.decoded_file_name);
 
         // Encode
         encoder.options(agbpack::huffman_options::h8);
         const auto encoded_data = encode_vector(encoder, original_data);
-        REQUIRE(encoded_data.size() == ffoo.expected_encoded_size); // TODO: incorporate filename
+        REQUIRE(encoded_data.size() == ffoo.expected_encoded_size);
 
         // TODO: decode the file (do we still want to use our decode helper function? probably, yes?)
         // TODO: check decoded data is same as original data
