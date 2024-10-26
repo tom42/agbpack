@@ -20,6 +20,16 @@ SPDX-License-Identifier: MIT
     * Rewrite both of these
     * Can share a directory
   * When done, see what remains of public stuff ipn testdata.hpp. Hopefully some things can go
+* We're past the point where testing against the public interface makes sense:
+  * The tree serialization code does not need any actual input data. We need to be able to either
+    * Feed it frequency tables
+    * Or trees. Actually, the histogram produces a tree, which we then feed to the serializer, so we don't
+      *need* frequency tables as input, but they're certainly simpler to construct than trees
+  * So maybe we should find a way to do unit testing
+    * If all else fails, compile the library once for unit testing and once for deployment
+    * The library used for unit testing exports symbols the normal one does not export
+    * How can we then ensure the library for unit testing
+      * Does not get deployed/installed/whatever?
 * OK: huffman tree serialization is a bitch
   * On the bright side: we're interested primarily in 4 bit coding for shrinkler-gba, so we could just call it a day :D
   * Our breadth-first traversal does not even work for a 256 byte file where each 8 bit symbol has the same frequency
