@@ -38,9 +38,9 @@ public:
                 return m_expected_encoded_size_h4;
             case agbpack::huffman_options::h8:
                 return m_expected_encoded_size_h8;
-            default:
-                throw std::invalid_argument("invalid options");
         }
+
+        throw std::invalid_argument("invalid options");
     }
 
 private:
