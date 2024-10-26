@@ -75,9 +75,9 @@ std::vector<unsigned char> read_file(const std::string& basename)
     return data;
 }
 
-std::vector<unsigned char> test_data_directory::read_decoded_file(const std::string&)
+std::vector<unsigned char> test_data_directory::read_decoded_file(const std::string& basename)
 {
-    return {};
+    return read_file(basename + ".decoded");
 }
 
 }
