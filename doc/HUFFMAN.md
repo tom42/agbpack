@@ -97,16 +97,10 @@ the huffman tree somewhat difficult: even though it is an index into
 an array of halfwords, 6 bits are obviously not enough to cover all
 of the 511 nodes that a huffman tree for 256 symbols has.
 
-This means that a naive implementation of tree serialization may fail
-for some inputs because it produces overflows in the offset field
-of some internal nodes.
-
-An example for such a naive implementation would be a simple
-depth-first traversal that writes out nodes to an array as it visits
-them. Such an implementation would produce overflows in the offset
-field of some nodes if fed with a message of 8 bit symbols where
-all of the 256 symbols have the same frequency, because it would
-place some parent and child nodes too far away from eachother.
+This means that a naive implementation of tree serialization that
+does simple depth-first or breadth-first traversal of the tree may
+fail for some inputs because it produces overflows in the offset
+field of some internal nodes.
 
 ### Format of leaf nodes
 
