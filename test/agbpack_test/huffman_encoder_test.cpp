@@ -32,6 +32,10 @@ TEST_CASE("huffman_encoder_test")
     SECTION("Successful 8 bit encoding")
     {
         // TODO: rethink filename pattern
+        // TODO: also rewrite all other tests to use codec/test specific subdirectories
+        //       * In the case of the huffman decoder test we should check which files are still
+        //         needed in the decoder directory and wich are used by encoder tests only and
+        //         do not need to be in the decoder directory
         // TODO: add more tests
         //       * 1 byte (err...what? 1 byte - 1 symbol?
         //       * 2 bytes (err...what? 2 bytes - 2 symbols, or 2 bytes, 2 times same symbol?)
@@ -91,9 +95,7 @@ TEST_CASE("huffman_encoder_test_old")
     {
         // TODO: have dedicated test input that requires padding of the bitstream (huffman.good.frequency-table-test.txt.decoded does this, but it has a bad name)
         // TODO: have dedicated test input that requires flushing of the bitstream (huffman.good.frequency-table-test.txt.decoded does this too, but it really has a bad name)
-        const string filename = GENERATE(
-            "huffman.good.8.0-bytes.txt.decoded",
-            "huffman.good.frequency-table-test.txt.decoded");
+        const string filename = GENERATE("huffman.good.frequency-table-test.txt.decoded");
         const auto original_data = read_file(filename);
 
         // Encode
