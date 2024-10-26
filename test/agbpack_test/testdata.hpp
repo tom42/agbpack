@@ -55,11 +55,7 @@ class test_data_directory final
 public:
     explicit test_data_directory(const std::string& directory) : m_directory(directory) {}
 
-    std::vector<unsigned char> read_decoded_file(const std::string&)
-    {
-        // TODO: actually read file and return data
-        return {};
-    }
+    std::vector<unsigned char> read_decoded_file(const std::string&);
 
 private:
     std::string m_directory;
