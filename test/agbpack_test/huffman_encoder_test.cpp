@@ -73,6 +73,7 @@ TEST_CASE("huffman_encoder_test")
         //           * What is the maximum lucas sequence thing that would fit into such a file?
         //             * We could generate that file rather than storing it on disk, no?
         //       * Try at least 16 bits, which is the maximum for 4 bit encoding, and which, incidentally, is what we currently care more for anyway
+        // TODO: add test: input data too big
 
         // Note: not too much thought has been put into constructing test data for 4 bit huffman coding,
         // based on the assumption that 8 bit encoding is the hairy bit due to overflow problems in
@@ -110,7 +111,6 @@ TEST_CASE("huffman_encoder_test")
 }
 
 // TODO: redo all crap below
-// TODO: add test: input data too big
 TEST_CASE("huffman_encoder_test_old")
 {
     agbpack::huffman_encoder encoder;
