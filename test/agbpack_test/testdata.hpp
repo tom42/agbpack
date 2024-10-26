@@ -53,7 +53,7 @@ std::vector<unsigned char> encode_file(TEncoder& encoder, const std::string& bas
 class test_data_directory final
 {
 public:
-    explicit test_data_directory(const std::string&) {} // TODO: tuck away test directory name
+    explicit test_data_directory(const std::string& directory) : m_directory(directory) {}
 
     std::vector<unsigned char> read_decoded_file(const std::string&)
     {
@@ -62,6 +62,7 @@ public:
     }
 
 private:
+    std::string m_directory;
 };
 
 }
