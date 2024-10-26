@@ -36,7 +36,8 @@ TEST_CASE("huffman_encoder_test")
         //       * 1 byte (err...what? 1 byte - 1 symbol?
         //       * 2 bytes (err...what? 2 bytes - 2 symbols, or 2 bytes, 2 times same symbol?)
         const auto parameters = GENERATE(
-            test_parameters("huffman.good.8.0-bytes.txt", 8));
+            test_parameters("huffman.good.8.0-bytes.txt", 8),
+            test_parameters("huffman.good.8.helloworld.txt", 24));
         INFO("Test file: " + parameters.decoded_file_name);
         const auto original_data = test_data_directory.read_decoded_file(parameters.decoded_file_name);
 
@@ -143,18 +144,6 @@ TEST_CASE("zzz_test")
     //       * huffman.good.8.foo.txt
     //       * huffman.good.8.helloworld.txt
     //
-    const string basename = "huffman.good.8.helloworld.txt";
-    const auto original_data = read_file(basename + ".decoded");
-
-    // Encode data
-    agbpack::huffman_encoder encoder;
-    encoder.options(agbpack::huffman_options::h8);
-    const auto encoded_data = encode_vector(encoder, original_data);
-
-    // Decode data: check whether our decoder can read the data produced by our encoder
-    agbpack::huffman_decoder decoder;
-    const auto decoded_data = decode_vector(decoder, encoded_data);
-    CHECK(decoded_data == original_data);
 }
 
 }
