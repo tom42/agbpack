@@ -38,7 +38,11 @@ TEST_CASE("huffman_encoder_test")
         const auto parameters = GENERATE(
             test_parameters("huffman.good.8.0-bytes.txt", 8),
             test_parameters("huffman.good.8.helloworld.txt", 24),
-            test_parameters("huffman.good.8.foo.txt", 44));
+            test_parameters("huffman.good.8.foo.txt", 44),
+            // TODO: this file needs a better name.
+            //       * The fun here is, we have 256 symbols with all the same frequency. Incidentally we fail at encoding it
+            //       * Also, the expected encoded size is wrong, but we can fix that once we manage to encode the file correctly
+            test_parameters("huffman.good.8.256-bytes.bin", 1));
         INFO("Test file: " + parameters.decoded_file_name);
         const auto original_data = test_data_directory.read_decoded_file(parameters.decoded_file_name);
 
@@ -127,7 +131,6 @@ TEST_CASE("zzz_test")
     // TODO: Implement test
     //       * get some test data
     //         * Some sort of lucas sequence number thing? => Maybe the latter
-    //         * Another test: equally distributed symbols with 8 and 4 bit encoding
 }
 
 }
