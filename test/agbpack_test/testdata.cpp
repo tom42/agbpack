@@ -81,4 +81,9 @@ std::vector<unsigned char> test_data_directory::read_decoded_file(const std::str
     return read_file((std::filesystem::path(m_directory) / (basename + ".decoded")).string());
 }
 
+std::vector<unsigned char> test_data_directory::read_encoded_file(const std::string& basename)
+{
+    return read_file((std::filesystem::path(m_directory) / (basename + ".encoded")).string());
+}
+
 }

@@ -57,6 +57,8 @@ public:
 
     std::vector<unsigned char> read_decoded_file(const std::string& basename);
 
+    std::vector<unsigned char> read_encoded_file(const std::string& basename);
+
 private:
     std::string m_directory;
 };
