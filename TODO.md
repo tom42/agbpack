@@ -5,9 +5,6 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Clean up tests to use new test directory thing
-  * delta_decoder_test / delta_encoder_test
-    * Rewrite both of these
-    * Can share a directory for the time being
   * huffman_decoder_test: rewrite this
     * Should get its own directory
     * Should we rename files?
