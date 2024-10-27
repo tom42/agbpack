@@ -13,10 +13,7 @@ SPDX-License-Identifier: MIT
   * lzss_decoder_test:
     * Rewrite: directory: lzss_decoder
     * We will probably not be able to use reference data, since there are many way to parse lzss data
-  * rle_decoder_test / rle_encoder_test
-    * Rewrite both of these
-    * Can share a directory
-  * When done, see what remains of public stuff ipn testdata.hpp. Hopefully some things can go
+  * When done, see what remains of public stuff in testdata.hpp. Hopefully some things can go
 * We're past the point where testing against the public interface makes sense:
   * The tree serialization code does not need any actual input data. We need to be able to either
     * Feed it frequency tables

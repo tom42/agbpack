@@ -86,4 +86,9 @@ std::vector<unsigned char> test_data_directory::read_encoded_file(const std::str
     return read_file((std::filesystem::path(m_directory) / (basename + ".encoded")).string());
 }
 
+std::string test_data_directory::get_testfile_path(const std::string& basename)
+{
+    return (std::filesystem::path(agbpack_test_testdata_directory) / std::filesystem::path(m_directory) / basename).string();
+}
+
 }

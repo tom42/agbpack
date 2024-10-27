@@ -19,10 +19,11 @@ template <typename T> using vector = std::vector<T>;
 TEST_CASE("rle_decoder_test")
 {
     agbpack::rle_decoder decoder;
+    test_data_directory test_data_directory("rle");
 
     SECTION("Valid input")
     {
-        const string filename_part = GENERATE(
+        const string filename = GENERATE(
             "rle.good.3-literal-bytes.txt",
             "rle.good.5-literal-bytes.txt",
             "rle.good.3-repeated-bytes.txt",
@@ -31,33 +32,35 @@ TEST_CASE("rle_decoder_test")
             "rle.good.very-long-repeated-run.txt",
             "rle.good.zero-length-file.txt",
             "rle.good.foo.txt");
-        const auto expected_data = read_file(filename_part + ".decoded");
+        const auto expected_data = test_data_directory.read_decoded_file(filename);
+        const auto encoded_data = test_data_directory.read_encoded_file(filename);
 
-        const auto decoded_data = decode_file(decoder, filename_part + ".encoded");
+        const auto decoded_data = decode_vector(decoder, encoded_data);
 
         CHECK(decoded_data == expected_data);
     }
 
     SECTION("Invalid input")
     {
-        const auto encoded_file = GENERATE(
-            "rle.bad.eof-inside-header.txt.encoded",
-            "rle.bad.eof-at-flag-byte.txt.encoded",
-            "rle.bad.eof-at-repeated-byte.txt.encoded",
-            "rle.bad.eof-inside-literal-run.txt.encoded",
-            "rle.bad.literal-run-goes-past-decompressed-size.txt.encoded",
-            "rle.bad.repeated-run-goes-past-decompressed-size.txt.encoded",
-            "rle.bad.invalid-compression-type-in-header.txt.encoded",
-            "rle.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
-            "rle.bad.invalid-compression-options-in-header.txt.encoded",
-            "rle.bad.missing-padding-at-end-of-data.txt.encoded");
+        const auto filename = GENERATE(
+            "rle.bad.eof-inside-header.txt",
+            "rle.bad.eof-at-flag-byte.txt",
+            "rle.bad.eof-at-repeated-byte.txt",
+            "rle.bad.eof-inside-literal-run.txt",
+            "rle.bad.literal-run-goes-past-decompressed-size.txt",
+            "rle.bad.repeated-run-goes-past-decompressed-size.txt",
+            "rle.bad.invalid-compression-type-in-header.txt",
+            "rle.bad.valid-but-unexpected-compression-type-in-header.txt",
+            "rle.bad.invalid-compression-options-in-header.txt",
+            "rle.bad.missing-padding-at-end-of-data.txt");
+        const auto encoded_data = test_data_directory.read_encoded_file(filename);
 
-        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::decode_exception);
+        CHECK_THROWS_AS(decode_vector(decoder, encoded_data), agbpack::decode_exception);
     }
 
     SECTION("Input from ifstream")
     {
-        const auto path = get_testfile_path("rle.good.foo.txt.encoded");
+        const auto path = test_data_directory.get_testfile_path("rle.good.foo.txt.encoded");
         auto file = open_binary_file(path);
         vector<unsigned char> decoded_data;
 
@@ -66,7 +69,7 @@ TEST_CASE("rle_decoder_test")
             std::istream_iterator<unsigned char>(),
             back_inserter(decoded_data));
 
-        CHECK(decoded_data == read_file("rle.good.foo.txt.decoded"));
+        CHECK(decoded_data == test_data_directory.read_decoded_file("rle.good.foo.txt"));
     }
 }
 
