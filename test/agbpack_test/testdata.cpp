@@ -91,4 +91,19 @@ std::string test_data_directory::get_testfile_path(const std::string& basename)
     return (std::filesystem::path(agbpack_test_testdata_directory) / std::filesystem::path(m_directory) / basename).string();
 }
 
+void test_data_fixture::set_test_data_directory(const std::string& directory)
+{
+    m_directory = test_data_directory(directory);
+}
+
+std::vector<unsigned char> test_data_fixture::read_decoded_file(const std::string& basename)
+{
+    return m_directory.read_decoded_file(basename);
+}
+
+std::vector<unsigned char> test_data_fixture::read_encoded_file(const std::string& basename)
+{
+    return m_directory.read_encoded_file(basename);
+}
+
 }

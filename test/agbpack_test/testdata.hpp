@@ -56,14 +56,35 @@ class test_data_directory final
 public:
     explicit test_data_directory(const std::string& directory) : m_directory(directory) {}
 
+    // TODO: does this make any sense here? Should it not just return a path?
     std::vector<unsigned char> read_decoded_file(const std::string& basename);
 
+    // TODO: does this make any sense here? Should it not just return a path?
     std::vector<unsigned char> read_encoded_file(const std::string& basename);
 
     std::string get_testfile_path(const std::string& basename);
 
 private:
     std::string m_directory;
+};
+
+class test_data_fixture
+{
+public:
+    void set_test_data_directory(const std::string& directory);
+
+    std::vector<unsigned char> read_decoded_file(const std::string& basename);
+
+    std::vector<unsigned char> read_encoded_file(const std::string& basename);
+
+    template <typename TDecoder>
+    std::vector<unsigned char> decode_file(TDecoder& decoder, const std::string& basename)
+    {
+        return decode_vector(decoder, read_encoded_file(basename));
+    }
+
+private:
+    test_data_directory m_directory = test_data_directory("");
 };
 
 }

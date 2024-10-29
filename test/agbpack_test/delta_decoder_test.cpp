@@ -3,7 +3,6 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
-#include <string>
 #include "testdata.hpp"
 
 import agbpack;
@@ -11,28 +10,25 @@ import agbpack;
 namespace agbpack_test
 {
 
-using string = std::string;
-
-TEST_CASE("delta_decoder_test")
+TEST_CASE_METHOD(test_data_fixture, "delta_decoder_test")
 {
     agbpack::delta_decoder decoder;
-    test_data_directory test_data_directory("delta");
+    set_test_data_directory("delta");
 
     SECTION("Valid input")
     {
-        const string filename = GENERATE(
+        const auto filename = GENERATE(
             "delta.good.8.zero-length-file.txt",
             "delta.good.8.one-byte.txt",
             "delta.good.8.sine.bin",
             "delta.good.16.zero-length-file.txt",
             "delta.good.16.one-word.bin",
             "delta.good.16.sine.bin");
-        const auto expected_data = test_data_directory.read_decoded_file(filename);
-        const auto encoded_data = test_data_directory.read_encoded_file(filename);
+        const auto expected_decoded_data = read_decoded_file(filename);
 
-        const auto decoded_data = decode_vector(decoder, encoded_data);
+        const auto decoded_data = decode_file(decoder, filename);
 
-        CHECK(decoded_data == expected_data);
+        CHECK(decoded_data == expected_decoded_data);
     }
 
     SECTION("Invalid input")
@@ -46,9 +42,8 @@ TEST_CASE("delta_decoder_test")
             "delta.bad.8.missing-padding-at-end-of-data.txt",
             "delta.bad.16.eof-inside-stream.bin",
             "delta.bad.16.missing-padding-at-end-of-data.bin");
-        const auto encoded_data = test_data_directory.read_encoded_file(filename);
 
-        CHECK_THROWS_AS(decode_vector(decoder, encoded_data), agbpack::decode_exception);
+        CHECK_THROWS_AS(decode_file(decoder, filename), agbpack::decode_exception);
     }
 }
 
