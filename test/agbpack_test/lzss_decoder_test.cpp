@@ -55,10 +55,11 @@ std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decod
 TEST_CASE("lzss_decoder_test")
 {
     agbpack::lzss_decoder decoder;
+    test_data_directory test_data_directory("lzss_decoder");
 
     SECTION("Valid input")
     {
-        const string filename_part = GENERATE(
+        const string filename = GENERATE(
             "lzss.good.1-literal.txt",
             "lzss.good.8-literals.txt",
             "lzss.good.17-literals.txt",
@@ -70,11 +71,11 @@ TEST_CASE("lzss_decoder_test")
             "lzss.good.reference-with-minimum-match-length.txt",
             "lzss.good.reference-with-maximum-match-length.txt",
             "lzss.good.literals-and-references.txt");
-        const auto expected_data = read_file(filename_part + ".decoded");
+        const auto expected_data = test_data_directory.read_decoded_file(filename);
 
         // TODO: get 2nd assertion working again
-        CHECK(decode_file(decoder, filename_part + ".encoded") == expected_data);
-        //CHECK(decode_file_to_random_access_iterator(decoder, filename_part + ".encoded") == expected_data);
+        CHECK(test_data_directory.decode_file(decoder, filename + ".encoded") == expected_data);
+        //CHECK(decode_file_to_random_access_iterator(decoder, filename + ".encoded") == expected_data);
     }
 
     SECTION("Invalid input")
