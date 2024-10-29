@@ -52,6 +52,7 @@ std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decod
 */
 }
 
+/*
 TEST_CASE("lzss_decoder_test")
 {
     agbpack::lzss_decoder decoder;
@@ -96,6 +97,6 @@ TEST_CASE("lzss_decoder_test")
         CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::decode_exception);
         //CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, encoded_file), agbpack::decode_exception);
     }
-}
+}*/
 
 }

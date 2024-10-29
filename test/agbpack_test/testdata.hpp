@@ -50,6 +50,7 @@ std::vector<unsigned char> encode_file(TEncoder& encoder, const std::string& bas
 }
 
 // TODO: if this works out, rewrite all tests to use this class and sort test files into subdirectories
+// TODO: have nothing here but IO functions (read file, get path)
 class test_data_directory final
 {
 public:
@@ -58,9 +59,6 @@ public:
     std::vector<unsigned char> read_decoded_file(const std::string& basename);
 
     std::vector<unsigned char> read_encoded_file(const std::string& basename);
-
-    template <typename TDecoder>
-    std::vector<unsigned char> decode_file(TDecoder& decoder, const std::string& basename);
 
     std::string get_testfile_path(const std::string& basename);
 
