@@ -59,6 +59,9 @@ public:
 
     std::vector<unsigned char> read_encoded_file(const std::string& basename);
 
+    template <typename TDecoder>
+    std::vector<unsigned char> decode_file(TDecoder& decoder, const std::string& basename);
+
     std::string get_testfile_path(const std::string& basename);
 
 private:
