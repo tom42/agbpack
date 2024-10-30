@@ -83,6 +83,12 @@ public:
         return decode_vector(decoder, read_encoded_file(basename));
     }
 
+    template <typename TEncoder>
+    std::vector<unsigned char> encode_file(TEncoder& encoder, const std::string& basename)
+    {
+        return encode_vector(encoder, read_decoded_file(basename));
+    }
+
 private:
     test_data_directory m_directory = test_data_directory("");
 };
