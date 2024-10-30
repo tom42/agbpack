@@ -17,10 +17,7 @@ SPDX-License-Identifier: MIT
           * Or we pass it with a method call (less/no subclasses)
           * See https://groups.google.com/g/catch-forum/c/cQhk3cXyGAw
   * huffman_decoder_test: rewrite this, but use the new test_data_fixture, remove direct use of test_data_directory
-    * Should get its own directory
-    * Should we rename files?
     * Maybe place a readme somewhere that files have been created using reference encoders? (CUE Huffman, GBACrusher)
-    * Remove <string> and all mentions of std::string
   * When done, see what remains of public stuff in testdata.hpp. Hopefully some things can go
 * We're past the point where testing against the public interface makes sense:
   * The tree serialization code does not need any actual input data. We need to be able to either

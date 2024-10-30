@@ -44,27 +44,23 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_decoder_test")
 
         CHECK(decoded_data == expected_decoded_data);
     }
-}
 
-/*
-// TODO: redo stuff below
-{
     SECTION("Invalid input")
     {
-        const auto encoded_file = GENERATE(
-            "huffman.bad.eof-inside-header.txt.encoded",
-            "huffman.bad.eof-at-tree-size.txt.encoded",
-            "huffman.bad.eof-inside-tree.txt.encoded",
-            "huffman.bad.eof-while-reading-bitstream.txt.encoded",
-            "huffman.bad.invalid-compression-type-in-header.txt.encoded",
-            "huffman.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
-            "huffman.bad.invalid-compression-options-in-header.txt.encoded",
-            "huffman.bad.misaligned-bitstream.txt.encoded",
-            "huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt.encoded",
-            "huffman.bad.8.huffman-tree-access-past-end-of-tree.txt.encoded");
+        const auto filename = GENERATE(
+            "huffman.bad.eof-inside-header.txt",
+            "huffman.bad.eof-at-tree-size.txt",
+            "huffman.bad.eof-inside-tree.txt",
+            "huffman.bad.eof-while-reading-bitstream.txt",
+            "huffman.bad.invalid-compression-type-in-header.txt",
+            "huffman.bad.valid-but-unexpected-compression-type-in-header.txt",
+            "huffman.bad.invalid-compression-options-in-header.txt",
+            "huffman.bad.misaligned-bitstream.txt",
+            "huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt",
+            "huffman.bad.8.huffman-tree-access-past-end-of-tree.txt");
 
-        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::decode_exception);
+        CHECK_THROWS_AS(decode_file(decoder, filename), agbpack::decode_exception);
     }
-}*/
+}
 
 }
