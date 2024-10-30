@@ -50,6 +50,7 @@ std::string get_testfile_path(const std::string& basename)
 }
 
 // TODO: would be totally awesome if we could make this accept std::filesystem::path
+// TODO: should this go into an anonymous namespace
 std::vector<unsigned char> read_file(const std::string& basename)
 {
     const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;

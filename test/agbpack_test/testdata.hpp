@@ -17,8 +17,6 @@ std::size_t get_file_size(const std::string& path);
 
 std::ifstream open_binary_file(const std::string& path);
 
-std::vector<unsigned char> read_file(const std::string& basename);
-
 template <typename TDecoder>
 std::vector<unsigned char> decode_vector(TDecoder& decoder, const std::vector<unsigned char>& input)
 {
