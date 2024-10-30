@@ -18,12 +18,17 @@ using string = std::string;
 namespace
 {
 
-/* // TODO: rework this
-std::size_t guess_uncompressed_size(const string& basename)
+std::size_t guess_uncompressed_size(const string& basename, const test_data_fixture& fixture)
 {
+    // Get size of uncompressed data from .decoded file if it exists.
+    auto decoded_file_path = fixture.get_decoded_file_path(basename);
+    if (std::filesystem::exists(decoded_file_path))
+    {
+        return get_file_size(decoded_file_path);
+    }
 
     // No .decoded file. Then try reading uncompressed size from .encoded file.
-    auto encoded_file_content = read_file(std::filesystem::path(basename).replace_extension("encoded").string());
+    auto encoded_file_content = fixture.read_encoded_file(basename);
     if (encoded_file_content.size() >= 4)
     {
         std::size_t uncompressed_size = encoded_file_content[1];
@@ -35,29 +40,6 @@ std::size_t guess_uncompressed_size(const string& basename)
     // Cannot even guess size from header.
     // Assume encoded file is so broken that no output will be created.
     return 0;
-}
-
-template <typename TDecoder>
-std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decoder, const string& basename)
-{
-    std::vector<unsigned char> input = read_file(basename);
-    std::vector<unsigned char> output(guess_uncompressed_size(basename));
-    decoder.decode(input.begin(), input.end(), begin(output));
-    return output;
-}
-*/
-
-std::size_t guess_uncompressed_size(const string& basename, const test_data_fixture& fixture)
-{
-    // Get size of uncompressed data from .decoded file if it exists.
-    auto decoded_file_path = fixture.get_decoded_file_path(basename);
-    if (std::filesystem::exists(decoded_file_path))
-    {
-        return get_file_size(decoded_file_path);
-    }
-
-    // TODO: implement
-    return 8192;
 }
 
 template <typename TDecoder>
