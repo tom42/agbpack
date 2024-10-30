@@ -4,12 +4,10 @@
 #ifndef AGBPACK_TESTDATA_HPP_20240706
 #define AGBPACK_TESTDATA_HPP_20240706
 
-#include <cstdint>
 #include <fstream>
 #include <string>
 #include <vector>
 
-// TODO: see which of the free functions in here we still need
 namespace agbpack_test
 {
 
