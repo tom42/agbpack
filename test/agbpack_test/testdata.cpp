@@ -10,6 +10,37 @@
 namespace agbpack_test
 {
 
+namespace
+{
+
+std::vector<unsigned char> read_file(const std::string& basename)
+{
+    const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
+
+    auto filestream = open_binary_file(name.string());
+    auto filesize = get_file_size(name.string());
+
+    // Create vector with sufficient capacity to hold entire file.
+    std::vector<unsigned char> data;
+    data.reserve(filesize);
+
+    // Read entire file
+    data.insert(
+        data.begin(),
+        std::istream_iterator<unsigned char>(filestream),
+        std::istream_iterator<unsigned char>());
+
+    // Sanity check
+    if (filestream.bad() || (data.size() != filesize))
+    {
+        throw std::runtime_error("could not read entire content of file " + name.string());
+    }
+
+    return data;
+}
+
+}
+
 std::size_t get_file_size(const std::string& path)
 {
     std::error_code ec;
@@ -47,34 +78,6 @@ std::ifstream open_binary_file(const std::string& path)
 std::string get_testfile_path(const std::string& basename)
 {
     return (std::filesystem::path(agbpack_test_testdata_directory) / basename).string();
-}
-
-// TODO: would be totally awesome if we could make this accept std::filesystem::path
-// TODO: should this go into an anonymous namespace
-std::vector<unsigned char> read_file(const std::string& basename)
-{
-    const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
-
-    auto filestream = open_binary_file(name.string());
-    auto filesize = get_file_size(name.string());
-
-    // Create vector with sufficient capacity to hold entire file.
-    std::vector<unsigned char> data;
-    data.reserve(filesize);
-
-    // Read entire file
-    data.insert(
-        data.begin(),
-        std::istream_iterator<unsigned char>(filestream),
-        std::istream_iterator<unsigned char>());
-
-    // Sanity check
-    if (filestream.bad() || (data.size() != filesize))
-    {
-        throw std::runtime_error("could not read entire content of file " + name.string());
-    }
-
-    return data;
 }
 
 std::string test_data_directory::get_decoded_file_path(const std::string& basename) const
