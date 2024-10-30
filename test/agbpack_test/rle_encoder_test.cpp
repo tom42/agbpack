@@ -3,15 +3,12 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
-#include <string>
 #include "testdata.hpp"
 
 import agbpack;
 
 namespace agbpack_test
 {
-
-using string = std::string;
 
 TEST_CASE("rle_encoder_test")
 {
@@ -20,7 +17,7 @@ TEST_CASE("rle_encoder_test")
 
     SECTION("Successful encoding")
     {
-        const string filename = GENERATE(
+        const auto filename = GENERATE(
             // Test data designed for encoder development
             "rle.good.zero-length-file.txt",
             "rle.good.1-literal-byte.txt",
