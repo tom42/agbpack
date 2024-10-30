@@ -80,7 +80,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
 
     SECTION("Invalid input")
     {
-        const auto encoded_file = GENERATE(
+        const auto filename = GENERATE(
             "lzss.bad.eof-inside-header.txt",
             "lzss.bad.eof-at-flag-byte.txt",
             "lzss.bad.eof-at-reference-byte-1.txt",
@@ -92,18 +92,9 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
             "lzss.bad.invalid-compression-options-in-header.txt",
             "lzss.bad.missing-padding-at-end-of-data.txt");
 
-        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::decode_exception);
+        CHECK_THROWS_AS(decode_file(decoder, filename), agbpack::decode_exception);
+        CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, filename, *this), agbpack::decode_exception);
     }
 }
-
-// TODO: redo stuff below, as a test fixture thing
-/*
-TEST_CASE("lzss_decoder_test")
-{
-
-        // TODO: get 2nd assertion working again
-        //CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, encoded_file), agbpack::decode_exception);
-    }
-}*/
 
 }
