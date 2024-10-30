@@ -53,13 +53,19 @@ std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decod
 }
 */
 
-template <typename TDecoder>
-std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& /*decoder*/, const string& /*basename*/, const test_data_fixture& /*fixture*/)
+std::size_t guess_uncompressed_size(const string& /*basename*/, const test_data_fixture& /*fixture*/)
 {
-    // TODO: read input file
+    return 8192;
+}
+
+template <typename TDecoder>
+std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decoder, const string& basename, const test_data_fixture& fixture)
+{
+    const auto encoded_data = fixture.read_encoded_file(basename);
     // TODO: create output vector, guessing the size
-    // TODO: decode to output vector
-    return{}; // TODO: return real result
+    std::vector<unsigned char> decoded_data(guess_uncompressed_size(basename, fixture));
+    decoder.decode(encoded_data.begin(), encoded_data.end(), decoded_data.begin());
+    return decoded_data;
 }
 
 }
