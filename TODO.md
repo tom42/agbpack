@@ -46,21 +46,7 @@ SPDX-License-Identifier: MIT
               * Which path do we take then?
               * How do we get back onto the path we backtracked from?
               * How do we know we processed all the nodes?
-* Need to write lots of huffman tests now.
-  * Problem: things start getting messy in the testdata folder
-    * Maybe we create subdirectories for the different tests?
-      * Suggestion:
-        * rle (encoder and decoder, since we seem to share lots of data there?)
-        * delta (encoder and decoder, since we seem to share lots of data there?)
-        * lzss (since we have no encoder yet, can worry about that later)
-        * huffman_decoder: this uses lots of reference data from CUE
-        * huffman_encoder: this does not work well with reference data and has little overlap with the decoder tests
-      * We could then have a class test_data_directory, which the test can initialize
-        * We can then tack the other test data obtaining methods onto that (read_file etc)
-        * Or we have it as some sort of fixture, what do I know...would be nicer, since I think it would
-          feel silly to write test_directory.encode_file (well maybe call it testcontext or somesuch)
-        * BE CAREFUL: THIS HAS THE POTENTIAL OF CREATING HORRIBLE COMPLICATED TEST MACHINERY BETTER TO JUST HAVE
-          A TEST DIRECTORY WITH SOME HELPER METHODS TO LOAD FILES
+* Need to write lots of huffman tests now (ugh.. what we have already does not work...)
 * HUFFMAN.md
   * Some section on the overall format, just for the sake of completeness
 * huffman_encoder implementation
