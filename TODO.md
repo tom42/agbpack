@@ -15,9 +15,6 @@ SPDX-License-Identifier: MIT
           * We can do so by subclassing the fixture for each testcase, hardcoding the parameter there
           * Or we pass it with a method call (less/no subclasses)
           * See https://groups.google.com/g/catch-forum/c/cQhk3cXyGAw
-  * rle_encoder_test, rle_decoder_test
-    * Use test_data_fixture, do not use test_data_directory directly
-    * Remove mentions of <string> and std::string
   * huffman_decoder_test: rewrite this, but use the new test_data_fixture, remove direct use of test_data_directory
     * Should get its own directory
     * Should we rename files?
