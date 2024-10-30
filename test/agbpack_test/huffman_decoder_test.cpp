@@ -13,6 +13,7 @@ namespace agbpack_test
 TEST_CASE_METHOD(test_data_fixture, "huffman_decoder_test")
 {
     agbpack::huffman_decoder decoder;
+    set_test_data_directory("huffman_decoder");
 
     SECTION("Valid input")
     {

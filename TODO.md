@@ -5,6 +5,7 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Clean up tests to use new test directory thing
+  * See which files in the huffman_decoder directory are actually in use. Delete those that are not
   * UGH: our started overhaul is not yet quite there. We can do better
     * We can keep test_data_directory. That's fine. It can do the actual file handling
     * Anything else we can do
