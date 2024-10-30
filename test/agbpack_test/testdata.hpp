@@ -62,6 +62,8 @@ public:
     // TODO: does this make any sense here? Should it not just return a path?
     std::vector<unsigned char> read_encoded_file(const std::string& basename) const;
 
+    std::string get_decoded_file_path(const std::string& basename) const;
+
     std::string get_encoded_file_path(const std::string& basename) const;
 
 private:
@@ -72,6 +74,8 @@ class test_data_fixture
 {
 public:
     void set_test_data_directory(const std::string& directory);
+
+    std::string get_decoded_file_path(const std::string& basename) const;
 
     std::string get_encoded_file_path(const std::string& basename) const;
 

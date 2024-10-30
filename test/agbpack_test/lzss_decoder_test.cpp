@@ -53,8 +53,10 @@ std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decod
 }
 */
 
-std::size_t guess_uncompressed_size(const string& /*basename*/, const test_data_fixture& /*fixture*/)
+std::size_t guess_uncompressed_size(const string& basename, const test_data_fixture& fixture)
 {
+    // TODO: implement
+    fixture.get_decoded_file_path(basename);
     return 8192;
 }
 
