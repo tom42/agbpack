@@ -6,15 +6,12 @@
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <stdexcept>
-#include <string>
 #include "testdata.hpp"
 
 import agbpack;
 
 namespace agbpack_test
 {
-
-using string = std::string;
 
 TEST_CASE("delta_encoder_test")
 {
@@ -23,7 +20,7 @@ TEST_CASE("delta_encoder_test")
 
     SECTION("Successful 8 bit encoding")
     {
-        const string filename = GENERATE(
+        const auto filename = GENERATE(
             "delta.good.8.zero-length-file.txt",
             "delta.good.8.one-byte.txt",
             "delta.good.8.sine.bin");
@@ -39,7 +36,7 @@ TEST_CASE("delta_encoder_test")
     SECTION("Successful 16 bit encoding")
     {
         // TODO: what if input is an odd number of bytes? => Well that's an error, innit? What do other encoders do in that case?
-        const string filename = GENERATE(
+        const auto filename = GENERATE(
             "delta.good.16.zero-length-file.txt",
             "delta.good.16.one-word.bin",
             "delta.good.16.sine.bin");
