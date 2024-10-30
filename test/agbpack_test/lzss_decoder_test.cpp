@@ -21,12 +21,6 @@ namespace
 /* // TODO: rework this
 std::size_t guess_uncompressed_size(const string& basename)
 {
-    // Get size of uncompressed data from .decoded file if it exists.
-    auto decoded_file_path = get_testfile_path(std::filesystem::path(basename).replace_extension("decoded").string());
-    if (std::filesystem::exists(decoded_file_path))
-    {
-        return get_file_size(decoded_file_path);
-    }
 
     // No .decoded file. Then try reading uncompressed size from .encoded file.
     auto encoded_file_content = read_file(std::filesystem::path(basename).replace_extension("encoded").string());
@@ -55,8 +49,14 @@ std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decod
 
 std::size_t guess_uncompressed_size(const string& basename, const test_data_fixture& fixture)
 {
+    // Get size of uncompressed data from .decoded file if it exists.
+    auto decoded_file_path = fixture.get_decoded_file_path(basename);
+    if (std::filesystem::exists(decoded_file_path))
+    {
+        return get_file_size(decoded_file_path);
+    }
+
     // TODO: implement
-    fixture.get_decoded_file_path(basename);
     return 8192;
 }
 
@@ -64,7 +64,6 @@ template <typename TDecoder>
 std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decoder, const string& basename, const test_data_fixture& fixture)
 {
     const auto encoded_data = fixture.read_encoded_file(basename);
-    // TODO: create output vector, guessing the size
     std::vector<unsigned char> decoded_data(guess_uncompressed_size(basename, fixture));
     decoder.decode(encoded_data.begin(), encoded_data.end(), decoded_data.begin());
     return decoded_data;
@@ -102,12 +101,6 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
 /*
 TEST_CASE("lzss_decoder_test")
 {
-    SECTION("Valid input")
-    {
-        // TODO: get 2nd assertion working again
-        //CHECK(decode_file_to_random_access_iterator(decoder, filename + ".encoded") == expected_data);
-    }
-
     SECTION("Invalid input")
     {
         const auto encoded_file = GENERATE(
