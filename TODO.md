@@ -5,7 +5,6 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Clean up tests to use new test directory thing
-  * See which files in the huffman_decoder directory are actually in use. Delete those that are not
   * UGH: our started overhaul is not yet quite there. We can do better
     * We can keep test_data_directory. That's fine. It can do the actual file handling
     * Anything else we can do
@@ -16,7 +15,7 @@ SPDX-License-Identifier: MIT
           * We can do so by subclassing the fixture for each testcase, hardcoding the parameter there
           * Or we pass it with a method call (less/no subclasses)
           * See https://groups.google.com/g/catch-forum/c/cQhk3cXyGAw
-  * huffman_decoder_test: rewrite this, but use the new test_data_fixture, remove direct use of test_data_directory
+  * huffman_decoder_test:
     * Maybe place a readme somewhere that files have been created using reference encoders? (CUE Huffman, GBACrusher)
   * When done, see what remains of public stuff in testdata.hpp. Hopefully some things can go
 * We're past the point where testing against the public interface makes sense:
