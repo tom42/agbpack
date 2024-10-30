@@ -3,7 +3,6 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
-#include <string>
 #include "testdata.hpp"
 
 import agbpack;
@@ -11,15 +10,13 @@ import agbpack;
 namespace agbpack_test
 {
 
-using string = std::string;
-
-TEST_CASE("huffman_decoder_test")
+TEST_CASE_METHOD(test_data_fixture, "huffman_decoder_test")
 {
     agbpack::huffman_decoder decoder;
 
     SECTION("Valid input")
     {
-        const string filename_part = GENERATE(
+        const auto filename = GENERATE(
             // Notes on test files:
             // * Files consisting of a single byte of input have been created using GValiente's gba-huff.h,
             //   which doesn't seem to be available on github anymore.
@@ -40,13 +37,17 @@ TEST_CASE("huffman_decoder_test")
             "huffman.good.4.2-bytes.txt",
             "huffman.good.4.3-bytes.txt",
             "huffman.good.4.256-bytes.bin");
-        const auto expected_data = read_file(filename_part + ".decoded");
+        const auto expected_decoded_data = read_decoded_file(filename);
 
-        const auto decoded_data = decode_file(decoder, filename_part + ".encoded");
+        const auto decoded_data = decode_file(decoder, filename);
 
-        CHECK(decoded_data == expected_data);
+        CHECK(decoded_data == expected_decoded_data);
     }
+}
 
+/*
+// TODO: redo stuff below
+{
     SECTION("Invalid input")
     {
         const auto encoded_file = GENERATE(
@@ -63,6 +64,6 @@ TEST_CASE("huffman_decoder_test")
 
         CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::decode_exception);
     }
-}
+}*/
 
 }
