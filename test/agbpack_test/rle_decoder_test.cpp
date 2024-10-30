@@ -4,7 +4,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #include <iterator>
-#include <string>
 #include <vector>
 #include "testdata.hpp"
 
@@ -13,7 +12,6 @@ import agbpack;
 namespace agbpack_test
 {
 
-using string = std::string;
 template <typename T> using vector = std::vector<T>;
 
 TEST_CASE("rle_decoder_test")
@@ -23,7 +21,7 @@ TEST_CASE("rle_decoder_test")
 
     SECTION("Valid input")
     {
-        const string filename = GENERATE(
+        const auto filename = GENERATE(
             "rle.good.3-literal-bytes.txt",
             "rle.good.5-literal-bytes.txt",
             "rle.good.3-repeated-bytes.txt",
