@@ -35,17 +35,10 @@ std::vector<unsigned char> encode_vector(TEncoder& encoder, const std::vector<un
     return output;
 }
 
-// TODO: have nothing here but IO functions (read file, get path)
 class test_data_directory final
 {
 public:
     explicit test_data_directory(const std::string& directory) : m_directory(directory) {}
-
-    // TODO: does this make any sense here? Should it not just return a path?
-    std::vector<unsigned char> read_decoded_file(const std::string& basename) const;
-
-    // TODO: does this make any sense here? Should it not just return a path?
-    std::vector<unsigned char> read_encoded_file(const std::string& basename) const;
 
     std::string get_decoded_file_path(const std::string& basename) const;
 
