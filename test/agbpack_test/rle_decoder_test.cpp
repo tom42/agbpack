@@ -14,10 +14,10 @@ namespace agbpack_test
 
 template <typename T> using vector = std::vector<T>;
 
-TEST_CASE("rle_decoder_test")
+TEST_CASE_METHOD(test_data_fixture, "rle_decoder_test")
 {
     agbpack::rle_decoder decoder;
-    test_data_directory test_data_directory("rle");
+    set_test_data_directory("rle");
 
     SECTION("Valid input")
     {
@@ -30,12 +30,11 @@ TEST_CASE("rle_decoder_test")
             "rle.good.very-long-repeated-run.txt",
             "rle.good.zero-length-file.txt",
             "rle.good.foo.txt");
-        const auto expected_data = test_data_directory.read_decoded_file(filename);
-        const auto encoded_data = test_data_directory.read_encoded_file(filename);
+        const auto expected_decoded_data = read_decoded_file(filename);
 
-        const auto decoded_data = decode_vector(decoder, encoded_data);
+        const auto decoded_data = decode_file(decoder, filename);
 
-        CHECK(decoded_data == expected_data);
+        CHECK(decoded_data == expected_decoded_data);
     }
 
     SECTION("Invalid input")
@@ -51,14 +50,13 @@ TEST_CASE("rle_decoder_test")
             "rle.bad.valid-but-unexpected-compression-type-in-header.txt",
             "rle.bad.invalid-compression-options-in-header.txt",
             "rle.bad.missing-padding-at-end-of-data.txt");
-        const auto encoded_data = test_data_directory.read_encoded_file(filename);
 
-        CHECK_THROWS_AS(decode_vector(decoder, encoded_data), agbpack::decode_exception);
+        CHECK_THROWS_AS(decode_file(decoder, filename), agbpack::decode_exception);
     }
 
     SECTION("Input from ifstream")
     {
-        const auto path = test_data_directory.get_testfile_path("rle.good.foo.txt.encoded");
+        const auto path = get_encoded_file_path("rle.good.foo.txt");
         auto file = open_binary_file(path);
         vector<unsigned char> decoded_data;
 
@@ -67,7 +65,7 @@ TEST_CASE("rle_decoder_test")
             std::istream_iterator<unsigned char>(),
             back_inserter(decoded_data));
 
-        CHECK(decoded_data == test_data_directory.read_decoded_file("rle.good.foo.txt"));
+        CHECK(decoded_data == read_decoded_file("rle.good.foo.txt"));
     }
 }
 
