@@ -75,11 +75,6 @@ std::ifstream open_binary_file(const std::string& path)
     return file;
 }
 
-std::string get_testfile_path(const std::string& basename)
-{
-    return (std::filesystem::path(agbpack_test_testdata_directory) / basename).string();
-}
-
 std::string test_data_directory::get_decoded_file_path(const std::string& basename) const
 {
     return (std::filesystem::path(agbpack_test_testdata_directory) / std::filesystem::path(m_directory) / (basename + ".decoded")).string();
