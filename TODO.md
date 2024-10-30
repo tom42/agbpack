@@ -15,13 +15,21 @@ SPDX-License-Identifier: MIT
           * We can do so by subclassing the fixture for each testcase, hardcoding the parameter there
           * Or we pass it with a method call (less/no subclasses)
           * See https://groups.google.com/g/catch-forum/c/cQhk3cXyGAw
-  * huffman_decoder_test: rewrite this
+  * rle_encoder_test, rle_decoder_test
+    * Use test_data_fixture, do not use test_data_directory directly
+    * Remove mentions of <string> and std::string
+  * huffman_decoder_test: rewrite this, but use the new test_data_fixture, remove direct use of test_data_directory
     * Should get its own directory
     * Should we rename files?
     * Maybe place a readme somewhere that files have been created using reference encoders? (CUE Huffman, GBACrusher)
+    * Remove <string> and all mentions of std::string
   * huffman_encoder_test: is fine for the moment
+    * No, it's not: use test_data_fixture, remove direct use of test_data_directory
+    * Remove <string> and all mentions of std::string
   * lzss_decoder_test:
     * Rewrite: directory: lzss_decoder
+    * use test_data_fixture, remove direct use of test_data_directory
+    * Remove <string> and all mentions of std::string
     * We will probably not be able to use reference data, since there are many way to parse lzss data
   * When done, see what remains of public stuff in testdata.hpp. Hopefully some things can go
 * We're past the point where testing against the public interface makes sense:
