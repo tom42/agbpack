@@ -5,6 +5,7 @@
 #include <catch2/generators/catch_generators.hpp>
 #include <cstddef>
 #include <filesystem>
+#include <string>
 #include "testdata.hpp"
 
 import agbpack;
@@ -12,9 +13,12 @@ import agbpack;
 namespace agbpack_test
 {
 
+using string = std::string;
+
 namespace
 {
-/*
+
+/* // TODO: rework this
 std::size_t guess_uncompressed_size(const string& basename)
 {
     // Get size of uncompressed data from .decoded file if it exists.
@@ -48,6 +52,16 @@ std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decod
     return output;
 }
 */
+
+template <typename TDecoder>
+std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& /*decoder*/, const string& /*basename*/, const test_data_fixture& /*fixture*/)
+{
+    // TODO: read input file
+    // TODO: create output vector, guessing the size
+    // TODO: decode to output vector
+    return{}; // TODO: return real result
+}
+
 }
 
 TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
@@ -72,7 +86,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
         const auto expected_decoded_data = read_decoded_file(filename);
 
         CHECK(decode_file(decoder, filename) == expected_decoded_data);
-        // TODO: also check decoding to vector here
+        CHECK(decode_file_to_random_access_iterator(decoder, filename, *this) == expected_decoded_data);
     }
 }
 
