@@ -57,12 +57,12 @@ public:
     explicit test_data_directory(const std::string& directory) : m_directory(directory) {}
 
     // TODO: does this make any sense here? Should it not just return a path?
-    std::vector<unsigned char> read_decoded_file(const std::string& basename);
+    std::vector<unsigned char> read_decoded_file(const std::string& basename) const;
 
     // TODO: does this make any sense here? Should it not just return a path?
-    std::vector<unsigned char> read_encoded_file(const std::string& basename);
+    std::vector<unsigned char> read_encoded_file(const std::string& basename) const;
 
-    std::string get_encoded_file_path(const std::string& basename);
+    std::string get_encoded_file_path(const std::string& basename) const;
 
 private:
     std::string m_directory;
@@ -73,20 +73,20 @@ class test_data_fixture
 public:
     void set_test_data_directory(const std::string& directory);
 
-    std::string get_encoded_file_path(const std::string& basename);
+    std::string get_encoded_file_path(const std::string& basename) const;
 
-    std::vector<unsigned char> read_decoded_file(const std::string& basename);
+    std::vector<unsigned char> read_decoded_file(const std::string& basename) const;
 
-    std::vector<unsigned char> read_encoded_file(const std::string& basename);
+    std::vector<unsigned char> read_encoded_file(const std::string& basename) const;
 
     template <typename TDecoder>
-    std::vector<unsigned char> decode_file(TDecoder& decoder, const std::string& basename)
+    std::vector<unsigned char> decode_file(TDecoder& decoder, const std::string& basename) const
     {
         return decode_vector(decoder, read_encoded_file(basename));
     }
 
     template <typename TEncoder>
-    std::vector<unsigned char> encode_file(TEncoder& encoder, const std::string& basename)
+    std::vector<unsigned char> encode_file(TEncoder& encoder, const std::string& basename) const
     {
         return encode_vector(encoder, read_decoded_file(basename));
     }
