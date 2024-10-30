@@ -69,9 +69,9 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
             "lzss.good.reference-with-minimum-match-length.txt",
             "lzss.good.reference-with-maximum-match-length.txt",
             "lzss.good.literals-and-references.txt");
-        const auto expected_data = read_decoded_file(filename);
+        const auto expected_decoded_data = read_decoded_file(filename);
 
-        CHECK(decode_file(decoder, filename) == expected_data);
+        CHECK(decode_file(decoder, filename) == expected_decoded_data);
         // TODO: also check decoding to vector here
     }
 }
