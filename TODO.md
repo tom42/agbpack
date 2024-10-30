@@ -20,9 +20,6 @@ SPDX-License-Identifier: MIT
     * Should we rename files?
     * Maybe place a readme somewhere that files have been created using reference encoders? (CUE Huffman, GBACrusher)
     * Remove <string> and all mentions of std::string
-  * huffman_encoder_test: is fine for the moment
-    * No, it's not: use test_data_fixture, remove direct use of test_data_directory
-    * Remove <string> and all mentions of std::string
   * lzss_decoder_test:
     * Rewrite: directory: lzss_decoder
     * use test_data_fixture, remove direct use of test_data_directory

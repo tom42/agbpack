@@ -50,11 +50,11 @@ private:
     size_t m_expected_encoded_size_h8;
 };
 
-TEST_CASE("huffman_encoder_test")
+TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
 {
     agbpack::huffman_encoder encoder;
     agbpack::huffman_decoder decoder;
-    test_data_directory test_data_directory("huffman_encoder");
+    set_test_data_directory("huffman_encoder");
 
     SECTION("Successful encoding")
     {
@@ -92,7 +92,7 @@ TEST_CASE("huffman_encoder_test")
             //       * Also verify it really has each symbol exactly once?
             test_parameters("huffman.good.8.256-bytes.bin", 292, 772));
         INFO(std::format("Test parameters: {}, {} bit encoding", parameters.filename(), std::to_underlying(huffman_options)));
-        const auto original_data = test_data_directory.read_decoded_file(parameters.filename());
+        const auto original_data = read_decoded_file(parameters.filename());
 
         // Encode
         encoder.options(huffman_options);
