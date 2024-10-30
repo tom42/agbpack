@@ -86,14 +86,19 @@ std::vector<unsigned char> test_data_directory::read_encoded_file(const std::str
     return read_file((std::filesystem::path(m_directory) / (basename + ".encoded")).string());
 }
 
-std::string test_data_directory::get_testfile_path(const std::string& basename)
+std::string test_data_directory::get_encoded_file_path(const std::string& basename)
 {
-    return (std::filesystem::path(agbpack_test_testdata_directory) / std::filesystem::path(m_directory) / basename).string();
+    return (std::filesystem::path(agbpack_test_testdata_directory) / std::filesystem::path(m_directory) / (basename + ".encoded")).string();
 }
 
 void test_data_fixture::set_test_data_directory(const std::string& directory)
 {
     m_directory = test_data_directory(directory);
+}
+
+std::string test_data_fixture::get_encoded_file_path(const std::string& basename)
+{
+    return m_directory.get_encoded_file_path(basename);
 }
 
 std::vector<unsigned char> test_data_fixture::read_decoded_file(const std::string& basename)
