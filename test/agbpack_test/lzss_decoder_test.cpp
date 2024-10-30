@@ -95,28 +95,31 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
         CHECK(decode_file(decoder, filename) == expected_decoded_data);
         CHECK(decode_file_to_random_access_iterator(decoder, filename, *this) == expected_decoded_data);
     }
+
+    SECTION("Invalid input")
+    {
+        const auto encoded_file = GENERATE(
+            "lzss.bad.eof-inside-header.txt",
+            "lzss.bad.eof-at-flag-byte.txt",
+            "lzss.bad.eof-at-reference-byte-1.txt",
+            "lzss.bad.eof-at-reference-byte-2.txt",
+            "lzss.bad.eof-at-literal.txt",
+            "lzss.bad.reference-goes-past-decompressed-size.txt",
+            "lzss.bad.invalid-compression-type-in-header.txt",
+            "lzss.bad.valid-but-unexpected-compression-type-in-header.txt",
+            "lzss.bad.invalid-compression-options-in-header.txt",
+            "lzss.bad.missing-padding-at-end-of-data.txt");
+
+        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::decode_exception);
+    }
 }
 
 // TODO: redo stuff below, as a test fixture thing
 /*
 TEST_CASE("lzss_decoder_test")
 {
-    SECTION("Invalid input")
-    {
-        const auto encoded_file = GENERATE(
-            "lzss.bad.eof-inside-header.txt.encoded",
-            "lzss.bad.eof-at-flag-byte.txt.encoded",
-            "lzss.bad.eof-at-reference-byte-1.txt.encoded",
-            "lzss.bad.eof-at-reference-byte-2.txt.encoded",
-            "lzss.bad.eof-at-literal.txt.encoded",
-            "lzss.bad.reference-goes-past-decompressed-size.txt.encoded",
-            "lzss.bad.invalid-compression-type-in-header.txt.encoded",
-            "lzss.bad.valid-but-unexpected-compression-type-in-header.txt.encoded",
-            "lzss.bad.invalid-compression-options-in-header.txt.encoded",
-            "lzss.bad.missing-padding-at-end-of-data.txt.encoded");
 
         // TODO: get 2nd assertion working again
-        CHECK_THROWS_AS(decode_file(decoder, encoded_file), agbpack::decode_exception);
         //CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, encoded_file), agbpack::decode_exception);
     }
 }*/
