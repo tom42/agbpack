@@ -18,19 +18,20 @@ namespace agbpack_test
 {
 
 using string = std::string;
+using size_t = std::size_t;
 
 class test_parameters final
 {
 public:
-    explicit test_parameters(const std::string& filename, std::size_t expected_encoded_size_h4, std::size_t expected_encoded_size_h8)
+    explicit test_parameters(const string& filename, size_t expected_encoded_size_h4, size_t expected_encoded_size_h8)
         : m_filename(filename)
         , m_expected_encoded_size_h4(expected_encoded_size_h4)
         , m_expected_encoded_size_h8(expected_encoded_size_h8)
     {}
 
-    const std::string& filename() const { return m_filename; }
+    const string& filename() const { return m_filename; }
 
-    std::size_t expected_encoded_size(agbpack::huffman_options options) const
+    size_t expected_encoded_size(agbpack::huffman_options options) const
     {
         switch (options)
         {
@@ -44,9 +45,9 @@ public:
     }
 
 private:
-    std::string m_filename;
-    std::size_t m_expected_encoded_size_h4;
-    std::size_t m_expected_encoded_size_h8;
+    string m_filename;
+    size_t m_expected_encoded_size_h4;
+    size_t m_expected_encoded_size_h8;
 };
 
 TEST_CASE("huffman_encoder_test")
