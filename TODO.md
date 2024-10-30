@@ -5,19 +5,8 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Clean up tests to use new test directory thing
-  * UGH: our started overhaul is not yet quite there. We can do better
-    * We can keep test_data_directory. That's fine. It can do the actual file handling
-    * Anything else we can do
-      * In free functions
-      * Or, even better, or additionally: into a testfixture class
-        * That is, use TEST_CASE_METHOD, or however it is called
-        * There is no easy way to parameterize such a function by ctor argument
-          * We can do so by subclassing the fixture for each testcase, hardcoding the parameter there
-          * Or we pass it with a method call (less/no subclasses)
-          * See https://groups.google.com/g/catch-forum/c/cQhk3cXyGAw
   * huffman_decoder_test:
     * Maybe place a readme somewhere that files have been created using reference encoders? (CUE Huffman, GBACrusher)
-  * When done, see what remains of public stuff in testdata.hpp. Hopefully some things can go
 * We're past the point where testing against the public interface makes sense:
   * The tree serialization code does not need any actual input data. We need to be able to either
     * Feed it frequency tables
