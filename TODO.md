@@ -4,6 +4,16 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Need some decisions:
+  * Test strategy:
+    * I want unit testing
+      * We can go for compiling two versions of the library
+        * It will not hurt us, since normally we will compile *only* the library for unit testing
+        * Another idea would be to try baking the unit tests *into* a module implementation unit
+        * Otoh we can still try asking on Stackoverflow: it might be worth the trouble
+  * Do we insist in solving huffman tree serialization ourselves, or do we simply want to get shit done?
+    * If the latter, then using huffman compression from grit might be an option
+    * Just check licensing again!
 * Clean up tests to use new test directory thing
   * huffman_decoder_test:
     * Maybe place a readme somewhere that files have been created using reference encoders? (CUE Huffman, GBACrusher)
