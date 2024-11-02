@@ -10,7 +10,7 @@ module;
 
 export module agbpack:header;
 
-AGBPACK_EXPORT_FOR_UNIT_TESTING namespace agbpack
+namespace agbpack
 {
 
 export inline constexpr uint32_t maximum_uncompressed_size = 0xffffff;
@@ -76,6 +76,7 @@ inline auto as_integer(compression_options options)
     return std::visit([](auto&& opts) noexcept { return std::to_underlying(opts); }, options);
 }
 
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 class header final
 {
 public:
