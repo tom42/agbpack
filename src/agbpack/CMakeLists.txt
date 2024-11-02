@@ -17,8 +17,8 @@ set(
 
 add_library(agbpack)
 target_sources(agbpack ${agbpack_sources})
-target_compile_definitions(agbpack PRIVATE AGBPACK_EXPORT_FOR_TESTING=)
+target_compile_definitions(agbpack PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=)
 
-add_library(agbpack_testing)
-target_sources(agbpack_testing ${agbpack_sources})
-target_compile_definitions(agbpack_testing PRIVATE AGBPACK_EXPORT_FOR_TESTING=export)
+add_library(agbpack_unit_testing)
+target_sources(agbpack_unit_testing ${agbpack_sources})
+target_compile_definitions(agbpack_unit_testing PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=export)

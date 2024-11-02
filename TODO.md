@@ -11,6 +11,9 @@ SPDX-License-Identifier: MIT
         * It will not hurt us, since normally we will compile *only* the library for unit testing
         * Another idea would be to try baking the unit tests *into* a module implementation unit
         * Otoh we can still try asking on Stackoverflow: it might be worth the trouble
+    * Do we want to separate integration from unit tests?
+      * That would mean the current test would have to be renamed, no?
+        * Well or we keep it as it is, but we rename agbpack_test to agbpack_unit_test
   * Do we insist in solving huffman tree serialization ourselves, or do we simply want to get shit done?
     * If the latter, then using huffman compression from grit might be an option
     * Just check licensing again!
@@ -140,6 +143,7 @@ SPDX-License-Identifier: MIT
 * Toplevel makefile:
   * Do we want to disable unit tests by default if not the main project?
   * Do we want to have an option to enable/disable unit tests explicitly?
+  * We should build agbpack_unit_testing only if testing is enabled
 
 ---8<--- doctest common.cmake ---
 

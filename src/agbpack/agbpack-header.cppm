@@ -10,7 +10,7 @@ module;
 
 export module agbpack:header;
 
-AGBPACK_EXPORT_FOR_TESTING namespace agbpack
+AGBPACK_EXPORT_FOR_UNIT_TESTING namespace agbpack
 {
 
 export inline constexpr uint32_t maximum_uncompressed_size = 0xffffff;
