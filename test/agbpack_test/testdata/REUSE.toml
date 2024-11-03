@@ -4,6 +4,6 @@
 version = 1
 
 [[annotations]]
-path = ["*.decoded", "*.encoded"]
+path = ["**/*.decoded", "**/*.encoded"]
 SPDX-FileCopyrightText = "2024 Thomas Mathys"
 SPDX-License-Identifier = "CC0-1.0"
