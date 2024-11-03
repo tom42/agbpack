@@ -26,5 +26,5 @@ add_executable(
 
 target_include_directories(agbpack_test PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 
-target_link_libraries(agbpack_test PRIVATE agbpack_unit_testing Catch2::Catch2WithMain)
+target_link_libraries(agbpack_test PRIVATE agbpack Catch2::Catch2WithMain)
 catch_discover_tests(agbpack_test)
