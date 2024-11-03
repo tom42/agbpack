@@ -5,22 +5,6 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Need some decisions:
-  * Test strategy:
-    * I want unit testing
-      * We can go for compiling two versions of the library
-        * It will not hurt us, since normally we will compile *only* the library for unit testing
-        * Another idea would be to try baking the unit tests *into* a module implementation unit
-        * Otoh we can still try asking on Stackoverflow: it might be worth the trouble
-    * Do we want to separate integration from unit tests?
-      * That would mean the current test would have to be renamed, no?
-        * Well or we keep it as it is, but we rename agbpack_test to agbpack_unit_test
-          * Yes that's fine, but that's quite some work:
-            * Directory
-            * Library name
-            * Config header
-            * Config header guards
-            * Namespace names
-            * Anything agbpack_test => agbpack_unit_test, really
   * Do we insist in solving huffman tree serialization ourselves, or do we simply want to get shit done?
     * If the latter, then using huffman compression from grit might be an option
     * Just check licensing again!
