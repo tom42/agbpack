@@ -94,7 +94,6 @@ public:
 
     uint32_t to_uint32_t() const
     {
-        // TODO: review/test: is the uncompressed size correctly serialized?
         return (uncompressed_size() << 8) | (std::to_underlying(type()) << 4) | as_integer(options());
     }
 
