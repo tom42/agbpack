@@ -680,7 +680,7 @@ private:
 };
 
 class tree_node;
-using tree_node_ptr = std::unique_ptr<tree_node>;
+using tree_node_ptr = std::shared_ptr<tree_node>;
 
 // TODO: implement, but model it after grit!
 // TODO: in grit a tree_node has a pointer to its parent, but it seems it does not actually use it
@@ -688,24 +688,28 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node final
 {
 public:
-    // TODO: add explicit ctor to create leaf nodes (plus factory function!)
-    explicit tree_node(uint8_t /*value*/, symbol_frequency /*frequency*/)
-    {
-        // TODO: tuck away value
-        // TODO: tuck away frequence
-        // TODO: unit test: create child node: ensure all fields are good
-    }
+    explicit tree_node(uint8_t value, symbol_frequency frequency)
+        : m_value(value)
+        , m_frequency(frequency)
+    {}
 
     // TODO: add explicit ctor to create internal nodes (plus factory function!)
 
+    tree_node_ptr child(size_t index) const { return m_children[index]; }
+
+    symbol_frequency frequency() const { return m_frequency; }
+
+    uint8_t value() const { return m_value; }
+
     static tree_node_ptr make_leaf(uint8_t value, symbol_frequency frequency)
     {
-        return std::make_unique<tree_node>(value, frequency);
+        return std::make_shared<tree_node>(value, frequency);
     }
 
 private:
-    std::array<tree_node_ptr, 2> m_x{};
+    std::array<tree_node_ptr, 2> m_children{};
     symbol_frequency m_frequency = 0;
+    uint8_t m_value = 0;
 };
 
 // TODO: implement this. Question is a bit, can we somehow put this into a separate source file?

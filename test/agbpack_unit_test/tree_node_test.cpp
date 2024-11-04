@@ -16,10 +16,10 @@ TEST_CASE("tree_node_test")
     {
         auto leaf = tree_node::make_leaf('A', 42);
 
-        // TODO: check value
-        // TODO: check frequency
-        // TODO: there should be no children
-        CHECK(false);
+        CHECK(leaf->child(0) == nullptr);
+        CHECK(leaf->child(1) == nullptr);
+        CHECK(leaf->value() == 'A');
+        CHECK(leaf->frequency() == 42);
     }
 }
 
