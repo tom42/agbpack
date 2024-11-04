@@ -684,6 +684,7 @@ using tree_node_ptr = std::unique_ptr<tree_node>;
 
 // TODO: implement, but model it after grit!
 // TODO: in grit a tree_node has a pointer to its parent, but it seems it does not actually use it
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node final
 {
 public:
@@ -696,6 +697,11 @@ public:
     }
 
     // TODO: add explicit ctor to create internal nodes (plus factory function!)
+
+    static tree_node_ptr make_leaf(uint8_t value, symbol_frequency frequency)
+    {
+        return std::make_unique<tree_node>(value, frequency);
+    }
 
 private:
     std::array<tree_node_ptr, 2> m_x{};
