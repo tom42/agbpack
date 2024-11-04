@@ -489,10 +489,11 @@ public:
     }
 };
 
-class huffman_encoder_tree final
+// TODO: old implementation, remove
+class old_huffman_encoder_tree final
 {
 public:
-    explicit huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
+    explicit old_huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
         : m_symbol_size(symbol_size)
         , m_root(build_tree(symbol_size, ftable))
     {}
@@ -582,7 +583,7 @@ private:
 class huffman_tree_serializer final
 {
 public:
-    std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
+    std::vector<agbpack_u8> serialize(const old_huffman_encoder_tree& tree)
     {
         auto serialized_tree = create_empty_serialized_tree();
         auto writer = unbounded_byte_writer(back_inserter(serialized_tree));
@@ -689,7 +690,7 @@ public:
 
         // Create the tree for the encoder.
         // Also create the serialized variant of the tree and the code table for the encoder.
-        huffman_encoder_tree tree(symbol_size, ftable);
+        old_huffman_encoder_tree tree(symbol_size, ftable);
         huffman_tree_serializer serializer;
         const auto serialized_tree = serializer.serialize(tree);
         const auto code_table = tree.create_code_table();
