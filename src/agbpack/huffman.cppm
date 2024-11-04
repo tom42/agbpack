@@ -678,15 +678,33 @@ private:
     }
 };
 
+using tree_node_ptr = void*; // TODO: real pointer type
+
 // TODO: implement this. Question is a bit, can we somehow put this into a separate source file?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_encoder_tree final
 {
 public:
-    // TODO: store symbol size
-    // TODO: create tree (build tree, result is the root node)
-    huffman_encoder_tree(unsigned int /*symbol_size*/, const frequency_table& /*ftable*/) {}
+    huffman_encoder_tree(unsigned int symbol_size, const frequency_table& /*ftable*/)
+        : m_symbol_size(symbol_size)
+        , m_root(build_tree())
+    {}
+
 private:
+    tree_node_ptr build_tree()
+    {
+        // TODO: actually build tree (need symbol size and frequency_table for that)
+        //       * Create leaf nodes from frequency table
+        //       * Add bogus leaf nodes as needed
+        //       * Actually build the tree
+        //       * Implementation
+        //         * See already existing implementation
+        //         * But model the new tree_node class after grit's code
+        return nullptr;
+    }
+
+    unsigned int m_symbol_size;
+    tree_node_ptr m_root;
 };
 
 export class huffman_encoder final
