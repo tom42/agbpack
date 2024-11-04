@@ -433,8 +433,9 @@ private:
     std::vector<symbol_frequency> m_frequencies;
 };
 
+// TODO: old stuff, remove
 class tree_node_old;
-using tree_node_ptr = std::shared_ptr<tree_node_old>;
+using tree_node_ptr_old = std::shared_ptr<tree_node_old>;
 
 // TODO: old implementation, remove
 class tree_node_old final
@@ -446,7 +447,7 @@ public:
         , m_frequency(frequency)
     {}
 
-    explicit tree_node_old(tree_node_ptr child0, tree_node_ptr child1)
+    explicit tree_node_old(tree_node_ptr_old child0, tree_node_ptr_old child1)
         : m_is_leaf(false)
         , m_symbol(0)
         , m_frequency(child0->frequency() + child1->frequency())
@@ -460,16 +461,16 @@ public:
 
     symbol_frequency frequency() const { return m_frequency; }
 
-    tree_node_ptr child0() const { return m_child0; }
+    tree_node_ptr_old child0() const { return m_child0; }
 
-    tree_node_ptr child1() const { return m_child1; }
+    tree_node_ptr_old child1() const { return m_child1; }
 
-    static tree_node_ptr make_leaf(symbol sym, symbol_frequency frequency)
+    static tree_node_ptr_old make_leaf(symbol sym, symbol_frequency frequency)
     {
         return std::make_shared<tree_node_old>(sym, frequency);
     }
 
-    static tree_node_ptr make_internal(tree_node_ptr child0, tree_node_ptr child1)
+    static tree_node_ptr_old make_internal(tree_node_ptr_old child0, tree_node_ptr_old child1)
     {
         return std::make_shared<tree_node_old>(child0, child1);
     }
@@ -478,15 +479,15 @@ private:
     bool m_is_leaf;
     symbol m_symbol;
     symbol_frequency m_frequency;
-    tree_node_ptr m_child0;
-    tree_node_ptr m_child1;
+    tree_node_ptr_old m_child0;
+    tree_node_ptr_old m_child1;
 };
 
 // TODO: old implementation
 class tree_node_compare final
 {
 public:
-    bool operator()(tree_node_ptr a, tree_node_ptr b)
+    bool operator()(tree_node_ptr_old a, tree_node_ptr_old b)
     {
         return a->frequency() > b->frequency();
     }
@@ -501,7 +502,7 @@ public:
         , m_root(build_tree(symbol_size, ftable))
     {}
 
-    tree_node_ptr root() const
+    tree_node_ptr_old root() const
     {
         return m_root;
     }
@@ -516,11 +517,11 @@ public:
 
 private:
     using node_queue = std::priority_queue<
-        tree_node_ptr,
-        std::vector<tree_node_ptr>,
+        tree_node_ptr_old,
+        std::vector<tree_node_ptr_old>,
         tree_node_compare>;
 
-    static tree_node_ptr build_tree(unsigned int symbol_size, const frequency_table& ftable)
+    static tree_node_ptr_old build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
         node_queue nodes;
 
@@ -558,7 +559,7 @@ private:
         return root;
     }
 
-    static tree_node_ptr pop(node_queue& nodes)
+    static tree_node_ptr_old pop(node_queue& nodes)
     {
         auto node = nodes.top();
         nodes.pop();
@@ -579,7 +580,7 @@ private:
     }
 
     unsigned int m_symbol_size;
-    tree_node_ptr m_root;
+    tree_node_ptr_old m_root;
 };
 
 // TODO: old implementation
@@ -596,7 +597,7 @@ public:
         writer.write8(0);
 
         // TODO: document that we do breadth first and why? (well refer to HUFFMAN.md, and maybe update that one to state that breadth-first is a way to do it)
-        std::queue<tree_node_ptr> queue;
+        std::queue<tree_node_ptr_old> queue;
         queue.push(tree.root());
         std::size_t next_index = 1;
 
@@ -645,7 +646,7 @@ private:
         return tree;
     }
 
-    static agbpack_u8 calculate_internal_node_value(tree_node_ptr node, std::size_t current_index, std::size_t next_index)
+    static agbpack_u8 calculate_internal_node_value(tree_node_ptr_old node, std::size_t current_index, std::size_t next_index)
     {
         std::size_t offset = next_index - current_index - 1;
 
@@ -669,7 +670,7 @@ private:
         return internal_node_value;
     }
 
-    static tree_node_ptr pop(std::queue<tree_node_ptr>& queue)
+    static tree_node_ptr_old pop(std::queue<tree_node_ptr_old>& queue)
     {
         auto node = queue.front();
         queue.pop();
