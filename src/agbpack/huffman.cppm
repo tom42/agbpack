@@ -689,7 +689,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node final
 {
 public:
-    explicit tree_node(uint8_t value, symbol_frequency frequency)
+    explicit tree_node(uint8_t value, symbol_frequency frequency) noexcept
         : m_frequency(frequency)
         , m_value(value)
     {}
