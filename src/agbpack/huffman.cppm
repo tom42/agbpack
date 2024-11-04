@@ -683,6 +683,8 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_encoder_tree final
 {
 public:
+    // TODO: store symbol size
+    // TODO: create tree (build tree, result is the root node)
     huffman_encoder_tree(unsigned int /*symbol_size*/, const frequency_table& /*ftable*/) {}
 private:
 };
