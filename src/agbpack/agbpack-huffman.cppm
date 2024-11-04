@@ -674,6 +674,14 @@ private:
     }
 };
 
+// TODO: implement this. Question is a bit, can we somehow put this into a separate source file?
+AGBPACK_EXPORT_FOR_UNIT_TESTING
+class huffman_encoder_tree final
+{
+public:
+private:
+};
+
 export class huffman_encoder final
 {
 public:

@@ -697,6 +697,9 @@ uint huffgba_compress(RECORD *dst, const RECORD *src)
   * Do we insist in solving huffman tree serialization ourselves, or do we simply want to get shit done?
     * If the latter, then using huffman compression from grit might be an option
     * Just check licensing again!
+	* Do not forget to update copyright notice in code
+	  * Question is a bit, can we divide the huffman stuff a bit?
+		* Would make things more overviewable
 * Clean up tests to use new test directory thing
   * huffman_decoder_test:
     * Maybe place a readme somewhere that files have been created using reference encoders? (CUE Huffman, GBACrusher)

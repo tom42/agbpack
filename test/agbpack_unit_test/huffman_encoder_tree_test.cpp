@@ -3,6 +3,10 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+import agbpack;
+
+using agbpack::huffman_encoder_tree;
+
 namespace agbpack_unit_test
 {
 
