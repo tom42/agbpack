@@ -683,6 +683,7 @@ using tree_node_ptr = std::unique_ptr<tree_node>;
 
 // TODO: implement, but model it after grit!
 // TODO: make this final: can we test that warning?
+// TODO: in grit a tree_node has a pointer to its parent, but it seems it does not actually use it
 class tree_node
 {
 public:
