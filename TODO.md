@@ -4,20 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 ================================================================================================================
-#include "cprs.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cstdlib>
-#include <cstring>
-#include <deque>
-#include <memory>
-#include <tuple>
-#include <vector>
-
-namespace
-{
-/** @brief Huffman node */
 class Node
 {
 public:
