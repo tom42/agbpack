@@ -432,19 +432,20 @@ private:
     std::vector<symbol_frequency> m_frequencies;
 };
 
-class tree_node;
-using tree_node_ptr = std::shared_ptr<tree_node>;
+class tree_node_old;
+using tree_node_ptr = std::shared_ptr<tree_node_old>;
 
-class tree_node final
+// TODO: old implementation, remove
+class tree_node_old final
 {
 public:
-    explicit tree_node(symbol sym, symbol_frequency frequency) noexcept
+    explicit tree_node_old(symbol sym, symbol_frequency frequency) noexcept
         : m_is_leaf(true)
         , m_symbol(sym)
         , m_frequency(frequency)
     {}
 
-    explicit tree_node(tree_node_ptr child0, tree_node_ptr child1)
+    explicit tree_node_old(tree_node_ptr child0, tree_node_ptr child1)
         : m_is_leaf(false)
         , m_symbol(0)
         , m_frequency(child0->frequency() + child1->frequency())
@@ -464,12 +465,12 @@ public:
 
     static tree_node_ptr make_leaf(symbol sym, symbol_frequency frequency)
     {
-        return std::make_shared<tree_node>(sym, frequency);
+        return std::make_shared<tree_node_old>(sym, frequency);
     }
 
     static tree_node_ptr make_internal(tree_node_ptr child0, tree_node_ptr child1)
     {
-        return std::make_shared<tree_node>(child0, child1);
+        return std::make_shared<tree_node_old>(child0, child1);
     }
 
 private:
@@ -528,7 +529,7 @@ private:
             symbol_frequency f = ftable.frequency(sym);
             if (f > 0)
             {
-                nodes.push(tree_node::make_leaf(sym, f));
+                nodes.push(tree_node_old::make_leaf(sym, f));
             }
         }
 
@@ -538,7 +539,7 @@ private:
         // The symbol is irrelevant, but an obvious choice is 0.
         while (nodes.size() < 2) // TODO: this is not yet particularly well tested
         {
-            nodes.push(tree_node::make_leaf(0, 0));
+            nodes.push(tree_node_old::make_leaf(0, 0));
         }
 
         // Standard huffman tree building algorithm:
@@ -547,7 +548,7 @@ private:
         {
             auto node0 = pop(nodes);
             auto node1 = pop(nodes);
-            nodes.push(tree_node::make_internal(node0, node1));
+            nodes.push(tree_node_old::make_internal(node0, node1));
         }
 
         assert(nodes.size() == 1);
@@ -562,7 +563,7 @@ private:
         return node;
     }
 
-    static void create_code_table_internal(code_table& table, tree_node* node, code c, code_length l)
+    static void create_code_table_internal(code_table& table, tree_node_old* node, code c, code_length l)
     {
         if (node->is_leaf())
         {
