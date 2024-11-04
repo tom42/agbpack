@@ -678,7 +678,16 @@ private:
     }
 };
 
-using tree_node_ptr = void*; // TODO: real pointer type
+class tree_node;
+using tree_node_ptr = std::unique_ptr<tree_node>;
+
+// TODO: implement, but model it after grit!
+// TODO: make this final: can we test that warning?
+class tree_node
+{
+public:
+private:
+};
 
 // TODO: implement this. Question is a bit, can we somehow put this into a separate source file?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
