@@ -390,6 +390,7 @@ private:
     }
 };
 
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 class frequency_table final
 {
 public:
@@ -681,6 +682,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_encoder_tree final
 {
 public:
+    huffman_encoder_tree(unsigned int /*symbol_size*/, const frequency_table& /*ftable*/) {}
 private:
 };
 

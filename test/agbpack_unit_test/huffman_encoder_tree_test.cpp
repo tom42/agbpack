@@ -5,6 +5,7 @@
 
 import agbpack;
 
+using agbpack::frequency_table;
 using agbpack::huffman_encoder_tree;
 
 namespace agbpack_unit_test
@@ -19,6 +20,13 @@ namespace agbpack_unit_test
 //       * Maximum handleable code length exceeded
 TEST_CASE("huffman_encoder_tree_test")
 {
+    SECTION("No symbols")
+    {
+        frequency_table frequencies(8);
+        huffman_encoder_tree tree(8, frequencies);
+
+        // TODO: assert serialized tree. This one should be pretty simple: tree size byte, root node, two bogus child nodes
+    }
 }
 
 }
