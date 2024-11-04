@@ -688,6 +688,12 @@ class tree_node final
 {
 public:
     // TODO: add explicit ctor to create leaf nodes (plus factory function!)
+    explicit tree_node(uint8_t /*value*/, symbol_frequency /*frequency*/)
+    {
+        // TODO: tuck away value
+        // TODO: tuck away frequence
+        // TODO: unit test: create child node: ensure all fields are good
+    }
 
     // TODO: add explicit ctor to create internal nodes (plus factory function!)
 
