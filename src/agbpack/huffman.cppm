@@ -481,6 +481,7 @@ private:
     tree_node_ptr m_child1;
 };
 
+// TODO: old implementation
 class tree_node_compare final
 {
 public:
@@ -580,6 +581,7 @@ private:
     tree_node_ptr m_root;
 };
 
+// TODO: old implementation
 // TODO: lots of static casts in here. Reduce to one?
 class huffman_tree_serializer final
 {
