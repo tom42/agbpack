@@ -137,7 +137,6 @@ public:
 	}
 
 private:
-	std::unique_ptr<Node> child[2]; ///< Children nodes
 	size_t count    = 0;            ///< Node weight
 	uint32_t code   = 0;            ///< Huffman encoding
 	unsigned leaves = 0;            ///< Number of leaves

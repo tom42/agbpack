@@ -687,7 +687,12 @@ using tree_node_ptr = std::unique_ptr<tree_node>;
 class tree_node
 {
 public:
+    // TODO: add explicit ctor to create leaf nodes (plus factory function!)
+
+    // TODO: add explicit ctor to create internal nodes (plus factory function!)
+
 private:
+    tree_node_ptr m_children[2]; // TODO: do we want this to have a field initializer?
 };
 
 // TODO: implement this. Question is a bit, can we somehow put this into a separate source file?
