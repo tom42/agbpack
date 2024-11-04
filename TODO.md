@@ -137,7 +137,6 @@ public:
 	}
 
 private:
-	size_t count    = 0;            ///< Node weight
 	uint32_t code   = 0;            ///< Huffman encoding
 	unsigned leaves = 0;            ///< Number of leaves
 	uint8_t val     = 0;            ///< Huffman tree value

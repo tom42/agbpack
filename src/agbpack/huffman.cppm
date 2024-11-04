@@ -4,6 +4,7 @@
 module;
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cctype>
 #include <concepts>
@@ -692,7 +693,8 @@ public:
     // TODO: add explicit ctor to create internal nodes (plus factory function!)
 
 private:
-    tree_node_ptr m_children[2]; // TODO: do we want this to have a field initializer?
+    std::array<tree_node_ptr, 2> m_x{};
+    symbol_frequency m_frequency = 0;
 };
 
 // TODO: implement this. Question is a bit, can we somehow put this into a separate source file?
