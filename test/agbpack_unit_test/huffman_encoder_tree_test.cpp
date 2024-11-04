@@ -5,11 +5,11 @@
 
 import agbpack;
 
-using agbpack::frequency_table;
-using agbpack::huffman_encoder_tree;
-
 namespace agbpack_unit_test
 {
+
+using agbpack::frequency_table;
+using agbpack::huffman_encoder_tree;
 
 // TODO: tests
 //       * No symbols
