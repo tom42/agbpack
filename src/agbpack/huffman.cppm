@@ -679,6 +679,7 @@ private:
     }
 };
 
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node;
 using tree_node_ptr = std::shared_ptr<tree_node>;
 
@@ -689,8 +690,8 @@ class tree_node final
 {
 public:
     explicit tree_node(uint8_t value, symbol_frequency frequency)
-        : m_value(value)
-        , m_frequency(frequency)
+        : m_frequency(frequency)
+        , m_value(value)
     {}
 
     // TODO: add explicit ctor to create internal nodes (plus factory function!)
@@ -732,6 +733,7 @@ private:
         //       * Implementation
         //         * See already existing implementation
         //         * But model the new tree_node class after grit's code
+        (void)m_symbol_size; // TODO: remove
         return nullptr;
     }
 

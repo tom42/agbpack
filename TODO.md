@@ -8,14 +8,6 @@ class Node
 {
 public:
 	/** @brief Parameterized constructor
-	 *  @param val   Node value
-	 *  @count count Node count
-	 */
-	Node (uint8_t val, size_t count) : count (count), val (val)
-	{
-	}
-
-	/** @brief Parameterized constructor
 	 *  @param left  Left child
 	 *  @count right Right child
 	 */
