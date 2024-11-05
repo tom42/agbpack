@@ -741,6 +741,11 @@ public:
     {}
 
 private:
+    using node_queue = std::priority_queue<
+        tree_node_ptr,
+        std::vector<tree_node_ptr>,
+        tree_node_compare>;
+
     tree_node_ptr build_tree()
     {
         // TODO: actually build tree (need symbol size and frequency_table for that)
