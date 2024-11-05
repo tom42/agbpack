@@ -788,10 +788,20 @@ private:
         return nodes;
     }
 
-    static tree_node_ptr combine_nodes(node_queue& /*nodes*/)
+    static tree_node_ptr combine_nodes(node_queue& nodes)
     {
-        // TODO: implement
-        return nullptr;
+        // Standard huffman tree building algorithm:
+        // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
+        while (nodes.size() > 1)
+        {
+            auto node0 = pop(nodes);
+            auto node1 = pop(nodes);
+            nodes.push(tree_node::make_internal(node0, node1));
+        }
+
+        assert(nodes.size() == 1);
+        auto root = nodes.top();
+        return root;
     }
 
     unsigned int m_symbol_size;
