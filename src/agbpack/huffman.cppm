@@ -669,8 +669,8 @@ class tree_node final
 {
 public:
     explicit tree_node(uint8_t value, symbol_frequency frequency) noexcept
-        : m_frequency(frequency)
-        , m_value(value)
+        : m_value(value)
+        , m_frequency(frequency)
     {}
 
     explicit tree_node(tree_node_ptr child0, tree_node_ptr child1)
@@ -696,8 +696,8 @@ public:
 
 private:
     std::array<tree_node_ptr, 2> m_children{};
-    symbol_frequency m_frequency = 0;
     uint8_t m_value = 0;
+    symbol_frequency m_frequency = 0;
 };
 
 class tree_node_compare final
