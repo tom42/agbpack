@@ -675,10 +675,11 @@ public:
 
     explicit tree_node(tree_node_ptr child0, tree_node_ptr child1)
         : m_children{ child0, child1 }
+        , m_is_parent(true)
         , m_frequency(child0->frequency() + child1->frequency())
     {}
 
-    bool is_parent() const { return false; } // TODO: unhardcode
+    bool is_parent() const { return m_is_parent; }
 
     tree_node_ptr child(size_t index) const { return m_children[index]; }
 
@@ -698,6 +699,7 @@ public:
 
 private:
     std::array<tree_node_ptr, 2> m_children{};
+    bool m_is_parent = 0;
     uint8_t m_value = 0;
     symbol_frequency m_frequency = 0;
 };
