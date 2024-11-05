@@ -29,7 +29,7 @@ namespace agbpack
 
 using symbol = unsigned int; // TODO: this should not be agbpack_u8. Document this / write test that would figure out?
 using symbol_frequency = uint32_t;
-using code = unsigned int;
+using code = uint32_t;
 using code_length = unsigned int;
 
 inline constexpr auto min_next_node_offset = 0u;
