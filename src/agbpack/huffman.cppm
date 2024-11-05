@@ -565,7 +565,7 @@ private:
 
 // TODO: old implementation
 // TODO: lots of static casts in here. Reduce to one?
-class huffman_tree_serializer final
+class old_huffman_tree_serializer final
 {
 public:
     std::vector<agbpack_u8> serialize(const old_huffman_encoder_tree& tree)
@@ -836,8 +836,8 @@ public:
         // Also create the serialized variant of the tree and the code table for the encoder.
         old_huffman_encoder_tree old_tree(symbol_size, ftable);
         huffman_encoder_tree tree(symbol_size, ftable);
-        huffman_tree_serializer serializer;
-        const auto serialized_tree = serializer.serialize(old_tree);
+        old_huffman_tree_serializer old_serializer;
+        const auto serialized_tree = old_serializer.serialize(old_tree);
         const auto code_table = tree.create_code_table();
 
         // TODO: bad: static cast
