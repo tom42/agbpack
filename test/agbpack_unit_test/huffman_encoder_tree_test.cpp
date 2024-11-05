@@ -26,6 +26,7 @@ TEST_CASE("huffman_encoder_tree_test")
         huffman_encoder_tree tree(8, frequencies);
 
         // TODO: assert serialized tree. This one should be pretty simple: tree size byte, root node, two bogus child nodes
+        // TODO: aren't we mixing things up a bit here? Isn't this stuff we'd put into a class 'tree serializer'?
     }
 }
 
