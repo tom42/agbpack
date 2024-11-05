@@ -697,9 +697,7 @@ public:
     explicit tree_node(tree_node_ptr child0, tree_node_ptr child1)
         : m_children{ child0, child1 }
         , m_frequency(child0->frequency() + child1->frequency())
-    {
-        // TODO: assert that children are not null?
-    }
+    {}
 
     tree_node_ptr child(size_t index) const { return m_children[index]; }
 
@@ -753,8 +751,6 @@ private:
     static tree_node_ptr build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
         // TODO: actually build tree (need symbol size and frequency_table for that)
-        //       * Create leaf nodes from frequency table
-        //       * Add bogus leaf nodes as needed
         //       * Actually build the tree
         //       * Implementation
         //         * See already existing implementation
