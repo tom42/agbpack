@@ -721,6 +721,15 @@ private:
     uint8_t m_value = 0;
 };
 
+class tree_node_compare final
+{
+public:
+    bool operator()(tree_node_ptr a, tree_node_ptr b)
+    {
+        return a->frequency() > b->frequency();
+    }
+};
+
 // TODO: implement this. Question is a bit, can we somehow put this into a separate source file?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_encoder_tree final
