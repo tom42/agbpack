@@ -7,28 +7,6 @@ SPDX-License-Identifier: MIT
 class Node
 {
 public:
-	/** @brief Parameterized constructor
-	 *  @param left  Left child
-	 *  @count right Right child
-	 */
-	Node (std::unique_ptr<Node> left, std::unique_ptr<Node> right)
-	    : child{std::move (left), std::move (right)}, count (child[0]->count + child[1]->count)
-	{
-		// set children's parent to self
-		child[0]->parent = this;
-		child[1]->parent = this;
-	}
-
-	Node () = delete;
-
-	Node (const Node &other) = delete;
-
-	Node (Node &&other) = delete;
-
-	Node &operator= (const Node &other) = delete;
-
-	Node &operator= (Node &&other) = delete;
-
 	/** @brief Comparison operator
 	 *  @param other Object to compare
 	 */

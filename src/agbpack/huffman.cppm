@@ -694,7 +694,10 @@ public:
         , m_value(value)
     {}
 
-    // TODO: add explicit ctor to create internal nodes (plus factory function!)
+    explicit tree_node(tree_node_ptr child0, tree_node_ptr child1)
+        : m_children{ child0, child1 }
+        , m_frequency(child0->frequency() + child1->frequency())
+    {}
 
     tree_node_ptr child(size_t index) const { return m_children[index]; }
 
@@ -705,6 +708,11 @@ public:
     static tree_node_ptr make_leaf(uint8_t value, symbol_frequency frequency)
     {
         return std::make_shared<tree_node>(value, frequency);
+    }
+
+    static tree_node_ptr make_internal(tree_node_ptr child0, tree_node_ptr child1)
+    {
+        return std::make_shared<tree_node>(child0, child1);
     }
 
 private:

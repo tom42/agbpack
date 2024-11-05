@@ -21,6 +21,18 @@ TEST_CASE("tree_node_test")
         CHECK(leaf_node->value() == 'A');
         CHECK(leaf_node->frequency() == 42);
     }
+
+    SECTION("make_internal")
+    {
+        auto child0 = tree_node::make_leaf('B', 43);
+        auto child1 = tree_node::make_leaf('C', 44);
+        auto internal_node = tree_node::make_internal(child0, child1);
+
+        CHECK(internal_node->child(0) == child0);
+        CHECK(internal_node->child(1) == child1);
+        CHECK(internal_node->value() == 0);
+        CHECK(internal_node->frequency() == 87);
+    }
 }
 
 }
