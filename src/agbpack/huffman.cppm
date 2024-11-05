@@ -756,7 +756,8 @@ private:
         //         * See already existing implementation
         //         * But model the new tree_node class after grit's code
         auto nodes = create_leaf_nodes(symbol_size, ftable);
-        return nullptr; // TODO: return root node
+        auto root = combine_nodes(nodes);
+        return root;
     }
 
     static node_queue create_leaf_nodes(unsigned int symbol_size, const frequency_table& ftable)
@@ -785,6 +786,12 @@ private:
         }
 
         return nodes;
+    }
+
+    static tree_node_ptr combine_nodes(node_queue& /*nodes*/)
+    {
+        // TODO: implement
+        return nullptr;
     }
 
     unsigned int m_symbol_size;
