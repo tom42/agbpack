@@ -832,10 +832,11 @@ public:
 
         // Create the tree for the encoder.
         // Also create the serialized variant of the tree and the code table for the encoder.
-        old_huffman_encoder_tree tree(symbol_size, ftable);
+        old_huffman_encoder_tree old_tree(symbol_size, ftable);
+        huffman_encoder_tree tree(symbol_size, ftable);
         huffman_tree_serializer serializer;
-        const auto serialized_tree = serializer.serialize(tree);
-        const auto code_table = tree.create_code_table();
+        const auto serialized_tree = serializer.serialize(old_tree);
+        const auto code_table = old_tree.create_code_table();
 
         // TODO: bad: static cast
         // TODO: check uncompressed size and throw appropriate exception if too big
