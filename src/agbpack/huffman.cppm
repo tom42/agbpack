@@ -836,7 +836,7 @@ public:
         huffman_encoder_tree tree(symbol_size, ftable);
         huffman_tree_serializer serializer;
         const auto serialized_tree = serializer.serialize(old_tree);
-        const auto code_table = old_tree.create_code_table();
+        const auto code_table = tree.create_code_table();
 
         // TODO: bad: static cast
         // TODO: check uncompressed size and throw appropriate exception if too big
