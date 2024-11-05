@@ -14,12 +14,12 @@ TEST_CASE("tree_node_test")
 {
     SECTION("make_leaf")
     {
-        auto leaf = tree_node::make_leaf('A', 42);
+        auto leaf_node = tree_node::make_leaf('A', 42);
 
-        CHECK(leaf->child(0) == nullptr);
-        CHECK(leaf->child(1) == nullptr);
-        CHECK(leaf->value() == 'A');
-        CHECK(leaf->frequency() == 42);
+        CHECK(leaf_node->child(0) == nullptr);
+        CHECK(leaf_node->child(1) == nullptr);
+        CHECK(leaf_node->value() == 'A');
+        CHECK(leaf_node->frequency() == 42);
     }
 }
 
