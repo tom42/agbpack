@@ -697,7 +697,9 @@ public:
     explicit tree_node(tree_node_ptr child0, tree_node_ptr child1)
         : m_children{ child0, child1 }
         , m_frequency(child0->frequency() + child1->frequency())
-    {}
+    {
+        // TODO: assert that children are not null?
+    }
 
     tree_node_ptr child(size_t index) const { return m_children[index]; }
 
@@ -735,10 +737,12 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_encoder_tree final
 {
 public:
-    huffman_encoder_tree(unsigned int symbol_size, const frequency_table& /*ftable*/)
+    huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
         : m_symbol_size(symbol_size)
-        , m_root(build_tree())
-    {}
+        , m_root(build_tree(symbol_size, ftable))
+    {
+        (void)m_symbol_size; // TODO: remove
+    }
 
 private:
     using node_queue = std::priority_queue<
@@ -746,7 +750,7 @@ private:
         std::vector<tree_node_ptr>,
         tree_node_compare>;
 
-    tree_node_ptr build_tree()
+    static tree_node_ptr build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
         // TODO: actually build tree (need symbol size and frequency_table for that)
         //       * Create leaf nodes from frequency table
@@ -755,15 +759,35 @@ private:
         //       * Implementation
         //         * See already existing implementation
         //         * But model the new tree_node class after grit's code
-        (void)m_symbol_size; // TODO: remove
-        auto nodes = create_leaf_nodes();
+        auto nodes = create_leaf_nodes(symbol_size, ftable);
         return nullptr; // TODO: return root node
     }
 
-    static node_queue create_leaf_nodes()
+    static node_queue create_leaf_nodes(unsigned int symbol_size, const frequency_table& ftable)
     {
         node_queue nodes;
-        // TODO: implement
+
+        // Create a leaf node for each symbol whose frequency is > 0
+        auto nsymbols = get_nsymbols(symbol_size);
+        for (symbol sym = 0; sym < nsymbols; ++sym)
+        {
+            symbol_frequency f = ftable.frequency(sym);
+            if (f > 0)
+            {
+                // TODO: get rid of cast
+                nodes.push(tree_node::make_leaf(static_cast<uint8_t>(sym), f));
+            }
+        }
+
+        // Both our tree serialization code and the GBA BIOS' huffman tree storage format
+        // need a tree with at least two leaf nodes, even if they're bogus nodes.
+        // So add bogus nodes if needed. What makes them bogus is that their frequency is 0.
+        // The symbol is irrelevant, so we use 0.
+        while (nodes.size() < 2) // TODO: this is not yet particularly well tested
+        {
+            nodes.push(tree_node::make_leaf(0, 0));
+        }
+
         return nodes;
     }
 
