@@ -804,6 +804,13 @@ private:
         return root;
     }
 
+    static tree_node_ptr pop(node_queue& nodes)
+    {
+        auto node = nodes.top();
+        nodes.pop();
+        return node;
+    }
+
     unsigned int m_symbol_size;
     tree_node_ptr m_root;
 };
