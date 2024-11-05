@@ -756,7 +756,15 @@ private:
         //         * See already existing implementation
         //         * But model the new tree_node class after grit's code
         (void)m_symbol_size; // TODO: remove
-        return nullptr;
+        auto nodes = create_leaf_nodes();
+        return nullptr; // TODO: return root node
+    }
+
+    static node_queue create_leaf_nodes()
+    {
+        node_queue nodes;
+        // TODO: implement
+        return nodes;
     }
 
     unsigned int m_symbol_size;
