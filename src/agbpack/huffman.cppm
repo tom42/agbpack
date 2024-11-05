@@ -485,7 +485,7 @@ private:
 };
 
 // TODO: old implementation
-class tree_node_compare final
+class tree_node_compare_old final
 {
 public:
     bool operator()(tree_node_ptr_old a, tree_node_ptr_old b)
@@ -520,7 +520,7 @@ private:
     using node_queue = std::priority_queue<
         tree_node_ptr_old,
         std::vector<tree_node_ptr_old>,
-        tree_node_compare>;
+        tree_node_compare_old>;
 
     static tree_node_ptr_old build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
