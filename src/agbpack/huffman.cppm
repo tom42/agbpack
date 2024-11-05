@@ -800,14 +800,14 @@ private:
 
     static void create_code_table_internal(code_table& table, tree_node* node, code c, code_length l)
     {
-        if (node->is_leaf())
-        {
-            table.set(node->sym(), c, l);
-        }
-        else
+        if (node->is_parent())
         {
             create_code_table_internal(table, node->child(0).get(), c << 1, l + 1);
             create_code_table_internal(table, node->child(1).get(), (c << 1) | 1, l + 1);
+        }
+        else
+        {
+            table.set(node->value(), c, l);
         }
     }
 
