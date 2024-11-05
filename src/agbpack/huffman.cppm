@@ -682,9 +682,9 @@ public:
 
     tree_node_ptr child(size_t index) const { return m_children[index]; }
 
-    symbol_frequency frequency() const { return m_frequency; }
-
     uint8_t value() const { return m_value; }
+
+    symbol_frequency frequency() const { return m_frequency; }
 
     static tree_node_ptr make_leaf(uint8_t value, symbol_frequency frequency)
     {
