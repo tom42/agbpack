@@ -678,6 +678,8 @@ public:
         , m_frequency(child0->frequency() + child1->frequency())
     {}
 
+    bool is_parent() const { return false; } // TODO: unhardcode
+
     tree_node_ptr child(size_t index) const { return m_children[index]; }
 
     symbol_frequency frequency() const { return m_frequency; }
