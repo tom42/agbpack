@@ -508,14 +508,6 @@ public:
         return m_root;
     }
 
-    // TODO: what is the maximum code length for a symbol that we can handle, and can we detect overflows?
-    code_table create_code_table() const
-    {
-        code_table table(m_symbol_size);
-        create_code_table_internal(table, m_root.get(), 0, 0);
-        return table;
-    }
-
 private:
     using node_queue = std::priority_queue<
         tree_node_ptr_old,
@@ -565,19 +557,6 @@ private:
         auto node = nodes.top();
         nodes.pop();
         return node;
-    }
-
-    static void create_code_table_internal(code_table& table, tree_node_old* node, code c, code_length l)
-    {
-        if (node->is_leaf())
-        {
-            table.set(node->sym(), c, l);
-        }
-        else
-        {
-            create_code_table_internal(table, node->child0().get(), c << 1, l + 1);
-            create_code_table_internal(table, node->child1().get(), (c << 1) | 1, l + 1);
-        }
     }
 
     unsigned int m_symbol_size;
@@ -738,8 +717,14 @@ public:
     huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
         : m_symbol_size(symbol_size)
         , m_root(build_tree(symbol_size, ftable))
+    {}
+
+    // TODO: what is the maximum code length for a symbol that we can handle, and can we detect overflows?
+    code_table create_code_table() const
     {
-        (void)m_symbol_size; // TODO: remove
+        code_table table(m_symbol_size);
+        create_code_table_internal(table, m_root.get(), 0, 0);
+        return table;
     }
 
 private:
@@ -809,6 +794,19 @@ private:
         auto node = nodes.top();
         nodes.pop();
         return node;
+    }
+
+    static void create_code_table_internal(code_table& table, tree_node* node, code c, code_length l)
+    {
+        if (node->is_leaf())
+        {
+            table.set(node->sym(), c, l);
+        }
+        else
+        {
+            create_code_table_internal(table, node->child0().get(), c << 1, l + 1);
+            create_code_table_internal(table, node->child1().get(), (c << 1) | 1, l + 1);
+        }
     }
 
     unsigned int m_symbol_size;
