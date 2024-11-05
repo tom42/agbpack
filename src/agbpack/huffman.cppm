@@ -804,8 +804,8 @@ private:
         }
         else
         {
-            create_code_table_internal(table, node->child0().get(), c << 1, l + 1);
-            create_code_table_internal(table, node->child1().get(), (c << 1) | 1, l + 1);
+            create_code_table_internal(table, node->child(0).get(), c << 1, l + 1);
+            create_code_table_internal(table, node->child(1).get(), (c << 1) | 1, l + 1);
         }
     }
 
