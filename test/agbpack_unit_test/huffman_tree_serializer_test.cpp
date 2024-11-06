@@ -17,6 +17,13 @@ namespace agbpack_unit_test
 //       * Maximum handleable code length exceeded
 TEST_CASE("huffman_tree_serializer_test")
 {
+    SECTION("No symbols")
+    {
+        // TODO: create appropriate frequency table
+        // TODO: create tree from that
+        // TODO: serialize tree
+        // TODO: verify serialized tree
+    }
 }
 
 }
