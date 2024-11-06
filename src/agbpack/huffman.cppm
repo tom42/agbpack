@@ -685,6 +685,22 @@ public:
 
     symbol_frequency frequency() const { return m_frequency; }
 
+    // Returns the number of nodes in this subtree
+    size_t num_nodes() const
+    {
+        // TODO: does this need a unit test?
+        if (is_parent())
+        {
+            // Sum of children plus self
+            return child(0)->num_nodes() + child(1)->num_nodes() + 1;
+        }
+        else
+        {
+            // This is a data node, just count self
+            return 1;
+        }
+    }
+
     static tree_node_ptr make_leaf(uint8_t value, symbol_frequency frequency)
     {
         return std::make_shared<tree_node>(value, frequency);

@@ -57,19 +57,6 @@ public:
 	 */
 	static void encodeTree (std::vector<uint8_t> &tree, Node *node);
 
-	/** @brief Count number of nodes in subtree
-	 *  @returns Number of nodes in subtree
-	 */
-	size_t numNodes () const
-	{
-		// sum of children plus self
-		if (isParent ())
-			return child[0]->numNodes () + child[1]->numNodes () + 1;
-
-		// this is a data node, just count self
-		return 1;
-	}
-
 	/** @brief Count number of leaves in subtree
 	 *  @returns Number of leaves in subtree
 	 */
