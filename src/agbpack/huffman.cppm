@@ -499,8 +499,7 @@ class old_huffman_encoder_tree final
 {
 public:
     explicit old_huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
-        : m_symbol_size(symbol_size)
-        , m_root(build_tree(symbol_size, ftable))
+        : m_root(build_tree(symbol_size, ftable))
     {}
 
     tree_node_ptr_old root() const
@@ -559,7 +558,6 @@ private:
         return node;
     }
 
-    unsigned int m_symbol_size;
     tree_node_ptr_old m_root;
 };
 
