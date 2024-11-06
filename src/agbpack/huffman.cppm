@@ -819,7 +819,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_serializer final
 {
 public:
-    std::vector<agbpack_u8> serialize(const old_huffman_encoder_tree& /*tree*/)
+    std::vector<agbpack_u8> serialize(const huffman_encoder_tree& /*tree*/)
     {
         // TODO: implement (and test this, damit)
         return {};
