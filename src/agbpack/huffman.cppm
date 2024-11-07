@@ -700,6 +700,27 @@ public:
         }
     }
 
+    // Returns the number of leaves in this subtree
+    size_t num_leaves ()
+    {
+        // TODO: of course this gets a unit test
+        if (leaves == 0)
+        {
+            if (isParent ())
+            {
+                // sum of children
+                leaves = child[0]->numLeaves () + child[1]->numLeaves ();
+            }
+            else
+            {
+                // this is a data node; it is a leaf
+                leaves = 1;
+            }
+        }
+
+        return leaves;
+    }
+
     static tree_node_ptr make_leaf(uint8_t value, symbol_frequency frequency)
     {
         return std::make_shared<tree_node>(value, frequency);
