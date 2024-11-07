@@ -688,7 +688,6 @@ public:
     // Returns the number of nodes in this subtree
     size_t num_nodes() const
     {
-        // TODO: does this need a unit test?
         if (is_parent())
         {
             // Sum of children plus self

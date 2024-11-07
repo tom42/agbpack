@@ -36,10 +36,22 @@ TEST_CASE("tree_node_test")
         CHECK(internal_node->frequency() == 87);
     }
 
-    SECTION("num_nodes, leaf")
+    SECTION("num_nodes, leaf node")
     {
         auto leaf_node = tree_node::make_leaf(0, 0);
+
         CHECK(leaf_node->num_nodes() == 1);
+    }
+
+    SECTION("num_nodes, internal node")
+    {
+        auto child0 = tree_node::make_leaf(0, 0);
+        auto child1 = tree_node::make_leaf(0, 0);
+        auto internal_node0 = tree_node::make_internal(child0, child1);
+        auto internal_node1 = tree_node::make_internal(internal_node0, child0);
+
+        CHECK(internal_node0->num_nodes() == 3);
+        CHECK(internal_node1->num_nodes() == 5);
     }
 }
 
