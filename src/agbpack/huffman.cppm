@@ -679,14 +679,14 @@ public:
 
     bool is_parent() const { return m_is_parent; }
 
-    tree_node_ptr child(size_t index) const { return m_children[index]; }
+    tree_node_ptr child(std::size_t index) const { return m_children[index]; }
 
     uint8_t value() const { return m_value; }
 
     symbol_frequency frequency() const { return m_frequency; }
 
     // Returns the number of nodes in this subtree
-    size_t num_nodes() const
+    std::size_t num_nodes() const
     {
         if (is_parent())
         {
@@ -701,7 +701,7 @@ public:
     }
 
     // Returns the number of leaves in this subtree
-    size_t num_leaves ()
+    std::size_t num_leaves ()
     {
         // TODO: of course this gets a unit test
         if (leaves == 0)
