@@ -701,14 +701,14 @@ public:
     }
 
     // Returns the number of leaves in this subtree
-    std::size_t num_leaves ()
+    std::size_t num_leaves()
     {
         // TODO: of course this gets a unit test
-        if (leaves == 0)
+        if (m_num_leaves == 0)
         {
-            if (isParent ())
+            if (is_parent())
             {
-                // sum of children
+                // Sum of children
                 leaves = child[0]->numLeaves () + child[1]->numLeaves ();
             }
             else
@@ -734,6 +734,7 @@ public:
 private:
     std::array<tree_node_ptr, 2> m_children{};
     bool m_is_parent = 0;
+    std::size_t m_num_leaves = 0;
     uint8_t m_value = 0;
     symbol_frequency m_frequency = 0;
 };
