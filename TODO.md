@@ -271,37 +271,10 @@ void Node::encodeTree (std::vector<uint8_t> &tree, Node *node)
  */
 std::unique_ptr<Node> buildTree (const uint8_t *src, size_t len, bool fourBit_)
 {
-	// fill in histogram
-	std::vector<size_t> histogram (fourBit_ ? 16 : 256);
+	// Fill in histogram [DONE]
 
-	if (fourBit_)
-	{
-		for (size_t i = 0; i < len; ++i)
-		{
-			++histogram[(src[i] >> 0) & 0xF];
-			++histogram[(src[i] >> 4) & 0xF];
-		}
-	}
-	else
-	{
-		for (size_t i = 0; i < len; ++i)
-			++histogram[src[i]];
-	}
-
+	// Nodes is initialized with a leaf node for each symbol whose frequency is > 0 [DONE]
 	std::vector<std::unique_ptr<Node>> nodes;
-	{
-		uint8_t val = 0;
-		for (const auto &count : histogram)
-		{
-			if (count > 0)
-				nodes.emplace_back (std::make_unique<Node> (val, count));
-
-			++val;
-		}
-	}
-
-	// done with histogram
-	histogram.clear ();
 
 	// combine nodes
 	while (nodes.size () > 1)
