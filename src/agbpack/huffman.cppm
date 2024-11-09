@@ -771,11 +771,6 @@ private:
 
     static tree_node_ptr build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
-        // TODO: actually build tree (need symbol size and frequency_table for that)
-        //       * Actually build the tree
-        //       * Implementation
-        //         * See already existing implementation
-        //         * But model the new tree_node class after grit's code
         auto nodes = create_leaf_nodes(symbol_size, ftable);
         auto root = combine_nodes(nodes);
         return root;
