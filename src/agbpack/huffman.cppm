@@ -708,17 +708,15 @@ public:
         {
             if (is_parent())
             {
-                // Sum of children
-                leaves = child[0]->numLeaves () + child[1]->numLeaves ();
+                m_num_leaves = child(0)->num_leaves () + child(1)->num_leaves();
             }
             else
             {
-                // this is a data node; it is a leaf
-                leaves = 1;
+                m_num_leaves = 1;
             }
         }
 
-        return leaves;
+        return m_num_leaves;
     }
 
     static tree_node_ptr make_leaf(uint8_t value, symbol_frequency frequency)
