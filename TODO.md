@@ -276,27 +276,7 @@ std::unique_ptr<Node> buildTree (const uint8_t *src, size_t len, bool fourBit_)
 	// Nodes is initialized with a leaf node for each symbol whose frequency is > 0 [DONE]
 	std::vector<std::unique_ptr<Node>> nodes;
 
-	// combine nodes
-	while (nodes.size () > 1)
-	{
-		// sort nodes by count; we will combine the two smallest nodes
-		std::sort (std::begin (nodes),
-		    std::end (nodes),
-		    [] (const std::unique_ptr<Node> &lhs, const std::unique_ptr<Node> &rhs) -> bool {
-			    return *lhs < *rhs;
-		    });
-
-		// allocate a parent node
-		std::unique_ptr<Node> node =
-		    std::make_unique<Node> (std::move (nodes[0]), std::move (nodes[1]));
-
-		// replace first node with self
-		nodes[0] = std::move (node);
-
-		// replace second node with last node
-		nodes[1] = std::move (nodes.back ());
-		nodes.pop_back ();
-	}
+	// Combine nodes [DONE]
 
 	// root is the last node left
 	std::unique_ptr<Node> root = std::move (nodes[0]);
