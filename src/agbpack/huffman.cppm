@@ -867,10 +867,22 @@ public:
     }
 
 private:
-    static std::vector<agbpack_u8> create_empty_serialized_tree(const huffman_encoder_tree& /*tree*/)
+    static std::vector<agbpack_u8> create_empty_serialized_tree(const huffman_encoder_tree& tree)
     {
-        // TODO: implement
-        return {};
+        // TODO: alignment is missing here. Need to add this (we have tests for this, right?)
+        // TODO: document calculation?
+        std::size_t tree_size = tree.root()->num_nodes() + 1;
+        std::vector<agbpack_u8> serialized_tree(tree_size);
+
+        // Write tree size byte
+        // TODO: tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
+        //       * We just must make sure we have at least one test requiring padding and one requiring no padding
+        //       * And maybe one for the minimum size (already have that, no?) and one for the maximum size
+        // TODO: assert tree size byte is in correct range?
+        std::size_t tree_size_byte = tree_size / 2 - 1;
+        serialized_tree[0] = static_cast<agbpack_u8>(tree_size_byte);
+
+        return serialized_tree;
     }
 };
 
