@@ -20,12 +20,6 @@ public:
 		return val < other.val;
 	}
 
-	/** @brief Whether this node is a parent */
-	bool isParent () const
-	{
-		return static_cast<bool> (child[0]);
-	}
-
 	/** @brief Build Huffman codes
 	 *  @param[in] node    Huffman node
 	 *  @param[in] code    Huffman code
