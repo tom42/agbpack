@@ -849,13 +849,23 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_serializer final
 {
 public:
-    std::vector<agbpack_u8> serialize(const huffman_encoder_tree& /*tree*/)
+    std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
         // TODO: implement (and test this, damit)
-        return {};
+        //       * Allocate tree. Problem: how big is it going to be?
+        //         * The tree needs to be number_of_nodes + tree_size_byte + alignment
+        //         * We can then allocate that amount of bytes
+        //         * And then we can already go and write the TSB
+        auto serialized_tree = create_empty_serialized_tree(tree);
+        return serialized_tree;
     }
 
 private:
+    static std::vector<agbpack_u8> create_empty_serialized_tree(const huffman_encoder_tree& /*tree*/)
+    {
+        // TODO: implement
+        return {};
+    }
 };
 
 export class huffman_encoder final
