@@ -703,7 +703,6 @@ public:
     // Returns the number of leaves in this subtree
     std::size_t num_leaves()
     {
-        // TODO: of course this gets a unit test
         if (m_num_leaves == 0)
         {
             if (is_parent())

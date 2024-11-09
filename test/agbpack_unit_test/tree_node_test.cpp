@@ -44,15 +44,19 @@ TEST_CASE("tree_node_test")
         CHECK(leaf_node->num_leaves() == 1);
     }
 
-    SECTION("num_nodes, internal node")
+    SECTION("num_nodes and num_leaves, internal node")
     {
         auto child0 = tree_node::make_leaf(0, 0);
         auto child1 = tree_node::make_leaf(0, 0);
+        auto child2 = tree_node::make_leaf(0, 0);
         auto internal_node0 = tree_node::make_internal(child0, child1);
-        auto internal_node1 = tree_node::make_internal(internal_node0, child0);
+        auto internal_node1 = tree_node::make_internal(internal_node0, child2);
 
         CHECK(internal_node0->num_nodes() == 3);
         CHECK(internal_node1->num_nodes() == 5);
+
+        CHECK(internal_node0->num_leaves() == 2);
+        CHECK(internal_node1->num_leaves() == 3);
     }
 }
 
