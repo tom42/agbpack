@@ -276,14 +276,10 @@ std::unique_ptr<Node> buildTree (const uint8_t *src, size_t len, bool fourBit_)
 	// Nodes is initialized with a leaf node for each symbol whose frequency is > 0 [DONE]
 	std::vector<std::unique_ptr<Node>> nodes;
 
-	// Combine nodes [DONE]
-
-	// root is the last node left
-	std::unique_ptr<Node> root = std::move (nodes[0]);
-
-	// root must have children
-	if (!root->isParent ())
-		root = std::make_unique<Node> (std::move (root), std::make_unique<Node> (0x00, 0));
+	// Combine nodes. The last one left is the root node. [DONE]
+	// There was some odd code here that ensures root is an internal node.
+	// We do this differently, by ensuring there are at least 2 leaf nodes
+	// before we start combining nodes.
 
 	// build Huffman codes
 	Node::buildCodes (root, 0, 0);
