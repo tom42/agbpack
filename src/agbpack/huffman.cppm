@@ -821,8 +821,9 @@ private:
         }
 
         assert(nodes.size() == 1);
-        auto root = nodes.top();
-        return root;
+        assert(nodes.top()->is_internal());
+
+        return nodes.top();
     }
 
     static tree_node_ptr pop(node_queue& nodes)
