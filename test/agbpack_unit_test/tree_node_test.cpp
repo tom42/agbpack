@@ -36,11 +36,12 @@ TEST_CASE("tree_node_test")
         CHECK(internal_node->frequency() == 87);
     }
 
-    SECTION("num_nodes, leaf node")
+    SECTION("num_nodes and num_leaves, leaf node")
     {
         auto leaf_node = tree_node::make_leaf(0, 0);
 
         CHECK(leaf_node->num_nodes() == 1);
+        CHECK(leaf_node->num_leaves() == 1);
     }
 
     SECTION("num_nodes, internal node")
