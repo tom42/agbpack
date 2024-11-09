@@ -701,7 +701,7 @@ public:
     }
 
     // Returns the number of leaves in this subtree
-    std::size_t num_leaves()
+    std::size_t num_leaves() const
     {
         if (m_num_leaves == 0)
         {
@@ -731,7 +731,7 @@ public:
 private:
     std::array<tree_node_ptr, 2> m_children{};
     bool m_is_internal = 0;
-    std::size_t m_num_leaves = 0;
+    mutable std::size_t m_num_leaves = 0;
     uint8_t m_value = 0;
     symbol_frequency m_frequency = 0;
 };
