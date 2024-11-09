@@ -863,6 +863,11 @@ public:
         //         * We can then allocate that amount of bytes
         //         * And then we can already go and write the TSB
         auto serialized_tree = create_empty_serialized_tree(tree);
+
+        // TODO: create array of node pointers here ('nodeTree)
+        //       Take care: the way we're coding here, this array will include padding!
+        //       In the original code this is not the case.
+
         return serialized_tree;
     }
 
