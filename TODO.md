@@ -339,61 +339,6 @@ std::unique_ptr<Node> buildTree (const uint8_t *src, size_t len, bool fourBit_)
 	return root;
 }
 
-/** @brief Bitstream */
-class Bitstream
-{
-public:
-	Bitstream (std::vector<uint8_t> &buffer) : buffer (buffer)
-	{
-	}
-
-	/** @brief Flush bitstream block, padded to 32 bits */
-	void flush ()
-	{
-		if (pos >= 32)
-			return;
-
-		// append bitstream block to output buffer
-		buffer.reserve (buffer.size () + 4);
-		buffer.emplace_back (code >> 0);
-		buffer.emplace_back (code >> 8);
-		buffer.emplace_back (code >> 16);
-		buffer.emplace_back (code >> 24);
-
-		// reset bitstream block
-		pos  = 32;
-		code = 0;
-	}
-
-	/** @brief Push Huffman code onto bitstream
-	 *  @param[in] code Huffman code
-	 *  @param[in] len  Huffman code length (bits)
-	 */
-	void push (uint32_t code, size_t len)
-	{
-		for (size_t i = 1; i <= len; ++i)
-		{
-			// get next bit position
-			--pos;
-
-			// set/reset bit
-			if (code & (1U << (len - i)))
-				this->code |= (1U << pos);
-			else
-				this->code &= ~(1U << pos);
-
-			// flush bitstream block
-			if (pos == 0)
-				flush ();
-		}
-	}
-
-private:
-	std::vector<uint8_t> &buffer; ///< Output buffer
-	size_t pos    = 32;           ///< Bit position
-	uint32_t code = 0;            ///< Bitstream block
-};
-
 std::vector<uint8_t> huffEncode (const void *source, size_t len, bool fourBit_)
 {
 	const uint8_t *src = (const uint8_t *)source;
