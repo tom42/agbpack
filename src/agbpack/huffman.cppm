@@ -763,6 +763,12 @@ public:
         return table;
     }
 
+    // TODO: do we want to return const here? can we even do this?
+    tree_node_ptr root() const
+    {
+        return m_root;
+    }
+
 private:
     using node_queue = std::priority_queue<
         tree_node_ptr,
