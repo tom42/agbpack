@@ -673,11 +673,11 @@ public:
 
     explicit tree_node(tree_node_ptr child0, tree_node_ptr child1)
         : m_children{ child0, child1 }
-        , m_is_parent(true)
+        , m_is_internal(true)
         , m_frequency(child0->frequency() + child1->frequency())
     {}
 
-    bool is_parent() const { return m_is_parent; }
+    bool is_internal() const { return m_is_internal; }
 
     tree_node_ptr child(std::size_t index) const { return m_children[index]; }
 
@@ -688,7 +688,7 @@ public:
     // Returns the number of nodes in this subtree
     std::size_t num_nodes() const
     {
-        if (is_parent())
+        if (is_internal())
         {
             // Sum of children plus self
             return child(0)->num_nodes() + child(1)->num_nodes() + 1;
@@ -705,7 +705,7 @@ public:
     {
         if (m_num_leaves == 0)
         {
-            if (is_parent())
+            if (is_internal())
             {
                 m_num_leaves = child(0)->num_leaves () + child(1)->num_leaves();
             }
@@ -730,7 +730,7 @@ public:
 
 private:
     std::array<tree_node_ptr, 2> m_children{};
-    bool m_is_parent = 0;
+    bool m_is_internal = 0;
     std::size_t m_num_leaves = 0;
     uint8_t m_value = 0;
     symbol_frequency m_frequency = 0;
@@ -834,7 +834,7 @@ private:
 
     static void create_code_table_internal(code_table& table, tree_node* node, code c, code_length l)
     {
-        if (node->is_parent())
+        if (node->is_internal())
         {
             create_code_table_internal(table, node->child(0).get(), c << 1, l + 1);
             create_code_table_internal(table, node->child(1).get(), (c << 1) | 1, l + 1);

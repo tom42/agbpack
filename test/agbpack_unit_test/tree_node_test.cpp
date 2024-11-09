@@ -16,7 +16,7 @@ TEST_CASE("tree_node_test")
     {
         auto leaf_node = tree_node::make_leaf('A', 42);
 
-        CHECK(leaf_node->is_parent() == false);
+        CHECK(leaf_node->is_internal() == false);
         CHECK(leaf_node->child(0) == nullptr);
         CHECK(leaf_node->child(1) == nullptr);
         CHECK(leaf_node->value() == 'A');
@@ -29,7 +29,7 @@ TEST_CASE("tree_node_test")
         auto child1 = tree_node::make_leaf('C', 44);
         auto internal_node = tree_node::make_internal(child0, child1);
 
-        CHECK(internal_node->is_parent() == true);
+        CHECK(internal_node->is_internal() == true);
         CHECK(internal_node->child(0) == child0);
         CHECK(internal_node->child(1) == child1);
         CHECK(internal_node->value() == 0);
