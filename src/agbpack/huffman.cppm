@@ -862,16 +862,24 @@ public:
         //         * The tree needs to be number_of_nodes + tree_size_byte + alignment
         //         * We can then allocate that amount of bytes
         //         * And then we can already go and write the TSB
+        auto node_tree = create_empty_node_tree(tree);
         auto serialized_tree = create_empty_serialized_tree(tree);
 
-        // TODO: create array of node pointers here ('nodeTree)
-        //       Take care: the way we're coding here, this array will include padding!
-        //       In the original code this is not the case.
+        // TODO: serialize tree
+        // TODO: fix up tree
+        // TODO: write out node_tree to serialized_tree
 
         return serialized_tree;
     }
 
 private:
+    // TODO: node_tree is a bad word. Anything better?
+    // TODO: somewhere document where the +1 comes from?
+    static std::vector<tree_node_ptr> create_empty_node_tree(const huffman_encoder_tree& tree)
+    {
+        return std::vector<tree_node_ptr>(tree.root()->num_nodes() + 1);
+    }
+
     static std::vector<agbpack_u8> create_empty_serialized_tree(const huffman_encoder_tree& tree)
     {
         // TODO: alignment is missing here. Need to add this (we have tests for this, right?)
