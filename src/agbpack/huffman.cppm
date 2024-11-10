@@ -865,6 +865,9 @@ public:
         auto node_tree = create_empty_node_tree(tree);
         auto serialized_tree = create_empty_serialized_tree(tree);
 
+        node_tree[1] = tree.root();
+        serialize_internal(node_tree, tree.root(), 2);
+
         // TODO: serialize tree
         // TODO: fix up tree
         // TODO: write out node_tree to serialized_tree
@@ -873,6 +876,14 @@ public:
     }
 
 private:
+    // TODO: check signature
+    // TODO: can we make tree_node_ptr static here
+    // TODO: can we operate on raw pointers rather than shared pointers?
+    static void serialize_internal(std::vector<tree_node_ptr>& /*node_tree*/, tree_node_ptr /*node*/, std::size_t /*next*/)
+    {
+
+    }
+
     // TODO: node_tree is a bad word. Anything better?
     // TODO: somewhere document where the +1 comes from?
     static std::vector<tree_node_ptr> create_empty_node_tree(const huffman_encoder_tree& tree)
