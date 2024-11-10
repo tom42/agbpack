@@ -112,8 +112,6 @@ void Node::buildLookup (std::vector<Node *> &nodes, const std::unique_ptr<Node> 
 
 void Node::serializeTree (std::vector<Node *> &tree, Node *node, unsigned next)
 {
-	assert (node->isParent ());
-
 	if (node->numLeaves () > 0x40)
 	{
 		// this subtree will overflow the offset field if inserted naively
@@ -140,11 +138,6 @@ void Node::serializeTree (std::vector<Node *> &tree, Node *node, unsigned next)
 
 		return;
 	}
-
-	std::deque<Node *> queue;
-
-	queue.emplace_back (node->child[0].get ());
-	queue.emplace_back (node->child[1].get ());
 
 	while (!queue.empty ())
 	{

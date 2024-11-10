@@ -879,9 +879,36 @@ private:
     // TODO: check signature
     // TODO: can we make tree_node_ptr static here
     // TODO: can we operate on raw pointers rather than shared pointers?
-    static void serialize_internal(std::vector<tree_node_ptr>& /*node_tree*/, tree_node_ptr /*node*/, std::size_t /*next*/)
+    static void serialize_internal(std::vector<tree_node_ptr>& node_tree, tree_node_ptr node, std::size_t next)
     {
+        assert(node->is_internal());
 
+        if (node->num_leaves() > 0x40)
+        {
+            // TODO: do this branch later
+        }
+
+        std::queue<tree_node_ptr> queue;
+
+        queue.push(node->child(0));
+        queue.push(node->child(1));
+
+        while (!queue.empty())
+        {
+            node = pop(queue);
+            node_tree[next++] = node;
+            // TODO: we're not yet done here (AAACTUALLY: for passing our first test it should be sufficient)
+            //       * If node is an internal node
+            //         * Store the offset field in the node. This bit I don't like: serializing a tree does modify the tree (well we can do so for starters, no?)
+            //         * Push the node's children onto the queue
+        }
+    }
+
+    static tree_node_ptr pop(std::queue<tree_node_ptr>& queue)
+    {
+        auto node = queue.front();
+        queue.pop();
+        return node;
     }
 
     // TODO: node_tree is a bad word. Anything better?
