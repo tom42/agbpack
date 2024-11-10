@@ -863,7 +863,7 @@ public:
         //         * We can then allocate that amount of bytes
         //         * And then we can already go and write the TSB
         auto node_tree = create_empty_node_tree(tree);
-        auto serialized_tree = create_empty_serialized_tree(tree);
+        auto serialized_tree = create_empty_serialized_tree(tree); // TODO: we don't need this here. We can create that at the end of serialize()
 
         node_tree[1] = tree.root();
         serialize_internal(node_tree, tree.root(), 2);
