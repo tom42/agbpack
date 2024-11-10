@@ -38,7 +38,7 @@ TEST_CASE("huffman_tree_serializer_test")
     SECTION("No symbols")
     {
         frequency_table frequencies(8);
-        const vector<unsigned char> expected_serialized_tree = {42, 43, 44, 45};
+        const vector<unsigned char> expected_serialized_tree = {0x01, 0xc0, 0x00, 0x00};
 
         auto serialized_tree = create_and_serialize_tree(frequencies);
 
