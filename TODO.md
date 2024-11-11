@@ -239,21 +239,6 @@ void Node::encodeTree (std::vector<uint8_t> &tree, Node *node)
 		assert (node->child[0]->pos == (node->pos & ~1) + 2 * node->val + 2);
 	}
 #endif
-
-	for (unsigned i = 1; i < nodeTree.size (); ++i)
-	{
-		node = nodeTree[i];
-
-		tree[i] = node->val;
-
-		if (!node->isParent ())
-			continue;
-
-		if (!node->child[0]->isParent ())
-			tree[i] |= 0x80;
-		if (!node->child[1]->isParent ())
-			tree[i] |= 0x40;
-	}
 }
 
 /** @brief Build Huffman tree
@@ -387,6 +372,9 @@ std::vector<uint8_t> huffEncode (const void *source, size_t len, bool fourBit_)
 
 
 # TODO
+* Put tree serialization code into own source file
+  * Attribute where it's coming from
+  * Also quote the statement that leads us to believe it's MIT licensed
 * Need some decisions:
   * Do we insist in solving huffman tree serialization ourselves, or do we simply want to get shit done?
     * If the latter, then using huffman compression from grit might be an option
