@@ -429,6 +429,13 @@ public:
         return m_frequencies[s];
     }
 
+    // TODO: we use this for testing only, which is not exactly nice
+    void set_frequency(symbol s, symbol_frequency f)
+    {
+        assert_symbol(s, m_frequencies);
+        m_frequencies[s] = f;
+    }
+
 private:
     unsigned int m_symbol_size;
     std::vector<symbol_frequency> m_frequencies;
