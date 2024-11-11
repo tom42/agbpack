@@ -688,6 +688,8 @@ public:
 
     uint8_t value() const { return m_value; }
 
+    void set_value(uint8_t value) { m_value = value; } // TODO: I'd prefer if tree_node was immutable
+
     symbol_frequency frequency() const { return m_frequency; }
 
     // Returns the number of nodes in this subtree
