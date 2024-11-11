@@ -660,8 +660,6 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node;
 using tree_node_ptr = std::shared_ptr<tree_node>;
 
-// TODO: implement, but model it after grit!
-// TODO: in grit a tree_node has a pointer to its parent, but it seems it does not actually use it
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node final
 {
