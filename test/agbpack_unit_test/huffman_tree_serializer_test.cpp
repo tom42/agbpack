@@ -47,7 +47,6 @@ TEST_CASE("huffman_tree_serializer_test")
     {
         frequency_table frequencies(8);
         frequencies.set_frequency('A', 1);
-        // TODO: just for my understanding: what code does 'A' have? My hypothesis is '1', since it seems to be child1
         const vector<unsigned char> expected_serialized_tree = {0x01, 0xc0, 0x00, 'A'};
 
         auto serialized_tree = create_and_serialize_tree(frequencies);
