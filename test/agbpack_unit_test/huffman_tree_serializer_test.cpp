@@ -63,6 +63,18 @@ TEST_CASE("huffman_tree_serializer_test")
 
         CHECK(serialized_tree == expected_serialized_tree);
     }
+
+    SECTION("Three symbols")
+    {
+        frequencies.set_frequency('A', 1);
+        frequencies.set_frequency('B', 1);
+        frequencies.set_frequency('C', 1);
+        const vector<unsigned char> expected_serialized_tree = {}; // TODO: real expected data
+
+        auto serialized_tree = create_and_serialize_tree(frequencies);
+
+        CHECK(serialized_tree == expected_serialized_tree);
+    }
 }
 
 }
