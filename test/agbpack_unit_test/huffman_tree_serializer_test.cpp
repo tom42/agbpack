@@ -86,7 +86,10 @@ TEST_CASE("huffman_tree_serializer_test")
         frequencies.set_frequency('F', 2);
         frequencies.set_frequency('G', 3);
         frequencies.set_frequency('H', 4);
-        const vector<unsigned char> expected_serialized_tree = {}; // TODO: expected data
+        const vector<unsigned char> expected_serialized_tree =
+        {
+            0x07, 0x00, 0x00, 0x81, 0xc1, 0xc2, 'H', 0x82, 'F', 'B', 'E', 'D', 'G', 0xc0, 'A', 'C'
+        };
 
         auto serialized_tree = create_and_serialize_tree(frequencies);
 
