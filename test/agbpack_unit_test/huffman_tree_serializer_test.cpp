@@ -27,7 +27,6 @@ auto create_and_serialize_tree(const frequency_table& frequencies)
 }
 
 // TODO: tests
-//       * No symbols
 //       * One symbol
 //       * Two symbols
 //       * Tree with 256 symbols with same frequency
