@@ -961,9 +961,14 @@ private:
 
     static std::vector<agbpack_u8> create_empty_serialized_tree(const std::vector<tree_node_ptr>& node_tree)
     {
-        // TODO: alignment is missing here. Need to add this (we have tests for this, right?)
-        // TODO: document calculation?
+        // Calculate size of serialized tree.
+        // node_tree.size() already includes the tree size byte, so we just need to add alignment bytes.
         std::size_t serialized_tree_size = node_tree.size();
+        while (serialized_tree_size % 4 != 0)
+        {
+            ++serialized_tree_size;
+        }
+
         std::vector<agbpack_u8> serialized_tree(serialized_tree_size);
 
         // Write tree size byte
