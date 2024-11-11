@@ -901,10 +901,14 @@ private:
         {
             node = pop(queue);
             node_tree[next++] = node;
-            // TODO: we're not yet done here (AAACTUALLY: for passing our first test it should be sufficient)
-            //       * If node is an internal node
-            //         * Store the offset field in the node. This bit I don't like: serializing a tree does modify the tree (well we can do so for starters, no?)
-            //         * Push the node's children onto the queue
+
+            if (node->is_internal())
+            {
+                // TODO: We're not yet done here:
+                //       We need to store the offset field in the node. This bit I don't like: serializing a tree does modify the tree (well we can do so for starters, no?)
+                queue.push(node->child(0));
+                queue.push(node->child(1));
+            }
         }
     }
 
