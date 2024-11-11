@@ -27,7 +27,6 @@ auto create_and_serialize_tree(const frequency_table& frequencies)
 }
 
 // TODO: tests
-//       * One symbol
 //       * Two symbols
 //       * Tree with 256 symbols with same frequency
 //       * Maximum depth tree
@@ -42,6 +41,14 @@ TEST_CASE("huffman_tree_serializer_test")
         auto serialized_tree = create_and_serialize_tree(frequencies);
 
         CHECK(serialized_tree == expected_serialized_tree);
+    }
+
+    SECTION("One symbol")
+    {
+        frequency_table frequencies(8);
+        // TODO: write that one symbol
+        // TODO: create and serialize tree
+        // TODO: check tree
     }
 }
 
