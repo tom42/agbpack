@@ -27,15 +27,15 @@ auto create_and_serialize_tree(const frequency_table& frequencies)
 }
 
 // TODO: tests
-//       * Two symbols
 //       * Tree with 256 symbols with same frequency
 //       * Maximum depth tree
 //       * Maximum handleable code length exceeded
 TEST_CASE("huffman_tree_serializer_test")
 {
+    frequency_table frequencies(8);
+
     SECTION("No symbols")
     {
-        frequency_table frequencies(8);
         const vector<unsigned char> expected_serialized_tree = {0x01, 0xc0, 0x00, 0x00};
 
         auto serialized_tree = create_and_serialize_tree(frequencies);
@@ -45,9 +45,19 @@ TEST_CASE("huffman_tree_serializer_test")
 
     SECTION("One symbol")
     {
-        frequency_table frequencies(8);
         frequencies.set_frequency('A', 1);
         const vector<unsigned char> expected_serialized_tree = {0x01, 0xc0, 0x00, 'A'};
+
+        auto serialized_tree = create_and_serialize_tree(frequencies);
+
+        CHECK(serialized_tree == expected_serialized_tree);
+    }
+
+    SECTION("Two symbols")
+    {
+        frequencies.set_frequency('A', 1);
+        frequencies.set_frequency('B', 1);
+        const vector<unsigned char> expected_serialized_tree = { 0x01, 0xc0, 'A', 'B'};
 
         auto serialized_tree = create_and_serialize_tree(frequencies);
 
