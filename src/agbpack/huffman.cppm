@@ -861,7 +861,6 @@ public:
         //         * We can then allocate that amount of bytes
         //         * And then we can already go and write the TSB
         auto node_tree = create_empty_node_tree(tree);
-        auto serialized_tree = create_empty_serialized_tree(tree); // TODO: we don't need this here. We can create that at the end of serialize()
 
         node_tree[1] = tree.root();
         serialize_internal(node_tree, tree.root(), 2);
@@ -870,7 +869,7 @@ public:
         // TODO: fix up tree
         // TODO: write out node_tree to serialized_tree
 
-        return serialized_tree;
+        return create_serialized_tree(node_tree);
     }
 
 private:
@@ -909,6 +908,20 @@ private:
         return node;
     }
 
+    static std::vector<agbpack_u8> create_serialized_tree(const std::vector<tree_node_ptr>& node_tree)
+    {
+        auto serialized_tree = create_empty_serialized_tree(node_tree);
+
+        for (std::size_t i = 1; i < node_tree.size(); ++i)
+        {
+            // TODO: write node value:
+            //       * check and write offset (orly? do we check once more?)
+            //       * also set child node bits
+        }
+
+        return serialized_tree;
+    }
+
     // TODO: node_tree is a bad word. Anything better?
     // TODO: somewhere document where the +1 comes from?
     static std::vector<tree_node_ptr> create_empty_node_tree(const huffman_encoder_tree& tree)
@@ -916,11 +929,11 @@ private:
         return std::vector<tree_node_ptr>(tree.root()->num_nodes() + 1);
     }
 
-    static std::vector<agbpack_u8> create_empty_serialized_tree(const huffman_encoder_tree& tree)
+    static std::vector<agbpack_u8> create_empty_serialized_tree(const std::vector<tree_node_ptr>& node_tree)
     {
         // TODO: alignment is missing here. Need to add this (we have tests for this, right?)
         // TODO: document calculation?
-        std::size_t tree_size = tree.root()->num_nodes() + 1;
+        std::size_t tree_size = node_tree.size();
         std::vector<agbpack_u8> serialized_tree(tree_size);
 
         // Write tree size byte
