@@ -46,9 +46,12 @@ TEST_CASE("huffman_tree_serializer_test")
     SECTION("One symbol")
     {
         frequency_table frequencies(8);
-        // TODO: write that one symbol
-        // TODO: create and serialize tree
-        // TODO: check tree
+        frequencies.set_frequency('A', 1);
+        const vector<unsigned char> expected_serialized_tree = {0x01, 0xc0, 0x00, 0x00};
+
+        auto serialized_tree = create_and_serialize_tree(frequencies);
+
+        CHECK(serialized_tree == expected_serialized_tree);
     }
 }
 
