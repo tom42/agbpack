@@ -906,8 +906,11 @@ private:
 
             if (node->is_internal())
             {
-                // TODO: We're not yet done here:
-                //       We need to store the offset field in the node. This bit I don't like: serializing a tree does modify the tree (well we can do so for starters, no?)
+                // TODO: why do we use queue.size() here and not the 'next' variable?
+                // TODO: should we not catch overflows here?
+                // TODO: can we get rid of the cast?
+                // TODO: do we really have to have mutable nodes for serialization?
+                node->set_value(static_cast<uint8_t>(queue.size() / 2));
                 queue.push(node->child(0));
                 queue.push(node->child(1));
             }
