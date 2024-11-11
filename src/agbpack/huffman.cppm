@@ -912,11 +912,30 @@ private:
     {
         auto serialized_tree = create_empty_serialized_tree(node_tree);
 
+        // TODO: correct range?
+        // TODO: put loop into own method?
+        // TODO: put code to create node_value into own method?
         for (std::size_t i = 1; i < node_tree.size(); ++i)
         {
             // TODO: write node value:
             //       * check and write offset (orly? do we check once more?)
             //       * also set child node bits
+            auto node = node_tree[i];
+            auto node_value = node->value();
+
+            if (node->is_internal())
+            {
+                if (!node->child(0)->is_internal())
+                {
+                    node_value |= mask0;
+                }
+                if (!node->child(1)->is_internal())
+                {
+                    node_value |= mask1;
+                }
+            }
+
+            serialized_tree[i] = node_value;
         }
 
         return serialized_tree;
