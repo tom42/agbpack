@@ -906,7 +906,6 @@ private:
 
             if (node->is_internal())
             {
-                // TODO: why do we use queue.size() here and not the 'next' variable?
                 // TODO: should we not catch overflows here?
                 // TODO: can we get rid of the cast?
                 // TODO: do we really have to have mutable nodes for serialization?
