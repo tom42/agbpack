@@ -951,9 +951,11 @@ private:
     }
 
     // TODO: node_tree is a bad word. Anything better?
-    // TODO: somewhere document where the +1 comes from?
     static std::vector<tree_node_ptr> create_empty_node_tree(const huffman_encoder_tree& tree)
     {
+        // Allocate space for all internal and leaf nodes.
+        // Allocate an extra slot for the tree size byte. We don't store anything there in the
+        // node array, but it is helpful if the root node occupies the array element at index 1.
         return std::vector<tree_node_ptr>(tree.root()->num_nodes() + 1);
     }
 
