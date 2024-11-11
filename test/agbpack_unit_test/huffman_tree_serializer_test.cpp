@@ -75,6 +75,23 @@ TEST_CASE("huffman_tree_serializer_test")
 
         CHECK(serialized_tree == expected_serialized_tree);
     }
+
+    SECTION("Nonzero offsets")
+    {
+        frequencies.set_frequency('A', 1);
+        frequencies.set_frequency('B', 2);
+        frequencies.set_frequency('C', 2);
+        frequencies.set_frequency('D', 2);
+        frequencies.set_frequency('E', 2);
+        frequencies.set_frequency('F', 2);
+        frequencies.set_frequency('G', 3);
+        frequencies.set_frequency('H', 4);
+        const vector<unsigned char> expected_serialized_tree = {}; // TODO: expected data
+
+        auto serialized_tree = create_and_serialize_tree(frequencies);
+
+        CHECK(serialized_tree == expected_serialized_tree);
+    }
 }
 
 }
