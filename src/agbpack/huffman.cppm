@@ -746,12 +746,15 @@ private:
 class tree_node_compare final
 {
 public:
+    // TODO: in principle we want a and b be constant. How to achieve? Also fix this in other bits of the code
     bool operator()(tree_node_ptr a, tree_node_ptr b)
     {
-        if (a)
-        return a->frequency() > b->frequency();
+        if (a->frequency() != b->frequency())
+        {
+            return a->frequency() > b->frequency();
+        }
 
-        throw std::logic_error("TODO: also sort by symbol");
+        return a->value() > b->value();
     }
 };
 
