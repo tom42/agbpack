@@ -874,9 +874,7 @@ public:
         node_tree[1] = tree.root();
         serialize_internal(node_tree, tree.root(), 2);
 
-        // TODO: serialize tree
         // TODO: fix up tree
-        // TODO: write out node_tree to serialized_tree
 
         return create_serialized_tree(node_tree);
     }
