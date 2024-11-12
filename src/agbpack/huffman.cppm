@@ -864,22 +864,27 @@ class huffman_tree_serializer final
 public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
-        // TODO: implement (and test this, damit)
-        //       * Allocate tree. Problem: how big is it going to be?
-        //         * The tree needs to be number_of_nodes + tree_size_byte + alignment
-        //         * We can then allocate that amount of bytes
-        //         * And then we can already go and write the TSB
         auto node_tree = create_empty_node_tree(tree);
 
         node_tree[1] = tree.root();
         serialize_internal(node_tree, tree.root(), 2);
-
-        // TODO: fix up tree
+        fixup_tree(node_tree);
+        check_tree(node_tree);
 
         return create_serialized_tree(node_tree);
     }
 
 private:
+    static void fixup_tree(std::vector<tree_node_ptr>& /*node_tree*/)
+    {
+        // TODO: fix up tree
+    }
+
+    static void check_tree(const std::vector<tree_node_ptr>& /*node_tree*/)
+    {
+        // TODO: check tree
+    }
+
     // TODO: check signature
     // TODO: can we make tree_node_ptr static here
     // TODO: can we operate on raw pointers rather than shared pointers?
