@@ -910,9 +910,18 @@ private:
             if (node->is_internal())
             {
                 // TODO: should we not catch overflows here?
-                // TODO: can we get rid of the cast?
                 // TODO: do we really have to have mutable nodes for serialization?
-                node->set_value(static_cast<uint8_t>(queue.size() / 2));
+
+                std::size_t offset = queue.size() / 2;
+
+                // TODO: not sure checking for overflow here is the right place. FOr the time being we do so
+                if (!in_closed_range(offset, min_next_node_offset, max_next_node_offset))
+                {
+                    throw internal_error("next node offset is out of range");
+                }
+
+                // TODO: can we get rid of the cast?
+                node->set_value(static_cast<uint8_t>(offset));
                 queue.push(node->child(0));
                 queue.push(node->child(1));
             }
