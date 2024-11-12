@@ -7,9 +7,6 @@ SPDX-License-Identifier: MIT
 class Node
 {
 public:
-	/** @brief Comparison operator
-	 *  @param other Object to compare
-	 */
 	bool operator< (const Node &other) const
 	{
 		// major key is count
@@ -239,31 +236,6 @@ void Node::encodeTree (std::vector<uint8_t> &tree, Node *node)
 		assert (node->child[0]->pos == (node->pos & ~1) + 2 * node->val + 2);
 	}
 #endif
-}
-
-/** @brief Build Huffman tree
- *  @param[in] src Source data
- *  @param[in] len Source data length
- *  @param[in] fourBit_ Whether to use 4-bit encoding
- *  @returns Root node
- */
-std::unique_ptr<Node> buildTree (const uint8_t *src, size_t len, bool fourBit_)
-{
-	// Fill in histogram [DONE]
-
-	// Nodes is initialized with a leaf node for each symbol whose frequency is > 0 [DONE]
-	std::vector<std::unique_ptr<Node>> nodes;
-
-	// Combine nodes. The last one left is the root node. [DONE]
-	// There was some odd code here that ensures root is an internal node.
-	// We do this differently, by ensuring there are at least 2 leaf nodes
-	// before we start combining nodes.
-
-	// build Huffman codes
-	Node::buildCodes (root, 0, 0);
-
-	// return root node
-	return root;
 }
 
 std::vector<uint8_t> huffEncode (const void *source, size_t len, bool fourBit_)
