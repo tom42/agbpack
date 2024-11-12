@@ -748,7 +748,10 @@ class tree_node_compare final
 public:
     bool operator()(tree_node_ptr a, tree_node_ptr b)
     {
+        if (a)
         return a->frequency() > b->frequency();
+
+        throw std::logic_error("TODO: also sort by symbol");
     }
 };
 
