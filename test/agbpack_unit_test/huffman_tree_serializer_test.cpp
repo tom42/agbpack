@@ -45,8 +45,8 @@ TEST_CASE("huffman_tree_serializer_test")
 
     SECTION("One symbol")
     {
-        frequencies.set_frequency('A', 1);
-        const vector<unsigned char> expected_serialized_tree = {0x01, 0xc0, 0x00, 'A'};
+        frequencies.set_frequency('a', 1);
+        const vector<unsigned char> expected_serialized_tree = {0x01, 0xc0, 0x00, 'a'};
 
         auto serialized_tree = create_and_serialize_tree(frequencies);
 
@@ -55,9 +55,9 @@ TEST_CASE("huffman_tree_serializer_test")
 
     SECTION("Two symbols")
     {
-        frequencies.set_frequency('A', 1);
-        frequencies.set_frequency('B', 1);
-        const vector<unsigned char> expected_serialized_tree = { 0x01, 0xc0, 'A', 'B'};
+        frequencies.set_frequency('a', 1);
+        frequencies.set_frequency('b', 1);
+        const vector<unsigned char> expected_serialized_tree = { 0x01, 0xc0, 'a', 'b'};
 
         auto serialized_tree = create_and_serialize_tree(frequencies);
 
@@ -66,10 +66,10 @@ TEST_CASE("huffman_tree_serializer_test")
 
     SECTION("Three symbols")
     {
-        frequencies.set_frequency('A', 1);
-        frequencies.set_frequency('B', 1);
-        frequencies.set_frequency('C', 1);
-        const vector<unsigned char> expected_serialized_tree = { 0x03, 0x80, 'C', 0xc0, 'A', 'B', 0x00, 0x00};
+        frequencies.set_frequency('a', 1);
+        frequencies.set_frequency('b', 1);
+        frequencies.set_frequency('c', 1);
+        const vector<unsigned char> expected_serialized_tree = { 0x03, 0x80, 'c', 0xc0, 'a', 'b', 0x00, 0x00};
 
         auto serialized_tree = create_and_serialize_tree(frequencies);
 
@@ -78,17 +78,17 @@ TEST_CASE("huffman_tree_serializer_test")
 
     SECTION("Nonzero offsets")
     {
-        frequencies.set_frequency('A', 1);
-        frequencies.set_frequency('B', 2);
-        frequencies.set_frequency('C', 2);
-        frequencies.set_frequency('D', 2);
-        frequencies.set_frequency('E', 2);
-        frequencies.set_frequency('F', 2);
-        frequencies.set_frequency('G', 3);
-        frequencies.set_frequency('H', 4);
+        frequencies.set_frequency('a', 1);
+        frequencies.set_frequency('b', 2);
+        frequencies.set_frequency('c', 2);
+        frequencies.set_frequency('d', 2);
+        frequencies.set_frequency('e', 2);
+        frequencies.set_frequency('f', 2);
+        frequencies.set_frequency('g', 3);
+        frequencies.set_frequency('h', 4);
         const vector<unsigned char> expected_serialized_tree =
         {
-            0x07, 0x00, 0x00, 0x81, 0xc1, 0xc2, 'H', 0x82, 'F', 'B', 'E', 'D', 'G', 0xc0, 'A', 'C'
+            0x07, 0x00, 0x00, 0x81, 0xc1, 0xc2, 'h', 0x42, 'c', 'd', 'e', 'f', 0xc0, 'g', 'a', 'b'
         };
 
         auto serialized_tree = create_and_serialize_tree(frequencies);
