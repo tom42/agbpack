@@ -955,6 +955,9 @@ private:
     }
 
     // TODO: node_tree is a bad word. Anything better?
+    //       Yes. Rename what we call now => to:
+    //       * 'serialized tree'  =>  'encoded tree'
+    //       * 'node tree'        =>  'serialized tree'
     static std::vector<tree_node_ptr> create_empty_node_tree(const huffman_encoder_tree& tree)
     {
         // Allocate space for all internal and leaf nodes.
