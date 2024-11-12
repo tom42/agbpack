@@ -7,16 +7,6 @@ SPDX-License-Identifier: MIT
 class Node
 {
 public:
-	bool operator< (const Node &other) const
-	{
-		// major key is count
-		if (count != other.count)
-			return count < other.count;
-
-		// minor key is value
-		return val < other.val;
-	}
-
 	/** @brief Build Huffman codes
 	 *  @param[in] node    Huffman node
 	 *  @param[in] code    Huffman code
