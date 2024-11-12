@@ -895,6 +895,7 @@ private:
         if (node->num_leaves() > 0x40)
         {
             // TODO: do this branch later
+            throw std::logic_error("this branch is not yet implemented");
         }
 
         std::queue<tree_node_ptr> queue;
