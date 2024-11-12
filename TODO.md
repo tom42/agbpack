@@ -262,80 +262,7 @@ std::vector<uint8_t> huffEncode (const void *source, size_t len, bool fourBit_)
 	// encode Huffman tree
 	Node::encodeTree (tree, root.get ());
 
-	// create output buffer
-	std::vector<uint8_t> result;
-	result.reserve (len); // hopefully our output will be smaller
-
-	// append compression header
-	result.emplace_back (fourBit_ ? 0x24 : 0x28); // huff type
-	result.emplace_back (len >> 0);
-	result.emplace_back (len >> 8);
-	result.emplace_back (len >> 16);
-
-	if (len >= 0x1000000) // size extension, not compatible with BIOS routines!
-	{
-		result[0] |= 0x80;
-		result.emplace_back (len >> 24);
-		result.emplace_back (0);
-		result.emplace_back (0);
-		result.emplace_back (0);
-	}
-
-	// append Huffman encoded tree
-	tree[0] = 0xFF;
-	result.insert (std::end (result), std::begin (tree), std::end (tree));
-	for (std::size_t i = tree.size (); i < 512; ++i)
-		result.emplace_back (0x00);
-
-	// we're done with the Huffman encoded tree
-	tree.clear ();
-
-	// create bitstream
-	Bitstream bitstream (result);
-
-	// encode each input byte
-	if (fourBit_)
-	{
-		for (size_t i = 0; i < len; ++i)
-		{
-			// lookup the lower nibble's node
-			Node *node = lookup[(src[i] >> 0) & 0xF];
-
-			// add Huffman code to bitstream
-			bitstream.push (node->getCode (), node->getCodeLen ());
-
-			// lookup the upper nibble's node
-			node = lookup[(src[i] >> 4) & 0xF];
-
-			// add Huffman code to bitstream
-			bitstream.push (node->getCode (), node->getCodeLen ());
-		}
-	}
-	else
-	{
-		for (size_t i = 0; i < len; ++i)
-		{
-			// lookup the byte value's node
-			Node *node = lookup[src[i]];
-
-			// add Huffman code to bitstream
-			bitstream.push (node->getCode (), node->getCodeLen ());
-		}
-	}
-
-	// we're done with the Huffman tree and lookup table
-	root.reset ();
-	lookup.clear ();
-
-	// flush the bitstream
-	bitstream.flush ();
-
-	// pad the output buffer to 4 bytes
-	if (result.size () & 0x3)
-		result.resize ((result.size () + 3) & ~0x3);
-
-	// return the output data
-	return result;
+        // ...
 }
 
 }
@@ -344,6 +271,8 @@ std::vector<uint8_t> huffEncode (const void *source, size_t len, bool fourBit_)
 
 
 # TODO
+* grit source code / issues claim that an 8 bit huffman tree needs to be 512 bytes.
+  * Verify one last time this is NOT true => and maybe even document this?
 * Put tree serialization code into own source file
   * Attribute where it's coming from
   * Also quote the statement that leads us to believe it's MIT licensed
@@ -376,14 +305,6 @@ std::vector<uint8_t> huffEncode (const void *source, size_t len, bool fourBit_)
     * breadth-first fails at even distribution, but does lucas sequence thing
     * depth-first fails at lucas sequence thing (orly? only if the short tree contains is more than one level deep?)
   * Well, we need to understand the problem.
-    * A key to understanding is the following from grit's cprs_huff.cpp:
-      ```
-      if (node->numLeaves () > 0x40)
-	  {
-          // this subtree will overflow the offset field if inserted naively
-          // ...
-      }
-      ```
     * I am not sure this is absolutely true, e.g. regarding number of nodes, but it sounds like it pinpoints the real problem:
       It is not the depth of the tree that matters, but the number of nodes in a subtree.
       * So we would somehow have to recognize when this happens, and kind of mix serialization of that subtree with other subtrees
