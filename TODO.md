@@ -105,22 +105,6 @@ void Node::serializeTree (std::vector<Node *> &tree, Node *node, unsigned next)
 
 		return;
 	}
-
-	while (!queue.empty ())
-	{
-		node = queue.front ();
-		queue.pop_front ();
-
-		tree[next++] = node;
-
-		if (!node->isParent ())
-			continue;
-
-		node->val = queue.size () / 2;
-
-		queue.emplace_back (node->child[0].get ());
-		queue.emplace_back (node->child[1].get ());
-	}
 }
 
 void Node::fixupTree (std::vector<Node *> &tree)
