@@ -106,7 +106,9 @@ TEST_CASE("huffman_tree_serializer_test")
 
         auto serialized_tree = create_and_serialize_tree(frequencies);
 
-        // TODO: can we compare a tree here? Not really, no?
+        // TODO: can we compare a tree here? Not really, no? What we CAN do is:
+        //       * We can check the tree size
+        //       * We can check whether the serialized tree yields the same code table as the original tree
     }
 }
 

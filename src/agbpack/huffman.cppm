@@ -924,8 +924,7 @@ private:
                 serialize_internal(node_tree, node->child(b), next + 2 * node->child(a)->num_leaves());
             }
 
-            // TODO: do this branch later
-            throw std::logic_error("this branch is not yet implemented");
+            return;
         }
 
         std::queue<tree_node_ptr> queue;
