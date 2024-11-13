@@ -807,7 +807,7 @@ private:
             if (f > 0)
             {
                 // TODO: get rid of cast
-                nodes.push(tree_node::make_leaf(static_cast<uint8_t>(sym), f));
+                nodes.push(tree_node::make_leaf(static_cast<std::uint8_t>(sym), f));
             }
         }
 
@@ -898,8 +898,32 @@ private:
     {
         assert(node->is_internal());
 
-        if (node->num_leaves() > 0x40)
+        if (node->num_leaves() > 0x40) // TODO: unhardcode constant?
         {
+            // This subtree will overflow the offset field if inserted naively
+            node_tree[next + 0] = node->child(0);
+            node_tree[next + 1] = node->child(1);
+
+            std::size_t a = 0;
+            std::size_t b = 1;
+
+            if (node->child(1)->num_leaves() < node->child(0)->num_leaves())
+            {
+                std::swap(a, b);
+            }
+
+            if (node->child(a)->is_internal())
+            {
+                node->child(a)->set_value(0);
+                serialize_internal(node_tree, node->child(a), next + 2);
+            }
+
+            if (node->child(b)->is_internal())
+            {
+                node->child(b)->set_value(static_cast<std::uint8_t>(node->child(a)->num_leaves() - 1));
+                serialize_internal(node_tree, node->child(b), next + 2 * node->child(a)->num_leaves());
+            }
+
             // TODO: do this branch later
             throw std::logic_error("this branch is not yet implemented");
         }
@@ -928,7 +952,7 @@ private:
                 }
 
                 // TODO: can we get rid of the cast?
-                node->set_value(static_cast<uint8_t>(offset));
+                node->set_value(static_cast<std::uint8_t>(offset));
                 queue.push(node->child(0));
                 queue.push(node->child(1));
             }
@@ -1033,7 +1057,7 @@ public:
 
         // TODO: bad: static cast
         // TODO: check uncompressed size and throw appropriate exception if too big
-        auto header = header::create(m_options, static_cast<uint32_t>(uncompressed_data.size()));
+        auto header = header::create(m_options, static_cast<std::uint32_t>(uncompressed_data.size()));
 
         // Copy header and serialized tree to output, then encode data directly to output.
         unbounded_byte_writer<OutputIterator> writer(output);
