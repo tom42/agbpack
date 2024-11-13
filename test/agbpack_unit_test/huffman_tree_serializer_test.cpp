@@ -99,7 +99,7 @@ TEST_CASE("huffman_tree_serializer_test")
     // TODO: test name
     SECTION("Gaah")
     {
-        for (int i = 0; i < 256; ++i)
+        for (unsigned int i = 0; i < 256; ++i)
         {
             frequencies.set_frequency(i, 1);
         }
