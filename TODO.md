@@ -7,13 +7,6 @@ SPDX-License-Identifier: MIT
 class Node
 {
 public:
-	/** @brief Build Huffman codes
-	 *  @param[in] node    Huffman node
-	 *  @param[in] code    Huffman code
-	 *  @param[in] codeLen Huffman code length (bits)
-	 */
-	static void buildCodes (std::unique_ptr<Node> &node, uint32_t code, size_t codeLen);
-
 	/** @brief Build lookup table
 	 *  @param[in] nodes Table to fill
 	 *  @param[in] n     Huffman node
@@ -65,22 +58,9 @@ private:
 void Node::buildCodes (std::unique_ptr<Node> &node, uint32_t code, size_t codeLen)
 {
 	// don't exceed 32-bit codes
-	assert (codeLen < 32);
+        assert (codeLen < 32);  ==>  Consider having this somewhere too, but as a runtime check, not assertion
 
-	if (node->isParent ())
-	{
-		// build codes for each subtree
-		assert (node->child[0] && node->child[1]);
-		buildCodes (node->child[0], (code << 1) | 0, codeLen + 1);
-		buildCodes (node->child[1], (code << 1) | 1, codeLen + 1);
-	}
-	else
-	{
-		// set code for data node
-		assert (!node->child[0] && !node->child[1]);
-		node->code    = code;
-		node->codeLen = codeLen;
-	}
+        // Remaining uninteresting bits removed: this just built the huffman codes from the tree
 }
 
 void Node::buildLookup (std::vector<Node *> &nodes, const std::unique_ptr<Node> &node)
