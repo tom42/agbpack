@@ -95,6 +95,19 @@ TEST_CASE("huffman_tree_serializer_test")
 
         CHECK(serialized_tree == expected_serialized_tree);
     }
+
+    // TODO: test name
+    SECTION("Gaah")
+    {
+        for (int i = 0; i < 256; ++i)
+        {
+            frequencies.set_frequency(i, 1);
+        }
+
+        auto serialized_tree = create_and_serialize_tree(frequencies);
+
+        // TODO: can we compare a tree here? Not really, no?
+    }
 }
 
 }
