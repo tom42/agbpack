@@ -907,6 +907,8 @@ private:
             std::size_t a = 0;
             std::size_t b = 1;
 
+            // Serialize smaller subtree first.
+            // This helps in avoiding overflows, but does not solve the problem entirely.
             if (node->child(1)->num_leaves() < node->child(0)->num_leaves())
             {
                 std::swap(a, b);
