@@ -716,6 +716,8 @@ public:
 
     tree_node_ptr child(std::size_t index) const { return m_children[index]; }
 
+    // TODO: we're abusing this for both the symbol in child nodes and the offset in parent nodes.
+    //       That's silly, because we don't necessarily want to have the same type for them.
     uint8_t value() const { return m_value; }
 
     void set_value(uint8_t value) { m_value = value; } // TODO: I'd prefer if tree_node was immutable
