@@ -48,7 +48,7 @@ void foo(const frequency_table& frequencies)
     const huffman_encoder_tree encoder_tree(symbol_size, frequencies);
     const code_table original_code_table = encoder_tree.create_code_table();
 
-    const auto serialized_tree = serialize_tree(encoder_tree); // TODO: check size of serialized tree? (We can calculate it from the symbol size)
+    const auto serialized_tree = serialize_tree(encoder_tree); // TODO: check size of serialized tree? (We can calculate it from the symbol size, no? No. We can calculate it from the total number of nodes)
     const huffman_decoder_tree deserialized_tree = deserialize_tree(serialized_tree);
     const code_table deserialized_code_table = deserialized_tree.create_code_table();
 
