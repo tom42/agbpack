@@ -969,16 +969,10 @@ private:
 
             if (node->is_internal())
             {
-                // TODO: should we not catch overflows here?
+                // TODO: should we not catch overflows here? Well we should catch offset overflows *somewhere*, even in release builds. But not necessarily here.
                 // TODO: do we really have to have mutable nodes for serialization?
 
                 std::size_t offset = queue.size() / 2;
-
-                // TODO: not sure checking for overflow here is the right place. FOr the time being we do so
-                if (!in_closed_range(offset, min_next_node_offset, max_next_node_offset))
-                {
-                    throw internal_error("next node offset is out of range");
-                }
 
                 // TODO: can we get rid of the cast?
                 node->set_value(static_cast<std::uint8_t>(offset));
