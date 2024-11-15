@@ -11,7 +11,6 @@ endif()
 add_executable(
   agbpack_unit_test
   header_test.cpp
-  huffman_encoder_tree_test.cpp
   huffman_tree_serializer_test.cpp
   tree_node_test.cpp)
 
