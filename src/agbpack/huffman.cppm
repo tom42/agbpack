@@ -909,7 +909,7 @@ public:
         fixup_tree(node_tree);
         check_tree(node_tree);
 
-        return create_serialized_tree(node_tree);
+        return encode_tree(node_tree);
     }
 
 private:
@@ -991,9 +991,9 @@ private:
         return node;
     }
 
-    static std::vector<agbpack_u8> create_serialized_tree(const std::vector<tree_node_ptr>& node_tree)
+    static std::vector<agbpack_u8> encode_tree(const std::vector<tree_node_ptr>& node_tree)
     {
-        auto serialized_tree = create_empty_serialized_tree(node_tree);
+        auto serialized_tree = create_empty_encoded_tree(node_tree);
 
         // TODO: put loop into own method?
         // TODO: put code to create node_value into own method?
@@ -1034,24 +1034,24 @@ private:
         return std::vector<tree_node_ptr>(tree.root()->num_nodes() + 1);
     }
 
-    static std::vector<agbpack_u8> create_empty_serialized_tree(const std::vector<tree_node_ptr>& node_tree)
+    static std::vector<agbpack_u8> create_empty_encoded_tree(const std::vector<tree_node_ptr>& node_tree)
     {
-        // Calculate size of serialized tree.
+        // Calculate size of encoded tree.
         // node_tree.size() already includes the tree size byte, so we just need to add alignment bytes.
-        std::size_t serialized_tree_size = node_tree.size();
-        while (serialized_tree_size % 4 != 0)
+        std::size_t encoded_tree_size = node_tree.size();
+        while (encoded_tree_size % 4 != 0)
         {
-            ++serialized_tree_size;
+            ++encoded_tree_size;
         }
 
-        std::vector<agbpack_u8> serialized_tree(serialized_tree_size);
+        std::vector<agbpack_u8> serialized_tree(encoded_tree_size);
 
         // Write tree size byte
         // TODO: tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
         //       * We just must make sure we have at least one test requiring padding and one requiring no padding
         //       * And maybe one for the minimum size (already have that, no?) and one for the maximum size
         // TODO: assert tree size byte is in correct range?
-        std::size_t tree_size_byte = serialized_tree_size / 2 - 1;
+        std::size_t tree_size_byte = encoded_tree_size / 2 - 1;
         serialized_tree[0] = static_cast<agbpack_u8>(tree_size_byte);
 
         return serialized_tree;
@@ -1084,7 +1084,7 @@ public:
         // TODO: check uncompressed size and throw appropriate exception if too big
         auto header = header::create(m_options, static_cast<std::uint32_t>(uncompressed_data.size()));
 
-        // Copy header and serialized tree to output, then encode data directly to output.
+        // Copy header and tree to output, then encode data directly to output.
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
         write(writer, serialized_tree.begin(), serialized_tree.end());
