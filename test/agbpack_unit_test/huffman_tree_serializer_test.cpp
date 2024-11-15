@@ -10,18 +10,49 @@ namespace agbpack_unit_test
 {
 
 using std::vector;
+using agbpack::byte_reader;
+using agbpack::code_table;
 using agbpack::frequency_table;
+using agbpack::huffman_decoder_tree;
 using agbpack::huffman_encoder_tree;
 using agbpack::huffman_tree_serializer;
 
 namespace
 {
 
+auto serialize_tree(const huffman_encoder_tree& tree)
+{
+    huffman_tree_serializer serializer;
+    return serializer.serialize(tree);
+}
+
+auto deserialize_tree(const std::vector<unsigned char>& serialized_tree)
+{
+    byte_reader reader(begin(serialized_tree), end(serialized_tree));
+    return huffman_decoder_tree(8, reader); // TODO: get symbol size from caller
+}
+
 auto create_and_serialize_tree(const frequency_table& frequencies)
 {
     huffman_encoder_tree tree(8, frequencies); // TODO: obtain symbol size from frequency table?
-    huffman_tree_serializer serializer;
-    return serializer.serialize(tree);
+    return serialize_tree(tree);
+}
+
+void foo(const frequency_table& frequencies)
+{
+    const huffman_encoder_tree encoder_tree(8, frequencies); // TODO: obtain symbol size from frequency table?
+    const code_table original_code_table = encoder_tree.create_code_table();
+
+    const auto serialized_tree = serialize_tree(encoder_tree); // TODO: check size of serialized tree? (We can calculate it from the symbol size)
+    const huffman_decoder_tree deserialized_tree = deserialize_tree(serialized_tree);
+    const code_table deserialized_code_table = deserialized_tree.create_code_table();
+
+    for (int i = 0; i < 256; ++i)
+    {
+        // TODO: this creates a ridiculously high assertion count. do we care?
+        REQUIRE(deserialized_code_table[i].c() == original_code_table[i].c());
+        REQUIRE(deserialized_code_table[i].l() == original_code_table[i].l());
+    }
 }
 
 }
@@ -104,18 +135,7 @@ TEST_CASE("huffman_tree_serializer_test")
             frequencies.set_frequency(i, 1);
         }
 
-        auto serialized_tree = create_and_serialize_tree(frequencies);
-
-        // TODO: can we compare a tree here? Not really, no? What we CAN do is:
-        //       * We can check the tree size
-        //       * We can check whether the serialized tree yields the same code table as the original tree
-        //         =>
-        //         * Create huffman_encoder_tree
-        //         * Create code_table from that
-        //         * Serialize tree (We can automatically check the size of that, no?
-        //         * Deserialize tree
-        //         * Create code_table from that too
-        //         * Compare code tables
+        foo(frequencies); // TODO: this needs a better name
     }
 }
 

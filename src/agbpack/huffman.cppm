@@ -95,6 +95,7 @@ private:
     code_length m_l;
 };
 
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 class code_table final
 {
 public:
@@ -257,6 +258,7 @@ private:
     unbounded_byte_writer<OutputIterator>& m_byte_writer;
 };
 
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 template <std::input_iterator InputIterator>
 class huffman_decoder_tree final
 {
