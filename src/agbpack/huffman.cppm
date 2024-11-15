@@ -522,88 +522,11 @@ private:
 };
 
 // TODO: old implementation
-class tree_node_compare_old final
-{
-public:
-    bool operator()(tree_node_ptr_old a, tree_node_ptr_old b)
-    {
-        return a->frequency() > b->frequency();
-    }
-};
-
-// TODO: old implementation, remove
-class old_huffman_encoder_tree final
-{
-public:
-    explicit old_huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
-        : m_root(build_tree(symbol_size, ftable))
-    {}
-
-    tree_node_ptr_old root() const
-    {
-        return m_root;
-    }
-
-private:
-    using node_queue = std::priority_queue<
-        tree_node_ptr_old,
-        std::vector<tree_node_ptr_old>,
-        tree_node_compare_old>;
-
-    static tree_node_ptr_old build_tree(unsigned int symbol_size, const frequency_table& ftable)
-    {
-        node_queue nodes;
-
-        // Create a leaf node for each symbol whose frequency is > 0
-        auto nsymbols = get_nsymbols(symbol_size);
-        for (symbol sym = 0; sym < nsymbols; ++sym)
-        {
-            symbol_frequency f = ftable.frequency(sym);
-            if (f > 0)
-            {
-                nodes.push(tree_node_old::make_leaf(sym, f));
-            }
-        }
-
-        // Both our tree serialization code and the GBA BIOS' huffman tree storage format
-        // needs a tree with at least two leaf nodes, even if they're bogus nodes.
-        // So add bogus nodes if needed. What makes them bogus is that their frequency is 0.
-        // The symbol is irrelevant, but an obvious choice is 0.
-        while (nodes.size() < 2) // TODO: this is not yet particularly well tested
-        {
-            nodes.push(tree_node_old::make_leaf(0, 0));
-        }
-
-        // Standard huffman tree building algorithm:
-        // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
-        while (nodes.size() > 1)
-        {
-            auto node0 = pop(nodes);
-            auto node1 = pop(nodes);
-            nodes.push(tree_node_old::make_internal(node0, node1));
-        }
-
-        assert(nodes.size() == 1);
-        auto root = nodes.top();
-        return root;
-    }
-
-    static tree_node_ptr_old pop(node_queue& nodes)
-    {
-        auto node = nodes.top();
-        nodes.pop();
-        return node;
-    }
-
-    tree_node_ptr_old m_root;
-};
-
-// TODO: old implementation
 // TODO: lots of static casts in here. Reduce to one?
 class old_huffman_tree_serializer final
 {
 public:
-    std::vector<agbpack_u8> serialize(const old_huffman_encoder_tree& tree)
+    std::vector<agbpack_u8> serialize(tree_node_ptr_old root)
     {
         auto serialized_tree = create_empty_serialized_tree();
         auto writer = unbounded_byte_writer(back_inserter(serialized_tree));
@@ -613,12 +536,12 @@ public:
 
         // TODO: document that we do breadth first and why? (well refer to HUFFMAN.md, and maybe update that one to state that breadth-first is a way to do it)
         std::queue<tree_node_ptr_old> queue;
-        queue.push(tree.root());
+        queue.push(root);
         std::size_t next_index = 1;
 
         while (!queue.empty())
         {
-            auto node = pop(queue);
+            tree_node_ptr_old node{};
             if (!node->is_leaf())
             {
                 // Calculate and write internal node value
@@ -683,13 +606,6 @@ private:
         }
 
         return internal_node_value;
-    }
-
-    static tree_node_ptr_old pop(std::queue<tree_node_ptr_old>& queue)
-    {
-        auto node = queue.front();
-        queue.pop();
-        return node;
     }
 };
 
@@ -795,7 +711,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_encoder_tree final
 {
 public:
-    huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
+    explicit huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
         : m_symbol_size(symbol_size)
         , m_root(build_tree(symbol_size, ftable))
     {}
