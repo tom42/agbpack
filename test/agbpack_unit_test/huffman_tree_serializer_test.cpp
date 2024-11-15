@@ -20,13 +20,18 @@ using agbpack::huffman_tree_serializer;
 namespace
 {
 
+// As far as tree serialization goes there is little difference between 4 and 8 bit wide symbols,
+// except that 4 bit wide symbols are not prone to overflows in the offset field of internal nodes.
+// It is therefore enough if we test with 8 bit wide symbols. 4 bit wide symbols are not interesting.
+constexpr unsigned int symbol_size = 8;
+
 auto serialize_tree(const huffman_encoder_tree& tree)
 {
     huffman_tree_serializer serializer;
     return serializer.serialize(tree);
 }
 
-auto deserialize_tree(unsigned int symbol_size, const std::vector<unsigned char>& serialized_tree)
+auto deserialize_tree(const std::vector<unsigned char>& serialized_tree)
 {
     byte_reader reader(begin(serialized_tree), end(serialized_tree));
     return huffman_decoder_tree(symbol_size, reader);
@@ -34,17 +39,17 @@ auto deserialize_tree(unsigned int symbol_size, const std::vector<unsigned char>
 
 auto create_and_serialize_tree(const frequency_table& frequencies)
 {
-    huffman_encoder_tree tree(8, frequencies); // TODO: obtain symbol size from frequency table?
+    huffman_encoder_tree tree(symbol_size, frequencies);
     return serialize_tree(tree);
 }
 
 void foo(const frequency_table& frequencies)
 {
-    const huffman_encoder_tree encoder_tree(8, frequencies); // TODO: obtain symbol size from frequency table?
+    const huffman_encoder_tree encoder_tree(symbol_size, frequencies);
     const code_table original_code_table = encoder_tree.create_code_table();
 
     const auto serialized_tree = serialize_tree(encoder_tree); // TODO: check size of serialized tree? (We can calculate it from the symbol size)
-    const huffman_decoder_tree deserialized_tree = deserialize_tree(8, serialized_tree); // TODO: obtain symbol size from frequency table?
+    const huffman_decoder_tree deserialized_tree = deserialize_tree(serialized_tree);
     const code_table deserialized_code_table = deserialized_tree.create_code_table();
 
     for (int i = 0; i < 256; ++i)
@@ -63,7 +68,7 @@ void foo(const frequency_table& frequencies)
 //       * Maximum handleable code length exceeded
 TEST_CASE("huffman_tree_serializer_test")
 {
-    frequency_table frequencies(8);
+    frequency_table frequencies(symbol_size);
 
     SECTION("No symbols")
     {
