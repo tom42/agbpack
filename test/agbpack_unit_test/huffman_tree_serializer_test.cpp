@@ -26,10 +26,10 @@ auto serialize_tree(const huffman_encoder_tree& tree)
     return serializer.serialize(tree);
 }
 
-auto deserialize_tree(const std::vector<unsigned char>& serialized_tree)
+auto deserialize_tree(unsigned int symbol_size, const std::vector<unsigned char>& serialized_tree)
 {
     byte_reader reader(begin(serialized_tree), end(serialized_tree));
-    return huffman_decoder_tree(8, reader); // TODO: get symbol size from caller
+    return huffman_decoder_tree(symbol_size, reader);
 }
 
 auto create_and_serialize_tree(const frequency_table& frequencies)
@@ -44,7 +44,7 @@ void foo(const frequency_table& frequencies)
     const code_table original_code_table = encoder_tree.create_code_table();
 
     const auto serialized_tree = serialize_tree(encoder_tree); // TODO: check size of serialized tree? (We can calculate it from the symbol size)
-    const huffman_decoder_tree deserialized_tree = deserialize_tree(serialized_tree);
+    const huffman_decoder_tree deserialized_tree = deserialize_tree(8, serialized_tree); // TODO: obtain symbol size from frequency table?
     const code_table deserialized_code_table = deserialized_tree.create_code_table();
 
     for (int i = 0; i < 256; ++i)
