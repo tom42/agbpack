@@ -109,6 +109,13 @@ TEST_CASE("huffman_tree_serializer_test")
         // TODO: can we compare a tree here? Not really, no? What we CAN do is:
         //       * We can check the tree size
         //       * We can check whether the serialized tree yields the same code table as the original tree
+        //         =>
+        //         * Create huffman_encoder_tree
+        //         * Create code_table from that
+        //         * Serialize tree (We can automatically check the size of that, no?
+        //         * Deserialize tree
+        //         * Create code_table from that too
+        //         * Compare code tables
     }
 }
 
