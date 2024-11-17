@@ -796,7 +796,63 @@ public:
 private:
     static void fixup_tree(std::vector<tree_node_ptr>& /*node_tree*/)
     {
-        // TODO: fix up tree
+        // TODO: fix up tree (port stuff below)
+        /*
+    for (unsigned i = 1; i < tree.size (); ++i)
+    {
+        if (!tree[i]->isParent () || tree[i]->val <= 0x3F)
+            continue;
+
+        unsigned shift = tree[i]->val - 0x3F;
+
+        if ((i & 1) && tree[i - 1]->val == 0x3F)
+        {
+            // right child, and left sibling would overflow if we shifted;
+            // shift the left child by 1 instead
+            --i;
+            shift = 1;
+        }
+
+        unsigned nodeEnd   = i / 2 + 1 + tree[i]->val;
+        unsigned nodeBegin = nodeEnd - shift;
+
+        unsigned shiftBegin = 2 * nodeBegin;
+        unsigned shiftEnd   = 2 * nodeEnd;
+
+        // move last child pair to front
+        auto tmp = std::make_pair (tree[shiftEnd], tree[shiftEnd + 1]);
+        std::memmove (
+            &tree[shiftBegin + 2], &tree[shiftBegin], sizeof (Node *) * (shiftEnd - shiftBegin));
+        std::tie (tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
+
+        // adjust offsets
+        tree[i]->val -= shift;
+        for (unsigned index = i + 1; index < shiftBegin; ++index)
+        {
+            if (!tree[index]->isParent ())
+                continue;
+
+            unsigned node = index / 2 + 1 + tree[index]->val;
+            if (node >= nodeBegin && node < nodeEnd)
+                ++tree[index]->val;
+        }
+
+        if (tree[shiftBegin + 0]->isParent ())
+            tree[shiftBegin + 0]->val += shift;
+        if (tree[shiftBegin + 1]->isParent ())
+            tree[shiftBegin + 1]->val += shift;
+
+        for (unsigned index = shiftBegin + 2; index < shiftEnd + 2; ++index)
+        {
+            if (!tree[index]->isParent ())
+                continue;
+
+            unsigned node = index / 2 + 1 + tree[index]->val;
+            if (node > nodeEnd)
+                --tree[index]->val;
+        }
+    }
+        */
     }
 
     static void check_tree(const std::vector<tree_node_ptr>& /*node_tree*/)
