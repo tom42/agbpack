@@ -805,17 +805,18 @@ private:
             }
 
             std::size_t shift = tree[i]->value() - 0x3f;
+
+            if ((i & 1) && (tree[i - 1]->value() == 0x3f))
+            {
+                // Right child, and left sibling would overflow if we shifted;
+                // Shift the left child by 1 instead
+                --i;
+                shift = 1;
+            }
         }
 
         // TODO: fix up tree (port stuff below)
         /*
-        if ((i & 1) && tree[i - 1]->val == 0x3F)
-        {
-            // right child, and left sibling would overflow if we shifted;
-            // shift the left child by 1 instead
-            --i;
-            shift = 1;
-        }
 
         unsigned nodeEnd   = i / 2 + 1 + tree[i]->val;
         unsigned nodeBegin = nodeEnd - shift;
