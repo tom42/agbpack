@@ -70,7 +70,6 @@ void verify_tree_serialization(const frequency_table& frequencies)
 
     for (unsigned int i = 0; i < 256; ++i)
     {
-        // TODO: this creates a ridiculously high assertion count. do we care?
         REQUIRE(deserialized_code_table[i].c() == original_code_table[i].c());
         REQUIRE(deserialized_code_table[i].l() == original_code_table[i].l());
     }
