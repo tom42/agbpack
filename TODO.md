@@ -13,13 +13,6 @@ public:
 	 */
 	static void buildLookup (std::vector<Node *> &nodes, const std::unique_ptr<Node> &node);
 
-	/** @brief Serialize Huffman tree
-	 *  @param[out] tree Serialized tree
-	 *  @param[in]  node Root of subtree
-	 *  @param[in]  next Next available slot in tree
-	 */
-	static void serializeTree (std::vector<Node *> &tree, Node *node, unsigned next);
-
 	/** @brief Fixup serialized Huffman tree
 	 *  @param[inout] tree Serialized tree
 	 */
