@@ -70,6 +70,7 @@ void verify_tree_serialization(const frequency_table& frequencies)
 
     for (unsigned int i = 0; i < 256; ++i)
     {
+        REQUIRE(deserialized_code_table[i].s() == original_code_table[i].s());
         REQUIRE(deserialized_code_table[i].c() == original_code_table[i].c());
         REQUIRE(deserialized_code_table[i].l() == original_code_table[i].l());
     }
