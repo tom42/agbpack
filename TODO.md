@@ -70,36 +70,6 @@ void Node::buildLookup (std::vector<Node *> &nodes, const std::unique_ptr<Node> 
 	buildLookup (nodes, node->child[1]);
 }
 
-void Node::serializeTree (std::vector<Node *> &tree, Node *node, unsigned next)
-{
-	if (node->numLeaves () > 0x40)
-	{
-		// this subtree will overflow the offset field if inserted naively
-		tree[next + 0] = node->child[0].get ();
-		tree[next + 1] = node->child[1].get ();
-
-		unsigned a = 0;
-		unsigned b = 1;
-
-		if (node->child[1]->numLeaves () < node->child[0]->numLeaves ())
-			std::swap (a, b);
-
-		if (node->child[a]->isParent ())
-		{
-			node->child[a]->val = 0;
-			serializeTree (tree, node->child[a].get (), next + 2);
-		}
-
-		if (node->child[b]->isParent ())
-		{
-			node->child[b]->val = node->child[a]->numLeaves () - 1;
-			serializeTree (tree, node->child[b].get (), next + 2 * node->child[a]->numLeaves ());
-		}
-
-		return;
-	}
-}
-
 void Node::fixupTree (std::vector<Node *> &tree)
 {
 	for (unsigned i = 1; i < tree.size (); ++i)
