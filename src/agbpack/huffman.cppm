@@ -813,17 +813,28 @@ private:
                 --i;
                 shift = 1;
             }
+
+            // TODO: rename stuff to use proper underscoring
+            //       * nodeEnd
+            //       * nodeBegin
+            //       * shiftBegin
+            //       * shiftEnd
+            std::size_t nodeEnd = i / 2 + 1 + tree[i]->value();
+            std::size_t nodeBegin = nodeEnd - shift;
+
+            std::size_t shiftBegin = 2 * nodeBegin;
+            std::size_t shiftEnd = 2 * nodeEnd;
+
+            // TODO: remove these suppressions
+            (void)shiftBegin;
+            (void)shiftEnd;
         }
 
+        // TODO: danger: Replace memmove by something safe?
+        //       * Or, alternatively ensure using it IS safe.
+        //       * However, currently tree contains shared_ptrs, so using std::memmove is definitely NOT safe
         // TODO: fix up tree (port stuff below)
         /*
-
-        unsigned nodeEnd   = i / 2 + 1 + tree[i]->val;
-        unsigned nodeBegin = nodeEnd - shift;
-
-        unsigned shiftBegin = 2 * nodeBegin;
-        unsigned shiftEnd   = 2 * nodeEnd;
-
         // move last child pair to front
         auto tmp = std::make_pair (tree[shiftEnd], tree[shiftEnd + 1]);
         std::memmove (
