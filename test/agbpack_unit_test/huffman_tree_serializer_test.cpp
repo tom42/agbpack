@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <cstddef>
 #include <vector>
 
 import agbpack;
@@ -9,13 +10,14 @@ import agbpack;
 namespace agbpack_unit_test
 {
 
-using std::vector;
 using agbpack::byte_reader;
 using agbpack::code_table;
 using agbpack::frequency_table;
 using agbpack::huffman_decoder_tree;
 using agbpack::huffman_encoder_tree;
 using agbpack::huffman_tree_serializer;
+using std::size_t;
+using std::vector;
 
 namespace
 {
@@ -43,14 +45,28 @@ auto create_and_serialize_tree(const frequency_table& frequencies)
     return serialize_tree(tree);
 }
 
+size_t expected_serialized_tree_size(const huffman_encoder_tree& encoder_tree)
+{
+    size_t size = encoder_tree.root()->num_leaves() * 2 - 1;
+
+    while (size % 4 != 0)
+    {
+        ++size;
+    }
+
+    return size;
+}
+
 void verify_tree_serialization(const frequency_table& frequencies)
 {
     const huffman_encoder_tree encoder_tree(symbol_size, frequencies);
     const code_table original_code_table = encoder_tree.create_code_table();
 
-    const auto serialized_tree = serialize_tree(encoder_tree); // TODO: check size of serialized tree? (We can calculate it from the symbol size, no? No. We can calculate it from the total number of nodes)
+    const auto serialized_tree = serialize_tree(encoder_tree);
     const huffman_decoder_tree deserialized_tree = deserialize_tree(serialized_tree);
     const code_table deserialized_code_table = deserialized_tree.create_code_table();
+
+    REQUIRE(serialized_tree.size() == expected_serialized_tree_size(encoder_tree));
 
     for (unsigned int i = 0; i < 256; ++i)
     {
