@@ -78,7 +78,6 @@ void verify_tree_serialization(const frequency_table& frequencies)
 }
 
 // TODO: tests
-//       * Tree with 256 symbols with same frequency
 //       * Maximum depth tree
 //       * Maximum handleable code length exceeded
 TEST_CASE("huffman_tree_serializer_test")
