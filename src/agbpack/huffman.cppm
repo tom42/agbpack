@@ -798,12 +798,15 @@ private:
     {
         for (std::size_t i = 1; i < tree.size(); ++i)
         {
+            // TODO: factor out constant 0x3f?
+            if (!tree[i]->is_internal() || tree[i]->value() <= 0x3f)
+            {
+                continue;
+            }
         }
 
         // TODO: fix up tree (port stuff below)
         /*
-        if (!tree[i]->isParent () || tree[i]->val <= 0x3F)
-            continue;
 
         unsigned shift = tree[i]->val - 0x3F;
 
