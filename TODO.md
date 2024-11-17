@@ -19,20 +19,6 @@ public:
 	 */
 	static void encodeTree (std::vector<uint8_t> &tree, Node *node);
 
-	/** @brief Get code */
-	uint32_t getCode () const
-	{
-		assert (!isParent ());
-		return code;
-	}
-
-	/** @brief Get code length */
-	uint8_t getCodeLen () const
-	{
-		assert (!isParent ());
-		return codeLen;
-	}
-
 private:
 	uint32_t code   = 0;            ///< Huffman encoding
 	unsigned leaves = 0;            ///< Number of leaves
