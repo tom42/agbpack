@@ -504,7 +504,7 @@ class old_huffman_tree_serializer final
 public:
     std::vector<agbpack_u8> serialize(tree_node_ptr_old root)
     {
-        auto serialized_tree = create_empty_serialized_tree();
+        std::vector<agbpack_u8> serialized_tree;
         auto writer = unbounded_byte_writer(back_inserter(serialized_tree));
 
         // Reserve space for tree size byte. We'll fix up its value later.
@@ -553,13 +553,6 @@ public:
     }
 
 private:
-    std::vector<agbpack_u8> create_empty_serialized_tree()
-    {
-        std::vector<agbpack_u8> tree;
-        tree.reserve(max_serialized_tree_size);
-        return tree;
-    }
-
     static agbpack_u8 calculate_internal_node_value(tree_node_ptr_old node, std::size_t current_index, std::size_t next_index)
     {
         std::size_t offset = next_index - current_index - 1;
