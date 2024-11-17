@@ -52,7 +52,7 @@ void foo(const frequency_table& frequencies)
     const huffman_decoder_tree deserialized_tree = deserialize_tree(serialized_tree);
     const code_table deserialized_code_table = deserialized_tree.create_code_table();
 
-    for (int i = 0; i < 256; ++i)
+    for (unsigned int i = 0; i < 256; ++i)
     {
         // TODO: this creates a ridiculously high assertion count. do we care?
         REQUIRE(deserialized_code_table[i].c() == original_code_table[i].c());
