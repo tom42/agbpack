@@ -479,20 +479,6 @@ using tree_node_ptr_old = std::shared_ptr<tree_node_old>;
 class tree_node_old final
 {
 public:
-    explicit tree_node_old(symbol sym, symbol_frequency frequency) noexcept
-        : m_is_leaf(true)
-        , m_symbol(sym)
-        , m_frequency(frequency)
-    {}
-
-    explicit tree_node_old(tree_node_ptr_old child0, tree_node_ptr_old child1)
-        : m_is_leaf(false)
-        , m_symbol(0)
-        , m_frequency(child0->frequency() + child1->frequency())
-        , m_child0(child0)
-        , m_child1(child1)
-    {}
-
     bool is_leaf() const { return m_is_leaf; }
 
     symbol sym() const { return m_symbol; }
@@ -502,16 +488,6 @@ public:
     tree_node_ptr_old child0() const { return m_child0; }
 
     tree_node_ptr_old child1() const { return m_child1; }
-
-    static tree_node_ptr_old make_leaf(symbol sym, symbol_frequency frequency)
-    {
-        return std::make_shared<tree_node_old>(sym, frequency);
-    }
-
-    static tree_node_ptr_old make_internal(tree_node_ptr_old child0, tree_node_ptr_old child1)
-    {
-        return std::make_shared<tree_node_old>(child0, child1);
-    }
 
 private:
     bool m_is_leaf;
