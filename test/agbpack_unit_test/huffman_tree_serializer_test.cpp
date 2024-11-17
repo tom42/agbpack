@@ -132,8 +132,7 @@ TEST_CASE("huffman_tree_serializer_test")
         CHECK(serialized_tree == expected_serialized_tree);
     }
 
-    // TODO: test name
-    SECTION("Gaah")
+    SECTION("256 symbols with same frequency")
     {
         for (unsigned int i = 0; i < 256; ++i)
         {
