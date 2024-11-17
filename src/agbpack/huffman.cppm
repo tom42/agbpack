@@ -803,13 +803,12 @@ private:
             {
                 continue;
             }
+
+            std::size_t shift = tree[i]->value() - 0x3f;
         }
 
         // TODO: fix up tree (port stuff below)
         /*
-
-        unsigned shift = tree[i]->val - 0x3F;
-
         if ((i & 1) && tree[i - 1]->val == 0x3F)
         {
             // right child, and left sibling would overflow if we shifted;
