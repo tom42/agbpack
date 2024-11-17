@@ -876,31 +876,33 @@ private:
     {
         auto serialized_tree = create_empty_encoded_tree(node_tree);
 
-        // TODO: put loop into own method?
-        // TODO: put code to create node_value into own method?
         for (std::size_t i = 1; i < node_tree.size(); ++i)
         {
-            // TODO: write node value:
-            //       * check and write offset (orly? do we check once more?)
-            auto node = node_tree[i];
-            auto node_value = node->value();
-
-            if (node->is_internal())
-            {
-                if (!node->child(0)->is_internal())
-                {
-                    node_value |= mask0;
-                }
-                if (!node->child(1)->is_internal())
-                {
-                    node_value |= mask1;
-                }
-            }
-
-            serialized_tree[i] = node_value;
+            serialized_tree[i] = encode_node(node_tree[i]);
         }
 
         return serialized_tree;
+    }
+
+    static agbpack_u8 encode_node(tree_node_ptr node)
+    {
+        // TODO: write node value:
+        //       * check and write offset (orly? do we check once more?)
+        auto encoded_node = node->value();
+
+        if (node->is_internal())
+        {
+            if (!node->child(0)->is_internal())
+            {
+                encoded_node |= mask0;
+            }
+            if (!node->child(1)->is_internal())
+            {
+                encoded_node |= mask1;
+            }
+        }
+
+        return encoded_node;
     }
 
     // TODO: node_tree is a bad word. Anything better?
