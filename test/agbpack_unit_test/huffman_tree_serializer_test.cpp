@@ -31,7 +31,7 @@ auto serialize_tree(const huffman_encoder_tree& tree)
     return serializer.serialize(tree);
 }
 
-auto deserialize_tree(const std::vector<unsigned char>& serialized_tree)
+auto deserialize_tree(const vector<unsigned char>& serialized_tree)
 {
     byte_reader reader(begin(serialized_tree), end(serialized_tree));
     return huffman_decoder_tree(symbol_size, reader);
