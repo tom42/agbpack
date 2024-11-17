@@ -174,13 +174,6 @@ std::vector<uint8_t> huffEncode (const void *source, size_t len, bool fourBit_)
 * Put tree serialization code into own source file
   * Attribute where it's coming from
   * Also quote the statement that leads us to believe it's MIT licensed
-* Need some decisions:
-  * Do we insist in solving huffman tree serialization ourselves, or do we simply want to get shit done?
-    * If the latter, then using huffman compression from grit might be an option
-    * Just check licensing again!
-	* Do not forget to update copyright notice in code
-	  * Question is a bit, can we divide the huffman stuff a bit?
-		* Would make things more overviewable
 * Clean up tests to use new test directory thing
   * huffman_decoder_test:
     * Maybe place a readme somewhere that files have been created using reference encoders? (CUE Huffman, GBACrusher)
