@@ -794,12 +794,14 @@ public:
     }
 
 private:
-    static void fixup_tree(std::vector<tree_node_ptr>& /*node_tree*/)
+    static void fixup_tree(std::vector<tree_node_ptr>& tree)
     {
+        for (std::size_t i = 1; i < tree.size(); ++i)
+        {
+        }
+
         // TODO: fix up tree (port stuff below)
         /*
-    for (unsigned i = 1; i < tree.size (); ++i)
-    {
         if (!tree[i]->isParent () || tree[i]->val <= 0x3F)
             continue;
 
