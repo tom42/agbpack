@@ -43,7 +43,7 @@ auto create_and_serialize_tree(const frequency_table& frequencies)
     return serialize_tree(tree);
 }
 
-void foo(const frequency_table& frequencies)
+void verify_tree_serialization(const frequency_table& frequencies)
 {
     const huffman_encoder_tree encoder_tree(symbol_size, frequencies);
     const code_table original_code_table = encoder_tree.create_code_table();
@@ -140,7 +140,7 @@ TEST_CASE("huffman_tree_serializer_test")
             frequencies.set_frequency(i, 1);
         }
 
-        foo(frequencies); // TODO: this needs a better name
+        verify_tree_serialization(frequencies);
     }
 }
 
