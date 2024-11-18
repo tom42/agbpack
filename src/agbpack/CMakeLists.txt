@@ -5,6 +5,7 @@ set(
   agbpack_sources
   PUBLIC FILE_SET CXX_MODULES FILES
   agbpack.cppm
+  cprs_huff.cppm # TODO: remove
   common.cppm
   delta.cppm
   exceptions.cppm
@@ -13,7 +14,7 @@ set(
   header.cppm
   rle.cppm
   PRIVATE
-  cprs_huff.cpp
+  cprs_huff.cpp # TODO: remove
   header.cpp)
 
 # Production version of agbpack.
