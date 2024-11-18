@@ -175,6 +175,11 @@ std::vector<uint8_t> huffEncode (const void *source, size_t len, bool fourBit_)
     * Take the entire grit huffman code, drop it into our encoder, tune it until it passes all our tests. Move on.
     * That should work, no?
     * Of course we should go through our own code and see what bits we'd like to keep
+  * OK: time for action
+    * Get the grit huffman Code working as temporary part of agbpack
+    * Write a temporary test that ensures it can pass all our existing Tests (both encoder and tree serialization tests)
+    * If that works, integrate it (and clean it up so it matches pur preferences)
+    * Then delete our old code, but keep the good bist including assertions and runtime checks
 * grit source code / issues claim that an 8 bit huffman tree needs to be 512 bytes.
   * Verify one last time this is NOT true => and maybe even document this?
 * Put tree serialization code into own source file
