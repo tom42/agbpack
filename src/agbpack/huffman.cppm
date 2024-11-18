@@ -599,6 +599,8 @@ public:
 
     // TODO: we're abusing this for both the symbol in child nodes and the offset in parent nodes.
     //       That's silly, because we don't necessarily want to have the same type for them.
+    //       * Child nodes should really have something of type symbol here
+    //       * Internal nodes probably should have an offset here, and it should be of type std::size_t
     uint8_t value() const { return m_value; }
 
     void set_value(uint8_t value) { m_value = value; } // TODO: I'd prefer if tree_node was immutable
@@ -796,6 +798,7 @@ public:
 private:
     static void fixup_tree(std::vector<tree_node_ptr>& tree)
     {
+        // TODO: this loop makes it now clear that it would be totally awesome if value hat some kind of property character
         for (std::size_t i = 1; i < tree.size(); ++i)
         {
             // TODO: factor out constant 0x3f?
@@ -825,50 +828,54 @@ private:
             std::size_t shiftBegin = 2 * nodeBegin;
             std::size_t shiftEnd = 2 * nodeEnd;
 
-            // TODO: remove these suppressions
-            (void)shiftBegin;
-            (void)shiftEnd;
+            // Move last child pair to front
+            // TODO: danger: Replace memmove by something safe?
+            //       * Or, alternatively ensure using it IS safe.
+            //       * However, currently tree contains shared_ptrs, so using std::memmove is definitely NOT safe
+            // TODO: dangerous use of sizeof (if we change the element type, tree_node_ptr is going to be wrong)
+            auto tmp = std::make_pair(tree[shiftEnd], tree[shiftEnd + 1]);
+            std::memmove(&tree[shiftBegin + 2], &tree[shiftBegin], sizeof(tree_node_ptr) * (shiftEnd - shiftBegin));
+            std::tie(tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
+
+            // Adjust offsets
+            tree[i]->set_value(static_cast<uint8_t>(tree[i]->value() - shift)); // TODO: get rid of cast
+            for (std::size_t index = i + 1; index < shiftBegin; ++index)
+            {
+                if (!tree[index]->is_internal())
+                {
+                    continue;
+                }
+
+                std::size_t node = index / 2 + 1 + tree[index]->value();
+                if (node >= nodeBegin && node < nodeEnd)
+                {
+                    tree[i]->set_value(tree[index]->value() + 1);
+                }
+            }
+
+            if (tree[shiftBegin + 0]->is_internal())
+            {
+                tree[shiftBegin + 0]->set_value(static_cast<uint8_t>(tree[shiftBegin + 0]->value() + shift)); // TODO: get rid of cast
+            }
+            if (tree[shiftBegin + 1]->is_internal())
+            {
+                tree[shiftBegin + 1]->set_value(static_cast<uint8_t>(tree[shiftBegin + 1]->value() + shift)); // TODO: get rid of cast
+            }
+
+            for (std::size_t index = shiftBegin + 2; index < shiftEnd + 2; ++index)
+            {
+                if (!tree[index]->is_internal())
+                {
+                    continue;
+                }
+
+                std::size_t node = index / 2 + 1 + tree[index]->value();
+                if (node > nodeEnd)
+                {
+                    tree[index]->set_value(tree[index]->value() - 1);
+                }
+            }
         }
-
-        // TODO: danger: Replace memmove by something safe?
-        //       * Or, alternatively ensure using it IS safe.
-        //       * However, currently tree contains shared_ptrs, so using std::memmove is definitely NOT safe
-        // TODO: fix up tree (port stuff below)
-        /*
-        // move last child pair to front
-        auto tmp = std::make_pair (tree[shiftEnd], tree[shiftEnd + 1]);
-        std::memmove (
-            &tree[shiftBegin + 2], &tree[shiftBegin], sizeof (Node *) * (shiftEnd - shiftBegin));
-        std::tie (tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
-
-        // adjust offsets
-        tree[i]->val -= shift;
-        for (unsigned index = i + 1; index < shiftBegin; ++index)
-        {
-            if (!tree[index]->isParent ())
-                continue;
-
-            unsigned node = index / 2 + 1 + tree[index]->val;
-            if (node >= nodeBegin && node < nodeEnd)
-                ++tree[index]->val;
-        }
-
-        if (tree[shiftBegin + 0]->isParent ())
-            tree[shiftBegin + 0]->val += shift;
-        if (tree[shiftBegin + 1]->isParent ())
-            tree[shiftBegin + 1]->val += shift;
-
-        for (unsigned index = shiftBegin + 2; index < shiftEnd + 2; ++index)
-        {
-            if (!tree[index]->isParent ())
-                continue;
-
-            unsigned node = index / 2 + 1 + tree[index]->val;
-            if (node > nodeEnd)
-                --tree[index]->val;
-        }
-    }
-        */
     }
 
     static void check_tree(const std::vector<tree_node_ptr>& /*node_tree*/)
