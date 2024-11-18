@@ -169,6 +169,12 @@ std::vector<uint8_t> huffEncode (const void *source, size_t len, bool fourBit_)
 
 
 # TODO
+* DAMIT:
+  * It does not work
+  * I think we'll just do it differently:
+    * Take the entire grit huffman code, drop it into our encoder, tune it until it passes all our tests. Move on.
+    * That should work, no?
+    * Of course we should go through our own code and see what bits we'd like to keep
 * grit source code / issues claim that an 8 bit huffman tree needs to be 512 bytes.
   * Verify one last time this is NOT true => and maybe even document this?
 * Put tree serialization code into own source file
