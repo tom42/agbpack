@@ -789,7 +789,7 @@ public:
 
         node_tree[1] = tree.root();
         serialize_internal(node_tree, tree.root(), 2);
-        fixup_tree(node_tree);
+        //fixup_tree(node_tree); // TODO: commented out: this causes segfaults
         check_tree(node_tree);
 
         return encode_tree(node_tree);
