@@ -668,6 +668,8 @@ void huffDecode(const void* src, void* dst, size_t size, bool fourBit_)
 #endif
 }
 
+// TODO: commented this out because we do not have RECORD and I don't wish to introduce that too
+/*
 uint huffgba_compress(RECORD* dst, const RECORD* src)
 {
 	if (!dst || !src || !src->data)
@@ -697,3 +699,4 @@ uint huffgba_compress(RECORD* dst, const RECORD* src)
 
 	return huff.size();
 }
+*/
