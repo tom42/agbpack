@@ -15,6 +15,7 @@ configure_file(
 
 add_executable(
   agbpack_test
+  cprs_huff_test.cpp # TODO: remove
   delta_decoder_test.cpp
   delta_encoder_test.cpp
   huffman_decoder_test.cpp
