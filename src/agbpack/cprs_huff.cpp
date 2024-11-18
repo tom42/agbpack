@@ -584,7 +584,6 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
 	return result;
 }
 
-#ifndef NDEBUG
 void huffDecode(const void* src, void* dst, size_t size, bool fourBit_)
 {
 	const uint8_t* in = (const uint8_t*)src;
@@ -672,7 +671,7 @@ void huffDecode(const void* src, void* dst, size_t size, bool fourBit_)
 		mask >>= 1;
 	}
 }
-#endif
+
 }
 
 // TODO: commented this out because we do not have RECORD and I don't wish to introduce that too
