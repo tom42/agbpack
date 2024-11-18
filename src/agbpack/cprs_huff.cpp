@@ -1,3 +1,7 @@
+// TODO: copyright is missing
+
+module;
+
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
@@ -13,6 +17,8 @@ __pragma(warning(disable:4244))
 __pragma(warning(disable:4267))
 __pragma(warning(disable:4458))
 #endif
+
+export module agbpack:cprs_huff;
 
 namespace agbpack
 {
