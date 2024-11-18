@@ -13,6 +13,7 @@ set(
   header.cppm
   rle.cppm
   PRIVATE
+  cprs_huff.cpp
   header.cpp)
 
 # Production version of agbpack.
