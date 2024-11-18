@@ -9,6 +9,9 @@
 
 namespace
 {
+
+using uint = unsigned int;
+
 /** @brief Huffman node */
 class Node
 {
