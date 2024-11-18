@@ -7,6 +7,13 @@
 #include <tuple>
 #include <vector>
 
+// TODO: temporarily disable warnings so that we've got a chance to compile anything at all
+#if _MSC_VER
+__pragma(warning(disable:4244))
+__pragma(warning(disable:4267))
+__pragma(warning(disable:4458))
+#endif
+
 namespace
 {
 
