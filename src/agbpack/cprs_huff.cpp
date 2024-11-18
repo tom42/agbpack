@@ -18,7 +18,7 @@ __pragma(warning(disable:4267))
 __pragma(warning(disable:4458))
 #endif
 
-export module agbpack:cprs_huff;
+module agbpack;
 
 namespace agbpack
 {
