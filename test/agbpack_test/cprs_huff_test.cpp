@@ -63,7 +63,7 @@ TEST_CASE_METHOD(test_data_fixture, "cprs_huff_test")
 
     // Encode
     const auto encoded_data = huffEncode(original_data.data(), original_data.size(), huffman_options == agbpack::huffman_options::h4);
-    //CHECK(encoded_data.size() == parameters.expected_encoded_size(huffman_options)); // TODO: get this to work: does not work because the serialized tree is always 512 bytes
+    CHECK(encoded_data.size() == parameters.expected_encoded_size(huffman_options));
 
     // Decode
     const auto decoded_data = decode_vector(decoder, encoded_data);
