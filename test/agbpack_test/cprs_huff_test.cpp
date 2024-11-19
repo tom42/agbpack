@@ -3,6 +3,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #include <string>
+#include <utility>
 #include "testdata.hpp"
 
 import agbpack;
@@ -29,10 +30,10 @@ public:
     {
         switch (options)
         {
-        case agbpack::huffman_options::h4:
-            return m_expected_encoded_size_h4;
-        case agbpack::huffman_options::h8:
-            return m_expected_encoded_size_h8;
+            case agbpack::huffman_options::h4:
+                return m_expected_encoded_size_h4;
+            case agbpack::huffman_options::h8:
+                return m_expected_encoded_size_h8;
         }
 
         throw std::invalid_argument("invalid options");

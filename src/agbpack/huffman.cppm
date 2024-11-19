@@ -9,6 +9,7 @@ module;
 #include <cctype>
 #include <concepts>
 #include <cstdint>
+#include <cstring> // TODO: for memmove. Should not be using this at all, no?
 #include <format>
 #include <iostream>
 #include <iterator>

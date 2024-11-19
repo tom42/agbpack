@@ -12,10 +12,20 @@ module;
 #include <vector>
 
 // TODO: temporarily disable warnings so that we've got a chance to compile anything at all
-#if _MSC_VER
+#if defined(_MSC_VER)
 __pragma(warning(disable:4244))
 __pragma(warning(disable:4267))
 __pragma(warning(disable:4458))
+#endif
+#if defined(__clang__)
+#pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
+#pragma GCC diagnostic ignored "-Wmissing-prototypes"
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Wshadow-field-in-constructor"
+#pragma GCC diagnostic ignored "-Wshorten-64-to-32"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
 #endif
 
 module agbpack;
@@ -31,7 +41,7 @@ class Node
 public:
 	/** @brief Parameterized constructor
 	 *  @param val   Node value
-	 *  @count count Node count
+     *  @param count Node count
 	 */
 	Node(uint8_t val, size_t count) : count(count), val(val)
 	{
@@ -39,7 +49,7 @@ public:
 
 	/** @brief Parameterized constructor
 	 *  @param left  Left child
-	 *  @count right Right child
+     *  @param right Right child
 	 */
 	Node(std::unique_ptr<Node> left, std::unique_ptr<Node> right)
 		: child{ std::move(left), std::move(right) }, count(child[0]->count + child[1]->count)
@@ -87,7 +97,7 @@ public:
 
 	/** @brief Build lookup table
 	 *  @param[in] nodes Table to fill
-	 *  @param[in] n     Huffman node
+     *  @param[in] node  Huffman node
 	 */
 	static void buildLookup(std::vector<Node*>& nodes, const std::unique_ptr<Node>& node);
 
@@ -99,7 +109,7 @@ public:
 	static void serializeTree(std::vector<Node*>& tree, Node* node, unsigned next);
 
 	/** @brief Fixup serialized Huffman tree
-	 *  @param[inout] tree Serialized tree
+     *  @param[in,out] tree Serialized tree
 	 */
 	static void fixupTree(std::vector<Node*>& tree);
 
