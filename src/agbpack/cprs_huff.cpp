@@ -54,9 +54,6 @@ public:
 	Node(std::unique_ptr<Node> left, std::unique_ptr<Node> right)
 		: child{ std::move(left), std::move(right) }, count(child[0]->count + child[1]->count)
 	{
-		// set children's parent to self
-		child[0]->parent = this;
-		child[1]->parent = this;
 	}
 
 	Node() = delete;
@@ -169,7 +166,6 @@ public:
 	}
 
 private:
-	Node* parent;                   ///< Parent node
 	std::unique_ptr<Node> child[2]; ///< Children nodes
 	size_t count = 0;            ///< Node weight
 	uint32_t code = 0;            ///< Huffman encoding
