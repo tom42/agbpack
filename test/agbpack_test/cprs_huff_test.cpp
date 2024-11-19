@@ -54,7 +54,7 @@ TEST_CASE_METHOD(test_data_fixture, "cprs_huff_test")
 
     const auto huffman_options = GENERATE(agbpack::huffman_options::h4, agbpack::huffman_options::h8);
     const auto parameters = GENERATE(
-        //test_parameters123("huffman.good.8.0-bytes.txt", 8, 8), // TODO: get this to work (segfaults for some inane reason)
+        test_parameters123("huffman.good.8.0-bytes.txt", 8, 8),
         test_parameters123("huffman.good.8.helloworld.txt", 32, 24),
         test_parameters123("huffman.good.8.foo.txt", 52, 44),
         test_parameters123("huffman.good.8.256-bytes.bin", 292, 772));

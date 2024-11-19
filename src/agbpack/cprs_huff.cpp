@@ -409,6 +409,12 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, size_t len, bool fourBit_)
 	// done with histogram
 	histogram.clear();
 
+	// Fix: if there are less than 2 nodes, add bogus nodes
+	while (nodes.size() < 2)
+	{
+		nodes.emplace_back(std::make_unique<Node>(0, 0));
+	}
+
 	// combine nodes
 	while (nodes.size() > 1)
 	{
