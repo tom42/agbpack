@@ -612,36 +612,3 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
 }
 
 }
-
-// TODO: commented this out because we do not have RECORD and I don't wish to introduce that too
-/*
-uint huffgba_compress(RECORD* dst, const RECORD* src)
-{
-	if (!dst || !src || !src->data)
-		return 0;
-
-	auto const huff4 = huffEncode(src->data, rec_size(src), true);
-	auto const huff8 = huffEncode(src->data, rec_size(src), false);
-
-	auto const& huff = huff4.size() < huff8.size() ? huff4 : huff8;
-
-	dst->width = 1;
-	dst->height = huff.size();
-	dst->data = (BYTE*)malloc(huff.size());
-	memcpy(dst->data, huff.data(), huff.size());
-
-#ifndef NDEBUG
-	std::vector<uint8_t> test(rec_size(src));
-
-	assert(huff[0] == 0x24 || huff[0] == 0x28);
-	huffDecode(&huff[4], test.data(), test.size(), huff[0] == 0x24);
-
-	assert(huff[1] == ((rec_size(src) >> 0) & 0xFF));
-	assert(huff[2] == ((rec_size(src) >> 8) & 0xFF));
-	assert(huff[3] == ((rec_size(src) >> 16) & 0xFF));
-	assert(memcmp(src->data, test.data(), test.size()) == 0);
-#endif
-
-	return huff.size();
-}
-*/
