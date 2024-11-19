@@ -45,29 +45,51 @@ private:
     size_t m_expected_encoded_size_h8;
 };
 
-// TODO: implement all cases from
-//       * huffman_tree_serializer_test
 TEST_CASE_METHOD(test_data_fixture, "cprs_huff_test")
 {
     agbpack::huffman_decoder decoder;
     set_test_data_directory("huffman_encoder");
 
-    const auto huffman_options = GENERATE(agbpack::huffman_options::h4, agbpack::huffman_options::h8);
-    const auto parameters = GENERATE(
-        test_parameters123("huffman.good.8.0-bytes.txt", 8, 8),
-        test_parameters123("huffman.good.8.helloworld.txt", 32, 24),
-        test_parameters123("huffman.good.8.foo.txt", 52, 44),
-        test_parameters123("huffman.good.8.256-bytes.bin", 292, 772));
-    INFO(std::format("Test parameters: {}, {} bit encoding", parameters.filename(), std::to_underlying(huffman_options)));
-    const auto original_data = read_decoded_file(parameters.filename());
+    SECTION("Stuff from huffman_encoder_test")
+    {
+        const auto huffman_options = GENERATE(agbpack::huffman_options::h4, agbpack::huffman_options::h8);
+        const auto parameters = GENERATE(
+            test_parameters123("huffman.good.8.0-bytes.txt", 8, 8),
+            test_parameters123("huffman.good.8.helloworld.txt", 32, 24),
+            test_parameters123("huffman.good.8.foo.txt", 52, 44),
+            test_parameters123("huffman.good.8.256-bytes.bin", 292, 772));
+        INFO(std::format("Test parameters: {}, {} bit encoding", parameters.filename(), std::to_underlying(huffman_options)));
+        const auto original_data = read_decoded_file(parameters.filename());
 
-    // Encode
-    const auto encoded_data = huffEncode(original_data.data(), original_data.size(), huffman_options == agbpack::huffman_options::h4);
-    CHECK(encoded_data.size() == parameters.expected_encoded_size(huffman_options));
+        // Encode
+        const auto encoded_data = huffEncode(original_data.data(), original_data.size(), huffman_options == agbpack::huffman_options::h4);
+        CHECK(encoded_data.size() == parameters.expected_encoded_size(huffman_options));
 
-    // Decode
-    const auto decoded_data = decode_vector(decoder, encoded_data);
-    CHECK(decoded_data == original_data);
+        // Decode
+        const auto decoded_data = decode_vector(decoder, encoded_data);
+        CHECK(decoded_data == original_data);
+    }
+
+    set_test_data_directory("huffman_decoder");
+
+    SECTION("Stuff more or less corresponding to stuff in huffman_serializer_test")
+    {
+        const auto huffman_options = GENERATE(agbpack::huffman_options::h4, agbpack::huffman_options::h8);
+        const auto parameters = GENERATE(
+            test_parameters123("huffman.good.8.1-byte.txt", 12, 12),    // "One symbol"
+            test_parameters123("huffman.good.8.2-bytes.txt", 16, 12),   // "Two symbols"
+            test_parameters123("huffman.good.8.3-bytes.txt", 16, 16));  // "Three symbols"
+        INFO(std::format("Test parameters: {}, {} bit encoding", parameters.filename(), std::to_underlying(huffman_options)));
+        const auto original_data = read_decoded_file(parameters.filename());
+
+        // Encode
+        const auto encoded_data = huffEncode(original_data.data(), original_data.size(), huffman_options == agbpack::huffman_options::h4);
+        CHECK(encoded_data.size() == parameters.expected_encoded_size(huffman_options));
+
+        // Decode
+        const auto decoded_data = decode_vector(decoder, encoded_data);
+        CHECK(decoded_data == original_data);
+    }
 }
 
 
