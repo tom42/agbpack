@@ -544,10 +544,15 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
 	}
 
 	// append Huffman encoded tree
-	tree[0] = 0xFF;
+	// Note: original version is commented out because it's broken.
+	/*tree[0] = 0xFF;
 	result.insert(std::end(result), std::begin(tree), std::end(tree));
 	for (std::size_t i = tree.size(); i < 512; ++i)
-		result.emplace_back(0x00);
+		result.emplace_back(0x00);*/
+
+	while (tree.size() % 4 != 0) { tree.push_back(0); }                 // Make tree size a multiple of 4 bytes
+	tree[0] = tree.size() / 2 - 1;                                      // Write correct tree size byte
+	result.insert(std::end(result), std::begin(tree), std::end(tree));  // Append tree to output
 
 	// we're done with the Huffman encoded tree
 	tree.clear();
