@@ -20,7 +20,6 @@ __pragma(warning(disable:4267))
 __pragma(warning(disable:4458))
 #endif
 #if defined(__clang__)
-#pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
 #endif
 
 module agbpack;
