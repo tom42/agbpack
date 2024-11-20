@@ -19,7 +19,6 @@ __pragma(warning(disable:4458))
 #endif
 #if defined(__clang__)
 #pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
-#pragma GCC diagnostic ignored "-Wmissing-prototypes"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wshadow-field-in-constructor"
@@ -31,6 +30,9 @@ __pragma(warning(disable:4458))
 module agbpack;
 
 namespace agbpack_grit
+{
+
+namespace
 {
 
 using uint = unsigned int;
@@ -501,6 +503,8 @@ private:
 	size_t pos = 32;           ///< Bit position
 	uint32_t code = 0;            ///< Bitstream block
 };
+
+}
 
 std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
 {
