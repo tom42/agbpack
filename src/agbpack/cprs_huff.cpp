@@ -22,7 +22,6 @@ __pragma(warning(disable:4458))
 #if defined(__clang__)
 #pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
 #pragma GCC diagnostic ignored "-Wshadow"
-#pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
 #endif
 
