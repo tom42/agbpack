@@ -1,5 +1,5 @@
 // TODO: copyright is missing
-// TODO: is this file using tabs ot what?
+// TODO: is this file using tabs or what?
 
 module;
 
@@ -23,22 +23,13 @@ namespace
 
 using uint = unsigned int;
 
-/** @brief Huffman node */
 class Node
 {
 public:
-	/** @brief Parameterized constructor
-	 *  @param val   Node value
-     *  @param count Node count
-	 */
-    Node(uint8_t val, size_t count) : m_count(count), m_val(val)
-	{
-	}
+    Node(uint8_t val, size_t count)
+        : m_count(count), m_val(val)
+    {}
 
-	/** @brief Parameterized constructor
-	 *  @param left  Left child
-     *  @param right Right child
-	 */
 	Node(std::unique_ptr<Node> left, std::unique_ptr<Node> right)
         : child{ std::move(left), std::move(right) }, m_count(child[0]->m_count + child[1]->m_count)
 	{
@@ -64,46 +55,21 @@ public:
         return m_val < other.m_val;
 	}
 
-	/** @brief Whether this node is a parent */
 	bool isParent() const
 	{
 		return static_cast<bool> (child[0]);
 	}
 
-	/** @brief Build Huffman codes
-	 *  @param[in] node    Huffman node
-	 *  @param[in] code    Huffman code
-	 *  @param[in] codeLen Huffman code length (bits)
-	 */
 	static void buildCodes(std::unique_ptr<Node>& node, uint32_t code, size_t codeLen);
 
-	/** @brief Build lookup table
-	 *  @param[in] nodes Table to fill
-     *  @param[in] node  Huffman node
-	 */
 	static void buildLookup(std::vector<Node*>& nodes, const std::unique_ptr<Node>& node);
 
-	/** @brief Serialize Huffman tree
-	 *  @param[out] tree Serialized tree
-	 *  @param[in]  node Root of subtree
-	 *  @param[in]  next Next available slot in tree
-	 */
     static void serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next);
 
-	/** @brief Fixup serialized Huffman tree
-     *  @param[in,out] tree Serialized tree
-	 */
 	static void fixupTree(std::vector<Node*>& tree);
 
-	/** @brief Encode Huffman tree
-	 *  @param[out] tree Huffman tree
-	 *  @param[in]  node Huffman node
-	 */
 	static void encodeTree(std::vector<uint8_t>& tree, Node* node);
 
-	/** @brief Count number of nodes in subtree
-	 *  @returns Number of nodes in subtree
-	 */
 	size_t numNodes() const
 	{
 		// sum of children plus self
@@ -114,9 +80,6 @@ public:
 		return 1;
 	}
 
-	/** @brief Count number of leaves in subtree
-	 *  @returns Number of leaves in subtree
-	 */
 	size_t numLeaves()
 	{
 		if (leaves == 0)
@@ -136,14 +99,12 @@ public:
 		return leaves;
 	}
 
-	/** @brief Get code */
 	uint32_t getCode() const
 	{
 		assert(!isParent());
 		return code;
 	}
 
-	/** @brief Get code length */
     std::size_t getCodeLen() const
 	{
 		assert(!isParent());
@@ -352,12 +313,6 @@ void Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
 	}
 }
 
-/** @brief Build Huffman tree
- *  @param[in] src Source data
- *  @param[in] len Source data length
- *  @param[in] fourBit_ Whether to use 4-bit encoding
- *  @returns Root node
- */
 std::unique_ptr<Node> buildTree(const uint8_t* src, size_t len, bool fourBit_)
 {
 	// fill in histogram
@@ -441,7 +396,6 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, size_t len, bool fourBit_)
 	return root;
 }
 
-/** @brief Bitstream */
 class Bitstream
 {
 public:
@@ -449,7 +403,6 @@ public:
 	{
 	}
 
-	/** @brief Flush bitstream block, padded to 32 bits */
 	void flush()
 	{
 		if (pos >= 32)
@@ -467,10 +420,6 @@ public:
         m_code = 0;
 	}
 
-	/** @brief Push Huffman code onto bitstream
-	 *  @param[in] code Huffman code
-	 *  @param[in] len  Huffman code length (bits)
-	 */
 	void push(uint32_t code, size_t len)
 	{
 		for (size_t i = 1; i <= len; ++i)
