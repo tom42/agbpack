@@ -167,14 +167,14 @@ public:
 	}
 
 private:
-	std::unique_ptr<Node> child[2]; ///< Children nodes
-	size_t count = 0;            ///< Node weight
-	uint32_t code = 0;            ///< Huffman encoding
-	unsigned leaves = 0;            ///< Number of leaves
-	uint8_t val = 0;            ///< Huffman tree value
-	uint8_t codeLen = 0;            ///< Huffman code length (bits)
-#ifndef NDEBUG
-	uint16_t pos = 0; ///< Huffman tree position
+    std::unique_ptr<Node> child[2];
+    size_t count = 0;
+    uint32_t code = 0;
+    unsigned leaves = 0;
+    uint8_t val = 0;
+    uint8_t codeLen = 0;
+#ifndef NDEBUG // TODO: do we not want this sanity check always?
+    uint16_t pos = 0;
 #endif
 };
 
