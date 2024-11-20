@@ -1504,7 +1504,7 @@ public:
 
         // TODO: temporary hack: create a grit node tree
         // TODO: totally beyond me: the cast to size_t (and the other cast too, really)
-        buildTree(static_cast<const uint8_t*>(uncompressed_data.data()), static_cast<std::size_t>(uncompressed_data.size()), m_options == huffman_options::h4);
+        auto root = buildTree(static_cast<const uint8_t*>(uncompressed_data.data()), static_cast<std::size_t>(uncompressed_data.size()), m_options == huffman_options::h4);
 
         // Create the tree for the encoder.
         // Also create the serialized variant of the tree and the code table for the encoder.
