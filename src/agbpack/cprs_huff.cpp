@@ -21,8 +21,6 @@ namespace agbpack_grit
 namespace
 {
 
-using uint = unsigned int;
-
 class Node
 {
 public:
