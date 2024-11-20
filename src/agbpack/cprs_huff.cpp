@@ -13,15 +13,6 @@ module;
 #include <tuple>
 #include <vector>
 
-// TODO: temporarily disable warnings so that we've got a chance to compile anything at all
-#if defined(_MSC_VER)
-__pragma(warning(disable:4244))
-__pragma(warning(disable:4267))
-__pragma(warning(disable:4458))
-#endif
-#if defined(__clang__)
-#endif
-
 module agbpack;
 
 namespace agbpack_grit
