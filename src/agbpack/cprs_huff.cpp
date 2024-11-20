@@ -603,8 +603,10 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
 	bitstream.flush();
 
 	// pad the output buffer to 4 bytes
-	if (result.size() & 0x3)
-		result.resize((result.size() + 3) & ~0x3);
+    // Note: commented out: causes warnings and should not be necessary since flush()
+    // should have left things already aligned
+    // if (result.size() & 0x3)
+    // 	result.resize((result.size() + 3) & ~0x3);
 
 	// return the output data
 	return result;
