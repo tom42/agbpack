@@ -100,7 +100,7 @@ public:
 	 *  @param[in]  node Root of subtree
 	 *  @param[in]  next Next available slot in tree
 	 */
-	static void serializeTree(std::vector<Node*>& tree, Node* node, unsigned next);
+    static void serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next);
 
 	/** @brief Fixup serialized Huffman tree
      *  @param[in,out] tree Serialized tree
@@ -156,7 +156,7 @@ public:
 	}
 
 	/** @brief Get code length */
-	uint8_t getCodeLen() const
+    std::size_t getCodeLen() const
 	{
 		assert(!isParent());
 		return codeLen;
@@ -166,11 +166,11 @@ private:
     std::array<std::unique_ptr<Node>, 2> child;
     size_t m_count = 0;
     uint32_t code = 0;
-    unsigned leaves = 0;
+    std::size_t leaves = 0;
     uint8_t m_val = 0;
-    uint8_t codeLen = 0;
+    std::size_t codeLen = 0;
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
-    uint16_t pos = 0;
+    std::size_t pos = 0;
 #endif
 };
 
@@ -209,7 +209,7 @@ void Node::buildLookup(std::vector<Node*>& nodes, const std::unique_ptr<Node>& n
 	buildLookup(nodes, node->child[1]);
 }
 
-void Node::serializeTree(std::vector<Node*>& tree, Node* node, unsigned next)
+void Node::serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next)
 {
 	assert(node->isParent());
 
@@ -233,7 +233,8 @@ void Node::serializeTree(std::vector<Node*>& tree, Node* node, unsigned next)
 
 		if (node->child[b]->isParent())
 		{
-            node->child[b]->m_val = node->child[a]->numLeaves() - 1;
+            // TODO: no cast?
+            node->child[b]->m_val = static_cast<uint8_t>(node->child[a]->numLeaves() - 1);
 			serializeTree(tree, node->child[b].get(), next + 2 * node->child[a]->numLeaves());
 		}
 
@@ -255,7 +256,8 @@ void Node::serializeTree(std::vector<Node*>& tree, Node* node, unsigned next)
 		if (!node->isParent())
 			continue;
 
-        node->m_val = queue.size() / 2;
+        // TODO: no cast
+        node->m_val = static_cast<uint8_t>(queue.size() / 2);
 
 		queue.emplace_back(node->child[0].get());
 		queue.emplace_back(node->child[1].get());
@@ -342,7 +344,7 @@ void Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
 
         assert(!(node->m_val & 0x80));
         assert(!(node->m_val & 0x40));
-        assert(node->child[0]->pos == (node->pos & ~1) + 2 * node->m_val + 2);
+        assert(node->child[0]->pos == (node->pos & ~1u) + 2 * node->m_val + 2);
 	}
 #endif
 
@@ -531,7 +533,8 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
     std::vector<uint8_t> tree(count + 1);
 
 	// first slot encodes tree size
-	tree[0] = count / 2;
+    // Commented out: generates warning, and below we recalculate it anyway
+    //tree[0] = count / 2;
 
 	// encode Huffman tree
 	Node::encodeTree(tree, root.get());
@@ -562,8 +565,9 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
 	for (std::size_t i = tree.size(); i < 512; ++i)
 		result.emplace_back(0x00);*/
 
+    // TODO: no cast?
 	while (tree.size() % 4 != 0) { tree.push_back(0); }                 // Make tree size a multiple of 4 bytes
-	tree[0] = tree.size() / 2 - 1;                                      // Write correct tree size byte
+    tree[0] = static_cast<uint8_t>(tree.size() / 2 - 1);                // Write correct tree size byte
 	result.insert(std::end(result), std::begin(tree), std::end(tree));  // Append tree to output
 
 	// we're done with the Huffman encoded tree
