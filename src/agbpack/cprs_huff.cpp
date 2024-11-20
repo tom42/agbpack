@@ -21,7 +21,6 @@ __pragma(warning(disable:4458))
 #endif
 #if defined(__clang__)
 #pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
-#pragma GCC diagnostic ignored "-Wshadow"
 #endif
 
 module agbpack;
@@ -457,7 +456,7 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, size_t len, bool fourBit_)
 class Bitstream
 {
 public:
-	Bitstream(std::vector<uint8_t>& buffer) : buffer(buffer)
+    Bitstream(std::vector<uint8_t>& buffer) : m_buffer(buffer)
 	{
 	}
 
@@ -468,11 +467,11 @@ public:
 			return;
 
 		// append bitstream block to output buffer
-		buffer.reserve(buffer.size() + 4);
-		buffer.emplace_back(code >> 0);
-		buffer.emplace_back(code >> 8);
-		buffer.emplace_back(code >> 16);
-		buffer.emplace_back(code >> 24);
+        m_buffer.reserve(m_buffer.size() + 4);
+        m_buffer.emplace_back(code >> 0);
+        m_buffer.emplace_back(code >> 8);
+        m_buffer.emplace_back(code >> 16);
+        m_buffer.emplace_back(code >> 24);
 
 		// reset bitstream block
 		pos = 32;
@@ -503,7 +502,7 @@ public:
 	}
 
 private:
-	std::vector<uint8_t>& buffer; ///< Output buffer
+    std::vector<uint8_t>& m_buffer; ///< Output buffer
 	size_t pos = 32;           ///< Bit position
 	uint32_t code = 0;            ///< Bitstream block
 };
