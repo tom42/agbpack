@@ -575,6 +575,8 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
 	Bitstream bitstream(result);
 
 	// encode each input byte
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
 	if (fourBit_)
 	{
 		for (size_t i = 0; i < len; ++i)
@@ -603,6 +605,7 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
 			bitstream.push(node->getCode(), node->getCodeLen());
 		}
 	}
+#pragma GCC diagnostic pop
 
 	// flush the bitstream
 	bitstream.flush();
