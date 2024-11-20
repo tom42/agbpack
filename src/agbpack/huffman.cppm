@@ -1347,7 +1347,7 @@ void Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
     }
 }
 
-std::unique_ptr<Node> buildTree(const uint8_t* src, size_t len, bool fourBit_)
+std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool fourBit_)
 {
     // fill in histogram
     std::vector<size_t> histogram(fourBit_ ? 16 : 256);
@@ -1501,6 +1501,10 @@ public:
         // We need to re-read the input during encoding, so we also create a buffer with the input.
         frequency_table ftable(symbol_size);
         const auto uncompressed_data = ftable.update(input, eof);
+
+        // TODO: temporary hack: create a grit node tree
+        // TODO: totally beyond me: the cast to size_t (and the other cast too, really)
+        buildTree(static_cast<const uint8_t*>(uncompressed_data.data()), static_cast<std::size_t>(uncompressed_data.size()), m_options == huffman_options::h4);
 
         // Create the tree for the encoder.
         // Also create the serialized variant of the tree and the code table for the encoder.
