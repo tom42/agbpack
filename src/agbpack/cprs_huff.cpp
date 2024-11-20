@@ -22,7 +22,6 @@ __pragma(warning(disable:4458))
 #if defined(__clang__)
 #pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
 #pragma GCC diagnostic ignored "-Wshadow"
-#pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
 #endif
 
 module agbpack;
@@ -376,6 +375,10 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, size_t len, bool fourBit_)
 	// fill in histogram
 	std::vector<size_t> histogram(fourBit_ ? 16 : 256);
 
+    // Temporarily suppress this warning;
+    // We plan to use our own histogram generation code, so we're not going to fix this anyway
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
 	if (fourBit_)
 	{
 		for (size_t i = 0; i < len; ++i)
@@ -387,8 +390,11 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, size_t len, bool fourBit_)
 	else
 	{
 		for (size_t i = 0; i < len; ++i)
-			++histogram[src[i]];
+        {
+            ++histogram[src[i]];
+        }
 	}
+#pragma GCC diagnostic pop
 
 	std::vector<std::unique_ptr<Node>> nodes;
 	{
