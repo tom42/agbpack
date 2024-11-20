@@ -86,12 +86,11 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
         const auto parameters = GENERATE(
             test_parameters("huffman.good.8.0-bytes.txt", 8, 8),
             test_parameters("huffman.good.8.helloworld.txt", 32, 24),
-            test_parameters("huffman.good.8.foo.txt", 52, 44)/*,
-            // TODO: temporarily commented out: we know this fails.
+            test_parameters("huffman.good.8.foo.txt", 52, 44),
             // TODO: this file needs a better name.
             //       * The fun here is, we have 256 symbols with all the same frequency. Incidentally we fail at encoding it
             //       * Also verify it really has each symbol exactly once?
-            test_parameters("huffman.good.8.256-bytes.bin", 292, 772)*/);
+            test_parameters("huffman.good.8.256-bytes.bin", 292, 772));
         INFO(std::format("Test parameters: {}, {} bit encoding", parameters.filename(), std::to_underlying(huffman_options)));
         const auto original_data = read_decoded_file(parameters.filename());
 
