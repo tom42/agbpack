@@ -4,6 +4,7 @@
 module;
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
@@ -167,7 +168,7 @@ public:
 	}
 
 private:
-    std::unique_ptr<Node> child[2];
+    std::array<std::unique_ptr<Node>, 2> child;
     size_t count = 0;
     uint32_t code = 0;
     unsigned leaves = 0;
