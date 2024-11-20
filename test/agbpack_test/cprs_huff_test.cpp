@@ -11,7 +11,7 @@ import agbpack;
 namespace agbpack_test
 {
 
-using agbpack::huffEncode;
+using agbpack_grit::huffEncode;
 using std::string;
 
 class test_parameters123 final

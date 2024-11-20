@@ -30,7 +30,7 @@ __pragma(warning(disable:4458))
 
 module agbpack;
 
-namespace agbpack
+namespace agbpack_grit
 {
 
 using uint = unsigned int;

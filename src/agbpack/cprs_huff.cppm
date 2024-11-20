@@ -9,7 +9,7 @@ module;
 
 export module agbpack:cprs_huff;
 
-namespace agbpack
+namespace agbpack_grit
 {
 
 // TODO: should really fully qualify size_t here
