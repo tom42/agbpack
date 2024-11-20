@@ -151,7 +151,7 @@ public:
 	}
 
 private:
-    std::array<std::unique_ptr<Node>, 2> child;
+    std::array<std::unique_ptr<Node>, 2> child{};
     size_t m_count = 0;
     uint32_t code = 0;
     std::size_t leaves = 0;
