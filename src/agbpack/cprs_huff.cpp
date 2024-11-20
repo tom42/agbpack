@@ -1,4 +1,5 @@
 // TODO: copyright is missing
+// TODO: is this file using tabs ot what?
 
 module;
 
@@ -19,7 +20,6 @@ __pragma(warning(disable:4458))
 #endif
 #if defined(__clang__)
 #pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
-#pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wshadow-field-in-constructor"
 #pragma GCC diagnostic ignored "-Wshorten-64-to-32"
@@ -508,7 +508,7 @@ private:
 
 std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
 {
-	const uint8_t* src = (const uint8_t*)source;
+    auto src = static_cast<const uint8_t*>(source); // TODO: no cast here
 	size_t count;
 
 	// build Huffman tree
