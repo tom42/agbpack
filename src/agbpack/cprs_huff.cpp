@@ -50,20 +50,17 @@ public:
 
 	Node(Node&& other) = delete;
 
-	Node& operator= (const Node& other) = delete;
+    Node& operator=(const Node& other) = delete;
 
-	Node& operator= (Node&& other) = delete;
+    Node& operator=(Node&& other) = delete;
 
-	/** @brief Comparison operator
-	 *  @param other Object to compare
-	 */
-	bool operator< (const Node& other) const
+    bool operator<(const Node& other) const
 	{
-		// major key is count
         if (m_count != other.m_count)
+        {
             return m_count < other.m_count;
+        }
 
-		// minor key is value
         return m_val < other.m_val;
 	}
 
