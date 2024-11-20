@@ -23,7 +23,6 @@ __pragma(warning(disable:4458))
 #pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
-#pragma GCC diagnostic ignored "-Wsign-conversion"
 #endif
 
 module agbpack;
@@ -521,7 +520,11 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
 	count = root->numNodes();
 
 	// allocate Huffman encoded tree
-	std::vector<uint8_t> tree((count + 2) & ~1);
+    // Original version commented out since it generates warnings.
+    // Anyway it should be much simpler:
+    // The number of nodes in a huffman tree should always be odd,
+    // so we can just add +1 for the tree size byte and move on
+    std::vector<uint8_t> tree(count + 1);
 
 	// first slot encodes tree size
 	tree[0] = count / 2;
