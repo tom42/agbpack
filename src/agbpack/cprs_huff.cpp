@@ -23,6 +23,7 @@ __pragma(warning(disable:4458))
 #pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
 #endif
 
 module agbpack;
