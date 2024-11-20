@@ -41,7 +41,7 @@ public:
 	 *  @param val   Node value
      *  @param count Node count
 	 */
-	Node(uint8_t val, size_t count) : count(count), val(val)
+    Node(uint8_t val, size_t count) : m_count(count), m_val(val)
 	{
 	}
 
@@ -50,7 +50,7 @@ public:
      *  @param right Right child
 	 */
 	Node(std::unique_ptr<Node> left, std::unique_ptr<Node> right)
-		: child{ std::move(left), std::move(right) }, count(child[0]->count + child[1]->count)
+        : child{ std::move(left), std::move(right) }, m_count(child[0]->m_count + child[1]->m_count)
 	{
 	}
 
@@ -70,11 +70,11 @@ public:
 	bool operator< (const Node& other) const
 	{
 		// major key is count
-		if (count != other.count)
-			return count < other.count;
+        if (m_count != other.m_count)
+            return m_count < other.m_count;
 
 		// minor key is value
-		return val < other.val;
+        return m_val < other.m_val;
 	}
 
 	/** @brief Whether this node is a parent */
@@ -165,10 +165,10 @@ public:
 
 private:
     std::array<std::unique_ptr<Node>, 2> child;
-    size_t count = 0;
+    size_t m_count = 0;
     uint32_t code = 0;
     unsigned leaves = 0;
-    uint8_t val = 0;
+    uint8_t m_val = 0;
     uint8_t codeLen = 0;
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
     uint16_t pos = 0;
@@ -201,7 +201,7 @@ void Node::buildLookup(std::vector<Node*>& nodes, const std::unique_ptr<Node>& n
 	if (!node->isParent())
 	{
 		// set lookup entry
-		nodes[node->val] = node.get();
+        nodes[node->m_val] = node.get();
 		return;
 	}
 
@@ -228,13 +228,13 @@ void Node::serializeTree(std::vector<Node*>& tree, Node* node, unsigned next)
 
 		if (node->child[a]->isParent())
 		{
-			node->child[a]->val = 0;
+            node->child[a]->m_val = 0;
 			serializeTree(tree, node->child[a].get(), next + 2);
 		}
 
 		if (node->child[b]->isParent())
 		{
-			node->child[b]->val = node->child[a]->numLeaves() - 1;
+            node->child[b]->m_val = node->child[a]->numLeaves() - 1;
 			serializeTree(tree, node->child[b].get(), next + 2 * node->child[a]->numLeaves());
 		}
 
@@ -256,7 +256,7 @@ void Node::serializeTree(std::vector<Node*>& tree, Node* node, unsigned next)
 		if (!node->isParent())
 			continue;
 
-		node->val = queue.size() / 2;
+        node->m_val = queue.size() / 2;
 
 		queue.emplace_back(node->child[0].get());
 		queue.emplace_back(node->child[1].get());
@@ -267,12 +267,12 @@ void Node::fixupTree(std::vector<Node*>& tree)
 {
 	for (unsigned i = 1; i < tree.size(); ++i)
 	{
-		if (!tree[i]->isParent() || tree[i]->val <= 0x3F)
+        if (!tree[i]->isParent() || tree[i]->m_val <= 0x3F)
 			continue;
 
-		unsigned shift = tree[i]->val - 0x3F;
+        unsigned shift = tree[i]->m_val - 0x3F;
 
-		if ((i & 1) && tree[i - 1]->val == 0x3F)
+        if ((i & 1) && tree[i - 1]->m_val == 0x3F)
 		{
 			// right child, and left sibling would overflow if we shifted;
 			// shift the left child by 1 instead
@@ -280,7 +280,7 @@ void Node::fixupTree(std::vector<Node*>& tree)
 			shift = 1;
 		}
 
-		unsigned nodeEnd = i / 2 + 1 + tree[i]->val;
+        unsigned nodeEnd = i / 2 + 1 + tree[i]->m_val;
 		unsigned nodeBegin = nodeEnd - shift;
 
 		unsigned shiftBegin = 2 * nodeBegin;
@@ -293,30 +293,30 @@ void Node::fixupTree(std::vector<Node*>& tree)
 		std::tie(tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
 
 		// adjust offsets
-		tree[i]->val -= shift;
+        tree[i]->m_val -= shift;
 		for (unsigned index = i + 1; index < shiftBegin; ++index)
 		{
 			if (!tree[index]->isParent())
 				continue;
 
-			unsigned node = index / 2 + 1 + tree[index]->val;
+            unsigned node = index / 2 + 1 + tree[index]->m_val;
 			if (node >= nodeBegin && node < nodeEnd)
-				++tree[index]->val;
+                ++tree[index]->m_val;
 		}
 
 		if (tree[shiftBegin + 0]->isParent())
-			tree[shiftBegin + 0]->val += shift;
+            tree[shiftBegin + 0]->m_val += shift;
 		if (tree[shiftBegin + 1]->isParent())
-			tree[shiftBegin + 1]->val += shift;
+            tree[shiftBegin + 1]->m_val += shift;
 
 		for (unsigned index = shiftBegin + 2; index < shiftEnd + 2; ++index)
 		{
 			if (!tree[index]->isParent())
 				continue;
 
-			unsigned node = index / 2 + 1 + tree[index]->val;
+            unsigned node = index / 2 + 1 + tree[index]->m_val;
 			if (node > nodeEnd)
-				--tree[index]->val;
+                --tree[index]->m_val;
 		}
 	}
 }
@@ -341,9 +341,9 @@ void Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
 		if (!node->isParent())
 			continue;
 
-		assert(!(node->val & 0x80));
-		assert(!(node->val & 0x40));
-		assert(node->child[0]->pos == (node->pos & ~1) + 2 * node->val + 2);
+        assert(!(node->m_val & 0x80));
+        assert(!(node->m_val & 0x40));
+        assert(node->child[0]->pos == (node->pos & ~1) + 2 * node->m_val + 2);
 	}
 #endif
 
@@ -351,7 +351,7 @@ void Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
 	{
 		node = nodeTree[i];
 
-		tree[i] = node->val;
+        tree[i] = node->m_val;
 
 		if (!node->isParent())
 			continue;
@@ -468,14 +468,14 @@ public:
 
 		// append bitstream block to output buffer
         m_buffer.reserve(m_buffer.size() + 4);
-        m_buffer.emplace_back(code >> 0);
-        m_buffer.emplace_back(code >> 8);
-        m_buffer.emplace_back(code >> 16);
-        m_buffer.emplace_back(code >> 24);
+        m_buffer.emplace_back(m_code >> 0);
+        m_buffer.emplace_back(m_code >> 8);
+        m_buffer.emplace_back(m_code >> 16);
+        m_buffer.emplace_back(m_code >> 24);
 
 		// reset bitstream block
 		pos = 32;
-		code = 0;
+        m_code = 0;
 	}
 
 	/** @brief Push Huffman code onto bitstream
@@ -491,9 +491,9 @@ public:
 
 			// set/reset bit
 			if (code & (1U << (len - i)))
-				this->code |= (1U << pos);
+                this->m_code |= (1U << pos);
 			else
-				this->code &= ~(1U << pos);
+                this->m_code &= ~(1U << pos);
 
 			// flush bitstream block
 			if (pos == 0)
@@ -504,7 +504,7 @@ public:
 private:
     std::vector<uint8_t>& m_buffer; ///< Output buffer
 	size_t pos = 32;           ///< Bit position
-	uint32_t code = 0;            ///< Bitstream block
+    uint32_t m_code = 0;            ///< Bitstream block
 };
 
 }
