@@ -1534,11 +1534,6 @@ public:
         // TODO: no cast?
         while (tree2.size() % 4 != 0) { tree2.push_back(0); }                 // Make tree size a multiple of 4 bytes
         tree2[0] = static_cast<uint8_t>(tree2.size() / 2 - 1);                // Write correct tree size byte
-        // TODO: serialize tree here
-        // TODO: for starters, write THAT to the output stream
-        //       * Hopefully the tree generates the same code. If not, what then?
-        //       * Well then we need to create the code table from the grit tree
-        // build lookup table
         std::vector<XXX::Node*> lookup(256);
         XXX::Node::buildLookup(lookup, root);
         code_table code_table2(symbol_size);
@@ -1552,6 +1547,9 @@ public:
 
         // Create the tree for the encoder.
         // Also create the serialized variant of the tree and the code table for the encoder.
+        // TODO: code below needs now to be replaced by grit code
+        //       => We can start by turning the existing classes into thin wrappers around grit code
+        //       => We can then subsequently start transforming grit code to our liking
         huffman_encoder_tree tree(symbol_size, ftable);
         huffman_tree_serializer serializer;
         const auto serialized_tree = serializer.serialize(tree);
@@ -1564,8 +1562,8 @@ public:
         // Copy header and tree to output, then encode data directly to output.
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
-        write(writer, serialized_tree.begin(), serialized_tree.end());
-        encode_internal(code_table, uncompressed_data, writer);
+        write(writer, tree2.begin(), tree2.end());
+        encode_internal(code_table2, uncompressed_data, writer);
     }
 
     void options(huffman_options options)
