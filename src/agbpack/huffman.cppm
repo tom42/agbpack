@@ -1445,6 +1445,7 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool fourBi
     return root;
 }
 
+// TODO: replace this by our own stuff, no?
 class Bitstream
 {
 public:
@@ -1457,10 +1458,10 @@ public:
 
         // append bitstream block to output buffer
         m_buffer.reserve(m_buffer.size() + 4);
-        m_buffer.emplace_back(m_code >> 0);
-        m_buffer.emplace_back(m_code >> 8);
-        m_buffer.emplace_back(m_code >> 16);
-        m_buffer.emplace_back(m_code >> 24);
+        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 0));
+        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 8));
+        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 16));
+        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 24));
 
         // reset bitstream block
         pos = 32;
