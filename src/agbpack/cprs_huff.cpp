@@ -341,8 +341,10 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, size_t len, bool fourBit_)
 
     // Temporarily suppress this warning;
     // We plan to use our own histogram generation code, so we're not going to fix this anyway
+#if defined (__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
+#endif
     if (fourBit_)
     {
         for (size_t i = 0; i < len; ++i)
@@ -358,7 +360,9 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, size_t len, bool fourBit_)
             ++histogram[src[i]];
         }
     }
+#if defined(__clang__)
 #pragma GCC diagnostic pop
+#endif
 
     std::vector<std::unique_ptr<Node>> nodes;
     {
@@ -530,8 +534,10 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
     Bitstream bitstream(result);
 
     // encode each input byte
+#if defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
+#endif
     if (fourBit_)
     {
         for (size_t i = 0; i < len; ++i)
@@ -560,7 +566,9 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
             bitstream.push(node->getCode(), node->getCodeLen());
         }
     }
+#if defined(__clang__)
 #pragma GCC diagnostic pop
+#endif
 
     // flush the bitstream
     bitstream.flush();
