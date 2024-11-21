@@ -244,6 +244,10 @@ void Node::fixupTree(std::vector<Node*>& tree)
         std::tie(tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
 
         // Adjust offsets
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable:4244)
+#endif
         tree[i]->m_val -= shift;
         for (unsigned index = i + 1; index < shiftBegin; ++index)
         {
@@ -267,6 +271,9 @@ void Node::fixupTree(std::vector<Node*>& tree)
         {
             tree[shiftBegin + 1]->m_val += shift;
         }
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
 
         for (unsigned index = shiftBegin + 2; index < shiftEnd + 2; ++index)
         {
@@ -384,7 +391,7 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, size_t len, bool fourBit_)
     // Fix: if there are less than 2 nodes, add bogus nodes
     while (nodes.size() < 2)
     {
-        nodes.emplace_back(std::make_unique<Node>(0, 0));
+        nodes.emplace_back(std::make_unique<Node>(static_cast<uint8_t>(0), 0u));
     }
 
     // combine nodes
@@ -414,7 +421,7 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, size_t len, bool fourBit_)
     // root must have children
     if (!root->isParent())
     {
-        root = std::make_unique<Node>(std::move(root), std::make_unique<Node>(0x00, 0));
+        root = std::make_unique<Node>(std::move(root), std::make_unique<Node>(static_cast<uint8_t>(0), 0u));
     }
 
     // build Huffman codes
@@ -436,10 +443,10 @@ public:
 
         // append bitstream block to output buffer
         m_buffer.reserve(m_buffer.size() + 4);
-        m_buffer.emplace_back(m_code >> 0);
-        m_buffer.emplace_back(m_code >> 8);
-        m_buffer.emplace_back(m_code >> 16);
-        m_buffer.emplace_back(m_code >> 24);
+        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 0));
+        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 8));
+        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 16));
+        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 24));
 
         // reset bitstream block
         pos = 32;
@@ -507,18 +514,18 @@ std::vector<uint8_t> huffEncode(const void* source, size_t len, bool fourBit_)
     result.reserve(len); // hopefully our output will be smaller
 
     // append compression header
-    result.emplace_back(fourBit_ ? 0x24 : 0x28); // huff type
-    result.emplace_back(len >> 0);
-    result.emplace_back(len >> 8);
-    result.emplace_back(len >> 16);
+    result.emplace_back(static_cast<uint8_t>(fourBit_ ? 0x24 : 0x28)); // huff type
+    result.emplace_back(static_cast<uint8_t>(len >> 0));
+    result.emplace_back(static_cast<uint8_t>(len >> 8));
+    result.emplace_back(static_cast<uint8_t>(len >> 16));
 
     if (len >= 0x1000000) // size extension, not compatible with BIOS routines!
     {
         result[0] |= 0x80;
-        result.emplace_back(len >> 24);
-        result.emplace_back(0);
-        result.emplace_back(0);
-        result.emplace_back(0);
+        result.emplace_back(static_cast<uint8_t>(len >> 24));
+        result.emplace_back(static_cast<uint8_t>(0));
+        result.emplace_back(static_cast<uint8_t>(0));
+        result.emplace_back(static_cast<uint8_t>(0));
     }
 
     // append Huffman encoded tree
