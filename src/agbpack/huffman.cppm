@@ -1454,54 +1454,6 @@ inline std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool
     return root;
 }
 
-// TODO: replace this by our own stuff, no?
-class Bitstream
-{
-public:
-    Bitstream(std::vector<uint8_t>& buffer) : m_buffer(buffer) {}
-
-    void flush()
-    {
-        if (pos >= 32)
-            return;
-
-        // append bitstream block to output buffer
-        m_buffer.reserve(m_buffer.size() + 4);
-        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 0));
-        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 8));
-        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 16));
-        m_buffer.emplace_back(static_cast<uint8_t>(m_code >> 24));
-
-        // reset bitstream block
-        pos = 32;
-        m_code = 0;
-    }
-
-    void push(uint32_t code, size_t len)
-    {
-        for (size_t i = 1; i <= len; ++i)
-        {
-            // get next bit position
-            --pos;
-
-            // set/reset bit
-            if (code & (1U << (len - i)))
-                this->m_code |= (1U << pos);
-            else
-                this->m_code &= ~(1U << pos);
-
-            // flush bitstream block
-            if (pos == 0)
-                flush();
-        }
-    }
-
-private:
-    std::vector<uint8_t>& m_buffer;
-    size_t pos = 32;
-    uint32_t m_code = 0;
-};
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
