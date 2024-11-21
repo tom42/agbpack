@@ -1125,6 +1125,12 @@ public:
         return codeLen;
     }
 
+    // TODO: temporary hack of mine to be able to construct a code_table from an array of nodes.
+    uint8_t val() const
+    {
+        return m_val;
+    }
+
 private:
     std::array<std::unique_ptr<Node>, 2> child{};
     size_t m_count = 0;
@@ -1532,6 +1538,17 @@ public:
         // TODO: for starters, write THAT to the output stream
         //       * Hopefully the tree generates the same code. If not, what then?
         //       * Well then we need to create the code table from the grit tree
+        // build lookup table
+        std::vector<XXX::Node*> lookup(256);
+        XXX::Node::buildLookup(lookup, root);
+        code_table code_table2(symbol_size);
+        for (auto node : lookup)
+        {
+            if (node)
+            {
+                code_table2.set(node->val(), node->getCode(), static_cast<code_length>(node->getCodeLen())); // TODO: no cast
+            }
+        }
 
         // Create the tree for the encoder.
         // Also create the serialized variant of the tree and the code table for the encoder.
