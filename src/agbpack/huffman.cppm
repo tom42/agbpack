@@ -1405,7 +1405,8 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool fourBi
     // Fix: if there are less than 2 nodes, add bogus nodes
     while (nodes.size() < 2)
     {
-        nodes.emplace_back(std::make_unique<Node>(0, 0));
+        // TODO: no cast
+        nodes.emplace_back(std::make_unique<Node>(static_cast<uint8_t>(0), 0u));
     }
 
     // combine nodes
@@ -1435,7 +1436,8 @@ std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool fourBi
     // root must have children
     if (!root->isParent())
     {
-        root = std::make_unique<Node>(std::move(root), std::make_unique<Node>(0x00, 0));
+        // TODO: no cast
+        root = std::make_unique<Node>(std::move(root), std::make_unique<Node>(static_cast<uint8_t>(0), 0u));
     }
 
     // build Huffman codes
