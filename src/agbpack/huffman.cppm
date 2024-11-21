@@ -1033,7 +1033,7 @@ private:
 #pragma GCC diagnostic ignored "-Wunused-function"
 #endif
 
-namespace
+namespace XXX // TODO: that's just for...well what?
 {
 
 class Node
@@ -1522,9 +1522,9 @@ public:
         // TODO: name: tree2
         // TODO: tree size calculation correct? (Can we not calculate the final size right away?
         // TODO: replace other code block below entirely with this
-        auto root = buildTree(static_cast<const uint8_t*>(uncompressed_data.data()), static_cast<std::size_t>(uncompressed_data.size()), m_options == huffman_options::h4);
+        auto root = XXX::buildTree(static_cast<const uint8_t*>(uncompressed_data.data()), static_cast<std::size_t>(uncompressed_data.size()), m_options == huffman_options::h4);
         std::vector<uint8_t> tree2(root->numNodes() + 1);
-        Node::encodeTree(tree2, root.get());
+        XXX::Node::encodeTree(tree2, root.get());
         // TODO: no cast?
         while (tree2.size() % 4 != 0) { tree2.push_back(0); }                 // Make tree size a multiple of 4 bytes
         tree2[0] = static_cast<uint8_t>(tree2.size() / 2 - 1);                // Write correct tree size byte
