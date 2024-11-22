@@ -781,7 +781,7 @@ private:
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-class huffman_tree_serializer final
+class huffman_tree_serializer_old2 final
 {
 public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree_old2& tree)
@@ -1499,7 +1499,7 @@ public:
         //       => We can start by turning the existing classes into thin wrappers around grit code
         //       => We can then subsequently start transforming grit code to our liking
         huffman_encoder_tree_old2 tree(symbol_size, ftable);
-        huffman_tree_serializer serializer;
+        huffman_tree_serializer_old2 serializer;
         const auto serialized_tree = serializer.serialize(tree);
         const auto code_table = tree.create_code_table();
 

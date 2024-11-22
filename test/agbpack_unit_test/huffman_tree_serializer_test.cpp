@@ -15,7 +15,7 @@ using agbpack::code_table;
 using agbpack::frequency_table;
 using agbpack::huffman_decoder_tree;
 using agbpack::huffman_encoder_tree_old2;
-using agbpack::huffman_tree_serializer;
+using agbpack::huffman_tree_serializer_old2;
 using std::size_t;
 using std::vector;
 
@@ -29,7 +29,7 @@ constexpr unsigned int symbol_size = 8;
 
 auto serialize_tree(const huffman_encoder_tree_old2& tree)
 {
-    huffman_tree_serializer serializer;
+    huffman_tree_serializer_old2 serializer;
     return serializer.serialize(tree);
 }
 
