@@ -1469,12 +1469,20 @@ public:
     //       * On the other hand we'll use our own tree construction code, since it's nicer
     explicit huffman_encoder_tree(unsigned int symbol_size, const frequency_table& /*ftable*/)
         : m_symbol_size(symbol_size)
+        , m_root(build_tree())
     {}
 
     // TODO: create_code_table
 
     // TODO: accessor to root node
 private:
+    static tree_node_ptr build_tree()
+    {
+        // TODO: create leaf nodes
+        // TODO: combine nodes
+        return nullptr;
+    }
+
     unsigned int m_symbol_size;
     tree_node_ptr m_root;
 };
