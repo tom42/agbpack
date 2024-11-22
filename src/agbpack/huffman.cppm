@@ -1460,8 +1460,10 @@ inline std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool
 class huffman_encoder_tree final
 {
 public:
-    // TODO: ctor: constructs the tree
-    explicit huffman_encoder_tree() {}
+    // TODO: ctor: constructs the tree => Basically we already have this, but:
+    //       * On one hand we'll use the Node class from grit
+    //       * On the other hand we'll use our own tree construction code, since it's nicer
+    explicit huffman_encoder_tree(unsigned int /*symbol_size*/, const frequency_table& /*ftable*/) {}
 
     // TODO: create_code_table
 
