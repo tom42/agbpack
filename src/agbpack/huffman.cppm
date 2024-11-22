@@ -575,9 +575,10 @@ private:
     }
 };
 
+// TODO: old stuff, remove
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node;
-using tree_node_ptr = std::shared_ptr<tree_node>;
+using tree_node_ptr_old2 = std::shared_ptr<tree_node>;
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node final
@@ -588,7 +589,7 @@ public:
         , m_frequency(frequency)
     {}
 
-    explicit tree_node(tree_node_ptr child0, tree_node_ptr child1)
+    explicit tree_node(tree_node_ptr_old2 child0, tree_node_ptr_old2 child1)
         : m_children{ child0, child1 }
         , m_is_internal(true)
         , m_frequency(child0->frequency() + child1->frequency())
@@ -596,7 +597,7 @@ public:
 
     bool is_internal() const { return m_is_internal; }
 
-    tree_node_ptr child(std::size_t index) const { return m_children[index]; }
+    tree_node_ptr_old2 child(std::size_t index) const { return m_children[index]; }
 
     // TODO: we're abusing this for both the symbol in child nodes and the offset in parent nodes.
     //       That's silly, because we don't necessarily want to have the same type for them.
@@ -641,18 +642,18 @@ public:
         return m_num_leaves;
     }
 
-    static tree_node_ptr make_leaf(uint8_t value, symbol_frequency frequency)
+    static tree_node_ptr_old2 make_leaf(uint8_t value, symbol_frequency frequency)
     {
         return std::make_shared<tree_node>(value, frequency);
     }
 
-    static tree_node_ptr make_internal(tree_node_ptr child0, tree_node_ptr child1)
+    static tree_node_ptr_old2 make_internal(tree_node_ptr_old2 child0, tree_node_ptr_old2 child1)
     {
         return std::make_shared<tree_node>(child0, child1);
     }
 
 private:
-    std::array<tree_node_ptr, 2> m_children{};
+    std::array<tree_node_ptr_old2, 2> m_children{};
     bool m_is_internal = 0;
     mutable std::size_t m_num_leaves = 0;
     uint8_t m_value = 0;
@@ -663,7 +664,7 @@ class tree_node_compare final
 {
 public:
     // TODO: in principle we want a and b be constant. How to achieve? Also fix this in other bits of the code
-    bool operator()(tree_node_ptr a, tree_node_ptr b)
+    bool operator()(tree_node_ptr_old2 a, tree_node_ptr_old2 b)
     {
         if (a->frequency() != b->frequency())
         {
@@ -693,18 +694,18 @@ public:
     }
 
     // TODO: do we want to return const here? can we even do this?
-    tree_node_ptr root() const
+    tree_node_ptr_old2 root() const
     {
         return m_root;
     }
 
 private:
     using node_queue = std::priority_queue<
-        tree_node_ptr,
-        std::vector<tree_node_ptr>,
+        tree_node_ptr_old2,
+        std::vector<tree_node_ptr_old2>,
         tree_node_compare>;
 
-    static tree_node_ptr build_tree(unsigned int symbol_size, const frequency_table& ftable)
+    static tree_node_ptr_old2 build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
         auto nodes = create_leaf_nodes(symbol_size, ftable);
         auto root = combine_nodes(nodes);
@@ -739,7 +740,7 @@ private:
         return nodes;
     }
 
-    static tree_node_ptr combine_nodes(node_queue& nodes)
+    static tree_node_ptr_old2 combine_nodes(node_queue& nodes)
     {
         // Standard huffman tree building algorithm:
         // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
@@ -756,7 +757,7 @@ private:
         return nodes.top();
     }
 
-    static tree_node_ptr pop(node_queue& nodes)
+    static tree_node_ptr_old2 pop(node_queue& nodes)
     {
         auto node = nodes.top();
         nodes.pop();
@@ -777,9 +778,10 @@ private:
     }
 
     unsigned int m_symbol_size;
-    tree_node_ptr m_root;
+    tree_node_ptr_old2 m_root;
 };
 
+// TODO: old stuff, see what old bits we can reuse
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_serializer_old2 final
 {
@@ -797,7 +799,7 @@ public:
     }
 
 private:
-    static void fixup_tree(std::vector<tree_node_ptr>& tree)
+    static void fixup_tree(std::vector<tree_node_ptr_old2>& tree)
     {
         // TODO: this loop makes it now clear that it would be totally awesome if value hat some kind of property character
         for (std::size_t i = 1; i < tree.size(); ++i)
@@ -835,7 +837,7 @@ private:
             //       * However, currently tree contains shared_ptrs, so using std::memmove is definitely NOT safe
             // TODO: dangerous use of sizeof (if we change the element type, tree_node_ptr is going to be wrong)
             auto tmp = std::make_pair(tree[shiftEnd], tree[shiftEnd + 1]);
-            std::memmove(&tree[shiftBegin + 2], &tree[shiftBegin], sizeof(tree_node_ptr) * (shiftEnd - shiftBegin));
+            std::memmove(&tree[shiftBegin + 2], &tree[shiftBegin], sizeof(tree_node_ptr_old2) * (shiftEnd - shiftBegin));
             std::tie(tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
 
             // Adjust offsets
@@ -879,7 +881,7 @@ private:
         }
     }
 
-    static void check_tree(const std::vector<tree_node_ptr>& /*node_tree*/)
+    static void check_tree(const std::vector<tree_node_ptr_old2>& /*node_tree*/)
     {
         // TODO: check tree
     }
@@ -887,7 +889,7 @@ private:
     // TODO: check signature
     // TODO: can we make tree_node_ptr static here
     // TODO: can we operate on raw pointers rather than shared pointers?
-    static void serialize_internal(std::vector<tree_node_ptr>& node_tree, tree_node_ptr node, std::size_t next)
+    static void serialize_internal(std::vector<tree_node_ptr_old2>& node_tree, tree_node_ptr_old2 node, std::size_t next)
     {
         assert(node->is_internal());
 
@@ -920,7 +922,7 @@ private:
             return;
         }
 
-        std::queue<tree_node_ptr> queue;
+        std::queue<tree_node_ptr_old2> queue;
 
         queue.push(node->child(0));
         queue.push(node->child(1));
@@ -945,14 +947,14 @@ private:
         }
     }
 
-    static tree_node_ptr pop(std::queue<tree_node_ptr>& queue)
+    static tree_node_ptr_old2 pop(std::queue<tree_node_ptr_old2>& queue)
     {
         auto node = queue.front();
         queue.pop();
         return node;
     }
 
-    static std::vector<agbpack_u8> encode_tree(const std::vector<tree_node_ptr>& node_tree)
+    static std::vector<agbpack_u8> encode_tree(const std::vector<tree_node_ptr_old2>& node_tree)
     {
         auto serialized_tree = create_empty_encoded_tree(node_tree);
 
@@ -964,7 +966,7 @@ private:
         return serialized_tree;
     }
 
-    static agbpack_u8 encode_node(tree_node_ptr node)
+    static agbpack_u8 encode_node(tree_node_ptr_old2 node)
     {
         // TODO: write node value:
         //       * check and write offset (orly? do we check once more?)
@@ -989,15 +991,15 @@ private:
     //       Yes. Rename what we call now => to:
     //       * 'serialized tree'  =>  'encoded tree'
     //       * 'node tree'        =>  'serialized tree'
-    static std::vector<tree_node_ptr> create_empty_node_tree(const huffman_encoder_tree_old2& tree)
+    static std::vector<tree_node_ptr_old2> create_empty_node_tree(const huffman_encoder_tree_old2& tree)
     {
         // Allocate space for all internal and leaf nodes.
         // Allocate an extra slot for the tree size byte. We don't store anything there in the
         // node array, but it is helpful if the root node occupies the array element at index 1.
-        return std::vector<tree_node_ptr>(tree.root()->num_nodes() + 1);
+        return std::vector<tree_node_ptr_old2>(tree.root()->num_nodes() + 1);
     }
 
-    static std::vector<agbpack_u8> create_empty_encoded_tree(const std::vector<tree_node_ptr>& node_tree)
+    static std::vector<agbpack_u8> create_empty_encoded_tree(const std::vector<tree_node_ptr_old2>& node_tree)
     {
         // Calculate size of encoded tree.
         // node_tree.size() already includes the tree size byte, so we just need to add alignment bytes.
