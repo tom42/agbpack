@@ -674,12 +674,12 @@ public:
     }
 };
 
-// TODO: implement this. Question is a bit, can we somehow put this into a separate source file?
+// TODO: old stuff. see what bits we want to incorporate into new code
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-class huffman_encoder_tree final
+class huffman_encoder_tree_old2 final
 {
 public:
-    explicit huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
+    explicit huffman_encoder_tree_old2(unsigned int symbol_size, const frequency_table& ftable)
         : m_symbol_size(symbol_size)
         , m_root(build_tree(symbol_size, ftable))
     {}
@@ -784,7 +784,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_serializer final
 {
 public:
-    std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
+    std::vector<agbpack_u8> serialize(const huffman_encoder_tree_old2& tree)
     {
         auto node_tree = create_empty_node_tree(tree);
 
@@ -989,7 +989,7 @@ private:
     //       Yes. Rename what we call now => to:
     //       * 'serialized tree'  =>  'encoded tree'
     //       * 'node tree'        =>  'serialized tree'
-    static std::vector<tree_node_ptr> create_empty_node_tree(const huffman_encoder_tree& tree)
+    static std::vector<tree_node_ptr> create_empty_node_tree(const huffman_encoder_tree_old2& tree)
     {
         // Allocate space for all internal and leaf nodes.
         // Allocate an extra slot for the tree size byte. We don't store anything there in the
@@ -1498,7 +1498,7 @@ public:
         // TODO: code below needs now to be replaced by grit code
         //       => We can start by turning the existing classes into thin wrappers around grit code
         //       => We can then subsequently start transforming grit code to our liking
-        huffman_encoder_tree tree(symbol_size, ftable);
+        huffman_encoder_tree_old2 tree(symbol_size, ftable);
         huffman_tree_serializer serializer;
         const auto serialized_tree = serializer.serialize(tree);
         const auto code_table = tree.create_code_table();
