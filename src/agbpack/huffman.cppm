@@ -1456,6 +1456,19 @@ inline std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool
 // TODO: this stuff needs heavy reworking
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// TODO: implement, test
+class huffman_encoder_tree final
+{
+public:
+    // TODO: ctor: constructs the tree
+    explicit huffman_encoder_tree() {}
+
+    // TODO: create_code_table
+
+    // TODO: accessor to root node
+private:
+};
+
 export class huffman_encoder final
 {
 public:
