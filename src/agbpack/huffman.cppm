@@ -1458,6 +1458,8 @@ inline std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool
 // TODO: this stuff needs heavy reworking
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using tree_node_ptr = std::unique_ptr<Node>;
+
 // TODO: implement, test
 class huffman_encoder_tree final
 {
@@ -1465,12 +1467,16 @@ public:
     // TODO: ctor: constructs the tree => Basically we already have this, but:
     //       * On one hand we'll use the Node class from grit
     //       * On the other hand we'll use our own tree construction code, since it's nicer
-    explicit huffman_encoder_tree(unsigned int /*symbol_size*/, const frequency_table& /*ftable*/) {}
+    explicit huffman_encoder_tree(unsigned int symbol_size, const frequency_table& /*ftable*/)
+        : m_symbol_size(symbol_size)
+    {}
 
     // TODO: create_code_table
 
     // TODO: accessor to root node
 private:
+    unsigned int m_symbol_size;
+    tree_node_ptr m_root;
 };
 
 export class huffman_encoder final
