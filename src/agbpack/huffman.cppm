@@ -1485,6 +1485,19 @@ private:
     tree_node_ptr m_root;
 };
 
+AGBPACK_EXPORT_FOR_UNIT_TESTING
+class huffman_tree_serializer final
+{
+public:
+    std::vector<agbpack_u8> serialize(const huffman_encoder_tree&)
+    {
+        // TODO: integrate grit code here
+        return {};
+    }
+
+private:
+};
+
 export class huffman_encoder final
 {
 public:
@@ -1502,13 +1515,9 @@ public:
 
         // Create the tree for the encoder.
         // Also create the serialized variant of the tree and the code table for the encoder.
-        // TODO: code below needs now to be replaced by grit code
-        //       => We can start by turning the existing classes into thin wrappers around grit code
-        //       => We can then subsequently start transforming grit code to our liking
-        huffman_encoder_tree_old2 tree_old(symbol_size, ftable); // TODO: remove this. We should only be using "tree"
         huffman_encoder_tree tree(symbol_size, ftable);
-        huffman_tree_serializer_old2 serializer;
-        const auto serialized_tree = serializer.serialize(tree_old);
+        huffman_tree_serializer serializer;
+        const auto serialized_tree = serializer.serialize(tree);
         const auto code_table = tree.create_code_table();
 
         // TODO: temporary hack: create a grit node tree-----------------------------------------------------------------------------------
