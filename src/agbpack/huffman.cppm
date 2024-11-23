@@ -1486,6 +1486,7 @@ public:
 
 // TODO: implement, test
 // TODO: the real issue here is, I'd like to be able to push and pop tree_node_ptr
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 class node_queue final
 {
 public:
