@@ -1362,17 +1362,17 @@ void Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
 }
 
 // TODO: this is inline only to temporarily suppress a clang warning
-inline std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool fourBit_)
-{
-    // fill in histogram
-    std::vector<size_t> histogram(fourBit_ ? 16 : 256);
-
 // Temporarily suppress this warning;
 // We plan to use our own histogram generation code, so we're not going to fix this anyway
 #if defined (__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
 #endif
+inline std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool fourBit_)
+{
+    // fill in histogram
+    std::vector<size_t> histogram(fourBit_ ? 16 : 256);
+
     if (fourBit_)
     {
         for (size_t i = 0; i < len; ++i)
