@@ -1543,11 +1543,6 @@ public:
 
     // TODO: accessor to root node
 private:
-    using node_queue = std::priority_queue<
-        tree_node_ptr,
-        std::vector<tree_node_ptr>,
-        tree_node_compare>;
-
     static tree_node_ptr build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
         auto nodes = create_leaf_nodes(symbol_size, ftable);
@@ -1589,22 +1584,12 @@ private:
         // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
         while (nodes.size() > 1)
         {
-            auto node0 = pop(nodes);
-            auto node1 = pop(nodes);
+            auto node0 = nodes.pop();
+            auto node1 = nodes.pop();
             nodes.push(std::make_unique<Node>(std::move(node0), std::move(node1))); // TODO: make and use helper function
         }
 
-        assert(nodes.size() == 1);
-        assert(nodes.top()->isParent());
-
-        auto root = pop(nodes);
-        return root;
-    }
-
-    static tree_node_ptr pop(const node_queue& /*nodes*/)
-    {
-        // TODO: real implementation
-        return nullptr;
+        return nodes.pop();
     }
 
     unsigned int m_symbol_size;
