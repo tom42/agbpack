@@ -1035,7 +1035,7 @@ private:
 #pragma GCC diagnostic ignored "-Wunused-function"
 #endif
 
-class Node
+class Node final
 {
 public:
     Node(uint8_t val, size_t count)
@@ -1467,20 +1467,62 @@ public:
     // TODO: ctor: constructs the tree => Basically we already have this, but:
     //       * On one hand we'll use the Node class from grit
     //       * On the other hand we'll use our own tree construction code, since it's nicer
-    explicit huffman_encoder_tree(unsigned int symbol_size, const frequency_table& /*ftable*/)
+    explicit huffman_encoder_tree(unsigned int symbol_size, const frequency_table& ftable)
         : m_symbol_size(symbol_size)
-        , m_root(build_tree())
+        , m_root(build_tree(symbol_size, ftable))
     {}
 
     // TODO: create_code_table
 
     // TODO: accessor to root node
 private:
-    static tree_node_ptr build_tree()
+    using node_queue = std::priority_queue<
+        tree_node_ptr,
+        std::vector<tree_node_ptr>,
+        tree_node_compare>;
+
+    static tree_node_ptr build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
-        // TODO: create leaf nodes
-        // TODO: combine nodes
-        return nullptr;
+        auto nodes = create_leaf_nodes(symbol_size, ftable);
+        auto root = combine_nodes(nodes);
+        return root;
+    }
+
+    static node_queue create_leaf_nodes(unsigned int symbol_size, const frequency_table& ftable)
+    {
+        node_queue nodes;
+
+        // Create a leaf node for each symbol whose frequency is > 0
+        auto nsymbols = get_nsymbols(symbol_size);
+        for (symbol sym = 0; sym < nsymbols; ++sym)
+        {
+            symbol_frequency f = ftable.frequency(sym);
+            if (f > 0)
+            {
+                nodes.push(std::make_unique<Node>(sym, f));
+            }
+        }
+
+        throw "TODO: real implementation using grit node";
+/*
+
+
+        // Both our tree serialization code and the GBA BIOS' huffman tree storage format
+        // need a tree with at least two leaf nodes, even if they're bogus nodes.
+        // So add bogus nodes if needed. What makes them bogus is that their frequency is 0.
+        // The symbol is irrelevant, so we use 0.
+        while (nodes.size() < 2) // TODO: this is not yet particularly well tested
+        {
+            nodes.push(tree_node::make_leaf(0, 0));
+        }
+
+        return nodes;
+*/
+    }
+
+    static tree_node_ptr combine_nodes(node_queue& /*nodes*/)
+    {
+        throw "TODO: real implementation using grit node";
     }
 
     unsigned int m_symbol_size;
