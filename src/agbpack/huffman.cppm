@@ -1637,7 +1637,18 @@ public:
         frequency_table ftable(symbol_size);
         const auto uncompressed_data = ftable.update(input, eof);
 
-        // TODO: temporary hack: create a grit node tree
+        // Create the tree for the encoder.
+        // Also create the serialized variant of the tree and the code table for the encoder.
+        // TODO: code below needs now to be replaced by grit code
+        //       => We can start by turning the existing classes into thin wrappers around grit code
+        //       => We can then subsequently start transforming grit code to our liking
+        huffman_encoder_tree_old2 tree_old(symbol_size, ftable); // TODO: remove this. We should only be using "tree"
+        huffman_encoder_tree tree(symbol_size, ftable);
+        huffman_tree_serializer_old2 serializer;
+        const auto serialized_tree = serializer.serialize(tree_old);
+        //const auto code_table = tree.create_code_table(); // TODO: temporarily moved out of the way
+
+        // TODO: temporary hack: create a grit node tree-----------------------------------------------------------------------------------
         // TODO: totally beyond me: the cast to size_t (and the other cast too, really)
         // TODO: name: tree2
         // TODO: tree size calculation correct? (Can we not calculate the final size right away?
@@ -1658,17 +1669,7 @@ public:
                 code_table2.set(node->val(), node->getCode(), static_cast<code_length>(node->getCodeLen())); // TODO: no cast
             }
         }
-
-        // Create the tree for the encoder.
-        // Also create the serialized variant of the tree and the code table for the encoder.
-        // TODO: code below needs now to be replaced by grit code
-        //       => We can start by turning the existing classes into thin wrappers around grit code
-        //       => We can then subsequently start transforming grit code to our liking
-        huffman_encoder_tree_old2 tree_old(symbol_size, ftable); // TODO: remove this
-        huffman_encoder_tree tree(symbol_size, ftable);
-        huffman_tree_serializer_old2 serializer;
-        const auto serialized_tree = serializer.serialize(tree_old);
-        const auto code_table = tree.create_code_table();
+        //---------------------------------------------------------------------------------------------------------------------------------
 
         // TODO: bad: static cast
         // TODO: check uncompressed size and throw appropriate exception if too big
