@@ -1587,6 +1587,8 @@ private:
         {
             nodes.push(Node::make_leaf(0, 0));
         }
+
+        return nodes;
     }
 
     static tree_node_ptr combine_nodes(node_queue& nodes)
