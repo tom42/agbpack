@@ -1489,10 +1489,18 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_serializer final
 {
 public:
-    std::vector<agbpack_u8> serialize(const huffman_encoder_tree&)
+    std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
-        // TODO: integrate grit code here
-        return {};
+        // TODO: totally beyond me: the cast to size_t (and the other cast too, really)
+        // TODO: name: tree2
+        // TODO: tree size calculation correct? (Can we not calculate the final size right away?
+        // TODO: replace other code block below entirely with this
+        std::vector<uint8_t> tree2(tree.root()->numNodes() + 1);
+        Node::encodeTree(tree2, tree.root().get());
+        // TODO: no cast?
+        while (tree2.size() % 4 != 0) { tree2.push_back(0); }                 // Make tree size a multiple of 4 bytes
+        tree2[0] = static_cast<uint8_t>(tree2.size() / 2 - 1);                // Write correct tree size byte
+        return tree2;
     }
 
 private:
@@ -1520,18 +1528,6 @@ public:
         const auto serialized_tree = serializer.serialize(tree);
         const auto code_table = tree.create_code_table();
 
-        // TODO: temporary hack: create a grit node tree-----------------------------------------------------------------------------------
-        // TODO: totally beyond me: the cast to size_t (and the other cast too, really)
-        // TODO: name: tree2
-        // TODO: tree size calculation correct? (Can we not calculate the final size right away?
-        // TODO: replace other code block below entirely with this
-        std::vector<uint8_t> tree2(tree.root()->numNodes() + 1);
-        Node::encodeTree(tree2, tree.root().get());
-        // TODO: no cast?
-        while (tree2.size() % 4 != 0) { tree2.push_back(0); }                 // Make tree size a multiple of 4 bytes
-        tree2[0] = static_cast<uint8_t>(tree2.size() / 2 - 1);                // Write correct tree size byte
-        //---------------------------------------------------------------------------------------------------------------------------------
-
         // TODO: bad: static cast
         // TODO: check uncompressed size and throw appropriate exception if too big
         auto header = header::create(m_options, static_cast<std::uint32_t>(uncompressed_data.size()));
@@ -1539,7 +1535,7 @@ public:
         // Copy header and tree to output, then encode data directly to output.
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
-        write(writer, tree2.begin(), tree2.end());
+        write(writer, serialized_tree.begin(), serialized_tree.end());
         encode_internal(code_table, uncompressed_data, writer);
     }
 
