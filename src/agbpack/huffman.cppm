@@ -1526,7 +1526,7 @@ private:
             {
                 // TODO: get rid of cast here
                 // TODO: add helper function to create leaf node
-                nodes.emplace(std::make_unique<Node>(static_cast<uint8_t>(sym), f));
+                nodes.push(std::make_unique<Node>(static_cast<uint8_t>(sym), f));
             }
         }
 
@@ -1537,7 +1537,7 @@ private:
         while (nodes.size() < 2) // TODO: this is not yet particularly well tested
         {
             // TODO: use helper function
-            nodes.emplace(std::make_unique<Node>(static_cast<uint8_t>(0), 0));
+            nodes.push(std::make_unique<Node>(static_cast<uint8_t>(0), 0));
         }
     }
 
@@ -1549,7 +1549,7 @@ private:
         {
             auto node0 = pop(nodes);
             auto node1 = pop(nodes);
-            nodes.emplace(std::make_unique<Node>(std::move(node0), std::move(node1))); // TODO: make and use helper function
+            nodes.push(std::make_unique<Node>(std::move(node0), std::move(node1))); // TODO: make and use helper function
         }
 
         assert(nodes.size() == 1);
