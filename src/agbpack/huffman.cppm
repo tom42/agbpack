@@ -1492,10 +1492,8 @@ public:
     }
 };
 
-// TODO: implement, test
-// TODO: the real issue here is, I'd like to be able to push and pop tree_node_ptr
-// TODO: review very thoroughly
-// TODO: state why we need this
+// Replacement for std::priority_queue that works well with std::unique_ptr.
+// As a bonus it also supports reserve().
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class node_queue final
 {
