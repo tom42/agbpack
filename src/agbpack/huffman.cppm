@@ -1664,10 +1664,11 @@ public:
         // TODO: code below needs now to be replaced by grit code
         //       => We can start by turning the existing classes into thin wrappers around grit code
         //       => We can then subsequently start transforming grit code to our liking
-        huffman_encoder_tree_old2 tree(symbol_size, ftable);
+        huffman_encoder_tree_old2 tree_old(symbol_size, ftable); // TODO: remove this
+        huffman_encoder_tree tree(symbol_size, ftable);
         huffman_tree_serializer_old2 serializer;
-        const auto serialized_tree = serializer.serialize(tree);
-        const auto code_table = tree.create_code_table();
+        const auto serialized_tree = serializer.serialize(tree_old);
+        const auto code_table = tree_old.create_code_table();
 
         // TODO: bad: static cast
         // TODO: check uncompressed size and throw appropriate exception if too big
