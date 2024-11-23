@@ -1503,6 +1503,11 @@ public:
         m_queue.reserve(capacity);
     }
 
+    std::size_t size() const
+    {
+        return m_queue.size();
+    }
+
     void push(tree_node_ptr node)
     {
         m_queue.push_back(std::move(node));
