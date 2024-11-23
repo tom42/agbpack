@@ -1050,7 +1050,7 @@ public:
     {}
 
     Node(std::unique_ptr<Node> left, std::unique_ptr<Node> right)
-        : child{ std::move(left), std::move(right) }, m_count(child[0]->m_count + child[1]->m_count)
+        : m_children{ std::move(left), std::move(right) }, m_count(m_children[0]->m_count + m_children[1]->m_count)
     {}
 
     Node() = delete;
@@ -1075,7 +1075,7 @@ public:
 
     bool isParent() const
     {
-        return static_cast<bool> (child[0]);
+        return static_cast<bool> (m_children[0]);
     }
 
     static void buildCodes(std::unique_ptr<Node>& node, uint32_t code, size_t codeLen);
@@ -1094,7 +1094,7 @@ public:
         if (isParent())
         {
             // Sum of children plus self
-            return child[0]->numNodes() + child[1]->numNodes() + 1;
+            return m_children[0]->numNodes() + m_children[1]->numNodes() + 1;
         }
 
         // This is a data node, just count self
@@ -1108,7 +1108,7 @@ public:
         {
             if (isParent())
             {
-                leaves = child[0]->numLeaves() + child[1]->numLeaves();
+                leaves = m_children[0]->numLeaves() + m_children[1]->numLeaves();
             }
             else
             {
@@ -1157,7 +1157,7 @@ public:
     }
 
 private:
-    std::array<std::unique_ptr<Node>, 2> child{};
+    std::array<std::unique_ptr<Node>, 2> m_children{};
     size_t m_count = 0;
     uint32_t code = 0;
     std::size_t leaves = 0;
@@ -1176,13 +1176,13 @@ void Node::buildCodes(std::unique_ptr<Node>& node, uint32_t code, size_t codeLen
 
     if (node->isParent())
     {
-        assert(node->child[0] && node->child[1]);
-        buildCodes(node->child[0], (code << 1) | 0, codeLen + 1);
-        buildCodes(node->child[1], (code << 1) | 1, codeLen + 1);
+        assert(node->m_children[0] && node->m_children[1]);
+        buildCodes(node->m_children[0], (code << 1) | 0, codeLen + 1);
+        buildCodes(node->m_children[1], (code << 1) | 1, codeLen + 1);
     }
     else
     {
-        assert(!node->child[0] && !node->child[1]);
+        assert(!node->m_children[0] && !node->m_children[1]);
         node->code = code;
         node->codeLen = codeLen;
     }
@@ -1196,8 +1196,8 @@ void Node::buildLookup(std::vector<Node*>& nodes, const std::unique_ptr<Node>& n
         return;
     }
 
-    buildLookup(nodes, node->child[0]);
-    buildLookup(nodes, node->child[1]);
+    buildLookup(nodes, node->m_children[0]);
+    buildLookup(nodes, node->m_children[1]);
 }
 
 void Node::serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next)
@@ -1207,28 +1207,28 @@ void Node::serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next)
     if (node->numLeaves() > 0x40)
     {
         // This subtree will overflow the offset field if inserted naively
-        tree[next + 0] = node->child[0].get();
-        tree[next + 1] = node->child[1].get();
+        tree[next + 0] = node->m_children[0].get();
+        tree[next + 1] = node->m_children[1].get();
 
         unsigned a = 0;
         unsigned b = 1;
 
-        if (node->child[1]->numLeaves() < node->child[0]->numLeaves())
+        if (node->m_children[1]->numLeaves() < node->m_children[0]->numLeaves())
         {
             std::swap(a, b);
         }
 
-        if (node->child[a]->isParent())
+        if (node->m_children[a]->isParent())
         {
-            node->child[a]->m_val = 0;
-            serializeTree(tree, node->child[a].get(), next + 2);
+            node->m_children[a]->m_val = 0;
+            serializeTree(tree, node->m_children[a].get(), next + 2);
         }
 
-        if (node->child[b]->isParent())
+        if (node->m_children[b]->isParent())
         {
             // TODO: no cast?
-            node->child[b]->m_val = static_cast<uint8_t>(node->child[a]->numLeaves() - 1);
-            serializeTree(tree, node->child[b].get(), next + 2 * node->child[a]->numLeaves());
+            node->m_children[b]->m_val = static_cast<uint8_t>(node->m_children[a]->numLeaves() - 1);
+            serializeTree(tree, node->m_children[b].get(), next + 2 * node->m_children[a]->numLeaves());
         }
 
         return;
@@ -1236,8 +1236,8 @@ void Node::serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next)
 
     std::deque<Node*> queue;
 
-    queue.emplace_back(node->child[0].get());
-    queue.emplace_back(node->child[1].get());
+    queue.emplace_back(node->m_children[0].get());
+    queue.emplace_back(node->m_children[1].get());
 
     while (!queue.empty())
     {
@@ -1254,8 +1254,8 @@ void Node::serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next)
         // TODO: no cast
         node->m_val = static_cast<uint8_t>(queue.size() / 2);
 
-        queue.emplace_back(node->child[0].get());
-        queue.emplace_back(node->child[1].get());
+        queue.emplace_back(node->m_children[0].get());
+        queue.emplace_back(node->m_children[1].get());
     }
 }
 
@@ -1361,7 +1361,7 @@ void Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
 
         assert(!(node->m_val & 0x80));
         assert(!(node->m_val & 0x40));
-        assert(node->child[0]->pos == (node->pos & ~1u) + 2 * node->m_val + 2);
+        assert(node->m_children[0]->pos == (node->pos & ~1u) + 2 * node->m_val + 2);
     }
 #endif
 
@@ -1376,11 +1376,11 @@ void Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
             continue;
         }
 
-        if (!node->child[0]->isParent())
+        if (!node->m_children[0]->isParent())
         {
             tree[i] |= 0x80;
         }
-        if (!node->child[1]->isParent())
+        if (!node->m_children[1]->isParent())
         {
             tree[i] |= 0x40;
         }
