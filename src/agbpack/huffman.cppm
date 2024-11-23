@@ -1077,8 +1077,6 @@ public:
         return static_cast<bool> (m_children[0]);
     }
 
-    static void buildCodes(std::unique_ptr<Node>& node, uint32_t code, size_t codeLen);
-
     static void serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next);
 
     static void fixupTree(std::vector<Node*>& tree);
@@ -1169,26 +1167,6 @@ private:
     std::size_t pos = 0;
 #endif
 };
-
-void Node::buildCodes(std::unique_ptr<Node>& node, uint32_t code, size_t codeLen)
-{
-    // TODO: this should be a runtime check, no?
-    // don't exceed 32-bit codes
-    assert(codeLen < 32);
-
-    if (node->isParent())
-    {
-        assert(node->m_children[0] && node->m_children[1]);
-        buildCodes(node->m_children[0], (code << 1) | 0, codeLen + 1);
-        buildCodes(node->m_children[1], (code << 1) | 1, codeLen + 1);
-    }
-    else
-    {
-        assert(!node->m_children[0] && !node->m_children[1]);
-        node->code = code;
-        node->codeLen = codeLen;
-    }
-}
 
 void Node::serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next)
 {
@@ -1463,7 +1441,7 @@ inline std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool
     }
 
     // build Huffman codes
-    Node::buildCodes(root, 0, 0);
+    //Node::buildCodes(root, 0, 0);
 
     // return root node
     return root;
@@ -1534,6 +1512,7 @@ public:
     {}
 
     // TODO: what is the maximum code length for a symbol that we can handle, and can we detect overflows?
+    //       * Well let's go with 32 bits, and implement and test it (as runtime check, NOT an assertion!)
     code_table create_code_table() const
     {
         code_table table(m_symbol_size);
