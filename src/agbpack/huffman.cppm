@@ -1038,6 +1038,7 @@ private:
 
 // TODO: Node => node
 // TODO: rework this entire thing
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 class Node final
 {
 public:
@@ -1486,16 +1487,33 @@ public:
 
 // TODO: implement, test
 // TODO: the real issue here is, I'd like to be able to push and pop tree_node_ptr
+// TODO: review very thoroughly
+// TODO: state why we need this
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class node_queue final
 {
 public:
-    // TODO: reserve function
+    void reserve(std::size_t capacity)
+    {
+        m_queue.reserve(capacity);
+    }
 
-    // TODO: push function
+    void push(tree_node_ptr node)
+    {
+        m_queue.push_back(std::move(node));
+        std::push_heap(m_queue.begin(), m_queue.end(), tree_node_compare());
+    }
 
-    // TODO: pop function
+    tree_node_ptr pop()
+    {
+        std::pop_heap(m_queue.begin(), m_queue.end(), tree_node_compare());
+        auto node = std::move(m_queue.back());
+        m_queue.pop_back();
+        return node;
+    }
+
 private:
+    std::vector<tree_node_ptr> m_queue;
 };
 
 // TODO: implement, test
