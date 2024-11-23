@@ -1149,6 +1149,11 @@ public:
         return std::make_unique<Node>(static_cast<uint8_t>(sym), frequency);
     }
 
+    static tree_node_ptr make_internal(tree_node_ptr child0, tree_node_ptr child1)
+    {
+        return std::make_unique<Node>(std::move(child0), std::move(child1));
+    }
+
 private:
     std::array<std::unique_ptr<Node>, 2> child{};
     size_t m_count = 0;
@@ -1583,7 +1588,7 @@ private:
         {
             auto node0 = nodes.pop();
             auto node1 = nodes.pop();
-            nodes.push(std::make_unique<Node>(std::move(node0), std::move(node1))); // TODO: make and use helper function
+            nodes.push(Node::make_internal(std::move(node0), std::move(node1)));
         }
 
         return nodes.pop();
