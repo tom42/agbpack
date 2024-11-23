@@ -1144,9 +1144,10 @@ public:
     }
 
     // TODO: temporary hack of mine to be able to create the tree
-    static tree_node_ptr make_leaf(uint8_t val, size_t count)
+    static tree_node_ptr make_leaf(symbol val, size_t count)
     {
-        return std::make_unique<Node>(val, count);
+        // TODO: no cast here
+        return std::make_unique<Node>(static_cast<uint8_t>(val), count);
     }
 
 private:
@@ -1561,9 +1562,7 @@ private:
             symbol_frequency f = ftable.frequency(sym);
             if (f > 0)
             {
-                // TODO: get rid of cast here
-                // TODO: add helper function to create leaf node
-                nodes.push(std::make_unique<Node>(static_cast<uint8_t>(sym), f));
+                nodes.push(Node::make_leaf(sym, f));
             }
         }
 
@@ -1571,10 +1570,9 @@ private:
         // need a tree with at least two leaf nodes, even if they're bogus nodes.
         // So add bogus nodes if needed. What makes them bogus is that their frequency is 0.
         // The symbol is irrelevant, so we use 0.
-        while (nodes.size() < 2) // TODO: this is not yet particularly well tested
+        while (nodes.size() < 2)
         {
-            // TODO: use helper function
-            nodes.push(std::make_unique<Node>(static_cast<uint8_t>(0), 0));
+            nodes.push(Node::make_leaf(0, 0));
         }
     }
 
