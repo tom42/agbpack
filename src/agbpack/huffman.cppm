@@ -1145,6 +1145,11 @@ public:
         return m_count;
     }
 
+    const tree_node_ptr& child(std::size_t index) const
+    {
+        return m_children[index];
+    }
+
     static tree_node_ptr make_leaf(symbol sym, symbol_frequency frequency)
     {
         // TODO: no cast here
