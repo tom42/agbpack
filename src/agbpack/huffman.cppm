@@ -120,7 +120,6 @@ public:
     }
 
 private:
-
     unsigned int m_symbol_size;
     std::vector<code_table_entry> m_table;
 };
