@@ -1397,6 +1397,7 @@ private:
 
 // TODO: implement, test
 // TODO: review very thoroughly
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_encoder_tree final
 {
 public:
