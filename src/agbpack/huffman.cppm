@@ -804,7 +804,6 @@ private:
             //       * However, currently tree contains shared_ptrs, so using std::memmove is definitely NOT safe
             // TODO: dangerous use of sizeof (if we change the element type, tree_node_ptr is going to be wrong)
             auto tmp = std::make_pair(tree[shiftEnd], tree[shiftEnd + 1]);
-            std::memmove(&tree[shiftBegin + 2], &tree[shiftBegin], sizeof(tree_node_ptr_old2) * (shiftEnd - shiftBegin));
             std::tie(tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
 
             // Adjust offsets
