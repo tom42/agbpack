@@ -67,7 +67,7 @@ bool in_open_range(std::unsigned_integral auto x, std::unsigned_integral auto mi
 }
 
 template <typename TContainer>
-void assert_symbol(symbol s, [[maybe_unused]] const TContainer& container)
+void assert_symbol([[maybe_unused]] symbol s, [[maybe_unused]] const TContainer& container)
 {
     // TODO: verify range is correct: is it 'size' or 'size-1'? Pretty much sure the latter, but we'll test once we have tests where we use all symbols
     assert(in_open_range(s, 0u, container.size()) && "symbol value is out of range");
