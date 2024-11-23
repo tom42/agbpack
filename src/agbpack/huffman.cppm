@@ -1485,6 +1485,19 @@ public:
 };
 
 // TODO: implement, test
+// TODO: the real issue here is, I'd like to be able to push and pop tree_node_ptr
+class node_queue final
+{
+public:
+    // TODO: reserve function
+
+    // TODO: push function
+
+    // TODO: pop function
+private:
+};
+
+// TODO: implement, test
 // TODO: review very thoroughly
 class huffman_encoder_tree final
 {
