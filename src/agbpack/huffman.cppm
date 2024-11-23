@@ -1329,7 +1329,7 @@ public:
     }
 };
 
-// Replacement for std::priority_queue that works well with std::unique_ptr.
+// Replacement for std::priority_queue that works with std::unique_ptr.
 // As a bonus it also supports reserve().
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class node_queue final
