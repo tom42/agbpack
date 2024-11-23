@@ -1036,6 +1036,9 @@ private:
 #pragma GCC diagnostic ignored "-Wunused-function"
 #endif
 
+class Node;
+using tree_node_ptr = std::unique_ptr<Node>;
+
 // TODO: Node => node
 // TODO: rework this entire thing
 AGBPACK_EXPORT_FOR_UNIT_TESTING
@@ -1138,6 +1141,12 @@ public:
     std::size_t frequency() const
     {
         return m_count;
+    }
+
+    // TODO: temporary hack of mine to be able to create the tree
+    static tree_node_ptr make_leaf(uint8_t val, size_t count)
+    {
+        return std::make_unique<Node>(val, count);
     }
 
 private:
@@ -1467,8 +1476,6 @@ inline std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // TODO: this stuff needs heavy reworking
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-using tree_node_ptr = std::unique_ptr<Node>;
 
 class tree_node_compare final
 {
