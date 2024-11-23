@@ -1524,7 +1524,9 @@ private:
             symbol_frequency f = ftable.frequency(sym);
             if (f > 0)
             {
-                nodes.push(std::make_unique<Node>(sym, f));
+                // TODO: get rid of cast here
+                // TODO: add helper function to create leaf node
+                nodes.push(std::make_unique<Node>(static_cast<uint8_t>(sym), f));
             }
         }
 
