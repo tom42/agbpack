@@ -996,13 +996,6 @@ private:
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// TODO: remove these suppressions
-#if defined (__clang__)
-#pragma GCC diagnostic ignored "-Wunneeded-member-function"
-#pragma GCC diagnostic ignored "-Wunused-member-function"
-#pragma GCC diagnostic ignored "-Wunused-function"
-#endif
-
 AGBPACK_EXPORT_FOR_UNIT_TESTING class Node;
 using tree_node_ptr = std::unique_ptr<Node>;
 
