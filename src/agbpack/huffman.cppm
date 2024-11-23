@@ -1460,6 +1460,13 @@ class huffman_tree_serializer final
 public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
+        // TODO: reorganize this into the following steps:
+        //       * Create empty serialized tree
+        //       * Serialize tree
+        //       * Fix up tree
+        //       * Check tree
+        //       * Encode tree => return value
+
         // TODO: totally beyond me: the cast to size_t (and the other cast too, really)
         // TODO: name: tree2
         // TODO: tree size calculation correct? (Can we not calculate the final size right away?
