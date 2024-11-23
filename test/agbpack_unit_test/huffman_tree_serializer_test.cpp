@@ -14,8 +14,8 @@ using agbpack::byte_reader;
 using agbpack::code_table;
 using agbpack::frequency_table;
 using agbpack::huffman_decoder_tree;
-using agbpack::huffman_encoder_tree_old2;
-using agbpack::huffman_tree_serializer_old2;
+using agbpack::huffman_encoder_tree;
+using agbpack::huffman_tree_serializer;
 using std::size_t;
 using std::vector;
 
@@ -27,9 +27,9 @@ namespace
 // It is therefore enough if we test with 8 bit wide symbols. 4 bit wide symbols are not interesting.
 constexpr unsigned int symbol_size = 8;
 
-auto serialize_tree(const huffman_encoder_tree_old2& tree)
+auto serialize_tree(const huffman_encoder_tree& tree)
 {
-    huffman_tree_serializer_old2 serializer;
+    huffman_tree_serializer serializer;
     return serializer.serialize(tree);
 }
 
@@ -41,13 +41,13 @@ auto deserialize_tree(const vector<unsigned char>& serialized_tree)
 
 auto create_and_serialize_tree(const frequency_table& frequencies)
 {
-    huffman_encoder_tree_old2 tree(symbol_size, frequencies);
+    huffman_encoder_tree tree(symbol_size, frequencies);
     return serialize_tree(tree);
 }
 
-size_t expected_serialized_tree_size(const huffman_encoder_tree_old2& encoder_tree)
+size_t expected_serialized_tree_size(const huffman_encoder_tree& encoder_tree)
 {
-    size_t size = encoder_tree.root()->num_leaves() * 2 - 1;
+    size_t size = encoder_tree.root()->numLeaves() * 2 - 1;
 
     while (size % 4 != 0)
     {
@@ -59,7 +59,7 @@ size_t expected_serialized_tree_size(const huffman_encoder_tree_old2& encoder_tr
 
 void verify_tree_serialization(const frequency_table& frequencies)
 {
-    const huffman_encoder_tree_old2 encoder_tree(symbol_size, frequencies);
+    const huffman_encoder_tree encoder_tree(symbol_size, frequencies);
     const code_table original_code_table = encoder_tree.create_code_table();
 
     const auto serialized_tree = serialize_tree(encoder_tree);
