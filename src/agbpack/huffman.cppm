@@ -1555,7 +1555,11 @@ public:
         return table;
     }
 
-    // TODO: accessor to root node
+    const tree_node_ptr& root() const
+    {
+        return m_root;
+    }
+
 private:
     static tree_node_ptr build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
