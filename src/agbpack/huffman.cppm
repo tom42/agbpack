@@ -1079,8 +1079,6 @@ public:
 
     static void buildCodes(std::unique_ptr<Node>& node, uint32_t code, size_t codeLen);
 
-    static void buildLookup(std::vector<Node*>& nodes, const std::unique_ptr<Node>& node);
-
     static void serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next);
 
     static void fixupTree(std::vector<Node*>& tree);
@@ -1190,18 +1188,6 @@ void Node::buildCodes(std::unique_ptr<Node>& node, uint32_t code, size_t codeLen
         node->code = code;
         node->codeLen = codeLen;
     }
-}
-
-void Node::buildLookup(std::vector<Node*>& nodes, const std::unique_ptr<Node>& node)
-{
-    if (!node->isParent())
-    {
-        nodes[node->m_val] = node.get();
-        return;
-    }
-
-    buildLookup(nodes, node->m_children[0]);
-    buildLookup(nodes, node->m_children[1]);
 }
 
 void Node::serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next)
@@ -1662,8 +1648,6 @@ public:
         // TODO: no cast?
         while (tree2.size() % 4 != 0) { tree2.push_back(0); }                 // Make tree size a multiple of 4 bytes
         tree2[0] = static_cast<uint8_t>(tree2.size() / 2 - 1);                // Write correct tree size byte
-        std::vector<Node*> lookup(256);
-        Node::buildLookup(lookup, tree.root());
         //---------------------------------------------------------------------------------------------------------------------------------
 
         // TODO: bad: static cast
