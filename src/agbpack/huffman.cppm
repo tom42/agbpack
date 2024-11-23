@@ -660,7 +660,8 @@ private:
     symbol_frequency m_frequency = 0;
 };
 
-class tree_node_compare final
+// TODO: delete
+class tree_node_compare_old2 final
 {
 public:
     // TODO: in principle we want a and b be constant. How to achieve? Also fix this in other bits of the code
@@ -703,7 +704,7 @@ private:
     using node_queue = std::priority_queue<
         tree_node_ptr_old2,
         std::vector<tree_node_ptr_old2>,
-        tree_node_compare>;
+        tree_node_compare_old2>;
 
     static tree_node_ptr_old2 build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
@@ -1035,6 +1036,8 @@ private:
 #pragma GCC diagnostic ignored "-Wunused-function"
 #endif
 
+// TODO: Node => node
+// TODO: rework this entire thing
 class Node final
 {
 public:
@@ -1128,6 +1131,12 @@ public:
     uint8_t val() const
     {
         return m_val;
+    }
+
+    // TODO: temporary hack of mine to be able to create the tree
+    std::size_t frequency() const
+    {
+        return m_count;
     }
 
 private:
@@ -1460,7 +1469,23 @@ inline std::unique_ptr<Node> buildTree(const uint8_t* src, std::size_t len, bool
 
 using tree_node_ptr = std::unique_ptr<Node>;
 
+class tree_node_compare final
+{
+public:
+    // TODO: in principle we want a and b be constant. How to achieve? Also fix this in other bits of the code
+    bool operator()(const tree_node_ptr& a, const tree_node_ptr& b)
+    {
+        if (a->frequency() != b->frequency())
+        {
+            return a->frequency() > b->frequency();
+        }
+
+        return a->val() > b->val();
+    }
+};
+
 // TODO: implement, test
+// TODO: review very thoroughly
 class huffman_encoder_tree final
 {
 public:
