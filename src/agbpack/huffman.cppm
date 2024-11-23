@@ -686,7 +686,6 @@ public:
         , m_root(build_tree(symbol_size, ftable))
     {}
 
-    // TODO: what is the maximum code length for a symbol that we can handle, and can we detect overflows?
     code_table create_code_table() const
     {
         code_table table(m_symbol_size);
@@ -1548,7 +1547,13 @@ public:
         , m_root(build_tree(symbol_size, ftable))
     {}
 
-    // TODO: create_code_table
+    // TODO: what is the maximum code length for a symbol that we can handle, and can we detect overflows?
+    code_table create_code_table() const
+    {
+        code_table table(m_symbol_size);
+        create_code_table_internal(table, m_root.get(), 0, 0);
+        return table;
+    }
 
     // TODO: accessor to root node
 private:
@@ -1596,6 +1601,19 @@ private:
         }
 
         return nodes.pop();
+    }
+
+    static void create_code_table_internal(code_table& table, Node* node, code c, code_length l)
+    {
+        if (node->isParent())
+        {
+            create_code_table_internal(table, node->child(0).get(), c << 1, l + 1);
+            create_code_table_internal(table, node->child(1).get(), (c << 1) | 1, l + 1);
+        }
+        else
+        {
+            table.set(node->val(), c, l);
+        }
     }
 
     unsigned int m_symbol_size;
