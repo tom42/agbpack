@@ -1650,29 +1650,20 @@ public:
         huffman_encoder_tree tree(symbol_size, ftable);
         huffman_tree_serializer_old2 serializer;
         const auto serialized_tree = serializer.serialize(tree_old);
-        //const auto code_table = tree.create_code_table(); // TODO: temporarily moved out of the way
+        const auto code_table = tree.create_code_table();
 
         // TODO: temporary hack: create a grit node tree-----------------------------------------------------------------------------------
         // TODO: totally beyond me: the cast to size_t (and the other cast too, really)
         // TODO: name: tree2
         // TODO: tree size calculation correct? (Can we not calculate the final size right away?
         // TODO: replace other code block below entirely with this
-        auto root = buildTree(static_cast<const uint8_t*>(uncompressed_data.data()), static_cast<std::size_t>(uncompressed_data.size()), m_options == huffman_options::h4);
-        std::vector<uint8_t> tree2(root->numNodes() + 1);
-        Node::encodeTree(tree2, root.get());
+        std::vector<uint8_t> tree2(tree.root()->numNodes() + 1);
+        Node::encodeTree(tree2, tree.root().get());
         // TODO: no cast?
         while (tree2.size() % 4 != 0) { tree2.push_back(0); }                 // Make tree size a multiple of 4 bytes
         tree2[0] = static_cast<uint8_t>(tree2.size() / 2 - 1);                // Write correct tree size byte
         std::vector<Node*> lookup(256);
-        Node::buildLookup(lookup, root);
-        code_table code_table2(symbol_size);
-        for (auto node : lookup)
-        {
-            if (node)
-            {
-                code_table2.set(node->val(), node->getCode(), static_cast<code_length>(node->getCodeLen())); // TODO: no cast
-            }
-        }
+        Node::buildLookup(lookup, tree.root());
         //---------------------------------------------------------------------------------------------------------------------------------
 
         // TODO: bad: static cast
@@ -1683,7 +1674,7 @@ public:
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
         write(writer, tree2.begin(), tree2.end());
-        encode_internal(code_table2, uncompressed_data, writer);
+        encode_internal(code_table, uncompressed_data, writer);
     }
 
     void options(huffman_options options)
