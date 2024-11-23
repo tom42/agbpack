@@ -1143,11 +1143,10 @@ public:
         return m_count;
     }
 
-    // TODO: temporary hack of mine to be able to create the tree
-    static tree_node_ptr make_leaf(symbol val, size_t count)
+    static tree_node_ptr make_leaf(symbol sym, symbol_frequency frequency)
     {
         // TODO: no cast here
-        return std::make_unique<Node>(static_cast<uint8_t>(val), count);
+        return std::make_unique<Node>(static_cast<uint8_t>(sym), frequency);
     }
 
 private:
