@@ -547,6 +547,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node;
 using tree_node_ptr_old2 = std::shared_ptr<tree_node>;
 
+// TODO: old stuff, remove
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node final
 {
