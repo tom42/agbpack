@@ -1530,21 +1530,15 @@ private:
             }
         }
 
-        throw "TODO: real implementation using grit node";
-/*
-
-
         // Both our tree serialization code and the GBA BIOS' huffman tree storage format
         // need a tree with at least two leaf nodes, even if they're bogus nodes.
         // So add bogus nodes if needed. What makes them bogus is that their frequency is 0.
         // The symbol is irrelevant, so we use 0.
         while (nodes.size() < 2) // TODO: this is not yet particularly well tested
         {
-            nodes.push(tree_node::make_leaf(0, 0));
+            // TODO: use helper function
+            nodes.push(std::make_unique<Node>(static_cast<uint8_t>(0), 0));
         }
-
-        return nodes;
-*/
     }
 
     static tree_node_ptr combine_nodes(node_queue& /*nodes*/)
