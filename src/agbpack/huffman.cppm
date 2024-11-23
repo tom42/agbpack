@@ -1526,7 +1526,7 @@ private:
             {
                 // TODO: get rid of cast here
                 // TODO: add helper function to create leaf node
-                nodes.push(std::make_unique<Node>(static_cast<uint8_t>(sym), f));
+                nodes.emplace(std::make_unique<Node>(static_cast<uint8_t>(sym), f));
             }
         }
 
@@ -1537,7 +1537,7 @@ private:
         while (nodes.size() < 2) // TODO: this is not yet particularly well tested
         {
             // TODO: use helper function
-            nodes.push(std::make_unique<Node>(static_cast<uint8_t>(0), 0));
+            nodes.emplace(std::make_unique<Node>(static_cast<uint8_t>(0), 0));
         }
     }
 
@@ -1549,13 +1549,20 @@ private:
         {
             auto node0 = pop(nodes);
             auto node1 = pop(nodes);
-            nodes.push(tree_node::make_internal(node0, node1));
+            nodes.emplace(std::make_unique<Node>(std::move(node0), std::move(node1))); // TODO: make and use helper function
         }
 
         assert(nodes.size() == 1);
         assert(nodes.top()->isParent());
 
-        return nodes.top();
+        auto root = pop(nodes);
+        return root;
+    }
+
+    static tree_node_ptr pop(const node_queue& /*nodes*/)
+    {
+        // TODO: real implementation
+        return nullptr;
     }
 
     unsigned int m_symbol_size;
