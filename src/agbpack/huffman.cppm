@@ -1114,18 +1114,6 @@ public:
         return leaves;
     }
 
-    uint32_t getCode() const
-    {
-        assert(!isParent());
-        return code;
-    }
-
-    std::size_t getCodeLen() const
-    {
-        assert(!isParent());
-        return codeLen;
-    }
-
     // TODO: temporary hack of mine to be able to construct a code_table from an array of nodes.
     uint8_t val() const
     {
@@ -1159,10 +1147,8 @@ public:
 private:
     std::array<std::unique_ptr<Node>, 2> m_children{};
     size_t m_count = 0;
-    uint32_t code = 0;
     std::size_t leaves = 0;
     uint8_t m_val = 0;
-    std::size_t codeLen = 0;
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
     std::size_t pos = 0;
 #endif
