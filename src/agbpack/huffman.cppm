@@ -6,12 +6,9 @@ module;
 #include <algorithm>
 #include <array>
 #include <cassert>
-#include <cctype>
 #include <concepts>
 #include <cstdint>
 #include <cstring> // TODO: for memmove. Should not be using this at all, no?
-#include <format>
-#include <iostream>
 #include <iterator>
 #include <memory>
 #include <queue>
@@ -122,37 +119,7 @@ public:
         return m_table[s];
     }
 
-    void dump() const
-    {
-        auto sorted_table = m_table;
-        std::sort(sorted_table.begin(), sorted_table.end(), compare_code_table_entry());
-
-        for (const auto& entry : sorted_table)
-        {
-            if (entry.l() > 0)
-            {
-                // TODO: replace static_cast<int> with something else: use make_signed or something from agbpack-lzss.cppm
-                char symbol_as_char = std::isprint(static_cast<int>(entry.s())) ? static_cast<char>(entry.s()) : '?';
-                std::cout << std::format("{:3} {}: {:0{}b}\n", entry.s(), symbol_as_char, entry.c(), entry.l());
-            }
-        }
-    }
-
 private:
-    struct compare_code_table_entry final
-    {
-        bool operator()(const code_table_entry& a, const code_table_entry& b)
-        {
-            // Sort by code length
-            if (a.l() != b.l())
-            {
-                return a.l() < b .l();
-            }
-
-            // Then by code
-            return a.c() < b.c();
-        }
-    };
 
     unsigned int m_symbol_size;
     std::vector<code_table_entry> m_table;
