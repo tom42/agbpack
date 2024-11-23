@@ -1137,7 +1137,9 @@ public:
         return m_val;
     }
 
-    // TODO: temporary hack of mine to be able to create the tree
+    // TODO: temporary hack of mine to be able to create the tree. Things to fix:
+    //       * Return type should by symbol_frequency, not size_t (this needs lots of fixage)
+    //       * m_count should be called m_frequency
     std::size_t frequency() const
     {
         return m_count;
