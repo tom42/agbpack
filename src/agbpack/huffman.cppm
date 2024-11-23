@@ -1002,7 +1002,7 @@ private:
 #pragma GCC diagnostic ignored "-Wunused-function"
 #endif
 
-class Node;
+AGBPACK_EXPORT_FOR_UNIT_TESTING class Node;
 using tree_node_ptr = std::unique_ptr<Node>;
 
 // TODO: Node => node
