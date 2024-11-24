@@ -169,7 +169,7 @@ TEST_CASE("huffman_tree_serializer_test")
         //       => Well tree serialization using verify_tree_serialization, no?
         //       => Would we want to verify the codes here?
         //       => Well maybe, although that would really be the job of a huffman_encoder_tree_test, no?
-        auto n = lucas_sequence(33); // TODO: we really want to unhardcode this / define this through the code type, no? => Yes nut that must be done inside the library, not here
+        auto n = lucas_sequence(agbpack::max_code_length + 1);
 
         for (unsigned int i = 0; i < n.size(); ++i)
         {

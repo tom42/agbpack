@@ -37,6 +37,7 @@ inline constexpr auto min_serialized_tree_size = 4u;
 inline constexpr auto max_serialized_tree_size = 512u;
 inline constexpr auto mask0 = 0x80;
 inline constexpr auto mask1 = 0x40;
+AGBPACK_EXPORT_FOR_UNIT_TESTING inline constexpr auto max_code_length = std::numeric_limits<code>::digits;
 
 inline unsigned int get_symbol_size(huffman_options options)
 {
