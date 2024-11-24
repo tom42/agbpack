@@ -3,6 +3,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <cstddef>
+#include <iostream> // TODO: remove
 #include <vector>
 
 import agbpack;
@@ -155,6 +156,35 @@ TEST_CASE("huffman_tree_serializer_test")
         }
 
         verify_tree_serialization(frequencies);
+    }
+
+    SECTION("TODO: test code to generate Lucas numbers")
+    {
+        // TODO: use a more portable type than unsigned int? => Well really it should be symbol_frequency, no?
+        // TODO: from https://stackoverflow.com/questions/57036603/in-zlib-what-happen-when-the-huffman-code-lengths-for-the-alphabets-exceed-maxim
+        //       "The maximum possible Huffman code size for a 256-symbol alphabet is 255 bits, not 256. The last two symbols have the same length, 255."
+        //       So, to create a code of length 32 we need 33 symbols
+        // TODO: finally, what ARE we going to test with this?
+        //       => Well tree serialization using verify_tree_serialization, no?
+        //       => Would we want to verify the codes here?
+        //       => Well maybe, although that would really be the job of a huffman_encoder_tree_test, no?
+        std::vector<unsigned int> n = {1, 1, 1, 3};
+        while (n.size() < 32)
+        {
+            n.push_back(n[n.size() - 2] + n[n.size() - 1]);
+        }
+
+        for (unsigned int i = 0; i < n.size(); ++i)
+        {
+            frequencies.set_frequency(i, n[i]);
+        }
+
+        huffman_encoder_tree tree(symbol_size, frequencies);
+        auto code_table = tree.create_code_table();
+        for (unsigned int i = 0; i < 32; ++i)
+        {
+            std::cout << code_table[i].l() << std::endl;
+        }
     }
 }
 
