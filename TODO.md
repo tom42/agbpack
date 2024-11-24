@@ -4,15 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* DAMIT:
-  * OK, so now we need to find a migration path from grit code to ours. Sigh.
-  * I think we'll just do it differently:
-    * Take the entire grit huffman code, drop it into our encoder, tune it until it passes all our tests. Move on.
-    * That should work, no?
-    * Of course we should go through our own code and see what bits we'd like to keep
-  * OK: time for action
-    * If that works, integrate it (and clean it up so it matches our preferences)
-    * Then delete our old code, but keep the good bits including assertions and runtime checks
 * grit source code / issues claim that an 8 bit huffman tree needs to be 512 bytes.
   * Verify one last time this is NOT true => and maybe even document this?
 * Put tree serialization code into own source file
