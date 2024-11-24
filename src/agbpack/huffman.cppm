@@ -25,7 +25,7 @@ import :header;
 namespace agbpack
 {
 
-using symbol = unsigned int; // TODO: this should not be agbpack_u8. Document this / write test that would figure out?
+AGBPACK_EXPORT_FOR_UNIT_TESTING using symbol = unsigned int; // TODO: this should not be agbpack_u8. Document this / write test that would figure out?
 AGBPACK_EXPORT_FOR_UNIT_TESTING using symbol_frequency = uint32_t;
 using code = uint32_t;
 using code_length = unsigned int;
