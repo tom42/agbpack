@@ -4,6 +4,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cstddef>
 #include <iostream> // TODO: remove
+#include <stdexcept>
 #include <vector>
 
 import agbpack;
@@ -18,6 +19,7 @@ using agbpack::huffman_decoder_tree;
 using agbpack::huffman_encoder_tree;
 using agbpack::huffman_tree_serializer;
 using agbpack::symbol_frequency;
+using std::out_of_range;
 using std::size_t;
 using std::vector;
 
@@ -31,12 +33,18 @@ constexpr unsigned int symbol_size = 8;
 
 std::vector<symbol_frequency> lucas_sequence(size_t length)
 {
-    // TODO: check length is >= 4? That, and maybe unhardcode 4, no? It's really the length of the initial vector
     std::vector<symbol_frequency> sequence{1, 1, 1, 3};
-    for (size_t i = 4; i < length; ++i)
+
+    if (length < sequence.size())
+    {
+        throw out_of_range("sequence length too short");
+    }
+
+    for (size_t i = sequence.size(); i < length; ++i)
     {
         sequence.push_back(sequence[i - 1] + sequence[i - 2]);
     }
+
     return sequence;
 }
 
@@ -172,7 +180,6 @@ TEST_CASE("huffman_tree_serializer_test")
 
     SECTION("TODO: test code to generate Lucas numbers")
     {
-        // TODO: use a more portable type than unsigned int? => Well really it should be symbol_frequency, no?
         // TODO: from https://stackoverflow.com/questions/57036603/in-zlib-what-happen-when-the-huffman-code-lengths-for-the-alphabets-exceed-maxim
         //       "The maximum possible Huffman code size for a 256-symbol alphabet is 255 bits, not 256. The last two symbols have the same length, 255."
         //       So, to create a code of length 32 we need 33 symbols
@@ -180,7 +187,7 @@ TEST_CASE("huffman_tree_serializer_test")
         //       => Well tree serialization using verify_tree_serialization, no?
         //       => Would we want to verify the codes here?
         //       => Well maybe, although that would really be the job of a huffman_encoder_tree_test, no?
-        auto n = lucas_sequence(33);
+        auto n = lucas_sequence(33); // TODO: we really want to unhardcode this / define this through the code type, no? => Yes nut that must be done inside the library, not here
 
         for (unsigned int i = 0; i < n.size(); ++i)
         {
