@@ -8,8 +8,12 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   add_compile_options(-Wno-attributes)
 endif()
 
-add_executable(
+add_executable(agbpack_unit_test)
+target_sources(
   agbpack_unit_test
+  PUBLIC FILE_SET CXX_MODULES FILES
+  utility.cppm
+  PRIVATE
   header_test.cpp
   huffman_tree_serializer_test.cpp
   node_queue_test.cpp
