@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <format>
 #include <ostream>
+#include <string>
 
 import agbpack;
 import agbpack_unit_test.utility;
@@ -16,12 +18,19 @@ bool operator==(const agbpack::code_table_entry& /*a*/, const agbpack::code_tabl
     return false;
 }
 
-std::ostream& operator<<(std::ostream& os, const agbpack::code_table_entry& /*e*/)
-{
-    // TODO: output all components (symbol, code, code length)
-    os << "x";
-    return os;
 }
+
+namespace Catch
+{
+
+template <>
+struct StringMaker<agbpack::code_table_entry>
+{
+    static std::string convert(const agbpack::code_table_entry& e)
+    {
+        return std::format("s={}, c={}, l={}", e.s(), e.c(), e.l());
+    }
+};
 
 }
 
@@ -53,8 +62,8 @@ TEST_CASE("huffman_encoder_tree_test")
         auto code_table = tree.create_code_table();
 
         // TODO: check all codes and lengths. Problem: how?
-        CHECK(code_table[0] == code_table_entry(0, 32, 0b11111111111111111111111111111010));
-        CHECK(code_table[1] == code_table_entry(1, 32, 0b11111111111111111111111111111011));
+        CHECK(code_table[0] == code_table_entry(0, 0b11111111111111111111111111111010, 32));
+        CHECK(code_table[1] == code_table_entry(1, 0b11111111111111111111111111111011, 32));
     }
 
     SECTION("Maximum code length exceeded")
