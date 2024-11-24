@@ -6,16 +6,16 @@ module;
 #include <vector>
 #include <stdexcept>
 
-export module agbpack_unittest.utility;
+export module agbpack_unit_test.utility;
 import agbpack;
 
-namespace agbpack_unittest
+namespace agbpack_unit_test
 {
 
 using agbpack::symbol_frequency;
 
 // TODO: put this into an implementation file? (must remove inline then!)
-inline std::vector<symbol_frequency> lucas_sequence(size_t length)
+export inline std::vector<symbol_frequency> lucas_sequence(size_t length)
 {
     std::vector<symbol_frequency> sequence{1, 1, 1, 3};
 
