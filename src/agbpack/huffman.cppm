@@ -71,6 +71,7 @@ void assert_symbol([[maybe_unused]] symbol s, [[maybe_unused]] const TContainer&
     assert(in_open_range(s, 0u, container.size()) && "symbol value is out of range");
 }
 
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 class code_table_entry final
 {
 public:
