@@ -15,6 +15,7 @@ target_sources(
   utility.cppm
   PRIVATE
   header_test.cpp
+  huffman_encoder_tree_test.cpp
   huffman_tree_serializer_test.cpp
   node_queue_test.cpp
   tree_node_test.cpp
