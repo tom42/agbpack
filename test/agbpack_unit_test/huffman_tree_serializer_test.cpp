@@ -8,6 +8,7 @@
 #include <vector>
 
 import agbpack;
+import agbpack_unit_test.utility;
 
 namespace agbpack_unit_test
 {
@@ -18,7 +19,6 @@ using agbpack::frequency_table;
 using agbpack::huffman_decoder_tree;
 using agbpack::huffman_encoder_tree;
 using agbpack::huffman_tree_serializer;
-using agbpack::symbol_frequency;
 using std::out_of_range;
 using std::size_t;
 using std::vector;
@@ -30,23 +30,6 @@ namespace
 // except that 4 bit wide symbols are not prone to overflows in the offset field of internal nodes.
 // It is therefore enough if we test with 8 bit wide symbols. 4 bit wide symbols are not interesting.
 constexpr unsigned int symbol_size = 8;
-
-std::vector<symbol_frequency> lucas_sequence(size_t length)
-{
-    std::vector<symbol_frequency> sequence{1, 1, 1, 3};
-
-    if (length < sequence.size())
-    {
-        throw out_of_range("sequence length too short");
-    }
-
-    for (size_t i = sequence.size(); i < length; ++i)
-    {
-        sequence.push_back(sequence[i - 1] + sequence[i - 2]);
-    }
-
-    return sequence;
-}
 
 auto serialize_tree(const huffman_encoder_tree& tree)
 {
