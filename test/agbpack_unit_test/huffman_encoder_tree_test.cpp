@@ -12,10 +12,10 @@ import agbpack_unit_test.utility;
 namespace
 {
 
-bool operator==(const agbpack::code_table_entry& /*a*/, const agbpack::code_table_entry& /*b*/)
+bool operator==(const agbpack::code_table_entry& a, const agbpack::code_table_entry& b)
 {
     // TODO: compare all components (symbol, code, code length)
-    return false;
+    return (a.s() == b.s()); // TODO: missing: code, length
 }
 
 }
