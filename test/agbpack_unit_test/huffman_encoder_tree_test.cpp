@@ -51,29 +51,29 @@ TEST_CASE("huffman_encoder_tree_test")
         auto code_table = tree.create_code_table();
 
         // TODO: check all codes and lengths. Problem: how?
-        CHECK(code_table[0] == code_table_entry(0, 0b11111111111111111111111111111010, 32));
-        CHECK(code_table[1] == code_table_entry(1, 0b11111111111111111111111111111011, 32));
-        CHECK(code_table[2] == code_table_entry(2, 0b1111111111111111111111111111100, 31));
-        CHECK(code_table[3] == code_table_entry(3, 0b111111111111111111111111111111, 30));
-        CHECK(code_table[4] == code_table_entry(4, 0b11111111111111111111111111110, 29));
-        CHECK(code_table[5] == code_table_entry(5, 0b1111111111111111111111111110, 28));
+        CHECK(code_table[ 0] == code_table_entry( 0, 0b11111111111111111111111111111010, 32));
+        CHECK(code_table[ 1] == code_table_entry( 1, 0b11111111111111111111111111111011, 32));
+        CHECK(code_table[ 2] == code_table_entry( 2, 0b1111111111111111111111111111100, 31));
+        CHECK(code_table[ 3] == code_table_entry( 3, 0b111111111111111111111111111111, 30));
+        CHECK(code_table[ 4] == code_table_entry( 4, 0b11111111111111111111111111110, 29));
+        CHECK(code_table[ 5] == code_table_entry( 5, 0b1111111111111111111111111110, 28));
+        CHECK(code_table[ 6] == code_table_entry( 6, 0b111111111111111111111111110, 27));
+        CHECK(code_table[ 7] == code_table_entry( 7, 0b11111111111111111111111110, 26));
+        CHECK(code_table[ 8] == code_table_entry( 8, 0b1111111111111111111111110, 25));
+        CHECK(code_table[ 9] == code_table_entry( 9, 0b111111111111111111111110, 24));
+        CHECK(code_table[10] == code_table_entry(10, 0b11111111111111111111110, 23));
+        CHECK(code_table[11] == code_table_entry(11, 0b1111111111111111111110, 22));
+        CHECK(code_table[12] == code_table_entry(12, 0b111111111111111111110, 21));
+        CHECK(code_table[13] == code_table_entry(13, 0b11111111111111111110, 20));
+        CHECK(code_table[14] == code_table_entry(14, 0b1111111111111111110, 19));
+        CHECK(code_table[15] == code_table_entry(15, 0b111111111111111110, 18));
+        CHECK(code_table[16] == code_table_entry(16, 0b11111111111111110, 17));
+        CHECK(code_table[17] == code_table_entry(17, 0b1111111111111110, 16));
+        CHECK(code_table[18] == code_table_entry(18, 0b111111111111110, 15));
+        CHECK(code_table[19] == code_table_entry(19, 0b11111111111110, 14));
+        CHECK(code_table[20] == code_table_entry(20, 0b1111111111110, 13));
+        CHECK(code_table[21] == code_table_entry(21, 0b111111111110, 12));
         /*
-27  ==>  134217726
-26  ==>  67108862
-25  ==>  33554430
-24  ==>  16777214
-23  ==>  8388606
-22  ==>  4194302
-21  ==>  2097150
-20  ==>  1048574
-19  ==>  524286
-18  ==>  262142
-17  ==>  131070
-16  ==>  65534
-15  ==>  32766
-14  ==>  16382
-13  ==>  8190
-12  ==>  4094
 11  ==>  2046
 10  ==>  1022
 9  ==>  510
