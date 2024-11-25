@@ -50,7 +50,6 @@ TEST_CASE("huffman_encoder_tree_test")
 
         auto code_table = tree.create_code_table();
 
-        // TODO: check all codes and lengths. Problem: how?
         CHECK(code_table[ 0] == code_table_entry( 0, 0b11111111111111111111111111111010, 32));
         CHECK(code_table[ 1] == code_table_entry( 1, 0b11111111111111111111111111111011, 32));
         CHECK(code_table[ 2] == code_table_entry( 2, 0b1111111111111111111111111111100, 31));
