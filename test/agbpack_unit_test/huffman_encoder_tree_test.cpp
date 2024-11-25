@@ -73,11 +73,11 @@ TEST_CASE("huffman_encoder_tree_test")
         CHECK(code_table[19] == code_table_entry(19, 0b11111111111110, 14));
         CHECK(code_table[20] == code_table_entry(20, 0b1111111111110, 13));
         CHECK(code_table[21] == code_table_entry(21, 0b111111111110, 12));
+        CHECK(code_table[22] == code_table_entry(22, 0b11111111110, 11));
+        CHECK(code_table[23] == code_table_entry(23, 0b1111111110, 10));
+        CHECK(code_table[24] == code_table_entry(24, 0b111111110, 9));
+        CHECK(code_table[25] == code_table_entry(25, 0b11111110, 8));
         /*
-11  ==>  2046
-10  ==>  1022
-9  ==>  510
-8  ==>  254
 7  ==>  126
 6  ==>  62
 5  ==>  30
