@@ -89,6 +89,8 @@ public:
 
     code_length l() const { return m_l; }
 
+    bool operator==(const code_table_entry&) const = default;
+
 private:
     symbol m_s;
     code m_c;

@@ -9,19 +9,6 @@
 import agbpack;
 import agbpack_unit_test.utility;
 
-namespace
-{
-
-// TODO: consider defaulting operator==. Structural equality and that.
-bool operator==(const agbpack::code_table_entry& a, const agbpack::code_table_entry& b)
-{
-    return (a.s() == b.s()) &&
-        (a.c() == b.c()) &&
-        (a.l() == b.l());
-}
-
-}
-
 namespace Catch
 {
 
