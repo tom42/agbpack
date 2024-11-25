@@ -97,7 +97,10 @@ TEST_CASE("huffman_encoder_tree_test")
 
     SECTION("Maximum code length exceeded")
     {
-        // TODO: create_code_table: maximum code length exceeded
+        huffman_encoder_tree tree = create_tree_from_lucas_sequence(max_code_length + 2);
+
+        // TODO: create_code_table: maximum code length exceeded: this should throw
+        tree.create_code_table();
     }
 }
 

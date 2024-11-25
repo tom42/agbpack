@@ -1434,6 +1434,11 @@ private:
 
     static void create_code_table_internal(code_table& table, Node* node, code c, code_length l)
     {
+        if (l > max_code_length)
+        {
+            throw internal_error("maximum code length exceeded");
+        }
+
         if (node->isParent())
         {
             create_code_table_internal(table, node->child(0).get(), c << 1, l + 1);
