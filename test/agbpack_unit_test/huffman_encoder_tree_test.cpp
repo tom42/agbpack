@@ -66,13 +66,11 @@ TEST_CASE("huffman_encoder_tree_test")
         // TODO: check all codes and lengths. Problem: how?
         CHECK(code_table[0] == code_table_entry(0, 0b11111111111111111111111111111010, 32));
         CHECK(code_table[1] == code_table_entry(1, 0b11111111111111111111111111111011, 32));
+        CHECK(code_table[2] == code_table_entry(2, 0b1111111111111111111111111111100, 31));
+        CHECK(code_table[3] == code_table_entry(3, 0b111111111111111111111111111111, 30));
+        CHECK(code_table[4] == code_table_entry(4, 0b11111111111111111111111111110, 29));
+        CHECK(code_table[5] == code_table_entry(5, 0b1111111111111111111111111110, 28));
         /*
-32  ==>  4294967290
-32  ==>  4294967291
-31  ==>  2147483644
-30  ==>  1073741823
-29  ==>  536870910
-28  ==>  268435454
 27  ==>  134217726
 26  ==>  67108862
 25  ==>  33554430
