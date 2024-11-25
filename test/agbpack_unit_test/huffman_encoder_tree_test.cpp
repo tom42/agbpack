@@ -26,27 +26,37 @@ struct StringMaker<agbpack::code_table_entry>
 namespace agbpack_unit_test
 {
 
+constexpr auto symbol_size = 8;
+
 using agbpack::code_table_entry;
 using agbpack::frequency_table;
 using agbpack::huffman_encoder_tree;
 using agbpack::max_code_length;
 using agbpack::symbol;
 
-TEST_CASE("huffman_encoder_tree_test")
+namespace
 {
-    constexpr auto symbol_size = 8;
+
+huffman_encoder_tree create_tree_from_lucas_sequence(std::size_t sequence_length)
+{
+    auto sequence = lucas_sequence(sequence_length);
     frequency_table frequencies(symbol_size);
 
+    for (symbol i = 0; i < sequence.size(); ++i)
+    {
+        frequencies.set_frequency(i, sequence[i]);
+    }
+
+    return huffman_encoder_tree(symbol_size, frequencies);
+}
+
+}
+
+TEST_CASE("huffman_encoder_tree_test")
+{
     SECTION("Create code table with maximum code length")
     {
-        // TODO: factor this out, we need it at least once more
-        auto s = lucas_sequence(max_code_length + 1);
-        for (symbol i = 0; i < s.size(); ++i)
-        {
-            frequencies.set_frequency(i, s[i]);
-        }
-
-        huffman_encoder_tree tree(symbol_size, frequencies);
+        huffman_encoder_tree tree = create_tree_from_lucas_sequence(max_code_length + 1);
 
         auto code_table = tree.create_code_table();
 
