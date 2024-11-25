@@ -3,7 +3,6 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <cstddef>
-#include <iostream> // TODO: remove
 #include <vector>
 
 import agbpack;
@@ -178,10 +177,6 @@ TEST_CASE("huffman_tree_serializer_test")
 
         huffman_encoder_tree tree(symbol_size, frequencies);
         auto code_table = tree.create_code_table();
-        for (unsigned int i = 0; i < n.size(); ++i)
-        {
-            std::cout << code_table[i].l() << "  ==>  " << code_table[i].c() << std::endl;
-        }
     }
 }
 
