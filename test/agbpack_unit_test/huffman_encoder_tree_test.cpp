@@ -12,10 +12,12 @@ import agbpack_unit_test.utility;
 namespace
 {
 
+// TODO: consider defaulting operator==. Structural equality and that.
 bool operator==(const agbpack::code_table_entry& a, const agbpack::code_table_entry& b)
 {
-    // TODO: compare all components (symbol, code, code length)
-    return (a.s() == b.s()); // TODO: missing: code, length
+    return (a.s() == b.s()) &&
+        (a.c() == b.c()) &&
+        (a.l() == b.l());
 }
 
 }
