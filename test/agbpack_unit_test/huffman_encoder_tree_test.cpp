@@ -81,10 +81,9 @@ TEST_CASE("huffman_encoder_tree_test")
         CHECK(code_table[27] == code_table_entry(27, 0b111110, 6));
         CHECK(code_table[28] == code_table_entry(28, 0b11110, 5));
         CHECK(code_table[29] == code_table_entry(29, 0b1110, 4));
-        /*
-3  ==>  6
-2  ==>  2
-1  ==>  0        */
+        CHECK(code_table[30] == code_table_entry(30, 0b110, 3));
+        CHECK(code_table[31] == code_table_entry(31, 0b10, 2));
+        CHECK(code_table[32] == code_table_entry(32, 0b0, 1));
     }
 
     SECTION("Maximum code length exceeded")
