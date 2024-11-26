@@ -80,9 +80,6 @@ void verify_tree_serialization(const huffman_encoder_tree& encoder_tree)
 
 }
 
-// TODO: tests
-//       * Maximum depth tree
-//       * Maximum handleable code length exceeded
 TEST_CASE("huffman_tree_serializer_test")
 {
     frequency_table frequencies(symbol_size);
@@ -160,16 +157,11 @@ TEST_CASE("huffman_tree_serializer_test")
         verify_tree_serialization(tree);
     }
 
-    SECTION("TODO: test code to generate Lucas numbers")
+    SECTION("Maximum depth tree")
     {
-        // TODO: from https://stackoverflow.com/questions/57036603/in-zlib-what-happen-when-the-huffman-code-lengths-for-the-alphabets-exceed-maxim
-        //       "The maximum possible Huffman code size for a 256-symbol alphabet is 255 bits, not 256. The last two symbols have the same length, 255."
-        //       So, to create a code of length 32 we need 33 symbols
-        // TODO: finally, what ARE we going to test with this?
-        //       => Well tree serialization using verify_tree_serialization, no?
         huffman_encoder_tree tree = create_tree_from_lucas_sequence(max_code_length + 1);
 
-        auto code_table = tree.create_code_table();
+        verify_tree_serialization(tree);
     }
 }
 
