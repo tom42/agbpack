@@ -166,8 +166,6 @@ TEST_CASE("huffman_tree_serializer_test")
         //       So, to create a code of length 32 we need 33 symbols
         // TODO: finally, what ARE we going to test with this?
         //       => Well tree serialization using verify_tree_serialization, no?
-        //       => Would we want to verify the codes here?
-        //       => Well maybe, although that would really be the job of a huffman_encoder_tree_test, no?
         auto n = lucas_sequence(agbpack::max_code_length + 1);
 
         for (unsigned int i = 0; i < n.size(); ++i)
