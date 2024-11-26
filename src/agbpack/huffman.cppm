@@ -1436,7 +1436,7 @@ private:
     {
         if (l > max_code_length)
         {
-            throw internal_error("maximum code length exceeded");
+            throw encode_exception("maximum code length exceeded");
         }
 
         if (node->isParent())
