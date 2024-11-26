@@ -32,4 +32,19 @@ std::vector<agbpack::symbol_frequency> lucas_sequence(std::size_t length)
     return sequence;
 }
 
+agbpack::huffman_encoder_tree create_tree_from_lucas_sequence(std::size_t sequence_length)
+{
+    constexpr auto symbol_size = 8;
+
+    auto sequence = lucas_sequence(sequence_length);
+    agbpack::frequency_table frequencies(symbol_size);
+
+    for (agbpack::symbol i = 0; i < sequence.size(); ++i)
+    {
+        frequencies.set_frequency(i, sequence[i]);
+    }
+
+    return agbpack::huffman_encoder_tree(symbol_size, frequencies);
+}
+
 }

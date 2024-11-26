@@ -16,4 +16,6 @@ namespace agbpack_unit_test
 // then the resulting huffman tree's depth is N-1.
 export std::vector<agbpack::symbol_frequency> lucas_sequence(std::size_t length);
 
+export agbpack::huffman_encoder_tree create_tree_from_lucas_sequence(std::size_t sequence_length);
+
 }
