@@ -60,9 +60,8 @@ size_t expected_serialized_tree_size(const huffman_encoder_tree& encoder_tree)
     return size;
 }
 
-void verify_tree_serialization(const frequency_table& frequencies)
+void verify_tree_serialization(const huffman_encoder_tree& encoder_tree)
 {
-    const huffman_encoder_tree encoder_tree(symbol_size, frequencies);
     const code_table original_code_table = encoder_tree.create_code_table();
 
     const auto serialized_tree = serialize_tree(encoder_tree);
@@ -156,8 +155,9 @@ TEST_CASE("huffman_tree_serializer_test")
         {
             frequencies.set_frequency(i, 1);
         }
+        huffman_encoder_tree tree(symbol_size, frequencies);
 
-        verify_tree_serialization(frequencies);
+        verify_tree_serialization(tree);
     }
 
     SECTION("TODO: test code to generate Lucas numbers")
