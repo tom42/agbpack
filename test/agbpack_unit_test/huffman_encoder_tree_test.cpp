@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include <format>
-#include <ostream>
 #include <string>
 
 import agbpack;
@@ -29,6 +30,7 @@ namespace agbpack_unit_test
 constexpr auto symbol_size = 8;
 
 using agbpack::code_table_entry;
+using agbpack::encode_exception;
 using agbpack::frequency_table;
 using agbpack::huffman_encoder_tree;
 using agbpack::max_code_length;
@@ -99,8 +101,10 @@ TEST_CASE("huffman_encoder_tree_test")
     {
         huffman_encoder_tree tree = create_tree_from_lucas_sequence(max_code_length + 2);
 
-        // TODO: create_code_table: maximum code length exceeded: this should throw
-        tree.create_code_table();
+        CHECK_THROWS_MATCHES(
+            tree.create_code_table(),
+            encode_exception,
+            Catch::Matchers::Message("maximum code length exceeded"));
     }
 }
 
