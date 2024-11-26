@@ -17,6 +17,7 @@ using agbpack::frequency_table;
 using agbpack::huffman_decoder_tree;
 using agbpack::huffman_encoder_tree;
 using agbpack::huffman_tree_serializer;
+using agbpack::max_code_length;
 using std::out_of_range;
 using std::size_t;
 using std::vector;
@@ -166,14 +167,8 @@ TEST_CASE("huffman_tree_serializer_test")
         //       So, to create a code of length 32 we need 33 symbols
         // TODO: finally, what ARE we going to test with this?
         //       => Well tree serialization using verify_tree_serialization, no?
-        auto n = lucas_sequence(agbpack::max_code_length + 1);
+        huffman_encoder_tree tree = create_tree_from_lucas_sequence(max_code_length + 1);
 
-        for (unsigned int i = 0; i < n.size(); ++i)
-        {
-            frequencies.set_frequency(i, n[i]);
-        }
-
-        huffman_encoder_tree tree(symbol_size, frequencies);
         auto code_table = tree.create_code_table();
     }
 }
