@@ -1479,21 +1479,19 @@ private:
     //       * Compare with our code
     static std::vector<agbpack_u8> encode_tree(const std::vector<Node*>& serialized_tree)
     {
-        // TODO: tree => encoded_tree
         // TODO: give this the proper size (number of nodes + 1, no? - not if we're using nodeTree. That already includes+1)
-        // TODO: alignment is missing, that's why there are still tests missing
-        std::vector<agbpack_u8> tree(serialized_tree.size());   // TODO: that's OK here? (sort of - nodeTree has a bogus node)
-        while (tree.size() % 4 != 0) // TODO: alignment: calculate size before reserving the vector
+        std::vector<agbpack_u8> encoded_tree(serialized_tree.size());   // TODO: that's OK here? (sort of - nodeTree has a bogus node)
+        while (encoded_tree.size() % 4 != 0) // TODO: alignment: calculate size before reserving the vector
         {
-            tree.push_back(0);
+            encoded_tree.push_back(0);
         }
-        tree[0] = static_cast<uint8_t>(tree.size() / 2 - 1); // TODO: no cast here
+        encoded_tree[0] = static_cast<uint8_t>(encoded_tree.size() / 2 - 1); // TODO: no cast here
 
         for (unsigned i = 1; i < serialized_tree.size(); ++i)
         {
             Node* node = serialized_tree[i];
 
-            tree[i] = node->val();
+            encoded_tree[i] = node->val();
 
             if (!node->isParent())
             {
@@ -1502,15 +1500,15 @@ private:
 
             if (!node->child0()->isParent())
             {
-                tree[i] |= 0x80;
+                encoded_tree[i] |= 0x80;
             }
             if (!node->child1()->isParent())
             {
-                tree[i] |= 0x40;
+                encoded_tree[i] |= 0x40;
             }
         }
 
-        return tree;
+        return encoded_tree;
     }
 };
 
