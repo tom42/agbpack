@@ -1482,6 +1482,7 @@ private:
     {
         // TODO: tree => encoded_tree
         // TODO: give this the proper size (number of nodes + 1, no? - not if we're using nodeTree. That already includes+1)
+        // TODO: alignment is missing, that's why there are still tests missing
         std::vector<agbpack_u8> tree(nodeTree.size());   // TODO: that's OK here? (sort of - nodeTree has a bogus node)
         tree[0] = static_cast<uint8_t>(tree.size() / 2 - 1); // TODO: no cast here
 
