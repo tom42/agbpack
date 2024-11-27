@@ -1045,7 +1045,7 @@ public:
 
     static void fixupTree(std::vector<Node*>& tree);
 
-    static void encodeTree(std::vector<uint8_t>& tree, Node* node);
+    static std::vector<Node*> encodeTree(std::vector<uint8_t>& tree, Node* node);
 
     // Returns the number of nodes in this subtree
     size_t numNodes() const
@@ -1092,9 +1092,20 @@ public:
         return m_count;
     }
 
+    // TODO: that's silly to have on the public interface, no? Since only index 0 and 1 are allowed...
     const tree_node_ptr& child(std::size_t index) const
     {
         return m_children[index];
+    }
+
+    const tree_node_ptr& child0() const
+    {
+        return m_children[0];
+    }
+
+    const tree_node_ptr& child1() const
+    {
+        return m_children[1];
     }
 
     static tree_node_ptr make_leaf(symbol sym, symbol_frequency frequency)
@@ -1255,7 +1266,7 @@ void Node::fixupTree(std::vector<Node*>& tree)
     }
 }
 
-void Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
+std::vector<Node*> Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
 {
     std::vector<Node*> nodeTree(tree.size());
     nodeTree[1] = node;
@@ -1283,26 +1294,7 @@ void Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
     }
 #endif
 
-    for (unsigned i = 1; i < nodeTree.size(); ++i)
-    {
-        node = nodeTree[i];
-
-        tree[i] = node->m_val;
-
-        if (!node->isParent())
-        {
-            continue;
-        }
-
-        if (!node->m_children[0]->isParent())
-        {
-            tree[i] |= 0x80;
-        }
-        if (!node->m_children[1]->isParent())
-        {
-            tree[i] |= 0x40;
-        }
-    }
+    return nodeTree;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1472,14 +1464,49 @@ public:
         // TODO: tree size calculation correct? (Can we not calculate the final size right away?
         // TODO: replace other code block below entirely with this
         std::vector<uint8_t> tree2(tree.root()->numNodes() + 1);
-        Node::encodeTree(tree2, tree.root().get());
+        const auto serialized_tree = Node::encodeTree(tree2, tree.root().get());
         // TODO: no cast?
         while (tree2.size() % 4 != 0) { tree2.push_back(0); }                 // Make tree size a multiple of 4 bytes
         tree2[0] = static_cast<uint8_t>(tree2.size() / 2 - 1);                // Write correct tree size byte
-        return tree2;
+
+        return encode_tree(serialized_tree);
     }
 
 private:
+    // TODO: review this thoroughly
+    //       * i should be size_t
+    //       * nodeTree should be serialized_tree
+    //       * Factor out node creation code
+    //       * Compare with our code
+    static std::vector<agbpack_u8> encode_tree(const std::vector<Node*>& nodeTree)
+    {
+        // TODO: tree => encoded_tree
+        // TODO: give this the proper size (number of nodes + 1, no?)
+        std::vector<agbpack_u8> tree;
+
+        for (unsigned i = 1; i < nodeTree.size(); ++i)
+        {
+            Node* node = nodeTree[i];
+
+            tree[i] = node->m_val;
+
+            if (!node->isParent())
+            {
+                continue;
+            }
+
+            if (!node->child0()->isParent())
+            {
+                tree[i] |= 0x80;
+            }
+            if (!node->child1()->isParent())
+            {
+                tree[i] |= 0x40;
+            }
+        }
+
+        return tree;
+    }
 };
 
 export class huffman_encoder final
