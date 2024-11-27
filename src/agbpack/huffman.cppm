@@ -1453,7 +1453,6 @@ public:
 
 private:
     // TODO: review this thoroughly
-    //       * Factor out node creation code
     //       * Compare with our code
     static std::vector<agbpack_u8> encode_tree(const std::vector<Node*>& serialized_tree)
     {
