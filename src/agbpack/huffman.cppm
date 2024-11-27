@@ -1482,13 +1482,14 @@ private:
     {
         // TODO: tree => encoded_tree
         // TODO: give this the proper size (number of nodes + 1, no?)
-        std::vector<agbpack_u8> tree;
+        std::vector<agbpack_u8> tree(nodeTree.size());   // TODO: that's OK here? (sort of - nodeTree has a bogus node)
+        tree[0] = static_cast<uint8_t>(tree.size() / 2 - 1); // TODO: no cast here
 
         for (unsigned i = 1; i < nodeTree.size(); ++i)
         {
             Node* node = nodeTree[i];
 
-            tree[i] = node->m_val;
+            tree[i] = node->val();
 
             if (!node->isParent())
             {
