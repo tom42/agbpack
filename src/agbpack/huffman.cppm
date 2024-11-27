@@ -931,31 +931,10 @@ private:
 
         for (std::size_t i = 1; i < node_tree.size(); ++i)
         {
-            serialized_tree[i] = encode_node(node_tree[i]);
+            serialized_tree[i] = 42; // Used to be a call to encode_node
         }
 
         return serialized_tree;
-    }
-
-    static agbpack_u8 encode_node(tree_node_ptr_old2 node)
-    {
-        // TODO: write node value:
-        //       * check and write offset (orly? do we check once more?)
-        auto encoded_node = node->value();
-
-        if (node->is_internal())
-        {
-            if (!node->child(0)->is_internal())
-            {
-                encoded_node |= mask0;
-            }
-            if (!node->child(1)->is_internal())
-            {
-                encoded_node |= mask1;
-            }
-        }
-
-        return encoded_node;
     }
 
     // TODO: node_tree is a bad word. Anything better?
@@ -1488,26 +1467,30 @@ private:
 
         for (std::size_t i = 1; i < serialized_tree.size(); ++i)
         {
-            Node* node = serialized_tree[i];
-
-            encoded_tree[i] = node->val();
-
-            if (!node->isParent())
-            {
-                continue;
-            }
-
-            if (!node->child0()->isParent())
-            {
-                encoded_tree[i] |= 0x80;
-            }
-            if (!node->child1()->isParent())
-            {
-                encoded_tree[i] |= 0x40;
-            }
+            encoded_tree[i] = encode_node(serialized_tree[i]);
         }
 
         return encoded_tree;
+    }
+
+    static agbpack_u8 encode_node(const Node* node)
+    {
+        // TODO: check offset (orly? do we check once more?)
+        auto encoded_node = node->val();
+
+        if (node->isParent())
+        {
+            if (!node->child0()->isParent())
+            {
+                encoded_node |= mask0;
+            }
+            if (!node->child1()->isParent())
+            {
+                encoded_node |= mask1;
+            }
+        }
+
+        return encoded_node;
     }
 };
 
