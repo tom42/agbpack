@@ -1474,7 +1474,6 @@ public:
 
 private:
     // TODO: review this thoroughly
-    //       * i should be size_t
     //       * Factor out node creation code
     //       * Compare with our code
     static std::vector<agbpack_u8> encode_tree(const std::vector<Node*>& serialized_tree)
@@ -1487,7 +1486,7 @@ private:
         }
         encoded_tree[0] = static_cast<uint8_t>(encoded_tree.size() / 2 - 1); // TODO: no cast here
 
-        for (unsigned i = 1; i < serialized_tree.size(); ++i)
+        for (std::size_t i = 1; i < serialized_tree.size(); ++i)
         {
             Node* node = serialized_tree[i];
 
