@@ -1409,7 +1409,7 @@ public:
     }
 
 private:
-    static void fixup_tree([[maybe_unused]] std::vector<Node*>& serialized_tree)
+    static void fixup_tree(std::vector<Node*>& serialized_tree)
     {
         // TODO: move fixupTree here, then clean it up
         Node::fixupTree(serialized_tree);
