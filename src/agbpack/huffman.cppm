@@ -1189,10 +1189,6 @@ void Node::fixupTree(std::vector<Node*>& tree)
         std::tie(tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
 
         // Adjust offsets
-#if defined(_MSC_VER)
-#pragma warning(push)
-#pragma warning(disable:4244)
-#endif
         tree[i]->m_val -= shift;
         for (unsigned index = i + 1; index < shiftBegin; ++index)
         {
@@ -1216,9 +1212,6 @@ void Node::fixupTree(std::vector<Node*>& tree)
         {
             tree[shiftBegin + 1]->m_val += shift;
         }
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#endif
 
         for (unsigned index = shiftBegin + 2; index < shiftEnd + 2; ++index)
         {
