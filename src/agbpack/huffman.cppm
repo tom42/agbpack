@@ -1424,7 +1424,6 @@ public:
 private:
     static void assert_tree([[maybe_unused]] const std::vector<Node*>& serialized_tree)
     {
-        // TODO: do we really want this to be assertions only?
 #ifndef NDEBUG
         for (std::size_t i = 1; i < serialized_tree.size(); ++i)
         {
@@ -1440,9 +1439,6 @@ private:
                 continue;
             }
 
-            // TODO: the first two assertions basically check whether there is still an overflow, no?
-            //       * Would we not want to do this on the full value? This has already been truncated to 8 bits
-            //       * And would we not want this to be a runtime check not an assert because it really is vital?
             assert(!(node->val() & mask0));
             assert(!(node->val() & mask1));
             assert(node->child0()->pos == (node->pos & ~1u) + 2 * node->val() + 2);
