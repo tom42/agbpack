@@ -1024,7 +1024,7 @@ public:
 
     static void fixupTree(std::vector<Node*>& tree);
 
-    static std::vector<Node*> encodeTree(std::vector<uint8_t>& tree, Node* node);
+    static std::vector<Node*> encodeTree(Node* node);
 
     // Returns the number of nodes in this subtree
     size_t numNodes() const
@@ -1245,9 +1245,9 @@ void Node::fixupTree(std::vector<Node*>& tree)
     }
 }
 
-std::vector<Node*> Node::encodeTree(std::vector<uint8_t>& tree, Node* node)
+std::vector<Node*> Node::encodeTree(Node* node)
 {
-    std::vector<Node*> nodeTree(tree.size());
+    std::vector<Node*> nodeTree(node->numNodes() + 1);
     nodeTree[1] = node;
     serializeTree(nodeTree, node, 2);
     fixupTree(nodeTree);
@@ -1438,15 +1438,7 @@ public:
         //       * Check tree
         //       * Encode tree => return value
 
-        // TODO: totally beyond me: the cast to size_t (and the other cast too, really)
-        // TODO: name: tree2
-        // TODO: tree size calculation correct? (Can we not calculate the final size right away?
-        // TODO: replace other code block below entirely with this
-        std::vector<uint8_t> tree2(tree.root()->numNodes() + 1);
-        const auto serialized_tree = Node::encodeTree(tree2, tree.root().get());
-        // TODO: no cast?
-        while (tree2.size() % 4 != 0) { tree2.push_back(0); }                 // Make tree size a multiple of 4 bytes
-        tree2[0] = static_cast<uint8_t>(tree2.size() / 2 - 1);                // Write correct tree size byte
+        const auto serialized_tree = Node::encodeTree(tree.root().get());
 
         return encode_tree(serialized_tree);
     }
