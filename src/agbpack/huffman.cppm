@@ -1424,17 +1424,15 @@ public:
 private:
     static void assert_tree([[maybe_unused]] const std::vector<Node*>& serialized_tree)
     {
-        // TODO: review
-        //       * i => size_t
         // TODO: do we really want this to be assertions only?
 #ifndef NDEBUG
-        for (unsigned i = 1; i < serialized_tree.size(); ++i)
+        for (std::size_t i = 1; i < serialized_tree.size(); ++i)
         {
             assert(serialized_tree[i]);
             serialized_tree[i]->pos = i;
         }
 
-        for (unsigned i = 1; i < serialized_tree.size(); ++i)
+        for (std::size_t i = 1; i < serialized_tree.size(); ++i)
         {
             auto node = serialized_tree[i];
             if (!node->isParent())
