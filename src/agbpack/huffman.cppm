@@ -1445,11 +1445,8 @@ private:
 
     static std::vector<agbpack_u8> encode_tree(const std::vector<Node*>& serialized_tree)
     {
-        std::vector<agbpack_u8> encoded_tree(serialized_tree.size());   // TODO: that's OK here? (sort of - serialized_tree has a bogus node)
-        while (encoded_tree.size() % 4 != 0) // TODO: alignment: calculate size before reserving the vector
-        {
-            encoded_tree.push_back(0);
-        }
+        auto encoded_tree = create_empty_encoded_tree(serialized_tree);
+
         encoded_tree[0] = static_cast<uint8_t>(encoded_tree.size() / 2 - 1); // TODO: no cast here. And is the calculation good?
 
         for (std::size_t i = 1; i < serialized_tree.size(); ++i)
@@ -1480,15 +1477,22 @@ private:
         return encoded_node;
     }
 
-    std::vector<agbpack_u8> create_empty_encoded_tree(const std::vector<Node*>& serialized_tree)
+    static std::vector<agbpack_u8> create_empty_encoded_tree(const std::vector<Node*>& serialized_tree)
     {
         return std::vector<agbpack_u8>(calculate_encoded_tree_size(serialized_tree));
     }
 
-    static std::size_t calculate_encoded_tree_size(const std::vector<Node*>& /*serialized_tree*/)
+    static std::size_t calculate_encoded_tree_size(const std::vector<Node*>& serialized_tree)
     {
-        // TODO: implement
-        return 0;
+        // TODO: that's OK here? (sort of - serialized_tree has a bogus node)
+        std::size_t size = serialized_tree.size();
+
+        while ((size % 4) != 0)
+        {
+            ++size;
+        }
+
+        return size;
     }
 };
 
