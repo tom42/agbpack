@@ -1479,6 +1479,12 @@ private:
 
         return encoded_node;
     }
+
+    static std::size_t calculate_encoded_tree_size(const std::vector<Node*>& /*serialized_tree*/)
+    {
+        // TODO: implement
+        return 0;
+    }
 };
 
 export class huffman_encoder final
