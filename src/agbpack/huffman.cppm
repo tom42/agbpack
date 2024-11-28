@@ -1480,6 +1480,11 @@ private:
         return encoded_node;
     }
 
+    std::vector<agbpack_u8> create_empty_encoded_tree(const std::vector<Node*>& serialized_tree)
+    {
+        return std::vector<agbpack_u8>(calculate_encoded_tree_size(serialized_tree));
+    }
+
     static std::size_t calculate_encoded_tree_size(const std::vector<Node*>& /*serialized_tree*/)
     {
         // TODO: implement
