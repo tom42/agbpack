@@ -1104,6 +1104,7 @@ private:
     std::size_t leaves = 0;
     uint8_t m_val = 0;
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
+public: // TODO: temporarily public
     std::size_t pos = 0;
 #endif
 };
@@ -1251,27 +1252,6 @@ std::vector<Node*> Node::encodeTree(Node* node)
     nodeTree[1] = node;
     serializeTree(nodeTree, node, 2);
     fixupTree(nodeTree);
-
-#ifndef NDEBUG
-    for (unsigned i = 1; i < nodeTree.size(); ++i)
-    {
-        assert(nodeTree[i]);
-        nodeTree[i]->pos = i;
-    }
-
-    for (unsigned i = 1; i < nodeTree.size(); ++i)
-    {
-        node = nodeTree[i];
-        if (!node->isParent())
-        {
-            continue;
-        }
-
-        assert(!(node->m_val & 0x80));
-        assert(!(node->m_val & 0x40));
-        assert(node->m_children[0]->pos == (node->pos & ~1u) + 2 * node->m_val + 2);
-    }
-#endif
 
     return nodeTree;
 }
@@ -1435,15 +1415,43 @@ public:
         //       * Create empty serialized tree
         //       * Serialize tree
         //       * Fix up tree
-        //       * Check tree
-        //       * Encode tree => return value
 
         const auto serialized_tree = Node::encodeTree(tree.root().get());
-
+        assert_tree(serialized_tree);
         return encode_tree(serialized_tree);
     }
 
 private:
+    static void assert_tree([[maybe_unused]] const std::vector<Node*>& nodeTree) // TODO: nodeTree => serializedTree
+    {
+        // TODO: review
+        //       * i => size_t
+        // TODO: do we really want this to be assertions only?
+#ifndef NDEBUG
+        for (unsigned i = 1; i < nodeTree.size(); ++i)
+        {
+            assert(nodeTree[i]);
+            nodeTree[i]->pos = i;
+        }
+
+        for (unsigned i = 1; i < nodeTree.size(); ++i)
+        {
+            auto node = nodeTree[i];
+            if (!node->isParent())
+            {
+                continue;
+            }
+
+            // TODO: the first two assertions basically check whether there is still an overflow, no?
+            //       * Would we not want to do this on the full value? This has already been truncated to 8 bits
+            //       * And would we not want this to be a runtime check not an assert because it really is vital?
+            assert(!(node->val() & 0x80));
+            assert(!(node->val() & 0x40));
+            assert(node->child0()->pos == (node->pos & ~1u) + 2 * node->val() + 2);
+        }
+#endif
+    }
+
     static std::vector<agbpack_u8> encode_tree(const std::vector<Node*>& serialized_tree)
     {
         std::vector<agbpack_u8> encoded_tree(serialized_tree.size());   // TODO: that's OK here? (sort of - serialized_tree has a bogus node)
