@@ -1402,6 +1402,8 @@ public:
     }
 
 private:
+    using serialized_tree = std::vector<Node*>; // TODO: use this alias everywhere in here?
+
     static void fixup_tree(std::vector<Node*>& serialized_tree)
     {
         for (unsigned i = 1; i < tree.size(); ++i)
