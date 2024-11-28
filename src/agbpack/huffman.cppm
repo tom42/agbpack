@@ -943,15 +943,10 @@ private:
         return std::vector<tree_node_ptr_old2>(tree.root()->num_nodes() + 1);
     }
 
-    static std::vector<agbpack_u8> create_empty_encoded_tree(const std::vector<tree_node_ptr_old2>& node_tree)
+    static std::vector<agbpack_u8> create_empty_encoded_tree(const std::vector<tree_node_ptr_old2>&)
     {
-        // Calculate size of encoded tree.
-        // node_tree.size() already includes the tree size byte, so we just need to add alignment bytes.
-        std::size_t encoded_tree_size = node_tree.size();
-        while (encoded_tree_size % 4 != 0)
-        {
-            ++encoded_tree_size;
-        }
+        return {};
+        /*
 
         std::vector<agbpack_u8> serialized_tree(encoded_tree_size);
 
@@ -964,6 +959,7 @@ private:
         serialized_tree[0] = static_cast<agbpack_u8>(tree_size_byte);
 
         return serialized_tree;
+        */
     }
 };
 
