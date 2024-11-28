@@ -1320,8 +1320,6 @@ public:
         , m_root(build_tree(symbol_size, ftable))
     {}
 
-    // TODO: what is the maximum code length for a symbol that we can handle, and can we detect overflows?
-    //       * Well let's go with 32 bits, and implement and test it (as runtime check, NOT an assertion!)
     code_table create_code_table() const
     {
         code_table table(m_symbol_size);
