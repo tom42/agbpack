@@ -1241,7 +1241,6 @@ std::vector<Node*> Node::encodeTree(Node* node)
     std::vector<Node*> nodeTree(node->numNodes() + 1);
     nodeTree[1] = node;
     serializeTree(nodeTree, node, 2);
-    fixupTree(nodeTree);
 
     return nodeTree;
 }
@@ -1403,16 +1402,17 @@ public:
         //       * Create empty serialized tree
         //       * Serialize tree
 
-        const auto serialized_tree = Node::encodeTree(tree.root().get());
+        auto serialized_tree = Node::encodeTree(tree.root().get());
         fixup_tree(serialized_tree);
         assert_tree(serialized_tree);
         return encode_tree(serialized_tree);
     }
 
 private:
-    static void fixup_tree([[maybe_unused]] const std::vector<Node*>& /*serialized_tree*/)
+    static void fixup_tree([[maybe_unused]] std::vector<Node*>& serialized_tree)
     {
         // TODO: move fixupTree here, then clean it up
+        Node::fixupTree(serialized_tree);
     }
 
     static void assert_tree([[maybe_unused]] const std::vector<Node*>& serialized_tree)
