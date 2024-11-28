@@ -1452,17 +1452,14 @@ public:
     }
 
 private:
-    // TODO: review this thoroughly
-    //       * Compare with our code
     static std::vector<agbpack_u8> encode_tree(const std::vector<Node*>& serialized_tree)
     {
-        // TODO: give this the proper size (number of nodes + 1, no? - not if we're using nodeTree. That already includes+1)
-        std::vector<agbpack_u8> encoded_tree(serialized_tree.size());   // TODO: that's OK here? (sort of - nodeTree has a bogus node)
+        std::vector<agbpack_u8> encoded_tree(serialized_tree.size());   // TODO: that's OK here? (sort of - serialized_tree has a bogus node)
         while (encoded_tree.size() % 4 != 0) // TODO: alignment: calculate size before reserving the vector
         {
             encoded_tree.push_back(0);
         }
-        encoded_tree[0] = static_cast<uint8_t>(encoded_tree.size() / 2 - 1); // TODO: no cast here
+        encoded_tree[0] = static_cast<uint8_t>(encoded_tree.size() / 2 - 1); // TODO: no cast here. And is the calculation good?
 
         for (std::size_t i = 1; i < serialized_tree.size(); ++i)
         {
