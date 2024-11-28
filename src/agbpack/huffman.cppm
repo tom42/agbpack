@@ -1093,6 +1093,7 @@ private:
     std::array<std::unique_ptr<Node>, 2> m_children{};
     size_t m_count = 0;
     std::size_t leaves = 0;
+public: // TODO: this is temporarily public
     uint8_t m_val = 0;
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
 public: // TODO: temporarily public
