@@ -1019,6 +1019,7 @@ public:
     // Returns the number of nodes in this subtree
     size_t numNodes() const
     {
+        // TODO: question: does this need caching too, like numLeaves?
         if (isParent())
         {
             // Sum of children plus self
