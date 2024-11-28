@@ -1484,7 +1484,8 @@ private:
 
     static std::size_t calculate_encoded_tree_size(const std::vector<Node*>& serialized_tree)
     {
-        // TODO: that's OK here? (sort of - serialized_tree has a bogus node)
+        // Calculate size of encoded tree.
+        // serialized_tree.size() already includes the tree size byte, so we just need to add alignment bytes.
         std::size_t size = serialized_tree.size();
 
         while ((size % 4) != 0)
