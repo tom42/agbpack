@@ -1406,6 +1406,12 @@ private:
 
     static void fixup_tree(serialized_tree& tree)
     {
+        // TODO: review very thoroughly
+        //       * All loop counters should be size_t
+        //       * Are there any unwanted casts?
+        //       * Unhardcode constants such as 0x3f (and spell them lowercase: 0x3F => 0x3f)
+        //       * Do not use memmove
+        //       * Dangerous use of sizeof
         for (unsigned i = 1; i < tree.size(); ++i)
         {
             if (!tree[i]->isParent() || tree[i]->m_val <= 0x3F)
