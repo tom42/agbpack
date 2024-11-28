@@ -1406,14 +1406,19 @@ public:
         // TODO: reorganize this into the following steps:
         //       * Create empty serialized tree
         //       * Serialize tree
-        //       * Fix up tree
 
         const auto serialized_tree = Node::encodeTree(tree.root().get());
+        fixup_tree(serialized_tree);
         assert_tree(serialized_tree);
         return encode_tree(serialized_tree);
     }
 
 private:
+    static void fixup_tree([[maybe_unused]] const std::vector<Node*>& /*serialized_tree*/)
+    {
+        // TODO: move fixupTree here, then clean it up
+    }
+
     static void assert_tree([[maybe_unused]] const std::vector<Node*>& serialized_tree)
     {
 #ifndef NDEBUG
