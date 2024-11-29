@@ -993,8 +993,6 @@ public:
 
     static void serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next);
 
-    static void fixupTree(std::vector<Node*>& tree);
-
     static std::vector<Node*> encodeTree(Node* node);
 
     // Returns the number of nodes in this subtree
@@ -1138,77 +1136,6 @@ void Node::serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next)
 
         queue.emplace_back(node->m_children[0].get());
         queue.emplace_back(node->m_children[1].get());
-    }
-}
-
-void Node::fixupTree(std::vector<Node*>& tree)
-{
-    for (unsigned i = 1; i < tree.size(); ++i)
-    {
-        if (!tree[i]->isParent() || tree[i]->m_val <= 0x3F)
-        {
-            continue;
-        }
-
-        unsigned shift = tree[i]->m_val - 0x3F;
-
-        if ((i & 1) && tree[i - 1]->m_val == 0x3F)
-        {
-            // Right child, and left sibling would overflow if we shifted;
-            // Shift the left child by 1 instead
-            --i;
-            shift = 1;
-        }
-
-        unsigned nodeEnd = i / 2 + 1 + tree[i]->m_val;
-        unsigned nodeBegin = nodeEnd - shift;
-
-        unsigned shiftBegin = 2 * nodeBegin;
-        unsigned shiftEnd = 2 * nodeEnd;
-
-        // Move last child pair to front
-        auto tmp = std::make_pair(tree[shiftEnd], tree[shiftEnd + 1]);
-        std::memmove(&tree[shiftBegin + 2], &tree[shiftBegin], sizeof(Node*) * (shiftEnd - shiftBegin));
-        std::tie(tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
-
-        // Adjust offsets
-        tree[i]->m_val -= shift;
-        for (unsigned index = i + 1; index < shiftBegin; ++index)
-        {
-            if (!tree[index]->isParent())
-            {
-                continue;
-            }
-
-            unsigned node = index / 2 + 1 + tree[index]->m_val;
-            if (node >= nodeBegin && node < nodeEnd)
-            {
-                ++tree[index]->m_val;
-            }
-        }
-
-        if (tree[shiftBegin + 0]->isParent())
-        {
-            tree[shiftBegin + 0]->m_val += shift;
-        }
-        if (tree[shiftBegin + 1]->isParent())
-        {
-            tree[shiftBegin + 1]->m_val += shift;
-        }
-
-        for (unsigned index = shiftBegin + 2; index < shiftEnd + 2; ++index)
-        {
-            if (!tree[index]->isParent())
-            {
-                continue;
-            }
-
-            unsigned node = index / 2 + 1 + tree[index]->m_val;
-            if (node > nodeEnd)
-            {
-                --tree[index]->m_val;
-            }
-        }
     }
 }
 
