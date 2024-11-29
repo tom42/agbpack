@@ -993,8 +993,6 @@ public:
 
     static void serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next);
 
-    static std::vector<Node*> encodeTree(Node* node);
-
     // Returns the number of nodes in this subtree
     size_t numNodes() const
     {
