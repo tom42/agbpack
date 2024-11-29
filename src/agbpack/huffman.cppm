@@ -1143,8 +1143,6 @@ std::vector<Node*> Node::encodeTree(Node* node)
 {
     std::vector<Node*> nodeTree(node->numNodes() + 1);
     nodeTree[1] = node;
-    serializeTree(nodeTree, node, 2);
-
     return nodeTree;
 }
 
@@ -1305,8 +1303,10 @@ public:
         //       * Create empty serialized tree
         //       * Serialize tree
 
+        auto node = tree.root().get(); // TODO: node => root
         auto serialized_tree = Node::encodeTree(tree.root().get());
-        serialize_tree(serialized_tree, {}, {});
+
+        serialize_tree(serialized_tree, node, 2);
         fixup_tree(serialized_tree);
         assert_tree(serialized_tree);
         return encode_tree(serialized_tree);
@@ -1315,9 +1315,10 @@ public:
 private:
     using serialized_tree = std::vector<Node*>; // TODO: use this alias everywhere in here?
 
-    static void serialize_tree(serialized_tree& /*tree*/, Node* /*node*/, std::size_t /*next*/)
+    static void serialize_tree(serialized_tree& tree, Node* node, std::size_t next)
     {
-        // TODO: recursive tree serialization
+        // TODO: paste Node::serializeTree here and clean it up
+        Node::serializeTree(tree, node, next);
     }
 
     static void fixup_tree(serialized_tree& tree)
