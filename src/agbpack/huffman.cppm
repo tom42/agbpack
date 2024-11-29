@@ -921,7 +921,7 @@ private:
 
     static std::vector<agbpack_u8> encode_tree(const std::vector<tree_node_ptr_old2>& node_tree)
     {
-        auto serialized_tree = create_empty_encoded_tree(node_tree);
+        auto serialized_tree = std::vector<agbpack_u8>{};
 
         for (std::size_t i = 1; i < node_tree.size(); ++i)
         {
@@ -941,25 +941,6 @@ private:
         // Allocate an extra slot for the tree size byte. We don't store anything there in the
         // node array, but it is helpful if the root node occupies the array element at index 1.
         return std::vector<tree_node_ptr_old2>(tree.root()->num_nodes() + 1);
-    }
-
-    static std::vector<agbpack_u8> create_empty_encoded_tree(const std::vector<tree_node_ptr_old2>&)
-    {
-        return {};
-        /*
-
-        std::vector<agbpack_u8> serialized_tree(encoded_tree_size);
-
-        // Write tree size byte
-        // TODO: tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
-        //       * We just must make sure we have at least one test requiring padding and one requiring no padding
-        //       * And maybe one for the minimum size (already have that, no?) and one for the maximum size
-        // TODO: assert tree size byte is in correct range?
-        std::size_t tree_size_byte = encoded_tree_size / 2 - 1;
-        serialized_tree[0] = static_cast<agbpack_u8>(tree_size_byte);
-
-        return serialized_tree;
-        */
     }
 };
 
@@ -1511,7 +1492,13 @@ private:
     {
         auto encoded_tree = create_empty_encoded_tree(serialized_tree);
 
-        encoded_tree[0] = static_cast<uint8_t>(encoded_tree.size() / 2 - 1); // TODO: no cast here. And is the calculation good?
+        // Write tree size byte
+        // TODO: tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
+        //       * We just must make sure we have at least one test requiring padding and one requiring no padding
+        //       * And maybe one for the minimum size (already have that, no?) and one for the maximum size
+        // TODO: assert tree size byte is in correct range?
+        // TODO: no cast here. And is the calculation good? (well we do need a cast, no? We do need to go from size_t to byte...)
+        encoded_tree[0] = static_cast<agbpack_u8>(encoded_tree.size() / 2 - 1);
 
         for (std::size_t i = 1; i < serialized_tree.size(); ++i)
         {
