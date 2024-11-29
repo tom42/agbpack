@@ -1290,15 +1290,12 @@ class huffman_tree_serializer final
 public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
-        // TODO: reorganize this into the following steps:
-        //       * Create empty serialized tree
-        //       * Serialize tree
+        // TODO: factor this out into some sort of create_empty_serialized_tree?
+        auto root = tree.root().get();
+        serialized_tree serialized_tree(root->numNodes() + 1);
+        serialized_tree[1] = root;
 
-        auto node = tree.root().get(); // TODO: node => root
-        serialized_tree serialized_tree(node->numNodes() + 1);
-        serialized_tree[1] = node;
-
-        serialize_tree(serialized_tree, node, 2);
+        serialize_tree(serialized_tree, root, 2);
         fixup_tree(serialized_tree);
         assert_tree(serialized_tree);
         return encode_tree(serialized_tree);
