@@ -1306,6 +1306,7 @@ public:
         //       * Serialize tree
 
         auto serialized_tree = Node::encodeTree(tree.root().get());
+        serialize_tree(serialized_tree);
         fixup_tree(serialized_tree);
         assert_tree(serialized_tree);
         return encode_tree(serialized_tree);
@@ -1313,6 +1314,11 @@ public:
 
 private:
     using serialized_tree = std::vector<Node*>; // TODO: use this alias everywhere in here?
+
+    static void serialize_tree(serialized_tree& /*tree*/)
+    {
+        // TODO: recursive tree serialization
+    }
 
     static void fixup_tree(serialized_tree& tree)
     {
