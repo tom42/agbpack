@@ -1295,7 +1295,8 @@ public:
         //       * Serialize tree
 
         auto node = tree.root().get(); // TODO: node => root
-        auto serialized_tree = Node::encodeTree(tree.root().get());
+        serialized_tree serialized_tree(node->numNodes() + 1);
+        serialized_tree[1] = node;
 
         serialize_tree(serialized_tree, node, 2);
         fixup_tree(serialized_tree);
