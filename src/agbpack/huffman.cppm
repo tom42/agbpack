@@ -1137,13 +1137,6 @@ void Node::serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next)
     }
 }
 
-std::vector<Node*> Node::encodeTree(Node* node)
-{
-    std::vector<Node*> nodeTree(node->numNodes() + 1);
-    nodeTree[1] = node;
-    return nodeTree;
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // TODO: this stuff needs heavy reworking
