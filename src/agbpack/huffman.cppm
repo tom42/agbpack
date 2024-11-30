@@ -988,9 +988,9 @@ public:
         return m_count;
     }
 
-    // TODO: that's silly to have on the public interface, no? Since only index 0 and 1 are allowed...
     const tree_node_ptr& child(std::size_t index) const
     {
+        assert((index == 0) || (index == 1));
         return m_children[index];
     }
 
