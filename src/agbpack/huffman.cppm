@@ -33,8 +33,8 @@ using code_length = unsigned int;
 inline constexpr auto min_next_node_offset = 0u;
 inline constexpr auto max_next_node_offset = 63u;
 inline constexpr auto mask_next_node_offset = 63;
-inline constexpr auto min_serialized_tree_size = 4u;
-inline constexpr auto max_serialized_tree_size = 512u;
+inline constexpr auto min_encoded_tree_size = 4u;
+inline constexpr auto max_encoded_tree_size = 512u;
 inline constexpr auto mask0 = 0x80;
 inline constexpr auto mask1 = 0x40;
 AGBPACK_EXPORT_FOR_UNIT_TESTING inline constexpr auto max_code_length = std::numeric_limits<code>::digits;
@@ -510,11 +510,7 @@ public:
 
         write_padding_bytes(writer);
 
-        // Fix up tree size byte
-        serialized_tree[0] = static_cast<agbpack_u8>(writer.nbytes_written() / 2 - 1);
-
-        assert(in_closed_range(serialized_tree.size(), min_serialized_tree_size, max_serialized_tree_size));
-        assert((serialized_tree.size() % 4) == 0);
+        // [Tree size byte calculation removed]
 
         return serialized_tree;
     }
@@ -1419,7 +1415,6 @@ private:
         // TODO: tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
         //       * We just must make sure we have at least one test requiring padding and one requiring no padding
         //       * And maybe one for the minimum size (already have that, no?) and one for the maximum size
-        // TODO: assert tree size byte is in correct range?
         encoded_tree[0] = static_cast<agbpack_u8>(encoded_tree.size() / 2 - 1);
 
         for (std::size_t i = 1; i < serialized_tree.size(); ++i)
@@ -1465,6 +1460,9 @@ private:
         {
             ++size;
         }
+
+        assert(in_closed_range(size, min_encoded_tree_size, max_encoded_tree_size));
+        assert((size % 4) == 0);
 
         return size;
     }
