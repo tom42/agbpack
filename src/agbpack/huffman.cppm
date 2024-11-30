@@ -1063,7 +1063,7 @@ private:
     size_t m_count = 0;
     std::size_t leaves = 0;
 public: // TODO: this is temporarily public
-    uint8_t m_val = 0;
+    uint8_t m_val = 0; // TODO: separate symbol and offset field. Offset field should be size_t to reduce casting
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
 public: // TODO: temporarily public
     std::size_t pos = 0;
