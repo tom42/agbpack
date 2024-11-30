@@ -942,8 +942,6 @@ public:
         return static_cast<bool> (m_children[0]);
     }
 
-    static void serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next);
-
     // Returns the number of nodes in this subtree
     size_t numNodes() const
     {
@@ -1017,8 +1015,9 @@ public:
         return std::make_unique<Node>(std::move(child0), std::move(child1));
     }
 
-private:
+public: // TODO: make private!
     std::array<std::unique_ptr<Node>, 2> m_children{};
+private:
     size_t m_count = 0;
     std::size_t m_leaves = 0;
 
@@ -1029,65 +1028,6 @@ public: // TODO: temporarily public
     std::size_t pos = 0;
 #endif
 };
-
-void Node::serializeTree(std::vector<Node*>& tree, Node* node, std::size_t next)
-{
-    assert(node->isParent());
-
-    if (node->numLeaves() > 0x40)
-    {
-        // This subtree will overflow the offset field if inserted naively
-        tree[next + 0] = node->m_children[0].get();
-        tree[next + 1] = node->m_children[1].get();
-
-        unsigned a = 0;
-        unsigned b = 1;
-
-        if (node->m_children[1]->numLeaves() < node->m_children[0]->numLeaves())
-        {
-            std::swap(a, b);
-        }
-
-        if (node->m_children[a]->isParent())
-        {
-            node->m_children[a]->m_val = 0;
-            serializeTree(tree, node->m_children[a].get(), next + 2);
-        }
-
-        if (node->m_children[b]->isParent())
-        {
-            // TODO: no cast?
-            node->m_children[b]->m_val = static_cast<uint8_t>(node->m_children[a]->numLeaves() - 1);
-            serializeTree(tree, node->m_children[b].get(), next + 2 * node->m_children[a]->numLeaves());
-        }
-
-        return;
-    }
-
-    std::deque<Node*> queue;
-
-    queue.emplace_back(node->m_children[0].get());
-    queue.emplace_back(node->m_children[1].get());
-
-    while (!queue.empty())
-    {
-        node = queue.front();
-        queue.pop_front();
-
-        tree[next++] = node;
-
-        if (!node->isParent())
-        {
-            continue;
-        }
-
-        // TODO: no cast
-        node->m_val = static_cast<uint8_t>(queue.size() / 2);
-
-        queue.emplace_back(node->m_children[0].get());
-        queue.emplace_back(node->m_children[1].get());
-    }
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1258,8 +1198,62 @@ private:
 
     static void serialize_tree(serialized_tree& tree, Node* node, std::size_t next)
     {
-        // TODO: paste Node::serializeTree here and clean it up
-        Node::serializeTree(tree, node, next);
+        // TODO: review very thoroughly
+        assert(node->isParent());
+
+        if (node->numLeaves() > 0x40)
+        {
+            // This subtree will overflow the offset field if inserted naively
+            tree[next + 0] = node->m_children[0].get();
+            tree[next + 1] = node->m_children[1].get();
+
+            unsigned a = 0;
+            unsigned b = 1;
+
+            if (node->m_children[1]->numLeaves() < node->m_children[0]->numLeaves())
+            {
+                std::swap(a, b);
+            }
+
+            if (node->m_children[a]->isParent())
+            {
+                node->m_children[a]->m_val = 0;
+                serialize_tree(tree, node->m_children[a].get(), next + 2);
+            }
+
+            if (node->m_children[b]->isParent())
+            {
+                // TODO: no cast?
+                node->m_children[b]->m_val = static_cast<uint8_t>(node->m_children[a]->numLeaves() - 1);
+                serialize_tree(tree, node->m_children[b].get(), next + 2 * node->m_children[a]->numLeaves());
+            }
+
+            return;
+        }
+
+        std::deque<Node*> queue;
+
+        queue.emplace_back(node->m_children[0].get());
+        queue.emplace_back(node->m_children[1].get());
+
+        while (!queue.empty())
+        {
+            node = queue.front();
+            queue.pop_front();
+
+            tree[next++] = node;
+
+            if (!node->isParent())
+            {
+                continue;
+            }
+
+            // TODO: no cast
+            node->m_val = static_cast<uint8_t>(queue.size() / 2);
+
+            queue.emplace_back(node->m_children[0].get());
+            queue.emplace_back(node->m_children[1].get());
+        }
     }
 
     static void fixup_tree(serialized_tree& tree)
