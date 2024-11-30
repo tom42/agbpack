@@ -1194,13 +1194,13 @@ private:
         if (node->numLeaves() > 0x40)
         {
             // This subtree will overflow the offset field if inserted naively
-            tree[next + 0] = node->m_children[0].get();
+            tree[next + 0] = node->child(0).get();
             tree[next + 1] = node->m_children[1].get();
 
             unsigned a = 0;
             unsigned b = 1;
 
-            if (node->m_children[1]->numLeaves() < node->m_children[0]->numLeaves())
+            if (node->m_children[1]->numLeaves() < node->child(0)->numLeaves())
             {
                 std::swap(a, b);
             }
@@ -1223,7 +1223,7 @@ private:
 
         std::deque<Node*> queue;
 
-        queue.emplace_back(node->m_children[0].get());
+        queue.emplace_back(node->child(0).get());
         queue.emplace_back(node->m_children[1].get());
 
         while (!queue.empty())
@@ -1241,7 +1241,7 @@ private:
             // TODO: no cast
             node->m_val = static_cast<uint8_t>(queue.size() / 2);
 
-            queue.emplace_back(node->m_children[0].get());
+            queue.emplace_back(node->child(0).get());
             queue.emplace_back(node->m_children[1].get());
         }
     }
