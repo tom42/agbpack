@@ -502,15 +502,11 @@ public:
             }
             else
             {
-                // Write leaf node value
-                agbpack_u8 leaf_node_value = static_cast<agbpack_u8>(node->sym());
-                writer.write8(leaf_node_value);
+                // Write leaf node value [removed]
             }
         }
 
-        write_padding_bytes(writer);
-
-        // [Tree size byte calculation removed]
+        // [Padding and tree size byte calculation removed]
 
         return serialized_tree;
     }
