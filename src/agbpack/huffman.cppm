@@ -845,7 +845,6 @@ private:
 
     // TODO: check signature
     // TODO: can we make tree_node_ptr static here
-    // TODO: can we operate on raw pointers rather than shared pointers?
     static void serialize_internal(std::vector<tree_node_ptr_old2>& node_tree, tree_node_ptr_old2 node, std::size_t next)
     {
         assert(node->is_internal());
