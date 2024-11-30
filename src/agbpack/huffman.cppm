@@ -1302,7 +1302,7 @@ public:
     }
 
 private:
-    using serialized_tree = std::vector<Node*>; // TODO: use this alias everywhere in here?
+    using serialized_tree = std::vector<Node*>;
 
     static void serialize_tree(serialized_tree& tree, Node* node, std::size_t next)
     {
@@ -1387,7 +1387,7 @@ private:
         }
     }
 
-    static void assert_tree([[maybe_unused]] const std::vector<Node*>& serialized_tree)
+    static void assert_tree([[maybe_unused]] const serialized_tree& serialized_tree)
     {
 #ifndef NDEBUG
         for (std::size_t i = 1; i < serialized_tree.size(); ++i)
@@ -1411,7 +1411,7 @@ private:
 #endif
     }
 
-    static std::vector<agbpack_u8> encode_tree(const std::vector<Node*>& serialized_tree)
+    static std::vector<agbpack_u8> encode_tree(const serialized_tree& serialized_tree)
     {
         auto encoded_tree = create_empty_encoded_tree(serialized_tree);
 
@@ -1451,12 +1451,12 @@ private:
         return encoded_node;
     }
 
-    static std::vector<agbpack_u8> create_empty_encoded_tree(const std::vector<Node*>& serialized_tree)
+    static std::vector<agbpack_u8> create_empty_encoded_tree(const serialized_tree& serialized_tree)
     {
         return std::vector<agbpack_u8>(calculate_encoded_tree_size(serialized_tree));
     }
 
-    static std::size_t calculate_encoded_tree_size(const std::vector<Node*>& serialized_tree)
+    static std::size_t calculate_encoded_tree_size(const serialized_tree& serialized_tree)
     {
         // Calculate size of encoded tree.
         // serialized_tree.size() already includes the tree size byte, so we just need to add alignment bytes.
