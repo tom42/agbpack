@@ -895,16 +895,11 @@ private:
     }
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// TODO: this stuff needs heavy reworking
-// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 AGBPACK_EXPORT_FOR_UNIT_TESTING class Node;
 using tree_node_ptr = std::unique_ptr<Node>;
 
 // TODO: Node => node
-// TODO: rework this entire thing
+// TODO: review/rework very thoroughly
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class Node final
 {
@@ -937,13 +932,15 @@ public:
         return m_val < other.m_val;
     }
 
+    // TODO: => is_parent
+    // TODO: explicit flag? Or maybe remove the cast?
     bool isParent() const
     {
         return static_cast<bool> (m_children[0]);
     }
 
     // Returns the number of nodes in this subtree
-    size_t numNodes() const
+    std::size_t numNodes() const // TODO: => num_nodes
     {
         // TODO: question: does this need caching too, like numLeaves?
         if (isParent())
@@ -957,7 +954,7 @@ public:
     }
 
     // Returns the number of leaves in this subtree
-    size_t numLeaves()
+    std::size_t numLeaves() // TODO: => num_leaves
     {
         if (m_leaves == 0)
         {
@@ -1007,7 +1004,7 @@ public:
 
 private:
     std::array<std::unique_ptr<Node>, 2> m_children{};
-    size_t m_count = 0;
+    std::size_t m_count = 0;
     std::size_t m_leaves = 0;
 
 public: // TODO: this is temporarily public
@@ -1017,11 +1014,6 @@ public: // TODO: temporarily public
     std::size_t pos = 0;
 #endif
 };
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-// TODO: this stuff needs heavy reworking
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class tree_node_compare final
 {
