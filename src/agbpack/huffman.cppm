@@ -1422,6 +1422,9 @@ private:
             encoded_tree[i] = encode_node(serialized_tree[i]);
         }
 
+        assert(in_closed_range(encoded_tree.size(), min_encoded_tree_size, max_encoded_tree_size));
+        assert((encoded_tree.size() % 4) == 0);
+
         return encoded_tree;
     }
 
@@ -1460,9 +1463,6 @@ private:
         {
             ++size;
         }
-
-        assert(in_closed_range(size, min_encoded_tree_size, max_encoded_tree_size));
-        assert((size % 4) == 0);
 
         return size;
     }
