@@ -1005,9 +1005,8 @@ public:
         return std::make_unique<Node>(std::move(child0), std::move(child1));
     }
 
-public: // TODO: make private!
-    std::array<std::unique_ptr<Node>, 2> m_children{};
 private:
+    std::array<std::unique_ptr<Node>, 2> m_children{};
     size_t m_count = 0;
     std::size_t m_leaves = 0;
 
