@@ -721,88 +721,6 @@ public:
     }
 
 private:
-    static void fixup_tree(std::vector<tree_node_ptr_old2>& tree)
-    {
-        // TODO: this loop makes it now clear that it would be totally awesome if value hat some kind of property character
-        for (std::size_t i = 1; i < tree.size(); ++i)
-        {
-            // TODO: factor out constant 0x3f?
-            if (!tree[i]->is_internal() || tree[i]->value() <= 0x3f)
-            {
-                continue;
-            }
-
-            std::size_t shift = tree[i]->value() - 0x3f;
-
-            if ((i & 1) && (tree[i - 1]->value() == 0x3f))
-            {
-                // Right child, and left sibling would overflow if we shifted;
-                // Shift the left child by 1 instead
-                --i;
-                shift = 1;
-            }
-
-            // TODO: rename stuff to use proper underscoring
-            //       * nodeEnd
-            //       * nodeBegin
-            //       * shiftBegin
-            //       * shiftEnd
-            std::size_t nodeEnd = i / 2 + 1 + tree[i]->value();
-            std::size_t nodeBegin = nodeEnd - shift;
-
-            std::size_t shiftBegin = 2 * nodeBegin;
-            std::size_t shiftEnd = 2 * nodeEnd;
-
-            // Move last child pair to front
-            // TODO: danger: Replace memmove by something safe?
-            //       * Or, alternatively ensure using it IS safe.
-            //       * However, currently tree contains shared_ptrs, so using std::memmove is definitely NOT safe
-            // TODO: dangerous use of sizeof (if we change the element type, tree_node_ptr is going to be wrong)
-            auto tmp = std::make_pair(tree[shiftEnd], tree[shiftEnd + 1]);
-            //std::memmove(&tree[shiftBegin + 2], &tree[shiftBegin], sizeof(tree_node_ptr_old2) * (shiftEnd - shiftBegin));
-            std::tie(tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
-
-            // Adjust offsets
-            tree[i]->set_value(static_cast<uint8_t>(tree[i]->value() - shift)); // TODO: get rid of cast
-            for (std::size_t index = i + 1; index < shiftBegin; ++index)
-            {
-                if (!tree[index]->is_internal())
-                {
-                    continue;
-                }
-
-                std::size_t node = index / 2 + 1 + tree[index]->value();
-                if (node >= nodeBegin && node < nodeEnd)
-                {
-                    tree[i]->set_value(tree[index]->value() + 1);
-                }
-            }
-
-            if (tree[shiftBegin + 0]->is_internal())
-            {
-                tree[shiftBegin + 0]->set_value(static_cast<uint8_t>(tree[shiftBegin + 0]->value() + shift)); // TODO: get rid of cast
-            }
-            if (tree[shiftBegin + 1]->is_internal())
-            {
-                tree[shiftBegin + 1]->set_value(static_cast<uint8_t>(tree[shiftBegin + 1]->value() + shift)); // TODO: get rid of cast
-            }
-
-            for (std::size_t index = shiftBegin + 2; index < shiftEnd + 2; ++index)
-            {
-                if (!tree[index]->is_internal())
-                {
-                    continue;
-                }
-
-                std::size_t node = index / 2 + 1 + tree[index]->value();
-                if (node > nodeEnd)
-                {
-                    tree[index]->set_value(tree[index]->value() - 1);
-                }
-            }
-        }
-    }
-
     // TODO: check signature
     // TODO: can we make tree_node_ptr static here
     static void serialize_internal(std::vector<tree_node_ptr_old2>& node_tree, tree_node_ptr_old2 node, std::size_t next)
@@ -1238,11 +1156,12 @@ private:
     static void fixup_tree(serialized_tree& tree)
     {
         // TODO: review very thoroughly
-        //       * All loop counters should be size_t
+        //       * All loop counters/indices should be size_t
         //       * Are there any unwanted casts?
         //       * Unhardcode constants such as 0x3f (and spell them lowercase: 0x3F => 0x3f)
         //       * Do not use memmove
         //       * Dangerous use of sizeof
+        //       * Make variable names use underscores (nodeEnd => node_end etc)
         for (unsigned i = 1; i < tree.size(); ++i)
         {
             if (!tree[i]->is_parent() || tree[i]->m_val <= 0x3F)
