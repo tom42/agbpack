@@ -932,10 +932,9 @@ public:
         return m_val < other.m_val;
     }
 
-    // TODO: explicit flag? Or maybe remove the cast?
     bool is_parent() const
     {
-        return static_cast<bool> (m_children[0]);
+        return m_children[0] != nullptr;
     }
 
     // Returns the number of nodes in this subtree
