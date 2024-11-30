@@ -1205,17 +1205,17 @@ private:
                 std::swap(a, b);
             }
 
-            if (node->m_children[a]->isParent())
+            if (node->child(a)->isParent())
             {
-                node->m_children[a]->m_val = 0;
-                serialize_tree(tree, node->m_children[a].get(), next + 2);
+                node->child(a)->m_val = 0;
+                serialize_tree(tree, node->child(a).get(), next + 2);
             }
 
             if (node->m_children[b]->isParent())
             {
                 // TODO: no cast?
-                node->m_children[b]->m_val = static_cast<uint8_t>(node->m_children[a]->numLeaves() - 1);
-                serialize_tree(tree, node->m_children[b].get(), next + 2 * node->m_children[a]->numLeaves());
+                node->m_children[b]->m_val = static_cast<uint8_t>(node->child(a)->numLeaves() - 1);
+                serialize_tree(tree, node->m_children[b].get(), next + 2 * node->child(a)->numLeaves());
             }
 
             return;
