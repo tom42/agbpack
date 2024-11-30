@@ -994,11 +994,6 @@ public:
         return m_children[index];
     }
 
-    const tree_node_ptr& child0() const
-    {
-        return m_children[0];
-    }
-
     const tree_node_ptr& child1() const
     {
         return m_children[1];
@@ -1352,7 +1347,7 @@ private:
 
             assert(!(node->val() & mask0));
             assert(!(node->val() & mask1));
-            assert(node->child0()->pos == (node->pos & ~1u) + 2 * node->val() + 2);
+            assert(node->child(0)->pos == (node->pos & ~1u) + 2 * node->val() + 2);
         }
 #endif
     }
@@ -1382,7 +1377,7 @@ private:
 
         if (node->isParent())
         {
-            if (!node->child0()->isParent())
+            if (!node->child(0)->isParent())
             {
                 encoded_node |= mask0;
             }
