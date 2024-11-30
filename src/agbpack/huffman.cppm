@@ -1420,7 +1420,6 @@ private:
         //       * We just must make sure we have at least one test requiring padding and one requiring no padding
         //       * And maybe one for the minimum size (already have that, no?) and one for the maximum size
         // TODO: assert tree size byte is in correct range?
-        // TODO: no cast here. And is the calculation good? (well we do need a cast, no? We do need to go from size_t to byte...)
         encoded_tree[0] = static_cast<agbpack_u8>(encoded_tree.size() / 2 - 1);
 
         for (std::size_t i = 1; i < serialized_tree.size(); ++i)
