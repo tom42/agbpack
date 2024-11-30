@@ -469,48 +469,8 @@ private:
 };
 
 // TODO: old implementation
-// TODO: lots of static casts in here. Reduce to one?
 class old_huffman_tree_serializer final
 {
-public:
-    std::vector<agbpack_u8> serialize(tree_node_ptr_old root)
-    {
-        std::vector<agbpack_u8> serialized_tree;
-        auto writer = unbounded_byte_writer(back_inserter(serialized_tree));
-
-        // Reserve space for tree size byte. We'll fix up its value later.
-        writer.write8(0);
-
-        std::queue<tree_node_ptr_old> queue;
-        queue.push(root);
-        std::size_t next_index = 1;
-
-        while (!queue.empty())
-        {
-            tree_node_ptr_old node{};
-            if (!node->is_leaf())
-            {
-                // Calculate and write internal node value
-                auto current_index = writer.nbytes_written() / 2;
-                agbpack_u8 internal_node_value = calculate_internal_node_value(node, current_index, next_index);
-                writer.write8(internal_node_value);
-
-                // Schedule child nodes for serialization and allocate next slot
-                queue.push(node->child0());
-                queue.push(node->child1());
-                ++next_index;
-            }
-            else
-            {
-                // Write leaf node value [removed]
-            }
-        }
-
-        // [Padding and tree size byte calculation removed]
-
-        return serialized_tree;
-    }
-
 private:
     static agbpack_u8 calculate_internal_node_value(tree_node_ptr_old node, std::size_t current_index, std::size_t next_index)
     {
