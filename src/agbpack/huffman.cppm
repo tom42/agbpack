@@ -961,19 +961,19 @@ public:
     // Returns the number of leaves in this subtree
     size_t numLeaves()
     {
-        if (leaves == 0)
+        if (m_leaves == 0)
         {
             if (isParent())
             {
-                leaves = m_children[0]->numLeaves() + m_children[1]->numLeaves();
+                m_leaves = m_children[0]->numLeaves() + m_children[1]->numLeaves();
             }
             else
             {
-                leaves = 1;
+                m_leaves = 1;
             }
         }
 
-        return leaves;
+        return m_leaves;
     }
 
     // TODO: temporary hack of mine to be able to construct a code_table from an array of nodes.
@@ -1020,7 +1020,8 @@ public:
 private:
     std::array<std::unique_ptr<Node>, 2> m_children{};
     size_t m_count = 0;
-    std::size_t leaves = 0;
+    std::size_t m_leaves = 0;
+
 public: // TODO: this is temporarily public
     uint8_t m_val = 0; // TODO: separate symbol and offset field. Offset field should be size_t to reduce casting
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
