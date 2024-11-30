@@ -50,7 +50,7 @@ auto create_and_serialize_tree(const frequency_table& frequencies)
 
 size_t expected_serialized_tree_size(const huffman_encoder_tree& encoder_tree)
 {
-    size_t size = encoder_tree.root()->numLeaves() * 2 - 1;
+    size_t size = encoder_tree.root()->num_leaves() * 2 - 1;
 
     while (size % 4 != 0)
     {

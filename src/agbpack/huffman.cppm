@@ -952,13 +952,13 @@ public:
     }
 
     // Returns the number of leaves in this subtree
-    std::size_t numLeaves() // TODO: => num_leaves
+    std::size_t num_leaves()
     {
         if (m_leaves == 0)
         {
             if (is_parent())
             {
-                m_leaves = m_children[0]->numLeaves() + m_children[1]->numLeaves();
+                m_leaves = m_children[0]->num_leaves() + m_children[1]->num_leaves();
             }
             else
             {
@@ -1180,7 +1180,7 @@ private:
         // TODO: review very thoroughly
         assert(node->is_parent());
 
-        if (node->numLeaves() > 0x40)
+        if (node->num_leaves() > 0x40)
         {
             // This subtree will overflow the offset field if inserted naively
             tree[next + 0] = node->child(0).get();
@@ -1189,7 +1189,7 @@ private:
             unsigned a = 0;
             unsigned b = 1;
 
-            if (node->child(1)->numLeaves() < node->child(0)->numLeaves())
+            if (node->child(1)->num_leaves() < node->child(0)->num_leaves())
             {
                 std::swap(a, b);
             }
@@ -1203,8 +1203,8 @@ private:
             if (node->child(b)->is_parent())
             {
                 // TODO: no cast?
-                node->child(b)->m_val = static_cast<uint8_t>(node->child(a)->numLeaves() - 1);
-                serialize_tree(tree, node->child(b).get(), next + 2 * node->child(a)->numLeaves());
+                node->child(b)->m_val = static_cast<uint8_t>(node->child(a)->num_leaves() - 1);
+                serialize_tree(tree, node->child(b).get(), next + 2 * node->child(a)->num_leaves());
             }
 
             return;
