@@ -1412,9 +1412,6 @@ private:
         auto encoded_tree = create_empty_encoded_tree(serialized_tree);
 
         // Write tree size byte
-        // TODO: tree size byte (do we need a test for this?) (well we'll automatically have some, no?)
-        //       * We just must make sure we have at least one test requiring padding and one requiring no padding
-        //       * And maybe one for the minimum size (already have that, no?) and one for the maximum size
         encoded_tree[0] = static_cast<agbpack_u8>(encoded_tree.size() / 2 - 1);
 
         for (std::size_t i = 1; i < serialized_tree.size(); ++i)
