@@ -1211,11 +1211,11 @@ private:
                 serialize_tree(tree, node->child(a).get(), next + 2);
             }
 
-            if (node->m_children[b]->isParent())
+            if (node->child(b)->isParent())
             {
                 // TODO: no cast?
-                node->m_children[b]->m_val = static_cast<uint8_t>(node->child(a)->numLeaves() - 1);
-                serialize_tree(tree, node->m_children[b].get(), next + 2 * node->child(a)->numLeaves());
+                node->child(b)->m_val = static_cast<uint8_t>(node->child(a)->numLeaves() - 1);
+                serialize_tree(tree, node->child(b).get(), next + 2 * node->child(a)->numLeaves());
             }
 
             return;
