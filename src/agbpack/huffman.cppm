@@ -938,13 +938,13 @@ public:
     }
 
     // Returns the number of nodes in this subtree
-    std::size_t numNodes() const // TODO: => num_nodes
+    std::size_t num_nodes() const
     {
         // TODO: question: does this need caching too, like numLeaves?
         if (is_parent())
         {
             // Sum of children plus self
-            return m_children[0]->numNodes() + m_children[1]->numNodes() + 1;
+            return m_children[0]->num_nodes() + m_children[1]->num_nodes() + 1;
         }
 
         // This is a data node, just count self
@@ -1163,7 +1163,7 @@ public:
     {
         // TODO: factor this out into some sort of create_empty_serialized_tree?
         auto root = tree.root().get();
-        serialized_tree serialized_tree(root->numNodes() + 1);
+        serialized_tree serialized_tree(root->num_nodes() + 1);
         serialized_tree[1] = root;
 
         serialize_tree(serialized_tree, root, 2);
