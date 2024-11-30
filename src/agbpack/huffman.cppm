@@ -932,9 +932,8 @@ public:
         return m_val < other.m_val;
     }
 
-    // TODO: => is_parent
     // TODO: explicit flag? Or maybe remove the cast?
-    bool isParent() const
+    bool is_parent() const
     {
         return static_cast<bool> (m_children[0]);
     }
@@ -943,7 +942,7 @@ public:
     std::size_t numNodes() const // TODO: => num_nodes
     {
         // TODO: question: does this need caching too, like numLeaves?
-        if (isParent())
+        if (is_parent())
         {
             // Sum of children plus self
             return m_children[0]->numNodes() + m_children[1]->numNodes() + 1;
@@ -958,7 +957,7 @@ public:
     {
         if (m_leaves == 0)
         {
-            if (isParent())
+            if (is_parent())
             {
                 m_leaves = m_children[0]->numLeaves() + m_children[1]->numLeaves();
             }
@@ -1142,7 +1141,7 @@ private:
             throw encode_exception("maximum code length exceeded");
         }
 
-        if (node->isParent())
+        if (node->is_parent())
         {
             create_code_table_internal(table, node->child(0).get(), c << 1, l + 1);
             create_code_table_internal(table, node->child(1).get(), (c << 1) | 1, l + 1);
@@ -1180,7 +1179,7 @@ private:
     static void serialize_tree(serialized_tree& tree, Node* node, std::size_t next)
     {
         // TODO: review very thoroughly
-        assert(node->isParent());
+        assert(node->is_parent());
 
         if (node->numLeaves() > 0x40)
         {
@@ -1196,13 +1195,13 @@ private:
                 std::swap(a, b);
             }
 
-            if (node->child(a)->isParent())
+            if (node->child(a)->is_parent())
             {
                 node->child(a)->m_val = 0;
                 serialize_tree(tree, node->child(a).get(), next + 2);
             }
 
-            if (node->child(b)->isParent())
+            if (node->child(b)->is_parent())
             {
                 // TODO: no cast?
                 node->child(b)->m_val = static_cast<uint8_t>(node->child(a)->numLeaves() - 1);
@@ -1224,7 +1223,7 @@ private:
 
             tree[next++] = node;
 
-            if (!node->isParent())
+            if (!node->is_parent())
             {
                 continue;
             }
@@ -1247,7 +1246,7 @@ private:
         //       * Dangerous use of sizeof
         for (unsigned i = 1; i < tree.size(); ++i)
         {
-            if (!tree[i]->isParent() || tree[i]->m_val <= 0x3F)
+            if (!tree[i]->is_parent() || tree[i]->m_val <= 0x3F)
             {
                 continue;
             }
@@ -1277,7 +1276,7 @@ private:
             tree[i]->m_val -= shift;
             for (unsigned index = i + 1; index < shiftBegin; ++index)
             {
-                if (!tree[index]->isParent())
+                if (!tree[index]->is_parent())
                 {
                     continue;
                 }
@@ -1289,18 +1288,18 @@ private:
                 }
             }
 
-            if (tree[shiftBegin + 0]->isParent())
+            if (tree[shiftBegin + 0]->is_parent())
             {
                 tree[shiftBegin + 0]->m_val += shift;
             }
-            if (tree[shiftBegin + 1]->isParent())
+            if (tree[shiftBegin + 1]->is_parent())
             {
                 tree[shiftBegin + 1]->m_val += shift;
             }
 
             for (unsigned index = shiftBegin + 2; index < shiftEnd + 2; ++index)
             {
-                if (!tree[index]->isParent())
+                if (!tree[index]->is_parent())
                 {
                     continue;
                 }
@@ -1326,7 +1325,7 @@ private:
         for (std::size_t i = 1; i < serialized_tree.size(); ++i)
         {
             auto node = serialized_tree[i];
-            if (!node->isParent())
+            if (!node->is_parent())
             {
                 continue;
             }
@@ -1361,13 +1360,13 @@ private:
         // TODO: check offset (orly? do we check once more?)
         auto encoded_node = node->val();
 
-        if (node->isParent())
+        if (node->is_parent())
         {
-            if (!node->child(0)->isParent())
+            if (!node->child(0)->is_parent())
             {
                 encoded_node |= mask0;
             }
-            if (!node->child(1)->isParent())
+            if (!node->child(1)->is_parent())
             {
                 encoded_node |= mask1;
             }
