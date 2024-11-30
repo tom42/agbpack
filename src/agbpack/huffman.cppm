@@ -994,11 +994,6 @@ public:
         return m_children[index];
     }
 
-    const tree_node_ptr& child1() const
-    {
-        return m_children[1];
-    }
-
     static tree_node_ptr make_leaf(symbol sym, symbol_frequency frequency)
     {
         // TODO: no cast here
@@ -1381,7 +1376,7 @@ private:
             {
                 encoded_node |= mask0;
             }
-            if (!node->child1()->isParent())
+            if (!node->child(1)->isParent())
             {
                 encoded_node |= mask1;
             }
