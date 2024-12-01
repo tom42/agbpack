@@ -771,10 +771,6 @@ private:
         return serialized_tree;
     }
 
-    // TODO: node_tree is a bad word. Anything better?
-    //       Yes. Rename what we call now => to:
-    //       * 'serialized tree'  =>  'encoded tree'
-    //       * 'node tree'        =>  'serialized tree'
     static std::vector<tree_node_ptr_old2> create_empty_node_tree(const huffman_encoder_tree_old2& tree)
     {
         // Allocate space for all internal and leaf nodes.
@@ -1050,12 +1046,8 @@ class huffman_tree_serializer final
 public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
-        // TODO: factor this out into some sort of create_empty_serialized_tree?
-        auto root = tree.root().get();
-        serialized_tree serialized_tree(root->num_nodes() + 1);
-        serialized_tree[1] = root;
-
-        serialize_tree(serialized_tree, root, 2);
+        auto serialized_tree = create_empty_serialized_tree(tree);
+        serialize_tree(serialized_tree, serialized_tree[1], 2); // TODO: unhardcode magic '1' (it's the root node index). Here and elsewhere...
         fixup_tree(serialized_tree);
         assert_tree(serialized_tree);
         return encode_tree(serialized_tree);
@@ -1063,6 +1055,15 @@ public:
 
 private:
     using serialized_tree = std::vector<Node*>;
+
+    static serialized_tree create_empty_serialized_tree(const huffman_encoder_tree& tree)
+    {
+        // TODO: document what we're doing here?
+        auto root = tree.root().get();
+        serialized_tree serialized_tree(root->num_nodes() + 1);
+        serialized_tree[1] = root; // TODO: assign root node here or up in serialize? (might be clearer there?)
+        return serialized_tree;
+    }
 
     static void serialize_tree(serialized_tree& tree, Node* node, std::size_t next)
     {
