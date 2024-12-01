@@ -850,6 +850,7 @@ public:
         return m_val < other.m_val;
     }
 
+    // TODO: rename to is_internal, purge occurrences of 'parent'
     bool is_parent() const
     {
         return m_children[0] != nullptr;
@@ -1275,22 +1276,37 @@ private:
 
     static agbpack_u8 encode_node(const Node* node)
     {
+        if (node->is_parent())
+        {
+            return encode_internal_node(node);
+        }
+        else
+        {
+            return encode_leaf_node(node);
+        }
+    }
+
+    static agbpack_u8 encode_internal_node(const Node* node)
+    {
         // TODO: check offset (orly? do we check once more?)
         auto encoded_node = node->val();
 
-        if (node->is_parent())
+        if (!node->child(0)->is_parent())
         {
-            if (!node->child(0)->is_parent())
-            {
-                encoded_node |= mask0;
-            }
-            if (!node->child(1)->is_parent())
-            {
-                encoded_node |= mask1;
-            }
+            encoded_node |= mask0;
+        }
+
+        if (!node->child(1)->is_parent())
+        {
+            encoded_node |= mask1;
         }
 
         return encoded_node;
+    }
+
+    static agbpack_u8 encode_leaf_node(const Node* node)
+    {
+        return node->val();
     }
 
     static std::vector<agbpack_u8> create_empty_encoded_tree(const serialized_tree& serialized_tree)
