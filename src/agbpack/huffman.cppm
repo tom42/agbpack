@@ -1187,11 +1187,11 @@ private:
 
             // Move last child pair to front
             auto tmp = std::make_pair(tree[shiftEnd], tree[shiftEnd + 1]);
-            std::memmove(&tree[shiftBegin + 2], &tree[shiftBegin], sizeof(Node*) * (shiftEnd - shiftBegin));
+            std::memmove(&tree[shiftBegin + 2], &tree[shiftBegin], sizeof(Node*) * (shiftEnd - shiftBegin)); // TODO: do NOT use memmove here (or use a static_assert to ensure it is OK)
             std::tie(tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
 
             // Adjust offsets
-            tree[i]->m_val -= shift;
+            tree[i]->m_val -= shift; // TODO: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             for (unsigned index = i + 1; index < shiftBegin; ++index)
             {
                 if (!tree[index]->is_parent())
@@ -1208,11 +1208,11 @@ private:
 
             if (tree[shiftBegin + 0]->is_parent())
             {
-                tree[shiftBegin + 0]->m_val += shift;
+                tree[shiftBegin + 0]->m_val += shift; // TODO: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             }
             if (tree[shiftBegin + 1]->is_parent())
             {
-                tree[shiftBegin + 1]->m_val += shift;
+                tree[shiftBegin + 1]->m_val += shift; // TODO: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             }
 
             for (unsigned index = shiftBegin + 2; index < shiftEnd + 2; ++index)
