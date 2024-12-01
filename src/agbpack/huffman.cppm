@@ -688,7 +688,7 @@ public:
         serialize_internal(node_tree, tree.root(), 2);
         //fixup_tree(node_tree);
 
-        return encode_tree(node_tree);
+        return{};
     }
 
 private:
@@ -725,49 +725,6 @@ private:
 
             return;
         }
-
-        std::queue<tree_node_ptr_old2> queue;
-
-        queue.push(node->child(0));
-        queue.push(node->child(1));
-
-        while (!queue.empty())
-        {
-            node = pop(queue);
-            node_tree[next++] = node;
-
-            if (node->is_internal())
-            {
-                // TODO: should we not catch overflows here? Well we should catch offset overflows *somewhere*, even in release builds. But not necessarily here.
-                // TODO: do we really have to have mutable nodes for serialization?
-
-                std::size_t offset = queue.size() / 2;
-
-                // TODO: can we get rid of the cast?
-                node->set_value(static_cast<std::uint8_t>(offset));
-                queue.push(node->child(0));
-                queue.push(node->child(1));
-            }
-        }
-    }
-
-    static tree_node_ptr_old2 pop(std::queue<tree_node_ptr_old2>& queue)
-    {
-        auto node = queue.front();
-        queue.pop();
-        return node;
-    }
-
-    static std::vector<agbpack_u8> encode_tree(const std::vector<tree_node_ptr_old2>& node_tree)
-    {
-        auto serialized_tree = std::vector<agbpack_u8>{};
-
-        for (std::size_t i = 1; i < node_tree.size(); ++i)
-        {
-            serialized_tree[i] = 42; // Used to be a call to encode_node
-        }
-
-        return serialized_tree;
     }
 };
 
@@ -776,6 +733,7 @@ using tree_node_ptr = std::unique_ptr<Node>;
 
 // TODO: Node => node (OK but if we keep the name 'node' as opposed to say 'tree_node', do we then rename tree_node_ptr to just node_ptr?)
 // TODO: review/rework very thoroughly
+// TODO: do we really have to have mutable nodes for serialization?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class Node final
 {
