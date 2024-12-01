@@ -682,7 +682,7 @@ class huffman_tree_serializer_old2 final
 public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree_old2& tree)
     {
-        auto node_tree = create_empty_node_tree(tree);
+        std::vector<tree_node_ptr_old2> node_tree{};
 
         node_tree[1] = tree.root();
         serialize_internal(node_tree, tree.root(), 2);
@@ -768,14 +768,6 @@ private:
         }
 
         return serialized_tree;
-    }
-
-    static std::vector<tree_node_ptr_old2> create_empty_node_tree(const huffman_encoder_tree_old2& tree)
-    {
-        // Allocate space for all internal and leaf nodes.
-        // Allocate an extra slot for the tree size byte. We don't store anything there in the
-        // node array, but it is helpful if the root node occupies the array element at index 1.
-        return std::vector<tree_node_ptr_old2>(tree.root()->num_nodes() + 1);
     }
 };
 
