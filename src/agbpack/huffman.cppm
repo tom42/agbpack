@@ -30,7 +30,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING using symbol_frequency = uint32_t;
 using code = uint32_t;
 using code_length = unsigned int;
 
-inline constexpr auto root_node_index = 1;
+inline constexpr auto root_node_index = 1; // TODO: review code and use where applicable
 inline constexpr auto min_next_node_offset = 0u;
 inline constexpr auto max_next_node_offset = 63u;
 inline constexpr auto mask_next_node_offset = 63;
@@ -1038,7 +1038,10 @@ public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
         auto serialized_tree = create_empty_serialized_tree(tree);
-        serialize_tree(serialized_tree, serialized_tree[1], 2); // TODO: unhardcode magic '1' (it's the root node index). Here and elsewhere...
+
+        serialized_tree[root_node_index] = tree.root().get();
+
+        serialize_tree(serialized_tree, tree.root().get(), root_node_index + 1);
         fixup_tree(serialized_tree);
         assert_tree(serialized_tree);
         return encode_tree(serialized_tree);
@@ -1052,9 +1055,7 @@ private:
         // Allocate space for all internal and leaf nodes.
         // Also allocate an extra slot for the tree size byte. We don't store anything there in the
         // serialized tree, but it is helpful if the root node occupies the array element at index 1.
-        auto root = tree.root().get();
-        serialized_tree serialized_tree(root->num_nodes() + 1);
-        serialized_tree[1] = root; // TODO: assign root node here or up in serialize? (might be clearer there?)
+        serialized_tree serialized_tree(tree.root()->num_nodes() + 1);
         return serialized_tree;
     }
 
