@@ -1057,7 +1057,9 @@ private:
 
     static serialized_tree create_empty_serialized_tree(const huffman_encoder_tree& tree)
     {
-        // TODO: document what we're doing here?
+        // Allocate space for all internal and leaf nodes.
+        // Also allocate an extra slot for the tree size byte. We don't store anything there in the
+        // serialized tree, but it is helpful if the root node occupies the array element at index 1.
         auto root = tree.root().get();
         serialized_tree serialized_tree(root->num_nodes() + 1);
         serialized_tree[1] = root; // TODO: assign root node here or up in serialize? (might be clearer there?)
