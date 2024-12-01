@@ -1289,6 +1289,13 @@ private:
     static agbpack_u8 encode_internal_node(const Node* node)
     {
         // TODO: check offset (orly? do we check once more?)
+        //       => Well that really should be done inside assert_tree (which should always do it, not only in debug builds)
+        //       => Anyway, here's what we had at some point (imo this check should be way before offset is converted to 8 bits)
+        //            if (!in_closed_range(offset, min_next_node_offset, max_next_node_offset))
+        //            {
+        //                throw internal_error("next node offset is out of range");
+        //            }
+
         auto encoded_node = node->val();
 
         if (!node->child(0)->is_parent())
