@@ -821,8 +821,7 @@ public:
         return m_val < other.m_val;
     }
 
-    // TODO: rename to is_internal, purge occurrences of 'parent'
-    bool is_parent() const
+    bool is_internal() const
     {
         return m_children[0] != nullptr;
     }
@@ -831,7 +830,7 @@ public:
     std::size_t num_nodes() const
     {
         // TODO: question: does this need caching too, like numLeaves?
-        if (is_parent())
+        if (is_internal())
         {
             // Sum of children plus self
             return m_children[0]->num_nodes() + m_children[1]->num_nodes() + 1;
@@ -846,7 +845,7 @@ public:
     {
         if (m_leaves == 0)
         {
-            if (is_parent())
+            if (is_internal())
             {
                 m_leaves = m_children[0]->num_leaves() + m_children[1]->num_leaves();
             }
@@ -1030,7 +1029,7 @@ private:
             throw encode_exception("maximum code length exceeded");
         }
 
-        if (node->is_parent())
+        if (node->is_internal())
         {
             create_code_table_internal(table, node->child(0).get(), c << 1, l + 1);
             create_code_table_internal(table, node->child(1).get(), (c << 1) | 1, l + 1);
@@ -1068,7 +1067,7 @@ private:
     static void serialize_tree(serialized_tree& tree, Node* node, std::size_t next)
     {
         // TODO: review very thoroughly
-        assert(node->is_parent());
+        assert(node->is_internal());
 
         if (node->num_leaves() > 0x40)
         {
@@ -1084,13 +1083,13 @@ private:
                 std::swap(a, b);
             }
 
-            if (node->child(a)->is_parent())
+            if (node->child(a)->is_internal())
             {
                 node->child(a)->m_val = 0;
                 serialize_tree(tree, node->child(a).get(), next + 2);
             }
 
-            if (node->child(b)->is_parent())
+            if (node->child(b)->is_internal())
             {
                 // TODO: no cast?
                 node->child(b)->m_val = static_cast<uint8_t>(node->child(a)->num_leaves() - 1);
@@ -1112,7 +1111,7 @@ private:
 
             tree[next++] = node;
 
-            if (!node->is_parent())
+            if (!node->is_internal())
             {
                 continue;
             }
@@ -1136,7 +1135,7 @@ private:
         //       * Make variable names use underscores (nodeEnd => node_end etc)
         for (unsigned i = 1; i < tree.size(); ++i)
         {
-            if (!tree[i]->is_parent() || tree[i]->m_val <= 0x3F)
+            if (!tree[i]->is_internal() || tree[i]->m_val <= 0x3F)
             {
                 continue;
             }
@@ -1166,7 +1165,7 @@ private:
             tree[i]->m_val -= shift; // TODO: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             for (unsigned index = i + 1; index < shiftBegin; ++index)
             {
-                if (!tree[index]->is_parent())
+                if (!tree[index]->is_internal())
                 {
                     continue;
                 }
@@ -1178,18 +1177,18 @@ private:
                 }
             }
 
-            if (tree[shiftBegin + 0]->is_parent())
+            if (tree[shiftBegin + 0]->is_internal())
             {
                 tree[shiftBegin + 0]->m_val += shift; // TODO: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             }
-            if (tree[shiftBegin + 1]->is_parent())
+            if (tree[shiftBegin + 1]->is_internal())
             {
                 tree[shiftBegin + 1]->m_val += shift; // TODO: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             }
 
             for (unsigned index = shiftBegin + 2; index < shiftEnd + 2; ++index)
             {
-                if (!tree[index]->is_parent())
+                if (!tree[index]->is_internal())
                 {
                     continue;
                 }
@@ -1215,7 +1214,7 @@ private:
         for (std::size_t i = 1; i < serialized_tree.size(); ++i)
         {
             auto node = serialized_tree[i];
-            if (!node->is_parent())
+            if (!node->is_internal())
             {
                 continue;
             }
@@ -1247,7 +1246,7 @@ private:
 
     static agbpack_u8 encode_node(const Node* node)
     {
-        if (node->is_parent())
+        if (node->is_internal())
         {
             return encode_internal_node(node);
         }
@@ -1269,12 +1268,12 @@ private:
 
         auto encoded_node = node->val();
 
-        if (!node->child(0)->is_parent())
+        if (!node->child(0)->is_internal())
         {
             encoded_node |= mask0;
         }
 
-        if (!node->child(1)->is_parent())
+        if (!node->child(1)->is_internal())
         {
             encoded_node |= mask1;
         }
