@@ -787,7 +787,7 @@ private:
 AGBPACK_EXPORT_FOR_UNIT_TESTING class Node;
 using tree_node_ptr = std::unique_ptr<Node>;
 
-// TODO: Node => node
+// TODO: Node => node (OK but if we keep the name 'node' as opposed to say 'tree_node', do we then rename tree_node_ptr to just node_ptr?)
 // TODO: review/rework very thoroughly
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class Node final
