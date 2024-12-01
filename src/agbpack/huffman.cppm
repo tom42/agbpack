@@ -468,35 +468,6 @@ private:
     tree_node_ptr_old m_child1;
 };
 
-// TODO: old implementation
-class old_huffman_tree_serializer final
-{
-private:
-    static agbpack_u8 calculate_internal_node_value(tree_node_ptr_old node, std::size_t current_index, std::size_t next_index)
-    {
-        std::size_t offset = next_index - current_index - 1;
-
-        if (!in_closed_range(offset, min_next_node_offset, max_next_node_offset))
-        {
-            throw internal_error("next node offset is out of range");
-        }
-
-        agbpack_u8 internal_node_value = static_cast<agbpack_u8>(offset);
-
-        if (node->child0()->is_leaf())
-        {
-            internal_node_value |= mask0;
-        }
-
-        if (node->child1()->is_leaf())
-        {
-            internal_node_value |= mask1;
-        }
-
-        return internal_node_value;
-    }
-};
-
 // TODO: old stuff, remove
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node;
