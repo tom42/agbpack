@@ -30,8 +30,8 @@ TEST_CASE("tree_node_test")
         auto internal_node = huffman_tree_node::make_internal(std::move(child0), std::move(child1));
 
         CHECK(internal_node->is_internal() == true);
-        CHECK(internal_node->child(0) == child0);
-        CHECK(internal_node->child(1) == child1);
+        CHECK(internal_node->child(0)->val() == 'B');
+        CHECK(internal_node->child(1)->val() == 'C');
         CHECK(internal_node->val() == 0);
         CHECK(internal_node->frequency() == 87);
     }
@@ -50,13 +50,13 @@ TEST_CASE("tree_node_test")
         auto child1 = huffman_tree_node::make_leaf(0, 0);
         auto child2 = huffman_tree_node::make_leaf(0, 0);
         auto internal_node0 = huffman_tree_node::make_internal(std::move(child0), std::move(child1));
-        auto internal_node1 = huffman_tree_node::make_internal(std::move(internal_node0), std::move(child2));
+        auto root = huffman_tree_node::make_internal(std::move(internal_node0), std::move(child2));
 
-        CHECK(internal_node0->num_nodes() == 3);
-        CHECK(internal_node1->num_nodes() == 5);
+        CHECK(root->child(0)->num_nodes() == 3);
+        CHECK(root->num_nodes() == 5);
 
-        CHECK(internal_node0->num_leaves() == 2);
-        CHECK(internal_node1->num_leaves() == 3);
+        CHECK(root->child(0)->num_leaves() == 2);
+        CHECK(root->num_leaves() == 3);
     }
 }
 
