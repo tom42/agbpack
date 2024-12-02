@@ -442,49 +442,6 @@ private:
     std::vector<symbol_frequency> m_frequencies;
 };
 
-// TODO: old stuff, remove
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-class tree_node;
-using tree_node_ptr_old2 = std::shared_ptr<tree_node>;
-
-// TODO: old stuff, remove
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-class tree_node final
-{
-public:
-    explicit tree_node(uint8_t value, symbol_frequency frequency) noexcept
-        : m_value(value)
-        , m_frequency(frequency)
-    {}
-
-    explicit tree_node(tree_node_ptr_old2 child0, tree_node_ptr_old2 child1)
-        : m_children{ child0, child1 }
-        , m_is_internal(true)
-        , m_frequency(child0->frequency() + child1->frequency())
-    {}
-
-    bool is_internal() const { return m_is_internal; }
-
-    tree_node_ptr_old2 child(std::size_t index) const { return m_children[index]; }
-
-    // TODO: we're abusing this for both the symbol in child nodes and the offset in parent nodes.
-    //       That's silly, because we don't necessarily want to have the same type for them.
-    //       * Child nodes should really have something of type symbol here
-    //       * Internal nodes probably should have an offset here, and it should be of type std::size_t
-    uint8_t value() const { return m_value; }
-
-    void set_value(uint8_t value) { m_value = value; }
-
-    symbol_frequency frequency() const { return m_frequency; }
-
-private:
-    std::array<tree_node_ptr_old2, 2> m_children{};
-    bool m_is_internal = 0;
-    mutable std::size_t m_num_leaves = 0;
-    uint8_t m_value = 0;
-    symbol_frequency m_frequency = 0;
-};
-
 AGBPACK_EXPORT_FOR_UNIT_TESTING class Node;
 using tree_node_ptr = std::unique_ptr<Node>;
 
