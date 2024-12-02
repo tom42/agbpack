@@ -16,9 +16,9 @@ target_sources(
   PRIVATE
   header_test.cpp
   huffman_encoder_tree_test.cpp
+  huffman_tree_node_test.cpp
   huffman_tree_serializer_test.cpp
   node_queue_test.cpp
-  tree_node_test.cpp
   utility.cpp)
 
 target_link_libraries(agbpack_unit_test PRIVATE agbpack_unit_testing Catch2::Catch2WithMain)
