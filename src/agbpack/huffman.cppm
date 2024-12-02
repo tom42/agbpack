@@ -473,7 +473,7 @@ public:
     //       * Internal nodes probably should have an offset here, and it should be of type std::size_t
     uint8_t value() const { return m_value; }
 
-    void set_value(uint8_t value) { m_value = value; } // TODO: I'd prefer if tree_node was immutable
+    void set_value(uint8_t value) { m_value = value; }
 
     symbol_frequency frequency() const { return m_frequency; }
 
@@ -597,6 +597,8 @@ private:
     std::size_t m_leaves = 0;
 
 public: // TODO: this is temporarily public
+    // TODO: I'd prefer if tree_node was immutable - however, we currently need m_val to be writable.
+    //       This is really silly: 'representing a tree' and 'serializing a tree' are two different things, and m_val is required only for the latter
     uint8_t m_val = 0; // TODO: separate symbol and offset field. Offset field should be size_t to reduce casting
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
 public: // TODO: temporarily public
