@@ -570,25 +570,6 @@ public:
     }
 };
 
-// TODO: old stuff. see what bits we want to incorporate into new code
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-class huffman_encoder_tree_old2 final
-{
-public:
-    explicit huffman_encoder_tree_old2(unsigned int symbol_size, const frequency_table&)
-        : m_symbol_size(symbol_size)
-    {}
-
-private:
-    using node_queue = std::priority_queue<
-        tree_node_ptr_old2,
-        std::vector<tree_node_ptr_old2>,
-        tree_node_compare_old2>;
-
-    unsigned int m_symbol_size;
-    tree_node_ptr_old2 m_root;
-};
-
 AGBPACK_EXPORT_FOR_UNIT_TESTING class Node;
 using tree_node_ptr = std::unique_ptr<Node>;
 
