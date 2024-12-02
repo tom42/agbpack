@@ -589,8 +589,7 @@ private:
     static tree_node_ptr_old2 build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
         auto nodes = create_leaf_nodes(symbol_size, ftable);
-        auto root = combine_nodes(nodes);
-        return root;
+        return{}; // Used to return root after combining all nodes
     }
 
     static node_queue create_leaf_nodes(unsigned int symbol_size, const frequency_table& ftable)
@@ -619,23 +618,6 @@ private:
         }
 
         return nodes;
-    }
-
-    static tree_node_ptr_old2 combine_nodes(node_queue& nodes)
-    {
-        // Standard huffman tree building algorithm:
-        // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
-        while (nodes.size() > 1)
-        {
-            //auto node0 = pop(nodes);
-            //auto node1 = pop(nodes);
-            //nodes.push(tree_node::make_internal(node0, node1));
-        }
-
-        assert(nodes.size() == 1);
-        assert(nodes.top()->is_internal());
-
-        return nodes.top();
     }
 
     unsigned int m_symbol_size;
