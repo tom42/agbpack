@@ -554,22 +554,6 @@ private:
     symbol_frequency m_frequency = 0;
 };
 
-// TODO: delete
-class tree_node_compare_old2 final
-{
-public:
-    // TODO: in principle we want a and b be constant. How to achieve? Also fix this in other bits of the code
-    bool operator()(tree_node_ptr_old2 a, tree_node_ptr_old2 b)
-    {
-        if (a->frequency() != b->frequency())
-        {
-            return a->frequency() > b->frequency();
-        }
-
-        return a->value() > b->value();
-    }
-};
-
 AGBPACK_EXPORT_FOR_UNIT_TESTING class Node;
 using tree_node_ptr = std::unique_ptr<Node>;
 
