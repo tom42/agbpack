@@ -487,7 +487,6 @@ public:
     // Returns the number of nodes in this subtree
     std::size_t num_nodes() const
     {
-        // TODO: question: does this need caching too, like numLeaves?
         if (is_internal())
         {
             // Sum of children plus self
