@@ -503,49 +503,6 @@ public:
 
     symbol_frequency frequency() const { return m_frequency; }
 
-    // Returns the number of nodes in this subtree
-    std::size_t num_nodes() const
-    {
-        if (is_internal())
-        {
-            // Sum of children plus self
-            return child(0)->num_nodes() + child(1)->num_nodes() + 1;
-        }
-        else
-        {
-            // This is a data node, just count self
-            return 1;
-        }
-    }
-
-    // Returns the number of leaves in this subtree
-    std::size_t num_leaves() const
-    {
-        if (m_num_leaves == 0)
-        {
-            if (is_internal())
-            {
-                m_num_leaves = child(0)->num_leaves () + child(1)->num_leaves();
-            }
-            else
-            {
-                m_num_leaves = 1;
-            }
-        }
-
-        return m_num_leaves;
-    }
-
-    static tree_node_ptr_old2 make_leaf(uint8_t value, symbol_frequency frequency)
-    {
-        return std::make_shared<tree_node>(value, frequency);
-    }
-
-    static tree_node_ptr_old2 make_internal(tree_node_ptr_old2 child0, tree_node_ptr_old2 child1)
-    {
-        return std::make_shared<tree_node>(child0, child1);
-    }
-
 private:
     std::array<tree_node_ptr_old2, 2> m_children{};
     bool m_is_internal = 0;
