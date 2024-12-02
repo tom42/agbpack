@@ -459,7 +459,7 @@ public:
         : m_count(count), m_val(val)
     {}
 
-    Node(std::unique_ptr<Node> left, std::unique_ptr<Node> right)
+    Node(tree_node_ptr left, tree_node_ptr right)
         : m_children{ std::move(left), std::move(right) }, m_count(m_children[0]->m_count + m_children[1]->m_count)
     {}
 
@@ -552,7 +552,7 @@ public:
     }
 
 private:
-    std::array<std::unique_ptr<Node>, 2> m_children{};
+    std::array<tree_node_ptr, 2> m_children{};
     std::size_t m_count = 0;
     std::size_t m_leaves = 0;
 
