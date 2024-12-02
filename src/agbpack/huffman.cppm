@@ -498,7 +498,7 @@ public:
     }
 
     // Returns the number of leaves in this subtree
-    std::size_t num_leaves()
+    std::size_t num_leaves() const
     {
         if (m_leaves == 0)
         {
@@ -549,7 +549,7 @@ public:
 private:
     std::array<huffman_tree_node_ptr, 2> m_children{};
     std::size_t m_count = 0;
-    std::size_t m_leaves = 0;
+    mutable std::size_t m_leaves = 0;
 
 public: // TODO: this is temporarily public
     // TODO: I'd prefer if tree_node was immutable - however, we currently need m_val to be writable.
