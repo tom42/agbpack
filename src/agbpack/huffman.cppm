@@ -443,32 +443,6 @@ private:
 };
 
 // TODO: old stuff, remove
-class tree_node_old;
-using tree_node_ptr_old = std::shared_ptr<tree_node_old>;
-
-// TODO: old implementation, remove
-class tree_node_old final
-{
-public:
-    bool is_leaf() const { return m_is_leaf; }
-
-    symbol sym() const { return m_symbol; }
-
-    symbol_frequency frequency() const { return m_frequency; }
-
-    tree_node_ptr_old child0() const { return m_child0; }
-
-    tree_node_ptr_old child1() const { return m_child1; }
-
-private:
-    bool m_is_leaf;
-    symbol m_symbol;
-    symbol_frequency m_frequency;
-    tree_node_ptr_old m_child0;
-    tree_node_ptr_old m_child1;
-};
-
-// TODO: old stuff, remove
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class tree_node;
 using tree_node_ptr_old2 = std::shared_ptr<tree_node>;
