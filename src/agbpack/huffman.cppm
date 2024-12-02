@@ -446,6 +446,9 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING class Node;
 using tree_node_ptr = std::unique_ptr<Node>;
 
 // TODO: Node => node (OK but if we keep the name 'node' as opposed to say 'tree_node', do we then rename tree_node_ptr to just node_ptr?)
+//       Ugh no
+//       * node => huffman_tree_node
+//       * treee_node_ptr => huffman_tree_node_ptr
 // TODO: review/rework very thoroughly
 // TODO: do we really have to have mutable nodes for serialization?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
