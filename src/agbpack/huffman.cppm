@@ -575,9 +575,8 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_encoder_tree_old2 final
 {
 public:
-    explicit huffman_encoder_tree_old2(unsigned int symbol_size, const frequency_table& ftable)
+    explicit huffman_encoder_tree_old2(unsigned int symbol_size, const frequency_table&)
         : m_symbol_size(symbol_size)
-        , m_root(build_tree(symbol_size, ftable))
     {}
 
 private:
@@ -585,40 +584,6 @@ private:
         tree_node_ptr_old2,
         std::vector<tree_node_ptr_old2>,
         tree_node_compare_old2>;
-
-    static tree_node_ptr_old2 build_tree(unsigned int symbol_size, const frequency_table& ftable)
-    {
-        auto nodes = create_leaf_nodes(symbol_size, ftable);
-        return{}; // Used to return root after combining all nodes
-    }
-
-    static node_queue create_leaf_nodes(unsigned int symbol_size, const frequency_table& ftable)
-    {
-        node_queue nodes;
-
-        // Create a leaf node for each symbol whose frequency is > 0
-        auto nsymbols = get_nsymbols(symbol_size);
-        for (symbol sym = 0; sym < nsymbols; ++sym)
-        {
-            symbol_frequency f = ftable.frequency(sym);
-            if (f > 0)
-            {
-                // TODO: get rid of cast
-                nodes.push(tree_node::make_leaf(static_cast<std::uint8_t>(sym), f));
-            }
-        }
-
-        // Both our tree serialization code and the GBA BIOS' huffman tree storage format
-        // need a tree with at least two leaf nodes, even if they're bogus nodes.
-        // So add bogus nodes if needed. What makes them bogus is that their frequency is 0.
-        // The symbol is irrelevant, so we use 0.
-        while (nodes.size() < 2) // TODO: this is not yet particularly well tested
-        {
-            nodes.push(tree_node::make_leaf(0, 0));
-        }
-
-        return nodes;
-    }
 
     unsigned int m_symbol_size;
     tree_node_ptr_old2 m_root;
