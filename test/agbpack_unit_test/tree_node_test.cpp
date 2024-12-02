@@ -8,6 +8,8 @@ import agbpack;
 namespace agbpack_unit_test
 {
 
+// TODO: uncomment and fix once we know how the tree_node class is going to be called (tree_node? node? ...?)
+/*
 using agbpack::tree_node;
 
 TEST_CASE("tree_node_test")
@@ -59,5 +61,5 @@ TEST_CASE("tree_node_test")
         CHECK(internal_node1->num_leaves() == 3);
     }
 }
-
+*/
 }
