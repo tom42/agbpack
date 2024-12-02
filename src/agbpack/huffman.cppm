@@ -580,19 +580,6 @@ public:
         , m_root(build_tree(symbol_size, ftable))
     {}
 
-    code_table create_code_table() const
-    {
-        code_table table(m_symbol_size);
-        create_code_table_internal(table, m_root.get(), 0, 0);
-        return table;
-    }
-
-    // TODO: do we want to return const here? can we even do this?
-    tree_node_ptr_old2 root() const
-    {
-        return m_root;
-    }
-
 private:
     using node_queue = std::priority_queue<
         tree_node_ptr_old2,
@@ -640,9 +627,9 @@ private:
         // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
         while (nodes.size() > 1)
         {
-            auto node0 = pop(nodes);
-            auto node1 = pop(nodes);
-            nodes.push(tree_node::make_internal(node0, node1));
+            //auto node0 = pop(nodes);
+            //auto node1 = pop(nodes);
+            //nodes.push(tree_node::make_internal(node0, node1));
         }
 
         assert(nodes.size() == 1);
@@ -651,81 +638,8 @@ private:
         return nodes.top();
     }
 
-    static tree_node_ptr_old2 pop(node_queue& nodes)
-    {
-        auto node = nodes.top();
-        nodes.pop();
-        return node;
-    }
-
-    static void create_code_table_internal(code_table& table, tree_node* node, code c, code_length l)
-    {
-        if (node->is_internal())
-        {
-            create_code_table_internal(table, node->child(0).get(), c << 1, l + 1);
-            create_code_table_internal(table, node->child(1).get(), (c << 1) | 1, l + 1);
-        }
-        else
-        {
-            table.set(node->value(), c, l);
-        }
-    }
-
     unsigned int m_symbol_size;
     tree_node_ptr_old2 m_root;
-};
-
-// TODO: old stuff, see what old bits we can reuse
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-class huffman_tree_serializer_old2 final
-{
-public:
-    std::vector<agbpack_u8> serialize(const huffman_encoder_tree_old2& tree)
-    {
-        std::vector<tree_node_ptr_old2> node_tree{};
-
-        node_tree[1] = tree.root();
-        serialize_internal(node_tree, tree.root(), 2);
-        //fixup_tree(node_tree);
-
-        return{};
-    }
-
-private:
-    // TODO: can we make tree_node_ptr static here
-    static void serialize_internal(std::vector<tree_node_ptr_old2>& node_tree, tree_node_ptr_old2 node, std::size_t next)
-    {
-        assert(node->is_internal());
-
-        if (node->num_leaves() > 0x40) // TODO: unhardcode constant?
-        {
-            // This subtree will overflow the offset field if inserted naively
-            node_tree[next + 0] = node->child(0);
-            node_tree[next + 1] = node->child(1);
-
-            std::size_t a = 0;
-            std::size_t b = 1;
-
-            if (node->child(1)->num_leaves() < node->child(0)->num_leaves())
-            {
-                std::swap(a, b);
-            }
-
-            if (node->child(a)->is_internal())
-            {
-                node->child(a)->set_value(0);
-                serialize_internal(node_tree, node->child(a), next + 2);
-            }
-
-            if (node->child(b)->is_internal())
-            {
-                node->child(b)->set_value(static_cast<std::uint8_t>(node->child(a)->num_leaves() - 1));
-                serialize_internal(node_tree, node->child(b), next + 2 * node->child(a)->num_leaves());
-            }
-
-            return;
-        }
-    }
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING class Node;
@@ -1020,6 +934,8 @@ private:
     static void serialize_tree(serialized_tree& tree, Node* node, std::size_t next)
     {
         // TODO: review very thoroughly
+        //       * Unhardcode 0x40
+        //       * Array indices should be of type size_t
         assert(node->is_internal());
 
         if (node->num_leaves() > 0x40)
