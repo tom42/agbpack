@@ -442,38 +442,34 @@ private:
     std::vector<symbol_frequency> m_frequencies;
 };
 
-AGBPACK_EXPORT_FOR_UNIT_TESTING class Node;
-using tree_node_ptr = std::unique_ptr<Node>;
+AGBPACK_EXPORT_FOR_UNIT_TESTING class huffman_tree_node;
+using huffman_tree_node_ptr = std::unique_ptr<huffman_tree_node>;
 
-// TODO: Node => node (OK but if we keep the name 'node' as opposed to say 'tree_node', do we then rename tree_node_ptr to just node_ptr?)
-//       Ugh no
-//       * node => huffman_tree_node
-//       * treee_node_ptr => huffman_tree_node_ptr
 // TODO: review/rework very thoroughly
 // TODO: do we really have to have mutable nodes for serialization?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-class Node final
+class huffman_tree_node final
 {
 public:
-    Node(uint8_t val, size_t count)
+    huffman_tree_node(uint8_t val, size_t count)
         : m_count(count), m_val(val)
     {}
 
-    Node(tree_node_ptr left, tree_node_ptr right)
+    huffman_tree_node(huffman_tree_node_ptr left, huffman_tree_node_ptr right)
         : m_children{ std::move(left), std::move(right) }, m_count(m_children[0]->m_count + m_children[1]->m_count)
     {}
 
-    Node() = delete;
+    huffman_tree_node() = delete;
 
-    Node(const Node& other) = delete;
+    huffman_tree_node(const huffman_tree_node& other) = delete;
 
-    Node(Node&& other) = delete;
+    huffman_tree_node(huffman_tree_node&& other) = delete;
 
-    Node& operator=(const Node& other) = delete;
+    huffman_tree_node& operator=(const huffman_tree_node& other) = delete;
 
-    Node& operator=(Node&& other) = delete;
+    huffman_tree_node& operator=(huffman_tree_node&& other) = delete;
 
-    bool operator<(const Node& other) const
+    bool operator<(const huffman_tree_node& other) const
     {
         if (m_count != other.m_count)
         {
@@ -534,25 +530,25 @@ public:
         return m_count;
     }
 
-    const tree_node_ptr& child(std::size_t index) const
+    const huffman_tree_node_ptr& child(std::size_t index) const
     {
         assert((index == 0) || (index == 1));
         return m_children[index];
     }
 
-    static tree_node_ptr make_leaf(symbol sym, symbol_frequency frequency)
+    static huffman_tree_node_ptr make_leaf(symbol sym, symbol_frequency frequency)
     {
         // TODO: no cast here
-        return std::make_unique<Node>(static_cast<uint8_t>(sym), frequency);
+        return std::make_unique<huffman_tree_node>(static_cast<uint8_t>(sym), frequency);
     }
 
-    static tree_node_ptr make_internal(tree_node_ptr child0, tree_node_ptr child1)
+    static huffman_tree_node_ptr make_internal(huffman_tree_node_ptr child0, huffman_tree_node_ptr child1)
     {
-        return std::make_unique<Node>(std::move(child0), std::move(child1));
+        return std::make_unique<huffman_tree_node>(std::move(child0), std::move(child1));
     }
 
 private:
-    std::array<tree_node_ptr, 2> m_children{};
+    std::array<huffman_tree_node_ptr, 2> m_children{};
     std::size_t m_count = 0;
     std::size_t m_leaves = 0;
 
@@ -570,7 +566,7 @@ class tree_node_compare final
 {
 public:
     // TODO: in principle we want a and b be constant. How to achieve? Also fix this in other bits of the code
-    bool operator()(const tree_node_ptr& a, const tree_node_ptr& b)
+    bool operator()(const huffman_tree_node_ptr& a, const huffman_tree_node_ptr& b)
     {
         if (a->frequency() != b->frequency())
         {
@@ -597,13 +593,13 @@ public:
         return m_queue.size();
     }
 
-    void push(tree_node_ptr node)
+    void push(huffman_tree_node_ptr node)
     {
         m_queue.push_back(std::move(node));
         std::push_heap(m_queue.begin(), m_queue.end(), tree_node_compare());
     }
 
-    tree_node_ptr pop()
+    huffman_tree_node_ptr pop()
     {
         std::pop_heap(m_queue.begin(), m_queue.end(), tree_node_compare());
         auto node = std::move(m_queue.back());
@@ -612,7 +608,7 @@ public:
     }
 
 private:
-    std::vector<tree_node_ptr> m_queue;
+    std::vector<huffman_tree_node_ptr> m_queue;
 };
 
 // TODO: review very thoroughly
@@ -632,13 +628,13 @@ public:
         return table;
     }
 
-    const tree_node_ptr& root() const
+    const huffman_tree_node_ptr& root() const
     {
         return m_root;
     }
 
 private:
-    static tree_node_ptr build_tree(unsigned int symbol_size, const frequency_table& ftable)
+    static huffman_tree_node_ptr build_tree(unsigned int symbol_size, const frequency_table& ftable)
     {
         auto nodes = create_leaf_nodes(symbol_size, ftable);
         auto root = combine_nodes(nodes);
@@ -656,7 +652,7 @@ private:
             symbol_frequency f = ftable.frequency(sym);
             if (f > 0)
             {
-                nodes.push(Node::make_leaf(sym, f));
+                nodes.push(huffman_tree_node::make_leaf(sym, f));
             }
         }
 
@@ -666,13 +662,13 @@ private:
         // The symbol is irrelevant, so we use 0.
         while (nodes.size() < 2)
         {
-            nodes.push(Node::make_leaf(0, 0));
+            nodes.push(huffman_tree_node::make_leaf(0, 0));
         }
 
         return nodes;
     }
 
-    static tree_node_ptr combine_nodes(node_queue& nodes)
+    static huffman_tree_node_ptr combine_nodes(node_queue& nodes)
     {
         // Standard huffman tree building algorithm:
         // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
@@ -680,13 +676,13 @@ private:
         {
             auto node0 = nodes.pop();
             auto node1 = nodes.pop();
-            nodes.push(Node::make_internal(std::move(node0), std::move(node1)));
+            nodes.push(huffman_tree_node::make_internal(std::move(node0), std::move(node1)));
         }
 
         return nodes.pop();
     }
 
-    static void create_code_table_internal(code_table& table, Node* node, code c, code_length l)
+    static void create_code_table_internal(code_table& table, huffman_tree_node* node, code c, code_length l)
     {
         if (l > max_code_length)
         {
@@ -705,7 +701,7 @@ private:
     }
 
     unsigned int m_symbol_size;
-    tree_node_ptr m_root;
+    huffman_tree_node_ptr m_root;
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
@@ -725,7 +721,7 @@ public:
     }
 
 private:
-    using serialized_tree = std::vector<Node*>;
+    using serialized_tree = std::vector<huffman_tree_node*>;
 
     static serialized_tree create_empty_serialized_tree(const huffman_encoder_tree& tree)
     {
@@ -736,7 +732,7 @@ private:
         return serialized_tree;
     }
 
-    static void serialize_tree(serialized_tree& tree, Node* node, std::size_t next)
+    static void serialize_tree(serialized_tree& tree, huffman_tree_node* node, std::size_t next)
     {
         // TODO: review very thoroughly
         //       * Unhardcode 0x40
@@ -773,7 +769,7 @@ private:
             return;
         }
 
-        std::deque<Node*> queue;
+        std::deque<huffman_tree_node*> queue;
 
         queue.emplace_back(node->child(0).get());
         queue.emplace_back(node->child(1).get());
@@ -832,7 +828,7 @@ private:
 
             // Move last child pair to front
             auto tmp = std::make_pair(tree[shiftEnd], tree[shiftEnd + 1]);
-            std::memmove(&tree[shiftBegin + 2], &tree[shiftBegin], sizeof(Node*) * (shiftEnd - shiftBegin)); // TODO: do NOT use memmove here (or use a static_assert to ensure it is OK)
+            std::memmove(&tree[shiftBegin + 2], &tree[shiftBegin], sizeof(huffman_tree_node*) * (shiftEnd - shiftBegin)); // TODO: do NOT use memmove here (or use a static_assert to ensure it is OK)
             std::tie(tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
 
             // Adjust offsets
@@ -918,7 +914,7 @@ private:
         return encoded_tree;
     }
 
-    static agbpack_u8 encode_node(const Node* node)
+    static agbpack_u8 encode_node(const huffman_tree_node* node)
     {
         if (node->is_internal())
         {
@@ -930,7 +926,7 @@ private:
         }
     }
 
-    static agbpack_u8 encode_internal_node(const Node* node)
+    static agbpack_u8 encode_internal_node(const huffman_tree_node* node)
     {
         // TODO: check offset (orly? do we check once more?)
         //       => Well that really should be done inside assert_tree (which should always do it, not only in debug builds)
@@ -955,7 +951,7 @@ private:
         return encoded_node;
     }
 
-    static agbpack_u8 encode_leaf_node(const Node* node)
+    static agbpack_u8 encode_leaf_node(const huffman_tree_node* node)
     {
         return node->val();
     }
