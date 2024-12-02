@@ -1115,7 +1115,7 @@ private:
             std::tie(tree[shiftBegin], tree[shiftBegin + 1]) = tmp;
 
             // Adjust offsets
-            tree[i]->m_val -= shift; // TODO: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
+            tree[i]->m_val -= static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             for (unsigned index = i + 1; index < shiftBegin; ++index)
             {
                 if (!tree[index]->is_internal())
@@ -1132,11 +1132,11 @@ private:
 
             if (tree[shiftBegin + 0]->is_internal())
             {
-                tree[shiftBegin + 0]->m_val += shift; // TODO: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
+                tree[shiftBegin + 0]->m_val += static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             }
             if (tree[shiftBegin + 1]->is_internal())
             {
-                tree[shiftBegin + 1]->m_val += shift; // TODO: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
+                tree[shiftBegin + 1]->m_val += static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             }
 
             for (unsigned index = shiftBegin + 2; index < shiftEnd + 2; ++index)
