@@ -880,7 +880,7 @@ private:
             serialized_tree[i]->pos = i;
         }
 
-        for (std::size_t i = 1; i < serialized_tree.size(); ++i) // TODO: 1=root_node_index?
+        for (std::size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
             auto node = serialized_tree[i];
             if (!node->is_internal())
