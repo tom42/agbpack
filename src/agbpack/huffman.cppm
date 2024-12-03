@@ -802,7 +802,7 @@ private:
         //       * Do not use memmove
         //       * Dangerous use of sizeof
         //       * Make variable names use underscores (nodeEnd => node_end etc)
-        for (unsigned i = 1; i < tree.size(); ++i)
+        for (unsigned i = 1; i < tree.size(); ++i) // TODO: 1=root_node_index?
         {
             if (!tree[i]->is_internal() || tree[i]->m_val <= 0x3F)
             {
@@ -832,7 +832,7 @@ private:
 
             // Adjust offsets
             tree[i]->m_val -= static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
-            for (unsigned index = i + 1; index < shiftBegin; ++index)
+            for (unsigned index = i + 1; index < shiftBegin; ++index) // TODO: 1=root_node_index?
             {
                 if (!tree[index]->is_internal())
                 {
@@ -874,13 +874,13 @@ private:
     static void assert_tree([[maybe_unused]] const serialized_tree& serialized_tree)
     {
 #ifndef NDEBUG
-        for (std::size_t i = 1; i < serialized_tree.size(); ++i)
+        for (std::size_t i = 1; i < serialized_tree.size(); ++i) // TODO: 1=root_node_index?
         {
             assert(serialized_tree[i]);
             serialized_tree[i]->pos = i;
         }
 
-        for (std::size_t i = 1; i < serialized_tree.size(); ++i)
+        for (std::size_t i = 1; i < serialized_tree.size(); ++i) // TODO: 1=root_node_index?
         {
             auto node = serialized_tree[i];
             if (!node->is_internal())
@@ -902,7 +902,7 @@ private:
         // Write tree size byte
         encoded_tree[0] = static_cast<agbpack_u8>(encoded_tree.size() / 2 - 1);
 
-        for (std::size_t i = 1; i < serialized_tree.size(); ++i)
+        for (std::size_t i = 1; i < serialized_tree.size(); ++i) // TODO: 1=root_node_index?
         {
             encoded_tree[i] = encode_node(serialized_tree[i]);
         }
