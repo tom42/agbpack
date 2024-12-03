@@ -30,7 +30,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING using symbol_frequency = uint32_t;
 using code = uint32_t;
 using code_length = unsigned int;
 
-inline constexpr auto root_node_index = 1;
+inline constexpr auto root_node_index = 1; TODO: review commit: 'Make use of root_node_index [no ci]'
 inline constexpr auto min_next_node_offset = 0u;
 inline constexpr auto max_next_node_offset = 63u;
 inline constexpr auto mask_next_node_offset = 63;
