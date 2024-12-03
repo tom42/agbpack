@@ -874,7 +874,7 @@ private:
     static void assert_tree([[maybe_unused]] const serialized_tree& serialized_tree)
     {
 #ifndef NDEBUG
-        for (std::size_t i = 1; i < serialized_tree.size(); ++i) // TODO: 1=root_node_index?
+        for (std::size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
             assert(serialized_tree[i]);
             serialized_tree[i]->pos = i;
