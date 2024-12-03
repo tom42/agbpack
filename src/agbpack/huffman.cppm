@@ -30,7 +30,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING using symbol_frequency = uint32_t;
 using code = uint32_t;
 using code_length = unsigned int;
 
-inline constexpr auto root_node_index = 1; // TODO: review code and use where applicable
+inline constexpr auto root_node_index = 1;
 inline constexpr auto min_next_node_offset = 0u;
 inline constexpr auto max_next_node_offset = 63u;
 inline constexpr auto mask_next_node_offset = 63;
@@ -802,7 +802,7 @@ private:
         //       * Do not use memmove
         //       * Dangerous use of sizeof
         //       * Make variable names use underscores (nodeEnd => node_end etc)
-        for (unsigned i = 1; i < tree.size(); ++i) // TODO: 1=root_node_index?
+        for (unsigned i = root_node_index; i < tree.size(); ++i)
         {
             if (!tree[i]->is_internal() || tree[i]->m_val <= 0x3F)
             {
