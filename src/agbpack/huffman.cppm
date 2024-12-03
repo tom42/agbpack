@@ -579,7 +579,7 @@ public:
 // Replacement for std::priority_queue that works with std::unique_ptr.
 // As a bonus it also supports reserve().
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-class node_queue final
+class node_queue final // TODO: rename to node_priority_queue? (Don't forget the test!)
 {
 public:
     void reserve(std::size_t capacity)
