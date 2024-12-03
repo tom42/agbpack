@@ -902,7 +902,7 @@ private:
         // Write tree size byte
         encoded_tree[0] = static_cast<agbpack_u8>(encoded_tree.size() / 2 - 1);
 
-        for (std::size_t i = 1; i < serialized_tree.size(); ++i) // TODO: 1=root_node_index?
+        for (std::size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
             encoded_tree[i] = encode_node(serialized_tree[i]);
         }
