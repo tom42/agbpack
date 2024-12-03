@@ -832,7 +832,7 @@ private:
 
             // Adjust offsets
             tree[i]->m_val -= static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
-            for (unsigned index = i + 1; index < shiftBegin; ++index) // TODO: 1=root_node_index?
+            for (unsigned index = i + 1; index < shiftBegin; ++index)
             {
                 if (!tree[index]->is_internal())
                 {
