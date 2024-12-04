@@ -797,19 +797,18 @@ private:
     static void fixup_tree(serialized_tree& tree)
     {
         // TODO: review very thoroughly
-        //       * All loop counters/indices should be size_t
         //       * Are there any unwanted casts?
         //       * Unhardcode constants such as 0x3f
         //       * Do not use memmove
         //       * Dangerous use of sizeof
-        for (unsigned i = root_node_index; i < tree.size(); ++i)
+        for (size_t i = root_node_index; i < tree.size(); ++i)
         {
             if (!tree[i]->is_internal() || tree[i]->m_val <= 0x3f)
             {
                 continue;
             }
 
-            unsigned shift = tree[i]->m_val - 0x3f;
+            size_t shift = tree[i]->m_val - 0x3f;
 
             if ((i & 1) && tree[i - 1]->m_val == 0x3f)
             {
@@ -819,11 +818,11 @@ private:
                 shift = 1;
             }
 
-            unsigned node_end = i / 2 + 1 + tree[i]->m_val;
-            unsigned node_begin = node_end - shift;
+            size_t node_end = i / 2 + 1 + tree[i]->m_val;
+            size_t node_begin = node_end - shift;
 
-            unsigned shift_begin = 2 * node_begin;
-            unsigned shift_end = 2 * node_end;
+            size_t shift_begin = 2 * node_begin;
+            size_t shift_end = 2 * node_end;
 
             // Move last child pair to front
             auto tmp = std::make_pair(tree[shift_end], tree[shift_end + 1]);
@@ -832,14 +831,14 @@ private:
 
             // Adjust offsets
             tree[i]->m_val -= static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
-            for (unsigned index = i + 1; index < shift_begin; ++index)
+            for (size_t index = i + 1; index < shift_begin; ++index)
             {
                 if (!tree[index]->is_internal())
                 {
                     continue;
                 }
 
-                unsigned node = index / 2 + 1 + tree[index]->m_val;
+                size_t node = index / 2 + 1 + tree[index]->m_val;
                 if (node >= node_begin && node < node_end)
                 {
                     ++tree[index]->m_val;
@@ -855,14 +854,14 @@ private:
                 tree[shift_begin + 1]->m_val += static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             }
 
-            for (unsigned index = shift_begin + 2; index < shift_end + 2; ++index)
+            for (size_t index = shift_begin + 2; index < shift_end + 2; ++index)
             {
                 if (!tree[index]->is_internal())
                 {
                     continue;
                 }
 
-                unsigned node = index / 2 + 1 + tree[index]->m_val;
+                size_t node = index / 2 + 1 + tree[index]->m_val;
                 if (node > node_end)
                 {
                     --tree[index]->m_val;
