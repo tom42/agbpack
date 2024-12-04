@@ -819,9 +819,9 @@ private:
             }
 
             unsigned node_end = i / 2 + 1 + tree[i]->m_val;
-            unsigned nodeBegin = node_end - shift;
+            unsigned node_begin = node_end - shift;
 
-            unsigned shiftBegin = 2 * nodeBegin;
+            unsigned shiftBegin = 2 * node_begin;
             unsigned shiftEnd = 2 * node_end;
 
             // Move last child pair to front
@@ -839,7 +839,7 @@ private:
                 }
 
                 unsigned node = index / 2 + 1 + tree[index]->m_val;
-                if (node >= nodeBegin && node < node_end)
+                if (node >= node_begin && node < node_end)
                 {
                     ++tree[index]->m_val;
                 }
