@@ -818,11 +818,11 @@ private:
                 shift = 1;
             }
 
-            unsigned nodeEnd = i / 2 + 1 + tree[i]->m_val;
-            unsigned nodeBegin = nodeEnd - shift;
+            unsigned node_end = i / 2 + 1 + tree[i]->m_val;
+            unsigned nodeBegin = node_end - shift;
 
             unsigned shiftBegin = 2 * nodeBegin;
-            unsigned shiftEnd = 2 * nodeEnd;
+            unsigned shiftEnd = 2 * node_end;
 
             // Move last child pair to front
             auto tmp = std::make_pair(tree[shiftEnd], tree[shiftEnd + 1]);
@@ -839,7 +839,7 @@ private:
                 }
 
                 unsigned node = index / 2 + 1 + tree[index]->m_val;
-                if (node >= nodeBegin && node < nodeEnd)
+                if (node >= nodeBegin && node < node_end)
                 {
                     ++tree[index]->m_val;
                 }
@@ -862,7 +862,7 @@ private:
                 }
 
                 unsigned node = index / 2 + 1 + tree[index]->m_val;
-                if (node > nodeEnd)
+                if (node > node_end)
                 {
                     --tree[index]->m_val;
                 }
