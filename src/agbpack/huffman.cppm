@@ -800,7 +800,6 @@ private:
         //       * Unhardcode constants such as 0x3f (and spell them lowercase: 0x3F => 0x3f)
         //       * Do not use memmove
         //       * Dangerous use of sizeof
-        //       * Make variable names use underscores (nodeEnd => node_end etc)
         for (unsigned i = root_node_index; i < tree.size(); ++i)
         {
             if (!tree[i]->is_internal() || tree[i]->m_val <= 0x3F)
@@ -822,11 +821,11 @@ private:
             unsigned node_begin = node_end - shift;
 
             unsigned shift_begin = 2 * node_begin;
-            unsigned shiftEnd = 2 * node_end;
+            unsigned shift_end = 2 * node_end;
 
             // Move last child pair to front
-            auto tmp = std::make_pair(tree[shiftEnd], tree[shiftEnd + 1]);
-            std::memmove(&tree[shift_begin + 2], &tree[shift_begin], sizeof(huffman_tree_node*) * (shiftEnd - shift_begin)); // TODO: do NOT use memmove here (or use a static_assert to ensure it is OK)
+            auto tmp = std::make_pair(tree[shift_end], tree[shift_end + 1]);
+            std::memmove(&tree[shift_begin + 2], &tree[shift_begin], sizeof(huffman_tree_node*) * (shift_end - shift_begin)); // TODO: do NOT use memmove here (or use a static_assert to ensure it is OK)
             std::tie(tree[shift_begin], tree[shift_begin + 1]) = tmp;
 
             // Adjust offsets
@@ -854,7 +853,7 @@ private:
                 tree[shift_begin + 1]->m_val += static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             }
 
-            for (unsigned index = shift_begin + 2; index < shiftEnd + 2; ++index)
+            for (unsigned index = shift_begin + 2; index < shift_end + 2; ++index)
             {
                 if (!tree[index]->is_internal())
                 {
