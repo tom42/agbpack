@@ -516,7 +516,15 @@ public:
         return m_leaves;
     }
 
+    // TODO: return type
+    // TODO: underlying field should be an own
+    uint8_t sym() const
+    {
+        return m_val;
+    }
+
     // TODO: temporary hack of mine to be able to construct a code_table from an array of nodes.
+    //       => replace this by sym()
     uint8_t val() const
     {
         return m_val;
