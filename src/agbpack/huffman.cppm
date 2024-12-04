@@ -527,7 +527,8 @@ public:
     }
 
     // TODO: temporary hack of mine to be able to construct a code_table from an array of nodes.
-    //       => replace this by sym()
+    //       => replace this by sym?
+    //          => Not really, no? We replace this by offset() / m_offset
     uint8_t val() const
     {
         return m_val;
