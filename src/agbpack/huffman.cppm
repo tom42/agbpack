@@ -518,6 +518,7 @@ public:
 
     // TODO: return type
     // TODO: underlying field should be an own
+    // TODO: document this is for leaf nodes only?
     uint8_t sym() const
     {
         return m_val;
@@ -581,7 +582,7 @@ public:
             return a->frequency() > b->frequency();
         }
 
-        return a->val() > b->val();
+        return a->sym() > b->sym();
     }
 };
 
@@ -704,7 +705,7 @@ private:
         }
         else
         {
-            table.set(node->val(), c, l);
+            table.set(node->sym(), c, l);
         }
     }
 
