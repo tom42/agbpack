@@ -25,6 +25,8 @@ import :header;
 namespace agbpack
 {
 
+using size_t = std::size_t;
+
 AGBPACK_EXPORT_FOR_UNIT_TESTING using symbol = unsigned int; // TODO: this should not be agbpack_u8. Document this / write test that would figure out?
 AGBPACK_EXPORT_FOR_UNIT_TESTING using symbol_frequency = uint32_t;
 using code = uint32_t;
@@ -244,7 +246,7 @@ public:
     agbpack_u8 decode_symbol(bitstream_reader<InputIterator>& bit_reader) const
     {
         bool character_found = false;
-        std::size_t current_node_index = 0;
+        size_t current_node_index = 0;
         auto current_node_value = read_tree_node(root_node_index);
 
         while (!character_found)
@@ -290,7 +292,7 @@ private:
         // padding bytes between the tree data and the bitstream. That in turn would make
         // sense, since the format seems to be designed such that the bitstream can be
         // processed in units of 32 bits by an ARM CPU.
-        std::size_t tree_size = 2u * (read8(reader) + 1);
+        size_t tree_size = 2u * (read8(reader) + 1);
 
         // The address calculations as documented in GBATEK and implemented in decode_symbol
         // work relative to the address of the tree size byte. It is therefore simplest if we
@@ -305,7 +307,7 @@ private:
 
     void create_code_table_internal(
         code_table& table,
-        std::size_t node_index,
+        size_t node_index,
         agbpack_u8 node_value,
         bool is_leaf,
         code c,
@@ -325,7 +327,7 @@ private:
         }
     }
 
-    auto read_tree_node(std::size_t node_index) const
+    auto read_tree_node(size_t node_index) const
     {
         if ((node_index < root_node_index) || (node_index >= m_tree.size()))
         {
@@ -484,7 +486,7 @@ public:
     }
 
     // Returns the number of nodes in this subtree
-    std::size_t num_nodes() const
+    size_t num_nodes() const
     {
         if (is_internal())
         {
@@ -497,7 +499,7 @@ public:
     }
 
     // Returns the number of leaves in this subtree
-    std::size_t num_leaves() const
+    size_t num_leaves() const
     {
         if (m_leaves == 0)
         {
@@ -523,12 +525,12 @@ public:
     // TODO: temporary hack of mine to be able to create the tree. Things to fix:
     //       * Return type should by symbol_frequency, not size_t (this needs lots of fixage)
     //       * m_count should be called m_frequency
-    std::size_t frequency() const
+    size_t frequency() const
     {
         return m_count;
     }
 
-    const huffman_tree_node_ptr& child(std::size_t index) const
+    const huffman_tree_node_ptr& child(size_t index) const
     {
         assert((index == 0) || (index == 1));
         return m_children[index];
@@ -547,8 +549,8 @@ public:
 
 private:
     std::array<huffman_tree_node_ptr, 2> m_children{};
-    std::size_t m_count = 0;
-    mutable std::size_t m_leaves = 0;
+    size_t m_count = 0;
+    mutable size_t m_leaves = 0;
 
 public: // TODO: this is temporarily public
     // TODO: I'd prefer if tree_node was immutable - however, we currently need m_val to be writable.
@@ -556,7 +558,7 @@ public: // TODO: this is temporarily public
     uint8_t m_val = 0; // TODO: separate symbol and offset field. Offset field should be size_t to reduce casting
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
 public: // TODO: temporarily public
-    std::size_t pos = 0;
+    size_t pos = 0;
 #endif
 };
 
@@ -581,12 +583,12 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class node_queue final // TODO: rename to node_priority_queue? (Don't forget the test!)
 {
 public:
-    void reserve(std::size_t capacity)
+    void reserve(size_t capacity)
     {
         m_queue.reserve(capacity);
     }
 
-    std::size_t size() const
+    size_t size() const
     {
         return m_queue.size();
     }
@@ -730,7 +732,7 @@ private:
         return serialized_tree;
     }
 
-    static void serialize_tree(serialized_tree& tree, huffman_tree_node* node, std::size_t next)
+    static void serialize_tree(serialized_tree& tree, huffman_tree_node* node, size_t next)
     {
         // TODO: review very thoroughly
         //       * Unhardcode 0x40
@@ -872,13 +874,13 @@ private:
     static void assert_tree([[maybe_unused]] const serialized_tree& serialized_tree)
     {
 #ifndef NDEBUG
-        for (std::size_t i = root_node_index; i < serialized_tree.size(); ++i)
+        for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
             assert(serialized_tree[i]);
             serialized_tree[i]->pos = i;
         }
 
-        for (std::size_t i = root_node_index; i < serialized_tree.size(); ++i)
+        for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
             auto node = serialized_tree[i];
             if (!node->is_internal())
@@ -900,7 +902,7 @@ private:
         // Write tree size byte
         encoded_tree[0] = static_cast<agbpack_u8>(encoded_tree.size() / 2 - 1);
 
-        for (std::size_t i = root_node_index; i < serialized_tree.size(); ++i)
+        for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
             encoded_tree[i] = encode_node(serialized_tree[i]);
         }
@@ -958,11 +960,11 @@ private:
         return std::vector<agbpack_u8>(calculate_encoded_tree_size(serialized_tree));
     }
 
-    static std::size_t calculate_encoded_tree_size(const serialized_tree& serialized_tree)
+    static size_t calculate_encoded_tree_size(const serialized_tree& serialized_tree)
     {
         // Calculate size of encoded tree.
         // serialized_tree.size() already includes the tree size byte, so we just need to add alignment bytes.
-        std::size_t size = serialized_tree.size();
+        size_t size = serialized_tree.size();
 
         while ((size % 4) != 0)
         {
