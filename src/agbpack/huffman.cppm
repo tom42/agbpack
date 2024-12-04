@@ -452,8 +452,10 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_node final
 {
 public:
-    huffman_tree_node(uint8_t val, size_t count)
-        : m_count(count), m_val(val)
+    huffman_tree_node(uint8_t sym, size_t count)
+        : m_count(count)
+        , m_sym(sym)
+        , m_val(sym) // TODO: remove this, we'll leave this zero for leaf nodes
     {}
 
     huffman_tree_node(huffman_tree_node_ptr left, huffman_tree_node_ptr right)
@@ -521,7 +523,7 @@ public:
     // TODO: document this is for leaf nodes only?
     uint8_t sym() const
     {
-        return m_val;
+        return m_sym;
     }
 
     // TODO: temporary hack of mine to be able to construct a code_table from an array of nodes.
@@ -559,6 +561,7 @@ public:
 private:
     std::array<huffman_tree_node_ptr, 2> m_children{};
     size_t m_count = 0;
+    uint8_t m_sym = 0; // TODO: type should be symbol, no?
     mutable size_t m_leaves = 0;
 
 public: // TODO: this is temporarily public
