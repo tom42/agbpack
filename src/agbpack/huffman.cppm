@@ -799,19 +799,19 @@ private:
         // TODO: review very thoroughly
         //       * All loop counters/indices should be size_t
         //       * Are there any unwanted casts?
-        //       * Unhardcode constants such as 0x3f (and spell them lowercase: 0x3F => 0x3f)
+        //       * Unhardcode constants such as 0x3f
         //       * Do not use memmove
         //       * Dangerous use of sizeof
         for (unsigned i = root_node_index; i < tree.size(); ++i)
         {
-            if (!tree[i]->is_internal() || tree[i]->m_val <= 0x3F)
+            if (!tree[i]->is_internal() || tree[i]->m_val <= 0x3f)
             {
                 continue;
             }
 
-            unsigned shift = tree[i]->m_val - 0x3F;
+            unsigned shift = tree[i]->m_val - 0x3f;
 
-            if ((i & 1) && tree[i - 1]->m_val == 0x3F)
+            if ((i & 1) && tree[i - 1]->m_val == 0x3f)
             {
                 // Right child, and left sibling would overflow if we shifted;
                 // Shift the left child by 1 instead
