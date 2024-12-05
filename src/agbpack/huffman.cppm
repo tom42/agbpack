@@ -455,7 +455,6 @@ public:
     huffman_tree_node(uint8_t sym, size_t count)
         : m_count(count)
         , m_sym(sym)
-        , m_val(sym) // TODO: remove this, we'll leave this zero for leaf nodes
     {}
 
     huffman_tree_node(huffman_tree_node_ptr left, huffman_tree_node_ptr right)
@@ -963,7 +962,7 @@ private:
 
     static agbpack_u8 encode_leaf_node(const huffman_tree_node* node)
     {
-        return node->val();
+        return node->sym();
     }
 
     static std::vector<agbpack_u8> create_empty_encoded_tree(const serialized_tree& serialized_tree)

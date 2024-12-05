@@ -19,7 +19,8 @@ TEST_CASE("tree_node_test")
         CHECK(leaf_node->is_internal() == false);
         CHECK(leaf_node->child(0) == nullptr);
         CHECK(leaf_node->child(1) == nullptr);
-        CHECK(leaf_node->val() == 'A');
+        CHECK(leaf_node->sym() == 'A');
+        CHECK(leaf_node->val() == 0);
         CHECK(leaf_node->frequency() == 42);
     }
 
@@ -30,8 +31,9 @@ TEST_CASE("tree_node_test")
         auto internal_node = huffman_tree_node::make_internal(std::move(child0), std::move(child1));
 
         CHECK(internal_node->is_internal() == true);
-        CHECK(internal_node->child(0)->val() == 'B');
-        CHECK(internal_node->child(1)->val() == 'C');
+        CHECK(internal_node->child(0)->sym() == 'B');
+        CHECK(internal_node->child(1)->sym() == 'C');
+        CHECK(internal_node->sym() == 0);
         CHECK(internal_node->val() == 0);
         CHECK(internal_node->frequency() == 87);
     }
