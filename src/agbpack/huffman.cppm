@@ -518,11 +518,10 @@ public:
         return m_leaves;
     }
 
-    // TODO: return type
-    // TODO: underlying field should be an own
-    // TODO: document this is for leaf nodes only?
+    // Returns the symbol represented by a leaf node. No meaning for internal nodes.
     uint8_t sym() const
     {
+        // TODO: underlying field and return type should be symbol, no?
         return m_sym;
     }
 
