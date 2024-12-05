@@ -471,16 +471,6 @@ public:
 
     huffman_tree_node& operator=(huffman_tree_node&& other) = delete;
 
-    bool operator<(const huffman_tree_node& other) const
-    {
-        if (m_count != other.m_count)
-        {
-            return m_count < other.m_count;
-        }
-
-        return m_val < other.m_val;
-    }
-
     bool is_internal() const
     {
         return m_children[0] != nullptr;
