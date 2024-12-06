@@ -553,7 +553,6 @@ private:
     uint8_t m_sym = 0; // TODO: type should be symbol, no?
     mutable size_t m_leaves = 0;
 
-    // TODO: remove stuff below
 public: // TODO: this is temporarily public
     // TODO: I'd prefer if tree_node was immutable - however, we currently need m_val to be writable.
     //       This is really silly: 'representing a tree' and 'serializing a tree' are two different things, and m_val is required only for the latter
@@ -706,27 +705,6 @@ private:
     huffman_tree_node_ptr m_root;
 };
 
-// TODO: experiment: can we wrap this around a tree_node somehow?
-// TODO: warn this is non-owning of the node?
-class serialized_node final
-{
-public:
-    explicit serialized_node() = default;
-
-    explicit serialized_node(huffman_tree_node* node) : m_node(node) {}
-
-    bool is_internal() const { return m_node->is_internal(); }
-
-    const huffman_tree_node* node() const { return m_node; }
-
-    // TODO: do we want this to be called offset?
-    size_t m_val = 0;
-    size_t pos = 0;
-
-private:
-    huffman_tree_node* m_node = nullptr;
-};
-
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_serializer final
 {
@@ -735,7 +713,7 @@ public:
     {
         auto serialized = create_empty_serialized_tree(tree);
 
-        serialized[root_node_index] = serialized_node(tree.root().get());
+        serialized[root_node_index] = tree.root().get();
 
         serialize_tree(serialized, tree.root().get(), root_node_index + 1);
         fixup_tree(serialized);
@@ -744,7 +722,7 @@ public:
     }
 
 private:
-    using serialized_tree = std::vector<serialized_node>;
+    using serialized_tree = std::vector<huffman_tree_node*>;
 
     static serialized_tree create_empty_serialized_tree(const huffman_encoder_tree& tree)
     {
@@ -765,8 +743,8 @@ private:
         if (node->num_leaves() > 0x40)
         {
             // This subtree will overflow the offset field if inserted naively
-            tree[next + 0] = serialized_node(node->child(0).get());
-            tree[next + 1] = serialized_node(node->child(1).get());
+            tree[next + 0] = node->child(0).get();
+            tree[next + 1] = node->child(1).get();
 
             unsigned a = 0;
             unsigned b = 1;
@@ -802,7 +780,7 @@ private:
             node = queue.front();
             queue.pop_front();
 
-            tree[next++] = serialized_node(node);
+            tree[next++] = node;
 
             if (!node->is_internal())
             {
@@ -826,14 +804,14 @@ private:
         //       * Dangerous use of sizeof
         for (size_t i = root_node_index; i < tree.size(); ++i)
         {
-            if (!tree[i].is_internal() || tree[i].m_val <= 0x3f)
+            if (!tree[i]->is_internal() || tree[i]->m_val <= 0x3f)
             {
                 continue;
             }
 
-            size_t shift = tree[i].m_val - 0x3f;
+            size_t shift = tree[i]->m_val - 0x3f;
 
-            if ((i & 1) && tree[i - 1].m_val == 0x3f)
+            if ((i & 1) && tree[i - 1]->m_val == 0x3f)
             {
                 // Right child, and left sibling would overflow if we shifted;
                 // Shift the left child by 1 instead
@@ -841,7 +819,7 @@ private:
                 shift = 1;
             }
 
-            size_t node_end = i / 2 + 1 + tree[i].m_val;
+            size_t node_end = i / 2 + 1 + tree[i]->m_val;
             size_t node_begin = node_end - shift;
 
             size_t shift_begin = 2 * node_begin;
@@ -853,41 +831,41 @@ private:
             std::tie(tree[shift_begin], tree[shift_begin + 1]) = tmp;
 
             // Adjust offsets
-            tree[i].m_val -= static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
+            tree[i]->m_val -= static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             for (size_t index = i + 1; index < shift_begin; ++index)
             {
-                if (!tree[index].is_internal())
+                if (!tree[index]->is_internal())
                 {
                     continue;
                 }
 
-                size_t node = index / 2 + 1 + tree[index].m_val;
+                size_t node = index / 2 + 1 + tree[index]->m_val;
                 if (node >= node_begin && node < node_end)
                 {
-                    ++tree[index].m_val;
+                    ++tree[index]->m_val;
                 }
             }
 
-            if (tree[shift_begin + 0].is_internal())
+            if (tree[shift_begin + 0]->is_internal())
             {
-                tree[shift_begin + 0].m_val += static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
+                tree[shift_begin + 0]->m_val += static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             }
-            if (tree[shift_begin + 1].is_internal())
+            if (tree[shift_begin + 1]->is_internal())
             {
-                tree[shift_begin + 1].m_val += static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
+                tree[shift_begin + 1]->m_val += static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
             }
 
             for (size_t index = shift_begin + 2; index < shift_end + 2; ++index)
             {
-                if (!tree[index].is_internal())
+                if (!tree[index]->is_internal())
                 {
                     continue;
                 }
 
-                size_t node = index / 2 + 1 + tree[index].m_val;
+                size_t node = index / 2 + 1 + tree[index]->m_val;
                 if (node > node_end)
                 {
-                    --tree[index].m_val;
+                    --tree[index]->m_val;
                 }
             }
         }
@@ -895,13 +873,11 @@ private:
 
     static void assert_tree([[maybe_unused]] const serialized_tree& serialized_tree)
     {
-        // TODO: see which of these checks we want to have in release builds
-/*
 #ifndef NDEBUG
         for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
-            //assert(serialized_tree[i]); // TODO: do we still want/need this?
-            serialized_tree[i].pos = i;
+            assert(serialized_tree[i]);
+            serialized_tree[i]->pos = i;
         }
 
         for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
@@ -917,7 +893,6 @@ private:
             assert(node->child(0)->pos == (node->pos & ~1u) + 2 * node->val() + 2);
         }
 #endif
-        */
     }
 
     static std::vector<agbpack_u8> encode_tree(const serialized_tree& serialized_tree)
