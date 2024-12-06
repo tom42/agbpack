@@ -164,7 +164,6 @@ private:
 
 // TODO: overhaul this:
 //       * It's rather ugly
-//       * write_bit should possibly be private
 //       * It has the constant 0x80000000 as a magic in several places
 //       * It's rather inefficient, since we write every bit individually
 template <typename OutputIterator>
@@ -177,23 +176,6 @@ public:
     explicit bitstream_writer(unbounded_byte_writer<OutputIterator>& byte_writer)
         : m_byte_writer(byte_writer)
     {}
-
-    // TODO: review (data compression book?)
-    void write_bit(bool bit)
-    {
-        if (bit)
-        {
-            m_bitbuffer |= m_bitmask;
-        }
-
-        m_bitmask >>= 1;
-        if (!m_bitmask)
-        {
-            m_bitmask = 0x80000000;
-            write32(m_byte_writer, m_bitbuffer);
-            m_bitbuffer = 0; // TODO: is this needed? Probably yes, no?
-        }
-    }
 
     // TODO: review (data compression book?)
     // TODO: this and write_bit are horribly inefficient
@@ -221,6 +203,23 @@ public:
     }
 
 private:
+    // TODO: review (data compression book?)
+    void write_bit(bool bit)
+    {
+        if (bit)
+        {
+            m_bitbuffer |= m_bitmask;
+        }
+
+        m_bitmask >>= 1;
+        if (!m_bitmask)
+        {
+            m_bitmask = 0x80000000;
+            write32(m_byte_writer, m_bitbuffer);
+            m_bitbuffer = 0; // TODO: is this needed? Probably yes, no?
+        }
+    }
+
     bool empty() const
     {
         return m_bitmask == 0x80000000;
