@@ -31,6 +31,16 @@ TEST_CASE("bitstream_writer_test")
         CHECK(output == byte_vector{ 0, 0, 0, 0b10100100 });
     }
 
+    SECTION("Write codes of length greater than 1 without overflow of the bit buffer")
+    {
+        bitstream_writer.write_code(0b10, 2);
+        bitstream_writer.write_code(0b011, 3);
+        bitstream_writer.write_code(0b010111, 6);
+        bitstream_writer.flush();
+
+        CHECK(output == byte_vector{ 0, 0, 0b111, 0b10011010 });
+    }
+
     SECTION("flush when no data has been written")
     {
         bitstream_writer.flush();
