@@ -221,7 +221,7 @@ private:
         return m_bitcount == 0;
     }
 
-    // TODO: have assertion that bitbuffer is wide enough to hold an entire code
+    // TODO: have static assertion that bitbuffer is wide enough to hold an entire code
     unbounded_byte_writer<OutputIterator>& m_byte_writer;
     std::uint32_t m_bitbuffer;
     unsigned int m_bitcount;
