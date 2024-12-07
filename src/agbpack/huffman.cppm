@@ -196,7 +196,7 @@ public:
         else
         {
             // Code overflows bit buffer
-            throw "TODO: implement this branch";
+            throw std::logic_error("TODO: implement this branch");
         }
     }
 
