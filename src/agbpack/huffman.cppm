@@ -184,7 +184,11 @@ public:
 
     void flush()
     {
-        // TODO: implement
+        if (!empty())
+        {
+            write32(m_byte_writer, m_bitbuffer);
+            reset();
+        }
     }
 
 private:
