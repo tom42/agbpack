@@ -38,7 +38,7 @@ TEST_CASE("bitstream_writer_test")
         bitstream_writer.write_code(0b010111, 6);
         bitstream_writer.flush();
 
-        CHECK(output == byte_vector{ 0, 0, 0b111, 0b10011010 });
+        CHECK(output == byte_vector{ 0, 0, 0b11100000, 0b10011010 });
     }
 
     SECTION("flush when no data has been written")
