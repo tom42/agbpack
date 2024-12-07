@@ -175,7 +175,7 @@ public:
         : m_byte_writer(byte_writer)
     {}
 
-    void write_code(code c, code_length l)
+    void write_code(code /*c*/, code_length /*l*/)
     {
         // TODO: implement
     }
