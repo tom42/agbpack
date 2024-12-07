@@ -168,6 +168,10 @@ template <typename OutputIterator>
 class bitstream_writer final
 {
 public:
+    bitstream_writer(const bitstream_writer&) = delete;
+    bitstream_writer& operator=(const bitstream_writer&) = delete;
+
+    explicit bitstream_writer(unbounded_byte_writer<OutputIterator>& byte_writer) {}
 };
 
 // TODO: overhaul this (replace with something better):
