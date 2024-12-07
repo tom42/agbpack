@@ -173,7 +173,9 @@ public:
 
     explicit bitstream_writer(unbounded_byte_writer<OutputIterator>& byte_writer)
         : m_byte_writer(byte_writer)
-    {}
+    {
+        reset();
+    }
 
     void write_code(code /*c*/, code_length /*l*/)
     {
@@ -186,7 +188,16 @@ public:
     }
 
 private:
+    void reset()
+    {
+        m_bitbuffer = 0;
+        m_bitcount = 0;
+    }
+
+    // TODO: have assertion that bitbuffer is wide enough to hold an entire code
     unbounded_byte_writer<OutputIterator>& m_byte_writer;
+    std::uint32_t m_bitbuffer;
+    unsigned int m_bitcount;
 };
 
 // TODO: overhaul this (replace with something better):
