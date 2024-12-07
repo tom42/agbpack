@@ -175,6 +175,16 @@ public:
         : m_byte_writer(byte_writer)
     {}
 
+    void write_code(code c, code_length l)
+    {
+        // TODO: implement
+    }
+
+    void flush()
+    {
+        // TODO: implement
+    }
+
 private:
     unbounded_byte_writer<OutputIterator>& m_byte_writer;
 };

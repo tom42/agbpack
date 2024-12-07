@@ -10,14 +10,20 @@ import agbpack;
 namespace agbpack_unit_test
 {
 
+using byte_vector = std::vector<unsigned char>;
+
 TEST_CASE("bitstream_writer_test")
 {
-    std::vector<unsigned char> output;
+    byte_vector output;
     agbpack::unbounded_byte_writer byte_writer(back_inserter(output));
     agbpack::bitstream_writer bitstream_writer(byte_writer);
 
-    // TODO: implement and test new bitstream_writer
-    CHECK(false);
+    SECTION("flush when no data has been written")
+    {
+        bitstream_writer.flush();
+
+        CHECK(output == byte_vector{});
+    }
 }
 
 }
