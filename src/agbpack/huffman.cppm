@@ -167,13 +167,13 @@ private:
 //       * It has the constant 0x80000000 as a magic in several places
 //       * It's rather inefficient, since we write every bit individually
 template <typename OutputIterator>
-class bitstream_writer final
+class bitstream_writer_old final
 {
 public:
-    bitstream_writer(const bitstream_writer&) = delete;
-    bitstream_writer& operator=(const bitstream_writer&) = delete;
+    bitstream_writer_old(const bitstream_writer_old&) = delete;
+    bitstream_writer_old& operator=(const bitstream_writer_old&) = delete;
 
-    explicit bitstream_writer(unbounded_byte_writer<OutputIterator>& byte_writer)
+    explicit bitstream_writer_old(unbounded_byte_writer<OutputIterator>& byte_writer)
         : m_byte_writer(byte_writer)
     {}
 
@@ -1026,7 +1026,7 @@ private:
     {
         auto symbol_size = code_table.symbol_size();
         auto symbol_mask = get_symbol_mask(symbol_size);
-        bitstream_writer<OutputIterator> bit_writer(writer);
+        bitstream_writer_old<OutputIterator> bit_writer(writer);
 
         for (auto byte : uncompressed_data)
         {
