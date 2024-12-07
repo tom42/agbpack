@@ -208,7 +208,7 @@ public:
         }
     }
 
-    void flush_if_not_empty()
+    void flush()
     {
         if (!empty())
         {
@@ -1054,7 +1054,7 @@ private:
                 byte >>= symbol_size;
             }
         }
-        bit_writer.flush_if_not_empty();
+        bit_writer.flush();
     }
 
     huffman_options m_options = huffman_options::h8;
