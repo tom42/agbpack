@@ -161,6 +161,7 @@ private:
     OutputIterator m_output;
 };
 
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 template <typename OutputIterator>
 class unbounded_byte_writer final
 {
