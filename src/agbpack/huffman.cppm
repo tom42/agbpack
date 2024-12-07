@@ -177,14 +177,14 @@ public:
         reset();
     }
 
-    void write_code(code c, code_length /*l*/)
+    void write_code(code c, code_length l)
     {
         // TODO: implement
         // TODO: unhardcode 32
         // TODO: must handle cases for l > 1
         // TODO: what do we do if l < 1?
-        m_bitbuffer |= c << (32 - 1 - m_bitcount); // TODO: this basically ignores l respectively works for l=1 only
-        ++m_bitcount; // TODO: this basically ignores l respectively works for l=1 only
+        m_bitbuffer |= c << (32 - l - m_bitcount);
+        m_bitcount += l;
     }
 
     void flush()
