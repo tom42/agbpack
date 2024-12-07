@@ -183,11 +183,20 @@ public:
         // TODO: unhardcode 32
         // TODO: must handle cases for l > 1
         // TODO: what do we do if l < 1? => Well best if we have an assertion, but also for the case where l is > bit buffer width, cause we're not gonna handle that case either
-        m_bitbuffer |= c << (32 - l - m_bitcount);
-        m_bitcount += l;
-        if (m_bitcount >= 32)
+        if (l <= 32)
         {
-            flush();
+            // Code fits into bit buffer
+            m_bitbuffer |= c << (32 - l - m_bitcount);
+            m_bitcount += l;
+            if (m_bitcount == 32)
+            {
+                flush();
+            }
+        }
+        else
+        {
+            // Code overflows bit buffer
+            throw "TODO: implement this branch";
         }
     }
 
