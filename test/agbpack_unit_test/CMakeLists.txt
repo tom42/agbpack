@@ -14,6 +14,7 @@ target_sources(
   PUBLIC FILE_SET CXX_MODULES FILES
   utility.cppm
   PRIVATE
+  bitstream_writer_test.cpp
   header_test.cpp
   huffman_encoder_tree_test.cpp
   huffman_tree_node_test.cpp

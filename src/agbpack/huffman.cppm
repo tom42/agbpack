@@ -162,7 +162,15 @@ private:
     byte_reader<InputIterator>& m_byte_reader;
 };
 
-// TODO: overhaul this:
+// TODO: implement/test/drop into old code, delete old variant
+AGBPACK_EXPORT_FOR_UNIT_TESTING
+template <typename OutputIterator>
+class bitstream_writer final
+{
+public:
+};
+
+// TODO: overhaul this (replace with something better):
 //       * It's rather ugly
 //       * It has the constant 0x80000000 as a magic in several places
 //       * It's rather inefficient, since we write every bit individually
