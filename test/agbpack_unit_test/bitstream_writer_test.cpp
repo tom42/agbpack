@@ -60,6 +60,15 @@ TEST_CASE("bitstream_writer_test")
         CHECK(output == byte_vector{ 0x78, 0x56, 0x34, 0x12, 0x00, 0x00, 0xcd, 0xab });
     }
 
+    SECTION("Write more than 32 bits, overflow in the middle of code")
+    {
+        bitstream_writer.write_code(0x12, 8);
+        bitstream_writer.write_code(0x3456789a, 32);
+        bitstream_writer.flush();
+
+        CHECK(output == byte_vector{ 0x78, 0x56, 0x34, 0x12, 0x00, 0x00, 0x00, 0x9a});
+    }
+
     SECTION("flush when no data has been written")
     {
         bitstream_writer.flush();
