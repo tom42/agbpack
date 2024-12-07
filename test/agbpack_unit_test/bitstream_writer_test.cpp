@@ -41,6 +41,16 @@ TEST_CASE("bitstream_writer_test")
         CHECK(output == byte_vector{ 0, 0, 0b11100000, 0b10011010 });
     }
 
+    SECTION("Write exactly 32 bits")
+    {
+        bitstream_writer.write_code(0x9, 4);
+        bitstream_writer.write_code(0x81, 8);
+        bitstream_writer.write_code(0x80001, 20);
+        bitstream_writer.flush(); // TODO: should it flush automatically here or not? (at the time of writing it did not)
+
+        CHECK(output == byte_vector{ 0x01, 0x00, 0x18, 0x98});
+    }
+
     SECTION("flush when no data has been written")
     {
         bitstream_writer.flush();
