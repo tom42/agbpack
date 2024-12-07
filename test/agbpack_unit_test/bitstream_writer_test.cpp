@@ -46,9 +46,18 @@ TEST_CASE("bitstream_writer_test")
         bitstream_writer.write_code(0x9, 4);
         bitstream_writer.write_code(0x81, 8);
         bitstream_writer.write_code(0x80001, 20);
-        bitstream_writer.flush(); // TODO: should it flush automatically here or not? (at the time of writing it did not)
 
         CHECK(output == byte_vector{ 0x01, 0x00, 0x18, 0x98});
+    }
+
+    SECTION("Write more than 32 bits, overflow between two codes")
+    {
+        bitstream_writer.write_code(0x1234, 16);
+        bitstream_writer.write_code(0x5678, 16);
+        bitstream_writer.write_code(0xabcd, 16);
+        bitstream_writer.flush();
+
+        CHECK(output == byte_vector{ 0x78, 0x56, 0x34, 0x12, 0x00, 0x00, 0xcd, 0xab });
     }
 
     SECTION("flush when no data has been written")
