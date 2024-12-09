@@ -194,7 +194,7 @@ public:
 private:
     void reset()
     {
-        // TODO: Also reset buffer here!
+        m_bitbuffer = 0;
         m_bitmask = initial_bitmask;
     }
 
