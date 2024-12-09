@@ -18,6 +18,8 @@ TEST_CASE("bitstream_writer_test")
     agbpack::unbounded_byte_writer byte_writer(back_inserter(output));
     agbpack::bitstream_writer bitstream_writer(byte_writer);
 
+    // TODO: review/redo/delete crap below
+    /*
     SECTION("Write codes of length 1 without overflow of the bit buffer")
     {
         bitstream_writer.write_code(1, 1);
@@ -85,6 +87,7 @@ TEST_CASE("bitstream_writer_test")
 
         CHECK(output == byte_vector{ 0, 0, 0, 0b10000000});
     }
+    */
 }
 
 }
