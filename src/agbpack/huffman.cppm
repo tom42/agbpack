@@ -235,24 +235,12 @@ private:
 };
 
 // TODO: overhaul this (replace with something better):
-//       * It's rather ugly
-//       * It has the constant 0x80000000 as a magic in several places
-//       * It's rather inefficient, since we write every bit individually
+/*
 template <typename OutputIterator>
 class bitstream_writer_old final
 {
 public:
-    bitstream_writer_old(const bitstream_writer_old&) = delete;
-    bitstream_writer_old& operator=(const bitstream_writer_old&) = delete;
 
-    explicit bitstream_writer_old(unbounded_byte_writer<OutputIterator>& byte_writer)
-        : m_byte_writer(byte_writer)
-    {}
-
-    // TODO: review (data compression book?)
-    // TODO: this and write_bit are horribly inefficient
-    //       * Can we not write this such that it writes the entire code at once unless it does not fit?
-    //       * Do we even use write_bit?
     void write_code(code c, code_length l)
     {
         code mask = 1 << (l - 1); // TODO: this breaks horribly if l is < 0. Do we care? (Can it even happen? Is not code_length unsigned?)
@@ -300,7 +288,7 @@ private:
     std::uint32_t m_bitbuffer = 0;
     std::uint32_t m_bitmask = 0x80000000;
     unbounded_byte_writer<OutputIterator>& m_byte_writer;
-};
+};*/
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 template <std::input_iterator InputIterator>
@@ -1098,7 +1086,7 @@ private:
     {
         auto symbol_size = code_table.symbol_size();
         auto symbol_mask = get_symbol_mask(symbol_size);
-        bitstream_writer_old<OutputIterator> bit_writer(writer);
+        bitstream_writer<OutputIterator> bit_writer(writer);
 
         for (auto byte : uncompressed_data)
         {
