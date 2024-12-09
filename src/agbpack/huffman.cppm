@@ -198,8 +198,13 @@ private:
         m_bitmask = initial_bitmask;
     }
 
-    void write_bit(bool /*bit*/)
+    void write_bit(bool bit)
     {
+        if (bit)
+        {
+            m_bitbuffer |= m_bitmask;
+        }
+
         m_bitmask >>= 1;
     }
 
