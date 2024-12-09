@@ -179,7 +179,9 @@ public:
 
     void write_code(code c, code_length l)
     {
-        code mask = 1 << (l - 1); // TODO: this breaks horribly if l is < 0. Do we care? (Can it even happen? Is not code_length unsigned?)
+        assert(l > 0);
+
+        code mask = 1 << (l - 1);
         while (mask)
         {
             write_bit(c & mask);
