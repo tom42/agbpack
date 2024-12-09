@@ -187,6 +187,7 @@ public:
         if (!empty())
         {
             write32(m_byte_writer, 0b10110000000000000000000000000000);
+            // TODO: this needs a call to reset here, no?
         }
     }
 
