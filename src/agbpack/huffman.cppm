@@ -212,12 +212,20 @@ private:
 
         m_bitmask >>= 1;
 
-        // TODO: flush buffer when full
+        if (full())
+        {
+            flush();
+        }
     }
 
     bool empty() const
     {
         return m_bitmask == initial_bitmask;
+    }
+
+    bool full() const
+    {
+        return m_bitmask == 0;
     }
 
     static constexpr std::uint32_t initial_bitmask = 0x80000000;
