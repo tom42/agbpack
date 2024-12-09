@@ -194,6 +194,7 @@ public:
 private:
     void reset()
     {
+        // TODO: Also reset buffer here!
         m_bitmask = initial_bitmask;
     }
 
@@ -209,6 +210,7 @@ private:
 
     static constexpr std::uint32_t initial_bitmask = 0x80000000;
     unbounded_byte_writer<OutputIterator>& m_byte_writer;
+    std::uint32_t m_bitbuffer;
     std::uint32_t m_bitmask;
 };
 
