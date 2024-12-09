@@ -192,7 +192,7 @@ public:
         if (!empty())
         {
             write32(m_byte_writer, m_bitbuffer);
-            // TODO: this needs a call to reset here, no?
+            reset();
         }
     }
 

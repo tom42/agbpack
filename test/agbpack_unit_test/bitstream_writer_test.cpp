@@ -46,6 +46,16 @@ TEST_CASE("bitstream_writer_test")
         CHECK(output == byte_vector{});
     }
 
+    SECTION("Repeated calls to flush should have no efect")
+    {
+        bitstream_writer.write_code(1, 1);
+
+        bitstream_writer.flush();
+        bitstream_writer.flush();
+
+        CHECK(output == byte_vector{ 0, 0, 0, 0b10000000 });
+    }
+
     // TODO: review/redo/delete crap below
     /*
 
@@ -77,15 +87,6 @@ TEST_CASE("bitstream_writer_test")
         CHECK(output == byte_vector{ 0x78, 0x56, 0x34, 0x12, 0x00, 0x00, 0x00, 0x9a});
     }
 
-    SECTION("Repeated calls to flush should have no efect")
-    {
-        bitstream_writer.write_code(1, 1);
-
-        bitstream_writer.flush();
-        bitstream_writer.flush();
-
-        CHECK(output == byte_vector{ 0, 0, 0, 0b10000000});
-    }
     */
 }
 
