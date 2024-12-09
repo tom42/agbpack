@@ -171,60 +171,7 @@ public:
     bitstream_writer(const bitstream_writer&) = delete;
     bitstream_writer& operator=(const bitstream_writer&) = delete;
 
-    explicit bitstream_writer(unbounded_byte_writer<OutputIterator>& byte_writer)
-        : m_byte_writer(byte_writer)
-    {
-        reset();
-    }
-
-    void write_code(code c, code_length l)
-    {
-        // TODO: implement
-        // TODO: unhardcode 32
-        // TODO: must handle cases for l > 1
-        // TODO: what do we do if l < 1? => Well best if we have an assertion, but also for the case where l is > bit buffer width, cause we're not gonna handle that case either
-        if (m_bitcount + l <= 32)
-        {
-            // Code fits into bit buffer
-            m_bitbuffer |= c << (32 - l - m_bitcount);
-            m_bitcount += l;
-            if (m_bitcount == 32)
-            {
-                flush();
-            }
-        }
-        else
-        {
-            // Code overflows bit buffer
-            throw std::logic_error("TODO: implement this branch");
-        }
-    }
-
-    void flush()
-    {
-        if (!empty())
-        {
-            write32(m_byte_writer, m_bitbuffer);
-            reset();
-        }
-    }
-
 private:
-    void reset()
-    {
-        m_bitbuffer = 0;
-        m_bitcount = 0;
-    }
-
-    bool empty() const
-    {
-        return m_bitcount == 0;
-    }
-
-    // TODO: have static assertion that bitbuffer is wide enough to hold an entire code
-    unbounded_byte_writer<OutputIterator>& m_byte_writer;
-    std::uint32_t m_bitbuffer;
-    unsigned int m_bitcount;
 };
 
 // TODO: overhaul this (replace with something better):
