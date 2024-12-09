@@ -171,7 +171,44 @@ public:
     bitstream_writer(const bitstream_writer&) = delete;
     bitstream_writer& operator=(const bitstream_writer&) = delete;
 
+    explicit bitstream_writer(unbounded_byte_writer<OutputIterator>& byte_writer)
+        : m_byte_writer(byte_writer)
+    {
+        reset();
+    }
+
+    void write_code(code c, code_length /*l*/)
+    {
+        write_bit(c);
+    }
+
+    void flush()
+    {
+        if (!empty())
+        {
+            write32(m_byte_writer, 0b10110000000000000000000000000000);
+        }
+    }
+
 private:
+    void reset()
+    {
+        m_bitmask = initial_bitmask;
+    }
+
+    void write_bit(bool /*bit*/)
+    {
+        m_bitmask >>= 1;
+    }
+
+    bool empty() const
+    {
+        return m_bitmask == initial_bitmask;
+    }
+
+    static constexpr std::uint32_t initial_bitmask = 0x80000000;
+    unbounded_byte_writer<OutputIterator>& m_byte_writer;
+    std::uint32_t m_bitmask;
 };
 
 // TODO: overhaul this (replace with something better):

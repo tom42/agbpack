@@ -18,20 +18,26 @@ TEST_CASE("bitstream_writer_test")
     agbpack::unbounded_byte_writer byte_writer(back_inserter(output));
     agbpack::bitstream_writer bitstream_writer(byte_writer);
 
-    // TODO: review/redo/delete crap below
-    /*
     SECTION("Write codes of length 1 without overflow of the bit buffer")
     {
         bitstream_writer.write_code(1, 1);
         bitstream_writer.write_code(0, 1);
         bitstream_writer.write_code(1, 1);
-        bitstream_writer.write_code(0, 1);
-        bitstream_writer.write_code(0, 1);
         bitstream_writer.write_code(1, 1);
         bitstream_writer.flush();
 
-        CHECK(output == byte_vector{ 0, 0, 0, 0b10100100 });
+        CHECK(output == byte_vector{ 0, 0, 0, 0b10110000 });
     }
+
+    SECTION("flush when no data has been written")
+    {
+        bitstream_writer.flush();
+
+        CHECK(output == byte_vector{});
+    }
+
+    // TODO: review/redo/delete crap below
+    /*
 
     SECTION("Write codes of length greater than 1 without overflow of the bit buffer")
     {
@@ -69,13 +75,6 @@ TEST_CASE("bitstream_writer_test")
         bitstream_writer.flush();
 
         CHECK(output == byte_vector{ 0x78, 0x56, 0x34, 0x12, 0x00, 0x00, 0x00, 0x9a});
-    }
-
-    SECTION("flush when no data has been written")
-    {
-        bitstream_writer.flush();
-
-        CHECK(output == byte_vector{});
     }
 
     SECTION("Repeated calls to flush should have no efect")
