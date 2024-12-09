@@ -177,9 +177,14 @@ public:
         reset();
     }
 
-    void write_code(code c, code_length /*l*/)
+    void write_code(code c, code_length l)
     {
-        write_bit(c);
+        code mask = 1 << (l - 1); // TODO: this breaks horribly if l is < 0. Do we care? (Can it even happen? Is not code_length unsigned?)
+        while (mask)
+        {
+            write_bit(c & mask);
+            mask >>= 1;
+        }
     }
 
     void flush()
@@ -206,6 +211,8 @@ private:
         }
 
         m_bitmask >>= 1;
+
+        // TODO: flush buffer when full
     }
 
     bool empty() const
