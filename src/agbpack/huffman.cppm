@@ -162,7 +162,6 @@ private:
     byte_reader<InputIterator>& m_byte_reader;
 };
 
-// TODO: implement/test/drop into old code, delete old variant
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 template <typename OutputIterator>
 class bitstream_writer final
@@ -235,62 +234,6 @@ private:
     std::uint32_t m_bitbuffer;
     std::uint32_t m_bitmask;
 };
-
-// TODO: overhaul this (replace with something better):
-/*
-template <typename OutputIterator>
-class bitstream_writer_old final
-{
-public:
-
-    void write_code(code c, code_length l)
-    {
-        code mask = 1 << (l - 1); // TODO: this breaks horribly if l is < 0. Do we care? (Can it even happen? Is not code_length unsigned?)
-        while (mask)
-        {
-            write_bit(c & mask);
-            mask >>= 1;
-        }
-    }
-
-    void flush()
-    {
-        if (!empty())
-        {
-            // TODO: copypasted from above
-            m_bitmask = 0x80000000;
-            write32(m_byte_writer, m_bitbuffer);
-            m_bitbuffer = 0; // TODO: is this needed? Probably yes, no?
-        }
-    }
-
-private:
-    // TODO: review (data compression book?)
-    void write_bit(bool bit)
-    {
-        if (bit)
-        {
-            m_bitbuffer |= m_bitmask;
-        }
-
-        m_bitmask >>= 1;
-        if (!m_bitmask)
-        {
-            m_bitmask = 0x80000000;
-            write32(m_byte_writer, m_bitbuffer);
-            m_bitbuffer = 0; // TODO: is this needed? Probably yes, no?
-        }
-    }
-
-    bool empty() const
-    {
-        return m_bitmask == 0x80000000;
-    }
-
-    std::uint32_t m_bitbuffer = 0;
-    std::uint32_t m_bitmask = 0x80000000;
-    unbounded_byte_writer<OutputIterator>& m_byte_writer;
-};*/
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 template <std::input_iterator InputIterator>
