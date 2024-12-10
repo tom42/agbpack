@@ -5,12 +5,16 @@
 #include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <utility>
 #include "testdata.hpp"
 
 import agbpack;
 
 namespace agbpack_test
 {
+
+template <typename T1, typename T2>
+using pair = std::pair<T1, T2>;
 
 TEST_CASE_METHOD(test_data_fixture, "huffman_decoder_test")
 {
@@ -49,22 +53,22 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_decoder_test")
 
     SECTION("Invalid input")
     {
-        const auto filename = GENERATE(
-            "huffman.bad.eof-inside-header.txt",
-            "huffman.bad.eof-at-tree-size.txt",
-            "huffman.bad.eof-inside-tree.txt",
-            "huffman.bad.eof-while-reading-bitstream.txt",
-            "huffman.bad.invalid-compression-type-in-header.txt",
-            "huffman.bad.valid-but-unexpected-compression-type-in-header.txt",
-            "huffman.bad.invalid-compression-options-in-header.txt",
-            "huffman.bad.misaligned-bitstream.txt",
-            "huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt",
-            "huffman.bad.8.huffman-tree-access-past-end-of-tree.txt");
+        const auto [filename, expected_exception_message] = GENERATE(
+            pair("huffman.bad.eof-inside-header.txt", "encoded data is corrupt"),
+            pair("huffman.bad.eof-at-tree-size.txt", "encoded data is corrupt"),
+            pair("huffman.bad.eof-inside-tree.txt", "encoded data is corrupt"),
+            pair("huffman.bad.eof-while-reading-bitstream.txt", "encoded data is corrupt"),
+            pair("huffman.bad.invalid-compression-type-in-header.txt", "encoded data is corrupt"),
+            pair("huffman.bad.valid-but-unexpected-compression-type-in-header.txt", "encoded data is corrupt"),
+            pair("huffman.bad.invalid-compression-options-in-header.txt", "encoded data is corrupt"),
+            pair("huffman.bad.misaligned-bitstream.txt", "encoded data is corrupt: bitstream is misaligned"),
+            pair("huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt", "encoded data is corrupt"),
+            pair("huffman.bad.8.huffman-tree-access-past-end-of-tree.txt", "encoded data is corrupt"));
 
         CHECK_THROWS_MATCHES(
             decode_file(decoder, filename),
             agbpack::decode_exception,
-            Catch::Matchers::Message("encoded data is corrupt"));
+            Catch::Matchers::Message(expected_exception_message));
     }
 }
 
