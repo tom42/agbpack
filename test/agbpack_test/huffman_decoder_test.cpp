@@ -3,6 +3,8 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include "testdata.hpp"
 
 import agbpack;
@@ -59,7 +61,10 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_decoder_test")
             "huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt",
             "huffman.bad.8.huffman-tree-access-past-end-of-tree.txt");
 
-        CHECK_THROWS_AS(decode_file(decoder, filename), agbpack::decode_exception);
+        CHECK_THROWS_MATCHES(
+            decode_file(decoder, filename),
+            agbpack::decode_exception,
+            Catch::Matchers::Message("encoded data is corrupt"));
     }
 }
 
