@@ -391,7 +391,6 @@ private:
     {
         if ((reader.nbytes_read() % 4) != 0)
         {
-            // TODO: do we want to test for exactly this case? (we have a test, but should it verify the error message?)
             throw decode_exception("bitstream is misaligned");
         }
     }
