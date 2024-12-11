@@ -550,7 +550,7 @@ private:
 public: // TODO: this is temporarily public
     // TODO: I'd prefer if tree_node was immutable - however, we currently need m_val to be writable.
     //       This is really silly: 'representing a tree' and 'serializing a tree' are two different things, and m_val is required only for the latter
-    uint8_t m_val = 0; // TODO: separate symbol and offset field. Offset field should be size_t to reduce casting => rename this to m_offset and make it size_t?
+    size_t m_val = 0; // TODO: rename to m_offset
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
 public: // TODO: temporarily public
     size_t pos = 0;
@@ -825,7 +825,7 @@ private:
             std::tie(tree[shift_begin], tree[shift_begin + 1]) = tmp;
 
             // Adjust offsets
-            tree[i]->m_val -= static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
+            tree[i]->m_val -= shift;
             for (size_t index = i + 1; index < shift_begin; ++index)
             {
                 if (!tree[index]->is_internal())
@@ -842,11 +842,11 @@ private:
 
             if (tree[shift_begin + 0]->is_internal())
             {
-                tree[shift_begin + 0]->m_val += static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
+                tree[shift_begin + 0]->m_val += shift;
             }
             if (tree[shift_begin + 1]->is_internal())
             {
-                tree[shift_begin + 1]->m_val += static_cast<uint8_t>(shift); // TODO: NO CAST: C4244 (conversion from unsigned int to uint8_t). Can we fix this if we make m_val same type?
+                tree[shift_begin + 1]->m_val += shift;
             }
 
             for (size_t index = shift_begin + 2; index < shift_end + 2; ++index)
@@ -929,7 +929,7 @@ private:
         //                throw internal_error("next node offset is out of range");
         //            }
 
-        auto encoded_node = node->m_val;
+        agbpack_u8 encoded_node = static_cast<agbpack_u8>(node->m_val);
 
         if (!node->child(0)->is_internal())
         {
