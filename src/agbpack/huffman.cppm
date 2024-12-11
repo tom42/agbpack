@@ -516,14 +516,6 @@ public:
         return m_sym;
     }
 
-    // TODO: temporary hack of mine to be able to construct a code_table from an array of nodes.
-    //       => replace this by sym?
-    //          => Not really, no? We replace this by offset() / m_offset
-    uint8_t val() const
-    {
-        return m_val;
-    }
-
     // TODO: temporary hack of mine to be able to create the tree. Things to fix:
     //       * Return type should by symbol_frequency, not size_t (this needs lots of fixage)
     //       * m_count should be called m_frequency
@@ -558,7 +550,7 @@ private:
 public: // TODO: this is temporarily public
     // TODO: I'd prefer if tree_node was immutable - however, we currently need m_val to be writable.
     //       This is really silly: 'representing a tree' and 'serializing a tree' are two different things, and m_val is required only for the latter
-    uint8_t m_val = 0; // TODO: separate symbol and offset field. Offset field should be size_t to reduce casting
+    uint8_t m_val = 0; // TODO: separate symbol and offset field. Offset field should be size_t to reduce casting => rename this to m_offset and make it size_t?
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
 public: // TODO: temporarily public
     size_t pos = 0;
@@ -890,9 +882,9 @@ private:
                 continue;
             }
 
-            assert(!(node->val() & mask0));
-            assert(!(node->val() & mask1));
-            assert(node->child(0)->pos == (node->pos & ~1u) + 2 * node->val() + 2);
+            assert(!(node->m_val & mask0));
+            assert(!(node->m_val & mask1));
+            assert(node->child(0)->pos == (node->pos & ~1u) + 2 * node->m_val + 2);
         }
 #endif
     }
@@ -937,7 +929,7 @@ private:
         //                throw internal_error("next node offset is out of range");
         //            }
 
-        auto encoded_node = node->val();
+        auto encoded_node = node->m_val;
 
         if (!node->child(0)->is_internal())
         {
