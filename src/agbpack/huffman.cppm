@@ -756,8 +756,7 @@ private:
 
             if (node->child(b)->is_internal())
             {
-                // TODO: no cast?
-                node->child(b)->m_val = static_cast<uint8_t>(node->child(a)->num_leaves() - 1);
+                node->child(b)->m_val = node->child(a)->num_leaves() - 1;
                 serialize_tree(tree, node->child(b).get(), next + 2 * node->child(a)->num_leaves());
             }
 
