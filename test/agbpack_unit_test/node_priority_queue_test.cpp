@@ -9,11 +9,11 @@ namespace agbpack_unit_test
 {
 
 using agbpack::huffman_tree_node;
-using agbpack::node_queue;
+using agbpack::node_priority_queue;
 
-TEST_CASE("node_queue_test")
+TEST_CASE("node_priority_queue_test")
 {
-    node_queue queue;
+    node_priority_queue queue;
     queue.reserve(3);
 
     SECTION("Nodes are popped in correct order")

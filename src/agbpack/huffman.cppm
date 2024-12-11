@@ -584,7 +584,7 @@ public:
 // Replacement for std::priority_queue that works with std::unique_ptr.
 // As a bonus it also supports reserve().
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-class node_queue final // TODO: rename to node_priority_queue? (Don't forget the test!)
+class node_priority_queue final
 {
 public:
     void reserve(size_t capacity)
@@ -645,9 +645,9 @@ private:
         return root;
     }
 
-    static node_queue create_leaf_nodes(unsigned int symbol_size, const frequency_table& ftable)
+    static node_priority_queue create_leaf_nodes(unsigned int symbol_size, const frequency_table& ftable)
     {
-        node_queue nodes;
+        node_priority_queue nodes;
 
         // Create a leaf node for each symbol whose frequency is > 0
         auto nsymbols = get_nsymbols(symbol_size);
@@ -672,7 +672,7 @@ private:
         return nodes;
     }
 
-    static huffman_tree_node_ptr combine_nodes(node_queue& nodes)
+    static huffman_tree_node_ptr combine_nodes(node_priority_queue& nodes)
     {
         // Standard huffman tree building algorithm:
         // Combine nodes with lowest frequency until there is only one node left: the tree's root node.
