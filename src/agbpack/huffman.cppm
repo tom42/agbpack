@@ -454,13 +454,13 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_node final
 {
 public:
-    huffman_tree_node(uint8_t sym, size_t count)
-        : m_count(count)
+    huffman_tree_node(uint8_t sym, size_t frequency)
+        : m_frequency(frequency)
         , m_sym(sym)
     {}
 
     huffman_tree_node(huffman_tree_node_ptr left, huffman_tree_node_ptr right)
-        : m_children{ std::move(left), std::move(right) }, m_count(m_children[0]->m_count + m_children[1]->m_count)
+        : m_children{ std::move(left), std::move(right) }, m_frequency(m_children[0]->m_frequency + m_children[1]->m_frequency)
     {}
 
     huffman_tree_node() = delete;
@@ -518,10 +518,9 @@ public:
 
     // TODO: temporary hack of mine to be able to create the tree. Things to fix:
     //       * Return type should by symbol_frequency, not size_t (this needs lots of fixage)
-    //       * m_count should be called m_frequency
     size_t frequency() const
     {
-        return m_count;
+        return m_frequency;
     }
 
     const huffman_tree_node_ptr& child(size_t index) const
@@ -543,7 +542,7 @@ public:
 
 private:
     std::array<huffman_tree_node_ptr, 2> m_children{};
-    size_t m_count = 0;
+    size_t m_frequency = 0;
     uint8_t m_sym = 0; // TODO: type should be symbol, no?
     mutable size_t m_leaves = 0;
 
