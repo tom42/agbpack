@@ -20,7 +20,7 @@ TEST_CASE("tree_node_test")
         CHECK(leaf_node->child(0) == nullptr);
         CHECK(leaf_node->child(1) == nullptr);
         CHECK(leaf_node->sym() == 'A');
-        CHECK(leaf_node->m_val == 0);
+        CHECK(leaf_node->m_offset == 0);
         CHECK(leaf_node->frequency() == 42);
     }
 
@@ -34,7 +34,7 @@ TEST_CASE("tree_node_test")
         CHECK(internal_node->child(0)->sym() == 'B');
         CHECK(internal_node->child(1)->sym() == 'C');
         CHECK(internal_node->sym() == 0);
-        CHECK(internal_node->m_val == 0);
+        CHECK(internal_node->m_offset == 0);
         CHECK(internal_node->frequency() == 87);
     }
 

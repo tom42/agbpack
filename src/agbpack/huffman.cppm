@@ -550,7 +550,7 @@ private:
 public: // TODO: this is temporarily public
     // TODO: I'd prefer if tree_node was immutable - however, we currently need m_val to be writable.
     //       This is really silly: 'representing a tree' and 'serializing a tree' are two different things, and m_val is required only for the latter
-    size_t m_val = 0; // TODO: rename to m_offset
+    size_t m_offset = 0;
 #ifndef NDEBUG // TODO: do we not want this sanity check always?
 public: // TODO: temporarily public
     size_t pos = 0;
@@ -750,13 +750,13 @@ private:
 
             if (node->child(a)->is_internal())
             {
-                node->child(a)->m_val = 0;
+                node->child(a)->m_offset = 0;
                 serialize_tree(tree, node->child(a).get(), next + 2);
             }
 
             if (node->child(b)->is_internal())
             {
-                node->child(b)->m_val = node->child(a)->num_leaves() - 1;
+                node->child(b)->m_offset = node->child(a)->num_leaves() - 1;
                 serialize_tree(tree, node->child(b).get(), next + 2 * node->child(a)->num_leaves());
             }
 
@@ -781,7 +781,7 @@ private:
             }
 
             // TODO: no cast
-            node->m_val = static_cast<uint8_t>(queue.size() / 2);
+            node->m_offset = static_cast<uint8_t>(queue.size() / 2);
 
             queue.emplace_back(node->child(0).get());
             queue.emplace_back(node->child(1).get());
@@ -797,14 +797,14 @@ private:
         //       * Dangerous use of sizeof
         for (size_t i = root_node_index; i < tree.size(); ++i)
         {
-            if (!tree[i]->is_internal() || tree[i]->m_val <= 0x3f)
+            if (!tree[i]->is_internal() || tree[i]->m_offset <= 0x3f)
             {
                 continue;
             }
 
-            size_t shift = tree[i]->m_val - 0x3f;
+            size_t shift = tree[i]->m_offset - 0x3f;
 
-            if ((i & 1) && tree[i - 1]->m_val == 0x3f)
+            if ((i & 1) && tree[i - 1]->m_offset == 0x3f)
             {
                 // Right child, and left sibling would overflow if we shifted;
                 // Shift the left child by 1 instead
@@ -812,7 +812,7 @@ private:
                 shift = 1;
             }
 
-            size_t node_end = i / 2 + 1 + tree[i]->m_val;
+            size_t node_end = i / 2 + 1 + tree[i]->m_offset;
             size_t node_begin = node_end - shift;
 
             size_t shift_begin = 2 * node_begin;
@@ -824,7 +824,7 @@ private:
             std::tie(tree[shift_begin], tree[shift_begin + 1]) = tmp;
 
             // Adjust offsets
-            tree[i]->m_val -= shift;
+            tree[i]->m_offset -= shift;
             for (size_t index = i + 1; index < shift_begin; ++index)
             {
                 if (!tree[index]->is_internal())
@@ -832,20 +832,20 @@ private:
                     continue;
                 }
 
-                size_t node = index / 2 + 1 + tree[index]->m_val;
+                size_t node = index / 2 + 1 + tree[index]->m_offset;
                 if (node >= node_begin && node < node_end)
                 {
-                    ++tree[index]->m_val;
+                    ++tree[index]->m_offset;
                 }
             }
 
             if (tree[shift_begin + 0]->is_internal())
             {
-                tree[shift_begin + 0]->m_val += shift;
+                tree[shift_begin + 0]->m_offset += shift;
             }
             if (tree[shift_begin + 1]->is_internal())
             {
-                tree[shift_begin + 1]->m_val += shift;
+                tree[shift_begin + 1]->m_offset += shift;
             }
 
             for (size_t index = shift_begin + 2; index < shift_end + 2; ++index)
@@ -855,10 +855,10 @@ private:
                     continue;
                 }
 
-                size_t node = index / 2 + 1 + tree[index]->m_val;
+                size_t node = index / 2 + 1 + tree[index]->m_offset;
                 if (node > node_end)
                 {
-                    --tree[index]->m_val;
+                    --tree[index]->m_offset;
                 }
             }
         }
@@ -881,9 +881,9 @@ private:
                 continue;
             }
 
-            assert(!(node->m_val & mask0));
-            assert(!(node->m_val & mask1));
-            assert(node->child(0)->pos == (node->pos & ~1u) + 2 * node->m_val + 2);
+            assert(!(node->m_offset & mask0));
+            assert(!(node->m_offset & mask1));
+            assert(node->child(0)->pos == (node->pos & ~1u) + 2 * node->m_offset + 2);
         }
 #endif
     }
@@ -928,7 +928,7 @@ private:
         //                throw internal_error("next node offset is out of range");
         //            }
 
-        agbpack_u8 encoded_node = static_cast<agbpack_u8>(node->m_val);
+        agbpack_u8 encoded_node = static_cast<agbpack_u8>(node->m_offset);
 
         if (!node->child(0)->is_internal())
         {
