@@ -780,8 +780,7 @@ private:
                 continue;
             }
 
-            // TODO: no cast
-            node->m_offset = static_cast<uint8_t>(queue.size() / 2);
+            node->m_offset = queue.size() / 2;
 
             queue.emplace_back(node->child(0).get());
             queue.emplace_back(node->child(1).get());
