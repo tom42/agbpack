@@ -605,7 +605,6 @@ private:
     std::vector<huffman_tree_node_ptr> m_queue;
 };
 
-// TODO: review very thoroughly
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_encoder_tree final
 {
