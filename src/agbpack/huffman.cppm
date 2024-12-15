@@ -590,12 +590,12 @@ public:
     void push(huffman_tree_node_ptr node)
     {
         m_queue.push_back(std::move(node));
-        std::push_heap(m_queue.begin(), m_queue.end(), tree_node_compare());
+        std::ranges::push_heap(m_queue, tree_node_compare());
     }
 
     huffman_tree_node_ptr pop()
     {
-        std::pop_heap(m_queue.begin(), m_queue.end(), tree_node_compare());
+        std::ranges::pop_heap(m_queue, tree_node_compare());
         auto node = std::move(m_queue.back());
         m_queue.pop_back();
         return node;
