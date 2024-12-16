@@ -8,7 +8,6 @@ module;
 #include <cassert>
 #include <concepts>
 #include <cstdint>
-#include <cstring> // TODO: for memmove. Should not be using this at all, no?
 #include <iterator>
 #include <memory>
 #include <queue>
@@ -812,16 +811,10 @@ private:
 
             const size_t shift_begin = 2 * node_begin;
             const size_t shift_end = 2 * node_end;
-            const size_t ncopy = shift_end - shift_begin;
 
             // Move last child pair to front
             auto tmp = std::make_pair(tree[shift_end], tree[shift_end + 1]);
-            std::memmove(&tree[shift_begin + 2], &tree[shift_begin], sizeof(huffman_tree_node*) * ncopy); // TODO: do NOT use memmove here (or use a static_assert to ensure it is OK)
-            // TODO: this might work, but needs review:
-            //       * Do we use copy or move? Does it matter? (Well it does not because we're dealing with raw pointers, but it could for a different element type)
-            //       * Do we use copy or copy_backward? Unfortunately we have no test that would tell us
-            //std::copy_backward(&tree[shift_begin], &tree[shift_begin + ncopy], &tree[shift_begin + 2 + ncopy]);
-            // TODO: aaaactually: what we want is std::shift_right (or std::shift_left? no, right probably it is)
+            std::shift_right(&tree[shift_begin], &tree[shift_end + 2], 2); // TODO: review: is this correct? Can we not use std::rotate?
             std::tie(tree[shift_begin], tree[shift_begin + 1]) = tmp;
 
             // Adjust offsets
