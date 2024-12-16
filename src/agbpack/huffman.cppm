@@ -813,9 +813,7 @@ private:
             const size_t shift_end = 2 * node_end;
 
             // Move last child pair to front
-            auto tmp = std::make_pair(tree[shift_end], tree[shift_end + 1]);
-            std::shift_right(&tree[shift_begin], &tree[shift_end + 2], 2); // TODO: review: is this correct? Can we not use std::rotate?
-            std::tie(tree[shift_begin], tree[shift_begin + 1]) = tmp;
+            std::ranges::rotate(&tree[shift_begin], &tree[shift_end], &tree[shift_end + 2]);
 
             // Adjust offsets
             tree[i]->m_offset -= shift;
