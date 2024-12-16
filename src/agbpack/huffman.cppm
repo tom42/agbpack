@@ -783,7 +783,6 @@ private:
     static void fixup_tree(serialized_tree& tree)
     {
         // TODO: review very thoroughly
-        //       * Are there any unwanted casts?
         //       * Unhardcode constants such as 0x3f
         for (size_t i = root_node_index; i < tree.size(); ++i)
         {
