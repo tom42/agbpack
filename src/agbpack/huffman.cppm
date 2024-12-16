@@ -812,10 +812,11 @@ private:
 
             const size_t shift_begin = 2 * node_begin;
             const size_t shift_end = 2 * node_end;
+            const size_t ncopy = shift_end - shift_begin;
 
             // Move last child pair to front
             auto tmp = std::make_pair(tree[shift_end], tree[shift_end + 1]);
-            std::memmove(&tree[shift_begin + 2], &tree[shift_begin], sizeof(huffman_tree_node*) * (shift_end - shift_begin)); // TODO: do NOT use memmove here (or use a static_assert to ensure it is OK)
+            std::memmove(&tree[shift_begin + 2], &tree[shift_begin], sizeof(huffman_tree_node*) * ncopy); // TODO: do NOT use memmove here (or use a static_assert to ensure it is OK)
             std::tie(tree[shift_begin], tree[shift_begin + 1]) = tmp;
 
             // Adjust offsets
