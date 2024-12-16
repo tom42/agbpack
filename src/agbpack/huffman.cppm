@@ -821,6 +821,7 @@ private:
             //       * Do we use copy or move? Does it matter? (Well it does not because we're dealing with raw pointers, but it could for a different element type)
             //       * Do we use copy or copy_backward? Unfortunately we have no test that would tell us
             //std::copy_backward(&tree[shift_begin], &tree[shift_begin + ncopy], &tree[shift_begin + 2 + ncopy]);
+            // TODO: aaaactually: what we want is std::shift_right (or std::shift_left? no, right probably it is)
             std::tie(tree[shift_begin], tree[shift_begin + 1]) = tmp;
 
             // Adjust offsets
