@@ -510,9 +510,8 @@ public:
     }
 
     // Returns the symbol represented by a leaf node. No meaning for internal nodes.
-    uint8_t sym() const
+    symbol sym() const
     {
-        // TODO: underlying field and return type should be symbol, no?
         return m_sym;
     }
 
@@ -543,7 +542,7 @@ public:
 private:
     std::array<huffman_tree_node_ptr, 2> m_children{};
     size_t m_frequency = 0;
-    uint8_t m_sym = 0; // TODO: type should be symbol, no?
+    symbol m_sym = 0;
     mutable size_t m_leaves = 0;
 
 public: // TODO: this is temporarily public
@@ -942,7 +941,7 @@ private:
 
     static agbpack_u8 encode_leaf_node(const huffman_tree_node* node)
     {
-        return node->sym();
+        return static_cast<agbpack_u8>(node->sym());
     }
 
     static std::vector<agbpack_u8> create_empty_encoded_tree(const serialized_tree& serialized_tree)
