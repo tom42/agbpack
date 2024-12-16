@@ -807,11 +807,11 @@ private:
                 shift = 1;
             }
 
-            size_t node_end = i / 2 + 1 + tree[i]->m_offset;
-            size_t node_begin = node_end - shift;
+            const size_t node_end = i / 2 + 1 + tree[i]->m_offset;
+            const size_t node_begin = node_end - shift;
 
-            size_t shift_begin = 2 * node_begin;
-            size_t shift_end = 2 * node_end;
+            const size_t shift_begin = 2 * node_begin;
+            const size_t shift_end = 2 * node_end;
 
             // Move last child pair to front
             auto tmp = std::make_pair(tree[shift_end], tree[shift_end + 1]);
