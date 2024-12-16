@@ -817,6 +817,10 @@ private:
             // Move last child pair to front
             auto tmp = std::make_pair(tree[shift_end], tree[shift_end + 1]);
             std::memmove(&tree[shift_begin + 2], &tree[shift_begin], sizeof(huffman_tree_node*) * ncopy); // TODO: do NOT use memmove here (or use a static_assert to ensure it is OK)
+            // TODO: this might work, but needs review:
+            //       * Do we use copy or move? Does it matter? (Well it does not because we're dealing with raw pointers, but it could for a different element type)
+            //       * Do we use copy or copy_backward? Unfortunately we have no test that would tell us
+            //std::copy_backward(&tree[shift_begin], &tree[shift_begin + ncopy], &tree[shift_begin + 2 + ncopy]);
             std::tie(tree[shift_begin], tree[shift_begin + 1]) = tmp;
 
             // Adjust offsets
