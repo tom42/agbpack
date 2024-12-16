@@ -454,7 +454,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_node final
 {
 public:
-    huffman_tree_node(uint8_t sym, size_t frequency)
+    huffman_tree_node(symbol sym, size_t frequency)
         : m_frequency(frequency)
         , m_sym(sym)
     {}
@@ -530,8 +530,7 @@ public:
 
     static huffman_tree_node_ptr make_leaf(symbol sym, symbol_frequency frequency)
     {
-        // TODO: no cast here
-        return std::make_unique<huffman_tree_node>(static_cast<uint8_t>(sym), frequency);
+        return std::make_unique<huffman_tree_node>(sym, frequency);
     }
 
     static huffman_tree_node_ptr make_internal(huffman_tree_node_ptr child0, huffman_tree_node_ptr child1)
