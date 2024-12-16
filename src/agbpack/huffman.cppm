@@ -783,17 +783,16 @@ private:
     static void fixup_tree(serialized_tree& tree)
     {
         // TODO: review very thoroughly
-        //       * Unhardcode constants such as 0x3f
         for (size_t i = root_node_index; i < tree.size(); ++i)
         {
-            if (!tree[i]->is_internal() || tree[i]->m_offset <= 0x3f)
+            if (!tree[i]->is_internal() || tree[i]->m_offset <= max_next_node_offset)
             {
                 continue;
             }
 
-            size_t shift = tree[i]->m_offset - 0x3f;
+            size_t shift = tree[i]->m_offset - max_next_node_offset;
 
-            if ((i & 1) && tree[i - 1]->m_offset == 0x3f)
+            if ((i & 1) && tree[i - 1]->m_offset == max_next_node_offset)
             {
                 // Right child, and left sibling would overflow if we shifted;
                 // Shift the left child by 1 instead
