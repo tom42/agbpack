@@ -787,8 +787,6 @@ private:
         // TODO: review very thoroughly
         //       * Are there any unwanted casts?
         //       * Unhardcode constants such as 0x3f
-        //       * Do not use memmove
-        //       * Dangerous use of sizeof
         for (size_t i = root_node_index; i < tree.size(); ++i)
         {
             if (!tree[i]->is_internal() || tree[i]->m_offset <= 0x3f)
