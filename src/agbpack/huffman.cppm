@@ -855,15 +855,14 @@ private:
     {
         // TODO: do we want to have this check always?
 #ifndef NDEBUG
-        // TODO: name
         // TODO: does map have a capacity?
         // TODO: should we use an unordered map?
-        std::map<huffman_tree_node*, size_t> foo;
+        std::map<huffman_tree_node*, size_t> pos;
 
         for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
             assert(serialized_tree[i]);
-            foo[serialized_tree[i]] = i;
+            pos[serialized_tree[i]] = i;
         }
 
         for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
@@ -876,7 +875,7 @@ private:
 
             assert(!(node->m_offset & mask0));
             assert(!(node->m_offset & mask1));
-            assert(foo[node->child(0).get()] == (foo[node] & ~1u) + 2 * node->m_offset + 2);
+            assert(pos[node->child(0).get()] == (pos[node] & ~1u) + 2 * node->m_offset + 2);
         }
 #endif
     }
