@@ -9,6 +9,7 @@ module;
 #include <concepts>
 #include <cstdint>
 #include <iterator>
+#include <map>
 #include <memory>
 #include <queue>
 #include <stdexcept>
@@ -856,7 +857,11 @@ private:
 
     static void assert_tree([[maybe_unused]] const serialized_tree& serialized_tree)
     {
+        // TODO: do we want to have this check always?
 #ifndef NDEBUG
+        // TODO: name
+        // TODO: does map have a capacity?
+        std::map<huffman_tree_node*, size_t> foo;
 
         // TODO: can we use a map for this? (maps nodes to pos values)
         //       This would be a good way to get rid of pos from the node class
@@ -864,6 +869,7 @@ private:
         {
             assert(serialized_tree[i]);
             serialized_tree[i]->pos = i;
+            foo[serialized_tree[i]] = i;
         }
 
         for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
@@ -876,7 +882,7 @@ private:
 
             assert(!(node->m_offset & mask0));
             assert(!(node->m_offset & mask1));
-            assert(node->child(0)->pos == (node->pos & ~1u) + 2 * node->m_offset + 2);
+            assert(foo[node->child(0).get()] == (foo[node] & ~1u) + 2 * node->m_offset + 2);
         }
 #endif
     }
