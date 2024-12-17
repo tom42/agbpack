@@ -14,28 +14,6 @@ SPDX-License-Identifier: MIT
   * huffman_decoder_test:
     * Maybe place a readme somewhere that files have been created using reference encoders? (CUE Huffman, GBACrusher)
 * How can we ensure that the library for unit testing does not get deployed/installed/whatever?
-* OK: huffman tree serialization is a bitch
-  * On the bright side: we're interested primarily in 4 bit coding for shrinkler-gba, so we could just call it a day :D
-  * Our breadth-first traversal does not even work for a 256 byte file where each 8 bit symbol has the same frequency
-  * Would a depth-first traversal work for this case? Maybe
-  * Should we also write a maximum depth test?
-  * Well, maybe. Prognosis:
-    * breadth-first fails at even distribution, but does lucas sequence thing
-    * depth-first fails at lucas sequence thing (orly? only if the short tree contains is more than one level deep?)
-  * Well, we need to understand the problem.
-    * I am not sure this is absolutely true, e.g. regarding number of nodes, but it sounds like it pinpoints the real problem:
-      It is not the depth of the tree that matters, but the number of nodes in a subtree.
-      * So we would somehow have to recognize when this happens, and kind of mix serialization of that subtree with other subtrees
-        * Problem is: how to detect that case? Obviously the root node of a tree with 256 symbols always exhibits that problem
-        * What if we try to do for example
-          * Depth first
-          * But whenever we reached a depth too deep, we somehow backtrack and do another bit of the tree?
-            * Well maybe, but
-              * How far do we backtrack?
-              * Which path do we take then?
-              * How do we get back onto the path we backtracked from?
-              * How do we know we processed all the nodes?
-* Need to write lots of huffman tests now (ugh.. what we have already does not work...)
 * HUFFMAN.md
   * Some section on the overall format, just for the sake of completeness
 * huffman_encoder implementation
@@ -171,7 +149,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 if(MSVC)
-    add_compiler_flags(/std:c++latest) # for post c++14 updates in MSVC
     add_compiler_flags(/permissive-)   # force standard conformance - this is the better flag than /Za
     add_compiler_flags(/WX)
     add_compiler_flags(/Wall) # turns on warnings from levels 1 through 4 which are off by default - https://msdn.microsoft.com/en-us/library/23k5d385.aspx
