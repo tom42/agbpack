@@ -268,10 +268,7 @@ public:
             }
         }
 
-        if (current_node_value > m_symbol_max_value)
-        {
-            throw decode_exception();
-        }
+        throw_if_decoded_symbol_is_invalid(current_node_value);
 
         return current_node_value;
     }
@@ -330,7 +327,7 @@ private:
         }
     }
 
-    auto read_tree_node(size_t node_index) const
+    agbpack_u8 read_tree_node(size_t node_index) const
     {
         if ((node_index < root_node_index) || (node_index >= m_tree.size()))
         {
@@ -338,6 +335,14 @@ private:
         }
 
         return m_tree[node_index];
+    }
+
+    void throw_if_decoded_symbol_is_invalid(agbpack_u8 symbol)
+    {
+        if (symbol > m_symbol_max_value)
+        {
+            throw decode_exception();
+        }
     }
 
     unsigned int m_symbol_size;
