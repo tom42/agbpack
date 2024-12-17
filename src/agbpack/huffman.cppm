@@ -861,6 +861,7 @@ private:
 #ifndef NDEBUG
         // TODO: name
         // TODO: does map have a capacity?
+        // TODO: should we use an unordered map?
         std::map<huffman_tree_node*, size_t> foo;
 
         // TODO: can we use a map for this? (maps nodes to pos values)
