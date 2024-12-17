@@ -9,11 +9,11 @@ module;
 #include <concepts>
 #include <cstdint>
 #include <iterator>
-#include <map>
 #include <memory>
 #include <queue>
 #include <stdexcept>
 #include <type_traits>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -855,9 +855,8 @@ private:
     {
         // TODO: do we want to have this check always?
 #ifndef NDEBUG
-        // TODO: does map have a capacity?
-        // TODO: should we use an unordered map?
-        std::map<huffman_tree_node*, size_t> pos;
+        std::unordered_map<huffman_tree_node*, size_t> pos;
+        pos.reserve(serialized_tree.size());
 
         for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
