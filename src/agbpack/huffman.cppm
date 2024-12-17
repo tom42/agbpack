@@ -551,10 +551,6 @@ public: // TODO: this is temporarily public
     // TODO: I'd prefer if tree_node was immutable - however, we currently need m_val to be writable.
     //       This is really silly: 'representing a tree' and 'serializing a tree' are two different things, and m_val is required only for the latter
     size_t m_offset = 0;
-#ifndef NDEBUG // TODO: do we not want this sanity check always?
-public: // TODO: temporarily public
-    size_t pos = 0;
-#endif
 };
 
 class tree_node_compare final
@@ -864,12 +860,9 @@ private:
         // TODO: should we use an unordered map?
         std::map<huffman_tree_node*, size_t> foo;
 
-        // TODO: can we use a map for this? (maps nodes to pos values)
-        //       This would be a good way to get rid of pos from the node class
         for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
             assert(serialized_tree[i]);
-            serialized_tree[i]->pos = i;
             foo[serialized_tree[i]] = i;
         }
 
