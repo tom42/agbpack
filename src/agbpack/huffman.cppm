@@ -857,6 +857,9 @@ private:
     static void assert_tree([[maybe_unused]] const serialized_tree& serialized_tree)
     {
 #ifndef NDEBUG
+
+        // TODO: can we use a map for this? (maps nodes to pos values)
+        //       This would be a good way to get rid of pos from the node class
         for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
             assert(serialized_tree[i]);
