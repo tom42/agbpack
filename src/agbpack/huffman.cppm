@@ -337,7 +337,7 @@ private:
         return m_tree[node_index];
     }
 
-    void throw_if_decoded_symbol_is_invalid(agbpack_u8 symbol)
+    void throw_if_decoded_symbol_is_invalid(agbpack_u8 symbol) const
     {
         if (symbol > m_symbol_max_value)
         {
