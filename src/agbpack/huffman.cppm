@@ -524,8 +524,7 @@ public:
         return m_frequency;
     }
 
-    // TODO: do we want to return a pointer to constant node?
-    huffman_tree_node* child(size_t index) const
+    const huffman_tree_node* child(size_t index) const
     {
         assert((index == 0) || (index == 1));
         return m_children[index].get();
@@ -668,7 +667,7 @@ private:
         return nodes.pop();
     }
 
-    static void create_code_table_internal(code_table& table, huffman_tree_node* node, code c, code_length l)
+    static void create_code_table_internal(code_table& table, const huffman_tree_node* node, code c, code_length l)
     {
         if (l > max_code_length)
         {
@@ -727,7 +726,7 @@ private:
     }
 
     // TODO: can we pass around serialized_tree by reference?
-    void serialize_tree(serialized_tree& tree, huffman_tree_node* node, size_t next)
+    void serialize_tree(serialized_tree& tree, const huffman_tree_node* node, size_t next)
     {
         // TODO: review very thoroughly
         //       * Unhardcode 0x40
@@ -763,7 +762,7 @@ private:
             return;
         }
 
-        std::deque<huffman_tree_node*> queue;
+        std::deque<const huffman_tree_node*> queue;
 
         queue.emplace_back(node->child(0));
         queue.emplace_back(node->child(1));
