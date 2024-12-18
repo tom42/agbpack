@@ -547,11 +547,6 @@ private:
     symbol_frequency m_frequency = 0;
     symbol m_sym = 0;
     mutable size_t m_leaves = 0;
-
-public: // TODO: this is temporarily public
-    // TODO: I'd prefer if tree_node was immutable - however, we currently need m_val to be writable.
-    //       This is really silly: 'representing a tree' and 'serializing a tree' are two different things, and m_val is required only for the latter
-    size_t m_offset = 0;
 };
 
 class tree_node_compare final
@@ -713,8 +708,16 @@ public:
     }
 
 private:
-    using serialized_tree = std::vector<huffman_tree_node*>;
+    using serialized_tree = std::vector<const huffman_tree_node*>;
+    using offset_map = std::unordered_map<const huffman_tree_node*, size_t>;
 
+    // TODO: move to end of class where we have members
+    // TODO: this is not *that* pretty
+    //       * Pass this around by argument?
+    //       * If we don't pass it by argument then we should reset it in serialize(). As it is it is a timebomb
+    offset_map m_offset;
+
+    // TODO: move after instance methods?
     static serialized_tree create_empty_serialized_tree(const huffman_encoder_tree& tree)
     {
         // Allocate space for all internal and leaf nodes.
@@ -724,7 +727,8 @@ private:
         return serialized_tree;
     }
 
-    static void serialize_tree(serialized_tree& tree, huffman_tree_node* node, size_t next)
+    // TODO: can we pass around serialized_tree by reference?
+    void serialize_tree(serialized_tree& tree, huffman_tree_node* node, size_t next)
     {
         // TODO: review very thoroughly
         //       * Unhardcode 0x40
@@ -747,13 +751,13 @@ private:
 
             if (node->child(a)->is_internal())
             {
-                node->child(a)->m_offset = 0;
+                m_offset[node->child(a)] = 0;
                 serialize_tree(tree, node->child(a), next + 2);
             }
 
             if (node->child(b)->is_internal())
             {
-                node->child(b)->m_offset = node->child(a)->num_leaves() - 1;
+                m_offset[node->child(b)] = node->child(a)->num_leaves() - 1;
                 serialize_tree(tree, node->child(b), next + 2 * node->child(a)->num_leaves());
             }
 
@@ -777,25 +781,25 @@ private:
                 continue;
             }
 
-            node->m_offset = queue.size() / 2;
+            m_offset[node] = queue.size() / 2;
 
             queue.emplace_back(node->child(0));
             queue.emplace_back(node->child(1));
         }
     }
 
-    static void fixup_tree(serialized_tree& tree)
+    void fixup_tree(serialized_tree& tree)
     {
         for (size_t i = root_node_index; i < tree.size(); ++i)
         {
-            if (!tree[i]->is_internal() || tree[i]->m_offset <= max_next_node_offset)
+            if (!tree[i]->is_internal() || m_offset[tree[i]] <= max_next_node_offset)
             {
                 continue;
             }
 
-            size_t shift = tree[i]->m_offset - max_next_node_offset;
+            size_t shift = m_offset[tree[i]] - max_next_node_offset;
 
-            if ((i & 1) && tree[i - 1]->m_offset == max_next_node_offset)
+            if ((i & 1) && m_offset[tree[i - 1]] == max_next_node_offset)
             {
                 // Right child, and left sibling would overflow if we shifted;
                 // Shift the left child by 1 instead
@@ -803,7 +807,7 @@ private:
                 shift = 1;
             }
 
-            const size_t node_end = i / 2 + 1 + tree[i]->m_offset;
+            const size_t node_end = i / 2 + 1 + m_offset[tree[i]];
             const size_t node_begin = node_end - shift;
 
             const size_t shift_begin = 2 * node_begin;
@@ -813,7 +817,7 @@ private:
             std::ranges::rotate(&tree[shift_begin], &tree[shift_end], &tree[shift_end + 2]);
 
             // Adjust offsets
-            tree[i]->m_offset -= shift;
+            m_offset[tree[i]] -= shift;
             for (size_t index = i + 1; index < shift_begin; ++index)
             {
                 if (!tree[index]->is_internal())
@@ -821,20 +825,20 @@ private:
                     continue;
                 }
 
-                size_t node = index / 2 + 1 + tree[index]->m_offset;
+                size_t node = index / 2 + 1 + m_offset[tree[index]];
                 if (node >= node_begin && node < node_end)
                 {
-                    ++tree[index]->m_offset;
+                    ++m_offset[tree[index]];
                 }
             }
 
             if (tree[shift_begin + 0]->is_internal())
             {
-                tree[shift_begin + 0]->m_offset += shift;
+                m_offset[tree[shift_begin + 0]] += shift;
             }
             if (tree[shift_begin + 1]->is_internal())
             {
-                tree[shift_begin + 1]->m_offset += shift;
+                m_offset[tree[shift_begin + 1]] += shift;
             }
 
             for (size_t index = shift_begin + 2; index < shift_end + 2; ++index)
@@ -844,20 +848,20 @@ private:
                     continue;
                 }
 
-                size_t node = index / 2 + 1 + tree[index]->m_offset;
+                size_t node = index / 2 + 1 + m_offset[tree[index]];
                 if (node > node_end)
                 {
-                    --tree[index]->m_offset;
+                    --m_offset[tree[index]];
                 }
             }
         }
     }
 
-    static void assert_tree([[maybe_unused]] const serialized_tree& serialized_tree)
+    void assert_tree([[maybe_unused]] const serialized_tree& serialized_tree)
     {
         // TODO: do we want to have this check always?
 #ifndef NDEBUG
-        std::unordered_map<huffman_tree_node*, size_t> pos;
+        std::unordered_map<const huffman_tree_node*, size_t> pos;
         pos.reserve(serialized_tree.size());
 
         for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
@@ -874,14 +878,14 @@ private:
                 continue;
             }
 
-            assert(!(node->m_offset & mask0));
-            assert(!(node->m_offset & mask1));
-            assert(pos[node->child(0)] == (pos[node] & ~1u) + 2 * node->m_offset + 2);
+            assert(!(m_offset[node] & mask0));
+            assert(!(m_offset[node] & mask1));
+            assert(pos[node->child(0)] == (pos[node] & ~1u) + 2 * m_offset[node] + 2);
         }
 #endif
     }
 
-    static std::vector<agbpack_u8> encode_tree(const serialized_tree& serialized_tree)
+    std::vector<agbpack_u8> encode_tree(const serialized_tree& serialized_tree)
     {
         auto encoded_tree = create_empty_encoded_tree(serialized_tree);
 
@@ -899,7 +903,7 @@ private:
         return encoded_tree;
     }
 
-    static agbpack_u8 encode_node(const huffman_tree_node* node)
+    agbpack_u8 encode_node(const huffman_tree_node* node)
     {
         if (node->is_internal())
         {
@@ -911,7 +915,7 @@ private:
         }
     }
 
-    static agbpack_u8 encode_internal_node(const huffman_tree_node* node)
+    agbpack_u8 encode_internal_node(const huffman_tree_node* node)
     {
         // TODO: check offset (orly? do we check once more?)
         //       => Well that really should be done inside assert_tree (which should always do it, not only in debug builds)
@@ -921,7 +925,7 @@ private:
         //                throw internal_error("next node offset is out of range");
         //            }
 
-        agbpack_u8 encoded_node = static_cast<agbpack_u8>(node->m_offset);
+        agbpack_u8 encoded_node = static_cast<agbpack_u8>(m_offset[node]);
 
         if (!node->child(0)->is_internal())
         {
