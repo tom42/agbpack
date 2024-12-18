@@ -454,7 +454,6 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING class huffman_tree_node;
 using huffman_tree_node_ptr = std::unique_ptr<huffman_tree_node>;
 
 // TODO: review/rework very thoroughly
-// TODO: do we really have to have mutable nodes for serialization?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_node final
 {
