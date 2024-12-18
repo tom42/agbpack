@@ -612,8 +612,7 @@ public:
         return table;
     }
 
-    // TODO: do we want to return a pointer to constant node here?
-    huffman_tree_node* root() const
+    const huffman_tree_node* root() const
     {
         return m_root.get();
     }
