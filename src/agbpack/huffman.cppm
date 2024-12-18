@@ -525,10 +525,11 @@ public:
         return m_frequency;
     }
 
-    const huffman_tree_node_ptr& child(size_t index) const
+    // TODO: do we want to return a pointer to constant node?
+    huffman_tree_node* child(size_t index) const
     {
         assert((index == 0) || (index == 1));
-        return m_children[index];
+        return m_children[index].get();
     }
 
     static huffman_tree_node_ptr make_leaf(symbol sym, symbol_frequency frequency)
@@ -618,9 +619,10 @@ public:
         return table;
     }
 
-    const huffman_tree_node_ptr& root() const
+    // TODO: do we want to return a pointer to constant node here?
+    huffman_tree_node* root() const
     {
-        return m_root;
+        return m_root.get();
     }
 
 private:
@@ -681,8 +683,8 @@ private:
 
         if (node->is_internal())
         {
-            create_code_table_internal(table, node->child(0).get(), c << 1, l + 1);
-            create_code_table_internal(table, node->child(1).get(), (c << 1) | 1, l + 1);
+            create_code_table_internal(table, node->child(0), c << 1, l + 1);
+            create_code_table_internal(table, node->child(1), (c << 1) | 1, l + 1);
         }
         else
         {
@@ -702,9 +704,9 @@ public:
     {
         auto serialized = create_empty_serialized_tree(tree);
 
-        serialized[root_node_index] = tree.root().get();
+        serialized[root_node_index] = tree.root();
 
-        serialize_tree(serialized, tree.root().get(), root_node_index + 1);
+        serialize_tree(serialized, tree.root(), root_node_index + 1);
         fixup_tree(serialized);
         assert_tree(serialized);
         return encode_tree(serialized);
@@ -732,8 +734,8 @@ private:
         if (node->num_leaves() > 0x40)
         {
             // This subtree will overflow the offset field if inserted naively
-            tree[next + 0] = node->child(0).get();
-            tree[next + 1] = node->child(1).get();
+            tree[next + 0] = node->child(0);
+            tree[next + 1] = node->child(1);
 
             unsigned a = 0;
             unsigned b = 1;
@@ -746,13 +748,13 @@ private:
             if (node->child(a)->is_internal())
             {
                 node->child(a)->m_offset = 0;
-                serialize_tree(tree, node->child(a).get(), next + 2);
+                serialize_tree(tree, node->child(a), next + 2);
             }
 
             if (node->child(b)->is_internal())
             {
                 node->child(b)->m_offset = node->child(a)->num_leaves() - 1;
-                serialize_tree(tree, node->child(b).get(), next + 2 * node->child(a)->num_leaves());
+                serialize_tree(tree, node->child(b), next + 2 * node->child(a)->num_leaves());
             }
 
             return;
@@ -760,8 +762,8 @@ private:
 
         std::deque<huffman_tree_node*> queue;
 
-        queue.emplace_back(node->child(0).get());
-        queue.emplace_back(node->child(1).get());
+        queue.emplace_back(node->child(0));
+        queue.emplace_back(node->child(1));
 
         while (!queue.empty())
         {
@@ -777,8 +779,8 @@ private:
 
             node->m_offset = queue.size() / 2;
 
-            queue.emplace_back(node->child(0).get());
-            queue.emplace_back(node->child(1).get());
+            queue.emplace_back(node->child(0));
+            queue.emplace_back(node->child(1));
         }
     }
 
@@ -874,7 +876,7 @@ private:
 
             assert(!(node->m_offset & mask0));
             assert(!(node->m_offset & mask1));
-            assert(pos[node->child(0).get()] == (pos[node] & ~1u) + 2 * node->m_offset + 2);
+            assert(pos[node->child(0)] == (pos[node] & ~1u) + 2 * node->m_offset + 2);
         }
 #endif
     }
