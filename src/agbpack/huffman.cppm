@@ -724,7 +724,6 @@ private:
         return serialized_tree;
     }
 
-    // TODO: can we pass around serialized_tree by reference?
     void serialize_tree(serialized_tree& tree, const huffman_tree_node* node, size_t next)
     {
         // TODO: review very thoroughly
