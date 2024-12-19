@@ -453,7 +453,6 @@ private:
 AGBPACK_EXPORT_FOR_UNIT_TESTING class huffman_tree_node;
 using huffman_tree_node_ptr = std::unique_ptr<huffman_tree_node>;
 
-// TODO: review/rework very thoroughly
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_node final
 {
@@ -464,18 +463,19 @@ public:
     {}
 
     huffman_tree_node(huffman_tree_node_ptr left, huffman_tree_node_ptr right)
-        : m_children{ std::move(left), std::move(right) }, m_frequency(m_children[0]->m_frequency + m_children[1]->m_frequency)
+        : m_children{ std::move(left), std::move(right) }
+        , m_frequency(m_children[0]->m_frequency + m_children[1]->m_frequency)
     {}
 
     huffman_tree_node() = delete;
 
-    huffman_tree_node(const huffman_tree_node& other) = delete;
+    huffman_tree_node(const huffman_tree_node&) = delete;
 
-    huffman_tree_node(huffman_tree_node&& other) = delete;
+    huffman_tree_node(huffman_tree_node&&) = delete;
 
-    huffman_tree_node& operator=(const huffman_tree_node& other) = delete;
+    huffman_tree_node& operator=(const huffman_tree_node&) = delete;
 
-    huffman_tree_node& operator=(huffman_tree_node&& other) = delete;
+    huffman_tree_node& operator=(huffman_tree_node&&) = delete;
 
     bool is_internal() const
     {
