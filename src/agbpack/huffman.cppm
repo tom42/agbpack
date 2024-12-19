@@ -451,7 +451,7 @@ private:
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING class huffman_tree_node;
-using huffman_tree_node_ptr = std::unique_ptr<huffman_tree_node>;
+using huffman_tree_node_ptr = std::unique_ptr<const huffman_tree_node>;
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class huffman_tree_node final
@@ -550,7 +550,6 @@ private:
 class tree_node_compare final
 {
 public:
-    // TODO: in principle we want a and b be constant. How to achieve? Also fix this in other bits of the code
     bool operator()(const huffman_tree_node_ptr& a, const huffman_tree_node_ptr& b)
     {
         if (a->frequency() != b->frequency())
