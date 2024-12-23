@@ -8,8 +8,11 @@ namespace agbpack_unit_test
 
 TEST_CASE("huffman_decoder_tree_test")
 {
-    // TODO: add test: create_decode_tree when there is garbage in a node
-    FAIL();
+    SECTION("create_code_table encounters garbage in unused bits of symbol")
+    {
+        // TODO: add test: create_decode_tree when there is garbage in a node
+        FAIL();
+    }
 }
 
 }
