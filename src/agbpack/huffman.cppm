@@ -727,7 +727,6 @@ private:
     {
         // TODO: review very thoroughly
         //       * Unhardcode 0x40
-        //       * Array indices should be of type size_t
         assert(node->is_internal());
 
         if (node->num_leaves() > 0x40)
@@ -736,8 +735,8 @@ private:
             tree[next + 0] = node->child(0);
             tree[next + 1] = node->child(1);
 
-            unsigned a = 0;
-            unsigned b = 1;
+            size_t a = 0;
+            size_t b = 1;
 
             if (node->child(1)->num_leaves() < node->child(0)->num_leaves())
             {
