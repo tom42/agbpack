@@ -713,16 +713,6 @@ private:
     //       * If we don't pass it by argument then we should reset it in serialize(). As it is it is a timebomb
     offset_map m_offset;
 
-    // TODO: move after instance methods?
-    static serialized_tree create_empty_serialized_tree(const huffman_encoder_tree& tree)
-    {
-        // Allocate space for all internal and leaf nodes.
-        // Also allocate an extra slot for the tree size byte. We don't store anything there in the
-        // serialized tree, but it is helpful if the root node occupies the array element at index 1.
-        serialized_tree serialized_tree(tree.root()->num_nodes() + 1);
-        return serialized_tree;
-    }
-
     void serialize_tree(serialized_tree& tree, const huffman_tree_node* node, size_t next)
     {
         // TODO: review very thoroughly
@@ -956,6 +946,15 @@ private:
         }
 
         return size;
+    }
+
+    static serialized_tree create_empty_serialized_tree(const huffman_encoder_tree& tree)
+    {
+        // Allocate space for all internal and leaf nodes.
+        // Also allocate an extra slot for the tree size byte. We don't store anything there in the
+        // serialized tree, but it is helpful if the root node occupies the array element at index 1.
+        serialized_tree serialized_tree(tree.root()->num_nodes() + 1);
+        return serialized_tree;
     }
 };
 
