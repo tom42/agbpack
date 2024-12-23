@@ -70,6 +70,7 @@ void verify_tree_serialization(const huffman_encoder_tree& encoder_tree)
 
     REQUIRE(serialized_tree.size() == expected_serialized_tree_size(encoder_tree));
 
+    // TODO: unhardcode 256 here
     for (unsigned int i = 0; i < 256; ++i)
     {
         REQUIRE(deserialized_code_table[i].s() == original_code_table[i].s());
