@@ -9,6 +9,7 @@ target_sources(
   PRIVATE
   bitstream_writer_test.cpp
   header_test.cpp
+  huffman_decoder_tree_test.cpp
   huffman_encoder_tree_test.cpp
   huffman_tree_node_test.cpp
   huffman_tree_serializer_test.cpp
