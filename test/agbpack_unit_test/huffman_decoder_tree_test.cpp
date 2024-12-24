@@ -9,20 +9,31 @@ import agbpack;
 namespace agbpack_unit_test
 {
 
+using agbpack::byte_reader;
 using agbpack::huffman_decoder_tree;
+using std::vector;
+
+namespace
+{
+
+auto create_huffman_decoder_tree(unsigned int symbol_size, const vector<unsigned char>& serialized_tree)
+{
+    byte_reader byte_reader(begin(serialized_tree), end(serialized_tree));
+    return huffman_decoder_tree(symbol_size, byte_reader);
+}
+
+}
 
 TEST_CASE("huffman_decoder_tree_test")
 {
     SECTION("create_code_table encounters garbage in unused bits of symbol")
     {
-        // TODO: add test: create_decode_tree when there is garbage in a node
         const auto symbol_size = 4;
-        std::vector<unsigned char> serialized_tree{ 0x00, 0x00, 0x00, 0x00}; // TODO: real content
-
-        // TODO: read/construct tree
-        huffman_decoder_tree tree(symbol_size, );
+        auto tree = create_huffman_decoder_tree(symbol_size, { 0x00, 0x00, 0x00, 0x00}); // TODO: real content
 
         // TODO: call create_code_table, should fail because of garbage in high bits of tree
+        // TODO: this already fails, but probably for some other reason. We should really have better exception messages...
+        tree.create_code_table();
         FAIL();
     }
 }
