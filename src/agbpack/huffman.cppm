@@ -316,8 +316,7 @@ private:
     {
         if (is_leaf)
         {
-            // TODO: take care: if node_value contains garbage in its upper bits we'll have an array overflow
-            //       Actually that's why huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt.encoded fires a debug assertion in the runtime with MSVC
+            throw_if_decoded_symbol_is_invalid(node_value);
             table.set(node_value, c, l);
         }
         else
@@ -342,7 +341,7 @@ private:
     {
         if (symbol > m_symbol_max_value)
         {
-            throw decode_exception();
+            throw decode_exception("huffman tree contains invalid symbol");
         }
     }
 

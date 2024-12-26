@@ -29,7 +29,7 @@ TEST_CASE("huffman_decoder_tree_test")
     SECTION("create_code_table encounters garbage in unused bits of symbol")
     {
         const auto symbol_size = 4;
-        auto tree = create_huffman_decoder_tree(symbol_size, { 0x00, 0x00, 0x00, 0x00}); // TODO: real content
+        auto tree = create_huffman_decoder_tree(symbol_size, { 0x01, 0xc0, 0x11, 0x02}); // TODO: real content
 
         // TODO: call create_code_table, should fail because of garbage in high bits of tree
         // TODO: this already fails, but probably for some other reason. We should really have better exception messages...
