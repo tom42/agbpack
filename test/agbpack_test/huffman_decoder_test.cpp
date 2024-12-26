@@ -62,7 +62,7 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_decoder_test")
             pair("huffman.bad.valid-but-unexpected-compression-type-in-header.txt", "encoded data is corrupt"),
             pair("huffman.bad.invalid-compression-options-in-header.txt", "encoded data is corrupt"),
             pair("huffman.bad.misaligned-bitstream.txt", "encoded data is corrupt: bitstream is misaligned"),
-            pair("huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt", "encoded data is corrupt"),
+            pair("huffman.bad.4.garbage-in-unused-bits-of-leaf-node.txt", "encoded data is corrupt: huffman tree contains invalid symbol"),
             pair("huffman.bad.8.huffman-tree-access-past-end-of-tree.txt", "encoded data is corrupt"));
 
         CHECK_THROWS_MATCHES(
