@@ -58,7 +58,6 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
 
     SECTION("Successful encoding")
     {
-        // TODO: rethink filename pattern (really? what's wrong with it? and should we then also rething the pattern of the decoder test?)
         // TODO: have dedicated test input that requires padding of the bitstream (huffman.good.frequency-table-test.txt.decoded does this, but it has a bad name)
         // TODO: have dedicated test input that requires flushing of the bitstream (huffman.good.frequency-table-test.txt.decoded does this too, but it really has a bad name)
         // TODO: add more tests
