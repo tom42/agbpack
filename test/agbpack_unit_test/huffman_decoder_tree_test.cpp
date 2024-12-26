@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include <vector>
 
 import agbpack;
@@ -10,6 +12,7 @@ namespace agbpack_unit_test
 {
 
 using agbpack::byte_reader;
+using agbpack::decode_exception;
 using agbpack::huffman_decoder_tree;
 using std::vector;
 
@@ -29,12 +32,12 @@ TEST_CASE("huffman_decoder_tree_test")
     SECTION("create_code_table encounters garbage in unused bits of symbol")
     {
         const auto symbol_size = 4;
-        auto tree = create_huffman_decoder_tree(symbol_size, { 0x01, 0xc0, 0x11, 0x02}); // TODO: real content
+        auto tree = create_huffman_decoder_tree(symbol_size, { 0x01, 0xc0, 0x11, 0x02});
 
-        // TODO: call create_code_table, should fail because of garbage in high bits of tree
-        // TODO: this already fails, but probably for some other reason. We should really have better exception messages...
-        tree.create_code_table();
-        FAIL();
+        CHECK_THROWS_MATCHES(
+            tree.create_code_table(),
+            decode_exception,
+            Catch::Matchers::Message("encoded data is corrupt: huffman tree contains invalid symbol"));
     }
 }
 
