@@ -337,9 +337,9 @@ private:
         return m_tree[node_index];
     }
 
-    void throw_if_decoded_symbol_is_invalid(agbpack_u8 symbol) const
+    void throw_if_decoded_symbol_is_invalid(agbpack_u8 sym) const
     {
-        if (symbol > m_symbol_max_value)
+        if (sym > m_symbol_max_value)
         {
             throw decode_exception("huffman tree contains invalid symbol");
         }
@@ -549,7 +549,7 @@ private:
 class tree_node_compare final
 {
 public:
-    bool operator()(const huffman_tree_node_ptr& a, const huffman_tree_node_ptr& b)
+    bool operator()(const huffman_tree_node_ptr& a, const huffman_tree_node_ptr& b) noexcept
     {
         if (a->frequency() != b->frequency())
         {
