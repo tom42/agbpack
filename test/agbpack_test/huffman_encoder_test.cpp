@@ -60,8 +60,6 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
     {
         // TODO: have dedicated test input that requires padding of the bitstream (huffman.good.frequency-table-test.txt.decoded does this, but it has a bad name)
         // TODO: have dedicated test input that requires flushing of the bitstream (huffman.good.frequency-table-test.txt.decoded does this too, but it really has a bad name)
-        // TODO: add more tests
-        //       * 2 bytes (err...what? 2 bytes - 2 symbols, or 2 bytes, 2 times same symbol?)
         // TODO: add test: input data too big
 
         // Note: not too much thought has been put into constructing test data for 4 bit huffman coding,
@@ -72,6 +70,7 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
         const auto parameters = GENERATE(
             test_parameters("huffman.good.8.0-bytes.txt", 8, 8),
             test_parameters("huffman.good.8.1-byte.txt", 12, 12),
+            test_parameters("huffman.good.8.2-bytes.txt", 16, 12),
             test_parameters("huffman.good.8.helloworld.txt", 32, 24),
             test_parameters("huffman.good.8.foo.txt", 52, 44),
             test_parameters("huffman.good.8.256-bytes-with-same-frequency.bin", 292, 772));
