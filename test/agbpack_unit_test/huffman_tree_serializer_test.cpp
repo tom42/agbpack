@@ -14,6 +14,7 @@ namespace agbpack_unit_test
 using agbpack::byte_reader;
 using agbpack::code_table;
 using agbpack::frequency_table;
+using agbpack::get_nsymbols;
 using agbpack::huffman_decoder_tree;
 using agbpack::huffman_encoder_tree;
 using agbpack::huffman_tree_serializer;
@@ -70,8 +71,7 @@ void verify_tree_serialization(const huffman_encoder_tree& encoder_tree)
 
     REQUIRE(serialized_tree.size() == expected_serialized_tree_size(encoder_tree));
 
-    // TODO: unhardcode 256 here
-    for (unsigned int i = 0; i < 256; ++i)
+    for (unsigned int i = 0; i < get_nsymbols(symbol_size); ++i)
     {
         REQUIRE(deserialized_code_table[i].s() == original_code_table[i].s());
         REQUIRE(deserialized_code_table[i].c() == original_code_table[i].c());
