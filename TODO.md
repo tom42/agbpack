@@ -158,8 +158,6 @@ if(MSVC)
         /wd4514 # unreferenced inline function has been removed
         /wd4571 # SEH related
         /wd5264 # const variable is not used
-        /wd4710 # function not inlined
-        /wd4711 # function 'x' selected for automatic inline expansion
 
         /wd4616 # invalid compiler warnings - https://msdn.microsoft.com/en-us/library/t7ab6xtd.aspx
         /wd4619 # invalid compiler warnings - https://msdn.microsoft.com/en-us/library/tacee08d.aspx
