@@ -47,7 +47,8 @@ inline unsigned int get_symbol_size(huffman_options options)
     return std::to_underlying(options);
 }
 
-inline unsigned int get_nsymbols(unsigned int symbol_size)
+AGBPACK_EXPORT_FOR_UNIT_TESTING
+constexpr unsigned int get_nsymbols(unsigned int symbol_size)
 {
     return 1 << symbol_size;
 }
