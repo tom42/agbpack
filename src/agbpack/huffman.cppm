@@ -715,11 +715,12 @@ private:
 
     void serialize_tree(serialized_tree& tree, const huffman_tree_node* node, size_t next)
     {
+        constexpr auto max_leaves_in_subtree_before_offset_overlow_occurs = 0x40;
+
         // TODO: review very thoroughly
-        //       * Unhardcode 0x40
         assert(node->is_internal());
 
-        if (node->num_leaves() > 0x40)
+        if (node->num_leaves() > max_leaves_in_subtree_before_offset_overlow_occurs)
         {
             // This subtree will overflow the offset field if inserted naively
             tree[next + 0] = node->child(0);
