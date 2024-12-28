@@ -700,7 +700,7 @@ public:
 
         serialize_tree(serialized, tree.root(), root_node_index + 1);
         fixup_tree(serialized);
-        assert_tree(serialized);
+        check_tree(serialized);
         return encode_tree(serialized);
     }
 
@@ -841,16 +841,14 @@ private:
         }
     }
 
-    void assert_tree([[maybe_unused]] const serialized_tree& serialized_tree)
+    void check_tree(const serialized_tree& serialized_tree)
     {
-        // TODO: do we want to have this check always?
-#ifndef NDEBUG
         std::unordered_map<const huffman_tree_node*, size_t> pos;
         pos.reserve(serialized_tree.size());
 
         for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
-            assert(serialized_tree[i]);
+            assert(serialized_tree[i]); // TODO: runtime check, no assert
             pos[serialized_tree[i]] = i;
         }
 
@@ -862,11 +860,13 @@ private:
                 continue;
             }
 
+            // TODO: these can be squashed into one in range check. RUNTIME CHECK, NO ASSERT
             assert(!(m_offset[node] & mask0));
             assert(!(m_offset[node] & mask1));
+
+            // TODO: runtime check, no assert
             assert(pos[node->child(0)] == (pos[node] & ~1u) + 2 * m_offset[node] + 2);
         }
-#endif
     }
 
     std::vector<agbpack_u8> encode_tree(const serialized_tree& serialized_tree)
