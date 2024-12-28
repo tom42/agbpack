@@ -693,7 +693,7 @@ class huffman_tree_serializer final
 public:
     std::vector<agbpack_u8> serialize(const huffman_encoder_tree& tree)
     {
-        m_offset = offset_map();
+        reset();
         auto serialized = create_empty_serialized_tree(tree);
 
         serialized[root_node_index] = tree.root();
@@ -710,6 +710,11 @@ private:
 
     // TODO: move to end of class where we have members
     offset_map m_offset;
+
+    void reset()
+    {
+        m_offset = offset_map();
+    }
 
     void serialize_tree(serialized_tree& tree, const huffman_tree_node* node, size_t next)
     {
