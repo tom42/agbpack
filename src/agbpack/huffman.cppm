@@ -708,9 +708,6 @@ private:
     using serialized_tree = std::vector<const huffman_tree_node*>;
     using offset_map = std::unordered_map<const huffman_tree_node*, size_t>;
 
-    // TODO: move to end of class where we have members
-    offset_map m_offset;
-
     void reset()
     {
         m_offset = offset_map();
@@ -959,6 +956,8 @@ private:
         serialized_tree serialized_tree(tree.root()->num_nodes() + 1);
         return serialized_tree;
     }
+
+    offset_map m_offset;
 };
 
 export class huffman_encoder final
