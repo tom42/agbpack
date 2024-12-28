@@ -717,7 +717,6 @@ private:
     {
         constexpr auto max_leaves_in_subtree_before_offset_overlow_occurs = 0x40;
 
-        // TODO: review very thoroughly
         assert(node->is_internal());
 
         if (node->num_leaves() > max_leaves_in_subtree_before_offset_overlow_occurs)
