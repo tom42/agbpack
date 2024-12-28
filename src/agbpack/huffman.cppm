@@ -848,7 +848,11 @@ private:
 
         for (size_t i = root_node_index; i < serialized_tree.size(); ++i)
         {
-            assert(serialized_tree[i]); // TODO: runtime check, no assert
+            if (serialized_tree[i] == nullptr)
+            {
+                throw internal_error("serialized tree contains null pointers");
+            }
+
             pos[serialized_tree[i]] = i;
         }
 
