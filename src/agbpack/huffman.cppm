@@ -860,9 +860,10 @@ private:
                 continue;
             }
 
-            // TODO: these can be squashed into one in range check. RUNTIME CHECK, NO ASSERT
-            assert(!(m_offset[node] & mask0));
-            assert(!(m_offset[node] & mask1));
+            if (!in_closed_range(m_offset[node], min_next_node_offset, max_next_node_offset))
+            {
+                throw internal_error("next node offset is out of range");
+            }
 
             // TODO: runtime check, no assert
             assert(pos[node->child(0)] == (pos[node] & ~1u) + 2 * m_offset[node] + 2);
@@ -901,14 +902,6 @@ private:
 
     agbpack_u8 encode_internal_node(const huffman_tree_node* node)
     {
-        // TODO: check offset (orly? do we check once more?)
-        //       => Well that really should be done inside assert_tree (which should always do it, not only in debug builds)
-        //       => Anyway, here's what we had at some point (imo this check should be way before offset is converted to 8 bits)
-        //            if (!in_closed_range(offset, min_next_node_offset, max_next_node_offset))
-        //            {
-        //                throw internal_error("next node offset is out of range");
-        //            }
-
         agbpack_u8 encoded_node = static_cast<agbpack_u8>(m_offset[node]);
 
         if (!node->child(0)->is_internal())
