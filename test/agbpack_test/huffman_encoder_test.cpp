@@ -58,7 +58,6 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
 
     SECTION("Successful encoding")
     {
-        // TODO: have dedicated test input that requires padding of the bitstream (huffman.good.frequency-table-test.txt.decoded does this, but it has a bad name)
         // TODO: add test: input data too big
 
         // Note: not too much thought has been put into constructing test data for 4 bit huffman coding,
