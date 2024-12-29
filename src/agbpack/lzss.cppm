@@ -8,6 +8,7 @@ module;
 #include <cassert>
 #include <concepts>
 #include <iterator>
+#include <utility>
 
 export module agbpack:lzss;
 import :common;
@@ -49,6 +50,9 @@ private:
 
     void assert_read_allowed([[maybe_unused]] std::size_t offset)
     {
+        // Required for g++ 14.2.0, which ignores [[maybe_unused]] here
+        std::ignore = offset;
+
         assert((m_nbytes_written > 0) && "Cannot read from empty sliding window");
         assert((offset > 0) && "Cannot read from current write position");
         assert((offset <= Size) && "Offset is too big");
