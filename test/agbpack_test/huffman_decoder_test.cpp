@@ -13,8 +13,7 @@ import agbpack;
 namespace agbpack_test
 {
 
-template <typename T1, typename T2>
-using pair = std::pair<T1, T2>;
+using pair = std::pair<const char*, const char*>;
 
 TEST_CASE_METHOD(test_data_fixture, "huffman_decoder_test")
 {
