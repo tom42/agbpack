@@ -869,8 +869,10 @@ private:
                 throw internal_error("next node offset is out of range");
             }
 
-            // TODO: runtime check, no assert
-            assert(pos[node->child(0)] == (pos[node] & ~1u) + 2 * m_offset[node] + 2);
+            if (pos[node->child(0)] != (pos[node] & ~1u) + 2 * m_offset[node] + 2)
+            {
+                throw internal_error("bad offset");
+            }
         }
     }
 
