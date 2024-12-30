@@ -1017,7 +1017,7 @@ private:
         {
             for (unsigned int nbits = 0; nbits < 8; nbits += symbol_size)
             {
-                auto sym = byte & symbol_mask;
+                symbol sym = byte & symbol_mask;
                 bit_writer.write_code(code_table[sym].c(), code_table[sym].l());
                 byte >>= symbol_size;
             }
