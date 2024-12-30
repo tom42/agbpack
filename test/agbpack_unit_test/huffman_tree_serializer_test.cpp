@@ -19,6 +19,7 @@ using agbpack::huffman_decoder_tree;
 using agbpack::huffman_encoder_tree;
 using agbpack::huffman_tree_serializer;
 using agbpack::max_code_length;
+using agbpack::symbol;
 using std::out_of_range;
 using std::size_t;
 using std::vector;
@@ -71,7 +72,7 @@ void verify_tree_serialization(const huffman_encoder_tree& encoder_tree)
 
     REQUIRE(serialized_tree.size() == expected_serialized_tree_size(encoder_tree));
 
-    for (unsigned int i = 0; i < get_nsymbols(symbol_size); ++i)
+    for (symbol i = 0; i < get_nsymbols(symbol_size); ++i)
     {
         REQUIRE(deserialized_code_table[i].s() == original_code_table[i].s());
         REQUIRE(deserialized_code_table[i].c() == original_code_table[i].c());
@@ -149,7 +150,7 @@ TEST_CASE("huffman_tree_serializer_test")
 
     SECTION("256 symbols with same frequency")
     {
-        for (unsigned int i = 0; i < 256; ++i)
+        for (symbol i = 0; i < 256; ++i)
         {
             frequencies.set_frequency(i, 1);
         }
