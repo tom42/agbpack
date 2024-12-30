@@ -23,13 +23,6 @@ SPDX-License-Identifier: MIT
       * Compare against decoder only. But maybe also test expected size
       * And improve some tests:
         * Like have 1 symbol, 1 time, but also 1 symbol, 32 times, 33 times
-  * echo -n ABBCCDDEEEE>foo
-    * When encoded with CUE huffman, this seems to create
-      an odd tree which contains 'A' twice.
-      * I may have hallucinated this, but maybe investigate
-      * Why is that?
-        * But the code for both instances of 'A' is the same?
-      * What does our tree generation/serializaton code?
   * Next:
     * Do not forget: for encoder testing we cannot use CUE input!
       * We should mark all files generated with CUE as such!
