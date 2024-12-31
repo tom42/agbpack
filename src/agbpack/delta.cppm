@@ -83,6 +83,7 @@ public:
         // Verify uncompressed size is not too big, then create header for later use.
         if (uncompressed_size > maximum_uncompressed_size)
         {
+            // TODO: we do not need to do size verification here anymore, do we?
             throw encode_exception();
         }
         auto header = header::create(m_options, uncompressed_size);
