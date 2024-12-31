@@ -99,8 +99,8 @@ public:
     }
 
     static header create(huffman_options options, std::size_t uncompressed_size);
-    static header create(rle_options options, uint32_t uncompressed_size);
-    static header create(delta_options options, uint32_t uncompressed_size);
+    static header create(rle_options options, std::size_t uncompressed_size);
+    static header create(delta_options options, std::size_t uncompressed_size);
 
     static std::optional<header> parse_for_type(compression_type wanted_type, uint32_t header_data);
 

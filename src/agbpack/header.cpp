@@ -72,12 +72,12 @@ header header::create(huffman_options options, std::size_t uncompressed_size)
     return header(compression_type::huffman, options, uncompressed_size);
 }
 
-header header::create(rle_options options, uint32_t uncompressed_size)
+header header::create(rle_options options, std::size_t uncompressed_size)
 {
     return header(compression_type::rle, options, uncompressed_size);
 }
 
-header header::create(delta_options options, uint32_t uncompressed_size)
+header header::create(delta_options options, std::size_t uncompressed_size)
 {
     return header(compression_type::delta, options, uncompressed_size);
 }
