@@ -54,16 +54,6 @@ TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
             std::invalid_argument,
             Catch::Matchers::Message("invalid delta compression options"));
     }
-
-    // TODO: commented out: dog slow, need to do something about this
-    /*
-    SECTION("Input data too big")
-    {
-        const std::vector<unsigned char> input(agbpack::maximum_uncompressed_size + 1);
-
-        CHECK_THROWS_AS(encode_vector(encoder, input), agbpack::encode_exception);
-    }
-    */
 }
 
 }
