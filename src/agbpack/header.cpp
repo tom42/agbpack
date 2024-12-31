@@ -114,8 +114,7 @@ header::header(compression_type type, compression_options options, std::size_t u
     // TODO: throw encode exception here - maybe not pretty, but it's what we really want in the API
     if (m_uncompressed_size > maximum_uncompressed_size)
     {
-        // TODO: exception message? This one, or the one hardcoded into encode_exception?
-        throw std::invalid_argument("uncompressed size is too big");
+        throw std::invalid_argument("data to encode is too big");
     }
 }
 
