@@ -27,10 +27,15 @@ namespace agbpack
 
 using size_t = std::size_t;
 
-AGBPACK_EXPORT_FOR_UNIT_TESTING using symbol = unsigned int; // TODO: this should not be agbpack_u8. Document this / write test that would figure out?
+AGBPACK_EXPORT_FOR_UNIT_TESTING using symbol = unsigned int;
 AGBPACK_EXPORT_FOR_UNIT_TESTING using symbol_frequency = uint32_t;
 using code = uint32_t;
 using code_length = unsigned int;
+
+static_assert(
+    std::numeric_limits<symbol>::max() > 255,
+    "Type symbol is also used as loop counter over all possible symbols, so it "
+    "must be able to represent values greater than the greatest symbol value");
 
 inline constexpr auto root_node_index = 1;
 inline constexpr auto min_next_node_offset = 0u;
