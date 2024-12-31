@@ -4,6 +4,7 @@
 module;
 
 #include <cstdint>
+#include <cstddef>
 #include <optional>
 #include <utility>
 #include <variant>
@@ -97,7 +98,7 @@ public:
         return (uncompressed_size() << 8) | (std::to_underlying(type()) << 4) | as_integer(options());
     }
 
-    static header create(huffman_options options, uint32_t uncompressed_size);
+    static header create(huffman_options options, std::size_t uncompressed_size);
     static header create(rle_options options, uint32_t uncompressed_size);
     static header create(delta_options options, uint32_t uncompressed_size);
 
@@ -111,7 +112,7 @@ private:
     // Note: this constructor does not check whether type and options match.
     // That is, you can for instance construct a header with compression type LZSS and RLE compression options.
     // It should therefore not be exposed to the public and remain private.
-    explicit header(compression_type type, compression_options options, uint32_t uncompressed_size);
+    explicit header(compression_type type, compression_options options, std::size_t uncompressed_size);
 
     static std::optional<header> parse(uint32_t header_data);
 };

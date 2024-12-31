@@ -982,9 +982,7 @@ public:
         // Create header.
         // This throws if uncompressed data is to big, which we want
         // to happen before we spend time on tree serialization.
-        // TODO: bad: static cast
-        // TODO: check uncompressed size and throw appropriate exception if too big
-        auto header = header::create(m_options, static_cast<std::uint32_t>(uncompressed_data.size()));
+        auto header = header::create(m_options, uncompressed_data.size());
 
         // Create the tree for the encoder.
         // Also create the serialized variant of the tree and the code table for the encoder.

@@ -4,6 +4,7 @@
 module;
 
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
 #include <optional>
 #include <stdexcept>
@@ -66,7 +67,7 @@ std::optional<compression_options> create_unvalidated_options(compression_type t
 
 }
 
-header header::create(huffman_options options, uint32_t uncompressed_size)
+header header::create(huffman_options options, std::size_t uncompressed_size)
 {
     return header(compression_type::huffman, options, uncompressed_size);
 }
@@ -92,10 +93,10 @@ std::optional<header> header::parse_for_type(compression_type wanted_type, uint3
     return header;
 }
 
-header::header(compression_type type, compression_options options, uint32_t uncompressed_size)
+header::header(compression_type type, compression_options options, std::size_t uncompressed_size)
     : m_type(type)
     , m_options(options)
-    , m_uncompressed_size(uncompressed_size)
+    , m_uncompressed_size(static_cast<uint32_t>(uncompressed_size))
 {
     if (!is_valid(m_type))
     {
@@ -107,6 +108,10 @@ header::header(compression_type type, compression_options options, uint32_t unco
         throw std::invalid_argument("invalid compression options");
     }
 
+    // TODO: this test must happen on the argument, not the member variable
+    // TODO: for clarity, consider getting rid of member initializers above,
+    //       so that all validation is done before member fields are set
+    // TODO: throw encode exception here - maybe not pretty, but it's what we really want in the API
     if (m_uncompressed_size > maximum_uncompressed_size)
     {
         throw std::invalid_argument("uncompressed size is too big");
