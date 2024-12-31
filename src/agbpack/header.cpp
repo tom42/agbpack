@@ -112,6 +112,7 @@ header::header(compression_type type, compression_options options, std::size_t u
     // TODO: for clarity, consider getting rid of member initializers above,
     //       so that all validation is done before member fields are set
     // TODO: throw encode exception here - maybe not pretty, but it's what we really want in the API
+    // TODO: THIS NEEDS A UNIT TEST!
     if (m_uncompressed_size > maximum_uncompressed_size)
     {
         throw std::invalid_argument("data to encode is too big");
