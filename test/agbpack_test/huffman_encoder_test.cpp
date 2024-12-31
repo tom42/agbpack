@@ -58,8 +58,6 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
 
     SECTION("Successful encoding")
     {
-        // TODO: add test: input data too big
-
         // Note: not too much thought has been put into constructing test data for 4 bit huffman coding,
         // based on the assumption that 8 bit encoding is the hairy bit due to overflow problems in
         // huffman tree serialization. Basically we just encode all the data which is constructed with
