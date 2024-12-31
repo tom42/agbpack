@@ -112,7 +112,6 @@ public:
         std::vector<agbpack_u8> tmp;
         auto uncompressed_size = encode_internal(input, eof, back_inserter(tmp));
 
-        // TODO: verify uncompressed size and throw appropriate exception!
         auto header = header::create(rle_options::reserved, uncompressed_size);
 
         // Copy header and encoded data to output
