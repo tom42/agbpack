@@ -28,7 +28,7 @@ TEST_CASE("header_test")
 
     SECTION("create, invalid size")
     {
-        auto invalid_size = maximum_uncompressed_size + 1;
+        auto invalid_size = GENERATE(maximum_uncompressed_size + 1, 0x100000000);
 
         CHECK_THROWS_MATCHES(
             header::create(huffman_options::h8, invalid_size),
