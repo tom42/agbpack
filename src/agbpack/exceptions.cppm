@@ -34,9 +34,6 @@ protected:
 export class encode_exception : public agbpack_exception
 {
 public:
-    // TODO: do we need/want this constructor?
-    explicit encode_exception() : agbpack_exception("data to encode is too big") {}
-
     explicit encode_exception(const char* message) : agbpack_exception(message) {}
 
     virtual ~encode_exception() override = default;
