@@ -3,6 +3,9 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
+#include <stdexcept>
 
 import agbpack;
 
@@ -20,6 +23,16 @@ TEST_CASE("header_test")
         auto valid_size = GENERATE(0u, maximum_uncompressed_size);
 
         CHECK(header::create(huffman_options::h8, valid_size).uncompressed_size() == valid_size);
+    }
+
+    SECTION("create, invalid size")
+    {
+        auto invalid_size = maximum_uncompressed_size + 1;
+
+        CHECK_THROWS_MATCHES(
+            header::create(huffman_options::h8, invalid_size),
+            std::invalid_argument,
+            Catch::Matchers::Message("data to encode is too big"));
     }
 
     SECTION("to_uint32_t")
