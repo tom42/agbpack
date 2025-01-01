@@ -108,10 +108,9 @@ header::header(compression_type type, compression_options options, std::size_t u
         throw std::invalid_argument("invalid compression options");
     }
 
-    // TODO: this test must happen on the argument, not the member variable
     // TODO: for clarity, consider getting rid of member initializers above,
     //       so that all validation is done before member fields are set
-    if (m_uncompressed_size > maximum_uncompressed_size)
+    if (uncompressed_size > maximum_uncompressed_size)
     {
         throw encode_exception("data to encode is too big");
     }
