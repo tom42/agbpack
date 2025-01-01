@@ -12,6 +12,7 @@ import agbpack;
 namespace agbpack_unit_test
 {
 
+using agbpack::encode_exception;
 using agbpack::header;
 using agbpack::huffman_options;
 using agbpack::maximum_uncompressed_size;
@@ -31,7 +32,7 @@ TEST_CASE("header_test")
 
         CHECK_THROWS_MATCHES(
             header::create(huffman_options::h8, invalid_size),
-            std::invalid_argument,
+            encode_exception,
             Catch::Matchers::Message("data to encode is too big"));
     }
 
