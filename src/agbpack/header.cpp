@@ -98,12 +98,12 @@ header::header(compression_type type, compression_options options, std::size_t u
     , m_options(options)
     , m_uncompressed_size(static_cast<uint32_t>(uncompressed_size))
 {
-    if (!is_valid(m_type))
+    if (!is_valid(type))
     {
         throw std::invalid_argument("invalid compression type");
     }
 
-    if (!is_valid_variant(m_options))
+    if (!is_valid_variant(options))
     {
         throw std::invalid_argument("invalid compression options");
     }
