@@ -138,10 +138,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     endif()
 endif()
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    add_compiler_flags(-Qunused-arguments -fcolor-diagnostics) # needed for ccache integration
-endif()
-
 if(MSVC)
     add_compiler_flags(/permissive-)   # force standard conformance - this is the better flag than /Za
     add_compiler_flags(/WX)
