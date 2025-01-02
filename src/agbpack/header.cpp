@@ -94,9 +94,6 @@ std::optional<header> header::parse_for_type(compression_type wanted_type, uint3
 }
 
 header::header(compression_type type, compression_options options, std::size_t uncompressed_size)
-    : m_type(type)
-    , m_options(options)
-    , m_uncompressed_size(static_cast<uint32_t>(uncompressed_size))
 {
     if (!is_valid(type))
     {
@@ -108,12 +105,14 @@ header::header(compression_type type, compression_options options, std::size_t u
         throw std::invalid_argument("invalid compression options");
     }
 
-    // TODO: for clarity, consider getting rid of member initializers above,
-    //       so that all validation is done before member fields are set
     if (uncompressed_size > maximum_uncompressed_size)
     {
         throw encode_exception("data to encode is too big");
     }
+
+    m_type = type;
+    m_options = options;
+    m_uncompressed_size = static_cast<uint32_t>(uncompressed_size);
 }
 
 std::optional<header> header::parse(uint32_t header_data)
