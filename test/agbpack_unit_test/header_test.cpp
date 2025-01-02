@@ -5,6 +5,7 @@
 #include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <cstddef>
 #include <stdexcept>
 
 import agbpack;
@@ -29,7 +30,10 @@ TEST_CASE("header_test")
     SECTION("create, invalid size")
     {
         // TODO: this is not going to work on 32 bit targets. What to do?
-        auto invalid_size = GENERATE(maximum_uncompressed_size + 1uz, 0x100000000uz);
+
+        // Ideally we would use size_t literal suffixes here ('uz').
+        // Unfortunately VS2022 does not have them yet.
+        std::size_t invalid_size = GENERATE(maximum_uncompressed_size + 1ull, 0x100000000ull);
 
         CHECK_THROWS_MATCHES(
             header::create(huffman_options::h8, invalid_size),
