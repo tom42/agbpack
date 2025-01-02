@@ -132,10 +132,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
         add_compiler_flags(-Wshift-overflow=2)
     endif()
-
-    if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
-        add_compiler_flags(-Walloc-zero)
-    endif()
 endif()
 
 if(MSVC)
