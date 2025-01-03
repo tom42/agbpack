@@ -206,4 +206,11 @@ public:
     }
 };
 
+// TODO: implement
+export class lzss_encoder final
+{
+public:
+private:
+};
+
 }
