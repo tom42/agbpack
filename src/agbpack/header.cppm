@@ -99,6 +99,7 @@ public:
         return (uncompressed_size() << 8) | (std::to_underlying(type()) << 4) | as_integer(options());
     }
 
+    static header create(lzss_options options, std::size_t uncompressed_size);
     static header create(huffman_options options, std::size_t uncompressed_size);
     static header create(rle_options options, std::size_t uncompressed_size);
     static header create(delta_options options, std::size_t uncompressed_size);
