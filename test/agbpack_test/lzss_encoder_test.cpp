@@ -19,7 +19,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
     SECTION("Successful encoding")
     {
         // TODO: add more tests as we develop the encoder
-        const auto filename = GENERATE("lzss.good.zero-length-file.txt.decoded");
+        const auto filename = GENERATE("lzss.good.zero-length-file.txt");
         const auto original_data = read_decoded_file(filename);
 
         // Encode
