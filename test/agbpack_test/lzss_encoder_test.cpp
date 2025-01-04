@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators.hpp>
 #include "testdata.hpp"
 
 import agbpack;
@@ -15,12 +16,20 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
     agbpack::lzss_decoder decoder;
     set_test_data_directory("lzss_encoder");
 
-    // TODO: remove
-    (void)encoder;(void)decoder;
+    SECTION("Successful encoding")
+    {
+        // TODO: add more tests as we develop the encoder
+        const auto filename = GENERATE("lzss.good.zero-length-file.txt.decoded");
+        const auto original_data = read_decoded_file(filename);
 
-    // TODO: add tests: successful encoding: encode stuff and check against decoder
-    //       * First test: zero bytes of input, no? Where to get reference data from? Do we need reference data?
-    //         * No we don't, but maybe check whether e.g. CUE can deal with zero bytes of input
+        // Encode
+        const auto encoded_data = encode_vector(encoder, original_data);
+        // TODO: check size of encoded data
+
+        // Decode
+        const auto decoded_data = decode_vector(decoder, encoded_data);
+        CHECK(decoded_data == original_data);
+    }
 }
 
 }
