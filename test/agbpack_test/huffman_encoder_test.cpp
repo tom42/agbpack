@@ -83,7 +83,7 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
         const auto encoded_data = encode_vector(encoder, original_data);
         CHECK(encoded_data.size() == parameters.expected_encoded_size(huffman_options));
 
-        // Decode and check
+        // Decode
         const auto decoded_data = decode_vector(decoder, encoded_data);
         CHECK(decoded_data == original_data);
     }
