@@ -211,9 +211,18 @@ export class lzss_encoder final
 {
 public:
     template <std::input_iterator InputIterator, typename OutputIterator>
-    void encode(InputIterator /*input*/, InputIterator /*eof*/, OutputIterator /*output*/)
+    void encode(InputIterator /*input*/, InputIterator /*eof*/, OutputIterator output)
     {
-        // TODO: implement (as it is this does not even pass the first test)
+        // TODO: implement
+        //       * encode data
+        //       * create header
+        //       * Write stuff
+
+        // TODO: use header class to create header (problem: no factory function for lzss header exists yet)
+        *output++ = 0x10;
+        *output++ = 0;
+        *output++ = 0;
+        *output++ = 0;
     }
 private:
 };
