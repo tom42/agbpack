@@ -210,6 +210,11 @@ public:
 export class lzss_encoder final
 {
 public:
+    template <std::input_iterator InputIterator, typename OutputIterator>
+    void encode(InputIterator /*input*/, InputIterator /*eof*/, OutputIterator /*output*/)
+    {
+        // TODO: implement (as it is this does not even pass the first test)
+    }
 private:
 };
 
