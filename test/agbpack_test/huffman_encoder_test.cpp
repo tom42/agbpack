@@ -20,6 +20,9 @@ namespace agbpack_test
 using string = std::string;
 using size_t = std::size_t;
 
+namespace
+{
+
 class test_parameters final
 {
 public:
@@ -49,6 +52,8 @@ private:
     size_t m_expected_encoded_size_h4;
     size_t m_expected_encoded_size_h8;
 };
+
+}
 
 TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
 {
