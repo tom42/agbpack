@@ -67,6 +67,11 @@ std::optional<compression_options> create_unvalidated_options(compression_type t
 
 }
 
+header header::create(lzss_options options, std::size_t uncompressed_size)
+{
+    return header(compression_type::lzss, options, uncompressed_size);
+}
+
 header header::create(huffman_options options, std::size_t uncompressed_size)
 {
     return header(compression_type::huffman, options, uncompressed_size);
