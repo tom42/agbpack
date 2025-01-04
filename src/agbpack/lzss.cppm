@@ -218,11 +218,13 @@ public:
         //       * create header
         //       * Write stuff
 
-        // TODO: use header class to create header (problem: no factory function for lzss header exists yet)
-        *output++ = 0x10;
-        *output++ = 0;
-        *output++ = 0;
-        *output++ = 0;
+        // TODO: unhardcode uncompressed size
+        auto header = header::create(lzss_options::reserved, 0);
+
+        // Copy header and encoded data to output
+        unbounded_byte_writer<OutputIterator> writer(output);
+        write32(writer, header.to_uint32_t());
+        // TODO: copy encoded data
     }
 private:
 };
