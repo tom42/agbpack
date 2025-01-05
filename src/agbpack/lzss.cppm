@@ -211,8 +211,10 @@ export class lzss_encoder final
 {
 public:
     template <std::input_iterator InputIterator, typename OutputIterator>
-    void encode(InputIterator /*input*/, InputIterator /*eof*/, OutputIterator output)
+    void encode(InputIterator input, InputIterator /*eof*/, OutputIterator output)
     {
+        static_assert_input_type(input);
+
         // TODO: implement
         //       * encode data
         //       * create header
