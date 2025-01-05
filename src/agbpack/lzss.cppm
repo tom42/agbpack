@@ -9,6 +9,7 @@ module;
 #include <concepts>
 #include <iterator>
 #include <utility>
+#include <vector>
 
 export module agbpack:lzss;
 import :common;
@@ -217,16 +218,15 @@ public:
 
         // TODO: implement
         //       * encode data
-        //       * create header
-        //       * Write stuff
+        std::vector<unsigned char> encoded_data;
 
-        // TODO: unhardcode uncompressed size
-        auto header = header::create(lzss_options::reserved, 0);
+        auto header = header::create(lzss_options::reserved, encoded_data.size());
 
         // Copy header and encoded data to output
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
-        // TODO: copy encoded data
+        write(writer, encoded_data.begin(), encoded_data.end());
+        // TODO: add padding bytes (here? really?)
     }
 private:
 };
