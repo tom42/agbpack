@@ -34,9 +34,6 @@ private:
 
 }
 
-// TODO: aw fuck it, use a dedicated class so we can have proper names
-using pair = std::pair<const char*, std::size_t>;
-
 TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
 {
     agbpack::lzss_encoder encoder;
