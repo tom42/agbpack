@@ -212,11 +212,11 @@ export class lzss_encoder final
 {
 public:
     template <std::input_iterator InputIterator, typename OutputIterator>
-    void encode(InputIterator input, InputIterator /*eof*/, OutputIterator output)
+    void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type(input);
 
-        auto encoded_data = encode_internal();
+        auto encoded_data = encode_internal(input, eof);
         auto header = header::create(lzss_options::reserved, encoded_data.size());
 
         // Copy header and encoded data to output
@@ -226,7 +226,8 @@ public:
         // TODO: add padding bytes (here? really?)
     }
 private:
-    static std::vector<agbpack_u8> encode_internal()
+    template <std::input_iterator InputIterator>
+    static std::vector<agbpack_u8> encode_internal(InputIterator /*input*/, InputIterator /*eof*/)
     {
         // TODO: implement
         return {};
