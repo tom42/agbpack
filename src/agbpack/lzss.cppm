@@ -216,8 +216,10 @@ public:
     {
         static_assert_input_type(input);
 
-        auto encoded_data = encode_internal(input, eof);
-        auto header = header::create(lzss_options::reserved, encoded_data.size());
+        const auto uncompressed_data = read_input(input, eof);
+
+        const auto encoded_data = encode_internal(input, eof);
+        const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
         // Copy header and encoded data to output
         unbounded_byte_writer<OutputIterator> writer(output);
@@ -226,6 +228,14 @@ public:
         write_padding_bytes(writer);
     }
 private:
+    template <std::input_iterator InputIterator>
+    static std::vector<agbpack_u8> read_input(InputIterator input, InputIterator eof)
+    {
+        std::vector<agbpack_u8> data;
+        std::copy(input, eof, back_inserter(data));
+        return data;
+    }
+
     template <std::input_iterator InputIterator>
     static std::vector<agbpack_u8> encode_internal(InputIterator input, InputIterator eof)
     {
