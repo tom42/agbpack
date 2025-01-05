@@ -240,6 +240,12 @@ private:
     static std::vector<agbpack_u8> encode_internal(const std::vector<agbpack_u8>& input)
     {
         // TODO: implement
+        //       * Do it simple first, using linear search
+        //       * Do we implement lookahead optimization?
+        //       * Later implement optimal parse
+        //       * NEXT:
+        //         * Implement runs of more than 8 literals
+        //         * Implement references
         std::vector<agbpack_u8> encoded_data;
 
         // TODO: this is a bogus implementation that passes our tests:
