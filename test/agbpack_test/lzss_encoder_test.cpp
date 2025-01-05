@@ -18,13 +18,13 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
 
     SECTION("Successful encoding")
     {
-        // TODO: add more tests as we develop the encoder
-        const auto filename = GENERATE("lzss.good.zero-length-file.txt");
+        const auto filename = GENERATE(
+            "lzss.good.zero-length-file.txt");
         const auto original_data = read_decoded_file(filename);
 
         // Encode
         const auto encoded_data = encode_vector(encoder, original_data);
-        // TODO: check size of encoded data
+        CHECK(encoded_data.size() == 4);
 
         // Decode
         const auto decoded_data = decode_vector(decoder, encoded_data);
