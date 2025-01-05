@@ -4,6 +4,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #include <cstddef>
+#include <format>
 #include "testdata.hpp"
 
 import agbpack;
@@ -48,6 +49,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
         const auto parameters = GENERATE(
             test_parameters("lzss.good.zero-length-file.txt", 4),
             test_parameters("lzss.good.1-literal-byte.txt", 8));
+        INFO(std::format("Test parameters: {}", parameters.filename()));
         const auto original_data = read_decoded_file(parameters.filename());
 
         // Encode
