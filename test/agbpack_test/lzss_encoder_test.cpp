@@ -3,12 +3,27 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
+#include <cstddef>
 #include "testdata.hpp"
 
 import agbpack;
 
 namespace agbpack_test
 {
+
+namespace
+{
+
+class test_parameters final
+{
+public:
+    test_parameters(const char* /*filename*/, std::size_t /*expected_encoded_size*/)
+    {
+
+    }
+};
+
+}
 
 // TODO: aw fuck it, use a dedicated class so we can have proper names
 using pair = std::pair<const char*, std::size_t>;
