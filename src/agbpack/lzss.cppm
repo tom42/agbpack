@@ -249,12 +249,19 @@ private:
         std::vector<agbpack_u8> encoded_data;
 
         // TODO: this is a bogus implementation that passes our tests:
-        //       * We write a fake tag byte
-        //       * We copy the entire input to the output
-        if (input.size())
+        //       * We simply copy input to output
+        //       * Every 8 bytes we write a fake tag byte
+        int n = 0;
+        auto current = input.begin();
+        while (current < input.end())
         {
-            encoded_data.push_back(0);
-            std::ranges::copy(input, back_inserter(encoded_data));
+            if (n % 8 == 0)
+            {
+                encoded_data.push_back(0);
+            }
+
+            ++n;
+            encoded_data.push_back(*current++);
         }
 
         return encoded_data;
