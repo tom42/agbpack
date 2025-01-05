@@ -216,10 +216,7 @@ public:
     {
         static_assert_input_type(input);
 
-        // TODO: implement
-        //       * encode data
-        std::vector<unsigned char> encoded_data;
-
+        auto encoded_data = encode_internal();
         auto header = header::create(lzss_options::reserved, encoded_data.size());
 
         // Copy header and encoded data to output
@@ -229,6 +226,11 @@ public:
         // TODO: add padding bytes (here? really?)
     }
 private:
+    static std::vector<agbpack_u8> encode_internal()
+    {
+        // TODO: implement
+        return {};
+    }
 };
 
 }
