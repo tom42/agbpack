@@ -218,7 +218,7 @@ public:
 
         const auto uncompressed_data = read_input(input, eof);
 
-        const auto encoded_data = encode_internal(input, eof);
+        const auto encoded_data = encode_internal(uncompressed_data);
         const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
         // Copy header and encoded data to output
@@ -236,12 +236,10 @@ private:
         return data;
     }
 
-    template <std::input_iterator InputIterator>
-    static std::vector<agbpack_u8> encode_internal(InputIterator input, InputIterator eof)
+    static std::vector<agbpack_u8> encode_internal(const std::vector<agbpack_u8>& input)
     {
         // TODO: implement
-        byte_reader reader(input, eof);
-        if (input == eof)
+        if (input.size() == 0)
         {
             return {};
         }
