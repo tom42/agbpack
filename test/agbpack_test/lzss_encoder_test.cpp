@@ -18,14 +18,18 @@ namespace
 class test_parameters final
 {
 public:
-    test_parameters(const char* filename, std::size_t /*expected_encoded_size*/)
+    test_parameters(const char* filename, std::size_t expected_encoded_size)
         : m_filename(filename)
+        , m_expected_encoded_size(expected_encoded_size)
     {}
 
     const char* filename() const { return m_filename; }
 
+    std::size_t expected_encoded_size() const { return m_expected_encoded_size; }
+
 private:
     const char* m_filename;
+    std::size_t m_expected_encoded_size;
 };
 
 }
@@ -54,7 +58,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
 
         // Encode
         const auto encoded_data = encode_vector(encoder, original_data);
-        CHECK(encoded_data.size() == 4);
+        CHECK(encoded_data.size() == parameters.expected_encoded_size());
 
         // Decode
         const auto decoded_data = decode_vector(decoder, encoded_data);
