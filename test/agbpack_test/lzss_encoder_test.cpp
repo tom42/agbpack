@@ -10,6 +10,9 @@ import agbpack;
 namespace agbpack_test
 {
 
+// TODO: aw fuck it, use a dedicated class so we can have proper names
+using pair = std::pair<const char*, std::size_t>;
+
 TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
 {
     agbpack::lzss_encoder encoder;
@@ -24,7 +27,8 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
         //       * 8 literal bytes
         //       * 9 literal bytes
         const auto filename = GENERATE(
-            "lzss.good.zero-length-file.txt");
+            "lzss.good.zero-length-file.txt", // TODO: this yields 4 bytes
+            "lzss.good.1-literal-byte.txt"); // TODO: this yields 8 bytes
         const auto original_data = read_decoded_file(filename);
 
         // Encode
