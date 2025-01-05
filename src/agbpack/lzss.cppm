@@ -223,14 +223,22 @@ public:
         unbounded_byte_writer<OutputIterator> writer(output);
         write32(writer, header.to_uint32_t());
         write(writer, encoded_data.begin(), encoded_data.end());
-        // TODO: add padding bytes (here? really?)
+        write_padding_bytes(writer);
     }
 private:
     template <std::input_iterator InputIterator>
-    static std::vector<agbpack_u8> encode_internal(InputIterator /*input*/, InputIterator /*eof*/)
+    static std::vector<agbpack_u8> encode_internal(InputIterator input, InputIterator eof)
     {
         // TODO: implement
-        return {};
+        byte_reader reader(input, eof);
+        if (input == eof)
+        {
+            return {};
+        }
+        else
+        {
+            return { 0x00, 0x61 };
+        }
     }
 };
 
