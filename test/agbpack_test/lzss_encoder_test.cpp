@@ -17,10 +17,14 @@ namespace
 class test_parameters final
 {
 public:
-    test_parameters(const char* /*filename*/, std::size_t /*expected_encoded_size*/)
-    {
+    test_parameters(const char* filename, std::size_t /*expected_encoded_size*/)
+        : m_filename(filename)
+    {}
 
-    }
+    const char* filename() const { return m_filename; }
+
+private:
+    const char* m_filename;
 };
 
 }
@@ -41,10 +45,10 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
         //       * 3 literal bytes
         //       * 8 literal bytes
         //       * 9 literal bytes
-        const auto filename = GENERATE(
-            "lzss.good.zero-length-file.txt", // TODO: this yields 4 bytes
-            "lzss.good.1-literal-byte.txt"); // TODO: this yields 8 bytes
-        const auto original_data = read_decoded_file(filename);
+        const auto parameters = GENERATE(
+            test_parameters("lzss.good.zero-length-file.txt", 4),
+            test_parameters("lzss.good.1-literal-byte.txt", 8));
+        const auto original_data = read_decoded_file(parameters.filename());
 
         // Encode
         const auto encoded_data = encode_vector(encoder, original_data);
