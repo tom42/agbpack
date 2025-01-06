@@ -241,6 +241,14 @@ private:
     {
         // TODO: implement
         //       * Do it simple first, using linear search
+        //         * Note: "Matches overlapping lookahead on LZ77/LZSS with suffix trees"
+        //           * https://stackoverflow.com/questions/31347593/matches-overlapping-lookahead-on-lz77-lzss-with-suffix-trees
+        //           * Well we won't worry about suffix trees, but definitely here is the example we were looking for:
+        //             * We were looking for an example where the sliding window and the lookahead buffer overlap
+        //             * This is the original text that made me aware of that problem/feature
+        //               * What does GBACrusher do?
+        //               * What does CUE lzss do?
+        //               * If we implement it like this, can the GBA BIOS decode it?
         //       * Do we implement lookahead optimization?
         //       * Later implement optimal parse
         //       * NEXT:
