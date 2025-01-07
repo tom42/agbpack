@@ -262,23 +262,15 @@ private:
         //         * Implement runs of more than 8 literals
         //         * Implement references
         std::vector<agbpack_u8> encoded_data;
-        // TODO: possibly we might be better off by having a dedicated lzss_output_writer or something
-        unbounded_byte_writer writer(back_inserter(encoded_data));
+        lzss_encoder_writer writer;
 
         // TODO: this is a bogus implementation that passes our tests:
         //       * We simply copy input to output
         //       * Every 8 bytes we write a fake tag byte
-        int n = 0;
         auto current = input.begin();
         while (current < input.end())
         {
-            if (n % 8 == 0)
-            {
-                write8(writer, 0);
-            }
-
-            ++n;
-            write8(writer, *current++);
+            writer.write_literal(*current++);
         }
 
         return encoded_data;
