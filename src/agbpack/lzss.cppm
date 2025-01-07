@@ -208,6 +208,13 @@ public:
     }
 };
 
+class lzss_encoder_writer final
+{
+public:
+    void write_literal(agbpack_u8) {}
+private:
+};
+
 // TODO: implement
 export class lzss_encoder final
 {
