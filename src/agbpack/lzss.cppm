@@ -211,8 +211,24 @@ public:
 class lzss_encoder_writer final
 {
 public:
-    void write_literal(agbpack_u8) {}
+    explicit lzss_encoder_writer(std::vector<agbpack_u8>& encoded_data)
+        : m_encoded_data(encoded_data)
+    {}
+
+    void write_literal(agbpack_u8 literal)
+    {
+        if (m_count % 8 == 0)
+        {
+            m_encoded_data.push_back(0);
+        }
+        ++m_count;
+
+        m_encoded_data.push_back(literal);
+    }
+
 private:
+    int m_count = 0;
+    std::vector<agbpack_u8>& m_encoded_data;
 };
 
 // TODO: implement
@@ -262,7 +278,7 @@ private:
         //         * Implement runs of more than 8 literals
         //         * Implement references
         std::vector<agbpack_u8> encoded_data;
-        lzss_encoder_writer writer;
+        lzss_encoder_writer writer(encoded_data);
 
         // TODO: this is a bogus implementation that passes our tests:
         //       * We simply copy input to output
