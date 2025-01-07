@@ -255,6 +255,7 @@ private:
         //         * Implement runs of more than 8 literals
         //         * Implement references
         std::vector<agbpack_u8> encoded_data;
+        unbounded_byte_writer writer(back_inserter(encoded_data));
 
         // TODO: this is a bogus implementation that passes our tests:
         //       * We simply copy input to output
@@ -265,11 +266,11 @@ private:
         {
             if (n % 8 == 0)
             {
-                encoded_data.push_back(0);
+                write8(writer, 0);
             }
 
             ++n;
-            encoded_data.push_back(*current++);
+            write8(writer, *current++);
         }
 
         return encoded_data;
