@@ -255,6 +255,7 @@ private:
         //         * Implement runs of more than 8 literals
         //         * Implement references
         std::vector<agbpack_u8> encoded_data;
+        // TODO: possibly we might be better off by having a dedicated lzss_output_writer or something
         unbounded_byte_writer writer(back_inserter(encoded_data));
 
         // TODO: this is a bogus implementation that passes our tests:
