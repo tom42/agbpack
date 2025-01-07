@@ -275,7 +275,6 @@ private:
         //       * Do we implement lookahead optimization?
         //       * Later implement optimal parse
         //       * NEXT:
-        //         * Implement runs of more than 8 literals
         //         * Implement references
         std::vector<agbpack_u8> encoded_data;
         lzss_encoder_writer writer(encoded_data);
