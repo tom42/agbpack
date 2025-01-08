@@ -208,6 +208,16 @@ public:
     }
 };
 
+// TODO: document or otherwise make clear that this does NOT own the vector?
+AGBPACK_EXPORT_FOR_UNIT_TESTING
+class match_finder final
+{
+public:
+    explicit match_finder(const std::vector<agbpack_u8>& /*input*/) {}
+private:
+};
+
+// TODO: document or otherwise make clear that this does NOT own the vector?
 class lzss_bitstream_writer final
 {
 public:
@@ -277,6 +287,7 @@ private:
         //       * NEXT:
         //         * Implement references
         std::vector<agbpack_u8> encoded_data;
+        match_finder match_finder(input);
         lzss_bitstream_writer writer(encoded_data);
 
         // TODO: this is a bogus implementation that passes our tests:
