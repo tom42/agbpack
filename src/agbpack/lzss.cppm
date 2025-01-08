@@ -216,6 +216,8 @@ public:
 
     std::size_t length() const { return m_length; }
 
+    bool operator==(const match&) const = default;
+
 private:
     std::size_t m_length;
 };
