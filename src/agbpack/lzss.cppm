@@ -208,12 +208,30 @@ public:
     }
 };
 
+AGBPACK_EXPORT_FOR_UNIT_TESTING
+class match final
+{
+public:
+    match(std::size_t length) : m_length(length) {}
+
+    std::size_t length() const { return m_length; }
+
+private:
+    std::size_t m_length;
+};
+
 // TODO: document or otherwise make clear that this does NOT own the vector?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class match_finder final
 {
 public:
     explicit match_finder(const std::vector<agbpack_u8>& /*input*/) {}
+
+    match find_match()
+    {
+        return match(1);
+    }
+
 private:
 };
 
@@ -296,7 +314,15 @@ private:
         auto current = input.begin();
         while (current < input.end())
         {
-            writer.write_literal(*current++);
+            auto match = match_finder.find_match(); // TODO: obviously this needs an argument
+            if (match.length() >= minimum_match_length)
+            {
+                throw "TODO: yikes: this branch is not yet implemented";
+            }
+            else
+            {
+                writer.write_literal(*current++);
+            }
         }
 
         return encoded_data;
