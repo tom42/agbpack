@@ -314,7 +314,7 @@ private:
         auto current = input.begin();
         while (current < input.end())
         {
-            auto match = match_finder.find_match(); // TODO: obviously this needs an argument
+            auto match = match_finder.find_match(); // TODO: obviously this needs an argument: the current position. Question: do we use an iterator here, or a position of type std::size_t?
             if (match.length() >= minimum_match_length)
             {
                 throw "TODO: yikes: this branch is not yet implemented";
