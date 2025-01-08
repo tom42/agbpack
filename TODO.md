@@ -45,7 +45,6 @@ SPDX-License-Identifier: MIT
   * Somehow install Catch2 so that it does not need to be built
     * On Ubuntu, use apt
     * But what about windows?
-  * Get gcc build running => Works, but need a more recent g++ on github (14.2 seems to work locally)
   * Enable fail-fast (in the yml file)
 * This is somewhat unexpected:
   * A test (huffman-bitstream-alignment) indicates that the GBA BIOS does not decode data correctly
