@@ -212,14 +212,20 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class match final
 {
 public:
-    match(std::size_t length) : m_length(length) {}
+    match(std::size_t length, std::size_t offset)
+        : m_length(length)
+        , m_offset(offset)
+    {}
 
     std::size_t length() const { return m_length; }
+
+    std::size_t offset() const { return m_offset; }
 
     bool operator==(const match&) const = default;
 
 private:
     std::size_t m_length;
+    std::size_t m_offset;
 };
 
 // TODO: document or otherwise make clear that this does NOT own the vector?
@@ -231,7 +237,7 @@ public:
 
     match find_match()
     {
-        return match(0);
+        return match(0, 0);
     }
 
 private:
