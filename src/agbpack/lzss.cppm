@@ -208,10 +208,10 @@ public:
     }
 };
 
-class lzss_encoder_writer final
+class lzss_bitstream_writer final
 {
 public:
-    explicit lzss_encoder_writer(std::vector<agbpack_u8>& encoded_data)
+    explicit lzss_bitstream_writer(std::vector<agbpack_u8>& encoded_data)
         : m_encoded_data(encoded_data)
     {}
 
@@ -277,7 +277,7 @@ private:
         //       * NEXT:
         //         * Implement references
         std::vector<agbpack_u8> encoded_data;
-        lzss_encoder_writer writer(encoded_data);
+        lzss_bitstream_writer writer(encoded_data);
 
         // TODO: this is a bogus implementation that passes our tests:
         //       * We simply copy input to output
