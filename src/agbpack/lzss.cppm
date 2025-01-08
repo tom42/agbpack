@@ -231,7 +231,7 @@ public:
 
     match find_match()
     {
-        return match(1);
+        return match(0);
     }
 
 private:
