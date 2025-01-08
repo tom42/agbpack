@@ -18,7 +18,7 @@ struct StringMaker<agbpack::code_table_entry>
 {
     static std::string convert(const agbpack::code_table_entry& e)
     {
-        return std::format("s={}, c={}, l={}", e.s(), e.c(), e.l());
+        return std::format("(s={}, c={}, l={})", e.s(), e.c(), e.l());
     }
 };
 
