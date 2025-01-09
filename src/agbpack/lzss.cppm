@@ -253,14 +253,23 @@ public:
         std::size_t offset = maximum_offset;
         (void)offset; // TODO: remove
 
-        for (std::size_t length = 0; length < maximum_match_length; ++length)
+        for (; offset > 0; --offset)
         {
-            if (current_position + length >= m_input.size())
+            for (std::size_t length = 0; length < maximum_match_length; ++length)
             {
-                // TODO: test condition/branch?
-                // TODO: document what this does? (check whether end of input/lookahead buffer is reached)
-                break;
+                if (current_position + length >= m_input.size())
+                {
+                    // TODO: test condition/branch?
+                    // TODO: document what this does? (check whether end of input/lookahead buffer is reached)
+                    break;
+                }
+
+                // TODO: compare current character. If it is not same, then bail out
             }
+
+            // TODO: if we found a match better than the current one, then
+            //       * Make it the new best match
+            //       * If we reached the maximum match length we can stop because we won't find anything better
         }
 
         return best_match;
