@@ -30,11 +30,11 @@ using agbpack::match_finder;
 namespace
 {
 
-match find_match(const std::string& data, std::size_t /*current_position*/)
+match find_match(const std::string& data, std::size_t current_position)
 {
     std::vector<unsigned char> v(data.begin(), data.end());
     match_finder match_finder(v);
-    return match_finder.find_match();
+    return match_finder.find_match(current_position);
 }
 
 }
