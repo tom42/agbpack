@@ -314,7 +314,7 @@ public:
     }
 
     // TODO: add arguments
-    void write_reference()
+    void write_reference(std::size_t /*length*/, std::size_t /*offset*/)
     {
         // TODO: add literal tag (this is a good opportunity to properly implement tracking/writing tags
         // TODO: encode reference (2 bytes)
@@ -401,7 +401,7 @@ private:
 
             if (match.length() >= minimum_match_length)
             {
-                writer.write_reference(); // TODO: pass argument. Problem: do we pass match, or distînct length/offset? (does it matter?)
+                writer.write_reference(match.length(), match.offset());
                 current_position += match.length();
             }
             else

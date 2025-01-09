@@ -43,7 +43,7 @@ TEST_CASE("lzss_bitstream_writer_test")
     SECTION("Write references")
     {
         // TODO: actually pass length and offset and check it works
-        writer.write_reference();
+        writer.write_reference(0, 0);
     }
 }
 
