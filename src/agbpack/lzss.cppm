@@ -297,6 +297,8 @@ private:
 };
 
 // TODO: document or otherwise make clear that this does NOT own the vector?
+// TODO: review this very thoroughly
+// TODO: this should get a unit test, no? That way we can be sure it works before we mess around firther with the actual encoder/match_finder
 class lzss_bitstream_writer final
 {
 public:
@@ -306,13 +308,6 @@ public:
 
     void write_literal(agbpack_u8 literal)
     {
-        // TODO: replace this
-        //if (m_count % 8 == 0)
-        //{
-        //    m_encoded_data.push_back(0);
-        //}
-        //++m_count;
-
         write_tag(false);
         m_encoded_data.push_back(literal);
     }
@@ -329,13 +324,20 @@ public:
 private:
     void write_tag(bool /*is_reference*/)
     {
-        // TODO: shift tag bit mask
-        // TODO: if bit mask is empty, allocate space for new tag
+        m_tag_bitmask >>= 1;
+        if (!m_tag_bitmask)
+        {
+            // Tag byte is full.
+            // Allocate space for a new one in the output and remember its position
+            m_tag_bitmask = 0x80;
+            m_encoded_data.push_back(0);
+            // TODO: remember position of tag byte
+        }
+
         // TODO: if it is a reference, set the bit
     }
 
-    agbpack_u8 tag_bitmask = 0;
-    int m_count = 0;
+    agbpack_u8 m_tag_bitmask = 0;
     std::vector<agbpack_u8>& m_encoded_data;
 };
 
