@@ -311,6 +311,14 @@ public:
         m_encoded_data.push_back(literal);
     }
 
+    // TODO: add arguments
+    void write_reference()
+    {
+        // TODO: add literal tag (this is a good opportunity to properly implement tracking/writing tags
+        // TODO: encode reference (2 bytes)
+        // TODO: write reference
+    }
+
 private:
     int m_count = 0;
     std::vector<agbpack_u8>& m_encoded_data;
@@ -375,11 +383,13 @@ private:
 
             if (match.length() >= minimum_match_length)
             {
-                throw "TODO: yikes: this branch is not yet implemented";
+                writer.write_reference(); // TODO: pass argument. Problem: do we pass match, or distînct length/offset? (does it matter?)
+                current_position += match.length();
             }
             else
             {
-                writer.write_literal(input[current_position++]);
+                writer.write_literal(input[current_position]);
+                current_position += 1;
             }
         }
 
