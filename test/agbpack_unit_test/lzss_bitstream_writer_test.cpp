@@ -39,6 +39,12 @@ TEST_CASE("lzss_bitstream_writer_test")
 
         CHECK(actual_bitstream == expected_bitstream);
     }
+
+    SECTION("Write references")
+    {
+        // TODO: actually pass length and offset and check it works
+        writer.write_reference();
+    }
 }
 
 }
