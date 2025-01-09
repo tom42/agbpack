@@ -21,7 +21,7 @@ namespace agbpack
 {
 
 // TODO: reconsider the use of size_t here: on a 16 bit platform this is too small
-inline constexpr unsigned int sliding_window_size = 4096; // TODO: rename this to maximum_offset or something?
+inline constexpr unsigned int maximum_offset = 4096;
 inline constexpr unsigned int minimum_match_length = 3;
 inline constexpr unsigned int maximum_match_length = 18;
 
@@ -100,7 +100,7 @@ public:
 
 private:
     byte_writer<OutputIterator> m_writer;
-    lzss_sliding_window<sliding_window_size> m_window;
+    lzss_sliding_window<maximum_offset> m_window;
 };
 
 // Specialized LZSS byte writer for random access iterators.
@@ -191,7 +191,7 @@ public:
                 std::size_t offset = (((b0 & 0xfu) << 8) | b1) + 1;
 
                 assert((minimum_match_length <= nbytes) && (nbytes <= maximum_match_length) && "lzss_decoder is broken");
-                assert((1 <= offset) && (offset <= sliding_window_size) && "lzss_decoder is broken");
+                assert((1 <= offset) && (offset <= maximum_offset) && "lzss_decoder is broken");
 
                 // TODO: tests for invalid input
                 //       * read outside of sliding window
@@ -250,7 +250,7 @@ public:
 
         // TODO: obviously this is crap: we need to clamp offset at the beginning of the buffer
         // TODO: and later we also need to take into account VRAM safety, but we can worry about this later, I think
-        std::size_t offset = sliding_window_size;
+        std::size_t offset = maximum_offset;
         (void)offset; // TODO: remove
 
         for (std::size_t length = 0; length < maximum_match_length; ++length)
