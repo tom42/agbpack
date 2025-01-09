@@ -21,7 +21,7 @@ namespace agbpack
 {
 
 // TODO: reconsider the use of size_t here: on a 16 bit platform this is too small
-inline constexpr unsigned int sliding_window_size = 4096;
+inline constexpr unsigned int sliding_window_size = 4096; // TODO: rename this to maximum_offset or something?
 inline constexpr unsigned int minimum_match_length = 3;
 inline constexpr unsigned int maximum_match_length = 18;
 
@@ -235,20 +235,32 @@ class match_finder final
 public:
     explicit match_finder(const std::vector<agbpack_u8>& input) : m_input(input) {}
 
-    match find_match(std::size_t /*current_position*/)
+    match find_match(std::size_t current_position)
     {
         match best_match(0, 0);
 
         // TODO: implement this.
         //       Basic idea: two nested loops.
-        //       * Outer loop: search backwards through sliding window (towards larger offset, away from current position)
+        //       * Outer loop: search backwards through sliding window (towards larger offset, away from current position => Nope, wrong, we start at longest offset and keep doing so while it is not 0)
         //         * Inner loop: search forwards, increasing string length.
         //           * Two problems here:
         //             * What's the initial length to search for? minimum_match_length, no?
         //               * Nope, since we must compare all characters inbetween
         //             * The maximum match length to search for is of course maximum_match_length, but towards the end of the buffer it may be shorter
+
+        // TODO: obviously this is crap: we need to clamp offset at the beginning of the buffer
+        // TODO: and later we also need to take into account VRAM safety, but we can worry about this later, I think
+        std::size_t offset = sliding_window_size;
+        (void)offset; // TODO: remove
+
         for (std::size_t length = 0; length < maximum_match_length; ++length)
         {
+            if (current_position + length >= m_input.size())
+            {
+                // TODO: test condition/branch?
+                // TODO: document what this does? (check whether end of input/lookahead buffer is reached)
+                break;
+            }
         }
 
         return best_match;
