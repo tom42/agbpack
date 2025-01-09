@@ -238,6 +238,15 @@ public:
     match find_match()
     {
         match best_match(0, 0);
+
+        // TODO: implement this.
+        //       Basic idea: two nested loops.
+        //       * Outer loop: search backwards through sliding window (towards larger offset, away from current position)
+        //         * Inner loop: search forwards, increasing string length.
+        //           * Two problems here:
+        //             * What's the initial length to search for? minimum_match_length, no?
+        //             * The maximum match length to earch for if of course maximum_match_length, but towards the end of the buffer it may be shorter
+
         return best_match;
     }
 
