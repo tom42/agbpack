@@ -233,7 +233,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class match_finder final
 {
 public:
-    explicit match_finder(const std::vector<agbpack_u8>& /*input*/) {}
+    explicit match_finder(const std::vector<agbpack_u8>& input) : m_input(input) {}
 
     match find_match(std::size_t /*current_position*/)
     {
@@ -255,6 +255,7 @@ public:
     }
 
 private:
+    const std::vector<agbpack_u8>& m_input;
 };
 
 // TODO: document or otherwise make clear that this does NOT own the vector?
