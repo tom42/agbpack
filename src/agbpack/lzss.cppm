@@ -235,6 +235,7 @@ class match_finder final
 public:
     explicit match_finder(const std::vector<agbpack_u8>& input) : m_input(input) {}
 
+    // TODO: review this again (compare against reference search)
     match find_match(std::size_t current_position)
     {
         match best_match(0, 0);
@@ -253,9 +254,10 @@ public:
         std::size_t offset = maximum_offset;
         (void)offset; // TODO: remove
 
-        for (; offset > 0; --offset)
+        for (; offset > 0; --offset) // TODO: end condition (0/1) may vary, depends on whether we compress for VRAM safety or not
         {
-            for (std::size_t length = 0; length < maximum_match_length; ++length)
+            std::size_t length = 0;
+            for (; length < maximum_match_length; ++length)
             {
                 if (current_position + length >= m_input.size())
                 {
@@ -264,12 +266,23 @@ public:
                     break;
                 }
 
-                // TODO: compare current character. If it is not same, then bail out
+                if (current_position + length >= offset) // TODO: hack: this belongs outside the loop
+                if (m_input[current_position + length] != m_input[current_position + length - offset])
+                {
+                    // TODO: test condition/branch?
+                    // TODO: document what this does? (mismatching character: abort search)
+                    break;
+                }
             }
 
             // TODO: if we found a match better than the current one, then
             //       * Make it the new best match
             //       * If we reached the maximum match length we can stop because we won't find anything better
+            if (length > best_match.length())
+            {
+                best_match = match(length, offset);
+                // TODO: bail out if maximum match length is reached (can we unit test this?)
+            }
         }
 
         return best_match;
