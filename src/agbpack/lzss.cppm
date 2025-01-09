@@ -237,7 +237,8 @@ public:
 
     match find_match()
     {
-        return match(0, 0);
+        match best_match(0, 0);
+        return best_match;
     }
 
 private:
