@@ -235,7 +235,7 @@ class match_finder final
 public:
     explicit match_finder(const std::vector<agbpack_u8>& /*input*/) {}
 
-    match find_match()
+    match find_match(std::size_t /*current_position*/)
     {
         match best_match(0, 0);
 
@@ -329,17 +329,18 @@ private:
         // TODO: this is a bogus implementation that passes our tests:
         //       * We simply copy input to output
         //       * Every 8 bytes we write a fake tag byte
-        auto current = input.begin();
-        while (current < input.end())
+        std::size_t current_position = 0;
+        while (current_position < input.size())
         {
-            auto match = match_finder.find_match(); // TODO: obviously this needs an argument: the current position. Question: do we use an iterator here, or a position of type std::size_t?
+            auto match = match_finder.find_match(current_position);
+
             if (match.length() >= minimum_match_length)
             {
                 throw "TODO: yikes: this branch is not yet implemented";
             }
             else
             {
-                writer.write_literal(*current++);
+                writer.write_literal(input[current_position++]);
             }
         }
 
