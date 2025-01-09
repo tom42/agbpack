@@ -236,9 +236,12 @@ public:
     explicit match_finder(const std::vector<agbpack_u8>& input) : m_input(input) {}
 
     // TODO: review this again (compare against reference search)
-    match find_match(std::size_t current_position)
+    match find_match(std::size_t /*current_position*/)
     {
         match best_match(0, 0);
+
+        // TODO: commented out, is broken
+        /*
 
         // TODO: implement this.
         //       Basic idea: two nested loops.
@@ -266,7 +269,7 @@ public:
                     break;
                 }
 
-                if (current_position + length >= offset) // TODO: hack: this belongs outside the loop
+                if (current_position + length >= offset) // TODO: hack: this belongs outside the loop (ACTUALLY IT IS NOT A HACK, IT CAUSES OUR CODE NOT TO WORK AT ALL!)
                 if (m_input[current_position + length] != m_input[current_position + length - offset])
                 {
                     // TODO: test condition/branch?
@@ -284,6 +287,7 @@ public:
                 // TODO: bail out if maximum match length is reached (can we unit test this?)
             }
         }
+        */
 
         return best_match;
     }
