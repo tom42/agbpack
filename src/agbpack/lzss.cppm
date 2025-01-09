@@ -245,7 +245,11 @@ public:
         //         * Inner loop: search forwards, increasing string length.
         //           * Two problems here:
         //             * What's the initial length to search for? minimum_match_length, no?
-        //             * The maximum match length to earch for if of course maximum_match_length, but towards the end of the buffer it may be shorter
+        //               * Nope, since we must compare all characters inbetween
+        //             * The maximum match length to search for is of course maximum_match_length, but towards the end of the buffer it may be shorter
+        for (std::size_t length = 0; length < maximum_match_length; ++length)
+        {
+        }
 
         return best_match;
     }
