@@ -308,6 +308,7 @@ public:
         }
         ++m_count;
 
+        write_tag(false);
         m_encoded_data.push_back(literal);
     }
 
@@ -317,9 +318,17 @@ public:
         // TODO: add literal tag (this is a good opportunity to properly implement tracking/writing tags
         // TODO: encode reference (2 bytes)
         // TODO: write reference
+        write_tag(true);
     }
 
 private:
+    void write_tag(bool /*is_reference*/)
+    {
+        // TODO: shift tag bit mask
+        // TODO: if bit mask is empty, allocate space for new tag
+        // TODO: if it is a reference, set the bit
+    }
+
     int m_count = 0;
     std::vector<agbpack_u8>& m_encoded_data;
 };
