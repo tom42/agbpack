@@ -302,11 +302,12 @@ public:
 
     void write_literal(agbpack_u8 literal)
     {
-        if (m_count % 8 == 0)
-        {
-            m_encoded_data.push_back(0);
-        }
-        ++m_count;
+        // TODO: replace this
+        //if (m_count % 8 == 0)
+        //{
+        //    m_encoded_data.push_back(0);
+        //}
+        //++m_count;
 
         write_tag(false);
         m_encoded_data.push_back(literal);
@@ -329,6 +330,7 @@ private:
         // TODO: if it is a reference, set the bit
     }
 
+    agbpack_u8 tag_bitmask = 0;
     int m_count = 0;
     std::vector<agbpack_u8>& m_encoded_data;
 };
