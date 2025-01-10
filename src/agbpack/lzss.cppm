@@ -337,13 +337,14 @@ private:
             // Allocate space for a new one in the output and remember its position
             m_tag_bitmask = 0x80;
             m_encoded_data.push_back(0);
-            // TODO: remember position of tag byte
+            m_tag_byte_position = m_encoded_data.size() - 1;
         }
 
         // TODO: if it is a reference, set the bit
     }
 
     agbpack_u8 m_tag_bitmask = 0;
+    std::size_t m_tag_byte_position = 0;
     std::vector<agbpack_u8>& m_encoded_data;
 };
 
