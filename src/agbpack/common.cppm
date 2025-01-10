@@ -4,6 +4,7 @@
 module;
 
 #include <cassert>
+#include <concepts>
 #include <cstdint>
 #include <iterator>
 
@@ -246,6 +247,16 @@ void static_assert_input_type(InputIterator& input)
         std::is_same_v<std::remove_cv_t<std::remove_reference_t<decltype(*input)>>,
         agbpack_io_datatype>,
         "Input iterator should read values of type unsigned char");
+}
+
+bool in_closed_range(std::unsigned_integral auto x, std::unsigned_integral auto min, std::unsigned_integral auto max)
+{
+    return (min <= x) && (x <= max);
+}
+
+bool in_open_range(std::unsigned_integral auto x, std::unsigned_integral auto min, std::unsigned_integral auto max)
+{
+    return (min <= x) && (x < max);
 }
 
 }

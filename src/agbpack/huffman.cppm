@@ -6,7 +6,6 @@ module;
 #include <algorithm>
 #include <array>
 #include <cassert>
-#include <concepts>
 #include <cstdint>
 #include <iterator>
 #include <memory>
@@ -61,16 +60,6 @@ constexpr unsigned int get_nsymbols(unsigned int symbol_size)
 inline unsigned int get_symbol_mask(unsigned int symbol_size)
 {
     return get_nsymbols(symbol_size) - 1;
-}
-
-bool in_closed_range(std::unsigned_integral auto x, std::unsigned_integral auto min, std::unsigned_integral auto max)
-{
-    return (min <= x) && (x <= max);
-}
-
-bool in_open_range(std::unsigned_integral auto x, std::unsigned_integral auto min, std::unsigned_integral auto max)
-{
-    return (min <= x) && (x < max);
 }
 
 template <typename TContainer>
