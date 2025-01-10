@@ -47,6 +47,7 @@ TEST_CASE("match_finder_test")
     // TODO: what do we return for match position?
     // TODO: do we also check with input length and current offset > 0? What do we return for match position in THAT case?
     CHECK(find_match("", 0) == match(0, 0));
+    CHECK(find_match("", 1) == match(0, 0));
 }
 
 }
