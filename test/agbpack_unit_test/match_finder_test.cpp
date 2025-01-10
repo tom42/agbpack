@@ -10,6 +10,8 @@ import agbpack;
 namespace Catch
 {
 
+// TODO: are we risking ODR violations here?
+//       See https://brevzin.github.io/c++/2023/01/19/debug-fmt-catch/
 template <>
 struct StringMaker<agbpack::match>
 {
