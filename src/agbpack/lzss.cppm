@@ -313,13 +313,18 @@ public:
         m_encoded_data.push_back(literal);
     }
 
-    // TODO: add arguments
-    void write_reference(std::size_t /*length*/, std::size_t /*offset*/)
+    void write_reference(std::size_t length, std::size_t offset)
     {
         // TODO: add literal tag (this is a good opportunity to properly implement tracking/writing tags
-        // TODO: encode reference (2 bytes)
-        // TODO: write reference
         write_tag(true);
+
+        // TODO: we don't do any range checking / additional masking here, no? We simply expect length and offset to be in the correct range, no?
+        //       (Well obviously we can have debug assertions)
+        auto b0 = ((length - 3) << 4) | ((offset - 1) >> 8);
+        auto b1 = (offset - 1) & 255;
+
+        m_encoded_data.push_back(static_cast<agbpack_u8>(b0));
+        m_encoded_data.push_back(static_cast<agbpack_u8>(b1));
     }
 
 private:
