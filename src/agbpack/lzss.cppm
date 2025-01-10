@@ -189,10 +189,10 @@ public:
                 auto b0 = read8(reader);
                 auto b1 = read8(reader);
                 unsigned int nbytes = ((b0 >> 4) & 0xf) + minimum_match_length;
-                std::size_t offset = (((b0 & 0xfu) << 8) | b1) + 1;
+                std::size_t offset = (((b0 & 0xfu) << 8) | b1) + minimum_offset;
 
                 assert((minimum_match_length <= nbytes) && (nbytes <= maximum_match_length) && "lzss_decoder is broken");
-                assert((1 <= offset) && (offset <= maximum_offset) && "lzss_decoder is broken");
+                assert((minimum_offset <= offset) && (offset <= maximum_offset) && "lzss_decoder is broken");
 
                 // TODO: tests for invalid input
                 //       * read outside of sliding window
