@@ -191,8 +191,8 @@ public:
                 unsigned int nbytes = ((b0 >> 4) & 0xf) + minimum_match_length;
                 std::size_t offset = (((b0 & 0xfu) << 8) | b1) + minimum_offset;
 
-                assert((minimum_match_length <= nbytes) && (nbytes <= maximum_match_length) && "lzss_decoder is broken");
-                assert((minimum_offset <= offset) && (offset <= maximum_offset) && "lzss_decoder is broken");
+                assert(in_closed_range(nbytes, minimum_match_length, maximum_match_length) && "lzss_decoder is broken");
+                assert(in_closed_range(offset, minimum_offset, maximum_offset) && "lzss_decoder is broken");
 
                 // TODO: tests for invalid input
                 //       * read outside of sliding window
