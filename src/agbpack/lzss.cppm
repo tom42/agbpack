@@ -316,11 +316,11 @@ public:
 
     void write_reference(std::size_t length, std::size_t offset)
     {
-        // TODO: add literal tag (this is a good opportunity to properly implement tracking/writing tags
+        assert(in_closed_range(length, minimum_match_length, maximum_match_length));
+        assert(in_closed_range(offset, minimum_offset, maximum_offset));
+
         write_tag(true);
 
-        // TODO: we don't do any range checking / additional masking here, no? We simply expect length and offset to be in the correct range, no?
-        //       (Well obviously we can have debug assertions)
         auto b0 = ((length - 3) << 4) | ((offset - 1) >> 8);
         auto b1 = (offset - 1) & 255;
 
