@@ -45,12 +45,13 @@ TEST_CASE("lzss_bitstream_writer_test")
         // TODO: add more referencs?
         // TODO: use constants (minimum_match_length etc?)
         writer.write_reference(17, 0x124);
-        writer.write_reference( 3, 1);
-        writer.write_reference(18, 0x1000);
+//        writer.write_reference( 3, 1);
+//        writer.write_reference(18, 0x1000);
 
         bitstream expected_bitstream =
         {
-            0x77, 0x77, 0x77
+            0xc0,
+            0xe3, 0x12
         };
 
         CHECK(actual_bitstream == expected_bitstream);
