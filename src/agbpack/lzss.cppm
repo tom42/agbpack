@@ -297,12 +297,11 @@ private:
     const std::vector<agbpack_u8>& m_input;
 };
 
-// TODO: document or otherwise make clear that this does NOT own the vector?
-// TODO: review this very thoroughly
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class lzss_bitstream_writer final
 {
 public:
+    // Note: lzss_bitstream_writer does not own encoded_data
     explicit lzss_bitstream_writer(std::vector<agbpack_u8>& encoded_data)
         : m_encoded_data(encoded_data)
     {}
@@ -334,7 +333,7 @@ private:
         if (!m_tag_bitmask)
         {
             // Tag byte is full.
-            // Allocate space for a new one in the output and remember its position
+            // Allocate space for a new one in the output and remember its position.
             m_tag_bitmask = 0x80;
             m_encoded_data.push_back(0);
             m_tag_byte_position = m_encoded_data.size() - 1;
