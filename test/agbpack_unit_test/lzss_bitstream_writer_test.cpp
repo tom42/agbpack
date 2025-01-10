@@ -50,7 +50,7 @@ TEST_CASE("lzss_bitstream_writer_test")
 
         bitstream expected_bitstream =
         {
-            0xc0,
+            0x80,
             0xe1, 0x23
         };
 
