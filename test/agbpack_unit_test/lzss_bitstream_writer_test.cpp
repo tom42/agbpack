@@ -42,8 +42,18 @@ TEST_CASE("lzss_bitstream_writer_test")
 
     SECTION("Write references")
     {
-        // TODO: actually pass length and offset and check it works
-        writer.write_reference(0, 0);
+        // TODO: add more referencs?
+        // TODO: use constants (minimum_match_length etc?)
+        writer.write_reference(17, 0x124);
+        writer.write_reference( 3, 1);
+        writer.write_reference(18, 0x1000);
+
+        bitstream expected_bitstream =
+        {
+            0x77, 0x77, 0x77
+        };
+
+        CHECK(actual_bitstream == expected_bitstream);
     }
 }
 
