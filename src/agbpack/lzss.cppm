@@ -321,8 +321,8 @@ public:
 
         write_tag(true);
 
-        auto b0 = ((length - 3) << 4) | ((offset - 1) >> 8);
-        auto b1 = (offset - 1) & 255;
+        auto b0 = ((length - minimum_match_length) << 4) | ((offset - minimum_offset) >> 8);
+        auto b1 = (offset - minimum_offset) & 255;
 
         m_encoded_data.push_back(static_cast<agbpack_u8>(b0));
         m_encoded_data.push_back(static_cast<agbpack_u8>(b1));
