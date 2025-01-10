@@ -328,7 +328,7 @@ public:
     }
 
 private:
-    void write_tag(bool /*is_reference*/)
+    void write_tag(bool is_reference)
     {
         m_tag_bitmask >>= 1;
         if (!m_tag_bitmask)
@@ -340,7 +340,10 @@ private:
             m_tag_byte_position = m_encoded_data.size() - 1;
         }
 
-        // TODO: if it is a reference, set the bit
+        if (is_reference)
+        {
+            m_encoded_data[m_tag_byte_position] |= m_tag_bitmask;
+        }
     }
 
     agbpack_u8 m_tag_bitmask = 0;
