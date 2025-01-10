@@ -299,7 +299,6 @@ private:
 
 // TODO: document or otherwise make clear that this does NOT own the vector?
 // TODO: review this very thoroughly
-// TODO: this should get a unit test, no? That way we can be sure it works before we mess around firther with the actual encoder/match_finder
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class lzss_bitstream_writer final
 {
