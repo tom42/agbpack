@@ -261,14 +261,13 @@ public:
             {
                 if (current_position + length >= m_input.size())
                 {
-                    // TODO: test condition/branch?
-                    // TODO: document what this does? (check whether end of input/lookahead buffer is reached)
+                    // End of lookahead reached, abort search
                     break;
                 }
 
                 if (m_input[current_position + length] != m_input[current_position + length - offset])
                 {
-                    // Characters differ, abort search for this match
+                    // Characters differ, abort search
                     break;
                 }
             }
