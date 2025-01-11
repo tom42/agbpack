@@ -7,6 +7,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   # We start out with it anyway and see how it goes.
   add_compile_options(-Werror)
   add_compile_options(-Weverything)
+  add_compile_options(-Wno-c++20-compat)
   add_compile_options(-Wno-c++98-compat)
   add_compile_options(-Wno-c++98-compat-bind-to-temporary-copy)
   add_compile_options(-Wno-c++98-compat-pedantic)
