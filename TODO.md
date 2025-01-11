@@ -4,6 +4,7 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* 16 bit platforms will not work, due to size_t usage and having to support 16 meg files. Do we care?
 * Start using import std; ?
 * grit source code / issues claim that an 8 bit huffman tree needs to be 512 bytes.
   * Verify one last time this is NOT true => and maybe even document this?
