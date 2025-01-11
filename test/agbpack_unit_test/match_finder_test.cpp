@@ -92,6 +92,15 @@ TEST_CASE("match_finder_test")
         CHECK(find_match("aaaaaaaaaaaaaaaaaaa", 1) == match(18, 1));
         CHECK(find_match("aaaaaaaaaaaaaaaaaaa", 2) == match(17, 2));
     }
+
+    SECTION("If there is more than one match the longer one is returned")
+    {
+        // For current position 5 there are two matches:
+        // * A short one with length=3 and offset=5
+        // * A long one with length=18 and offset=1
+        // We want the longer one
+        CHECK(find_match("aaabaaaaaaaaaaaaaaaaaaa", 5) == match(18, 1));
+    }
 }
 
 }
