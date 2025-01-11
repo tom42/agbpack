@@ -256,6 +256,7 @@ public:
 
         for (; offset > 0; --offset) // TODO: end condition (0/1) may vary, depends on whether we compress for VRAM safety or not
         {
+            // TODO: close to end of input it is pointless iterating all over [0, maximum_match_length] if that exceeds input. But is it worth optimizing this?
             std::size_t length = 0;
             for (; length < maximum_match_length; ++length)
             {
