@@ -388,8 +388,6 @@ private:
         //               * If we implement it like this, can the GBA BIOS decode it?
         //       * Do we implement lookahead optimization?
         //       * Later implement optimal parse
-        //       * NEXT:
-        //         * Implement references
         std::vector<agbpack_u8> encoded_data;
         match_finder match_finder(input);
         lzss_bitstream_writer writer(encoded_data);
