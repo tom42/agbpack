@@ -88,6 +88,13 @@ TEST_CASE("match_finder_test")
         CHECK(find_match("aaab", 1) == match(2, 1));
         CHECK(find_match("aaab", 2) == match(1, 2));
     }
+
+    SECTION("Reference of length 18 that overlaps with lookahead buffer")
+    {
+        CHECK(find_match("aaaaaaaaaaaaaaaaaaa", 0) == match(0, 0));
+        CHECK(find_match("aaaaaaaaaaaaaaaaaaa", 1) == match(18, 1));
+        CHECK(find_match("aaaaaaaaaaaaaaaaaaa", 2) == match(17, 2));
+    }
 }
 
 }
