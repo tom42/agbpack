@@ -64,6 +64,30 @@ TEST_CASE("match_finder_test")
         CHECK(find_match("abc", 2) == match(0, 0));
         CHECK(find_match("abc", 3) == match(0, 0));
     }
+
+    SECTION("Reference of length 1")
+    {
+        // First 'a' is no match, second one is a match of length 1
+        CHECK(find_match("aa", 0) == match(0, 0));
+        CHECK(find_match("aa", 1) == match(1, 1));
+
+        // Same, but a different character rather than EOF terminates the match
+        CHECK(find_match("aab", 0) == match(0, 0));
+        CHECK(find_match("aab", 1) == match(1, 1));
+    }
+
+    SECTION("Reference of length 2")
+    {
+        // First 'a' is no match, second one is a match of length 2, third one length 1 again
+        CHECK(find_match("aaa", 0) == match(0, 0));
+        CHECK(find_match("aaa", 1) == match(2, 1));
+        CHECK(find_match("aaa", 2) == match(1, 2));
+
+        // Same, but a different character rather than EOF terminates the match
+        CHECK(find_match("aaab", 0) == match(0, 0));
+        CHECK(find_match("aaab", 1) == match(2, 1));
+        CHECK(find_match("aaab", 2) == match(1, 2));
+    }
 }
 
 }
