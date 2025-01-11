@@ -51,7 +51,7 @@ TEST_CASE("match_finder_test")
         CHECK(find_match("", 1) == match(0, 0));
     }
 
-    SECTION("Literal bytes only") // TODO: section name?
+    SECTION("Literal bytes only")
     {
         // TODO: find a way to say e.g. match::none()
         CHECK(find_match("a", 0) == match(0, 0));
@@ -59,6 +59,10 @@ TEST_CASE("match_finder_test")
         CHECK(find_match("ab", 0) == match(0, 0));
         CHECK(find_match("ab", 1) == match(0, 0));
         CHECK(find_match("ab", 2) == match(0, 0));
+        CHECK(find_match("abc", 0) == match(0, 0));
+        CHECK(find_match("abc", 1) == match(0, 0));
+        CHECK(find_match("abc", 2) == match(0, 0));
+        CHECK(find_match("abc", 3) == match(0, 0));
     }
 }
 
