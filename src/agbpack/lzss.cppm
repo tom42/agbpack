@@ -274,9 +274,6 @@ public:
                 }
             }
 
-            // TODO: if we found a match better than the current one, then
-            //       * Make it the new best match
-            //       * If we reached the maximum match length we can stop because we won't find anything better
             if (length > best_match.length())
             {
                 best_match = match(length, offset);
