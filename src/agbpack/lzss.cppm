@@ -229,11 +229,11 @@ private:
     std::size_t m_offset;
 };
 
-// TODO: document or otherwise make clear that this does NOT own the vector?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class match_finder final
 {
 public:
+    // Note: match_finder does not own input
     explicit match_finder(const std::vector<agbpack_u8>& input) : m_input(input) {}
 
     // TODO: review this again (compare against reference search)
