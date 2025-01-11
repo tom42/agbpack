@@ -399,9 +399,6 @@ private:
         match_finder match_finder(input);
         lzss_bitstream_writer writer(encoded_data);
 
-        // TODO: this is a bogus implementation that passes our tests:
-        //       * We simply copy input to output
-        //       * Every 8 bytes we write a fake tag byte
         std::size_t current_position = 0;
         while (current_position < input.size())
         {
