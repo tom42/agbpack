@@ -268,8 +268,7 @@ public:
 
                 if (m_input[current_position + length] != m_input[current_position + length - offset])
                 {
-                    // TODO: test condition/branch?
-                    // TODO: document what this does? (mismatching character: abort search)
+                    // Characters differ, abort search for this match
                     break;
                 }
             }
