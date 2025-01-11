@@ -277,7 +277,11 @@ public:
             if (length > best_match.length())
             {
                 best_match = match(length, offset);
-                // TODO: bail out if maximum match length is reached (can we unit test this?)
+                if (length >= maximum_match_length)
+                {
+                    // Found a match of maximum length, no need to search any further.
+                    break;
+                }
             }
         }
 
