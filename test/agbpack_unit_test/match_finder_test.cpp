@@ -43,8 +43,6 @@ match find_match(const std::string& data, std::size_t current_position)
 
 TEST_CASE("match_finder_test")
 {
-    // TODO: do we also check with input length and current offset > 0? What do we return for match position in THAT case?
-    //       => Well sure we want to do that, but if input length is nonzero then it does not go into this section
     SECTION("Empty input")
     {
         CHECK(find_match("", 0) == match(0, 0));
