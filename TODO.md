@@ -4,6 +4,13 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Do we need some test suite for GBA?
+  * Those huffman tests we did earlier
+  * Some lzss decoder tests, certainly at least that one: aaaaaaaaaaaaaaaaaaa
+  * Problem:
+    * We need an emulator to sensibly do this with
+    * And we also need a way to crunch our stuff, although we could use a script for this
+    * Well maybe not, then?
 * 16 bit platforms will not work, due to size_t usage and having to support 16 meg files. Do we care?
 * Start using import std; ?
 * grit source code / issues claim that an 8 bit huffman tree needs to be 512 bytes.
