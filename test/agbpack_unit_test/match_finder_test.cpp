@@ -51,7 +51,6 @@ TEST_CASE("match_finder_test")
 
     SECTION("Literal bytes only")
     {
-        // TODO: find a way to say e.g. match::none()
         CHECK(find_match("a", 0) == match(0, 0));
         CHECK(find_match("a", 1) == match(0, 0));
         CHECK(find_match("ab", 0) == match(0, 0));
