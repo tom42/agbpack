@@ -20,7 +20,6 @@ import :header;
 namespace agbpack
 {
 
-// TODO: reconsider the use of size_t here: on a 16 bit platform this is too small
 inline constexpr unsigned int minimum_offset = 1;
 inline constexpr unsigned int maximum_offset = 4096;
 inline constexpr unsigned int minimum_match_length = 3;
