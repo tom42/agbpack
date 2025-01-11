@@ -237,12 +237,9 @@ public:
     explicit match_finder(const std::vector<agbpack_u8>& input) : m_input(input) {}
 
     // TODO: review this again (compare against reference search)
-    match find_match(std::size_t /*current_position*/)
+    match find_match(std::size_t current_position)
     {
-        match best_match(0, 0);
-
-        // TODO: commented out, is broken
-        /*
+        match best_match(0, 0); // TODO: start with length=0, or length=2 (minimum_match_length-1)?
 
         // TODO: implement this.
         //       Basic idea: two nested loops.
@@ -253,10 +250,9 @@ public:
         //               * Nope, since we must compare all characters inbetween
         //             * The maximum match length to search for is of course maximum_match_length, but towards the end of the buffer it may be shorter
 
-        // TODO: obviously this is crap: we need to clamp offset at the beginning of the buffer
-        // TODO: and later we also need to take into account VRAM safety, but we can worry about this later, I think
-        std::size_t offset = maximum_offset;
-        (void)offset; // TODO: remove
+        // TODO: verify offset calculation
+        // TODO: later we also need to take into account VRAM safety, but we can worry about this later, I think
+        std::size_t offset = current_position >= maximum_offset ? maximum_offset : current_position;
 
         for (; offset > 0; --offset) // TODO: end condition (0/1) may vary, depends on whether we compress for VRAM safety or not
         {
@@ -270,7 +266,6 @@ public:
                     break;
                 }
 
-                if (current_position + length >= offset) // TODO: hack: this belongs outside the loop (ACTUALLY IT IS NOT A HACK, IT CAUSES OUR CODE NOT TO WORK AT ALL!)
                 if (m_input[current_position + length] != m_input[current_position + length - offset])
                 {
                     // TODO: test condition/branch?
@@ -288,7 +283,6 @@ public:
                 // TODO: bail out if maximum match length is reached (can we unit test this?)
             }
         }
-        */
 
         return best_match;
     }
