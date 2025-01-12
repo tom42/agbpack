@@ -8,6 +8,7 @@ module;
 #include <bit>
 #include <cassert>
 #include <concepts>
+#include <cstddef>
 #include <iterator>
 #include <utility>
 #include <vector>
@@ -20,10 +21,10 @@ import :header;
 namespace agbpack
 {
 
-inline constexpr unsigned int minimum_offset = 1;
-inline constexpr unsigned int maximum_offset = 4096;
-inline constexpr unsigned int minimum_match_length = 3;
-inline constexpr unsigned int maximum_match_length = 18;
+inline constexpr std::size_t minimum_offset = 1;
+inline constexpr std::size_t maximum_offset = 4096;
+inline constexpr std::size_t minimum_match_length = 3;
+inline constexpr std::size_t maximum_match_length = 18;
 
 // Sliding window for LZSS decoder. Used when the output iterator does not allow random access.
 // * Maintains an internal write position which wraps around when the window is written to.
@@ -250,7 +251,7 @@ public:
         //             * The maximum match length to search for is of course maximum_match_length, but towards the end of the buffer it may be shorter
 
         // TODO: later we also need to take into account VRAM safety, but we can worry about this later, I think
-        std::size_t offset = current_position >= maximum_offset ? maximum_offset : current_position;
+        std::size_t offset = std::min(current_position, maximum_offset);
 
         for (; offset > 0; --offset) // TODO: end condition (0/1) may vary, depends on whether we compress for VRAM safety or not
         {
