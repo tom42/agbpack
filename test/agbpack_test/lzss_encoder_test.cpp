@@ -62,6 +62,20 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
         const auto decoded_data = decode_vector(decoder, encoded_data);
         CHECK(decoded_data == original_data);
     }
+
+    SECTION("VRAM safe encoding is disabled by default")
+    {
+        CHECK(encoder.vram_safe() == false);
+    }
+
+    SECTION("VRAM safe encoding can be enabled and disabled")
+    {
+        encoder.vram_safe(true);
+        CHECK(encoder.vram_safe() == true);
+
+        encoder.vram_safe(false);
+        CHECK(encoder.vram_safe() == false);
+    }
 }
 
 }

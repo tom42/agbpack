@@ -362,6 +362,16 @@ public:
         write_padding_bytes(writer);
     }
 
+    void vram_safe(bool enable)
+    {
+        m_vram_safe = enable;
+    }
+
+    bool vram_safe() const
+    {
+        return m_vram_safe;
+    }
+
 private:
     template <std::input_iterator InputIterator>
     static std::vector<agbpack_u8> read_input(InputIterator input, InputIterator eof)
@@ -401,6 +411,9 @@ private:
 
         return encoded_data;
     }
+
+private:
+    bool m_vram_safe = false;
 };
 
 }
