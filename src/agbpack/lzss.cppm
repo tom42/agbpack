@@ -249,7 +249,6 @@ public:
         //               * Nope, since we must compare all characters inbetween
         //             * The maximum match length to search for is of course maximum_match_length, but towards the end of the buffer it may be shorter
 
-        // TODO: verify offset calculation
         // TODO: later we also need to take into account VRAM safety, but we can worry about this later, I think
         std::size_t offset = current_position >= maximum_offset ? maximum_offset : current_position;
 
