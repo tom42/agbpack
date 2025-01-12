@@ -342,7 +342,6 @@ private:
     std::vector<agbpack_u8>& m_encoded_data;
 };
 
-// TODO: implement
 export class lzss_encoder final
 {
 public:
@@ -362,6 +361,7 @@ public:
         write(writer, encoded_data.begin(), encoded_data.end());
         write_padding_bytes(writer);
     }
+
 private:
     template <std::input_iterator InputIterator>
     static std::vector<agbpack_u8> read_input(InputIterator input, InputIterator eof)
