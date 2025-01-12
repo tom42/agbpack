@@ -250,7 +250,6 @@ public:
         //               * Nope, since we must compare all characters inbetween
         //             * The maximum match length to search for is of course maximum_match_length, but towards the end of the buffer it may be shorter
 
-        // TODO: later we also need to take into account VRAM safety, but we can worry about this later, I think
         std::size_t offset = std::min(current_position, maximum_offset);
 
         for (; offset > 0; --offset) // TODO: end condition (0/1) may vary, depends on whether we compress for VRAM safety or not
