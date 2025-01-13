@@ -79,13 +79,20 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
 
     SECTION("VRAM safe encoding")
     {
+        const std::vector<unsigned char> original_data = { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' };
+
+        // Encode for WRAM as reference
         encoder.vram_safe(false);
-        CHECK(encode_vector(encoder, { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' }).size() == 8);
+        CHECK(encode_vector(encoder, original_data).size() == 8);
 
+        // Encode for VRAM, should be bigger
         encoder.vram_safe(true);
-        CHECK(encode_vector(encoder, { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' }).size() == 12);
+        const auto vram_safe_encoded_data = encode_vector(encoder, original_data);
+        CHECK(vram_safe_encoded_data.size() == 12);
 
-        // TODO: we should also decode the data, just for the sake of completeness
+        // Decode VRAM safe data
+        const auto decoded_data = decode_vector(decoder, vram_safe_encoded_data);
+        CHECK(decoded_data == original_data);
     }
 }
 
