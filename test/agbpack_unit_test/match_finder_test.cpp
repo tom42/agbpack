@@ -32,19 +32,21 @@ using agbpack::match_finder;
 namespace
 {
 
-// TODO: factor out things, so that find_match and find_match_vram don't duplicate that much code
-match find_match_wram(const std::string& data, std::size_t current_position)
+match find_match(const std::string& data, std::size_t current_position, std::size_t minimum_match_offset)
 {
     std::vector<unsigned char> v(data.begin(), data.end());
-    match_finder match_finder(v, 0);
+    match_finder match_finder(v, minimum_match_offset);
     return match_finder.find_match(current_position);
+}
+
+match find_match_wram(const std::string& data, std::size_t current_position)
+{
+    return find_match(data, current_position, 0);
 }
 
 match find_match_vram(const std::string& data, std::size_t current_position)
 {
-    std::vector<unsigned char> v(data.begin(), data.end());
-    match_finder match_finder(v, 1);
-    return match_finder.find_match(current_position);
+    return find_match(data, current_position, 1);
 }
 
 }
