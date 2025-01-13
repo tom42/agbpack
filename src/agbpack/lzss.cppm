@@ -237,7 +237,7 @@ public:
     explicit match_finder(const std::vector<agbpack_u8>& input) : m_input(input) {}
 
     // TODO: review this again (compare against reference search)
-    match find_match(std::size_t current_position)
+    match find_match(std::size_t current_position) const
     {
         match best_match(0, 0); // TODO: start with length=0, or length=2 (minimum_match_length-1)?
 
