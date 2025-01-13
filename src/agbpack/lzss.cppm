@@ -234,7 +234,10 @@ class match_finder final
 {
 public:
     // Note: match_finder does not own input
-    explicit match_finder(const std::vector<agbpack_u8>& input) : m_input(input) {}
+    explicit match_finder(const std::vector<agbpack_u8>& input, std::size_t minimum_offset)
+        : m_input(input)
+        , m_minimum_offset(minimum_offset)
+    {}
 
     // TODO: review this again (compare against reference search)
     match find_match(std::size_t current_position) const
@@ -287,6 +290,7 @@ public:
 
 private:
     const std::vector<agbpack_u8>& m_input;
+    std::size_t m_minimum_offset;
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
@@ -388,6 +392,7 @@ private:
         //       * Later implement optimal parse
 
         // Simple implementation using two nested loops each doing linear search.
+        // TODO: comment above belongs into match_finder
         std::vector<agbpack_u8> encoded_data;
         match_finder match_finder(input);
         lzss_bitstream_writer writer(encoded_data);
