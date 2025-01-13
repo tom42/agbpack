@@ -234,9 +234,9 @@ class match_finder final
 {
 public:
     // Note: match_finder does not own input
-    explicit match_finder(const std::vector<agbpack_u8>& input, std::size_t minimum_offset)
+    explicit match_finder(const std::vector<agbpack_u8>& input, std::size_t minimum_match_offset)
         : m_input(input)
-        , m_minimum_offset(minimum_offset)
+        , m_minimum_match_offset(minimum_match_offset)
     {}
 
     // TODO: review this again (compare against reference search)
@@ -290,7 +290,7 @@ public:
 
 private:
     const std::vector<agbpack_u8>& m_input;
-    std::size_t m_minimum_offset;
+    std::size_t m_minimum_match_offset;
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
