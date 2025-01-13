@@ -115,7 +115,7 @@ TEST_CASE("match_finder_test")
     {
         // TODO: do something here
         auto input = "aaaaaaaa";
-        (void)input; // TODO: remove
+        CHECK(find_match(input, 1) == match(7, 1));
     }
 }
 
