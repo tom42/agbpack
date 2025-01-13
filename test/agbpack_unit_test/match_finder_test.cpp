@@ -112,9 +112,10 @@ TEST_CASE("match_finder_test")
 
     SECTION("VRAM safe encoding does not return matches with offset=1")
     {
-        // TODO: do something here
         auto input = "aaaaaaaa";
         CHECK(find_match_wram(input, 1) == match(7, 1));
+        CHECK(find_match_vram(input, 1) == match(0, 0));
+        CHECK(find_match_vram(input, 2) == match(6, 2));
     }
 }
 
