@@ -32,10 +32,18 @@ using agbpack::match_finder;
 namespace
 {
 
+// TODO: rename to find_match_wram?
 match find_match(const std::string& data, std::size_t current_position)
 {
     std::vector<unsigned char> v(data.begin(), data.end());
     match_finder match_finder(v);
+    return match_finder.find_match(current_position);
+}
+
+match find_match_vram(const std::string& data, std::size_t current_position)
+{
+    std::vector<unsigned char> v(data.begin(), data.end());
+    match_finder match_finder(v); // TODO: somehow tell match_finder about its minimum offset
     return match_finder.find_match(current_position);
 }
 
@@ -100,6 +108,13 @@ TEST_CASE("match_finder_test")
         // * A long one with length=18 and offset=1
         // We want the longer one
         CHECK(find_match("aaabaaaaaaaaaaaaaaaaaaa", 5) == match(18, 1));
+    }
+
+    SECTION("VRAM safe encoding does not return matches with offset=1")
+    {
+        // TODO: do something here
+        auto input = "aaaaaaaa";
+        (void)input; // TODO: remove
     }
 }
 
