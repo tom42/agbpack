@@ -33,17 +33,18 @@ namespace
 {
 
 // TODO: rename to find_match_wram?
+// TODO: factor out things, so that find_match and find_match_vram don't duplicate that much code
 match find_match(const std::string& data, std::size_t current_position)
 {
     std::vector<unsigned char> v(data.begin(), data.end());
-    match_finder match_finder(v);
+    match_finder match_finder(v, 0);
     return match_finder.find_match(current_position);
 }
 
 match find_match_vram(const std::string& data, std::size_t current_position)
 {
     std::vector<unsigned char> v(data.begin(), data.end());
-    match_finder match_finder(v); // TODO: somehow tell match_finder about its minimum offset
+    match_finder match_finder(v, 0); // TODO: somehow tell match_finder about its minimum offset
     return match_finder.find_match(current_position);
 }
 
