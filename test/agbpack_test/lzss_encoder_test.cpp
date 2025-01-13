@@ -82,9 +82,10 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
         encoder.vram_safe(false);
         CHECK(encode_vector(encoder, { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' }).size() == 8);
 
-        // TODO: that should not work, no?
         encoder.vram_safe(true);
-        CHECK(encode_vector(encoder, { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' }).size() == 8);
+        CHECK(encode_vector(encoder, { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' }).size() == 12);
+
+        // TODO: we should also decode the data, just for the sake of completeness
     }
 }
 

@@ -385,7 +385,7 @@ private:
         return data;
     }
 
-    static std::vector<agbpack_u8> encode_internal(const std::vector<agbpack_u8>& input)
+    std::vector<agbpack_u8> encode_internal(const std::vector<agbpack_u8>& input)
     {
         // TODO: implement
         //       * Do we implement lookahead optimization?
@@ -394,7 +394,7 @@ private:
         // Simple implementation using two nested loops each doing linear search.
         // TODO: comment above belongs into match_finder
         std::vector<agbpack_u8> encoded_data;
-        match_finder match_finder(input, 0); // TODO: unhardcode. What's somewhat ugly: match_finder uses zero based offfset, whereas global constant uses one based offset
+        match_finder match_finder(input, get_minimum_match_offset()); // TODO: unhardcode. What's somewhat ugly: match_finder uses zero based offfset, whereas global constant uses one based offset
         lzss_bitstream_writer writer(encoded_data);
 
         std::size_t current_position = 0;
@@ -418,6 +418,11 @@ private:
     }
 
 private:
+    std::size_t get_minimum_match_offset() const
+    {
+        return m_vram_safe ? 1 : 0;
+    }
+
     bool m_vram_safe = false;
 };
 
