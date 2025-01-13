@@ -43,7 +43,7 @@ match find_match_wram(const std::string& data, std::size_t current_position)
 match find_match_vram(const std::string& data, std::size_t current_position)
 {
     std::vector<unsigned char> v(data.begin(), data.end());
-    match_finder match_finder(v, 0); // TODO: somehow tell match_finder about its minimum offset
+    match_finder match_finder(v, 1);
     return match_finder.find_match(current_position);
 }
 

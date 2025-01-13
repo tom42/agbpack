@@ -255,7 +255,7 @@ public:
 
         std::size_t offset = std::min(current_position, maximum_offset);
 
-        for (; offset > 0; --offset) // TODO: end condition (0/1) may vary, depends on whether we compress for VRAM safety or not
+        for (; offset > m_minimum_match_offset; --offset)
         {
             // TODO: close to end of input it is pointless iterating all over [0, maximum_match_length] if that exceeds input. But is it worth optimizing this?
             std::size_t length = 0;
