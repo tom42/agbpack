@@ -207,6 +207,13 @@ public:
 
         parse_padding_bytes(reader);
     }
+
+    bool vram_safe() const
+    {
+        return false;
+    }
+
+private:
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING

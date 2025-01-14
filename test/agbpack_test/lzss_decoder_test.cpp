@@ -96,6 +96,11 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
         CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, filename, *this), agbpack::decode_exception);
     }
 
+    SECTION("VRAM safe decoding is disabled by default")
+    {
+        CHECK(decoder.vram_safe() == false);
+    }
+
     SECTION("TODO: section name (in vram safe mode, data is verified whether it is vram safe)")
     {
         // TODO: encode data, not vram safe (todo: is that even necessary?)
