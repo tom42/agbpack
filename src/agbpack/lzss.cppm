@@ -208,12 +208,18 @@ public:
         parse_padding_bytes(reader);
     }
 
+    void vram_safe(bool enable)
+    {
+        m_vram_safe = enable;
+    }
+
     bool vram_safe() const
     {
-        return false;
+        return m_vram_safe;
     }
 
 private:
+    bool m_vram_safe = false;
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING

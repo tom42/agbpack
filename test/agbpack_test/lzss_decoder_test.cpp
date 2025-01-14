@@ -101,6 +101,15 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
         CHECK(decoder.vram_safe() == false);
     }
 
+    SECTION("VRAM safe decoding can be enabled and disabled")
+    {
+        decoder.vram_safe(true);
+        CHECK(decoder.vram_safe() == true);
+
+        decoder.vram_safe(false);
+        CHECK(decoder.vram_safe() == false);
+    }
+
     SECTION("TODO: section name (in vram safe mode, data is verified whether it is vram safe)")
     {
         // TODO: encode data, not vram safe (todo: is that even necessary?)
