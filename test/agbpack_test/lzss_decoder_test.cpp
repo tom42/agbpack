@@ -3,6 +3,8 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstddef>
 #include <filesystem>
 #include <string>
@@ -114,9 +116,12 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
     {
         const auto not_vram_safe_encoded_data = read_encoded_file("lzss.good.reference-with-maximum-match-length.txt");
 
-        // TODO: decode data vram safe, this should throw (match with message!)
+        // TODO: do we really want the "encoded data is corrupt" prefix here?
         decoder.vram_safe(true);
-        decode_vector(decoder, not_vram_safe_encoded_data);
+        CHECK_THROWS_MATCHES(
+            decode_vector(decoder, not_vram_safe_encoded_data),
+            agbpack::decode_exception,
+            Catch::Matchers::Message("encoded data is corrupt: encoded data is not VRAM safe"));
     }
 }
 
