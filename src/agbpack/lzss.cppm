@@ -249,8 +249,6 @@ public:
         //       * Outer loop: search backwards through sliding window (towards larger offset, away from current position => Nope, wrong, we start at longest offset and keep doing so while it is not 0)
         //         * Inner loop: search forwards, increasing string length.
         //           * Two problems here:
-        //             * What's the initial length to search for? minimum_match_length, no?
-        //               * Nope, since we must compare all characters inbetween
         //             * The maximum match length to search for is of course maximum_match_length, but towards the end of the buffer it may be shorter
 
         std::size_t offset = std::min(current_position, maximum_offset);
