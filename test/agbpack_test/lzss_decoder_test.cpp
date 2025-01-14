@@ -112,14 +112,11 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
 
     SECTION("TODO: section name (in vram safe mode, data is verified whether it is vram safe)")
     {
-        // TODO: encode data, not vram safe (todo: is that even necessary?)
-        // TODO: we could use a canned file (but if we do so, should we encode wram vs vram safety?)
-        agbpack::lzss_encoder encoder;
-        const auto encoded_data = encode_file(encoder, "lzss.good.reference-with-maximum-match-length.txt");
+        const auto not_vram_safe_encoded_data = read_encoded_file("lzss.good.reference-with-maximum-match-length.txt");
 
         // TODO: decode data vram safe, this should throw (match with message!)
         decoder.vram_safe(true);
-        decode_vector(decoder, encoded_data);
+        decode_vector(decoder, not_vram_safe_encoded_data);
     }
 }
 
