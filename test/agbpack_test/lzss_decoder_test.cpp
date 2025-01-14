@@ -119,6 +119,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
 
         // TODO: decode data vram safe, this should throw (match with message!)
         decoder.vram_safe(true);
+        decode_vector(decoder, encoded_data);
     }
 }
 
