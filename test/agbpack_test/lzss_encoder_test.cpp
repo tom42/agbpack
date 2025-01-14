@@ -42,7 +42,6 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
 
     SECTION("Successful encoding")
     {
-        // TODO: Add tests
         const auto parameters = GENERATE(
             test_parameters("lzss.good.zero-length-file.txt", 4),
             test_parameters("lzss.good.1-literal-byte.txt", 8),
@@ -50,7 +49,8 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
             test_parameters("lzss.good.8-literal-bytes.txt", 16),
             test_parameters("lzss.good.9-literal-bytes.txt", 16),
             test_parameters("lzss.good.minimum-match.txt", 12),
-            test_parameters("lzss.good.maximum-match.txt", 28));
+            test_parameters("lzss.good.maximum-match.txt", 28),
+            test_parameters("lzss.good.cc0-1.txt", 3504));
         INFO(std::format("Test parameters: {}", parameters.filename()));
         const auto original_data = read_decoded_file(parameters.filename());
 
