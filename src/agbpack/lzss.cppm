@@ -229,6 +229,7 @@ private:
     std::size_t m_offset;
 };
 
+// Simple implementation using two nested loops each doing linear search.
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class match_finder final
 {
@@ -389,8 +390,6 @@ private:
         //       * Do we implement lookahead optimization?
         //       * Later implement optimal parse
 
-        // Simple implementation using two nested loops each doing linear search.
-        // TODO: comment above belongs into match_finder
         std::vector<agbpack_u8> encoded_data;
         match_finder match_finder(input, get_minimum_match_offset()); // TODO: unhardcode. What's somewhat ugly: match_finder uses zero based offfset, whereas global constant uses one based offset
         lzss_bitstream_writer writer(encoded_data);
