@@ -17,6 +17,7 @@ using agbpack::code_table_entry;
 using agbpack::encode_exception;
 using agbpack::huffman_encoder_tree;
 using agbpack::max_code_length;
+using agbpack_unit_testkit::create_tree_from_lucas_sequence;
 
 TEST_CASE("huffman_encoder_tree_test")
 {

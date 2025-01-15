@@ -20,6 +20,7 @@ using agbpack::huffman_encoder_tree;
 using agbpack::huffman_tree_serializer;
 using agbpack::max_code_length;
 using agbpack::symbol;
+using agbpack_unit_testkit::create_tree_from_lucas_sequence;
 using std::out_of_range;
 using std::size_t;
 using std::vector;
