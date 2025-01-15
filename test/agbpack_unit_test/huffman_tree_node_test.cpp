@@ -4,6 +4,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 import agbpack;
+import agbpack_unit_testkit;
 
 namespace agbpack_unit_test
 {
