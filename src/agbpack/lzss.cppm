@@ -413,8 +413,6 @@ private:
         // TODO: implement
         //       * Do we implement lookahead optimization?: Yes
         //         * A good test data file is the CC0 license
-        //       * Later implement optimal parse
-
         std::vector<agbpack_u8> encoded_data;
         match_finder match_finder(input, get_minimum_match_offset()); // TODO: unhardcode. What's somewhat ugly: match_finder uses zero based offfset, whereas global constant uses one based offset
         lzss_bitstream_writer writer(encoded_data);

@@ -4,6 +4,7 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* LZSS: implement optimal backward parse
 * Do we need some test suite for GBA?
   * Those huffman tests we did earlier
   * Some lzss decoder tests, certainly at least that one: aaaaaaaaaaaaaaaaaaa
