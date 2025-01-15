@@ -6,22 +6,7 @@
 #include <string>
 
 import agbpack;
-
-namespace Catch
-{
-
-// TODO: are we risking ODR violations here?
-//       See https://brevzin.github.io/c++/2023/01/19/debug-fmt-catch/
-template <>
-struct StringMaker<agbpack::match>
-{
-    static std::string convert(const agbpack::match& m)
-    {
-        return std::format("(length={}, offset={})", m.length(), m.offset());
-    }
-};
-
-}
+import agbpack_unit_test;
 
 namespace agbpack_unit_test
 {
