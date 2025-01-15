@@ -112,7 +112,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
         CHECK(decoder.vram_safe() == false);
     }
 
-    SECTION("TODO: section name (in vram safe mode, data is verified whether it is vram safe)")
+    SECTION("Decoder throws if it is in VRAM safe mode and data is not VRAM safe")
     {
         const auto not_vram_safe_encoded_data = read_encoded_file("lzss.good.reference-with-maximum-match-length.txt");
 
