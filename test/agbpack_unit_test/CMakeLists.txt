@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 # TODO: also rename the module itself
+# TODO: aw common this should go into its own subdirectory, srsly
 add_library(agbpack_unit_testkit)
 target_sources(
   agbpack_unit_testkit
