@@ -12,6 +12,15 @@ import agbpack;
 export namespace Catch
 {
 
+template <>
+struct StringMaker<agbpack::code_table_entry>
+{
+    static std::string convert(const agbpack::code_table_entry& e)
+    {
+        return std::format("(s={}, c={}, l={})", e.s(), e.c(), e.l());
+    }
+};
+
 // TODO: are we risking ODR violations here?
 //       See https://brevzin.github.io/c++/2023/01/19/debug-fmt-catch/
 // TODO: need to test this with visual studio
