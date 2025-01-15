@@ -8,5 +8,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   add_compile_options(-Wno-attributes)
 endif()
 
+add_subdirectory(agbpack_unit_testkit)
 add_subdirectory(agbpack_unit_test)
 add_subdirectory(agbpack_test)
