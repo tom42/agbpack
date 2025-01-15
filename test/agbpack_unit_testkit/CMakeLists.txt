@@ -11,4 +11,5 @@ target_sources(
 target_link_libraries(
   agbpack_unit_testkit
   PRIVATE
-  agbpack_unit_testing)
+  agbpack_unit_testing
+  Catch2::Catch2WithMain)
