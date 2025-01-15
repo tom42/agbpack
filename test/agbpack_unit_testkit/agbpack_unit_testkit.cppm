@@ -6,7 +6,7 @@ module;
 #include <catch2/catch_test_macros.hpp>
 #include <vector>
 
-export module agbpack_unit_test;
+export module agbpack_unit_testkit;
 import agbpack;
 
 export namespace Catch
@@ -37,7 +37,7 @@ struct StringMaker<agbpack::match>
 
 }
 
-namespace agbpack_unit_test
+namespace agbpack_unit_testkit
 {
 
 // Generate a modified Lucas sequence as described here: https://stackoverflow.com/a/66165482/17365470

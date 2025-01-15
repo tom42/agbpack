@@ -6,10 +6,10 @@ module;
 #include <vector>
 #include <stdexcept>
 
-module agbpack_unit_test;
+module agbpack_unit_testkit;
 import agbpack;
 
-namespace agbpack_unit_test
+namespace agbpack_unit_testkit
 {
 
 std::vector<agbpack::symbol_frequency> lucas_sequence(std::size_t length)
