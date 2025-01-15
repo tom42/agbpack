@@ -6,7 +6,7 @@ module;
 #include <vector>
 #include <stdexcept>
 
-module agbpack_unit_test.utility;
+module agbpack_unit_test;
 import agbpack;
 
 namespace agbpack_unit_test

@@ -6,7 +6,7 @@
 #include <vector>
 
 import agbpack;
-import agbpack_unit_test.utility;
+import agbpack_unit_test;
 
 namespace agbpack_unit_test
 {

@@ -5,7 +5,7 @@ module;
 
 #include <vector>
 
-export module agbpack_unit_test.utility;
+export module agbpack_unit_test;
 import agbpack;
 
 namespace agbpack_unit_test
