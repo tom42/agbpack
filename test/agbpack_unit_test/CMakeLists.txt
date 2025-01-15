@@ -11,7 +11,10 @@ target_sources(
   agbpack_unit_test.cppm
   PRIVATE
   agbpack_unit_test.cpp)
-target_link_libraries(agbpack_unit_testkit PRIVATE agbpack_unit_testing)
+target_link_libraries(
+  agbpack_unit_testkit
+  PRIVATE
+  agbpack_unit_testing)
 
 add_executable(agbpack_unit_test)
 target_sources(
