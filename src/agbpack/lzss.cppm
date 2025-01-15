@@ -411,7 +411,8 @@ private:
     std::vector<agbpack_u8> encode_internal(const std::vector<agbpack_u8>& input)
     {
         // TODO: implement
-        //       * Do we implement lookahead optimization?
+        //       * Do we implement lookahead optimization?: Yes
+        //         * A good test data file is the CC0 license
         //       * Later implement optimal parse
 
         std::vector<agbpack_u8> encoded_data;
