@@ -1,15 +1,14 @@
 # SPDX-FileCopyrightText: 2024 Thomas Mathys
 # SPDX-License-Identifier: MIT
 
-# TODO: rename .cpp and .cppm to end with testkit
 # TODO: also rename the module itself
 add_library(agbpack_unit_testkit)
 target_sources(
   agbpack_unit_testkit
   PUBLIC FILE_SET CXX_MODULES FILES
-  agbpack_unit_test.cppm
+  agbpack_unit_testkit.cppm
   PRIVATE
-  agbpack_unit_test.cpp)
+  agbpack_unit_testkit.cpp)
 target_link_libraries(
   agbpack_unit_testkit
   PRIVATE
