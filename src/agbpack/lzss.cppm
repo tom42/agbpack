@@ -228,8 +228,7 @@ public:
 private:
     void throw_if_not_vram_safe(std::size_t offset)
     {
-        // TODO: if we had a variable for the minimum offset we could do with only one comparison instead of two
-        if (m_vram_safe && (offset < minimum_vram_safe_offset))
+        if (offset < get_minimum_offset(m_vram_safe))
         {
             throw decode_exception("encoded data is not VRAM safe");
         }
