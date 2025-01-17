@@ -27,6 +27,11 @@ inline constexpr std::size_t minimum_vram_safe_offset = 2;
 inline constexpr std::size_t minimum_match_length = 3;
 inline constexpr std::size_t maximum_match_length = 18;
 
+constexpr std::size_t get_minimum_match_offset(bool vram_safe)
+{
+    return vram_safe ? minimum_vram_safe_offset : minimum_offset;
+}
+
 // Sliding window for LZSS decoder. Used when the output iterator does not allow random access.
 // * Maintains an internal write position which wraps around when the window is written to.
 // * Allows reading relative to the write position. The final read position wraps around.
