@@ -119,7 +119,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     add_compiler_flags(-Wconversion)
     add_compiler_flags(-Wfloat-equal)
     add_compiler_flags(-Wlogical-op)
-    add_compiler_flags(-Wredundant-decls)
     add_compiler_flags(-Wstrict-overflow=5)
     add_compiler_flags(-Wnon-virtual-dtor)
 
