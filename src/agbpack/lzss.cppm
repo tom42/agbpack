@@ -27,7 +27,7 @@ inline constexpr std::size_t minimum_vram_safe_offset = 2;
 inline constexpr std::size_t minimum_match_length = 3;
 inline constexpr std::size_t maximum_match_length = 18;
 
-constexpr std::size_t get_minimum_match_offset(bool vram_safe)
+constexpr std::size_t get_minimum_offset(bool vram_safe)
 {
     return vram_safe ? minimum_vram_safe_offset : minimum_offset;
 }
@@ -419,7 +419,7 @@ private:
         //       * Do we implement lookahead optimization?: Yes
         //         * A good test data file is the CC0 license
         std::vector<agbpack_u8> encoded_data;
-        match_finder match_finder(input, get_minimum_match_offset(m_vram_safe) - 1); // TODO: unhardcode. What's somewhat ugly: match_finder uses zero based offfset, whereas global constant uses one based offset
+        match_finder match_finder(input, get_minimum_offset(m_vram_safe) - 1); // TODO: unhardcode. What's somewhat ugly: match_finder uses zero based offfset, whereas global constant uses one based offset
         lzss_bitstream_writer writer(encoded_data);
 
         std::size_t current_position = 0;
