@@ -122,10 +122,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 
     # add_compiler_flags(-Wsuggest-final-methods)
     # add_compiler_flags(-Wsuggest-final-types)
-
-    if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
-        add_compiler_flags(-Wdouble-promotion)
-    endif()
 endif()
 
 if(MSVC)
