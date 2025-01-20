@@ -90,8 +90,6 @@ public:
 
     void copy_from_output(unsigned int nbytes, std::size_t offset)
     {
-        // TODO: must check if this under/overflows!
-        //       Note: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
         while (nbytes--)
         {
             auto byte = m_window.read8(offset);
@@ -200,6 +198,11 @@ public:
 
                 // TODO: tests for invalid input
                 //       * read outside of sliding window
+                // TODO: must check if this under/overflows!
+                //       Note: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
+                //       * Well what is over. and what is underflow?
+                //       * Can we even have both? I don't think so, no?
+                //         * The only case we CAN have is when the offset points farther back than the # of bytes in the sliding window, no?
                 writer.copy_from_output(nbytes, offset);
             }
             else
