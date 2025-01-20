@@ -4,7 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Get MSVC 32 bit builds to work? (There is some odd problem regarding std::size_t not being available)
 * LZSS: implement optimal backward parse
 * Do we need some test suite for GBA?
   * Those huffman tests we did earlier

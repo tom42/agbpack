@@ -21,13 +21,17 @@ import :header;
 namespace agbpack
 {
 
-inline constexpr std::size_t minimum_offset = 1;
-inline constexpr std::size_t maximum_offset = 4096;
-inline constexpr std::size_t minimum_vram_safe_offset = 2;
-inline constexpr std::size_t minimum_match_length = 3;
-inline constexpr std::size_t maximum_match_length = 18;
+// Note: In VS 2022, MSVC for x86 bugs if we fully qualify std::size_t in the lzss_sliding_window class template.
+// We work around this by importing it (referring to C's global size_t would probably work too).
+using size_t = std::size_t;
 
-constexpr std::size_t get_minimum_offset(bool vram_safe)
+inline constexpr size_t minimum_offset = 1;
+inline constexpr size_t maximum_offset = 4096;
+inline constexpr size_t minimum_vram_safe_offset = 2;
+inline constexpr size_t minimum_match_length = 3;
+inline constexpr size_t maximum_match_length = 18;
+
+constexpr size_t get_minimum_offset(bool vram_safe)
 {
     return vram_safe ? minimum_vram_safe_offset : minimum_offset;
 }
@@ -37,11 +41,11 @@ constexpr std::size_t get_minimum_offset(bool vram_safe)
 // * Allows reading relative to the write position. The final read position wraps around.
 //   Note: the sliding window is not initialized. Reading from a position that has not yet
 //   been written to returns uninitialized data.
-template <std::size_t Size>
+template <size_t Size>
 class lzss_sliding_window final
 {
 public:
-    agbpack_u8 read8(std::size_t offset)
+    agbpack_u8 read8(size_t offset)
     {
         assert_read_allowed(offset);
         return m_buf[(m_nbytes_written - offset) & index_mask];
@@ -55,9 +59,9 @@ public:
 
 private:
     static_assert(std::popcount(Size) == 1, "Size must be a power of 2 for index calculations using operator & to work");
-    static constexpr std::size_t index_mask = Size - 1;
+    static constexpr size_t index_mask = Size - 1;
 
-    void assert_read_allowed([[maybe_unused]] std::size_t offset)
+    void assert_read_allowed([[maybe_unused]] size_t offset)
     {
         // Required for g++ 14.2.0, which ignores [[maybe_unused]] here
         std::ignore = offset;
@@ -68,7 +72,7 @@ private:
         assert((offset <= m_nbytes_written) && "Offset is too big for amount of data currently in sliding window");
     }
 
-    std::size_t m_nbytes_written = 0;
+    size_t m_nbytes_written = 0;
     std::array<agbpack_u8, Size> m_buf;
 };
 
@@ -88,7 +92,7 @@ public:
         m_window.write8(byte);
     }
 
-    void copy_from_output(unsigned int nbytes, std::size_t offset)
+    void copy_from_output(unsigned int nbytes, size_t offset)
     {
         while (nbytes--)
         {
@@ -129,7 +133,7 @@ public:
         ++m_nbytes_written;
     }
 
-    void copy_from_output(unsigned int nbytes, std::size_t offset)
+    void copy_from_output(unsigned int nbytes, size_t offset)
     {
         while (nbytes--)
         {
@@ -189,7 +193,7 @@ public:
                 auto b0 = read8(reader);
                 auto b1 = read8(reader);
                 unsigned int nbytes = ((b0 >> 4) & 0xf) + minimum_match_length;
-                std::size_t offset = (((b0 & 0xfu) << 8) | b1) + minimum_offset;
+                size_t offset = (((b0 & 0xfu) << 8) | b1) + minimum_offset;
 
                 assert(in_closed_range(nbytes, minimum_match_length, maximum_match_length) && "lzss_decoder is broken");
                 assert(in_closed_range(offset, minimum_offset, maximum_offset) && "lzss_decoder is broken");
@@ -228,7 +232,7 @@ public:
     }
 
 private:
-    void throw_if_not_vram_safe(std::size_t offset)
+    void throw_if_not_vram_safe(size_t offset)
     {
         if (offset < get_minimum_offset(m_vram_safe))
         {
@@ -243,20 +247,20 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class match final
 {
 public:
-    match(std::size_t length, std::size_t offset)
+    match(size_t length, size_t offset)
         : m_length(length)
         , m_offset(offset)
     {}
 
-    std::size_t length() const { return m_length; }
+    size_t length() const { return m_length; }
 
-    std::size_t offset() const { return m_offset; }
+    size_t offset() const { return m_offset; }
 
     bool operator==(const match&) const = default;
 
 private:
-    std::size_t m_length;
-    std::size_t m_offset;
+    size_t m_length;
+    size_t m_offset;
 };
 
 // Simple implementation using two nested loops each doing linear search.
@@ -265,13 +269,13 @@ class match_finder final
 {
 public:
     // Note: match_finder does not own input
-    explicit match_finder(const std::vector<agbpack_u8>& input, std::size_t minimum_match_offset)
+    explicit match_finder(const std::vector<agbpack_u8>& input, size_t minimum_match_offset)
         : m_input(input)
         , m_minimum_match_offset(minimum_match_offset)
     {}
 
     // TODO: review this again (compare against reference search)
-    match find_match(std::size_t current_position) const
+    match find_match(size_t current_position) const
     {
         match best_match(0, 0); // TODO: start with length=0, or length=2 (minimum_match_length-1)?
 
@@ -282,12 +286,12 @@ public:
         //           * Two problems here:
         //             * The maximum match length to search for is of course maximum_match_length, but towards the end of the buffer it may be shorter
 
-        std::size_t offset = std::min(current_position, maximum_offset);
+        size_t offset = std::min(current_position, maximum_offset);
 
         for (; offset > m_minimum_match_offset; --offset)
         {
             // TODO: close to end of input it is pointless iterating all over [0, maximum_match_length] if that exceeds input. But is it worth optimizing this?
-            std::size_t length = 0;
+            size_t length = 0;
             for (; length < maximum_match_length; ++length)
             {
                 if (current_position + length >= m_input.size())
@@ -319,7 +323,7 @@ public:
 
 private:
     const std::vector<agbpack_u8>& m_input;
-    std::size_t m_minimum_match_offset;
+    size_t m_minimum_match_offset;
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
@@ -337,7 +341,7 @@ public:
         m_encoded_data.push_back(literal);
     }
 
-    void write_reference(std::size_t length, std::size_t offset)
+    void write_reference(size_t length, size_t offset)
     {
         assert(in_closed_range(length, minimum_match_length, maximum_match_length));
         assert(in_closed_range(offset, minimum_offset, maximum_offset));
@@ -371,7 +375,7 @@ private:
     }
 
     agbpack_u8 m_tag_bitmask = 0;
-    std::size_t m_tag_byte_position = 0;
+    size_t m_tag_byte_position = 0;
     std::vector<agbpack_u8>& m_encoded_data;
 };
 
@@ -423,7 +427,7 @@ private:
         match_finder match_finder(input, get_minimum_offset(m_vram_safe) - 1); // TODO: unhardcode. What's somewhat ugly: match_finder uses zero based offfset, whereas global constant uses one based offset
         lzss_bitstream_writer writer(encoded_data);
 
-        std::size_t current_position = 0;
+        size_t current_position = 0;
         while (current_position < input.size())
         {
             auto match = match_finder.find_match(current_position);
