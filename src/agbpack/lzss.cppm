@@ -92,7 +92,6 @@ public:
     {
         // TODO: must check if this under/overflows!
         //       Note: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
-        // TODO: well if we do this here we need to do so in the specialization for random_access_iterator too, so it's better done in the actual decoder, no?
         while (nbytes--)
         {
             auto byte = m_window.read8(offset);
