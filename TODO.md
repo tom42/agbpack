@@ -4,6 +4,7 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Get MSVC 32 bit builds to work? (There is some odd problem regarding std::size_t not being available)
 * LZSS: implement optimal backward parse
 * Do we need some test suite for GBA?
   * Those huffman tests we did earlier
@@ -54,6 +55,7 @@ SPDX-License-Identifier: MIT
   * Somehow install Catch2 so that it does not need to be built
     * On Ubuntu, use apt
     * But what about windows?
+  * Also build 32 bit targets? (And if so, with which compilers?)
   * Enable fail-fast (in the yml file)
 * This is somewhat unexpected:
   * A test (huffman-bitstream-alignment) indicates that the GBA BIOS does not decode data correctly
