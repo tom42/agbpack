@@ -116,7 +116,6 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
     {
         const auto not_vram_safe_encoded_data = read_encoded_file("lzss.good.reference-with-maximum-match-length.txt");
 
-        // TODO: do we really want the "encoded data is corrupt" prefix here?
         decoder.vram_safe(true);
         CHECK_THROWS_MATCHES(
             decode_vector(decoder, not_vram_safe_encoded_data),
