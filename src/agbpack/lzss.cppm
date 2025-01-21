@@ -225,8 +225,7 @@ public:
                 //       * Unit test this, at least a bit!
                 if (offset > writer.nbytes_written())
                 {
-                    // TODO: dedicated error message? And do we test for it?
-                    throw decode_exception();
+                    throw decode_exception("reference outside of sliding window");
                 }
                 writer.copy_from_output(nbytes, offset);
             }
