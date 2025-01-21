@@ -210,19 +210,6 @@ public:
 
                 throw_if_not_vram_safe(offset);
 
-                // TODO: tests for invalid input
-                //       * read outside of sliding window
-                // TODO: must check if this under/overflows!
-                //       Note: this CAN happen at runtime when the encoded stream is corrupt, so cannot be just an assert()
-                //       * Well what is over. and what is underflow?
-                //       * Can we even have both? I don't think so, no?
-                //         * The only case we CAN have is when the offset points farther back than the # of bytes in the sliding window, no?
-                //       WELL...let's see
-                //       * At this point, offset is in range [1, 4096]
-                //       * Well in principle, n_bytes_written must be >= offset, no?
-                //       * As said, offset is in range [1, 4096]
-                //         * If offset must be <= n_bytes_written, then it always fails if no bytes have been written since offset is >= 1
-                //       * Unit test this, at least a bit!
                 if (offset > writer.nbytes_written())
                 {
                     throw decode_exception("reference outside of sliding window");
