@@ -225,6 +225,7 @@ public:
                 //       * Unit test this, at least a bit!
                 if (offset > writer.nbytes_written())
                 {
+                    // TODO: dedicated error message? And do we test for it?
                     throw "TODO: throw correct exception type with sane error message";
                 }
                 writer.copy_from_output(nbytes, offset);
