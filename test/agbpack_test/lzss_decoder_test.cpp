@@ -94,8 +94,8 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
             pair("lzss.bad.valid-but-unexpected-compression-type-in-header.txt", "encoded data is corrupt"),
             pair("lzss.bad.invalid-compression-options-in-header.txt", "encoded data is corrupt"),
             pair("lzss.bad.missing-padding-at-end-of-data.txt", "encoded data is corrupt"),
-            pair("lzss.bad.reference-at-beginning-of-file.txt", "encoded data is corrupt: reference outside of sliding window"));
-            // TODO: have another test: sliding window is not empty, but offset still goes past its beginning
+            pair("lzss.bad.reference-at-beginning-of-file.txt", "encoded data is corrupt: reference outside of sliding window"),
+            pair("lzss.bad.reference-outside-of-non-empty-sliding-window.txt", "xyz"));
 
         CHECK_THROWS_MATCHES(
             decode_file(decoder, filename),
