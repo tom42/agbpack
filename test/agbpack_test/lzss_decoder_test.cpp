@@ -97,7 +97,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
             pair("lzss.bad.reference-at-beginning-of-file.txt", "encoded data is corrupt"));
             // TODO: have another test: sliding window is not empty, but offset still goes past its beginning
 
-        // TODO: verify exceptipon message
+        // TODO: verify exceptipon message (twice! - we decode twice!)
         CHECK_THROWS_AS(decode_file(decoder, filename), agbpack::decode_exception);
         CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, filename, *this), agbpack::decode_exception);
     }
