@@ -83,21 +83,21 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
 
     SECTION("Invalid input")
     {
-        // TODO: use pair (already defined above and veriy error message)
-        const auto filename = GENERATE(
-            "lzss.bad.eof-inside-header.txt",
-            "lzss.bad.eof-at-flag-byte.txt",
-            "lzss.bad.eof-at-reference-byte-1.txt",
-            "lzss.bad.eof-at-reference-byte-2.txt",
-            "lzss.bad.eof-at-literal.txt",
-            "lzss.bad.reference-goes-past-decompressed-size.txt",
-            "lzss.bad.invalid-compression-type-in-header.txt",
-            "lzss.bad.valid-but-unexpected-compression-type-in-header.txt",
-            "lzss.bad.invalid-compression-options-in-header.txt",
-            "lzss.bad.missing-padding-at-end-of-data.txt",
-            "lzss.bad.reference-at-beginning-of-file.txt");
+        const auto [filename, expected_exception_message] = GENERATE(
+            pair("lzss.bad.eof-inside-header.txt", "encoded data is corrupt"),
+            pair("lzss.bad.eof-at-flag-byte.txt", "encoded data is corrupt"),
+            pair("lzss.bad.eof-at-reference-byte-1.txt", "encoded data is corrupt"),
+            pair("lzss.bad.eof-at-reference-byte-2.txt", "encoded data is corrupt"),
+            pair("lzss.bad.eof-at-literal.txt", "encoded data is corrupt"),
+            pair("lzss.bad.reference-goes-past-decompressed-size.txt", "encoded data is corrupt"),
+            pair("lzss.bad.invalid-compression-type-in-header.txt", "encoded data is corrupt"),
+            pair("lzss.bad.valid-but-unexpected-compression-type-in-header.txt", "encoded data is corrupt"),
+            pair("lzss.bad.invalid-compression-options-in-header.txt", "encoded data is corrupt"),
+            pair("lzss.bad.missing-padding-at-end-of-data.txt", "encoded data is corrupt"),
+            pair("lzss.bad.reference-at-beginning-of-file.txt", "encoded data is corrupt"));
             // TODO: have another test: sliding window is not empty, but offset still goes past its beginning
 
+        // TODO: verify exceptipon message
         CHECK_THROWS_AS(decode_file(decoder, filename), agbpack::decode_exception);
         CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, filename, *this), agbpack::decode_exception);
     }
