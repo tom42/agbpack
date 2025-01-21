@@ -92,7 +92,9 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
             "lzss.bad.invalid-compression-type-in-header.txt",
             "lzss.bad.valid-but-unexpected-compression-type-in-header.txt",
             "lzss.bad.invalid-compression-options-in-header.txt",
-            "lzss.bad.missing-padding-at-end-of-data.txt");
+            "lzss.bad.missing-padding-at-end-of-data.txt",
+            "lzss.bad.reference-at-beginning-of-file.txt");
+            // TODO: have another test: sliding window is not empty, but offset still goes past its beginning
 
         CHECK_THROWS_AS(decode_file(decoder, filename), agbpack::decode_exception);
         CHECK_THROWS_AS(decode_file_to_random_access_iterator(decoder, filename, *this), agbpack::decode_exception);
