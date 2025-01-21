@@ -15,6 +15,7 @@ import agbpack;
 namespace agbpack_test
 {
 
+using pair = std::pair<const char*, const char*>;
 using string = std::string;
 
 namespace
@@ -82,6 +83,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
 
     SECTION("Invalid input")
     {
+        // TODO: use pair (already defined above and veriy error message)
         const auto filename = GENERATE(
             "lzss.bad.eof-inside-header.txt",
             "lzss.bad.eof-at-flag-byte.txt",
