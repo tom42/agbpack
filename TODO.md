@@ -107,7 +107,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     if(NOT MSVC)
         add_compiler_flags(-pedantic)
         add_compiler_flags(-pedantic-errors)
-        add_compiler_flags(-fvisibility=hidden)
     endif()
 endif()
 
