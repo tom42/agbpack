@@ -113,7 +113,6 @@ endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     add_compiler_flags(-Wconversion)
-    add_compiler_flags(-Wfloat-equal)
 endif()
 
 if(MSVC)
