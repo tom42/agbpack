@@ -111,10 +111,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     endif()
 endif()
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    add_compiler_flags(-Wconversion)
-endif()
-
 if(MSVC)
     add_compiler_flags(/permissive-)   # force standard conformance - this is the better flag than /Za
     add_compiler_flags(/Wall) # turns on warnings from levels 1 through 4 which are off by default - https://msdn.microsoft.com/en-us/library/23k5d385.aspx
