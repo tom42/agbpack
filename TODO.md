@@ -13,6 +13,7 @@ SPDX-License-Identifier: MIT
     * And we also need a way to crunch our stuff, although we could use a script for this
     * Well maybe not, then?
 * 16 bit platforms will not work, due to size_t usage and having to support 16 meg files. Do we care?
+  * Well add a static assert that fires if size_t is too small and move on, no?
 * Start using import std; ?
 * grit source code / issues claim that an 8 bit huffman tree needs to be 512 bytes.
   * Verify one last time this is NOT true => and maybe even document this?
