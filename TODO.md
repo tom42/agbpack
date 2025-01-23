@@ -77,9 +77,6 @@ SPDX-License-Identifier: MIT
 * Use uint8_t or std::uint8_t?
   * Same for other <cstdint> types
 * vtgcore: should probably start using VtgEnableWarnings.cmake, since this is best we have atm
-* THEN
-  * Enable warnings for g++ and clang
-    * See what warnings doctest has enabled for g++, see whether these make sense? (see snippet below)
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
   * code coverage for unit tests
@@ -99,13 +96,3 @@ SPDX-License-Identifier: MIT
   * Do we want to disable unit tests by default if not the main project?
   * Do we want to have an option to enable/disable unit tests explicitly?
   * We should build agbpack_unit_testing only if testing is enabled
-
----8<--- doctest common.cmake ---
-
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    # The following options are not valid when clang-cl is used.
-    if(NOT MSVC)
-        add_compiler_flags(-pedantic)
-        add_compiler_flags(-pedantic-errors)
-    endif()
-endif()
