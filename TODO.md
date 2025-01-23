@@ -4,6 +4,11 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* testdata
+  * Maybe using CC0-1.0 as test data is not a good idea:
+    * There is a REUSE.toml file that says that all testdata files are copyright mine
+    * For some reason, REUSE lint on WSL2 does flag the CC0-1.0 test data file
+    * Probably it's best to replace it, e.g. by our HUFFMAN.md file or something
 * LZSS: implement optimal backward parse
 * Do we need some test suite for GBA?
   * Those huffman tests we did earlier
