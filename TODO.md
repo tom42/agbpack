@@ -111,8 +111,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 
 if(MSVC)
-    add_compiler_flags(/Wall) # turns on warnings from levels 1 through 4 which are off by default - https://msdn.microsoft.com/en-us/library/23k5d385.aspx
-
     add_compiler_flags(
         /wd4514 # unreferenced inline function has been removed
         /wd4571 # SEH related
