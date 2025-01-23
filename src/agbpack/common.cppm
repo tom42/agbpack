@@ -5,14 +5,20 @@ module;
 
 #include <cassert>
 #include <concepts>
+#include <cstddef>
 #include <cstdint>
 #include <iterator>
+#include <limits>
 
 export module agbpack:common;
 import :exceptions;
 
 namespace agbpack
 {
+
+static_assert(
+    std::numeric_limits<std::size_t>::digits >= 32,
+    "size_t must be at least 32 bits wide because uncompressed data can be up to 16 MB in size");
 
 using agbpack_io_datatype = unsigned char;
 using agbpack_u8 = uint8_t;
