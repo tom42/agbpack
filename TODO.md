@@ -31,11 +31,6 @@ SPDX-License-Identifier: MIT
 * HUFFMAN.md
   * Some section on the overall format, just for the sake of completeness
 * huffman_encoder implementation
-  * Huffman encoder tests:
-    * Maybe abandon comparing against CUE altogether: there is little value in doing so
-      * Compare against decoder only. But maybe also test expected size
-      * And improve some tests:
-        * Like have 1 symbol, 1 time, but also 1 symbol, 32 times, 33 times
   * Next:
     * Do not forget: for encoder testing we cannot use CUE input!
       * We should mark all files generated with CUE as such!
