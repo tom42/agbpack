@@ -33,17 +33,27 @@ jobs:
         arch: [amd64, x86]
         include:
           - os: windows-latest
+            arch: x64
             c_compiler: cl
             cpp_compiler: cl
-            generator: ''
+            cmake_arch: -Ax64
+            cmake_generator: ''
+          - os: windows-latest
+            arch: x86
+            c_compiler: cl
+            cpp_compiler: cl
+            cmake_arch: -AWin32
+            cmake_generator: ''
           - os: ubuntu-24.04
             c_compiler: gcc
             cpp_compiler: g++-14
-            generator: -GNinja
+            cmake_arch: ''
+            cmake_generator: -GNinja
           - os: ubuntu-24.04
             c_compiler: clang
             cpp_compiler: clang++
-            generator: -GNinja
+            cmake_arch: ''
+            cmake_generator: -GNinja
         exclude:
           - os: windows-latest
             c_compiler: gcc
@@ -72,7 +82,8 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }}
-        ${{ matrix.generator }}
+        ${{ matrix.cmake_arch }}
+        ${{ matrix.cmake_generator }}
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -S ${{ github.workspace }}
