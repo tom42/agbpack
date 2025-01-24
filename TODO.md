@@ -46,11 +46,9 @@ SPDX-License-Identifier: MIT
   * These have m_nbytes_read and m_nbytes_written variables, which are 32 bit
   * If we attempt to process a file > 4GB, then things will go wrong
 * github workflow
-  * Somehow install Catch2 so that it does not need to be built
+  * Somehow install Catch2 so that it does not need to be built (Note: this is probably when our build matrix explodes and we really should have two workflows, one for linux, one for Windows)
     * On Ubuntu, use apt
-    * But what about windows?
-  * Also build 32 bit targets? (And if so, with which compilers?)
-  * Enable fail-fast (in the yml file)
+    * But what about windows? (Well we can always fall back to our Fetch_Content solution)
 * This is somewhat unexpected:
   * A test (huffman-bitstream-alignment) indicates that the GBA BIOS does not decode data correctly
     when the uncompressed data is an odd number of bytes (not sure whether it needs to be a multiple of 2 or 4)
