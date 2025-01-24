@@ -51,6 +51,8 @@ jobs:
             c_compiler: clang
           - os: ubuntu-24.04
             c_compiler: cl
+          - os: ubuntu-24.04
+            arch: x86
 
     steps:
     - uses: actions/checkout@v4
