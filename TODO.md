@@ -9,6 +9,9 @@ SPDX-License-Identifier: MIT
     * There is a REUSE.toml file that says that all testdata files are copyright mine
     * For some reason, REUSE lint on WSL2 does flag the CC0-1.0 test data file
     * Probably it's best to replace it, e.g. by our HUFFMAN.md file or something
+      * Or maybe delta.cpp
+      * Note: reuse always checks files first, so the presence of the toml file
+        will not mess up the license inside delta.cppm.
 * LZSS: implement optimal backward parse
 * Do we need some test suite for GBA?
   * Those huffman tests we did earlier
