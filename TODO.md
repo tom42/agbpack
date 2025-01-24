@@ -30,11 +30,6 @@ SPDX-License-Identifier: MIT
 * How can we ensure that the library for unit testing does not get deployed/installed/whatever?
 * HUFFMAN.md
   * Some section on the overall format, just for the sake of completeness
-* huffman_encoder implementation
-  * Next:
-    * Do not forget: for encoder testing we cannot use CUE input!
-      * We should mark all files generated with CUE as such!
-      * Or well at least we should it note down somewhere
 * There is a test for the RLE decoder which tests decoding through a file stream
   * This is confusing, and what we really want is probably such a test for each encoder/decoder
     * Just because it works with the RLE decoder doesn't automatically mean it works with all other decoders/encoders, no?
