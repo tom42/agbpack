@@ -4,6 +4,19 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Redesign exception handling
+  * We have no real need for decode_exception and encode_exception, no? (Well, they don't hurt, either, and are no big deal to keep)
+  * However, if we threw them out and had only agbpack_exception, then obviously that would solve the problem of having an encoder that throws decode_exception
+    * Not sure yet we're going that route, though.
+      * What about exception messages?
+    * Most of them are probably OK, although very generic
+    * The one thrown by delta16 encoding hwever is wrong: "encoded data is corrupt", but the real problem is that the input data has an odd length
+      * It could be more generic: "could not encode data: premature end of input"
+      * Or more accurate: "could not encode data: input does not contain an even number of bytes"
+    * Maybe lower layers just use more generic exception messsages, and the encode/ecode functions add a message prefix:
+      * Decoder: "could not decode data: premature end of file"
+      * Encoder: "could not encode data: input contains an odd number of bytes"
+      * Either way: we need to test this, and then we're good and can easily change stuff and notice when we screw up things. The usual drill, really.
 * LZSS: implement optimal backward parse
 * Do we need some test suite for GBA?
   * Those huffman tests we did earlier
