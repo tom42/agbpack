@@ -70,8 +70,6 @@ SPDX-License-Identifier: MIT
     * Tree size/offset (It's an offset, respectively at the end of the tree are padding bytes to align the bitstream)
     * Alignment of bitstream (see above)
     * Encoding types (personal tests with real BIOS on emulators have shown that 1 and 2 bit is not supported, so other more exotic encodings probably aren't, either)
-* Use uint8_t or std::uint8_t?
-  * Same for other <cstdint> types
 * vtgcore: should probably start using VtgEnableWarnings.cmake, since this is best we have atm
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
