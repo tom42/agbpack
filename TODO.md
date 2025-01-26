@@ -34,8 +34,6 @@ SPDX-License-Identifier: MIT
   * Also quote the statement that leads us to believe it's MIT licensed
   * Alternatively, have all in one file, but add copyright notice to source file (copyright grit authors or something)
 * How can we ensure that the library for unit testing does not get deployed/installed/whatever?
-* HUFFMAN.md
-  * Some section on the overall format, just for the sake of completeness
 * There is a test for the RLE decoder which tests decoding through a file stream
   * This is confusing, and what we really want is probably such a test for each encoder/decoder
     * Just because it works with the RLE decoder doesn't automatically mean it works with all other decoders/encoders, no?
@@ -64,12 +62,6 @@ SPDX-License-Identifier: MIT
       * A decoder that does not check bitstream alignment should then still be able to decode
       * A decoder that does check bitstream alignment should bark
       * And the ultimate interesting thing: what does a real GBA BIOS on a real GBA do?
-* Maybe we should document our insights on huffman a bit
-  * Copy documentation from GBATEK.txt
-  * Annotate it
-    * Tree size/offset (It's an offset, respectively at the end of the tree are padding bytes to align the bitstream)
-    * Alignment of bitstream (see above)
-    * Encoding types (personal tests with real BIOS on emulators have shown that 1 and 2 bit is not supported, so other more exotic encodings probably aren't, either)
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
   * code coverage for unit tests
