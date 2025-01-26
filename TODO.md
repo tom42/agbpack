@@ -5,6 +5,7 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Redesign exception handling
+  * We REALLY should revise exception handling, otherwise we're going to end up with a big mess
   * We have no real need for decode_exception and encode_exception, no? (Well, they don't hurt, either, and are no big deal to keep)
   * However, if we threw them out and had only agbpack_exception, then obviously that would solve the problem of having an encoder that throws decode_exception
     * Not sure yet we're going that route, though.
