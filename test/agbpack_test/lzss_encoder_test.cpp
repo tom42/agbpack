@@ -50,7 +50,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
             test_parameters("lzss.good.9-literal-bytes.txt", 16),
             test_parameters("lzss.good.minimum-match.txt", 12),
             test_parameters("lzss.good.maximum-match.txt", 28),
-            test_parameters("lzss.good.cc0-1.txt", 3504));
+            test_parameters("lzss.good.delta.cppm", 1556));
         INFO(std::format("Test parameters: {}", parameters.filename()));
         const auto original_data = read_decoded_file(parameters.filename());
 
