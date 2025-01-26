@@ -53,7 +53,10 @@ TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
         // TODO: catch exception:
         //       * It should be an encode_exception (which it is not, it is a decode_exception)
         //       * It should say what's wrong, which it does not (it says "encoded data is corrupt")
-        encode_file(encoder, "delta.bad.16.input-with-odd-length.bin");
+        CHECK_THROWS_MATCHES(
+            encode_file(encoder, "delta.bad.16.input-with-odd-length.bin"),
+            agbpack::encode_exception,
+            Catch::Matchers::Message("TODO: real exception message"));
     }
 
     SECTION("Invalid options")
