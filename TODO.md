@@ -19,9 +19,6 @@ SPDX-License-Identifier: MIT
   * Attribute where it's coming from
   * Also quote the statement that leads us to believe it's MIT licensed
   * Alternatively, have all in one file, but add copyright notice to source file (copyright grit authors or something)
-* Clean up tests to use new test directory thing
-  * huffman_decoder_test:
-    * Maybe place a readme somewhere that files have been created using reference encoders? (CUE Huffman, GBACrusher)
 * How can we ensure that the library for unit testing does not get deployed/installed/whatever?
 * HUFFMAN.md
   * Some section on the overall format, just for the sake of completeness
