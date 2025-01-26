@@ -34,7 +34,6 @@ TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
 
     SECTION("Successful 16 bit encoding")
     {
-        // TODO: what if input is an odd number of bytes? => Well that's an error, innit? What do other encoders do in that case?
         const auto filename = GENERATE(
             "delta.good.16.zero-length-file.txt",
             "delta.good.16.one-word.bin",
@@ -45,6 +44,16 @@ TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
         const auto encoded_data = encode_file(encoder, filename);
 
         CHECK(encoded_data == expected_encoded_data);
+    }
+
+    SECTION("Encoding a file with odd length using 16 bit encoding fails")
+    {
+        encoder.options(agbpack::delta_options::delta16);
+
+        // TODO: catch exception:
+        //       * It should be an encode_exception (which it is not, it is a decode_exception)
+        //       * It should say what's wrong, which it does not (it says "encoded data is corrupt")
+        encode_file(encoder, "delta.bad.16.input-with-odd-length.bin");
     }
 
     SECTION("Invalid options")
