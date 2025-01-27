@@ -104,6 +104,13 @@ TEST_CASE("byte_reader_test")
         CHECK(read16(reader) == 0x5678);
     }
 
+    SECTION("try_read16")
+    {
+        byte_vector input{ 0x34, 0x12, 0x78, 0x56 };
+        byte_reader reader(begin(input), end(input));
+
+        CHECK(try_read16(reader) == 0x1234);
+        CHECK(try_read16(reader) == 0x5678);
     }
 }
 

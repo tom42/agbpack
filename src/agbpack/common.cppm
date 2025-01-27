@@ -120,6 +120,15 @@ agbpack_u16 read16(ByteReader& reader)
     return result;
 }
 
+AGBPACK_EXPORT_FOR_UNIT_TESTING
+template <typename ByteReader>
+agbpack_u16 try_read16(ByteReader& reader)
+{
+    agbpack_u16 result = read8(reader);
+    result += read8(reader) * 256;
+    return result;
+}
+
 template <typename ByteReader>
 agbpack_u32 read32(ByteReader& reader)
 {
