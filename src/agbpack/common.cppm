@@ -9,7 +9,6 @@ module;
 #include <cstdint>
 #include <iterator>
 #include <limits>
-#include <optional>
 
 export module agbpack:common;
 import :exceptions;
@@ -64,16 +63,6 @@ public:
         return read8_internal();
     }
 
-    std::optional<agbpack_u8> try_read8()
-    {
-        if (eof())
-        {
-            return {};
-        }
-
-        return read8_internal();
-    }
-
     agbpack_u8 peek8()
     {
         assert(!eof());
@@ -102,12 +91,6 @@ agbpack_u8 read8(ByteReader& reader)
     return reader.read8();
 }
 
-template <typename ByteReader>
-std::optional<agbpack_u8> try_read8(ByteReader& reader)
-{
-    return reader.try_read8();
-}
-
 template <typename ByteReader, typename OutputIterator>
 void read8(ByteReader& reader, std::size_t nbytes, OutputIterator output)
 {
@@ -117,32 +100,12 @@ void read8(ByteReader& reader, std::size_t nbytes, OutputIterator output)
     }
 }
 
-AGBPACK_EXPORT_FOR_UNIT_TESTING
 template <typename ByteReader>
 agbpack_u16 read16(ByteReader& reader)
 {
     agbpack_u16 result = read8(reader);
     result += read8(reader) * 256;
     return result;
-}
-
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-template <typename ByteReader>
-std::optional<agbpack_u16> try_read16(ByteReader& reader)
-{
-    auto b0 = try_read8(reader);
-    if (!b0)
-    {
-        return {};
-    }
-
-    auto b1 = try_read8(reader);
-    if (!b1)
-    {
-        return {};
-    }
-
-    return b0.value() + b1.value() * 256;
 }
 
 template <typename ByteReader>
