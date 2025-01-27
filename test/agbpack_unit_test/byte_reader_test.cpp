@@ -12,9 +12,9 @@ import agbpack_unit_testkit;
 namespace agbpack_unit_test
 {
 
-using byte_reader = agbpack::byte_reader;
+using agbpack::byte_reader;
 using byte_vector = std::vector<unsigned char>;
-using pair = std::pair;
+using std::pair;
 
 // TODO: write test for existing functionality of byte_reader
 // TODO: add non-throwing version of read8
