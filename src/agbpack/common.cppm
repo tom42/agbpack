@@ -59,9 +59,11 @@ public:
         {
             throw decode_exception();
         }
-        // TODO: only bump counter after successful read
+
+        // Read byte first, only then increment counter after successful read.
+        agbpack_u8 byte = *m_input++;
         ++m_nbytes_read;
-        return *m_input++;
+        return byte;
     }
 
     agbpack_u8 peek8()
