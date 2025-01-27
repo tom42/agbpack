@@ -9,6 +9,7 @@ module;
 #include <cstdint>
 #include <iterator>
 #include <limits>
+#include <optional>
 
 export module agbpack:common;
 import :exceptions;
@@ -58,6 +59,16 @@ public:
         if (eof())
         {
             throw decode_exception();
+        }
+
+        return read8_internal();
+    }
+
+    std::optional<agbpack_u8> try_read8()
+    {
+        if (eof())
+        {
+            return {};
         }
 
         return read8_internal();
