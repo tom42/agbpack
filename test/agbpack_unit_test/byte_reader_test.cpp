@@ -17,7 +17,6 @@ using agbpack::decode_exception;
 using byte_vector = std::vector<unsigned char>;
 using std::pair;
 
-// TODO: add non-throwing version of read8
 // TODO: add non-throwing version of read16 (or whatever API delta encoder uses)
 TEST_CASE("byte_reader_test")
 {
@@ -55,6 +54,20 @@ TEST_CASE("byte_reader_test")
 
         CHECK(reader.eof() == true);
         CHECK_THROWS_AS(reader.read8(), decode_exception);
+    }
+
+    SECTION("Try reading data until EOF is reached")
+    {
+        byte_vector input{ 11, 22 };
+        byte_reader reader(begin(input), end(input));
+
+        CHECK(reader.try_read8() == 11);
+        CHECK(reader.nbytes_read() == 1);
+        CHECK(reader.eof() == false);
+
+        CHECK(reader.try_read8() == 22);
+        CHECK(reader.nbytes_read() == 2);
+        CHECK(reader.eof() == true);
     }
 
     SECTION("try_read8 returns empty optional if it's called when EOF has been reached")
