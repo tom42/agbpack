@@ -100,8 +100,10 @@ TEST_CASE("byte_reader_test")
         byte_vector input{ 0x34, 0x12, 0x78, 0x56 };
         byte_reader reader(begin(input), end(input));
 
-        CHECK(agbpack::read16(reader) == 0x1234);
-        CHECK(agbpack::read16(reader) == 0x5678);
+        CHECK(read16(reader) == 0x1234);
+        CHECK(read16(reader) == 0x5678);
+    }
+
     }
 }
 
