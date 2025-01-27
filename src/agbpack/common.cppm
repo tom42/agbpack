@@ -60,10 +60,7 @@ public:
             throw decode_exception();
         }
 
-        // Read byte first, only then increment counter after successful read.
-        agbpack_u8 byte = *m_input++;
-        ++m_nbytes_read;
-        return byte;
+        return read8_internal();
     }
 
     agbpack_u8 peek8()
@@ -73,6 +70,16 @@ public:
     }
 
 private:
+    agbpack_u8 read8_internal()
+    {
+        // Read byte first
+        agbpack_u8 byte = *m_input++;
+
+        // Increment counter only after successful read
+        ++m_nbytes_read;
+        return byte;
+    }
+
     agbpack_u32 m_nbytes_read = 0;
     InputIterator m_input;
     InputIterator m_eof;
