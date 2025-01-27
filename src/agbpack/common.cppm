@@ -111,6 +111,7 @@ void read8(ByteReader& reader, std::size_t nbytes, OutputIterator output)
     }
 }
 
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 template <typename ByteReader>
 agbpack_u16 read16(ByteReader& reader)
 {
