@@ -122,7 +122,7 @@ agbpack_u16 read16(ByteReader& reader)
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 template <typename ByteReader>
-agbpack_u16 try_read16(ByteReader& reader)
+std::optional<agbpack_u16> try_read16(ByteReader& reader)
 {
     agbpack_u16 result = read8(reader);
     result += read8(reader) * 256;
