@@ -17,6 +17,8 @@ using byte_vector = std::vector<unsigned char>;
 using std::pair;
 
 // TODO: write test for existing functionality of byte_reader
+//       * Throw if data is read when eof is reached (can use existing exception)
+//       * Peek
 // TODO: add non-throwing version of read8
 // TODO: add non-throwing version of read16 (or whatever API delta encoder uses)
 TEST_CASE("byte_reader_test")
@@ -25,7 +27,7 @@ TEST_CASE("byte_reader_test")
     {
         const auto [input, expected_eof] = GENERATE(
             pair(byte_vector{}, true),
-            pair(byte_vector{ 0x01, 0x02 }, false));
+            pair(byte_vector{ 0, 0 }, false));
         byte_reader reader(begin(input), end(input));
 
         CHECK(reader.eof() == expected_eof);
@@ -34,13 +36,16 @@ TEST_CASE("byte_reader_test")
 
     SECTION("Read data until EOF is reached")
     {
-        byte_vector input{ 0x01, 0x02 };
+        byte_vector input{ 11, 22 };
         byte_reader reader(begin(input), end(input));
 
-        // TODO: read data. Check
-        //       * read byte
-        //       * eof
-        //       * nbytes_read
+        CHECK(reader.read8() == 11);
+        CHECK(reader.nbytes_read() == 1);
+        CHECK(reader.eof() == false);
+
+        CHECK(reader.read8() == 22);
+        CHECK(reader.nbytes_read() == 2);
+        CHECK(reader.eof() == true);
     }
 }
 
