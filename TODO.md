@@ -4,6 +4,9 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Do the data types in common.cppm even make sense (agbpack_io_datatype, agbpack_u8, agbpack_u16, agbpack_u32)?
+  * agbpack_io_datatype: possibly, apart from the fact that it is not used consistently
+  * agbpack_u8, agbpack_u16, agbpack_u32: probably not, we could probaby just as well use fixed size standard types (uint8_t etc)
 * Redesign exception handling
   * We REALLY should revise exception handling, otherwise we're going to end up with a big mess
   * We have no real need for decode_exception and encode_exception, no? (Well, they don't hurt, either, and are no big deal to keep)
