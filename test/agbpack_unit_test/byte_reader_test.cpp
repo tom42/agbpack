@@ -112,6 +112,16 @@ TEST_CASE("byte_reader_test")
         CHECK(try_read16(reader) == 0x1234);
         CHECK(try_read16(reader) == 0x5678);
     }
+
+    SECTION("try_read16 returns empty optional when it encounters EOF")
+    {
+        const auto input = GENERATE(
+            byte_vector{},
+            byte_vector{ 0x12 });
+        byte_reader reader(begin(input), end(input));
+
+        CHECK(try_read16(reader).has_value() == false);
+    }
 }
 
 }
