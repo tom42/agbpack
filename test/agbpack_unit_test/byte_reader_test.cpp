@@ -57,6 +57,17 @@ TEST_CASE("byte_reader_test")
         CHECK_THROWS_AS(reader.read8(), decode_exception);
     }
 
+    SECTION("try_read8 returns empty optional if it's called when EOF has been reached")
+    {
+        byte_vector input{ 0 };
+        byte_reader reader(begin(input), end(input));
+
+        reader.read8();
+
+        CHECK(reader.eof() == true);
+        CHECK(reader.try_read8().has_value() == false);
+    }
+
     SECTION("peek8 reads current byte without advancing")
     {
         byte_vector input{ 11, 22 };
