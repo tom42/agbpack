@@ -130,9 +130,19 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 template <typename ByteReader>
 std::optional<agbpack_u16> try_read16(ByteReader& reader)
 {
-    agbpack_u16 result = read8(reader);
-    result += read8(reader) * 256;
-    return result;
+    auto b0 = try_read8(reader);
+    if (!b0)
+    {
+        return {};
+    }
+
+    auto b1 = try_read8(reader);
+    if (!b1)
+    {
+        return {};
+    }
+
+    return b0.value() + b1.value() * 256;
 }
 
 template <typename ByteReader>
