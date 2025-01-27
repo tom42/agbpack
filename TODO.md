@@ -80,7 +80,3 @@ SPDX-License-Identifier: MIT
     * reuse lint
   * Turn on all error messages, treat warnings as errors
   * Set up reuse to check licensing stuff
-* Toplevel makefile:
-  * Do we want to disable unit tests by default if not the main project?
-  * Do we want to have an option to enable/disable unit tests explicitly?
-  * We should build agbpack_unit_testing only if testing is enabled
