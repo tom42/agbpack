@@ -13,6 +13,7 @@ namespace agbpack_unit_test
 {
 
 using agbpack::byte_reader;
+using agbpack::decode_exception;
 using byte_vector = std::vector<unsigned char>;
 using std::pair;
 
@@ -46,6 +47,17 @@ TEST_CASE("byte_reader_test")
         CHECK(reader.read8() == 22);
         CHECK(reader.nbytes_read() == 2);
         CHECK(reader.eof() == true);
+    }
+
+    SECTION("read8 throws if it's called when EOF has been reached")
+    {
+        byte_vector input{ 0 };
+        byte_reader reader(begin(input), end(input));
+
+        reader.read8();
+
+        CHECK(reader.eof() == true);
+        CHECK_THROWS_AS(reader.read8(), decode_exception);
     }
 }
 
