@@ -72,20 +72,28 @@ public:
     template <std::input_iterator InputIterator, typename OutputIterator>
     void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
-        static_assert_input_type(input);
+        // TODO: this try/catch block is a hack to get our tests passing. We really need to redesign exception handling
+        try
+        {
+            static_assert_input_type(input);
 
-        // We have to encode to a temporary buffer first, because
-        // * We don't know yet how many bytes of input there are, so we don't know the header content yet
-        // * If the output iterator does not provide random access we cannot output encoded data first and fix up the header last
-        std::vector<agbpack_u8> tmp;
-        auto uncompressed_size = encode8or16(input, eof, back_inserter(tmp));
+            // We have to encode to a temporary buffer first, because
+            // * We don't know yet how many bytes of input there are, so we don't know the header content yet
+            // * If the output iterator does not provide random access we cannot output encoded data first and fix up the header last
+            std::vector<agbpack_u8> tmp;
+            auto uncompressed_size = encode8or16(input, eof, back_inserter(tmp));
 
-        auto header = header::create(m_options, uncompressed_size);
+            auto header = header::create(m_options, uncompressed_size);
 
-        // Copy header and encoded data to output
-        unbounded_byte_writer<OutputIterator> writer(output);
-        write32(writer, header.to_uint32_t());
-        write(writer, tmp.begin(), tmp.end());
+            // Copy header and encoded data to output
+            unbounded_byte_writer<OutputIterator> writer(output);
+            write32(writer, header.to_uint32_t());
+            write(writer, tmp.begin(), tmp.end());
+        }
+        catch (const decode_exception&)
+        {
+            throw encode_exception("input must contain an even number of bytes for 16 bit delta encoding");
+        }
     }
 
     void options(delta_options options)

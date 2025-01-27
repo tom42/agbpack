@@ -50,13 +50,10 @@ TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
     {
         encoder.options(agbpack::delta_options::delta16);
 
-        // TODO: catch exception:
-        //       * It should be an encode_exception (which it is not, it is a decode_exception)
-        //       * It should say what's wrong, which it does not (it says "encoded data is corrupt")
         CHECK_THROWS_MATCHES(
             encode_file(encoder, "delta.bad.16.input-with-odd-length.bin"),
             agbpack::encode_exception,
-            Catch::Matchers::Message("TODO: real exception message"));
+            Catch::Matchers::Message("input must contain an even number of bytes for 16 bit delta encoding"));
     }
 
     SECTION("Invalid options")
