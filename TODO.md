@@ -78,5 +78,3 @@ SPDX-License-Identifier: MIT
     * build
     * run tests
     * reuse lint
-  * Turn on all error messages, treat warnings as errors
-  * Set up reuse to check licensing stuff
