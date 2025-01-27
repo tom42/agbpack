@@ -102,6 +102,12 @@ agbpack_u8 read8(ByteReader& reader)
     return reader.read8();
 }
 
+template <typename ByteReader>
+std::optional<agbpack_u8> try_read8(ByteReader& reader)
+{
+    return reader.try_read8();
+}
+
 template <typename ByteReader, typename OutputIterator>
 void read8(ByteReader& reader, std::size_t nbytes, OutputIterator output)
 {
