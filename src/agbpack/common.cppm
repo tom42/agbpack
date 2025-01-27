@@ -59,6 +59,7 @@ public:
         {
             throw decode_exception();
         }
+        // TODO: only bump counter after successful read
         ++m_nbytes_read;
         return *m_input++;
     }
@@ -158,6 +159,7 @@ public:
             throw decode_exception();
         }
 
+        // TODO: only bump counter after successful write
         ++m_nbytes_written;
         *m_output++ = byte;
     }
@@ -185,6 +187,7 @@ public:
 
     void write8(agbpack_u8 byte)
     {
+        // TODO: only bump counter after successful write
         ++m_nbytes_written;
         *m_output++ = byte;
     }
