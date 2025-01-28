@@ -14,7 +14,6 @@ namespace agbpack_test
 
 using agbpack::lzss_decoder;
 using agbpack::lzss_encoder;
-using agbpack::optimal_lzss_encoder;
 
 namespace
 {
