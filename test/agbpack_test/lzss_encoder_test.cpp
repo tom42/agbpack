@@ -12,6 +12,10 @@ import agbpack;
 namespace agbpack_test
 {
 
+using agbpack::lzss_decoder;
+using agbpack::lzss_encoder;
+using agbpack::optimal_lzss_encoder;
+
 namespace
 {
 
@@ -36,8 +40,8 @@ private:
 
 TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
 {
-    agbpack::lzss_encoder encoder;
-    agbpack::lzss_decoder decoder;
+    lzss_encoder encoder;
+    lzss_decoder decoder;
     set_test_data_directory("lzss_encoder");
 
     SECTION("Successful encoding")
