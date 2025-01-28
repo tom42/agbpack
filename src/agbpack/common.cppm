@@ -165,12 +165,16 @@ public:
             throw decode_exception();
         }
 
-        // TODO: only bump counter after successful write
-        ++m_nbytes_written;
-        *m_output++ = byte;
+        write8_internal(byte);
     }
 
 private:
+    void write8_internal(agbpack_u8 byte)
+    {
+        *m_output++ = byte;
+        ++m_nbytes_written;
+    }
+
     agbpack_u32 m_nbytes_to_write;
     agbpack_u32 m_nbytes_written = 0;
     OutputIterator m_output;
@@ -193,9 +197,8 @@ public:
 
     void write8(agbpack_u8 byte)
     {
-        // TODO: only bump counter after successful write
-        ++m_nbytes_written;
         *m_output++ = byte;
+        ++m_nbytes_written;
     }
 
 private:
