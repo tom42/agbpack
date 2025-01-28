@@ -72,10 +72,7 @@ public:
 private:
     agbpack_u8 read8_internal()
     {
-        // Read byte first
         agbpack_u8 byte = *m_input++;
-
-        // Increment counter only after successful read
         ++m_nbytes_read;
         return byte;
     }
