@@ -460,6 +460,24 @@ private:
 export class optimal_lzss_encoder final
 {
 public:
+    template <std::input_iterator InputIterator, typename OutputIterator>
+    void encode(InputIterator /*input*/, InputIterator /*eof*/, OutputIterator /*output*/)
+    {
+        // TODO: implement
+    }
+
+    void vram_safe(bool /*enable*/)
+    {
+        // TODO: implement
+    }
+
+    bool vram_safe() const
+    {
+        // TODO: implement
+        return false;
+    }
+
+private:
 };
 
 }
