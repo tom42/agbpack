@@ -455,6 +455,15 @@ private:
     bool m_vram_safe = false;
 };
 
+// TODO: implement and test this
+// TODO: do we really need this as a class? (well yes if we do want to specialize it for vectors?)
+AGBPACK_EXPORT_FOR_UNIT_TESTING
+class maximum_match_length_table final
+{
+public:
+private:
+};
+
 // TODO: document what this is based on: can we copy the text from cbloom, or do we simply add the link?
 export class optimal_lzss_encoder final
 {
