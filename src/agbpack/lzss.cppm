@@ -465,18 +465,18 @@ public:
         // TODO: implement
     }
 
-    void vram_safe(bool /*enable*/)
+    void vram_safe(bool enable)
     {
-        // TODO: implement
+        m_vram_safe = enable;
     }
 
     bool vram_safe() const
     {
-        // TODO: implement
-        return false;
+        return m_vram_safe;
     }
 
 private:
+    bool m_vram_safe = false;
 };
 
 }
