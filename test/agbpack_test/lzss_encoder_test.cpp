@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-#include <catch2/catch_test_macros.hpp> // TODO: still needed?
 #include <catch2/catch_template_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #include <cstddef>
@@ -21,12 +20,10 @@ using agbpack::optimal_lzss_encoder;
 namespace
 {
 
-// TODO: name
+// We have no need for a test fixture, but all
+// the template test method macros want to have one.
 template <typename TUnused>
-class myfixture : public test_data_fixture
-{
-public:
-};
+class lzss_encoder_test_data_fixture : public test_data_fixture {};
 
 class test_parameters final
 {
@@ -45,13 +42,12 @@ private:
     std::size_t m_expected_encoded_size;
 };
 
-// TODO: do we really need to switch off that warning?
 using lzss_encoder_types = std::tuple<lzss_encoder, optimal_lzss_encoder>;
 
 }
 
 TEMPLATE_LIST_TEST_CASE_METHOD(
-    myfixture,
+    lzss_encoder_test_data_fixture,
     "lzss_encoder_test",
     "[lzss]",
     lzss_encoder_types)

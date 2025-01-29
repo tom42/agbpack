@@ -455,7 +455,6 @@ private:
     bool m_vram_safe = false;
 };
 
-// TODO: get this under test
 // TODO: document what this is based on: can we copy the text from cbloom, or do we simply add the link?
 export class optimal_lzss_encoder final
 {
