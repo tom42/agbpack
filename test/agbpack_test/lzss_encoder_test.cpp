@@ -45,17 +45,18 @@ private:
     std::size_t m_expected_encoded_size;
 };
 
+// TODO: do we really need to switch off that warning?
 using lzss_encoder_types = std::tuple<lzss_encoder, optimal_lzss_encoder>;
 
 }
 
-TEMPLATE_TEST_CASE_METHOD(
+TEMPLATE_LIST_TEST_CASE_METHOD(
     myfixture,
     "lzss_encoder_test",
     "[lzss]",
     lzss_encoder_types)
 {
-    lzss_encoder encoder;
+    TestType encoder;
     lzss_decoder decoder;
     this->set_test_data_directory("lzss_encoder");
 

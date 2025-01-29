@@ -11,7 +11,7 @@ endif()
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   # TODO: catch template test case macros such as TEMPLATE_TEST_CASE_METHOD
   #       trigger -Wunsafe-buffer-usage.
-  add_compile_options(-Wno-unsafe-buffer-usage)
+  #add_compile_options(-Wno-unsafe-buffer-usage)
 endif()
 
 add_subdirectory(agbpack_unit_testkit)
