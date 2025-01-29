@@ -10,7 +10,7 @@ include(CTest)
 # Build all 3rd party code before globally raising warning levels.
 if(BUILD_TESTING)
   include(VtgTesting)
-  vtg_testing_setup_catch2(3.8.0)
+  vtg_testing_setup_catch2(3.4.0)
 endif()
 
 # Raise warning levels. From now on we should only build our own code.
