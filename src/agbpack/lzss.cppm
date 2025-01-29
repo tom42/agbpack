@@ -461,6 +461,11 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class maximum_match_length_table final
 {
 public:
+    // TODO: implement this (give it some sort of init method which both calculates the ml table and reads the entire input)
+    //       * Problem: bloom's document says
+    //           "Let cml[n] be the chosen match length for byte n; (1 <= cml[n] <= ml[n]),
+    //            *where 1 indicates a literal*"
+    //         This is not how match_finder works, which may return 0 for a literal. OUCH.
 private:
 };
 
