@@ -465,6 +465,16 @@ public:
         static_assert_input_type(input);
 
         // TODO: implement
+        // * First step: create the table with the maximum match length
+        //   * For this we can use match_finder
+        //   * We should create a class that does this: maximum_match_length_table
+        //     * Mrmpf: what do we write to te table for the cases were maximum match length is <= 3?
+        //   * The process of creating this table should also return the entire input file for further/repeated processing
+        //   * This can of course be unit tested
+        // * Second step: create the chosen match length array
+        //   * In a first step we could use chosen_match_length = maximum_match_length, no?
+        //     * This should yield the same encoded output as the normal encoder, no?
+        // * Third step: create the output
     }
 
     void vram_safe(bool enable)
