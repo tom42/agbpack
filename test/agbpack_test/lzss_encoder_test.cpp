@@ -1,10 +1,12 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_test_macros.hpp> // TODO: still needed?
+#include <catch2/catch_template_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #include <cstddef>
 #include <format>
+#include <tuple>
 #include "testdata.hpp"
 
 import agbpack;
@@ -14,9 +16,17 @@ namespace agbpack_test
 
 using agbpack::lzss_decoder;
 using agbpack::lzss_encoder;
+using agbpack::optimal_lzss_encoder;
 
 namespace
 {
+
+// TODO: name
+template <typename TUnused>
+class myfixture : public test_data_fixture
+{
+public:
+};
 
 class test_parameters final
 {
@@ -35,13 +45,19 @@ private:
     std::size_t m_expected_encoded_size;
 };
 
+using lzss_encoder_types = std::tuple<lzss_encoder, optimal_lzss_encoder>;
+
 }
 
-TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
+TEMPLATE_TEST_CASE_METHOD(
+    myfixture,
+    "lzss_encoder_test",
+    "TODO: tags?",
+    lzss_encoder_types)
 {
     lzss_encoder encoder;
     lzss_decoder decoder;
-    set_test_data_directory("lzss_encoder");
+    this->set_test_data_directory("lzss_encoder");
 
     SECTION("Successful encoding")
     {
@@ -55,7 +71,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_encoder_test")
             test_parameters("lzss.good.maximum-match.txt", 28),
             test_parameters("lzss.good.delta.cppm", 1556));
         INFO(std::format("Test parameters: {}", parameters.filename()));
-        const auto original_data = read_decoded_file(parameters.filename());
+        const auto original_data = this->read_decoded_file(parameters.filename());
 
         // Encode
         const auto encoded_data = encode_vector(encoder, original_data);
