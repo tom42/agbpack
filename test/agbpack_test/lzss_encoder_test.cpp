@@ -52,7 +52,7 @@ using lzss_encoder_types = std::tuple<lzss_encoder, optimal_lzss_encoder>;
 TEMPLATE_TEST_CASE_METHOD(
     myfixture,
     "lzss_encoder_test",
-    "TODO: tags?",
+    "[lzss]",
     lzss_encoder_types)
 {
     lzss_encoder encoder;
