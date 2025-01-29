@@ -483,6 +483,7 @@ public:
         //   * For this we can use match_finder
         //   * We should create a class that does this: maximum_match_length_table
         //     * Mrmpf: what do we write to te table for the cases were maximum match length is <= 3?
+        //       * Well the only special case is length=2, which we cannot even encode, no?
         //   * The process of creating this table should also return the entire input file for further/repeated processing
         //   * This can of course be unit tested
         // * Second step: create the chosen match length array
