@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <vector>
 
 import agbpack;
 import agbpack_unit_testkit;
@@ -9,7 +10,10 @@ import agbpack_unit_testkit;
 namespace agbpack_unit_test
 {
 
-using agbpack::maximum_match_length_table;
+using agbpack::find_longest_matches;
+using agbpack::match;
+using byte_vector = std::vector<unsigned char>;
+using match_vector = std::vector<match>;
 
 TEST_CASE("find_longest_matches_test")
 {
@@ -20,6 +24,10 @@ TEST_CASE("find_longest_matches_test")
     //         1) Call create_maximum_match_lengths()  <=  This is what we be testing here
     //         2) Call create_chosen_match_lengths()
     //         3) Call encode()
+    SECTION("Empty input")
+    {
+        CHECK(find_longest_matches(byte_vector()) == match_vector());
+    }
 }
 
 }
