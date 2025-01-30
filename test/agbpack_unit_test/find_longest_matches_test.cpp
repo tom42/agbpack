@@ -28,6 +28,12 @@ TEST_CASE("find_longest_matches_test")
     {
         CHECK(find_longest_matches(byte_vector()) == match_vector());
     }
+
+    SECTION("One byte")
+    {
+        // TODO: create byte_vector from const char*
+        // TODO: check it returns the right match
+    }
 }
 
 }
