@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <string>
 #include <vector>
 
 import agbpack;
@@ -10,10 +11,20 @@ import agbpack_unit_testkit;
 namespace agbpack_unit_test
 {
 
-using agbpack::find_longest_matches;
 using agbpack::match;
 using byte_vector = std::vector<unsigned char>;
 using match_vector = std::vector<match>;
+
+namespace
+{
+
+// TODO: do we really want this to have the same name as the production function?
+auto find_longest_matches(const std::string& s)
+{
+    return agbpack::find_longest_matches(byte_vector(begin(s), end(s)));
+}
+
+}
 
 TEST_CASE("find_longest_matches_test")
 {
@@ -26,13 +37,14 @@ TEST_CASE("find_longest_matches_test")
     //         3) Call encode()
     SECTION("Empty input")
     {
-        CHECK(find_longest_matches(byte_vector()) == match_vector());
+        CHECK(find_longest_matches("") == match_vector());
     }
 
     SECTION("One byte")
     {
         // TODO: create byte_vector from const char*
         // TODO: check it returns the right match
+        find_longest_matches("a");
     }
 }
 
