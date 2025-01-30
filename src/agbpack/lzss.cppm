@@ -394,8 +394,7 @@ public:
     {
         static_assert_input_type(input);
 
-        const auto uncompressed_data = read_input(input, eof);
-
+        const auto uncompressed_data = std::vector<agbpack_u8>(input, eof);
         const auto encoded_data = encode_internal(uncompressed_data);
         const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
@@ -417,14 +416,6 @@ public:
     }
 
 private:
-    template <std::input_iterator InputIterator>
-    static std::vector<agbpack_u8> read_input(InputIterator input, InputIterator eof)
-    {
-        std::vector<agbpack_u8> data;
-        std::copy(input, eof, back_inserter(data));
-        return data;
-    }
-
     std::vector<agbpack_u8> encode_internal(const std::vector<agbpack_u8>& input)
     {
         std::vector<agbpack_u8> encoded_data;
