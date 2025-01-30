@@ -44,7 +44,7 @@ TEST_CASE("find_longest_matches_test")
     {
         // TODO: create byte_vector from const char*
         // TODO: check it returns the right match
-        find_longest_matches("a");
+        CHECK(find_longest_matches("a") == match_vector{match(42, 43)});
     }
 }
 
