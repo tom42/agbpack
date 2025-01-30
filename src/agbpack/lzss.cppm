@@ -273,7 +273,7 @@ private:
 
 // Simple implementation using two nested loops each doing linear search.
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-class match_finder final
+class match_finder final // TODO: rename this to greedy_match_finder?
 {
 public:
     // Note: match_finder does not own input
@@ -468,7 +468,18 @@ vector<match> find_longest_matches(const vector<agbpack_u8>& input)
 {
     vector<match> longest_matches;
     longest_matches.reserve(input.size());
-    // TODO: actually do find longest matches
+
+    // TODO: need to unhardcode minimum_offset
+    // TODO: this is somewhat unfortunate: for literals and stuff this returns silly data, e.g. (l=0, m=0)
+    //       This may be OK for the greedy encoder, but here we want literals to have a length=1.
+    //       We can of course document that anything with match_length < minimum_match_length has an invalid offset, but somehow I dislike this, no?
+    match_finder match_finder(input, minimum_offset);
+
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+        longest_matches.push_back(match_finder.find_match(i));
+    }
+
     return longest_matches;
 }
 
