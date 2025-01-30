@@ -7,6 +7,7 @@ target_sources(
   PRIVATE
   bitstream_writer_test.cpp
   byte_reader_test.cpp
+  find_longest_matches_test.cpp
   header_test.cpp
   huffman_decoder_tree_test.cpp
   huffman_encoder_tree_test.cpp
@@ -14,7 +15,6 @@ target_sources(
   huffman_tree_serializer_test.cpp
   lzss_bitstream_writer_test.cpp
   match_finder_test.cpp
-  maximum_match_length_table_test.cpp
   node_priority_queue_test.cpp)
 target_link_libraries(
   agbpack_unit_test

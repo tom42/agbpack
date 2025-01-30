@@ -11,7 +11,7 @@ namespace agbpack_unit_test
 
 using agbpack::maximum_match_length_table;
 
-TEST_CASE("maximum_match_length_table_test")
+TEST_CASE("find_longest_matches_test")
 {
     // TODO: test something here
     // TODO: screw that: we're not going to have a class for this: it feels silly, somehow
