@@ -21,7 +21,6 @@ SPDX-License-Identifier: MIT
       * Decoder: "could not decode data: premature end of file"
       * Encoder: "could not encode data: input contains an odd number of bytes"
       * Either way: we need to test this, and then we're good and can easily change stuff and notice when we screw up things. The usual drill, really.
-* LZSS: implement optimal backward parse
 * Do we need some test suite for GBA?
   * Those huffman tests we did earlier
   * Some lzss decoder tests, certainly at least that one: aaaaaaaaaaaaaaaaaaa
