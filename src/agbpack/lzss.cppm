@@ -473,11 +473,21 @@ vector<match> find_longest_matches(const vector<agbpack_u8>& input)
     // TODO: this is somewhat unfortunate: for literals and stuff this returns silly data, e.g. (l=0, m=0)
     //       This may be OK for the greedy encoder, but here we want literals to have a length=1.
     //       We can of course document that anything with match_length < minimum_match_length has an invalid offset, but somehow I dislike this, no?
-    match_finder match_finder(input, minimum_offset);
+    match_finder match_finder(input, minimum_offset - 1); // TODO: this subtraction is REALLY ugly (see above where already have this)
 
     for (size_t i = 0; i < input.size(); ++i)
     {
-        longest_matches.push_back(match_finder.find_match(i));
+        auto m = match_finder.find_match(i);
+        // TODO: the if/else here is a bit of a kludge. Or is it?
+        //       Actually, maybe it is not: anything with a length < 3 we encode as a literal, and offset refers to itself!
+        if (m.length() < minimum_match_length)
+        {
+            longest_matches.push_back(match(1, 0));
+        }
+        else
+        {
+            longest_matches.push_back(m);
+        }
     }
 
     return longest_matches;
@@ -507,6 +517,12 @@ public:
         //   * In a first step we could use chosen_match_length = maximum_match_length, no?
         //     * This should yield the same encoded output as the normal encoder, no?
         // * Third step: create the output
+        // * Note: this is old comments
+        //       * For starters and to keep things simple, then, organize the encoder as such:
+        //         0) Read in the entire input (do we have a utility function for this?)
+        //         1) Call create_maximum_match_lengths()  <=  This is what we be testing here
+        //         2) Call create_chosen_match_lengths()
+        //         3) Call encode()
     }
 
     void vram_safe(bool enable)

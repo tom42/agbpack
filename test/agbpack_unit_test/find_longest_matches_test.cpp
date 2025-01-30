@@ -11,9 +11,9 @@ import agbpack_unit_testkit;
 namespace agbpack_unit_test
 {
 
-using agbpack::match;
+using m = agbpack::match;
 using byte_vector = std::vector<unsigned char>;
-using match_vector = std::vector<match>;
+using match_vector = std::vector<agbpack::match>;
 
 namespace
 {
@@ -28,24 +28,14 @@ auto find_longest_matches(const std::string& s)
 
 TEST_CASE("find_longest_matches_test")
 {
-    // TODO: test something here
-    // TODO: screw that: we're not going to have a class for this: it feels silly, somehow
-    //       * For starters and to keep things simple, then, organize the encoder as such:
-    //         0) Read in the entire input (do we have a utility function for this?)
-    //         1) Call create_maximum_match_lengths()  <=  This is what we be testing here
-    //         2) Call create_chosen_match_lengths()
-    //         3) Call encode()
-    SECTION("Empty input")
-    {
-        CHECK(find_longest_matches("") == match_vector());
-    }
-
-    SECTION("One byte")
-    {
-        // TODO: create byte_vector from const char*
-        // TODO: check it returns the right match
-        CHECK(find_longest_matches("a") == match_vector{match(42, 43)});
-    }
+    CHECK(find_longest_matches("")      == match_vector());
+    CHECK(find_longest_matches("a")     == match_vector{ m(1, 0) });
+    CHECK(find_longest_matches("aa")    == match_vector{ m(1, 0), m(1, 0) });
+    CHECK(find_longest_matches("ab")    == match_vector{ m(1, 0), m(1, 0) });
+    CHECK(find_longest_matches("aaa")   == match_vector{ m(1, 0), m(1, 0), m(1, 0) }); // TODO: how does the greedy encoder encode this, then? Three literals?
+    CHECK(find_longest_matches("aaaa")  == match_vector{ m(1, 0), m(3, 1), m(1, 0), m(1, 0) });
+    CHECK(find_longest_matches("aaaaa") == match_vector{ m(1, 0), m(4, 1), m(3, 2), m(1, 0), m(1, 0) }); // TODO: better to use the first longest match or the last one? (for entropy coding?)
+    CHECK(find_longest_matches("ababa") == match_vector{ m(1, 0), m(1, 0), m(3, 2), m(1, 0), m(1, 0) });
 }
 
 }
