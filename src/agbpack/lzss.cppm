@@ -24,6 +24,7 @@ namespace agbpack
 // Note: In VS 2022, MSVC for x86 bugs if we fully qualify std::size_t in the lzss_sliding_window class template.
 // We work around this by importing it (referring to C's global size_t would probably work too).
 using size_t = std::size_t;
+using std::vector;
 
 inline constexpr size_t minimum_offset = 1;
 inline constexpr size_t maximum_offset = 4096;
@@ -276,7 +277,7 @@ class match_finder final
 {
 public:
     // Note: match_finder does not own input
-    explicit match_finder(const std::vector<agbpack_u8>& input, size_t minimum_match_offset)
+    explicit match_finder(const vector<agbpack_u8>& input, size_t minimum_match_offset)
         : m_input(input)
         , m_minimum_match_offset(minimum_match_offset)
     {}
@@ -329,7 +330,7 @@ public:
     }
 
 private:
-    const std::vector<agbpack_u8>& m_input;
+    const vector<agbpack_u8>& m_input;
     size_t m_minimum_match_offset;
 };
 
@@ -338,7 +339,7 @@ class lzss_bitstream_writer final
 {
 public:
     // Note: lzss_bitstream_writer does not own encoded_data
-    explicit lzss_bitstream_writer(std::vector<agbpack_u8>& encoded_data)
+    explicit lzss_bitstream_writer(vector<agbpack_u8>& encoded_data)
         : m_encoded_data(encoded_data)
     {}
 
@@ -383,7 +384,7 @@ private:
 
     agbpack_u8 m_tag_bitmask = 0;
     size_t m_tag_byte_position = 0;
-    std::vector<agbpack_u8>& m_encoded_data;
+    vector<agbpack_u8>& m_encoded_data;
 };
 
 export class lzss_encoder final
@@ -394,7 +395,7 @@ public:
     {
         static_assert_input_type(input);
 
-        const auto uncompressed_data = std::vector<agbpack_u8>(input, eof);
+        const auto uncompressed_data = vector<agbpack_u8>(input, eof);
         const auto encoded_data = encode_internal(uncompressed_data);
         const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
@@ -416,9 +417,9 @@ public:
     }
 
 private:
-    std::vector<agbpack_u8> encode_internal(const std::vector<agbpack_u8>& input)
+    vector<agbpack_u8> encode_internal(const vector<agbpack_u8>& input)
     {
-        std::vector<agbpack_u8> encoded_data;
+        vector<agbpack_u8> encoded_data;
         match_finder match_finder(input, get_minimum_offset(m_vram_safe) - 1); // TODO: unhardcode. What's somewhat ugly: match_finder uses zero based offfset, whereas global constant uses one based offset
         lzss_bitstream_writer writer(encoded_data);
 
