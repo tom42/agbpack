@@ -461,6 +461,18 @@ public:
 private:
 };
 
+// TODO: take input
+// TODO: return output
+// TODO: also incorporate stuff, from sketched out class maximum_match_length_table (and delete that one then)
+// TODO: does this need to be inline? I guess so, no? That, or it should go into a cpp file...
+vector<match> find_longest_matches(const vector<agbpack_u8>& /*input*/)
+{
+    vector<match> longest_matches;
+    // TODO: we know how long input is, so we can reserve space in longest_matches!
+    // TODO: actually do find longest matches
+    return longest_matches;
+}
+
 // TODO: document what this is based on: can we copy the text from cbloom, or do we simply add the link?
 export class optimal_lzss_encoder final
 {
@@ -471,6 +483,7 @@ public:
         static_assert_input_type(input);
 
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
+        const auto ml = find_longest_matches(uncompressed_data);
 
         // TODO: implement
         // * First step: create the table with the maximum match length
