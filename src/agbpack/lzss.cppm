@@ -461,15 +461,13 @@ public:
 private:
 };
 
-// TODO: take input
-// TODO: return output
 // TODO: also incorporate stuff, from sketched out class maximum_match_length_table (and delete that one then)
 // TODO: does this need to be inline? I guess so, no? That, or it should go into a cpp file...
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-vector<match> find_longest_matches(const vector<agbpack_u8>& /*input*/)
+vector<match> find_longest_matches(const vector<agbpack_u8>& input)
 {
     vector<match> longest_matches;
-    // TODO: we know how long input is, so we can reserve space in longest_matches!
+    longest_matches.reserve(input.size());
     // TODO: actually do find longest matches
     return longest_matches;
 }
