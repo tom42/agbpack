@@ -506,8 +506,37 @@ public:
         //
         // "We run through the entire file and create an array, ml[n], storing the maximum match length at each position.
         // The trick is now to run *backwards* through the file to find the optimal way to choose literals and matches throughout.
-        // [...] we assume literals and matches are coded in L and M bits."
-        // TODO: copy relevant portions of remaining text
+        // We assume literals and matches are coded in L and M bits.
+        //
+        // We run backwards, creating several arrays as we go. At each byte, we store the best choice: literal or match,
+        // and the number of bytes needed to code all the data from that point on to the end of the file.
+        // Then, at some preceding byte we choose literal or match based on the minimum total output length resulting.
+        // Obviously, when we get back to the first byte, we have chosen the optimal coding for the file. Here's how it works:
+        //
+        // Let out[n] be the total output length to code from byte n to the EOF.
+        // Let cml[n] be the chosen match length for byte n; (1 <= cml[n] <= ml[n]), where 1 indicates a literal
+        // Let N be the last byte in the file, and c the current pos.
+        //
+        // A.    out[N] = 0
+        //       cml[N] = 1
+        //       c = N - 1
+        //
+        // B.	 for all 2 <= l <= ml[c], compute:
+        //           output[l] = M + out[c + l]
+        //       output[1] = L + out[c + 1]
+        //       find the 1 <= l <= ml[c] which miminizes output[l]
+        //
+        //       cml[c] = l
+        //       out[c] = output[l]
+        //       c -= 1
+        //
+        // C.    if c > 0 , goto B
+        //
+        //	     create the output:
+        //           c = 0
+        //           send cml[c]
+        //           c += cml[c]
+        //           repeat
 
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
         const auto ml = find_longest_matches(uncompressed_data);
