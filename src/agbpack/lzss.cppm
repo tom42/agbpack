@@ -551,7 +551,7 @@ public:
         // B.	 for all 2 <= l <= ml[c], compute:
         //           output[l] = M + out[c + l]
         //       output[1] = L + out[c + 1]
-        //       find the 1 <= l <= ml[c] which miminizes output[l]
+        //       find the 1 <= l <= ml[c] which minimizes output[l]
         //
         //       cml[c] = l
         //       out[c] = output[l]
