@@ -509,7 +509,11 @@ inline vector<match> choose_matches(const vector<match>& ml)
     const size_t N = ml.size() - 1;
     out[N] = 0;
     cml[N] = match(1, 0);
-    //auto c = N - 1; // TODO: uncomment (and is this correct at all?
+    auto c = N; // TODO: that we use N here instead of N-1, but our loop condition will fix it (if N=0, then we will not enter the loop body at all, which is the case for input length=1)
+
+    while (c--)
+    {
+    }
 
     return cml;
 }
