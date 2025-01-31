@@ -479,7 +479,7 @@ vector<match> find_longest_matches(const vector<agbpack_u8>& input)
     {
         auto m = match_finder.find_match(i);
         // TODO: the if/else here is a bit of a kludge. Or is it?
-        //       Actually, maybe it is not: anything with a length < 3 we encode as a literal, and offset refers to itself!
+        //       Actually, maybe it is not: anything with a length < 3 we encode as a literal, and offset=0 refers to itself!
         if (m.length() < minimum_match_length)
         {
             longest_matches.push_back(match(1, 0));
