@@ -525,14 +525,17 @@ inline vector<match> choose_matches(const vector<match>& ml)
             output[l] = M + out[c + l - 1]; // TODO: ugh: this overflows: do we need a -1 here somewhere because we are not one-bsed?
         }
         // TODO: WARNING!!!!!!!!! The following and the line above may have mixed up array indexing!
-        output[1] = L + out[c + 1]; // TODO: above we've hacked in a -1. Do we need one here too? Probably, no?
+        // TODO: !!! UGH: this is a complete mess: maybe redo it and get the array indexing right?
+        output[1] = L + out[c + 1]; // TODO: above we've hacked in a -1. Do we need one here too? Probably, no? (Nah, this loop we calculate out[c], based on out[c + 1]
 
 
         // TODO: find the l which minimizes
+        auto l = std::distance(&output[0], std::min_element(&output[1], &output[ml[c].length()]));
 
         // TODO: update out
         // TODO: update cml correctly
-        cml[c] = match(1, 0); // TODO: this is NOT at all what should happen here
+        cml[c] = match(l, ml[c].offset());
+        out[c] = output[l];
     }
 
     return cml;
