@@ -502,6 +502,13 @@ public:
     {
         static_assert_input_type(input);
 
+        // Based on https://cbloom.com/algs/dictionary.html
+        //
+        // "We run through the entire file and create an array, ml[n], storing the maximum match length at each position.
+        // The trick is now to run *backwards* through the file to find the optimal way to choose literals and matches throughout.
+        // [...] we assume literals and matches are coded in L and M bits."
+        // TODO: copy relevant portions of remaining text
+
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
         const auto ml = find_longest_matches(uncompressed_data);
 
