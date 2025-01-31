@@ -503,10 +503,11 @@ inline vector<match> choose_matches(const vector<match>& ml)
 
     // TODO: does it even make sense for cml to be an array of matches? ml only contains the longest match, no? We don't know what the shorter ones would be, no?
     //       Umm...if there is a long match at offset O, then there are shorter matches at the very same offset too, no?
-    vector<size_t> out(ml.size());
-    vector<match> cml(ml.size());
+    vector<size_t> out(ml.size(), size_t(-1)); // TODO: initialized for debugging
+    vector<match> cml(ml.size(), match(size_t(-1), size_t(-1))); // TODO: initialized for debugging
 
     // A.
+    const size_t M = 16; // TODO: cost of a match. Should we incorporate the tag bit or not?
     const size_t N = ml.size() - 1;
     out[N] = 0;
     cml[N] = match(1, 0);
@@ -515,6 +516,16 @@ inline vector<match> choose_matches(const vector<match>& ml)
     // B.
     while (c--)
     {
+        // TODO: note down that array indices in output are one based for the sake of simplicity. Index=0 is never used (should we crap this into a class?)
+        // TODO: should we hoist ouput out of the loop?
+        std::array<size_t, maximum_match_length + 1> output;
+        for (size_t l = 2; l <= ml[c].length(); ++l)
+        {
+            output[l] = M + out[c + l]; // TODO: ugh: this overflows: do we need a -1 here somewhere because we are not one-bsed?
+        }
+        // TODO: also set output[1]
+        // TODO: find the l which minimizes
+
         cml[c] = match(1, 0); // TODO: this is NOT at all what should happen here
     }
 
