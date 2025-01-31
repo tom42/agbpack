@@ -501,10 +501,17 @@ inline vector<match> choose_matches(const vector<match>& ml)
         return {};
     }
 
+    // TODO: does it even make sense for cml to be an array of matches? ml only contains the longest match, no? We don't know what the shorter ones would be, no?
+    //       Umm...if there is a long match at offset O, then there are shorter matches at the very same offset too, no?
     vector<size_t> out(ml.size());
-    vector<match> cml(ml.size()); // TODO: does it even make sense for cml to be an array of matches? ml only contains the longest match, no? We don't know what the shorter ones would be, no?
+    vector<match> cml(ml.size());
 
-    return{};
+    const size_t N = ml.size() - 1;
+    out[N] = 0;
+    cml[N] = match(1, 0);
+    //auto c = N - 1; // TODO: uncomment (and is this correct at all?
+
+    return cml;
 }
 
 export class optimal_lzss_encoder final
