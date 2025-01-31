@@ -20,8 +20,8 @@ namespace
 
 auto call_choose_matches(const std::string& s)
 {
-    agbpack::find_longest_matches(byte_vector(begin(s), end(s)));
-    return agbpack::choose_matches({});
+    const auto ml = agbpack::find_longest_matches(byte_vector(begin(s), end(s)));
+    return agbpack::choose_matches(ml);
 }
 
 }
