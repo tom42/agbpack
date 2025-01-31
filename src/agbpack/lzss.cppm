@@ -495,6 +495,12 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 inline vector<match> choose_matches(const vector<match>& ml)
 {
     // TODO: choose matches
+    // TODO: copy explanation from optimal_lzss_encoder to here?
+    if (ml.empty())
+    {
+        return {};
+    }
+
     vector<size_t> out(ml.size());
     vector<match> cml(ml.size()); // TODO: does it even make sense for cml to be an array of matches? ml only contains the longest match, no? We don't know what the shorter ones would be, no?
 
