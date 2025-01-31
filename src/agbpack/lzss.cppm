@@ -447,20 +447,6 @@ private:
     bool m_vram_safe = false;
 };
 
-// TODO: implement and test this
-// TODO: do we really need this as a class? (well yes if we do want to specialize it for vectors?)
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-class maximum_match_length_table final
-{
-public:
-    // TODO: implement this (give it some sort of init method which both calculates the ml table and reads the entire input)
-    //       * Problem: bloom's document says
-    //           "Let cml[n] be the chosen match length for byte n; (1 <= cml[n] <= ml[n]),
-    //            *where 1 indicates a literal*"
-    //         This is not how match_finder works, which may return 0 for a literal. OUCH.
-private:
-};
-
 // TODO: also incorporate stuff, from sketched out class maximum_match_length_table (and delete that one then)
 // TODO: does this need to be inline? I guess so, no? That, or it should go into a cpp file...
 AGBPACK_EXPORT_FOR_UNIT_TESTING
@@ -473,6 +459,14 @@ vector<match> find_longest_matches(const vector<agbpack_u8>& input)
     // TODO: this is somewhat unfortunate: for literals and stuff this returns silly data, e.g. (l=0, m=0)
     //       This may be OK for the greedy encoder, but here we want literals to have a length=1.
     //       We can of course document that anything with match_length < minimum_match_length has an invalid offset, but somehow I dislike this, no?
+    //       * Problem: bloom's document says
+    //           "Let cml[n] be the chosen match length for byte n; (1 <= cml[n] <= ml[n]),
+    //            *where 1 indicates a literal*"
+    //         This is not how match_finder works, which may return 0 for a literal. OUCH.
+    //       * The problem is that we never properly defined what the fields of match mean in what case and that
+    //         for matches with length < 3 match finder returns weird results. Things do work if we interpret
+    //         anything with length < minimum_match_length as 'encoder a literal', which is actually what both
+    //         lzss_encoder and optimal_lzss_encoder do
     match_finder match_finder(input, minimum_offset - 1); // TODO: this subtraction is REALLY ugly (see above where already have this)
 
     for (size_t i = 0; i < input.size(); ++i)
