@@ -11,9 +11,9 @@ import agbpack_unit_testkit;
 namespace agbpack_unit_test
 {
 
-using m = agbpack::match;
 using byte_vector = std::vector<unsigned char>;
-using match_vector = std::vector<agbpack::match>;
+using m = agbpack::match;
+using mv = std::vector<agbpack::match>;
 
 namespace
 {
@@ -27,14 +27,14 @@ auto call_find_longest_matches(const std::string& s)
 
 TEST_CASE("find_longest_matches_test")
 {
-    CHECK(call_find_longest_matches("")      == match_vector{});
-    CHECK(call_find_longest_matches("a")     == match_vector{ m(1, 0) });
-    CHECK(call_find_longest_matches("aa")    == match_vector{ m(1, 0), m(1, 0) });
-    CHECK(call_find_longest_matches("ab")    == match_vector{ m(1, 0), m(1, 0) });
-    CHECK(call_find_longest_matches("aaa")   == match_vector{ m(1, 0), m(1, 0), m(1, 0) }); // TODO: how does the greedy encoder encode this, then? Three literals?
-    CHECK(call_find_longest_matches("aaaa")  == match_vector{ m(1, 0), m(3, 1), m(1, 0), m(1, 0) });
-    CHECK(call_find_longest_matches("aaaaa") == match_vector{ m(1, 0), m(4, 1), m(3, 2), m(1, 0), m(1, 0) }); // TODO: better to use the first longest match or the last one? (for entropy coding?)
-    CHECK(call_find_longest_matches("ababa") == match_vector{ m(1, 0), m(1, 0), m(3, 2), m(1, 0), m(1, 0) });
+    CHECK(call_find_longest_matches("")      == mv{});
+    CHECK(call_find_longest_matches("a")     == mv{ m(1, 0) });
+    CHECK(call_find_longest_matches("aa")    == mv{ m(1, 0), m(1, 0) });
+    CHECK(call_find_longest_matches("ab")    == mv{ m(1, 0), m(1, 0) });
+    CHECK(call_find_longest_matches("aaa")   == mv{ m(1, 0), m(1, 0), m(1, 0) }); // TODO: how does the greedy encoder encode this, then? Three literals?
+    CHECK(call_find_longest_matches("aaaa")  == mv{ m(1, 0), m(3, 1), m(1, 0), m(1, 0) });
+    CHECK(call_find_longest_matches("aaaaa") == mv{ m(1, 0), m(4, 1), m(3, 2), m(1, 0), m(1, 0) }); // TODO: better to use the first longest match or the last one? (for entropy coding?)
+    CHECK(call_find_longest_matches("ababa") == mv{ m(1, 0), m(1, 0), m(3, 2), m(1, 0), m(1, 0) });
 }
 
 }
