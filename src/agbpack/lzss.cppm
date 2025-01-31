@@ -255,6 +255,9 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class match final
 {
 public:
+    // TODO: do we even need this?
+    match() : match(0, 0) {}
+
     match(size_t length, size_t offset)
         : m_length(length)
         , m_offset(offset)
@@ -447,7 +450,6 @@ private:
     bool m_vram_safe = false;
 };
 
-// TODO: also incorporate stuff, from sketched out class maximum_match_length_table (and delete that one then)
 // TODO: does this need to be inline? I guess so, no? That, or it should go into a cpp file...
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 vector<match> find_longest_matches(const vector<agbpack_u8>& input)
@@ -487,7 +489,15 @@ vector<match> find_longest_matches(const vector<agbpack_u8>& input)
     return longest_matches;
 }
 
-// TODO: document what this is based on: can we copy the text from cbloom, or do we simply add the link?
+vector<match> choose_matches(const vector<match>& ml)
+{
+    // TODO: choose matches
+    vector<size_t> out(ml.size());
+    vector<match> cml(ml.size()); // TODO: does it even make sense for cml to be an array of matches? ml only contains the longest match, no? We don't know what the shorter ones would be, no?
+
+    return{};
+}
+
 export class optimal_lzss_encoder final
 {
 public:
@@ -534,6 +544,7 @@ public:
 
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
         const auto ml = find_longest_matches(uncompressed_data);
+        const auto cml = choose_matches(ml);
 
         // TODO: implement
         // * First step: create the table with the maximum match length
