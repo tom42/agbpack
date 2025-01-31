@@ -450,9 +450,9 @@ private:
     bool m_vram_safe = false;
 };
 
-// TODO: does this need to be inline? I guess so, no? That, or it should go into a cpp file...
+// TODO: put this into a cpp module instead of having it inline?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-vector<match> find_longest_matches(const vector<agbpack_u8>& input)
+inline vector<match> find_longest_matches(const vector<agbpack_u8>& input)
 {
     vector<match> longest_matches;
     longest_matches.reserve(input.size());
@@ -489,7 +489,9 @@ vector<match> find_longest_matches(const vector<agbpack_u8>& input)
     return longest_matches;
 }
 
-vector<match> choose_matches(const vector<match>& ml)
+// TODO: put this into a cpp module instead of having it inline?
+AGBPACK_EXPORT_FOR_UNIT_TESTING
+inline vector<match> choose_matches(const vector<match>& ml)
 {
     // TODO: choose matches
     vector<size_t> out(ml.size());
