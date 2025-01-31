@@ -513,6 +513,7 @@ inline vector<match> choose_matches(const vector<match>& ml)
 
     while (c--)
     {
+        cml[c] = match(1, 0); // TODO: this is NOT at all what should happen here
     }
 
     return cml;
