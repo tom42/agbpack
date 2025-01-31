@@ -33,7 +33,7 @@ TEST_CASE("find_longest_matches_test")
     CHECK(call_find_longest_matches("ab")    == mv{ m(1, 0), m(1, 0) });
     CHECK(call_find_longest_matches("aaa")   == mv{ m(1, 0), m(1, 0), m(1, 0) });
     CHECK(call_find_longest_matches("aaaa")  == mv{ m(1, 0), m(3, 1), m(1, 0), m(1, 0) });
-    CHECK(call_find_longest_matches("aaaaa") == mv{ m(1, 0), m(4, 1), m(3, 2), m(1, 0), m(1, 0) }); // TODO: better to use the first longest match or the last one? (for entropy coding?)
+    CHECK(call_find_longest_matches("aaaaa") == mv{ m(1, 0), m(4, 1), m(3, 2), m(1, 0), m(1, 0) });
     CHECK(call_find_longest_matches("ababa") == mv{ m(1, 0), m(1, 0), m(3, 2), m(1, 0), m(1, 0) });
 }
 

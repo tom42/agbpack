@@ -451,6 +451,7 @@ private:
 };
 
 // TODO: put this into a cpp module instead of having it inline?
+// TODO: better to use the first longest match or the last one? (for subsequent entropy coder?)
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 inline vector<match> find_longest_matches(const vector<agbpack_u8>& input)
 {
