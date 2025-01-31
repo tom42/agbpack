@@ -508,6 +508,7 @@ inline vector<match> choose_matches(const vector<match>& ml)
 
     // A.
     const size_t M = 16; // TODO: cost of a match. Should we incorporate the tag bit or not?
+    const size_t L = 8; // TODO: cost of a match. Should we incorporate the tag bit or not?
     const size_t N = ml.size() - 1;
     out[N] = 0;
     cml[N] = match(1, 0);
@@ -521,11 +522,16 @@ inline vector<match> choose_matches(const vector<match>& ml)
         std::array<size_t, maximum_match_length + 1> output;
         for (size_t l = 2; l <= ml[c].length(); ++l)
         {
-            output[l] = M + out[c + l]; // TODO: ugh: this overflows: do we need a -1 here somewhere because we are not one-bsed?
+            output[l] = M + out[c + l - 1]; // TODO: ugh: this overflows: do we need a -1 here somewhere because we are not one-bsed?
         }
-        // TODO: also set output[1]
+        // TODO: WARNING!!!!!!!!! The following and the line above may have mixed up array indexing!
+        output[1] = L + out[c + 1]; // TODO: above we've hacked in a -1. Do we need one here too? Probably, no?
+
+
         // TODO: find the l which minimizes
 
+        // TODO: update out
+        // TODO: update cml correctly
         cml[c] = match(1, 0); // TODO: this is NOT at all what should happen here
     }
 
