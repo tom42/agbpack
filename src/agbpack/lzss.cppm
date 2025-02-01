@@ -619,21 +619,20 @@ private:
         vector<agbpack_u8> bitstream;
         lzss_bitstream_writer writer(bitstream);
 
-        // TODO: implement. Problem: too many construction sites at the moment
         auto u = uncompressed_data.begin();
         for (auto c = chosen_matches.begin(); c < chosen_matches.end(); )
         {
             if (c->length() < minimum_match_length)
             {
                 writer.write_literal(*u);
-                ++c;
                 ++u;
+                ++c;
             }
             else
             {
                 writer.write_reference(c->length(), c->offset());
-                c += c->length(); // TODO: is this correct?
-                u += c->length(); // TODO: is this correct?
+                u += c->length(); // The next statement will invalidate c, so we need to increment u first.
+                c += c->length();
             }
         }
 
