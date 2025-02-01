@@ -547,7 +547,7 @@ export class optimal_lzss_encoder final
 {
 public:
     template <std::input_iterator InputIterator, typename OutputIterator>
-    void encode(InputIterator input, InputIterator eof, OutputIterator /*output*/)
+    void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type(input);
 
@@ -590,11 +590,17 @@ public:
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
         const auto ml = find_longest_matches(uncompressed_data);
         const auto cml = choose_matches(ml);
-        const auto bitstream = write_bitstream(cml);
+        const auto encoded_data = write_bitstream(cml);
+        const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
         // TODO: using uncompressed_data and cml, create the encoded data => obviously we can also unit test this, although it goes probably a bit far?
 
-        // TODO: copy header and encoded data to output
+        // TODO: the following mantra should go into some sort of helper, no? We have it by now multiple times...
+        // Copy header and encoded data to output
+        unbounded_byte_writer<OutputIterator> writer(output);
+        write32(writer, header.to_uint32_t());
+        write(writer, encoded_data.begin(), encoded_data.end());
+        write_padding_bytes(writer);
     }
 
     void vram_safe(bool enable)
