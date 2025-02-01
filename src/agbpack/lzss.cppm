@@ -255,9 +255,6 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class match final
 {
 public:
-    // TODO: do we even need this?
-    match() : match(0, 0) {}
-
     match(size_t length, size_t offset)
         : m_length(length)
         , m_offset(offset)
