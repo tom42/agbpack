@@ -590,7 +590,7 @@ public:
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
         const auto ml = find_longest_matches(uncompressed_data);
         const auto cml = choose_matches(ml);
-        const auto encoded_data = write_bitstream(cml);
+        const auto encoded_data = write_bitstream(cml, uncompressed_data);
         const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
         // TODO: using uncompressed_data and cml, create the encoded data => obviously we can also unit test this, although it goes probably a bit far?
@@ -614,19 +614,20 @@ public:
     }
 
 private:
-    static vector<agbpack_u8> write_bitstream(const vector<match>& chosen_matches)
+    static vector<agbpack_u8> write_bitstream(const vector<match>& chosen_matches, const vector<agbpack_u8>& uncompressed_data)
     {
         vector<agbpack_u8> bitstream;
         lzss_bitstream_writer writer(bitstream);
 
         // TODO: implement. Problem: too many construction sites at the moment
+        auto u = uncompressed_data.begin();
         for (auto c = chosen_matches.begin(); c < chosen_matches.end(); )
         {
             if (c->length() < minimum_match_length)
             {
-                // TODO: do not know what to write here. Need access to uncompressed data
-                writer.write_literal('x');
+                writer.write_literal(*u);
                 ++c;
+                ++u;
             }
             else
             {
