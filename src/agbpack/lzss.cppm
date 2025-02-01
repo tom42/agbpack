@@ -491,7 +491,6 @@ inline vector<match> find_longest_matches(const vector<agbpack_u8>& input)
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 inline vector<match> choose_matches(const vector<match>& ml)
 {
-    // TODO: choose matches
     // TODO: copy explanation from optimal_lzss_encoder to here?
     if (ml.empty())
     {
