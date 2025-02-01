@@ -507,8 +507,8 @@ inline vector<match> choose_matches(const vector<match>& ml)
     vector<match> cml(ml.size(), match(size_t(-1), size_t(-1))); // TODO: initialized for debugging
 
     // A.
-    const size_t M = 16; // TODO: cost of a match. Should we incorporate the tag bit or not?
-    const size_t L = 8; // TODO: cost of a match. Should we incorporate the tag bit or not?
+    const size_t M = 17; // TODO: cost of a match. Should we incorporate the tag bit or not? of course we should: a single match costs 16+1=17 bits, but 2 literals cost 2*(8+1)=18 bits so are more expensive
+    const size_t L = 9; // TODO: cost of a match. Should we incorporate the tag bit or not?
     const size_t N = ml.size() - 1;
     out[N] = 0; // TODO: should this really be 0, or the cost for a literal?
     cml[N] = match(1, 0);
