@@ -36,7 +36,9 @@ public:
 
     const char* filename() const { return m_filename; }
 
-    size_t expected_encoded_size() const { return m_expected_greedy_encoded_size; }
+    size_t expected_encoded_size(const lzss_encoder&) const { return m_expected_greedy_encoded_size; }
+
+    size_t expected_encoded_size(const optimal_lzss_encoder&) const { return m_expected_greedy_encoded_size; }
 
 private:
     const char* m_filename;
@@ -73,7 +75,7 @@ TEMPLATE_LIST_TEST_CASE_METHOD(
 
         // Encode
         const auto encoded_data = encode_vector(encoder, original_data);
-        CHECK(encoded_data.size() == parameters.expected_encoded_size());
+        CHECK(encoded_data.size() == parameters.expected_encoded_size(encoder));
 
         // Decode
         const auto decoded_data = decode_vector(decoder, encoded_data);
