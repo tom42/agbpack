@@ -450,7 +450,7 @@ private:
 // TODO: put this into a cpp module instead of having it inline?
 // TODO: better to use the first longest match or the last one? (for subsequent entropy coder?)
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-inline vector<match> find_longest_matches(const vector<agbpack_u8>& input)
+inline vector<match> find_longest_matches(const vector<agbpack_u8>& input, bool vram_safe)
 {
     vector<match> longest_matches;
     longest_matches.reserve(input.size());
@@ -467,7 +467,7 @@ inline vector<match> find_longest_matches(const vector<agbpack_u8>& input)
     //         for matches with length < 3 match finder returns weird results. Things do work if we interpret
     //         anything with length < minimum_match_length as 'encoder a literal', which is actually what both
     //         lzss_encoder and optimal_lzss_encoder do
-    match_finder match_finder(input, minimum_offset - 1); // TODO: this subtraction is REALLY ugly (see above where already have this)
+    match_finder match_finder(input, get_minimum_offset(vram_safe) - 1); // TODO: this subtraction is REALLY ugly (see above where already have this)
 
     for (size_t i = 0; i < input.size(); ++i)
     {
@@ -586,7 +586,7 @@ public:
         //           repeat
 
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
-        const auto ml = find_longest_matches(uncompressed_data);
+        const auto ml = find_longest_matches(uncompressed_data, m_vram_safe);
         const auto cml = choose_matches(ml);
         const auto encoded_data = write_bitstream(cml, uncompressed_data);
         const auto header = header::create(lzss_options::reserved, uncompressed_data.size());

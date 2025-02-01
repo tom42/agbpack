@@ -20,7 +20,7 @@ namespace
 
 auto call_find_longest_matches(const std::string& s)
 {
-    return agbpack::find_longest_matches(byte_vector(begin(s), end(s)));
+    return agbpack::find_longest_matches(byte_vector(begin(s), end(s)), false);
 }
 
 }
