@@ -591,24 +591,9 @@ public:
         const auto ml = find_longest_matches(uncompressed_data);
         const auto cml = choose_matches(ml);
 
-        // TODO: implement
-        // * First step: create the table with the maximum match length
-        //   * For this we can use match_finder
-        //   * We should create a class that does this: maximum_match_length_table
-        //     * Mrmpf: what do we write to te table for the cases were maximum match length is <= 3?
-        //       * Well the only special case is length=2, which we cannot even encode, no?
-        //   * The process of creating this table should also return the entire input file for further/repeated processing
-        //   * This can of course be unit tested
-        // * Second step: create the chosen match length array
-        //   * In a first step we could use chosen_match_length = maximum_match_length, no?
-        //     * This should yield the same encoded output as the normal encoder, no?
-        // * Third step: create the output
-        // * Note: this is old comments
-        //       * For starters and to keep things simple, then, organize the encoder as such:
-        //         0) Read in the entire input (do we have a utility function for this?)
-        //         1) Call create_maximum_match_lengths()  <=  This is what we be testing here
-        //         2) Call create_chosen_match_lengths()
-        //         3) Call encode()
+        // TODO: using uncompressed_data and cml, create the encoded data => obviously we can also unit test this, although it goes probably a bit far?
+
+        // TODO: copy header and encoded data to output
     }
 
     void vram_safe(bool enable)
