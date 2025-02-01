@@ -631,7 +631,9 @@ private:
             }
             else
             {
-                throw "TODO: do not know how to write references";
+                writer.write_reference(c->length(), c->offset());
+                c += c->length(); // TODO: is this correct?
+                u += c->length(); // TODO: is this correct?
             }
         }
 
