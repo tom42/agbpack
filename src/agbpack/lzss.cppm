@@ -616,6 +616,8 @@ public:
 private:
     static vector<agbpack_u8> write_bitstream(const vector<match>& chosen_matches, const vector<agbpack_u8>& uncompressed_data)
     {
+        assert(chosen_matches.size() == uncompressed_data.size());
+
         vector<agbpack_u8> bitstream;
         lzss_bitstream_writer writer(bitstream);
 
