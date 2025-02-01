@@ -614,22 +614,25 @@ public:
     }
 
 private:
-    static vector<agbpack_u8> write_bitstream(const vector<match>& /*chosen_matches*/)
+    static vector<agbpack_u8> write_bitstream(const vector<match>& chosen_matches)
     {
         vector<agbpack_u8> bitstream;
+        lzss_bitstream_writer writer(bitstream);
 
         // TODO: implement. Problem: too many construction sites at the moment
-        /*for (auto c = chosen_matches.begin(); c < chosen_matches.end(); )
+        for (auto c = chosen_matches.begin(); c < chosen_matches.end(); )
         {
             if (c->length() < minimum_match_length)
             {
-
+                // TODO: do not know what to write here. Need access to uncompressed data
+                writer.write_literal('x');
+                ++c;
             }
             else
             {
-
+                throw "TODO: do not know how to write references";
             }
-        }*/
+        }
 
         return bitstream;
     }
