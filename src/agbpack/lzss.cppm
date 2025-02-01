@@ -590,6 +590,7 @@ public:
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
         const auto ml = find_longest_matches(uncompressed_data);
         const auto cml = choose_matches(ml);
+        const auto bitstream = write_bitstream(cml);
 
         // TODO: using uncompressed_data and cml, create the encoded data => obviously we can also unit test this, although it goes probably a bit far?
 
@@ -607,6 +608,26 @@ public:
     }
 
 private:
+    static vector<agbpack_u8> write_bitstream(const vector<match>& /*chosen_matches*/)
+    {
+        vector<agbpack_u8> bitstream;
+
+        // TODO: implement. Problem: too many construction sites at the moment
+        /*for (auto c = chosen_matches.begin(); c < chosen_matches.end(); )
+        {
+            if (c->length() < minimum_match_length)
+            {
+
+            }
+            else
+            {
+
+            }
+        }*/
+
+        return bitstream;
+    }
+
     bool m_vram_safe = false;
 };
 
