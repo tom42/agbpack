@@ -13,6 +13,7 @@ import agbpack;
 namespace agbpack_test
 {
 
+using size_t = std::size_t;
 using agbpack::lzss_decoder;
 using agbpack::lzss_encoder;
 using agbpack::optimal_lzss_encoder;
@@ -28,18 +29,18 @@ class lzss_encoder_test_data_fixture : public test_data_fixture {};
 class test_parameters final
 {
 public:
-    test_parameters(const char* filename, std::size_t expected_greedy_encoded_size)
+    test_parameters(const char* filename, size_t expected_greedy_encoded_size)
         : m_filename(filename)
         , m_expected_greedy_encoded_size(expected_greedy_encoded_size)
     {}
 
     const char* filename() const { return m_filename; }
 
-    std::size_t expected_encoded_size() const { return m_expected_greedy_encoded_size; }
+    size_t expected_encoded_size() const { return m_expected_greedy_encoded_size; }
 
 private:
     const char* m_filename;
-    std::size_t m_expected_greedy_encoded_size;
+    size_t m_expected_greedy_encoded_size;
 };
 
 using lzss_encoder_types = std::tuple<lzss_encoder, optimal_lzss_encoder>;
