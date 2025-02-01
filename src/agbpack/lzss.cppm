@@ -503,8 +503,8 @@ inline vector<match> choose_matches(const vector<match>& ml)
 
     // TODO: does it even make sense for cml to be an array of matches? ml only contains the longest match, no? We don't know what the shorter ones would be, no?
     //       Umm...if there is a long match at offset O, then there are shorter matches at the very same offset too, no?
-    vector<size_t> out(ml.size(), size_t(-1)); // TODO: initialized for debugging
-    vector<match> cml(ml.size(), match(size_t(-1), size_t(-1))); // TODO: initialized for debugging
+    vector<size_t> out(ml.size(), size_t(0xbaadf00dbaadf00d)); // TODO: initialized for debugging
+    vector<match> cml(ml.size(), match(size_t(0xbaadf00dbaadf00d), size_t(0xbaadf00dbaadf00d))); // TODO: initialized for debugging
 
     // A.
     const size_t M = 17; // TODO: cost of a match. Should we incorporate the tag bit or not? of course we should: a single match costs 16+1=17 bits, but 2 literals cost 2*(8+1)=18 bits so are more expensive
