@@ -510,7 +510,7 @@ inline vector<match> choose_matches(const vector<match>& ml)
     const size_t M = 16; // TODO: cost of a match. Should we incorporate the tag bit or not?
     const size_t L = 8; // TODO: cost of a match. Should we incorporate the tag bit or not?
     const size_t N = ml.size() - 1;
-    out[N] = 0;
+    out[N] = 0; // TODO: should this really be 0, or the cost for a literal?
     cml[N] = match(1, 0);
     auto c = N; // TODO: that we use N here instead of N-1, but our loop condition will fix it (if N=0, then we will not enter the loop body at all, which is the case for input length=1)
 
