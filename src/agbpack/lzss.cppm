@@ -593,8 +593,6 @@ public:
         const auto encoded_data = write_bitstream(cml, uncompressed_data);
         const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
-        // TODO: using uncompressed_data and cml, create the encoded data => obviously we can also unit test this, although it goes probably a bit far?
-
         // TODO: the following mantra should go into some sort of helper, no? We have it by now multiple times...
         // Copy header and encoded data to output
         unbounded_byte_writer<OutputIterator> writer(output);
