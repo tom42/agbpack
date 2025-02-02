@@ -455,7 +455,6 @@ inline vector<match> find_longest_matches(const vector<agbpack_u8>& input, bool 
     vector<match> longest_matches;
     longest_matches.reserve(input.size());
 
-    // TODO: need to unhardcode minimum_offset
     // TODO: this is somewhat unfortunate: for literals and stuff this returns silly data, e.g. (l=0, m=0)
     //       This may be OK for the greedy encoder, but here we want literals to have a length=1.
     //       We can of course document that anything with match_length < minimum_match_length has an invalid offset, but somehow I dislike this, no?
