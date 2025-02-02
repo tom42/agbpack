@@ -4,6 +4,12 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* optimal_lzss_parser
+  * It passes the current tests
+    * But unfortunately the delta source code test produces a larger file than the greedy parser
+      * Can we debug this?
+        * Can we produce a minimum example with smaller input?
+        * Can we construct a small example where greedy parsing is worse than lazy/optimal parsing?
 * Do the data types in common.cppm even make sense (agbpack_io_datatype, agbpack_u8, agbpack_u16, agbpack_u32)?
   * agbpack_io_datatype: possibly, apart from the fact that it is not used consistently
   * agbpack_u8, agbpack_u16, agbpack_u32: probably not, we could probaby just as well use fixed size standard types (uint8_t etc)
