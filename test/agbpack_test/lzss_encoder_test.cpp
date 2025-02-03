@@ -71,13 +71,22 @@ TEMPLATE_LIST_TEST_CASE_METHOD(
             test_parameters("lzss.good.9-literal-bytes.txt",  16,   16),
             test_parameters("lzss.good.minimum-match.txt",    12,   12),
             test_parameters("lzss.good.maximum-match.txt",    28,   28),
-            test_parameters("lzss.good.delta.cppm",         1556, 1572)); // TODO: bummer: optimal parsing yields larger result than greedy. That's not good at all, is it?
+            // TODO: bummer: optimal parsing yields larger result than greedy. That's not good at all, is it?
+            //       * CUE lzss produces a file of size 1553 in normal, but this is missing padding, so it's really 1556 too (to be expected?)
+            //       * CUE lzss produces a file of size 1548 in optimized mode. This is smaller, so we might want to try and analyze differences?
+            //       * In a first step it would be usful if we had some sort of utility method to dump a byte vector to a file
+            //         * Hopefully this reveals some insight
+            //       * Or we might want to write some sort of analysis tool
+            //         * Take an encoded file
+            //         * Dump out the encoded stream, along with the decoded data (orly?)
+            test_parameters("lzss.good.delta.cppm",         1556, 1572));
         INFO(std::format("Test parameters: {}", parameters.filename()));
         const auto original_data = this->read_decoded_file(parameters.filename());
 
         // Encode
         const auto encoded_data = encode_vector(encoder, original_data);
         CHECK(encoded_data.size() == parameters.expected_encoded_size(encoder));
+        // TODO: at least temporarily, dump encoded data to disk
 
         // Decode
         const auto decoded_data = decode_vector(decoder, encoded_data);

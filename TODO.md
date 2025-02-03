@@ -4,6 +4,7 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Compare LZ4 vs. LZSS? (Improved compression vs. requiring an encoder?)
 * optimal_lzss_parser
   * It passes the current tests
     * But unfortunately the delta source code test produces a larger file than the greedy parser
