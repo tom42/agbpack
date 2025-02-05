@@ -197,6 +197,7 @@ public:
             {
                 flags = read8(reader);
                 mask = 0x80;
+                // TODO: DBG: log tag byte
             }
 
             if (flags & mask)
@@ -211,14 +212,22 @@ public:
 
                 throw_if_not_vram_safe(offset);
 
+                // TODO: DBG:move to separate method
                 if (offset > writer.nbytes_written())
                 {
                     throw decode_exception("reference outside of sliding window");
                 }
+
+                // TODO: DBG: log match
+                //            For debug output it would be helpful if the copy loop was here and not inside the sliding window implementations:
+                //            We need then only one loop, and we get to see the data, so that we can log that too (ugh...problem: how do we log the entire run?)
+                //            Well actually it would be helpful if the writer itself did the logging, no? Well yes, but then we'd notify it of tag bytes
+                //            Well, why not? OK but then we'd need a way to replace the byte_writer above, no?
                 writer.copy_from_output(nbytes, offset);
             }
             else
             {
+                // TODO: DBG: log literal
                 auto byte = read8(reader);
                 writer.write8(byte);
             }
