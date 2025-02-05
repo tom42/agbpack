@@ -637,7 +637,7 @@ private:
             else
             {
                 writer.write_reference(c->length(), c->offset());
-                u += c->length(); // The next statement will invalidate c, so we need to increment u first.
+                u += c->length(); // We need c to update u, so update u first, then c!
                 c += c->length();
             }
         }
