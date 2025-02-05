@@ -173,7 +173,7 @@ private:
 export class lzss_decoder final
 {
 public:
-    template <std::input_iterator InputIterator, typename OutputIterator>
+    template <std::input_iterator InputIterator, typename OutputIterator, typename LzssByteWriter = lzss_byte_writer<OutputIterator>>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type(input); // TODO: probably we want to either remove this or extend it with the output iterator?
@@ -185,7 +185,11 @@ public:
             throw decode_exception();
         }
 
-        lzss_byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
+        // TODO: lzss byte writer is a silly name. Basically, this listens to LZSS Decoder output. Maybe call it like that
+        // TODO: also write8 and copy_from_output are too generic names:
+        //       * write8 receives a literal
+        //       * copy_from_output receives a match
+        LzssByteWriter writer(header->uncompressed_size(), output);
 
         unsigned int mask = 0;
         unsigned int flags = 0;
