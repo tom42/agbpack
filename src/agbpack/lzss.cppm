@@ -211,12 +211,7 @@ public:
                 assert(in_closed_range(offset, minimum_offset, maximum_offset) && "lzss_decoder is broken");
 
                 throw_if_not_vram_safe(offset);
-
-                // TODO: DBG:move to separate method
-                if (offset > writer.nbytes_written())
-                {
-                    throw decode_exception("reference outside of sliding window");
-                }
+                throw_if_outside_sliding_window(offset, writer);
 
                 // TODO: DBG: log match
                 //            For debug output it would be helpful if the copy loop was here and not inside the sliding window implementations:
@@ -254,6 +249,15 @@ private:
         if (offset < get_minimum_offset(m_vram_safe))
         {
             throw decode_exception("encoded data is not VRAM safe");
+        }
+    }
+
+    template <typename OutputIterator>
+    static void throw_if_outside_sliding_window(size_t offset, const lzss_byte_writer<OutputIterator>& writer)
+    {
+        if (offset > writer.nbytes_written())
+        {
+            throw decode_exception("reference outside of sliding window");
         }
     }
 
