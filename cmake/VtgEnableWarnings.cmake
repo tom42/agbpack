@@ -14,6 +14,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wno-ctad-maybe-unsupported)
   add_compile_options(-Wno-padded)
   add_compile_options(-Wno-switch-default)
+  add_compile_options(-Wno-unsafe-buffer-usage)
   add_compile_options(-Wno-weak-vtables)
 endif()
 
