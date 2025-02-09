@@ -277,4 +277,10 @@ bool in_open_range(std::unsigned_integral auto x, std::unsigned_integral auto mi
     return (min <= x) && (x < max);
 }
 
+template <std::unsigned_integral UnsignedIntegral>
+auto make_signed(UnsignedIntegral value)
+{
+    return static_cast<std::make_signed_t<UnsignedIntegral>>(value);
+}
+
 }

@@ -159,12 +159,6 @@ public:
     }
 
 private:
-    template <std::unsigned_integral UnsignedIntegral>
-    static auto make_signed(UnsignedIntegral value)
-    {
-        return static_cast<std::make_signed_t<UnsignedIntegral>>(value);
-    }
-
     agbpack_u32 m_uncompressed_size;
     agbpack_u32 m_nbytes_written = 0;
     RandomAccessIterator m_output;
