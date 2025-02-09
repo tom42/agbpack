@@ -283,4 +283,10 @@ auto make_signed(UnsignedIntegral value)
     return static_cast<std::make_signed_t<UnsignedIntegral>>(value);
 }
 
+template <std::signed_integral SignedIntegral>
+auto make_unsigned(SignedIntegral value)
+{
+    return static_cast<std::make_unsigned_t<SignedIntegral>>(value);
+}
+
 }

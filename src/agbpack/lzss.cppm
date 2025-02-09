@@ -540,7 +540,7 @@ inline vector<match> choose_matches(const vector<match>& ml)
         // TODO: important: iterator ranges are half open, so we need a + 1 here, since we want to look the costs of l=1 .. l=ml[c]
         // TODO: maybe do not call this end then, since it is NOT the end of the search range?
         auto end = &output[ml[c].length()];
-        auto l = std::distance(&output[0], std::min_element(begin, end + 1));
+        auto l = make_unsigned(std::distance(&output[0], std::min_element(begin, end + 1)));
 
         // TODO: update out
         // TODO: update cml correctly
