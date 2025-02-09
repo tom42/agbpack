@@ -639,8 +639,8 @@ private:
             else
             {
                 writer.write_reference(c->length(), c->offset());
-                u += c->length(); // We need c to update u, so update u first, then c!
-                c += c->length();
+                u += make_signed(c->length()); // We need c to update u, so update u first, then c!
+                c += make_signed(c->length());
             }
         }
 
