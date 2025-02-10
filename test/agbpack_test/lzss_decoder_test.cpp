@@ -132,6 +132,15 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
             agbpack::decode_exception,
             Catch::Matchers::Message("encoded data is corrupt: encoded data is not VRAM safe"));
     }
+
+    // TODO: this test is only here to develop debug output. We're probably going to delete it again. Or are we?
+    SECTION("Debug output")
+    {
+        const auto encoded_data = read_encoded_file("lzss.good.literals-and-references.txt");
+        std::vector<unsigned char> decoded_data; // TODO: include <vector> if we want to keep this test
+
+        decoder.decode(begin(encoded_data), end(encoded_data), back_inserter(decoded_data));
+    }
 }
 
 }

@@ -229,6 +229,16 @@ public:
         parse_padding_bytes(reader);
     }
 
+    // TODO: probably we can't tell overloads from eachother, so this needs a different name, no?
+    //       * Well we could generalize this and give it two args, no? A sink and a source...
+    //       * Well we already have the source: it's the ByteReader...but that's not yet exported, no?
+    // TODO: rename LzssDecoderListener to LzssDecoderSink?
+    template <typename ByteReader, typename LzssDecoderListener>
+    void decode() // TODO: args
+    {
+        // TODO: duplicate decoder loop here, then express other decode in terms of this one
+    }
+
     // When VRAM safety is enabled in the decoder, the decoder throws if the encoded data is not VRAM safe.
     // Use this when you want to verify that data is VRAM safe.
     void vram_safe(bool enable)
