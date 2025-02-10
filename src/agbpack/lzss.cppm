@@ -233,8 +233,9 @@ public:
     //       * Well we could generalize this and give it two args, no? A sink and a source...
     //       * Well we already have the source: it's the ByteReader...but that's not yet exported, no?
     // TODO: rename LzssDecoderListener to LzssDecoderSink?
-    template <typename ByteReader, typename LzssDecoderListener>
-    void decode() // TODO: args
+    // TODO: do we even care about InputIterator here? Should we just use TByteReader? Should there be a concept byte_reader?
+    template <std::input_iterator InputIterator, typename LzssDecoderListener>
+    void decode(const byte_reader<InputIterator>& reader, const LzssDecoderListener& listener) // TODO: arg types (const? reference?)
     {
         // TODO: duplicate decoder loop here, then express other decode in terms of this one
     }

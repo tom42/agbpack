@@ -259,12 +259,18 @@ void write_padding_bytes(ByteWriter& writer)
 }
 
 template <typename InputIterator>
-void static_assert_input_type(InputIterator& input)
+void static_assert_input_type()
 {
     static_assert(
-        std::is_same_v<std::remove_cv_t<std::remove_reference_t<decltype(*input)>>,
+        std::is_same_v<std::remove_cv_t<std::remove_reference_t<InputIterator>>,
         agbpack_io_datatype>,
         "Input iterator should read values of type unsigned char");
+}
+
+template <typename InputIterator>
+void static_assert_input_type(const InputIterator& input)
+{
+    static_assert_input_type<decltype(*input)>();
 }
 
 bool in_closed_range(std::unsigned_integral auto x, std::unsigned_integral auto min, std::unsigned_integral auto max)
