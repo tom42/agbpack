@@ -87,12 +87,19 @@ public:
     explicit lzss_byte_writer(agbpack_u32 uncompressed_size, OutputIterator output)
         : m_writer(uncompressed_size, output) {}
 
+    void literal(agbpack_u8 byte)
+    {
+        write8(byte);
+    }
+
+    // TODO: remove
     void write8(agbpack_u8 byte)
     {
         m_writer.write8(byte);
         m_window.write8(byte);
     }
 
+    // TODO: remove
     void copy_from_output(unsigned int nbytes, size_t offset)
     {
         while (nbytes--)
@@ -102,11 +109,13 @@ public:
         }
     }
 
+    // TODO: remove
     bool done() const
     {
         return m_writer.done();
     }
 
+    // TODO: remove
     size_t nbytes_written() const
     {
         return m_writer.nbytes_written();
@@ -128,6 +137,12 @@ public:
         , m_output(output)
     {}
 
+    void literal(agbpack_u8 byte)
+    {
+        write8(byte);
+    }
+
+    // TODO: remove
     void write8(agbpack_u8 byte)
     {
         if (done())
@@ -139,6 +154,7 @@ public:
         ++m_nbytes_written;
     }
 
+    // TODO: remove
     void copy_from_output(unsigned int nbytes, size_t offset)
     {
         while (nbytes--)
@@ -148,11 +164,13 @@ public:
         }
     }
 
+    // TODO: remove
     bool done() const
     {
         return m_nbytes_written >= m_uncompressed_size;
     }
 
+    // TODO: remove
     size_t nbytes_written() const
     {
         return m_nbytes_written;
@@ -172,7 +190,33 @@ public:
     {
         static_assert_input_type(input); // TODO: probably we want to either remove this or extend it with the output iterator?
 
+        // TODO: probably can't pass temporaries like this...
+        // TODO: we don't want to pass an unbounded_byte_writer here. We want to pass a decoder listener that writes to  output
+        //       Nope. What we DO want to pass here is an lzss_byte_writer, but the thing needs to be rewritten such that
+        //       it does not want to know what the number of output bytes is, because we do not know yet
+        //       * So: we DO want to pass an lzss_byte_writer here
+        //       * But lzss_byte_writer will not get the expected output size anymore
+        //         * So both lzss_byte_writer implementations don't need byte counting functionality anymore
+        //         * Basically we'll need to go through all of their methods and see whether they're still needed
+        // TODO: do we even need to flavors of lzss_byte_writer once we're done? (well probably yes, we'll see)
         byte_reader<InputIterator> reader(input, eof);
+        lzss_byte_writer<OutputIterator> writer(0xffffffff, output); // TODO: size argument is bogus to get things compiling. It should really be removed
+
+        decode(reader, writer);
+    }
+
+    // TODO: probably we can't tell overloads from eachother, so this needs a different name, no?
+    //       * Well we could generalize this and give it two args, no? A sink and a source...
+    //       * Well we already have the source: it's the ByteReader...but that's not yet exported, no?
+    // TODO: rename LzssDecoderListener to LzssDecoderSink?
+    //       Note: Shrinkler code calls this e.g. LZReceiver, and it has methods receiveLiteral() and receiveReference()
+    // TODO: do we even care about InputIterator here? Should we just use TByteReader? Should there be a concept byte_reader?
+    template <std::input_iterator InputIterator, typename LzssDecoderListener>
+    void decode(byte_reader<InputIterator>& reader, LzssDecoderListener& listener) // TODO: arg types (const? reference?)
+    {
+        // TODO: duplicate decoder loop here, then express other decode in terms of this one
+        //static_assert_input_type<InputIterator>(); // TODO: for some reason this does not compile, but I can't quite see why. Commented it out for the time being
+
         auto header = header::parse_for_type(compression_type::lzss, read32(reader));
         if (!header)
         {
@@ -183,12 +227,12 @@ public:
         // TODO: also write8 and copy_from_output are too generic names:
         //       * write8 receives a literal
         //       * copy_from_output receives a match
-        LzssByteWriter writer(header->uncompressed_size(), output);
 
         unsigned int mask = 0;
         unsigned int flags = 0;
+        size_t nbytes_written = 0; // TODO: use size_t or agbpack_u32?
 
-        while (!writer.done())
+        while (nbytes_written < header->uncompressed_size()) // TODO: listener should have no notion of "done"
         {
             mask >>= 1;
             if (!mask)
@@ -209,35 +253,27 @@ public:
                 assert(in_closed_range(offset, minimum_offset, maximum_offset) && "lzss_decoder is broken");
 
                 throw_if_not_vram_safe(offset);
-                throw_if_outside_sliding_window(offset, writer);
+                // TODO: uncomment again
+                //throw_if_outside_sliding_window(offset, listener); // TODO: listener should not be concerned here
 
                 // TODO: DBG: log match
                 //            For debug output it would be helpful if the copy loop was here and not inside the sliding window implementations:
                 //            We need then only one loop, and we get to see the data, so that we can log that too (ugh...problem: how do we log the entire run?)
                 //            Well actually it would be helpful if the writer itself did the logging, no? Well yes, but then we'd notify it of tag bytes
                 //            Well, why not? OK but then we'd need a way to replace the byte_writer above, no?
-                writer.copy_from_output(nbytes, offset);
+                // TODO: uncomment again
+                //listener.copy_from_output(nbytes, offset); // TODO: listener should not have to count bytes
             }
             else
             {
-                // TODO: DBG: log literal
+                // TODO: DBG: log literal => Well we can do this now by creating a listener that logs, no?
                 auto byte = read8(reader);
-                writer.write8(byte);
+                listener.literal(byte);
+                ++nbytes_written;
             }
         }
 
         parse_padding_bytes(reader);
-    }
-
-    // TODO: probably we can't tell overloads from eachother, so this needs a different name, no?
-    //       * Well we could generalize this and give it two args, no? A sink and a source...
-    //       * Well we already have the source: it's the ByteReader...but that's not yet exported, no?
-    // TODO: rename LzssDecoderListener to LzssDecoderSink?
-    // TODO: do we even care about InputIterator here? Should we just use TByteReader? Should there be a concept byte_reader?
-    template <std::input_iterator InputIterator, typename LzssDecoderListener>
-    void decode(const byte_reader<InputIterator>& reader, const LzssDecoderListener& listener) // TODO: arg types (const? reference?)
-    {
-        // TODO: duplicate decoder loop here, then express other decode in terms of this one
     }
 
     // When VRAM safety is enabled in the decoder, the decoder throws if the encoded data is not VRAM safe.
