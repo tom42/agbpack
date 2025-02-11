@@ -244,11 +244,17 @@ public:
                 assert(in_closed_range(length, minimum_match_length, maximum_match_length) && "lzss_decoder is broken");
                 assert(in_closed_range(offset, minimum_offset, maximum_offset) && "lzss_decoder is broken");
 
-                // TODO: make these two one function
+                // TODO: make these two one function (actually we could merge the test below too...what we really do is, we verify the reference)
                 throw_if_not_vram_safe(offset);
                 throw_if_outside_sliding_window(offset, nbytes_written);
 
-                // TODO: throw if reference goes past end of output
+                // TODO: move this into an own function
+                // TODO: what if nbytes_written + length overflow?
+                if ((nbytes_written + length) > header->uncompressed_size())
+                {
+                    throw decode_exception();
+                }
+
                 listener.reference(length, offset);
                 nbytes_written += length;
             }
