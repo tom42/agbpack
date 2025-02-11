@@ -248,11 +248,13 @@ public:
                 throw_if_not_vram_safe(offset);
                 throw_if_outside_sliding_window(offset, nbytes_written);
 
+                // TODO: throw if reference goes past end of output
                 listener.reference(length, offset);
                 nbytes_written += length;
             }
             else
             {
+                // TODO: throw on write past end of output (is this even possible? Not really, that's why we don't have a test, right?)
                 listener.literal(read8(reader));
                 ++nbytes_written;
             }
