@@ -7,6 +7,7 @@
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstddef>
 #include <filesystem>
+#include <format>
 #include <string>
 #include "testdata.hpp"
 
@@ -96,6 +97,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
             pair("lzss.bad.missing-padding-at-end-of-data.txt", "encoded data is corrupt"),
             pair("lzss.bad.reference-at-beginning-of-file.txt", "encoded data is corrupt: reference outside of sliding window"),
             pair("lzss.bad.reference-outside-of-non-empty-sliding-window.txt", "encoded data is corrupt: reference outside of sliding window"));
+        INFO(std::format("Test parameters: {}", filename));
 
         CHECK_THROWS_MATCHES(
             decode_file(decoder, filename),
