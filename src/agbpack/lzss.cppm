@@ -92,6 +92,11 @@ public:
         write8(byte);
     }
 
+    void reference(size_t length, size_t offset)
+    {
+        copy_from_output(length, offset);
+    }
+
     // TODO: remove
     void write8(agbpack_u8 byte)
     {
@@ -100,25 +105,13 @@ public:
     }
 
     // TODO: remove
-    void copy_from_output(unsigned int nbytes, size_t offset)
+    void copy_from_output(size_t nbytes, size_t offset)
     {
         while (nbytes--)
         {
             auto byte = m_window.read8(offset);
             write8(byte);
         }
-    }
-
-    // TODO: remove
-    bool done() const
-    {
-        return m_writer.done();
-    }
-
-    // TODO: remove
-    size_t nbytes_written() const
-    {
-        return m_writer.nbytes_written();
     }
 
 private:
@@ -142,6 +135,11 @@ public:
         write8(byte);
     }
 
+    void reference(size_t length, size_t offset)
+    {
+        copy_from_output(length, offset);
+    }
+
     // TODO: remove
     void write8(agbpack_u8 byte)
     {
@@ -155,7 +153,7 @@ public:
     }
 
     // TODO: remove
-    void copy_from_output(unsigned int nbytes, size_t offset)
+    void copy_from_output(size_t nbytes, size_t offset)
     {
         while (nbytes--)
         {
@@ -168,12 +166,6 @@ public:
     bool done() const
     {
         return m_nbytes_written >= m_uncompressed_size;
-    }
-
-    // TODO: remove
-    size_t nbytes_written() const
-    {
-        return m_nbytes_written;
     }
 
 private:
@@ -246,23 +238,18 @@ public:
             {
                 auto b0 = read8(reader);
                 auto b1 = read8(reader);
-                unsigned int nbytes = ((b0 >> 4) & 0xf) + minimum_match_length;
+                unsigned int length = ((b0 >> 4) & 0xf) + minimum_match_length; // TODO: unsigned int or size_t?
                 size_t offset = (((b0 & 0xfu) << 8) | b1) + minimum_offset;
 
-                assert(in_closed_range(nbytes, minimum_match_length, maximum_match_length) && "lzss_decoder is broken");
+                assert(in_closed_range(length, minimum_match_length, maximum_match_length) && "lzss_decoder is broken");
                 assert(in_closed_range(offset, minimum_offset, maximum_offset) && "lzss_decoder is broken");
 
+                // TODO: make these two one function
                 throw_if_not_vram_safe(offset);
-                // TODO: uncomment again
-                //throw_if_outside_sliding_window(offset, listener); // TODO: listener should not be concerned here
+                throw_if_outside_sliding_window(offset, nbytes_written);
 
-                // TODO: DBG: log match
-                //            For debug output it would be helpful if the copy loop was here and not inside the sliding window implementations:
-                //            We need then only one loop, and we get to see the data, so that we can log that too (ugh...problem: how do we log the entire run?)
-                //            Well actually it would be helpful if the writer itself did the logging, no? Well yes, but then we'd notify it of tag bytes
-                //            Well, why not? OK but then we'd need a way to replace the byte_writer above, no?
-                // TODO: uncomment again
-                //listener.copy_from_output(nbytes, offset); // TODO: listener should not have to count bytes
+                listener.reference(length, offset);
+                nbytes_written += length;
             }
             else
             {
@@ -295,10 +282,9 @@ private:
         }
     }
 
-    template <typename OutputIterator>
-    static void throw_if_outside_sliding_window(size_t offset, const lzss_byte_writer<OutputIterator>& writer)
+    static void throw_if_outside_sliding_window(size_t offset, size_t nbytes_written)
     {
-        if (offset > writer.nbytes_written())
+        if (offset > nbytes_written)
         {
             throw decode_exception("reference outside of sliding window");
         }
