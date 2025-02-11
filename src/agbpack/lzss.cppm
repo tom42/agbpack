@@ -266,9 +266,7 @@ public:
             }
             else
             {
-                // TODO: DBG: log literal => Well we can do this now by creating a listener that logs, no?
-                auto byte = read8(reader);
-                listener.literal(byte);
+                listener.literal(read8(reader));
                 ++nbytes_written;
             }
         }
