@@ -283,7 +283,7 @@ AGBPACK_EXPORT_FOR_UNIT_TESTING
 class match final
 {
 public:
-    match(size_t length, size_t offset)
+    explicit match(size_t length, size_t offset)
         : m_length(length)
         , m_offset(offset)
     {}
