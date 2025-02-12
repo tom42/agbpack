@@ -77,14 +77,14 @@ private:
     std::array<agbpack_u8, Size> m_buf;
 };
 
-// General case LZSS byte writer.
+// General case LZSS receiver.
 // Works with any kind of output iterator, including those that cannot be read from.
 // In order to decode references it maintains an internal sliding window.
 template <typename OutputIterator>
-class lzss_byte_writer final // TODO: make this a 'listener' or 'receiver' (what is the naming for methods in a listener?)
+class lzss_receiver final
 {
 public:
-    explicit lzss_byte_writer(OutputIterator output)
+    explicit lzss_receiver(OutputIterator output)
         : m_writer(output) {}
 
     void tags(agbpack_u8) {}
@@ -114,13 +114,13 @@ private:
     lzss_sliding_window<maximum_offset> m_window;
 };
 
-// Specialized LZSS byte writer for random access iterators.
+// Specialized LZSS receiver for random access iterators.
 // Does not need memory for a separate sliding window because references can be read from the output buffer.
 template <std::random_access_iterator RandomAccessIterator>
-class lzss_byte_writer<RandomAccessIterator> final
+class lzss_receiver<RandomAccessIterator> final
 {
 public:
-    explicit lzss_byte_writer(RandomAccessIterator output)
+    explicit lzss_receiver(RandomAccessIterator output)
         : m_output(output)
     {}
 
@@ -154,7 +154,7 @@ private:
 export class lzss_decoder final
 {
 public:
-    template <std::input_iterator InputIterator, typename OutputIterator, typename LzssByteWriter = lzss_byte_writer<OutputIterator>>
+    template <std::input_iterator InputIterator, typename OutputIterator, typename LzssReceiver = lzss_receiver<OutputIterator>>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type(input); // TODO: probably we want to either remove this or extend it with the output iterator?
@@ -169,9 +169,9 @@ public:
         //         * Basically we'll need to go through all of their methods and see whether they're still needed
         // TODO: do we even need to flavors of lzss_byte_writer once we're done? (well probably yes, we'll see)
         byte_reader<InputIterator> reader(input, eof);
-        lzss_byte_writer<OutputIterator> writer(output);
+        LzssReceiver receiver(output);
 
-        decode(reader, writer);
+        decode(reader, receiver);
     }
 
     // TODO: probably we can't tell overloads from eachother, so this needs a different name, no?
