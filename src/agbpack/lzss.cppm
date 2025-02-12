@@ -181,7 +181,6 @@ public:
     template <std::input_iterator InputIterator, typename LzssReceiver>
     void decode(byte_reader<InputIterator>& reader, LzssReceiver& receiver) // TODO: arg types (const? reference?)
     {
-        // TODO: duplicate decoder loop here, then express other decode in terms of this one
         //static_assert_input_type<InputIterator>(); // TODO: for some reason this does not compile, but I can't quite see why. Commented it out for the time being
 
         auto header = header::parse_for_type(compression_type::lzss, read32(reader));
@@ -218,16 +217,10 @@ public:
                 assert(in_closed_range(length, minimum_match_length, maximum_match_length) && "lzss_decoder is broken");
                 assert(in_closed_range(offset, minimum_offset, maximum_offset) && "lzss_decoder is broken");
 
-                // TODO: make these two one function (actually we could merge the test below too...what we really do is, we verify the reference)
+                // TODO: call the following three from one function, details are not important here (orly?)
                 throw_if_not_vram_safe(offset);
                 throw_if_outside_sliding_window(offset, nbytes_written);
-
-                // TODO: move this into an own function
-                // TODO: what if nbytes_written + length overflow?
-                if ((nbytes_written + length) > header->uncompressed_size())
-                {
-                    throw decode_exception();
-                }
+                throw_if_reference_overflows_uncompressed_size(length, nbytes_written, header->uncompressed_size());
 
                 receiver.reference(length, offset);
                 nbytes_written += length;
@@ -269,6 +262,15 @@ private:
         if (offset > nbytes_written)
         {
             throw decode_exception("reference outside of sliding window");
+        }
+    }
+
+    static void throw_if_reference_overflows_uncompressed_size(size_t length, size_t nbytes_written, size_t uncompressed_size)
+    {
+        // TODO: what if nbytes_written + length overflow?
+        if ((nbytes_written + length) > uncompressed_size)
+        {
+            throw decode_exception();
         }
     }
 
