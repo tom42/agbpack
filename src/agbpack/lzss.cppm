@@ -84,8 +84,8 @@ template <typename OutputIterator>
 class lzss_byte_writer final
 {
 public:
-    explicit lzss_byte_writer(agbpack_u32 uncompressed_size, OutputIterator output)
-        : m_writer(uncompressed_size, output) {}
+    explicit lzss_byte_writer(OutputIterator output)
+        : m_writer(output) {}
 
     void literal(agbpack_u8 byte)
     {
@@ -115,7 +115,7 @@ public:
     }
 
 private:
-    byte_writer<OutputIterator> m_writer;
+    unbounded_byte_writer<OutputIterator> m_writer;
     lzss_sliding_window<maximum_offset> m_window;
 };
 
@@ -125,7 +125,7 @@ template <std::random_access_iterator RandomAccessIterator>
 class lzss_byte_writer<RandomAccessIterator> final
 {
 public:
-    explicit lzss_byte_writer(agbpack_u32 /*uncompressed_size*/, RandomAccessIterator output)
+    explicit lzss_byte_writer(RandomAccessIterator output)
         : m_output(output)
     {}
 
@@ -179,7 +179,7 @@ public:
         //         * Basically we'll need to go through all of their methods and see whether they're still needed
         // TODO: do we even need to flavors of lzss_byte_writer once we're done? (well probably yes, we'll see)
         byte_reader<InputIterator> reader(input, eof);
-        lzss_byte_writer<OutputIterator> writer(0xffffffff, output); // TODO: size argument is bogus to get things compiling. It should really be removed
+        lzss_byte_writer<OutputIterator> writer(output);
 
         decode(reader, writer);
     }
@@ -211,7 +211,7 @@ public:
         unsigned int flags = 0;
         size_t nbytes_written = 0; // TODO: use size_t or agbpack_u32?
 
-        while (nbytes_written < header->uncompressed_size()) // TODO: listener should have no notion of "done"
+        while (nbytes_written < header->uncompressed_size())
         {
             mask >>= 1;
             if (!mask)
