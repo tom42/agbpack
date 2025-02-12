@@ -177,11 +177,9 @@ public:
     // TODO: probably we can't tell overloads from eachother, so this needs a different name, no?
     //       * Well we could generalize this and give it two args, no? A sink and a source...
     //       * Well we already have the source: it's the ByteReader...but that's not yet exported, no?
-    // TODO: rename LzssDecoderListener to LzssDecoderSink?
-    //       Note: Shrinkler code calls this e.g. LZReceiver, and it has methods receiveLiteral() and receiveReference()
     // TODO: do we even care about InputIterator here? Should we just use TByteReader? Should there be a concept byte_reader?
-    template <std::input_iterator InputIterator, typename LzssDecoderListener>
-    void decode(byte_reader<InputIterator>& reader, LzssDecoderListener& listener) // TODO: arg types (const? reference?)
+    template <std::input_iterator InputIterator, typename LzssReceiver>
+    void decode(byte_reader<InputIterator>& reader, LzssReceiver& receiver) // TODO: arg types (const? reference?)
     {
         // TODO: duplicate decoder loop here, then express other decode in terms of this one
         //static_assert_input_type<InputIterator>(); // TODO: for some reason this does not compile, but I can't quite see why. Commented it out for the time being
@@ -192,10 +190,9 @@ public:
             throw decode_exception();
         }
 
-        // TODO: lzss byte writer is a silly name. Basically, this listens to LZSS Decoder output. Maybe call it like that
-        // TODO: also write8 and copy_from_output are too generic names:
-        //       * write8 receives a literal
-        //       * copy_from_output receives a match
+        // TODO: still not happy with the type name lzss_receiver / LzssReceiver.
+        //       Thing is, this receives stuff from a *decoder*. Moreover, an encoder may also have a receiver, and it's interface may look more or less the same (see lzss_bitstream_writer below)
+        //       Maybe think again about that name, but leave the bitstream writer below alone, since we're not going to give the encoder the same debug output capability for the time being.
 
         unsigned int mask = 0;
         agbpack_u8 flags = 0; // TODO: rename to tags/tag_bits?
@@ -208,8 +205,7 @@ public:
             {
                 flags = read8(reader);
                 mask = 0x80;
-                // TODO: DBG: log tag byte
-                listener.tags(flags);
+                receiver.tags(flags);
             }
 
             if (flags & mask)
@@ -233,13 +229,13 @@ public:
                     throw decode_exception();
                 }
 
-                listener.reference(length, offset);
+                receiver.reference(length, offset);
                 nbytes_written += length;
             }
             else
             {
                 // TODO: throw on write past end of output (is this even possible? Not really, that's why we don't have a test, right?)
-                listener.literal(read8(reader));
+                receiver.literal(read8(reader));
                 ++nbytes_written;
             }
         }
