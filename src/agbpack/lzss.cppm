@@ -81,15 +81,17 @@ private:
 // Works with any kind of output iterator, including those that cannot be read from.
 // In order to decode references it maintains an internal sliding window.
 template <typename OutputIterator>
-class lzss_byte_writer final
+class lzss_byte_writer final // TODO: make this a 'listener' or 'receiver' (what is the naming for methods in a listener?)
 {
 public:
     explicit lzss_byte_writer(OutputIterator output)
         : m_writer(output) {}
 
-    void literal(agbpack_u8 byte)
+    void tags(agbpack_u8) {}
+
+    void literal(agbpack_u8 literal)
     {
-        write8(byte);
+        write8(literal);
     }
 
     void reference(size_t length, size_t offset)
@@ -97,14 +99,14 @@ public:
         copy_from_output(length, offset);
     }
 
-    // TODO: remove
+    // TODO: remove/make private
     void write8(agbpack_u8 byte)
     {
         m_writer.write8(byte);
         m_window.write8(byte);
     }
 
-    // TODO: remove
+    // TODO: remove/merge into reference
     void copy_from_output(size_t nbytes, size_t offset)
     {
         while (nbytes--)
@@ -129,9 +131,11 @@ public:
         : m_output(output)
     {}
 
-    void literal(agbpack_u8 byte)
+    void tags(agbpack_u8) {}
+
+    void literal(agbpack_u8 literal)
     {
-        write8(byte);
+        write8(literal);
     }
 
     void reference(size_t length, size_t offset)
@@ -208,7 +212,7 @@ public:
         //       * copy_from_output receives a match
 
         unsigned int mask = 0;
-        unsigned int flags = 0;
+        agbpack_u8 flags = 0; // TODO: rename to tags/tag_bits?
         size_t nbytes_written = 0; // TODO: use size_t or agbpack_u32?
 
         while (nbytes_written < header->uncompressed_size())
@@ -219,6 +223,7 @@ public:
                 flags = read8(reader);
                 mask = 0x80;
                 // TODO: DBG: log tag byte
+                listener.tags(flags);
             }
 
             if (flags & mask)
