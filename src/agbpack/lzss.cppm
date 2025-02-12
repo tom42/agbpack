@@ -96,20 +96,7 @@ public:
 
     void reference(size_t length, size_t offset)
     {
-        copy_from_output(length, offset);
-    }
-
-    // TODO: remove/make private
-    void write8(agbpack_u8 byte)
-    {
-        m_writer.write8(byte);
-        m_window.write8(byte);
-    }
-
-    // TODO: remove/merge into reference
-    void copy_from_output(size_t nbytes, size_t offset)
-    {
-        while (nbytes--)
+        while (length--)
         {
             auto byte = m_window.read8(offset);
             write8(byte);
@@ -117,6 +104,12 @@ public:
     }
 
 private:
+    void write8(agbpack_u8 byte)
+    {
+        m_writer.write8(byte);
+        m_window.write8(byte);
+    }
+
     unbounded_byte_writer<OutputIterator> m_writer;
     lzss_sliding_window<maximum_offset> m_window;
 };
@@ -140,20 +133,7 @@ public:
 
     void reference(size_t length, size_t offset)
     {
-        copy_from_output(length, offset);
-    }
-
-    // TODO: remove
-    void write8(agbpack_u8 byte)
-    {
-        *m_output++ = byte;
-        ++m_nbytes_written;
-    }
-
-    // TODO: remove
-    void copy_from_output(size_t nbytes, size_t offset)
-    {
-        while (nbytes--)
+        while (length--)
         {
             auto byte = *(m_output - make_signed(offset));
             write8(byte);
@@ -161,6 +141,12 @@ public:
     }
 
 private:
+    void write8(agbpack_u8 byte)
+    {
+        *m_output++ = byte;
+        ++m_nbytes_written;
+    }
+
     agbpack_u32 m_nbytes_written = 0;
     RandomAccessIterator m_output;
 };
