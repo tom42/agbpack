@@ -125,9 +125,8 @@ template <std::random_access_iterator RandomAccessIterator>
 class lzss_byte_writer<RandomAccessIterator> final
 {
 public:
-    explicit lzss_byte_writer(agbpack_u32 uncompressed_size, RandomAccessIterator output)
-        : m_uncompressed_size(uncompressed_size)
-        , m_output(output)
+    explicit lzss_byte_writer(agbpack_u32 /*uncompressed_size*/, RandomAccessIterator output)
+        : m_output(output)
     {}
 
     void literal(agbpack_u8 byte)
@@ -143,11 +142,6 @@ public:
     // TODO: remove
     void write8(agbpack_u8 byte)
     {
-        if (done())
-        {
-            throw decode_exception();
-        }
-
         *m_output++ = byte;
         ++m_nbytes_written;
     }
@@ -162,14 +156,7 @@ public:
         }
     }
 
-    // TODO: remove
-    bool done() const
-    {
-        return m_nbytes_written >= m_uncompressed_size;
-    }
-
 private:
-    agbpack_u32 m_uncompressed_size;
     agbpack_u32 m_nbytes_written = 0;
     RandomAccessIterator m_output;
 };
