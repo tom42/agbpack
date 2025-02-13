@@ -184,21 +184,21 @@ public:
         //       Thing is, this receives stuff from a *decoder*. Moreover, an encoder may also have a receiver, and it's interface may look more or less the same (see lzss_bitstream_writer below)
         //       Maybe think again about that name, but leave the bitstream writer below alone, since we're not going to give the encoder the same debug output capability for the time being.
 
-        unsigned int mask = 0;
-        agbpack_u8 flags = 0; // TODO: rename to tags/tag_bits?
+        unsigned int tag_mask = 0;
+        agbpack_u8 tags = 0;
         size_t nbytes_written = 0; // TODO: use size_t or agbpack_u32?
 
         while (nbytes_written < header->uncompressed_size())
         {
-            mask >>= 1;
-            if (!mask)
+            tag_mask >>= 1;
+            if (!tag_mask)
             {
-                flags = read8(reader);
-                mask = 0x80;
-                receiver.tags(flags);
+                tags = read8(reader);
+                tag_mask = 0x80;
+                receiver.tags(tags);
             }
 
-            if (flags & mask)
+            if (tags & tag_mask)
             {
                 auto b0 = read8(reader);
                 auto b1 = read8(reader);
