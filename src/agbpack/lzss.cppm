@@ -144,10 +144,8 @@ private:
     void write8(agbpack_u8 byte)
     {
         *m_output++ = byte;
-        ++m_nbytes_written;
     }
 
-    agbpack_u32 m_nbytes_written = 0;
     RandomAccessIterator m_output;
 };
 
@@ -160,14 +158,7 @@ public:
         static_assert_input_type(input); // TODO: probably we want to either remove this or extend it with the output iterator?
 
         // TODO: probably can't pass temporaries like this...
-        // TODO: we don't want to pass an unbounded_byte_writer here. We want to pass a decoder listener that writes to  output
-        //       Nope. What we DO want to pass here is an lzss_byte_writer, but the thing needs to be rewritten such that
-        //       it does not want to know what the number of output bytes is, because we do not know yet
-        //       * So: we DO want to pass an lzss_byte_writer here
-        //       * But lzss_byte_writer will not get the expected output size anymore
-        //         * So both lzss_byte_writer implementations don't need byte counting functionality anymore
-        //         * Basically we'll need to go through all of their methods and see whether they're still needed
-        // TODO: do we even need to flavors of lzss_byte_writer once we're done? (well probably yes, we'll see)
+        // TODO: do we even need two flavors of lzss_byte_writer once we're done? (well probably yes, we'll see)
         byte_reader<InputIterator> reader(input, eof);
         LzssReceiver receiver(output);
 
