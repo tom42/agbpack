@@ -351,7 +351,7 @@ public:
     template <std::input_iterator InputIterator, typename OutputIterator>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
-        static_assert_input_type(input);
+        static_assert_input_type<InputIterator>();
 
         byte_reader<InputIterator> reader(input, eof);
         auto header = header::parse_for_type(compression_type::huffman, read32(reader));
@@ -959,7 +959,7 @@ public:
     template <std::input_iterator InputIterator, typename OutputIterator>
     void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
-        static_assert_input_type(input);
+        static_assert_input_type<InputIterator>();
 
         const unsigned int symbol_size = get_symbol_size(m_options);
 

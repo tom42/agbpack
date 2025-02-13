@@ -155,7 +155,7 @@ public:
     template <std::input_iterator InputIterator, typename OutputIterator, typename LzssReceiver = lzss_receiver<OutputIterator>>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
-        static_assert_input_type(input); // TODO: probably we want to either remove this or extend it with the output iterator?
+        static_assert_input_type<InputIterator>(); // TODO: probably we want to either remove this or extend it with the output iterator?
 
         // TODO: probably can't pass temporaries like this...
         // TODO: do we even need two flavors of lzss_byte_writer once we're done? (well probably yes, we'll see)
@@ -410,7 +410,7 @@ public:
     template <std::input_iterator InputIterator, typename OutputIterator>
     void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
-        static_assert_input_type(input);
+        static_assert_input_type<InputIterator>();
 
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
         const auto encoded_data = encode_internal(uncompressed_data);
@@ -563,7 +563,7 @@ public:
     template <std::input_iterator InputIterator, typename OutputIterator>
     void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
-        static_assert_input_type(input);
+        static_assert_input_type<InputIterator>();
 
         // Based on https://cbloom.com/algs/dictionary.html
         //

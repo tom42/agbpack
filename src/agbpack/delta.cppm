@@ -21,7 +21,7 @@ public:
     template <std::input_iterator InputIterator, typename OutputIterator>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
-        static_assert_input_type(input);
+        static_assert_input_type<InputIterator>();
 
         byte_reader<InputIterator> reader(input, eof);
         auto header = header::parse_for_type(compression_type::delta, read32(reader));
@@ -75,7 +75,7 @@ public:
         // TODO: this try/catch block is a hack to get our tests passing. We really need to redesign exception handling
         try
         {
-            static_assert_input_type(input);
+            static_assert_input_type<InputIterator>();
 
             // We have to encode to a temporary buffer first, because
             // * We don't know yet how many bytes of input there are, so we don't know the header content yet
