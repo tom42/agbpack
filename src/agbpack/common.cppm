@@ -261,11 +261,10 @@ void write_padding_bytes(ByteWriter& writer)
 template <typename InputIterator>
 void static_assert_input_type()
 {
-    // TODO: get this working again
-    // static_assert(
-    //     std::is_same_v<std::remove_cv_t<std::remove_reference_t<InputIterator>>,
-    //     agbpack_io_datatype>,
-    //     "Input iterator should read values of type unsigned char");
+    using input_element_type = typename std::iterator_traits<InputIterator>::value_type;
+    static_assert(
+        std::is_same_v<std::remove_cv_t<std::remove_reference_t<input_element_type>>, agbpack_io_datatype>,
+        "Input iterator should read values of type unsigned char");
 }
 
 bool in_closed_range(std::unsigned_integral auto x, std::unsigned_integral auto min, std::unsigned_integral auto max)
