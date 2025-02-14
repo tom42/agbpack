@@ -157,8 +157,6 @@ public:
     {
         static_assert_input_type<InputIterator>(); // TODO: probably we want to either remove this or extend it with the output iterator?
 
-        // TODO: probably can't pass temporaries like this...
-        // TODO: do we even need two flavors of lzss_byte_writer once we're done? (well probably yes, we'll see)
         byte_reader<InputIterator> reader(input, eof);
         LzssReceiver receiver(output);
 
