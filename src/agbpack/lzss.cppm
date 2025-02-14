@@ -174,15 +174,28 @@ public:
         byte_reader<InputIterator> reader(input, eof);
         lzss_receiver<OutputIterator> receiver(output);
 
-        decode(reader, receiver);
+        decode_internal(reader, receiver);
     }
 
+    // When VRAM safety is enabled in the decoder, the decoder throws if the encoded data is not VRAM safe.
+    // Use this when you want to verify that data is VRAM safe.
+    void vram_safe(bool enable)
+    {
+        m_vram_safe = enable;
+    }
+
+    bool vram_safe() const
+    {
+        return m_vram_safe;
+    }
+
+private:
     // TODO: probably we can't tell overloads from eachother, so this needs a different name, no?
     //       * Well we could generalize this and give it two args, no? A sink and a source...
     //       * Well we already have the source: it's the ByteReader...but that's not yet exported, no?
     // TODO: do we even care about InputIterator here? Should we just use TByteReader? Should there be a concept byte_reader?
     template <std::input_iterator InputIterator, typename LzssReceiver>
-    void decode(byte_reader<InputIterator>& reader, LzssReceiver& receiver) // TODO: arg types (const? reference?)
+    void decode_internal(byte_reader<InputIterator>& reader, LzssReceiver& receiver) // TODO: arg types (const? reference?)
     {
         static_assert_input_type<InputIterator>();
 
@@ -238,19 +251,6 @@ public:
         parse_padding_bytes(reader);
     }
 
-    // When VRAM safety is enabled in the decoder, the decoder throws if the encoded data is not VRAM safe.
-    // Use this when you want to verify that data is VRAM safe.
-    void vram_safe(bool enable)
-    {
-        m_vram_safe = enable;
-    }
-
-    bool vram_safe() const
-    {
-        return m_vram_safe;
-    }
-
-private:
     void throw_if_not_vram_safe(size_t offset)
     {
         if (offset < get_minimum_offset(m_vram_safe))
