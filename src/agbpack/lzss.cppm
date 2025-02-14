@@ -257,7 +257,6 @@ private:
 
     static void throw_if_reference_overflows_uncompressed_size(size_t length, size_t nbytes_written, size_t uncompressed_size)
     {
-        // TODO: what if nbytes_written + length overflow?
         if ((nbytes_written + length) > uncompressed_size)
         {
             throw decode_exception();
