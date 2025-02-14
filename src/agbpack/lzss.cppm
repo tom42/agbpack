@@ -80,13 +80,12 @@ private:
 // TODO: attempt at creating a concept for a decoder sink/receiver. REVIEW!
 // TODO: spelling of concept names
 // TODO: so, what is it now? A receiver? Or a sink? Or what?
-// TODO: do we even care about return types?
 template <typename Receiver>
 concept lzss_decoder_sink = requires(Receiver receiver, agbpack_u8 byte, size_t size)
 {
-    { receiver.tags(byte) } -> std::same_as<void>;
-    { receiver.literal(byte) } -> std::same_as<void>;
-    { receiver.reference(size, size) } -> std::same_as<void>;
+    { receiver.tags(byte) };
+    { receiver.literal(byte) };
+    { receiver.reference(size, size) };
 };
 
 // General case LZSS receiver.
