@@ -81,7 +81,7 @@ private:
 // TODO: spelling of concept names
 // TODO: so, what is it now? A receiver? Or a sink? Or what?
 template <typename Receiver>
-concept lzss_decoder_sink = requires(Receiver receiver, agbpack_u8 byte, size_t size)
+concept lzss_receiver = requires(Receiver receiver, agbpack_u8 byte, size_t size)
 {
     { receiver.tags(byte) };
     { receiver.literal(byte) };
@@ -174,7 +174,7 @@ public:
         decode_internal(reader, receiver);
     }
 
-    template <std::input_iterator InputIterator, lzss_decoder_sink LzssDecoderSink>
+    template <std::input_iterator InputIterator, lzss_receiver LzssDecoderSink>
     void decode(InputIterator input, InputIterator eof, LzssDecoderSink sink)
     {
         static_assert_input_type<InputIterator>();
