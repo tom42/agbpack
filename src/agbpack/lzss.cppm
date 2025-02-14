@@ -202,7 +202,7 @@ public:
             {
                 auto b0 = read8(reader);
                 auto b1 = read8(reader);
-                unsigned int length = ((b0 >> 4) & 0xf) + minimum_match_length; // TODO: unsigned int or size_t?
+                size_t length = ((b0 >> 4) & 0xf) + minimum_match_length;
                 size_t offset = (((b0 & 0xfu) << 8) | b1) + minimum_offset;
 
                 assert(in_closed_range(length, minimum_match_length, maximum_match_length) && "lzss_decoder is broken");
