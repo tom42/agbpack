@@ -78,10 +78,8 @@ private:
 };
 
 // TODO: attempt at creating a concept for a decoder sink/receiver. REVIEW!
-// TODO: experiment: use concept for overload resolution
 // TODO: spelling of concept names
 // TODO: so, what is it now? A receiver? Or a sink? Or what?
-// TODO: now can we specify functions with arguments?
 // TODO: do we even care about return types?
 template <typename T>
 concept lzss_decoder_sink = requires(T t, agbpack_u8 byte, size_t size)
