@@ -81,12 +81,12 @@ private:
 // TODO: spelling of concept names
 // TODO: so, what is it now? A receiver? Or a sink? Or what?
 // TODO: do we even care about return types?
-template <typename T>
-concept lzss_decoder_sink = requires(T t, agbpack_u8 byte, size_t size)
+template <typename Receiver>
+concept lzss_decoder_sink = requires(Receiver receiver, agbpack_u8 byte, size_t size)
 {
-    { t.tags(byte) } -> std::same_as<void>;
-    { t.literal(byte) } -> std::same_as<void>;
-    { t.reference(size, size) } -> std::same_as<void>;
+    { receiver.tags(byte) } -> std::same_as<void>;
+    { receiver.literal(byte) } -> std::same_as<void>;
+    { receiver.reference(size, size) } -> std::same_as<void>;
 };
 
 // General case LZSS receiver.
