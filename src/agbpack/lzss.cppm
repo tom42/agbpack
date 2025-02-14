@@ -84,7 +84,7 @@ private:
 // TODO: now can we specify functions with arguments?
 // TODO: do we even care about return types?
 template <typename T>
-concept LzssDecoderSink = requires(T t, agbpack_u8 byte, size_t size)
+concept lzss_decoder_sink = requires(T t, agbpack_u8 byte, size_t size)
 {
     { t.tags(byte) } -> std::same_as<void>;
     { t.literal(byte) } -> std::same_as<void>;
