@@ -88,14 +88,14 @@ concept lzss_decoder_sink = requires(Receiver receiver, agbpack_u8 byte, size_t 
     { receiver.reference(size, size) };
 };
 
-// General case LZSS receiver.
+// General case LZSS decoder output receiver.
 // Works with any kind of output iterator, including those that cannot be read from.
 // In order to decode references it maintains an internal sliding window.
 template <typename OutputIterator>
-class lzss_receiver final
+class lzss_decoder_output_receiver final
 {
 public:
-    explicit lzss_receiver(OutputIterator output)
+    explicit lzss_decoder_output_receiver(OutputIterator output)
         : m_writer(output) {}
 
     void tags(agbpack_u8) {}
@@ -125,13 +125,13 @@ private:
     lzss_sliding_window<maximum_offset> m_window;
 };
 
-// Specialized LZSS receiver for random access iterators.
+// Specialized LZSS decoder output receiver for random access iterators.
 // Does not need memory for a separate sliding window because references can be read from the output buffer.
 template <std::random_access_iterator RandomAccessIterator>
-class lzss_receiver<RandomAccessIterator> final
+class lzss_decoder_output_receiver<RandomAccessIterator> final
 {
 public:
-    explicit lzss_receiver(RandomAccessIterator output)
+    explicit lzss_decoder_output_receiver(RandomAccessIterator output)
         : m_output(output)
     {}
 
@@ -169,7 +169,7 @@ public:
         static_assert_input_type<InputIterator>(); // TODO: probably we want to either remove this or extend it with the output iterator?
 
         byte_reader<InputIterator> reader(input, eof);
-        lzss_receiver<OutputIterator> receiver(output);
+        lzss_decoder_output_receiver<OutputIterator> receiver(output);
 
         decode_internal(reader, receiver);
     }
