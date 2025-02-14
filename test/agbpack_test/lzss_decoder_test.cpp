@@ -8,7 +8,9 @@
 #include <cstddef>
 #include <filesystem>
 #include <format>
+#include <iostream>
 #include <string>
+#include <vector>
 #include "testdata.hpp"
 
 import agbpack;
@@ -17,12 +19,13 @@ namespace agbpack_test
 {
 
 using pair = std::pair<const char*, const char*>;
+using size_t = std::size_t;
 using string = std::string;
 
 namespace
 {
 
-std::size_t guess_uncompressed_size(const string& basename, const test_data_fixture& fixture)
+size_t guess_uncompressed_size(const string& basename, const test_data_fixture& fixture)
 {
     // Get size of uncompressed data from .decoded file if it exists.
     auto decoded_file_path = fixture.get_decoded_file_path(basename);
@@ -35,7 +38,7 @@ std::size_t guess_uncompressed_size(const string& basename, const test_data_fixt
     auto encoded_file_content = fixture.read_encoded_file(basename);
     if (encoded_file_content.size() >= 4)
     {
-        std::size_t uncompressed_size = encoded_file_content[1];
+        size_t uncompressed_size = encoded_file_content[1];
         uncompressed_size += encoded_file_content[2] * 256u;
         uncompressed_size += encoded_file_content[3] * 256u * 256u;
         return uncompressed_size;
@@ -54,6 +57,42 @@ std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decod
     decoder.decode(encoded_data.begin(), encoded_data.end(), decoded_data.begin());
     return decoded_data;
 }
+
+// TODO: class name
+class foo final
+{
+public:
+    explicit foo(std::ostream& s) : m_s(s) {}
+
+    void tags(unsigned char tags)
+    {
+        std::cout << std::format("T: {:#010b} ({:#04x})\n", tags, tags);
+    }
+
+    void literal(unsigned char c)
+    {
+        std::cout << std::format("L: '{}'\n", char(c));
+        m_uncompressed_data.push_back(c);
+    }
+
+    void reference(size_t length, size_t offset)
+    {
+        std::cout << std::format("R: {:2} {:4} '", length, offset);
+
+        while (length--)
+        {
+            char c = m_uncompressed_data[m_uncompressed_data.size() - offset];
+            std::cout << c;
+            m_uncompressed_data.push_back(c);
+        }
+
+        std::cout << "'\n";
+    }
+
+private:
+    std::ostream& m_s;
+    std::vector<unsigned char> m_uncompressed_data;
+};
 
 }
 
@@ -139,9 +178,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
     SECTION("Debug output")
     {
         const auto encoded_data = read_encoded_file("lzss.good.literals-and-references.txt");
-        std::vector<unsigned char> decoded_data; // TODO: include <vector> if we want to keep this test
-
-        decoder.decode(begin(encoded_data), end(encoded_data), back_inserter(decoded_data));
+        decoder.decode(begin(encoded_data), end(encoded_data), foo(std::cout));
     }
 }
 
