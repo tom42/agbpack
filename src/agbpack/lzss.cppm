@@ -172,7 +172,7 @@ public:
     template <std::input_iterator InputIterator, typename LzssReceiver>
     void decode(byte_reader<InputIterator>& reader, LzssReceiver& receiver) // TODO: arg types (const? reference?)
     {
-        //static_assert_input_type<InputIterator>(); // TODO: for some reason this does not compile, but I can't quite see why. Commented it out for the time being
+        static_assert_input_type<InputIterator>();
 
         auto header = header::parse_for_type(compression_type::lzss, read32(reader));
         if (!header)
