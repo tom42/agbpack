@@ -177,6 +177,14 @@ public:
         decode_internal(reader, receiver);
     }
 
+    template <std::input_iterator InputIterator, lzss_decoder_sink LzssDecoderSink>
+    void decode(InputIterator input, InputIterator eof, LzssDecoderSink sink)
+    {
+        static_assert_input_type<InputIterator>();
+        byte_reader<InputIterator> reader(input, eof);
+        decode_internal(reader, sink);
+    }
+
     // When VRAM safety is enabled in the decoder, the decoder throws if the encoded data is not VRAM safe.
     // Use this when you want to verify that data is VRAM safe.
     void vram_safe(bool enable)
