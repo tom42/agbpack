@@ -171,12 +171,12 @@ public:
         decode_internal(reader, receiver);
     }
 
-    template <std::input_iterator InputIterator, lzss_receiver LzssDecoderSink>
-    void decode(InputIterator input, InputIterator eof, LzssDecoderSink sink)
+    template <std::input_iterator InputIterator, lzss_receiver LzssReceiver>
+    void decode(InputIterator input, InputIterator eof, LzssReceiver receiver)
     {
         static_assert_input_type<InputIterator>();
         byte_reader<InputIterator> reader(input, eof);
-        decode_internal(reader, sink);
+        decode_internal(reader, receiver);
     }
 
     // When VRAM safety is enabled in the decoder, the decoder throws if the encoded data is not VRAM safe.
@@ -192,10 +192,6 @@ public:
     }
 
 private:
-    // TODO: probably we can't tell overloads from eachother, so this needs a different name, no?
-    //       * Well we could generalize this and give it two args, no? A sink and a source...
-    //       * Well we already have the source: it's the ByteReader...but that's not yet exported, no?
-    // TODO: do we even care about InputIterator here? Should we just use TByteReader? Should there be a concept byte_reader?
     template <std::input_iterator InputIterator, typename LzssReceiver>
     void decode_internal(byte_reader<InputIterator>& reader, LzssReceiver& receiver) // TODO: arg types (const? reference?)
     {
@@ -206,10 +202,6 @@ private:
         {
             throw decode_exception();
         }
-
-        // TODO: still not happy with the type name lzss_receiver / LzssReceiver.
-        //       Thing is, this receives stuff from a *decoder*. Moreover, an encoder may also have a receiver, and it's interface may look more or less the same (see lzss_bitstream_writer below)
-        //       Maybe think again about that name, but leave the bitstream writer below alone, since we're not going to give the encoder the same debug output capability for the time being.
 
         unsigned int tag_mask = 0;
         agbpack_u8 tags = 0;
