@@ -77,6 +77,20 @@ private:
     std::array<agbpack_u8, Size> m_buf;
 };
 
+// TODO: attempt at creating a concept for a decoder sink/receiver. REVIEW!
+// TODO: experiment: use concept for overload resolution
+// TODO: spelling of concept names
+// TODO: so, what is it now? A receiver? Or a sink? Or what?
+// TODO: now can we specify functions with arguments?
+// TODO: do we even care about return types?
+template <typename T>
+concept LzssDecoderSink = requires(T t, agbpack_u8 byte, size_t size)
+{
+    { t.tags(byte) } -> std::same_as<void>;
+    { t.literal(byte) } -> std::same_as<void>;
+    { t.reference(size, size) } -> std::same_as<void>;
+};
+
 // General case LZSS receiver.
 // Works with any kind of output iterator, including those that cannot be read from.
 // In order to decode references it maintains an internal sliding window.
