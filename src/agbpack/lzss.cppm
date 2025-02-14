@@ -166,13 +166,13 @@ private:
 export class lzss_decoder final
 {
 public:
-    template <std::input_iterator InputIterator, typename OutputIterator, typename LzssReceiver = lzss_receiver<OutputIterator>>
+    template <std::input_iterator InputIterator, typename OutputIterator>
     void decode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type<InputIterator>(); // TODO: probably we want to either remove this or extend it with the output iterator?
 
         byte_reader<InputIterator> reader(input, eof);
-        LzssReceiver receiver(output);
+        lzss_receiver<OutputIterator> receiver(output);
 
         decode(reader, receiver);
     }
