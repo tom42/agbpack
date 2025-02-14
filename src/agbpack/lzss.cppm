@@ -77,11 +77,8 @@ private:
     std::array<agbpack_u8, Size> m_buf;
 };
 
-// TODO: attempt at creating a concept for a decoder sink/receiver. REVIEW!
-// TODO: spelling of concept names
-// TODO: so, what is it now? A receiver? Or a sink? Or what?
-template <typename Receiver>
-concept lzss_receiver = requires(Receiver receiver, agbpack_u8 byte, size_t size)
+template <typename LzssReceiver>
+concept lzss_receiver = requires(LzssReceiver receiver, agbpack_u8 byte, size_t size)
 {
     { receiver.tags(byte) };
     { receiver.literal(byte) };
