@@ -186,7 +186,7 @@ public:
 
         unsigned int tag_mask = 0;
         agbpack_u8 tags = 0;
-        size_t nbytes_written = 0; // TODO: use size_t or agbpack_u32?
+        size_t nbytes_written = 0;
 
         while (nbytes_written < header->uncompressed_size())
         {
@@ -218,7 +218,6 @@ public:
             }
             else
             {
-                // TODO: throw on write past end of output (is this even possible? Not really, that's why we don't have a test, right?)
                 receiver.literal(read8(reader));
                 ++nbytes_written;
             }
