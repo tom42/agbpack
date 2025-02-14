@@ -175,6 +175,11 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
     }
 
     // TODO: this test is only here to develop debug output. We're probably going to delete it again. Or are we?
+    //       => Well we're going to move it into a separate file, cerainly
+    //       => We can then have a simple test that produces no output and just ensures things keep building
+    //       => When needed we can uncomment a test that produces output
+    //       => Finally we're probably more interested in the test data from the encoder test (and, incidentally, we are debugging the encoder with this, not the decoder)
+    //       => OK, move this code elsewhere, and then remove <iostream> and <vector>
     SECTION("Debug output")
     {
         const auto encoded_data = read_encoded_file("lzss.good.literals-and-references.txt");
