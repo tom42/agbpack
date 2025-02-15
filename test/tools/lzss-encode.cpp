@@ -31,6 +31,13 @@ command_line_options parse_command_line(int argc, char* argv[])
     return command_line_options{argv[1], argv[2], argv[3]};
 }
 
+void encode(const command_line_options& /*options*/)
+{
+    // TODO: open/read file
+    // TODO: encode file, using correct mode (normal/optimized)
+    // TODO: write file
+}
+
 }
 
 int main(int argc, char* argv[])
@@ -38,6 +45,7 @@ int main(int argc, char* argv[])
     try
     {
         auto options = parse_command_line(argc, argv);
+        encode(options);
         // TODO: open/read file
         // TODO: encode file (can start with optimal for starters)
         return EXIT_SUCCESS;
