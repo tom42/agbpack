@@ -84,34 +84,33 @@ command_line_options parse_command_line(int argc, char* argv[])
     return command_line_options{argv[1]};
 }
 
-std::ifstream open_binary_file(const std::string& path)
+std::ifstream open_binary_file(const string& path)
 {
-    // The exceptions thrown by ifstream when opening fails have rather useless error messages.
-    // For instance, MSVC throws an exception with the following message: 'ios_base::failbit set: iostream stream error'.
-    // So we don't use stream exceptions and try our luck with errno and std::system_error.
-    std::ifstream file(path, std::ios_base::binary);
-
-    if (!file)
-    {
-        auto error = errno;
-        throw std::system_error(error, std::generic_category(), "could not open " + path);
-    }
-
-    // This is required to correctly read binary files using some APIs, e.g. std::istream_iterator.
-    file.unsetf(std::ios::skipws);
-
+    std::ifstream file;
+    file.exceptions(std::ifstream::badbit | std::ifstream::eofbit | std::ifstream::failbit);
+    file.open(path, std::ios_base::binary);
+    file.unsetf(std::ios::skipws); // Required to correctly read binary files using some APIs, e.g. std::istream_iterator.
     return file;
 }
 
-// TODO: turn around exception handling here: enable exceptions before opening the file, and handle them only once, top level, right here.
 void analyze_file(const string& filename)
 {
-    auto filestream = open_binary_file(filename);
-    agbpack::lzss_decoder decoder;
-    decoder.decode(
-        std::istream_iterator<unsigned char>(filestream),
-        std::istream_iterator<unsigned char>(),
-        debug_lzss_decoder_receiver(std::cout));
+    try
+    {
+        auto filestream = open_binary_file(filename);
+        agbpack::lzss_decoder decoder;
+        decoder.decode(
+            std::istream_iterator<unsigned char>(filestream),
+            std::istream_iterator<unsigned char>(),
+            debug_lzss_decoder_receiver(std::cout));
+    }
+    catch (const std::ifstream::failure&)
+    {
+        // Depending on the library, exceptions thrown by ifstream may have rather useless error messages,
+        // so we catch exceptions here and try our luck with errno and std::system_error instead.
+        auto error = errno;
+        throw std::system_error(error, std::generic_category(), "could not analyze " + filename);
+    }
 }
 
 }
