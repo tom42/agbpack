@@ -18,11 +18,10 @@ using size_t = std::size_t;
 namespace
 {
 
-// TODO: class name
-class foo final
+class debug_lzss_decoder_reciver final
 {
 public:
-    explicit foo(std::ostream& os) : m_os(os) {}
+    explicit debug_lzss_decoder_reciver(std::ostream& os) : m_os(os) {}
 
     void tags(unsigned char tags)
     {
@@ -68,7 +67,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_debug_test")
     SECTION("Debug output")
     {
         const auto encoded_data = read_encoded_file("lzss.good.literals-and-references.txt");
-        decoder.decode(begin(encoded_data), end(encoded_data), foo(std::cout));
+        decoder.decode(begin(encoded_data), end(encoded_data), debug_lzss_decoder_reciver(std::cout));
     }
 }
 
