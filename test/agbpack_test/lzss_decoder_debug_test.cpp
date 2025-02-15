@@ -25,18 +25,18 @@ public:
 
     void tags(unsigned char tags)
     {
-        m_os << std::format("T: {:#010b} ({:#04x})\n", tags, tags);
+        m_os << std::format("{:#06x} T {:#010b} ({:#04x})\n", file_position(), tags, tags);
     }
 
     void literal(unsigned char c)
     {
-        m_os << std::format("L: '{}'\n", char(c));
+        m_os << std::format("{:#06x} L '{}'\n", file_position(), char(c));
         m_uncompressed_data.push_back(c);
     }
 
     void reference(size_t length, size_t offset)
     {
-        m_os << std::format("R: {:2} {:4} '", length, offset);
+        m_os << std::format("{:#06x} R {:2} {:4} '", file_position(), length, offset);
 
         while (length--)
         {
@@ -49,6 +49,8 @@ public:
     }
 
 private:
+    size_t file_position() const { return m_uncompressed_data.size(); }
+
     std::ostream& m_os;
     std::vector<unsigned char> m_uncompressed_data;
 };
