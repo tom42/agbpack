@@ -12,6 +12,7 @@
 
 import agbpack;
 
+// TODO: do we still need this entire file?
 namespace agbpack_test
 {
 
@@ -23,10 +24,10 @@ using std::format;
 namespace
 {
 
-class debug_lzss_decoder_reciver final
+class debug_lzss_decoder_receiver final
 {
 public:
-    explicit debug_lzss_decoder_reciver(std::ostream& os) : m_os(os) {}
+    explicit debug_lzss_decoder_receiver(std::ostream& os) : m_os(os) {}
 
     void tags(unsigned char tags)
     {
