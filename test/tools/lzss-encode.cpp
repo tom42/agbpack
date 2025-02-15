@@ -16,18 +16,19 @@ using string = std::string;
 
 struct command_line_options final
 {
+    string mode;
     string input_file;
+    string output_file;
 };
 
 command_line_options parse_command_line(int argc, char* argv[])
 {
-    // TODO: need 3/4 args here: mode, input file, output file
     if (argc != 4)
     {
         throw std::runtime_error("wrong arguments. Usage: lzss-encode <mode> <input> <output>");
     }
 
-    return command_line_options{argv[1]};
+    return command_line_options{argv[1], argv[2], argv[3]};
 }
 
 }
