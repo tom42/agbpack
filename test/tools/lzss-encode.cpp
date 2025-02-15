@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <iterator>
 #include <stdexcept>
 #include <system_error>
 #include <string>
@@ -65,14 +66,16 @@ ofstream open_binary_output_file(const string& path)
 
 void encode(const command_line_options& options)
 {
-    // TODO: open/read file
-    // TODO: encode file, using correct mode (normal/optimized)
-    // TODO: write file
-    // TODO: exception handling?
     try
     {
         auto input = open_binary_input_file(options.input_file);
         auto output = open_binary_output_file(options.output_file);
+        // TODO: support normal/optimized mode
+        agbpack::lzss_encoder encoder;
+        encoder.encode(
+            std::istream_iterator<unsigned char>(input),
+            std::istream_iterator<unsigned char>(),
+            std::ostream_iterator<unsigned char>(output));
     }
     catch (const ifstream::failure&)
     {
@@ -91,8 +94,6 @@ int main(int argc, char* argv[])
     {
         auto options = parse_command_line(argc, argv);
         encode(options);
-        // TODO: open/read file
-        // TODO: encode file (can start with optimal for starters)
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
