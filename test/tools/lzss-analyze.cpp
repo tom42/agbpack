@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: MIT
 
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
+#include <iterator>
 #include <vector>
 #include <string>
 #include <stdexcept>
@@ -82,16 +84,40 @@ command_line_options parse_command_line(int argc, char* argv[])
     return command_line_options{argv[1]};
 }
 
-void analyze_file(const string& /*filename*/)
+std::ifstream open_binary_file(const std::string& path)
 {
+    // The exceptions thrown by ifstream when opening fails have rather useless error messages.
+    // For instance, MSVC throws an exception with the following message: 'ios_base::failbit set: iostream stream error'.
+    // So we don't use stream exceptions and try our luck with errno and std::system_error.
+    std::ifstream file(path, std::ios_base::binary);
 
+    if (!file)
+    {
+        auto error = errno;
+        throw std::system_error(error, std::generic_category(), "could not open " + path);
+    }
+
+    // This is required to correctly read binary files using some APIs, e.g. std::istream_iterator.
+    file.unsetf(std::ios::skipws);
+
+    return file;
+}
+
+// TODO: turn around exception handling here: enable exceptions before opening the file, and handle them only once, top level, right here.
+void analyze_file(const string& filename)
+{
+    auto filestream = open_binary_file(filename);
+    agbpack::lzss_decoder decoder;
+    decoder.decode(
+        std::istream_iterator<unsigned char>(filestream),
+        std::istream_iterator<unsigned char>(),
+        debug_lzss_decoder_receiver(std::cout));
 }
 
 }
 
 int main(int argc, char* argv[])
 {
-    // TODO: implement LZSS analysis
     try
     {
         auto options = parse_command_line(argc, argv);
