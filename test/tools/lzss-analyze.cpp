@@ -98,6 +98,12 @@ void analyze_file(const string& filename)
     try
     {
         auto filestream = open_binary_file(filename);
+
+        // TODO: ugh: some decoders do not pad files correctly. We should account for this here:
+        //       * Read in the entire file into memory
+        //       * Check whether it is correctly aligned
+        //         * If it is not, issue a warning, pad it, and continue
+
         agbpack::lzss_decoder decoder;
         decoder.decode(
             std::istream_iterator<unsigned char>(filestream),
