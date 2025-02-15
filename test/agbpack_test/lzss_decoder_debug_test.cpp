@@ -86,7 +86,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_debug_test")
         const auto encoded_data = encode_vector(encoder, decoded_data);
         std::stringstream debug_output_stream;
 
-        decoder.decode(begin(encoded_data), end(encoded_data), debug_lzss_decoder_reciver(debug_output_stream));
+        decoder.decode(begin(encoded_data), end(encoded_data), debug_lzss_decoder_receiver(debug_output_stream));
 
         CHECK(debug_output_stream.str() ==
             "0x0000 T 0b01000000 (0x40)\n"
