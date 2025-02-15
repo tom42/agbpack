@@ -32,7 +32,7 @@ public:
 
     void literal(unsigned char c)
     {
-        m_os << std::format("{:#06x} L '{}'\n", file_position(), char(c));
+        m_os << std::format("{:#06x} L '{}'\n", file_position(), char(c)); // TODO: must escape nonprintable characters
         m_uncompressed_data.push_back(c);
     }
 
@@ -43,7 +43,7 @@ public:
         while (length--)
         {
             unsigned char c = m_uncompressed_data[m_uncompressed_data.size() - offset];
-            m_os << c;
+            m_os << c; // TODO: must escape nonprintable characters
             m_uncompressed_data.push_back(c);
         }
 
@@ -79,14 +79,15 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_debug_test")
             "0x0004 L 'b'\n");
     }
 
-    // TODO: this test is only here to develop debug output. We're probably going to delete it again. Or are we?
-    //       => When needed we can uncomment a test that produces output
-    //       => Finally we're probably more interested in the test data from the encoder test (and, incidentally, we are debugging the encoder with this, not the decoder)
+    /*
     SECTION("Debug output")
     {
-        const auto encoded_data = read_encoded_file("lzss.good.literals-and-references.txt");
+        const auto decoded_data = read_decoded_file("lzss.good.delta.cppm");
+        const auto encoded_data = encode_vector(encoder, decoded_data);
+
         decoder.decode(begin(encoded_data), end(encoded_data), debug_lzss_decoder_reciver(std::cout));
     }
+    */
 }
 
 }
