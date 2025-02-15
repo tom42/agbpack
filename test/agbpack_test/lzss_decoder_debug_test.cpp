@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <format>
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include "testdata.hpp"
 
@@ -14,6 +15,7 @@ namespace agbpack_test
 {
 
 using size_t = std::size_t;
+using byte_vector = std::vector<unsigned char>;
 
 namespace
 {
@@ -52,18 +54,32 @@ private:
     size_t file_position() const { return m_uncompressed_data.size(); }
 
     std::ostream& m_os;
-    std::vector<unsigned char> m_uncompressed_data;
+    byte_vector m_uncompressed_data;
 };
 
 
 TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_debug_test")
 {
     agbpack::lzss_decoder decoder;
+    agbpack::lzss_encoder encoder;
     set_test_data_directory("lzss_decoder");
 
+    SECTION("Test whether generating LZSS decoder debug output works")
+    {
+        const byte_vector decoded_data {'a', 'a', 'a', 'a', 'b'};
+        const auto encoded_data = encode_vector(encoder, decoded_data);
+        std::stringstream debug_output_stream;
+
+        decoder.decode(begin(encoded_data), end(encoded_data), debug_lzss_decoder_reciver(debug_output_stream));
+
+        CHECK(debug_output_stream.str() ==
+            "0x0000 T 0b01000000 (0x40)\n"
+            "0x0000 L 'a'\n"
+            "0x0001 R  3    1 'aaa'\n"
+            "0x0004 L 'b'\n");
+    }
+
     // TODO: this test is only here to develop debug output. We're probably going to delete it again. Or are we?
-    //       => Well we're going to move it into a separate file, cerainly
-    //       => We can then have a simple test that produces no output and just ensures things keep building
     //       => When needed we can uncomment a test that produces output
     //       => Finally we're probably more interested in the test data from the encoder test (and, incidentally, we are debugging the encoder with this, not the decoder)
     SECTION("Debug output")
