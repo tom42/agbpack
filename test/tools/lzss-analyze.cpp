@@ -7,9 +7,9 @@
 #include <fstream>
 #include <iostream>
 #include <iterator>
-#include <vector>
-#include <string>
 #include <stdexcept>
+#include <string>
+#include <vector>
 
 import agbpack;
 
