@@ -87,7 +87,7 @@ command_line_options parse_command_line(int argc, char* argv[])
     return command_line_options{argv[1]};
 }
 
-ifstream open_binary_file(const string& path)
+ifstream open_binary_input_file(const string& path)
 {
     ifstream file;
 
@@ -113,7 +113,7 @@ void analyze_file(const string& filename)
 {
     try
     {
-        auto filestream = open_binary_file(filename);
+        auto filestream = open_binary_input_file(filename);
 
         // Some encoders do not correctly pad the file.
         // Our decoder does not like this, so we read the entire file and pad it if necessary.
