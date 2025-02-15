@@ -8,9 +8,7 @@
 #include <cstddef>
 #include <filesystem>
 #include <format>
-#include <iostream>
 #include <string>
-#include <vector>
 #include "testdata.hpp"
 
 import agbpack;
@@ -57,42 +55,6 @@ std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decod
     decoder.decode(encoded_data.begin(), encoded_data.end(), decoded_data.begin());
     return decoded_data;
 }
-
-// TODO: class name
-class foo final
-{
-public:
-    explicit foo(std::ostream& os) : m_os(os) {}
-
-    void tags(unsigned char tags)
-    {
-        m_os << std::format("T: {:#010b} ({:#04x})\n", tags, tags);
-    }
-
-    void literal(unsigned char c)
-    {
-        m_os << std::format("L: '{}'\n", char(c));
-        m_uncompressed_data.push_back(c);
-    }
-
-    void reference(size_t length, size_t offset)
-    {
-        m_os << std::format("R: {:2} {:4} '", length, offset);
-
-        while (length--)
-        {
-            unsigned char c = m_uncompressed_data[m_uncompressed_data.size() - offset];
-            m_os << c;
-            m_uncompressed_data.push_back(c);
-        }
-
-        m_os << "'\n";
-    }
-
-private:
-    std::ostream& m_os;
-    std::vector<unsigned char> m_uncompressed_data;
-};
 
 }
 
@@ -172,18 +134,6 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
             decode_vector(decoder, not_vram_safe_encoded_data),
             agbpack::decode_exception,
             Catch::Matchers::Message("encoded data is corrupt: encoded data is not VRAM safe"));
-    }
-
-    // TODO: this test is only here to develop debug output. We're probably going to delete it again. Or are we?
-    //       => Well we're going to move it into a separate file, cerainly
-    //       => We can then have a simple test that produces no output and just ensures things keep building
-    //       => When needed we can uncomment a test that produces output
-    //       => Finally we're probably more interested in the test data from the encoder test (and, incidentally, we are debugging the encoder with this, not the decoder)
-    //       => OK, move this code elsewhere, and then remove <iostream> and <vector>
-    SECTION("Debug output")
-    {
-        const auto encoded_data = read_encoded_file("lzss.good.literals-and-references.txt");
-        decoder.decode(begin(encoded_data), end(encoded_data), foo(std::cout));
     }
 }
 
