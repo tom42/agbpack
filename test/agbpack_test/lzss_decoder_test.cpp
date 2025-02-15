@@ -81,7 +81,7 @@ public:
 
         while (length--)
         {
-            char c = m_uncompressed_data[m_uncompressed_data.size() - offset];
+            unsigned char c = m_uncompressed_data[m_uncompressed_data.size() - offset];
             std::cout << c;
             m_uncompressed_data.push_back(c);
         }
