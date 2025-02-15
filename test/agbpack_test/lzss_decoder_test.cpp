@@ -62,35 +62,35 @@ std::vector<unsigned char> decode_file_to_random_access_iterator(TDecoder& decod
 class foo final
 {
 public:
-    explicit foo(std::ostream& s) : m_s(s) {}
+    explicit foo(std::ostream& os) : m_os(os) {}
 
     void tags(unsigned char tags)
     {
-        std::cout << std::format("T: {:#010b} ({:#04x})\n", tags, tags);
+        m_os << std::format("T: {:#010b} ({:#04x})\n", tags, tags);
     }
 
     void literal(unsigned char c)
     {
-        std::cout << std::format("L: '{}'\n", char(c));
+        m_os << std::format("L: '{}'\n", char(c));
         m_uncompressed_data.push_back(c);
     }
 
     void reference(size_t length, size_t offset)
     {
-        std::cout << std::format("R: {:2} {:4} '", length, offset);
+        m_os << std::format("R: {:2} {:4} '", length, offset);
 
         while (length--)
         {
-            char c = m_uncompressed_data[m_uncompressed_data.size() - offset];
-            std::cout << c;
+            unsigned char c = m_uncompressed_data[m_uncompressed_data.size() - offset];
+            m_os << c;
             m_uncompressed_data.push_back(c);
         }
 
-        std::cout << "'\n";
+        m_os << "'\n";
     }
 
 private:
-    std::ostream& m_s;
+    std::ostream& m_os;
     std::vector<unsigned char> m_uncompressed_data;
 };
 
