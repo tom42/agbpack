@@ -9,6 +9,7 @@
 #include <iterator>
 #include <stdexcept>
 #include <string>
+#include <system_error>
 #include <vector>
 
 import agbpack;
