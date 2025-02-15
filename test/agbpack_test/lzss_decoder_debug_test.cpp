@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <cctype>
 #include <cstddef>
 #include <format>
 #include <iostream>
@@ -14,8 +15,10 @@ import agbpack;
 namespace agbpack_test
 {
 
-using size_t = std::size_t;
 using byte_vector = std::vector<unsigned char>;
+using size_t = std::size_t;
+using string = std::string;
+using std::format;
 
 namespace
 {
@@ -27,23 +30,23 @@ public:
 
     void tags(unsigned char tags)
     {
-        m_os << std::format("{:#06x} T {:#010b} ({:#04x})\n", file_position(), tags, tags);
+        m_os << format("{:#06x} T {:#010b} ({:#04x})\n", file_position(), tags, tags);
     }
 
     void literal(unsigned char c)
     {
-        m_os << std::format("{:#06x} L '{}'\n", file_position(), char(c)); // TODO: must escape nonprintable characters
+        m_os << format("{:#06x} L '{}'\n", file_position(), escape_character(c));
         m_uncompressed_data.push_back(c);
     }
 
     void reference(size_t length, size_t offset)
     {
-        m_os << std::format("{:#06x} R {:2} {:4} '", file_position(), length, offset);
+        m_os << format("{:#06x} R {:2} {:4} '", file_position(), length, offset);
 
         while (length--)
         {
             unsigned char c = m_uncompressed_data[m_uncompressed_data.size() - offset];
-            m_os << c; // TODO: must escape nonprintable characters
+            m_os << escape_character(c);
             m_uncompressed_data.push_back(c);
         }
 
@@ -52,6 +55,18 @@ public:
 
 private:
     size_t file_position() const { return m_uncompressed_data.size(); }
+
+    string escape_character(unsigned char byte)
+    {
+        auto c = char(byte);
+
+        if ((c == '\\') || !std::isprint(c))
+        {
+            return format("\\x{:02x}", c);
+        }
+
+        return string(1, c);
+    }
 
     std::ostream& m_os;
     byte_vector m_uncompressed_data;
@@ -66,7 +81,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_debug_test")
 
     SECTION("Test whether generating LZSS decoder debug output works")
     {
-        const byte_vector decoded_data {'a', 'a', 'a', 'a', 'b'};
+        const byte_vector decoded_data{'a', 'a', 'a', 'a', 'b', '\\', '\n'};
         const auto encoded_data = encode_vector(encoder, decoded_data);
         std::stringstream debug_output_stream;
 
@@ -76,7 +91,9 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_debug_test")
             "0x0000 T 0b01000000 (0x40)\n"
             "0x0000 L 'a'\n"
             "0x0001 R  3    1 'aaa'\n"
-            "0x0004 L 'b'\n");
+            "0x0004 L 'b'\n"
+            "0x0005 L '\\x5c'\n"
+            "0x0006 L '\\x0a'\n");
     }
 
     /*
