@@ -62,7 +62,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_debug_test")
 {
     agbpack::lzss_decoder decoder;
     agbpack::lzss_encoder encoder;
-    set_test_data_directory("lzss_decoder");
+    set_test_data_directory("lzss_encoder");
 
     SECTION("Test whether generating LZSS decoder debug output works")
     {
