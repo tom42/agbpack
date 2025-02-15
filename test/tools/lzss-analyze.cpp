@@ -15,6 +15,7 @@ namespace
 {
 
 using byte_vector = std::vector<unsigned char>;
+using ifstream = std::ifstream;
 using size_t = std::size_t;
 using string = std::string;
 using std::format;
@@ -84,10 +85,10 @@ command_line_options parse_command_line(int argc, char* argv[])
     return command_line_options{argv[1]};
 }
 
-std::ifstream open_binary_file(const string& path)
+ifstream open_binary_file(const string& path)
 {
-    std::ifstream file;
-    file.exceptions(std::ifstream::badbit | std::ifstream::eofbit | std::ifstream::failbit);
+    ifstream file;
+    file.exceptions(ifstream::badbit | ifstream::eofbit | ifstream::failbit);
     file.open(path, std::ios_base::binary);
     file.unsetf(std::ios::skipws); // Required to correctly read binary files using some APIs, e.g. std::istream_iterator.
     return file;
@@ -110,7 +111,7 @@ void analyze_file(const string& filename)
             std::istream_iterator<unsigned char>(),
             debug_lzss_decoder_receiver(std::cout));
     }
-    catch (const std::ifstream::failure&)
+    catch (const ifstream::failure&)
     {
         // Depending on the library, exceptions thrown by ifstream may have rather useless error messages,
         // so we catch exceptions here and try our luck with errno and std::system_error instead.
