@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+#include <algorithm>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -88,10 +89,23 @@ command_line_options parse_command_line(int argc, char* argv[])
 ifstream open_binary_file(const string& path)
 {
     ifstream file;
+
     file.exceptions(ifstream::badbit | ifstream::eofbit | ifstream::failbit);
     file.open(path, std::ios_base::binary);
+
+    // Set badbit only for processing.
+    // Caution: I have no clue what I am doing here.
+    file.exceptions(ifstream::badbit);
     file.unsetf(std::ios::skipws); // Required to correctly read binary files using some APIs, e.g. std::istream_iterator.
     return file;
+}
+
+void pad_data(byte_vector& data)
+{
+    while (data.size() % 4 != 0)
+    {
+        data.push_back(0);
+    }
 }
 
 void analyze_file(const string& filename)
@@ -100,17 +114,18 @@ void analyze_file(const string& filename)
     {
         auto filestream = open_binary_file(filename);
 
-        // TODO: ugh: some decoders do not pad files correctly. We should account for this here:
-        //       * Read in the entire file into memory
-        //       * Check whether it is correctly aligned
-        //         * If it is not, issue a warning, pad it, and continue
-        // TODO: figure out why we get a ifstream::failure exception even for a correctly aligned file
-
-        agbpack::lzss_decoder decoder;
-        decoder.decode(
+        // Some encoders do not correctly pad the file.
+        // Our decoder does not like this, so we read the entire file and pad it if necessary.
+        byte_vector data;
+        std::copy(
             std::istream_iterator<unsigned char>(filestream),
             std::istream_iterator<unsigned char>(),
-            debug_lzss_decoder_receiver(std::cout));
+            back_inserter(data));
+        pad_data(data);
+
+        // Analyze file.
+        agbpack::lzss_decoder decoder;
+        decoder.decode(begin(data), end(data), debug_lzss_decoder_receiver(std::cout));
     }
     catch (const ifstream::failure&)
     {
