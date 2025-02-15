@@ -104,6 +104,7 @@ void analyze_file(const string& filename)
         //       * Read in the entire file into memory
         //       * Check whether it is correctly aligned
         //         * If it is not, issue a warning, pad it, and continue
+        // TODO: figure out why we get a ifstream::failure exception even for a correctly aligned file
 
         agbpack::lzss_decoder decoder;
         decoder.decode(
