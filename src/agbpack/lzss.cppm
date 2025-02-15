@@ -193,7 +193,7 @@ public:
 
 private:
     template <std::input_iterator InputIterator, typename LzssReceiver>
-    void decode_internal(byte_reader<InputIterator>& reader, LzssReceiver& receiver) // TODO: arg types (const? reference?)
+    void decode_internal(byte_reader<InputIterator>& reader, LzssReceiver& receiver)
     {
         static_assert_input_type<InputIterator>();
 
