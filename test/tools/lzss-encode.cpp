@@ -22,9 +22,9 @@ struct command_line_options final
 command_line_options parse_command_line(int argc, char* argv[])
 {
     // TODO: need 3/4 args here: mode, input file, output file
-    if (argc != 2)
+    if (argc != 4)
     {
-        throw std::runtime_error("wrong number of arguments");
+        throw std::runtime_error("wrong arguments. Usage: lzss-encode <mode> <input> <output>");
     }
 
     return command_line_options{argv[1]};

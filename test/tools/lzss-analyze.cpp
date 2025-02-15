@@ -81,7 +81,7 @@ command_line_options parse_command_line(int argc, char* argv[])
 {
     if (argc != 2)
     {
-        throw std::runtime_error("wrong number of arguments");
+        throw std::runtime_error("wrong arguments");
     }
 
     return command_line_options{argv[1]};
