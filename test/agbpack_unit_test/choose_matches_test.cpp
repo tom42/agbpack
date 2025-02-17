@@ -37,6 +37,9 @@ TEST_CASE("choose_matches_test")
     CHECK(call_choose_matches("aaa")    == mv{ m(1, 0), m(1, 0), m(1, 0) });
     CHECK(call_choose_matches("aaaa")   == mv{ m(1, 0), m(3, 1), m(1, 0), m(1, 0) });
     CHECK(call_choose_matches("abcabc") == mv{ m(1, 0), m(1, 0), m(1, 0), m(3, 3), m(1, 0), m(1, 0) });
+
+    // TODO: this yields compression. Add expected data, and possibly annotate it?
+    CHECK(call_choose_matches(" abc_abcdef abcdef") == mv{});
 }
 
 }
