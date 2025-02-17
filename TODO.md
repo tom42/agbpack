@@ -5,14 +5,9 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * OK: need to reshuffle things a bit:
-  * For easy analyzation/debugging it would be useful to have some command line tools:
-    * One to analze an encoded stream (which may have been produced using our own encoder or some 3rd party encoder) => lzss-analyze
-    * One to encode data, so we can work on the command line => lzss-encode
-    * How can we exclude these from being installed?
-    * These can for starters go into a tools directory, no? (test/tools)
-    * But they need to do file I/O, and stuff
-      * Can we abuse the testkit somehow?
-      * Well maybe, but then, everybody should use it, no? (no, not really...)
+  * Eliminate duplication in lzss-analyze.cpp and lzss-decode.cpp?
+* Our first test case for the optimized encoder:
+  * " abc_abcdef abcdef" => The 2nd run should be encoded as "abcdef"
 * Compare LZ4 vs. LZSS? (Improved compression vs. requiring an encoder?) => NOPE?
 * optimal_lzss_parser
   * It passes the current tests
