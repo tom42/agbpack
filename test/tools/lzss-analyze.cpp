@@ -46,11 +46,12 @@ public:
 
     void reference(size_t length, size_t offset)
     {
-        m_os << format("{:#06x} R {:#04x} {:#05x} '", file_position(), length, offset);
+        size_t reference_position = m_uncompressed_data.size() - offset;
+        m_os << format("{:#06x} R {:#04x} {:#05x} @{:#04x}'", file_position(), length, offset, reference_position);
 
         while (length--)
         {
-            unsigned char c = m_uncompressed_data[m_uncompressed_data.size() - offset];
+            unsigned char c = m_uncompressed_data[reference_position++];
             m_os << escape_character(c);
             m_uncompressed_data.push_back(c);
         }
