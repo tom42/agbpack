@@ -86,7 +86,6 @@ TEMPLATE_LIST_TEST_CASE_METHOD(
         // Encode
         const auto encoded_data = encode_vector(encoder, original_data);
         CHECK(encoded_data.size() == parameters.expected_encoded_size(encoder));
-        // TODO: at least temporarily, dump encoded data to disk
 
         // Decode
         const auto decoded_data = decode_vector(decoder, encoded_data);
