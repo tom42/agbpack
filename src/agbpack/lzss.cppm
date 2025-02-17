@@ -294,11 +294,11 @@ private:
 
 // Simple implementation using two nested loops each doing linear search.
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-class match_finder final // TODO: rename this to greedy_match_finder?
+class greedy_match_finder final
 {
 public:
-    // Note: match_finder does not own input
-    explicit match_finder(const vector<agbpack_u8>& input, size_t minimum_match_offset)
+    // Note: greedy_match_finder does not own input
+    explicit greedy_match_finder(const vector<agbpack_u8>& input, size_t minimum_match_offset)
         : m_input(input)
         , m_minimum_match_offset(minimum_match_offset)
     {}
@@ -441,7 +441,7 @@ private:
     vector<agbpack_u8> encode_internal(const vector<agbpack_u8>& input)
     {
         vector<agbpack_u8> encoded_data;
-        match_finder match_finder(input, get_minimum_offset(m_vram_safe) - 1); // TODO: unhardcode. What's somewhat ugly: match_finder uses zero based offfset, whereas global constant uses one based offset
+        greedy_match_finder match_finder(input, get_minimum_offset(m_vram_safe) - 1); // TODO: unhardcode. What's somewhat ugly: greedy_match_finder uses zero based offfset, whereas global constant uses one based offset
         lzss_bitstream_writer writer(encoded_data);
 
         size_t current_position = 0;
@@ -482,12 +482,12 @@ inline vector<match> find_longest_matches(const vector<agbpack_u8>& input, bool 
     //       * Problem: bloom's document says
     //           "Let cml[n] be the chosen match length for byte n; (1 <= cml[n] <= ml[n]),
     //            *where 1 indicates a literal*"
-    //         This is not how match_finder works, which may return 0 for a literal. OUCH.
+    //         This is not how greedy_match_finder works, which may return 0 for a literal. OUCH.
     //       * The problem is that we never properly defined what the fields of match mean in what case and that
     //         for matches with length < 3 match finder returns weird results. Things do work if we interpret
     //         anything with length < minimum_match_length as 'encoder a literal', which is actually what both
     //         lzss_encoder and optimal_lzss_encoder do
-    match_finder match_finder(input, get_minimum_offset(vram_safe) - 1); // TODO: this subtraction is REALLY ugly (see above where already have this)
+    greedy_match_finder match_finder(input, get_minimum_offset(vram_safe) - 1); // TODO: this subtraction is REALLY ugly (see above where already have this)
 
     for (size_t i = 0; i < input.size(); ++i)
     {

@@ -12,7 +12,7 @@ namespace agbpack_unit_test
 {
 
 using agbpack::match;
-using agbpack::match_finder;
+using agbpack::greedy_match_finder;
 
 namespace
 {
@@ -20,7 +20,7 @@ namespace
 match find_match(const std::string& data, std::size_t current_position, std::size_t minimum_match_offset)
 {
     std::vector<unsigned char> v(data.begin(), data.end());
-    match_finder match_finder(v, minimum_match_offset);
+    greedy_match_finder match_finder(v, minimum_match_offset);
     return match_finder.find_match(current_position);
 }
 
@@ -36,7 +36,7 @@ match find_match_vram(const std::string& data, std::size_t current_position)
 
 }
 
-TEST_CASE("match_finder_test")
+TEST_CASE("greedy_match_finder_test")
 {
     SECTION("Empty input")
     {

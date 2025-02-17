@@ -15,7 +15,7 @@ target_sources(
   huffman_tree_node_test.cpp
   huffman_tree_serializer_test.cpp
   lzss_bitstream_writer_test.cpp
-  match_finder_test.cpp
+  greedy_match_finder_test.cpp
   node_priority_queue_test.cpp)
 target_link_libraries(
   agbpack_unit_test
