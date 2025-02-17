@@ -3,6 +3,8 @@
 
 #include <cstddef>
 #include <cstdlib>
+#include <cstring>
+#include <format>
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -19,21 +21,44 @@ using ifstream = std::ifstream;
 using ofstream = std::ofstream;
 using string = std::string;
 
-struct command_line_options final
+enum class compression_mode
 {
-    string mode;
+    normal,
+    optimal
+};
+
+struct options final
+{
+    compression_mode mode;
     string input_file;
     string output_file;
 };
 
-command_line_options parse_command_line(int argc, char* argv[])
+compression_mode parse_compression_mode(const char* mode)
+{
+    if (!std::strcmp(mode, "normal"))
+    {
+        return compression_mode::normal;
+    }
+    else if(!std::strcmp(mode, "optimal"))
+    {
+        return compression_mode::optimal;
+    }
+    else
+    {
+        throw std::runtime_error(std::format("invalid compression mode '{}'", mode));
+    }
+}
+
+options parse_command_line(int argc, char* argv[])
 {
     if (argc != 4)
     {
         throw std::runtime_error("wrong arguments. Usage: lzss-encode <mode> <input> <output>");
     }
 
-    return command_line_options{argv[1], argv[2], argv[3]};
+    auto mode = parse_compression_mode(argv[1]);
+    return options{mode, argv[2], argv[3]};
 }
 
 ifstream open_binary_input_file(const string& path)
@@ -64,18 +89,49 @@ ofstream open_binary_output_file(const string& path)
     return file;
 }
 
-void encode(const command_line_options& options)
+template <typename TEncoder>
+void encode(TEncoder& encoder, ifstream& input, ofstream& output)
+{
+    encoder.encode(
+        std::istream_iterator<unsigned char>(input),
+        std::istream_iterator<unsigned char>(),
+        std::ostream_iterator<unsigned char>(output));
+}
+
+void encode_normal(ifstream& input, ofstream& output)
+{
+    agbpack::lzss_encoder encoder;
+    encode(encoder, input, output);
+}
+
+void encode_optimal(ifstream& input, ofstream& output)
+{
+    agbpack::optimal_lzss_encoder encoder;
+    encode(encoder, input, output);
+}
+
+void encode(compression_mode mode, ifstream& input, ofstream& output)
+{
+    switch (mode)
+    {
+        case compression_mode::normal:
+            encode_normal(input, output);
+            return;
+        case compression_mode::optimal:
+            encode_optimal(input, output);
+            return;
+    }
+
+    throw std::invalid_argument("invalid compression mode");
+}
+
+void encode(const options& options)
 {
     try
     {
         auto input = open_binary_input_file(options.input_file);
         auto output = open_binary_output_file(options.output_file);
-        // TODO: support normal/optimized mode
-        agbpack::lzss_encoder encoder;
-        encoder.encode(
-            std::istream_iterator<unsigned char>(input),
-            std::istream_iterator<unsigned char>(),
-            std::ostream_iterator<unsigned char>(output));
+        encode(options.mode, input, output);
     }
     catch (const ifstream::failure&)
     {
