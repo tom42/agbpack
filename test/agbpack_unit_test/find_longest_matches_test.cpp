@@ -35,6 +35,15 @@ TEST_CASE("find_longest_matches_test")
     CHECK(call_find_longest_matches("aaaa")  == mv{ m(1, 0), m(3, 1), m(1, 0), m(1, 0) });
     CHECK(call_find_longest_matches("aaaaa") == mv{ m(1, 0), m(4, 1), m(3, 2), m(1, 0), m(1, 0) });
     CHECK(call_find_longest_matches("ababa") == mv{ m(1, 0), m(1, 0), m(3, 2), m(1, 0), m(1, 0) });
+
+    // The following input should yield better compression when parsed non-greedily
+    CHECK(call_find_longest_matches(
+        " abc_abcdef abcdef") ==
+        mv{
+            m(1, 0), m(1, 0), m(1, 0), m(1, 0), m(1, 0), m(3, 4),
+            m(1, 0), m(1, 0), m(1, 0), m(1, 0), m(1, 0), m(4, 11),
+            m(6, 7), m(5, 7), m(4, 7), m(3, 7), m(1, 0), m(1, 0)
+        });
 }
 
 }
