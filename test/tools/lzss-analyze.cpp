@@ -46,7 +46,7 @@ public:
 
     void reference(size_t length, size_t offset)
     {
-        m_os << format("{:#06x} R {:2} {:4} '", file_position(), length, offset);
+        m_os << format("{:#06x} R {:#04x} {:#05x} '", file_position(), length, offset);
 
         while (length--)
         {
