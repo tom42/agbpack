@@ -70,10 +70,13 @@ public:
 
     void reference(size_t length, size_t offset)
     {
-        // TODO: make output of compressed position optional
         size_t reference_position = m_uncompressed_data.size() - offset;
-        m_os << format("{:#06x} {:#06x} R {:#04x} {:#05x} @{:#04x}'",
-            uncompressed_position(), m_compressed_position, length, offset, reference_position);
+        m_os << format("{:#06x}", uncompressed_position());
+        if (m_flags & output_format_flags::compressed_position)
+        {
+            m_os << format(" {:#06x}", m_compressed_position);
+        }
+        m_os << format(" R {:#04x} {:#05x} @{:#04x}'", length, offset, reference_position);
 
         while (length--)
         {
