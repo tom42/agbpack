@@ -23,7 +23,7 @@ using size_t = std::size_t;
 using string = std::string;
 using std::format;
 
-enum class output_format_flags
+enum output_format_flags
 {
     standard = 0,
     compressed_position = 1
@@ -39,18 +39,26 @@ class debug_lzss_decoder_receiver final
 {
 public:
     explicit debug_lzss_decoder_receiver(std::ostream& os, output_format_flags flags)
-        : m_os(os)
+        : m_flags(flags)
+        , m_os(os)
     {}
 
     void tags(unsigned char tags)
     {
-        m_os << format("{:#06x} {:#06x} T {:#010b} ({:#04x})\n",
-            uncompressed_position(), m_compressed_position, tags, tags);
+        m_os << format("{:#06x}", uncompressed_position());
+
+        if (m_flags & output_format_flags::compressed_position)
+        {
+            m_os << format(" {:#06x}", m_compressed_position);
+        }
+
+        m_os << format(" T {:#010b} ({:#04x})\n", tags, tags);
         m_compressed_position += 1;
     }
 
     void literal(unsigned char c)
     {
+        // TODO: make output of compressed position optional
         m_os << format("{:#06x} {:#06x} L '{}'\n",
             uncompressed_position(), m_compressed_position, escape_character(c));
         m_uncompressed_data.push_back(c);
@@ -59,6 +67,7 @@ public:
 
     void reference(size_t length, size_t offset)
     {
+        // TODO: make output of compressed position optional
         size_t reference_position = m_uncompressed_data.size() - offset;
         m_os << format("{:#06x} {:#06x} R {:#04x} {:#05x} @{:#04x}'",
             uncompressed_position(), m_compressed_position, length, offset, reference_position);
@@ -90,6 +99,7 @@ private:
     }
 
     size_t m_compressed_position = 0;
+    output_format_flags m_flags;
     std::ostream& m_os;
     byte_vector m_uncompressed_data;
 };
@@ -101,6 +111,8 @@ options parse_command_line(int argc, char* argv[])
     {
         throw std::runtime_error("wrong arguments");
     }
+
+    // TODO: somehow parse optional output format
 
     return options{argv[1], output_format_flags::standard};
 }
