@@ -38,7 +38,9 @@ struct options final
 class debug_lzss_decoder_receiver final
 {
 public:
-    explicit debug_lzss_decoder_receiver(std::ostream& os) : m_os(os) {}
+    explicit debug_lzss_decoder_receiver(std::ostream& os, output_format_flags flags)
+        : m_os(os)
+    {}
 
     void tags(unsigned char tags)
     {
@@ -142,7 +144,7 @@ void analyze_file(const options& options)
 
         // Analyze file.
         agbpack::lzss_decoder decoder;
-        decoder.decode(begin(data), end(data), debug_lzss_decoder_receiver(std::cout));
+        decoder.decode(begin(data), end(data), debug_lzss_decoder_receiver(std::cout, options.flags));
     }
     catch (const ifstream::failure&)
     {
