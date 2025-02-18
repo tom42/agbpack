@@ -32,6 +32,7 @@ enum class output_format_flags
 struct options final
 {
     string input_file;
+    output_format_flags flags;
 };
 
 class debug_lzss_decoder_receiver final
@@ -99,7 +100,7 @@ options parse_command_line(int argc, char* argv[])
         throw std::runtime_error("wrong arguments");
     }
 
-    return options{argv[1]};
+    return options{argv[1], output_format_flags::standard};
 }
 
 ifstream open_binary_input_file(const string& path)
