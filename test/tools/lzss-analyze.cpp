@@ -125,11 +125,11 @@ void pad_data(byte_vector& data)
     }
 }
 
-void analyze_file(const string& filename)
+void analyze_file(const options& options)
 {
     try
     {
-        auto filestream = open_binary_input_file(filename);
+        auto filestream = open_binary_input_file(options.input_file);
 
         // Some encoders do not correctly pad the file.
         // Our decoder does not like this, so we read the entire file and pad it if necessary.
@@ -149,7 +149,7 @@ void analyze_file(const string& filename)
         // Depending on the library, exceptions thrown by ifstream may have rather useless error messages,
         // so we catch exceptions here and try our luck with errno and std::system_error instead.
         auto error = errno;
-        throw std::system_error(error, std::generic_category(), "could not analyze " + filename);
+        throw std::system_error(error, std::generic_category(), "could not analyze " + options.input_file);
     }
 }
 
@@ -160,7 +160,7 @@ int main(int argc, char* argv[])
     try
     {
         auto options = parse_command_line(argc, argv);
-        analyze_file(options.input_file);
+        analyze_file(options);
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
