@@ -46,21 +46,24 @@ public:
     void tags(unsigned char tags)
     {
         m_os << format("{:#06x}", uncompressed_position());
-
         if (m_flags & output_format_flags::compressed_position)
         {
             m_os << format(" {:#06x}", m_compressed_position);
         }
-
         m_os << format(" T {:#010b} ({:#04x})\n", tags, tags);
+
         m_compressed_position += 1;
     }
 
     void literal(unsigned char c)
     {
-        // TODO: make output of compressed position optional
-        m_os << format("{:#06x} {:#06x} L '{}'\n",
-            uncompressed_position(), m_compressed_position, escape_character(c));
+        m_os << format("{:#06x}", uncompressed_position());
+        if (m_flags & output_format_flags::compressed_position)
+        {
+            m_os << format(" {:#06x}", m_compressed_position);
+        }
+        m_os << format(" L '{}'\n", escape_character(c));
+
         m_uncompressed_data.push_back(c);
         m_compressed_position += 1;
     }
