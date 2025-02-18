@@ -4,6 +4,7 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Watch this: C++ Modules with CMake: https://www.youtube.com/watch?v=7WK42YSfE9s
 * OK: need to reshuffle things a bit:
   * Eliminate duplication in lzss-analyze.cpp and lzss-decode.cpp?
 * Our first test case for the optimized encoder:
