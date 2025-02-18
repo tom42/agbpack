@@ -23,6 +23,12 @@ using size_t = std::size_t;
 using string = std::string;
 using std::format;
 
+enum class output_format_flags
+{
+    standard = 0,
+    compressed_position = 1
+};
+
 struct options final
 {
     string input_file;
