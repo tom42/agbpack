@@ -110,17 +110,26 @@ private:
     byte_vector m_uncompressed_data;
 };
 
+output_format_flags parse_output_format(const char*)
+{
+    // TODO: somehow parse optional output format
+    return {};
+}
 
 options parse_command_line(int argc, char* argv[])
 {
-    if (argc != 2)
+    if ((argc < 2) || (argc > 3))
     {
-        throw std::runtime_error("wrong arguments");
+        throw std::runtime_error("wrong arguments. Usage: lzss-analyze <input> [output format]");
     }
 
-    // TODO: somehow parse optional output format
+    output_format_flags output_format = output_format_flags::standard;
+    if (argc == 3)
+    {
+        output_format = parse_output_format(argv[2]);
+    }
 
-    return options{argv[1], output_format_flags::standard};
+    return options{argv[1], output_format };
 }
 
 ifstream open_binary_input_file(const string& path)
