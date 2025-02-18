@@ -23,7 +23,7 @@ using size_t = std::size_t;
 using string = std::string;
 using std::format;
 
-struct command_line_options final
+struct options final
 {
     string input_file;
 };
@@ -86,14 +86,14 @@ private:
 };
 
 
-command_line_options parse_command_line(int argc, char* argv[])
+options parse_command_line(int argc, char* argv[])
 {
     if (argc != 2)
     {
         throw std::runtime_error("wrong arguments");
     }
 
-    return command_line_options{argv[1]};
+    return options{argv[1]};
 }
 
 ifstream open_binary_input_file(const string& path)
