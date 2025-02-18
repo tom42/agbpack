@@ -35,19 +35,19 @@ public:
 
     void tags(unsigned char tags)
     {
-        m_os << format("{:#06x} T {:#010b} ({:#04x})\n", file_position(), tags, tags);
+        m_os << format("{:#06x} T {:#010b} ({:#04x})\n", uncompressed_position(), tags, tags);
     }
 
     void literal(unsigned char c)
     {
-        m_os << format("{:#06x} L '{}'\n", file_position(), escape_character(c));
+        m_os << format("{:#06x} L '{}'\n", uncompressed_position(), escape_character(c));
         m_uncompressed_data.push_back(c);
     }
 
     void reference(size_t length, size_t offset)
     {
         size_t reference_position = m_uncompressed_data.size() - offset;
-        m_os << format("{:#06x} R {:#04x} {:#05x} @{:#04x}'", file_position(), length, offset, reference_position);
+        m_os << format("{:#06x} R {:#04x} {:#05x} @{:#04x}'", uncompressed_position(), length, offset, reference_position);
 
         while (length--)
         {
@@ -60,7 +60,7 @@ public:
     }
 
 private:
-    size_t file_position() const { return m_uncompressed_data.size(); }
+    size_t uncompressed_position() const { return m_uncompressed_data.size(); }
 
     string escape_character(unsigned char byte)
     {
