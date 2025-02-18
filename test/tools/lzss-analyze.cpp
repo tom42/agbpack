@@ -35,19 +35,24 @@ public:
 
     void tags(unsigned char tags)
     {
-        m_os << format("{:#06x} T {:#010b} ({:#04x})\n", uncompressed_position(), tags, tags);
+        m_os << format("{:#06x} {:#06x} T {:#010b} ({:#04x})\n",
+            uncompressed_position(), m_compressed_position, tags, tags);
+        m_compressed_position += 1;
     }
 
     void literal(unsigned char c)
     {
-        m_os << format("{:#06x} L '{}'\n", uncompressed_position(), escape_character(c));
+        m_os << format("{:#06x} {:#06x} L '{}'\n",
+            uncompressed_position(), m_compressed_position, escape_character(c));
         m_uncompressed_data.push_back(c);
+        m_compressed_position += 1;
     }
 
     void reference(size_t length, size_t offset)
     {
         size_t reference_position = m_uncompressed_data.size() - offset;
-        m_os << format("{:#06x} R {:#04x} {:#05x} @{:#04x}'", uncompressed_position(), length, offset, reference_position);
+        m_os << format("{:#06x} {:#06x} R {:#04x} {:#05x} @{:#04x}'",
+            uncompressed_position(), m_compressed_position, length, offset, reference_position);
 
         while (length--)
         {
@@ -57,6 +62,7 @@ public:
         }
 
         m_os << "'\n";
+        m_compressed_position += 2;
     }
 
 private:
@@ -74,6 +80,7 @@ private:
         return string(1, c);
     }
 
+    size_t m_compressed_position = 0;
     std::ostream& m_os;
     byte_vector m_uncompressed_data;
 };
