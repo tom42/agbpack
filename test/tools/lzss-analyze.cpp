@@ -94,14 +94,12 @@ private:
 
     string escape_character(unsigned char byte)
     {
-        auto c = char(byte);
-
-        if ((c == '\\') || !std::isprint(c))
+        if ((byte == '\\') || !std::isprint(byte))
         {
-            return format("\\x{:02x}", c);
+            return format("\\x{:02x}", byte);
         }
 
-        return string(1, c);
+        return string(1, char(byte));
     }
 
     size_t m_compressed_position = 0;
