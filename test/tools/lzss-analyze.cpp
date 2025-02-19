@@ -108,10 +108,14 @@ private:
     byte_vector m_uncompressed_data;
 };
 
-output_format_flags parse_output_format(const char*)
+output_format_flags parse_output_format(const char* format_string)
 {
-    // TODO: somehow parse optional output format
-    return {};
+    if (!strcmp(format_string, "c"))
+    {
+        return output_format_flags::compressed_position;
+    }
+
+    throw std::runtime_error(std::format("invalid output format '{}'", format_string));
 }
 
 options parse_command_line(int argc, char* argv[])
