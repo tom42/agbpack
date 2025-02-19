@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdlib>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -110,7 +111,7 @@ private:
 
 output_format_flags parse_output_format(const char* format_string)
 {
-    if (!strcmp(format_string, "c"))
+    if (!std::strcmp(format_string, "c"))
     {
         return output_format_flags::compressed_position;
     }
