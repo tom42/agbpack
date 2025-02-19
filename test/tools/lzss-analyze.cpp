@@ -14,6 +14,7 @@
 #include <vector>
 
 import agbpack;
+import agbpack_test_tools_common;
 
 namespace
 {
