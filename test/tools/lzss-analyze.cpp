@@ -136,20 +136,6 @@ options parse_command_line(int argc, char* argv[])
     return options{argv[1], output_format };
 }
 
-ifstream open_binary_input_file(const string& path)
-{
-    ifstream file;
-
-    file.exceptions(ifstream::badbit | ifstream::eofbit | ifstream::failbit);
-    file.open(path, std::ios_base::binary);
-
-    // Set badbit only for processing.
-    // Caution: I have no clue what I am doing here.
-    file.exceptions(ifstream::badbit);
-    file.unsetf(std::ios::skipws); // Required to correctly read binary files using some APIs, e.g. std::istream_iterator.
-    return file;
-}
-
 void pad_data(byte_vector& data)
 {
     while (data.size() % 4 != 0)
@@ -162,7 +148,7 @@ void analyze_file(const options& options)
 {
     try
     {
-        auto filestream = open_binary_input_file(options.input_file);
+        auto filestream = agbpack_test_tools_common::open_binary_input_file(options.input_file);
 
         // Some encoders do not correctly pad the file.
         // Our decoder does not like this, so we read the entire file and pad it if necessary.

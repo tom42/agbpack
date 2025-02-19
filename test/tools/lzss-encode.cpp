@@ -102,8 +102,8 @@ void encode(const options& options)
 {
     try
     {
-        auto input = open_binary_input_file(options.input_file);
-        auto output = open_binary_output_file(options.output_file);
+        auto input = agbpack_test_tools_common::open_binary_input_file(options.input_file);
+        auto output = agbpack_test_tools_common::open_binary_output_file(options.output_file);
         encode(options.mode, input, output);
     }
     catch (const ifstream::failure&)

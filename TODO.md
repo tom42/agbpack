@@ -8,8 +8,6 @@ SPDX-License-Identifier: MIT
 * What about clownlzss? Can we use this at least as some sort of reference decoder? (Or even for an optimal one?)
   * Clownlzss appears to be a library to build encoders, so we may be able to use its core and encode
     it in GBA's format. That would be rather awesome.
-* OK: need to reshuffle things a bit:
-  * Eliminate duplication in lzss-analyze.cpp and lzss-decode.cpp?
 * Our first test case for the optimized encoder:
   * " abc_abcdef abcdef" => The 2nd run should be encoded as "abcdef"
 * Compare LZ4 vs. LZSS? (Improved compression vs. requiring an encoder?) => NOPE?
