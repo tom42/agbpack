@@ -13,6 +13,7 @@
 #include <string>
 
 import agbpack;
+import agbpack_test_tools_common;
 
 namespace
 {
@@ -59,34 +60,6 @@ options parse_command_line(int argc, char* argv[])
 
     auto mode = parse_compression_mode(argv[1]);
     return options{mode, argv[2], argv[3]};
-}
-
-ifstream open_binary_input_file(const string& path)
-{
-    ifstream file;
-
-    file.exceptions(ifstream::badbit | ifstream::eofbit | ifstream::failbit);
-    file.open(path, std::ios_base::binary);
-
-    // Set badbit only for processing.
-    // Caution: I have no clue what I am doing here.
-    file.exceptions(ifstream::badbit);
-    file.unsetf(std::ios::skipws); // Required to correctly read binary files using some APIs, e.g. std::istream_iterator.
-    return file;
-}
-
-ofstream open_binary_output_file(const string& path)
-{
-    ofstream file;
-
-    file.exceptions(ifstream::badbit | ifstream::eofbit | ifstream::failbit);
-    file.open(path, std::ios_base::binary);
-
-    // Set badbit only for processing.
-    // Caution: I have no clue what I am doing here.
-    file.exceptions(ifstream::badbit);
-    file.unsetf(std::ios::skipws); // Required to correctly read binary files using some APIs, e.g. std::istream_iterator.
-    return file;
 }
 
 template <typename TEncoder>
