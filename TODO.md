@@ -7,7 +7,6 @@ SPDX-License-Identifier: MIT
 * Our first test case for the optimized encoder:
   * " abc_abcdef abcdef" => The 2nd run should be encoded as "abcdef"
   * Wwe have that as part of chosen_match_length test, but maybe we should continue testing this on the decoder level
-* Watch this: C++ Modules with CMake: https://www.youtube.com/watch?v=7WK42YSfE9s
 * What about clownlzss? Can we use this at least as some sort of reference decoder? (Or even for an optimal one?)
   * Clownlzss appears to be a library to build encoders, so we may be able to use its core and encode
     it in GBA's format. That would be rather awesome.
