@@ -78,7 +78,7 @@ public:
         {
             m_os << format(" {:#06x}", m_compressed_position);
         }
-        m_os << format(" R {:#04x} {:#05x} @{:#04x}'", length, offset, reference_position);
+        m_os << format(" R {:#04x} {:#05x} @{:#04x} '", length, offset, reference_position);
 
         while (length--)
         {
