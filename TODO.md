@@ -4,6 +4,13 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Consider switching gears?
+  * Why not simply use clownlzss? It gives us what we want: optimal LZSS encoding
+  * So what if we incorporate clownlzss into agbpack?
+    * We could then go for an agbpack release
+    * That in turn means we can go back to shrinkler-gba and a release of that
+    * And that in turn means we can release an 1k and a 4k prod for the GBA
+      * Would that not be awesome?
 * Our first test case for the optimized encoder:
   * " abc_abcdef abcdef" => The 2nd run should be encoded as "abcdef"
   * Wwe have that as part of chosen_match_length test, but maybe we should continue testing this on the decoder level
