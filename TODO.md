@@ -74,13 +74,6 @@ SPDX-License-Identifier: MIT
     when the uncompressed data is an odd number of bytes (not sure whether it needs to be a multiple of 2 or 4)
     * Well since the BIOS seems to be able to decode to VRAM it's to be expected that it needs some sort of alignment/padding
     * Instead of guessing around we might simply want to disassemble the damn thing.
-* Maybe, just to be sure:
-  * Can we prove/disprove that the bitstream needs to be aligned?
-    * We would have to somehow construct an image where the huffman tree contains padding at the end
-    * We would then have to somehow remove that padding and fix up the tree size field
-      * A decoder that does not check bitstream alignment should then still be able to decode
-      * A decoder that does check bitstream alignment should bark
-      * And the ultimate interesting thing: what does a real GBA BIOS on a real GBA do?
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
   * code coverage for unit tests
