@@ -52,7 +52,6 @@ SPDX-License-Identifier: MIT
   * Attribute where it's coming from
   * Also quote the statement that leads us to believe it's MIT licensed
   * Alternatively, have all in one file, but add copyright notice to source file (copyright grit authors or something)
-* How can we ensure that the library for unit testing does not get deployed/installed/whatever?
 * There is a test for the RLE decoder which tests decoding through a file stream
   * This is confusing, and what we really want is probably such a test for each encoder/decoder
     * Just because it works with the RLE decoder doesn't automatically mean it works with all other decoders/encoders, no?
