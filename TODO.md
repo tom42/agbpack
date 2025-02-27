@@ -4,6 +4,12 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Turn our debug tools into real tools in src, with proper argp_parse command line parser
+  * agbpack-tool / agbpacker: simple compression/decompression tool exposing all implemented schemes
+    * Rationale: will be useful as a tool in itself
+    * Also useful for comparison with other GBA LZSS implementations
+    * We have something to tinker around with C++ argp_parse wrappers
+  * lzss-analyze: sure, we can make that a tool too
 * Consider switching gears?
   * Why not simply use clownlzss? It gives us what we want: optimal LZSS encoding
   * So what if we incorporate clownlzss into agbpack?
