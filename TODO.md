@@ -14,7 +14,6 @@ SPDX-License-Identifier: MIT
 * Our first test case for the optimized encoder:
   * " abc_abcdef abcdef" => The 2nd run should be encoded as "abcdef"
   * Wwe have that as part of chosen_match_length test, but maybe we should continue testing this on the decoder level
-* Compare LZ4 vs. LZSS? (Improved compression vs. requiring an encoder?) => NOPE?
 * optimal_lzss_parser
   * It passes the current tests
     * But unfortunately the delta source code test produces a larger file than the greedy parser
