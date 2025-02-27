@@ -48,10 +48,6 @@ SPDX-License-Identifier: MIT
 * Start using import std; ?
 * grit source code / issues claim that an 8 bit huffman tree needs to be 512 bytes.
   * Verify one last time this is NOT true => and maybe even document this?
-* Put tree serialization code into own source file
-  * Attribute where it's coming from
-  * Also quote the statement that leads us to believe it's MIT licensed
-  * Alternatively, have all in one file, but add copyright notice to source file (copyright grit authors or something)
 * There is a test for the RLE decoder which tests decoding through a file stream
   * This is confusing, and what we really want is probably such a test for each encoder/decoder
     * Just because it works with the RLE decoder doesn't automatically mean it works with all other decoders/encoders, no?

@@ -1,5 +1,11 @@
 // SPDX-FileCopyrightText: 2024 Thomas Mathys
+// SPDX-FileCopyrightText: Grit Authors
 // SPDX-License-Identifier: MIT
+//
+// Huffman tree serialization code taken from https://github.com/devkitPro/grit
+// Quote from https://github.com/devkitPro/grit/blob/master/grit-src.txt:
+// "Apart from FreeImage, the LZ77 compressor and GBFS, everything is
+// licenced under the MIT licence (see mit-licence.txt)"
 
 module;
 
