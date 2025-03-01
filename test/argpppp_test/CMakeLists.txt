@@ -4,5 +4,5 @@
 add_executable(
   agbpppp_test
   program_name_test.cpp)
-target_link_libraries(agbpppp_test PRIVATE agbpack Catch2::Catch2WithMain)
+target_link_libraries(agbpppp_test PRIVATE argpppp Catch2::Catch2WithMain)
 catch_discover_tests(agbpppp_test)
