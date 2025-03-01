@@ -45,7 +45,7 @@ public:
         //       * help_filter
         //       * argp_domain
         // TODO: move parser implementation to cpp file
-        struct argp argp { nullptr, nullptr, nullptr, m_doc ? m_doc->c_str() : nullptr };
+        struct argp argp { nullptr, nullptr, nullptr, m_doc ? m_doc->c_str() : nullptr, nullptr, nullptr, nullptr };
         argp_parse(&argp, argc, argv, 0, nullptr, this);
     }
 
