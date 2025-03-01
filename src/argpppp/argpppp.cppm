@@ -8,7 +8,7 @@ module;
 
 // TODO: API documentation
 //       * program_name (once it's settled down)
-// TODO: features to make available:
+// TODO: features to make available (go through argp examples, this one is from example 2):
 //       * argp_program_version (global variable)
 //       * argp_program_bug_address (global variable)
 //       * doc string (goes into parser definition => want this to be dynamic!)
@@ -29,7 +29,16 @@ export class parser final
 public:
     void parse(int argc, char** argv)
     {
-        argp_parse(nullptr, argc, argv, 0, nullptr, this);
+        // TODO: fill in all required fields
+        //       * options
+        //       * parser (callback function)
+        //       * args_doc
+        //       * doc
+        //       * children
+        //       * help_filter
+        //       * argp_domain
+        struct argp argp { nullptr, nullptr, nullptr, "TODO: doc string: somehow pass this from api, but I don't know how" };
+        argp_parse(&argp, argc, argv, 0, nullptr, this);
     }
 private:
 };
