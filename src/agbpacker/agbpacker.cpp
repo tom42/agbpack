@@ -12,6 +12,7 @@ namespace
 {
 
 // TODO: put this into some sort of tools library/module => argpppp
+// TODO: can we make both argp_parse and our main use this?
 auto program_name(char* argv0)
 {
     namespace fs = std::filesystem;
