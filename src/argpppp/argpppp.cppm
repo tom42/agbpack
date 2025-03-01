@@ -13,7 +13,6 @@ module;
 // TODO: features to make available (go through argp examples, this one is from example 2):
 //       * argp_program_version (global variable)
 //       * argp_program_bug_address (global variable)
-//       * doc string (goes into parser definition => want this to be dynamic!)
 
 export module argpppp;
 
