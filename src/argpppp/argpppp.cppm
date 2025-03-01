@@ -4,11 +4,12 @@
 module;
 
 #include <argp.h>
+#include <optional>
 #include <string>
 
 // TODO: API documentation
 //       * program_name (once it's settled down)
-// TODO: features to make available:
+// TODO: features to make available (go through argp examples, this one is from example 2):
 //       * argp_program_version (global variable)
 //       * argp_program_bug_address (global variable)
 //       * doc string (goes into parser definition => want this to be dynamic!)
@@ -27,11 +28,28 @@ export std::string program_name(const char* argv0);
 export class parser final
 {
 public:
+    void doc(std::optional<std::string> s)
+    {
+        m_doc = std::move(s);
+    }
+
     void parse(int argc, char** argv)
     {
-        argp_parse(nullptr, argc, argv, 0, nullptr, this);
+        // TODO: fill in all required fields
+        //       * options
+        //       * parser (callback function)
+        //       * args_doc
+        //       * doc
+        //       * children
+        //       * help_filter
+        //       * argp_domain
+        // TODO: move parser implementation to cpp file
+        struct argp argp { nullptr, nullptr, nullptr, m_doc ? m_doc->c_str() : nullptr };
+        argp_parse(&argp, argc, argv, 0, nullptr, this);
     }
+
 private:
+    std::optional<std::string> m_doc;
 };
 
 }
