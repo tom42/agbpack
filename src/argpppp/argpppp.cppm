@@ -25,6 +25,7 @@ export std::string program_name(const char* argv0);
 // TODO: features
 //       * Does not terminate your application, unless you want it to
 //       * Properly prints your program name, in any damn case
+// TODO: document (README.md): argpppp does resource management for you, e.g. doc()
 export class parser final
 {
 public:

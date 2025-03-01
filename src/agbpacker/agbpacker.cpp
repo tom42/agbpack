@@ -11,6 +11,7 @@ int main(int argc, char** argv)
     try
     {
         argpppp::parser parser;
+        parser.doc("Compress and decompress data for the GBA BIOS");
         parser.parse(argc, argv);
         return EXIT_SUCCESS;
     }
