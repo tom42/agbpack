@@ -6,6 +6,7 @@ module;
 #include <argp.h>
 #include <optional>
 #include <string>
+#include <utility>
 
 // TODO: API documentation
 //       * program_name (once it's settled down)
