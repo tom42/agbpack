@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-#include <argp.h>
 #include <iostream>
 #include <filesystem>
 #include <stdexcept>
@@ -25,7 +24,7 @@ auto program_name(char* argv0)
 // TODO: this could use the program_name thing above too, no?
 // TODO: features
 //       * Does not terminate your application, unless you want it to
-//       * Works with glibc argp or argp_standalone
+//       * Works with glibc argp or argp-standalone
 //       * Properly prints your program name, in any damn case
 /*namespace argpppp
 {
