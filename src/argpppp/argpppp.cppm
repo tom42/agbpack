@@ -4,11 +4,14 @@
 module;
 
 #include <argp.h>
+#include <string>
 
 export module argpppp;
 
 namespace argpppp
 {
+
+export std::string program_name(const char* argv0);
 
 export class parser final
 {
