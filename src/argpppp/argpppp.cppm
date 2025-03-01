@@ -6,6 +6,9 @@ module;
 #include <argp.h>
 #include <string>
 
+// TODO: API documentation
+//       * program_name (once it's settled down)
+
 export module argpppp;
 
 namespace argpppp
@@ -18,7 +21,6 @@ export std::string program_name(const char* argv0);
 //       * Does not terminate your application, unless you want it to
 //       * Works with glibc argp or argp-standalone
 //       * Properly prints your program name, in any damn case
-//       * Start writing README.md, so we don't forget about it.
 export class parser final
 {
 public:
