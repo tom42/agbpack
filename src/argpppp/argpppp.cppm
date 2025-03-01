@@ -8,6 +8,10 @@ module;
 
 // TODO: API documentation
 //       * program_name (once it's settled down)
+// TODO: features to make available:
+//       * argp_program_version (global variable)
+//       * argp_program_bug_address (global variable)
+//       * doc string (goes into parser definition => want this to be dynamic!)
 
 export module argpppp;
 
