@@ -12,11 +12,9 @@ import argpppp;
 // TODO: nope does not work => maybe we provide this inside argpppp, where we know whether glibc or argp-standalone is used?
 // TODO: OK: With glibc/linux we need to *define* global variables like so:
 // TODO: OK: if we use extern "C" like so, then it works. Question is then, do we want to abstract this in the library, or better not. Maybe better not? Seems to be fragile enough as it is?
-extern "C"
-{
-    const char* argp_program_version = "0.3";
-    const char* argp_program_bug_address = "/dev/null";
-}
+// TODO: supply the real version from the agbpack version number. How do we get at that? macro or do we compile it int agbpack?
+// TODO: can we write a test that ensures the version command is actually there? Well I suppose we can simply run "testprogram --version" and look at the exitcode?
+extern "C" const char* argp_program_version = "0.3";
 
 int main(int argc, char** argv)
 {
