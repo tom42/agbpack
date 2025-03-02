@@ -7,7 +7,10 @@
 import argpppp;
 
 // TODO: supply the real version from the agbpack version number. How do we get at that? macro or do we compile it into agbpack?
-extern "C" const char* argp_program_version = "agbpacker 0.3";
+extern "C"
+{
+const char* argp_program_version = "agbpacker 0.3";
+}
 
 int main(int argc, char** argv)
 {
