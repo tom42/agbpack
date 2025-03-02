@@ -17,6 +17,10 @@ Its key features are:
 // Importing argpppp is sufficient. No need to include argp.h.
 import argpppp;
 
+// Defining argp global variables may require extern "C",
+// e.g. with MSVC and argp-standalone.
+extern "C" const char* argp_program_version = "1.0";
+
 int main(int argc, char** argv)
 {
     // TODO: eventually, ensure this compiles
