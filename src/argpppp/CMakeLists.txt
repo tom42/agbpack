@@ -11,9 +11,11 @@ set(
 add_library(argpppp)
 target_sources(argpppp ${argpppp_sources})
 
+# Check for argp_parse
+include(CheckSymbolExists)
+check_symbol_exists(argp_parse "argp.h" ARGPPPP_HAVE_ARGP)
+
 # Use argp-standalone if argp_parse is not around
-include(CheckFunctionExists)
-check_function_exists(argp_parse ARGPPPP_HAVE_ARGP)
 if(NOT ARGPPPP_HAVE_ARGP)
   include(FetchContent)
   FetchContent_Declare(
