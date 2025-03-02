@@ -9,6 +9,7 @@ import argpppp;
 // TODO: test (remove, at least the bug address thing): does this work with argp-standalone, like this? Because if so we'll either
 //       a) leave it at that
 //       b) provide some API thrugh argpppp (but then...this are globals, and not our own...don't mess around with them)
+// TODO: nope does not work => maybe we provide this inside argpppp, where we know whether glibc or argp-standalone is used?
 const char* argp_program_version = "0.3";
 const char* argp_program_bug_address = "/dev/null";
 
