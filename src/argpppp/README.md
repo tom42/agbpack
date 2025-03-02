@@ -19,7 +19,10 @@ import argpppp;
 
 // Defining argp global variables may require extern "C",
 // e.g. with MSVC and argp-standalone.
-extern "C" const char* argp_program_version = "1.0";
+extern "C"
+{
+const char* argp_program_version = "1.0";
+}
 
 int main(int argc, char** argv)
 {

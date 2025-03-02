@@ -3,7 +3,10 @@
 
 import argpppp;
 
-extern "C" const char* argp_program_version = "argp_program_version_test 1.0";
+extern "C"
+{
+const char* argp_program_version = "argp_program_version_test 1.0";
+}
 
 int main(int argc, char** argv)
 {
