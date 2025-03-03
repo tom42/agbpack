@@ -49,6 +49,8 @@ public:
     // TODO: is this the right return type? Can we not modify both the optional and the underlying string?
     const optional_string& name() const { return m_name; }
 
+    int key() const { return m_key; }
+
 private:
     optional_string m_name;
     int m_key;
@@ -96,7 +98,8 @@ public:
         argp_options.reserve(m_options.size());
         for (const auto& o : m_options)
         {
-            argp_options.push_back({c_str(o.name()), 0, nullptr, 0, nullptr, 0});
+            // TODO: this conversion from our option class to argp_option could be extracted and unit tested
+            argp_options.push_back({c_str(o.name()), o.key(), nullptr, 0, nullptr, 0});
         }
         argp_options.push_back({});
 
