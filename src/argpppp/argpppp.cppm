@@ -18,6 +18,11 @@ namespace argpppp
 
 export std::string program_name(const char* argv0);
 
+export class option final
+{
+public:
+};
+
 // TODO: how to deal with exceptions? Swallowing them kind of sucks too, no? (Yes but then, since they're going through C code, leaks will happen anyway...)
 // TODO: this could use the program_name thing above too, no?
 // TODO: features
@@ -27,9 +32,18 @@ export std::string program_name(const char* argv0);
 export class parser final
 {
 public:
+    // TODO: do we test this? And how?
     void doc(std::optional<std::string> s)
     {
         m_doc = std::move(s);
+    }
+
+    // TODO: move option into some sort of container (how?)
+    // TODO: obviously this lacks the callback
+    // TODO: test this
+    void add_option(option)
+    {
+
     }
 
     void parse(int argc, char** argv)
