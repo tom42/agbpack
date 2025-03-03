@@ -26,7 +26,7 @@ export using optional_string = std::optional<std::string>;
 // TODO: unit test this
 inline const char* c_str(const optional_string& s)
 {
-    return s->c_str();
+    return s ? s->c_str() : nullptr;
 }
 
 // TODO: probably we're going to have the mantra std::optionsal<std::string> all over the place. Maybe create an optional_string?
@@ -40,8 +40,10 @@ inline const char* c_str(const optional_string& s)
 export class option final
 {
 public:
-    option(optional_string name)
+    // TODO: ctor and getters need testage
+    option(optional_string name, int key)
         : m_name(std::move(name))
+        , m_key(key)
     {}
 
     // TODO: is this the right return type? Can we not modify both the optional and the underlying string?
@@ -49,6 +51,7 @@ public:
 
 private:
     optional_string m_name;
+    int m_key;
 };
 
 // TODO: how to deal with exceptions? Swallowing them kind of sucks too, no? (Yes but then, since they're going through C code, leaks will happen anyway...)
@@ -93,12 +96,11 @@ public:
         argp_options.reserve(m_options.size());
         for (const auto& o : m_options)
         {
-            // TODO: take into account that name() might be empty
-            argp_options.push_back({o.name()->c_str(), 0, nullptr, 0, nullptr, 0});
+            argp_options.push_back({c_str(o.name()), 0, nullptr, 0, nullptr, 0});
         }
         argp_options.push_back({});
 
-        struct argp argp { argp_options.data(), nullptr, nullptr, m_doc ? m_doc->c_str() : nullptr, nullptr, nullptr, nullptr };
+        struct argp argp { argp_options.data(), nullptr, nullptr, c_str(m_doc), nullptr, nullptr, nullptr };
         argp_parse(&argp, argc, argv, 0, nullptr, this);
     }
 
