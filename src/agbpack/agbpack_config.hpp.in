@@ -1,0 +1,9 @@
+// SPDX-FileCopyrightText: 2025 Thomas Mathys
+// SPDX-License-Identifier: MIT
+
+#ifndef AGBPACK_CONFIG_HPP_20250303
+#define AGBPACK_CONFIG_HPP_20250303
+
+#define AGBPACK_VERSION "@CMAKE_VERSION@"
+
+#endif
