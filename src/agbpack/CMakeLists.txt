@@ -12,7 +12,6 @@ set(
   lzss.cppm
   header.cppm
   rle.cppm
-  version.cppm
   PRIVATE
   header.cpp)
 
