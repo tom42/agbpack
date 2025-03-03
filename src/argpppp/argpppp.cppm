@@ -21,6 +21,14 @@ export std::string program_name(const char* argv0);
 
 export using optional_string = std::optional<std::string>;
 
+// TODO: deinline this
+// TODO: take into account that s may be empty
+// TODO: unit test this
+inline const char* c_str(const optional_string& s)
+{
+    return s->c_str();
+}
+
 // TODO: probably we're going to have the mantra std::optionsal<std::string> all over the place. Maybe create an optional_string?
 // TODO: add fields
 //       * name
