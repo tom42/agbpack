@@ -38,8 +38,11 @@ int main(int argc, char** argv)
         //       Arguments
         //       * input file
         //       * output file
+        // TODO: re argpppp: while it initially seemed to be funny it looks totally hideous. Maybe rename it to just argpp
         argpppp::parser parser;
         parser.doc("Compress and decompress data for the GBA BIOS");
+        parser.add_option(argpppp::option());
+        parser.add_option(argpppp::option());
         parser.parse(argc, argv);
         return EXIT_SUCCESS;
     }

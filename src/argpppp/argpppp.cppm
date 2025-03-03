@@ -69,8 +69,15 @@ public:
 
         // TODO: hardcoded options
         // TODO: turn option instances into argp_option structures. Can we unit test this? It IS testworthy, isn't it?
+        // TODO: do we build op this vector here, or as options are added
         std::vector<argp_option> argp_options;
-        argp_options.push_back({"meh", 0, nullptr, 0, nullptr, 0});
+        argp_options.reserve(m_options.size());
+        for (const auto& o : m_options)
+        {
+            (void)o; // TODO: remove
+            // TODO: use option name from option
+            argp_options.push_back({"meh", 0, nullptr, 0, nullptr, 0});
+        }
         argp_options.push_back({});
 
         struct argp argp { argp_options.data(), nullptr, nullptr, m_doc ? m_doc->c_str() : nullptr, nullptr, nullptr, nullptr };
