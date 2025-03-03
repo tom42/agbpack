@@ -19,6 +19,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 include(VtgEnableWarnings)
 
+# Create global configuration header
+configure_file(
+  agbpack_config.hpp.in
+  "${CMAKE_CURRENT_BINARY_DIR}/agbpack_config.hpp")
+include_directories("${CMAKE_CURRENT_BINARY_DIR}")
+
 add_subdirectory(src)
 if(BUILD_TESTING)
   add_subdirectory(test)
