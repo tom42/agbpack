@@ -24,7 +24,7 @@ int main(int argc, char** argv)
         //       add_option(opts, some_other_option(), &some_other_variable)
         //       => The procedural version leads to code that can be more naturally extended, no?
         // TODO: so what options do we need here?
-        //       -c => compress   \ These two override eachother
+        //       -c => compress   \ These two override eachother, -c could be default
         //       -d => decompress /
         //       Some way to select the compression method
         //       * LZSS, normal
