@@ -31,9 +31,6 @@ inline const char* c_str(const optional_string& s)
 
 // TODO: probably we're going to have the mantra std::optionsal<std::string> all over the place. Maybe create an optional_string?
 // TODO: add fields
-//       * name
-//       * key
-//       * arg
 //       * flags
 //       * doc
 //       * group
@@ -41,9 +38,10 @@ export class option final
 {
 public:
     // TODO: ctor and getters need testage
-    option(optional_string name, int key)
+    option(optional_string name, int key, optional_string arg)
         : m_name(std::move(name))
         , m_key(key)
+        , m_arg(std::move(arg))
     {}
 
     // TODO: is this the right return type? Can we not modify both the optional and the underlying string?
@@ -51,9 +49,12 @@ public:
 
     int key() const { return m_key; }
 
+    const optional_string& arg() const { return m_arg; }
+
 private:
     optional_string m_name;
     int m_key;
+    optional_string m_arg;
 };
 
 // TODO: how to deal with exceptions? Swallowing them kind of sucks too, no? (Yes but then, since they're going through C code, leaks will happen anyway...)
@@ -99,7 +100,7 @@ public:
         for (const auto& o : m_options)
         {
             // TODO: this conversion from our option class to argp_option could be extracted and unit tested
-            argp_options.push_back({c_str(o.name()), o.key(), nullptr, 0, nullptr, 0});
+            argp_options.push_back({c_str(o.name()), o.key(), c_str(o.arg()), 0, nullptr, 0});
         }
         argp_options.push_back({});
 
