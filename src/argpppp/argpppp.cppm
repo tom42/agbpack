@@ -19,6 +19,7 @@ namespace argpppp
 
 export std::string program_name(const char* argv0);
 
+// TODO: probably we're going to have the mantra std::optionsal<std::string> all over the place. Maybe create an optional_string?
 // TODO: add fields
 //       * name
 //       * key
@@ -29,7 +30,15 @@ export std::string program_name(const char* argv0);
 export class option final
 {
 public:
-    explicit option(){}
+    option(std::optional<std::string> name)
+        : m_name(std::move(name))
+    {}
+
+    // TODO: is this the right return type? Can we not modify both the optional and the underlying string?
+    const std::optional<std::string>& name() const { return m_name; }
+
+private:
+    std::optional<std::string> m_name;
 };
 
 // TODO: how to deal with exceptions? Swallowing them kind of sucks too, no? (Yes but then, since they're going through C code, leaks will happen anyway...)
@@ -74,9 +83,8 @@ public:
         argp_options.reserve(m_options.size());
         for (const auto& o : m_options)
         {
-            (void)o; // TODO: remove
-            // TODO: use option name from option
-            argp_options.push_back({"meh", 0, nullptr, 0, nullptr, 0});
+            // TODO: take into account that name() might be empty
+            argp_options.push_back({o.name()->c_str(), 0, nullptr, 0, nullptr, 0});
         }
         argp_options.push_back({});
 
