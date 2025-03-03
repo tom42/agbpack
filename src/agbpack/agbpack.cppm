@@ -10,3 +10,4 @@ export import :header;
 export import :huffman;
 export import :lzss;
 export import :rle;
+export import :version;
