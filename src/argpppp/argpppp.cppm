@@ -10,9 +10,6 @@ module;
 
 // TODO: API documentation
 //       * program_name (once it's settled down)
-// TODO: features to make available (go through argp examples, this one is from example 2):
-//       * argp_program_version (global variable)
-//       * argp_program_bug_address (global variable)
 
 export module argpppp;
 
