@@ -3,23 +3,14 @@
 
 #include <iostream>
 #include <stdexcept>
+#include "agbpack_config.hpp"
 
 import agbpack;
 import argpppp;
 
-// TODO: supply the real version from the agbpack version number. How do we get at that? macro or do we compile it into agbpack?
-//       => We create a configuration header and use that to bake the version into agbpack.
-// TODO: problem: we do want to use agbpack::version here, but that has the value "0.0.1" and we also want to prepend "agbpacker"
-//       => We have now multiple possibilities:
-//          * We create a string at runtime, manage its lifetime ourselve and set it to arp_program_version (extern "C")
-//          * We do the concatenation inside arg_program_verison hook. This requires lots of writing too
-//          * We give in and come up with an api for more advanced program version settage (?)
-//          * We give in and agbpacker gets its own configuration header. At this point it'd be the most sensible thing, really => least amount of work and it's gonna work
-//          * Problem: how do we DO define the version number on the command line?
-//          * If we go down this route, agbpack itself does NOT need a config header.
 extern "C"
 {
-const char* argp_program_version = "agbpacker 0.3";
+const char* argp_program_version = "agbpacker " AGBPACK_VERSION;
 }
 
 int main(int argc, char** argv)
