@@ -7,4 +7,9 @@ module;
 
 export module agbpack:version;
 
-inline constexpr const char* version = AGBPACK_VERSION;
+namespace agbpack
+{
+
+export inline constexpr const char* version = AGBPACK_VERSION;
+
+}
