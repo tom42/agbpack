@@ -19,6 +19,8 @@ namespace argpppp
 
 export std::string program_name(const char* argv0);
 
+export using optional_string = std::optional<std::string>;
+
 // TODO: probably we're going to have the mantra std::optionsal<std::string> all over the place. Maybe create an optional_string?
 // TODO: add fields
 //       * name
@@ -30,15 +32,15 @@ export std::string program_name(const char* argv0);
 export class option final
 {
 public:
-    option(std::optional<std::string> name)
+    option(optional_string name)
         : m_name(std::move(name))
     {}
 
     // TODO: is this the right return type? Can we not modify both the optional and the underlying string?
-    const std::optional<std::string>& name() const { return m_name; }
+    const optional_string& name() const { return m_name; }
 
 private:
-    std::optional<std::string> m_name;
+    optional_string m_name;
 };
 
 // TODO: how to deal with exceptions? Swallowing them kind of sucks too, no? (Yes but then, since they're going through C code, leaks will happen anyway...)
@@ -51,7 +53,7 @@ export class parser final
 {
 public:
     // TODO: do we test this? And how?
-    void doc(std::optional<std::string> s)
+    void doc(optional_string s)
     {
         m_doc = std::move(s);
     }
@@ -93,7 +95,7 @@ public:
     }
 
 private:
-    std::optional<std::string> m_doc;
+    optional_string m_doc;
     std::vector<option> m_options;
 };
 
