@@ -23,6 +23,21 @@ int main(int argc, char** argv)
         //       add_option(opts, some_option(), &variable)
         //       add_option(opts, some_other_option(), &some_other_variable)
         //       => The procedural version leads to code that can be more naturally extended, no?
+        // TODO: so what options do we need here?
+        //       -c => compress   \ These two override eachother
+        //       -d => decompress /
+        //       Some way to select the compression method
+        //       * LZSS, normal
+        //       * LZSS, vram safe
+        //       * 4 bit huffman
+        //       * 8 bit huffman
+        //       * RLE
+        //       * delta8
+        //       * delta16
+        //       * LZSS needs some more options: greedy/optimal/others
+        //       Arguments
+        //       * input file
+        //       * output file
         argpppp::parser parser;
         parser.doc("Compress and decompress data for the GBA BIOS");
         parser.parse(argc, argv);
