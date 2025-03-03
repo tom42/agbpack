@@ -7,6 +7,7 @@ module;
 #include <optional>
 #include <string>
 #include <utility>
+#include <vector>
 
 // TODO: API documentation
 //       * program_name (once it's settled down)
@@ -18,9 +19,17 @@ namespace argpppp
 
 export std::string program_name(const char* argv0);
 
+// TODO: add fields
+//       * name
+//       * key
+//       * arg
+//       * flags
+//       * doc
+//       * group
 export class option final
 {
 public:
+    explicit option(){}
 };
 
 // TODO: how to deal with exceptions? Swallowing them kind of sucks too, no? (Yes but then, since they're going through C code, leaks will happen anyway...)
@@ -41,9 +50,9 @@ public:
     // TODO: move option into some sort of container (how?)
     // TODO: obviously this lacks the callback
     // TODO: test this
-    void add_option(option)
+    void add_option(option o)
     {
-
+        m_options.push_back(std::move(o));
     }
 
     void parse(int argc, char** argv)
@@ -63,6 +72,7 @@ public:
 
 private:
     std::optional<std::string> m_doc;
+    std::vector<option> m_options;
 };
 
 }
