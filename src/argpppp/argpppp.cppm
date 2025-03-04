@@ -30,9 +30,7 @@ inline const char* c_str(const optional_string& s)
 }
 
 // TODO: option flags are a candidate for their own module partition?
-// TODO: name? This represents the argp OPTION_ flags
-// TODO: provide bitwise or for these, and probably also and => needs test
-// TODO: specify underlying type?
+// TODO: provide bitwise or for these, and probably also and => needs test (what would we need and for?)
 // TODO: provide conversion to int => call site? (nah do a to_int(od) function and unit test that)
 export enum class of
 {
