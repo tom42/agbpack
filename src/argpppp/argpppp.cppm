@@ -29,6 +29,20 @@ inline const char* c_str(const optional_string& s)
     return s ? s->c_str() : nullptr;
 }
 
+// TODO: name? This represents the argp OPTION_ flags
+// TODO: provide bitwise or for these, and probably also and
+// TODO: specify underlying type?
+// TODO: provide conversion to int
+enum class of
+{
+    none = 0,
+    arg_optional = 0x1,
+    hidden = 0x2,
+    alias = 0x4,
+    doc = 0x8,
+    no_usage = 0x10
+};
+
 // TODO: probably we're going to have the mantra std::optionsal<std::string> all over the place. Maybe create an optional_string?
 // TODO: add fields
 //       * flags
@@ -55,6 +69,7 @@ private:
     optional_string m_name;
     int m_key;
     optional_string m_arg;
+    of m_flags;
 };
 
 // TODO: how to deal with exceptions? Swallowing them kind of sucks too, no? (Yes but then, since they're going through C code, leaks will happen anyway...)
