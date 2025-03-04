@@ -1,12 +1,15 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+module;
+
+#include <utility>
+
 export module argpppp:of;
 
 namespace argpppp
 {
 
-// TODO: provide bitwise or for these, and probably also and => needs test (what would we need and for?)
 // TODO: provide conversion to int => call site? (nah do a to_int(od) function and unit test that)
 export enum class of
 {
@@ -17,5 +20,10 @@ export enum class of
     doc = 0x8,
     no_usage = 0x10
 };
+
+export constexpr of operator|(of l, of r)
+{
+    return of(std::to_underlying(l) | std::to_underlying(r));
+}
 
 }
