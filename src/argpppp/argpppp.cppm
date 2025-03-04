@@ -114,7 +114,6 @@ public:
         //       * argp_domain
         // TODO: move parser implementation to cpp file
 
-        // TODO: hardcoded options
         // TODO: turn option instances into argp_option structures. Can we unit test this? It IS testworthy, isn't it?
         // TODO: do we build op this vector here, or as options are added
         std::vector<argp_option> argp_options;
