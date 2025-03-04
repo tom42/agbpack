@@ -43,7 +43,9 @@ int main(int argc, char** argv)
         parser.doc("Compress and decompress data for the GBA BIOS");
         parser.add_option({ "compress", 'c', {}, {}, {} });
         parser.add_option({ "decompress", 'd', {}, {}, {} });
-        parser.add_option({ "This is a documentation option", {}, {}, argpppp::of::doc, {} }); // TODO: test, remove
+        // TODO: test options below, remove
+        parser.add_option({ "This is a documentation option", {}, {}, argpppp::of::doc, {} });
+        parser.add_option({ {}, {}, {}, {}, "This is a group header"});
         parser.add_option({ "option-with-doc", 'o', {}, {}, "Here is a doc string" });
         parser.parse(argc, argv);
         return EXIT_SUCCESS;
