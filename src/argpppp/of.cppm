@@ -10,7 +10,6 @@ export module argpppp:of;
 namespace argpppp
 {
 
-// TODO: provide conversion to int => call site? (nah do a to_int(od) function and unit test that)
 export enum class of
 {
     none = 0,
@@ -24,6 +23,11 @@ export enum class of
 export constexpr of operator|(of l, of r)
 {
     return of(std::to_underlying(l) | std::to_underlying(r));
+}
+
+export constexpr int to_int(of flags)
+{
+    return std::to_underlying(flags);
 }
 
 }
