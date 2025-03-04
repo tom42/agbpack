@@ -33,7 +33,7 @@ inline const char* c_str(const optional_string& s)
 // TODO: provide bitwise or for these, and probably also and
 // TODO: specify underlying type?
 // TODO: provide conversion to int
-enum class of
+export enum class of
 {
     none = 0,
     arg_optional = 0x1,
