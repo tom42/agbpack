@@ -12,13 +12,13 @@ using argpppp::of;
 
 TEST_CASE("of_test")
 {
-    SECTION("operator_bitwise_or_test")
+    SECTION("bitwise or")
     {
         constexpr auto result = of::arg_optional | of::alias;
         CHECK(result == of(5));
     }
 
-    SECTION("to_int_test")
+    SECTION("to_int")
     {
         constexpr auto result = to_int(of::no_usage);
         CHECK(result == 16);
