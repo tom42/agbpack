@@ -4,6 +4,7 @@
 add_executable(
   agbpppp_unit_test
   of_test.cpp
+  optional_string_test.cpp
   program_name_test.cpp)
 target_link_libraries(agbpppp_unit_test PRIVATE argpppp Catch2::Catch2WithMain)
 catch_discover_tests(agbpppp_unit_test)
