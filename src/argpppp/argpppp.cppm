@@ -13,6 +13,7 @@ module;
 //       * program_name (once it's settled down)
 
 export module argpppp;
+export import :of;
 
 namespace argpppp
 {
@@ -28,19 +29,6 @@ inline const char* c_str(const optional_string& s)
 {
     return s ? s->c_str() : nullptr;
 }
-
-// TODO: option flags are a candidate for their own module partition?
-// TODO: provide bitwise or for these, and probably also and => needs test (what would we need and for?)
-// TODO: provide conversion to int => call site? (nah do a to_int(od) function and unit test that)
-export enum class of
-{
-    none = 0,
-    arg_optional = 0x1,
-    hidden = 0x2,
-    alias = 0x4,
-    doc = 0x8,
-    no_usage = 0x10
-};
 
 // TODO: add fields
 //       * group

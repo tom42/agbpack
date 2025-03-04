@@ -5,6 +5,7 @@ set(
   argpppp_sources
   PUBLIC FILE_SET CXX_MODULES FILES
   argpppp.cppm
+  of.cppm
   PRIVATE
   argpppp.cpp)
 
