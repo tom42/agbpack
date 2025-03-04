@@ -44,7 +44,6 @@ export enum class of
     no_usage = 0x10
 };
 
-// TODO: probably we're going to have the mantra std::optionsal<std::string> all over the place. Maybe create an optional_string?
 // TODO: add fields
 //       * group
 export class option final
