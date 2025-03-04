@@ -45,17 +45,17 @@ export enum class of
 
 // TODO: probably we're going to have the mantra std::optionsal<std::string> all over the place. Maybe create an optional_string?
 // TODO: add fields
-//       * doc
 //       * group
 export class option final
 {
 public:
     // TODO: ctor and getters need testage
-    option(optional_string name, int key, optional_string arg, of flags)
+    option(optional_string name, int key, optional_string arg, of flags, optional_string doc)
         : m_name(std::move(name))
         , m_key(key)
         , m_arg(std::move(arg))
         , m_flags(flags)
+        , m_doc(doc)
     {}
 
     // TODO: is this the right return type? Can we not modify both the optional and the underlying string?
@@ -67,11 +67,14 @@ public:
 
     of flags() const { return m_flags; }
 
+    const optional_string& doc() const { return m_doc; }
+
 private:
     optional_string m_name;
     int m_key;
     optional_string m_arg;
     of m_flags;
+    optional_string m_doc;
 };
 
 // TODO: how to deal with exceptions? Swallowing them kind of sucks too, no? (Yes but then, since they're going through C code, leaks will happen anyway...)
@@ -118,7 +121,7 @@ public:
         {
             // TODO: this conversion from our option class to argp_option could be extracted and unit tested
             // TODO: no cast here (flags)
-            argp_options.push_back({c_str(o.name()), o.key(), c_str(o.arg()), static_cast<int>(o.flags()), nullptr, 0});
+            argp_options.push_back({c_str(o.name()), o.key(), c_str(o.arg()), static_cast<int>(o.flags()), c_str(o.doc()), 0});
         }
         argp_options.push_back({});
 
