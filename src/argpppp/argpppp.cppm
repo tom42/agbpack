@@ -45,17 +45,17 @@ export enum class of
 
 // TODO: probably we're going to have the mantra std::optionsal<std::string> all over the place. Maybe create an optional_string?
 // TODO: add fields
-//       * flags
 //       * doc
 //       * group
 export class option final
 {
 public:
     // TODO: ctor and getters need testage
-    option(optional_string name, int key, optional_string arg)
+    option(optional_string name, int key, optional_string arg, of flags)
         : m_name(std::move(name))
         , m_key(key)
         , m_arg(std::move(arg))
+        , m_flags(flags)
     {}
 
     // TODO: is this the right return type? Can we not modify both the optional and the underlying string?
@@ -64,6 +64,8 @@ public:
     int key() const { return m_key; }
 
     const optional_string& arg() const { return m_arg; }
+
+    of flags() const { return m_flags; }
 
 private:
     optional_string m_name;
@@ -115,7 +117,8 @@ public:
         for (const auto& o : m_options)
         {
             // TODO: this conversion from our option class to argp_option could be extracted and unit tested
-            argp_options.push_back({c_str(o.name()), o.key(), c_str(o.arg()), 0, nullptr, 0});
+            // TODO: no cast here (flags)
+            argp_options.push_back({c_str(o.name()), o.key(), c_str(o.arg()), static_cast<int>(o.flags()), nullptr, 0});
         }
         argp_options.push_back({});
 
