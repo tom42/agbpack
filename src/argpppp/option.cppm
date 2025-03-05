@@ -16,8 +16,7 @@ namespace argpppp
 export class option final
 {
 public:
-    // TODO: ctor and getters need testage
-    option(optional_string name, int key, optional_string arg, of flags, optional_string doc, int group)
+    option(optional_string name = {}, int key = {}, optional_string arg = {}, of flags = {}, optional_string doc = {}, int group = {})
         : m_name(std::move(name))
         , m_key(key)
         , m_arg(std::move(arg))
@@ -26,7 +25,6 @@ public:
         , m_group(group)
     {}
 
-    // TODO: is this the right return type? Can we not modify both the optional and the underlying string?
     const optional_string& name() const { return m_name; }
 
     int key() const { return m_key; }
