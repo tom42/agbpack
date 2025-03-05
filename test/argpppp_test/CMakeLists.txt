@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: MIT
 
 add_executable(
-  agbpppp_unit_test
+  argpppp_unit_test
   of_test.cpp
   optional_string_test.cpp
   program_name_test.cpp)
-target_link_libraries(agbpppp_unit_test PRIVATE argpppp_unit_testing Catch2::Catch2WithMain)
-catch_discover_tests(agbpppp_unit_test)
+target_link_libraries(argpppp_unit_test PRIVATE argpppp_unit_testing Catch2::Catch2WithMain)
+catch_discover_tests(argpppp_unit_test)
 
 # Test whether defining argp_program_version works.
 # If it does, invoking the program with --version should succeed.
