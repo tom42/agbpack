@@ -20,11 +20,9 @@ namespace argpppp
 
 export std::string program_name(const char* argv0);
 
+// TODO: consider putting this into its own module partition? (along with c_str)
 export using optional_string = std::optional<std::string>;
 
-// TODO: deinline this
-// TODO: take into account that s may be empty
-// TODO: unit test this
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 inline const char* c_str(const optional_string& s)
 {
