@@ -7,6 +7,7 @@ module;
 #include <vector>
 
 export module argpppp:parser;
+import :of;
 import :option;
 import :optional_string;
 
