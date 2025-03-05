@@ -9,8 +9,17 @@ set(
   PRIVATE
   argpppp.cpp)
 
+# Production version of argpppp
 add_library(argpppp)
 target_sources(argpppp ${argpppp_sources})
+target_compile_definitions(argpppp PRIVATE ARGPPPP_EXPORT_FOR_UNIT_TESTING=)
+
+# Unit testing version of argpppp
+if(BUILD_TESTING)
+  add_library(argpppp_unit_testing)
+  target_sources(argpppp_unit_testing ${argpppp_sources})
+  target_compile_definitions(argpppp_unit_testing PRIVATE ARGPPPP_EXPORT_FOR_UNIT_TESTING=export)
+endif()
 
 # Check for argp_parse
 include(CheckSymbolExists)
