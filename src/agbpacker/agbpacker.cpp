@@ -45,7 +45,7 @@ int main(int argc, char** argv)
         parser.add_option({ "decompress", 'd', {}, {}, {}, {} });
         // TODO: test options below, remove
         parser.add_option({ "This is a documentation option", {}, {}, argpppp::of::doc, {}, {} });
-        //add_header(parser, "This is a group header"); // TODO: commented out because g++ bugs
+        add_header(parser, "This is a group header");
         parser.add_option({ "option-with-doc", 'o', {}, {}, "Here is a doc string", {} });
         parser.add_option({ "yodel", 'y', "loudness", argpppp::of::arg_optional | argpppp::of::no_usage, "Das Jodeldiplom", {}});
         parser.parse(argc, argv);
