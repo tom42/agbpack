@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <optional>
 
 import argpppp;
 
@@ -11,6 +12,7 @@ namespace argpppp_test
 using argpppp::of;
 using argpppp::option;
 using argpppp::optional_string;
+using std::nullopt;
 
 TEST_CASE("option_test")
 {
@@ -28,11 +30,11 @@ TEST_CASE("option_test")
     SECTION("constructor, all arguments use default values")
     {
         const option opt;
-        CHECK(opt.name() == optional_string{});
+        CHECK(opt.name() == nullopt);
         CHECK(opt.key() == 0);
-        CHECK(opt.arg() == optional_string{});
-        CHECK(opt.flags() == of{});
-        CHECK(opt.doc() == optional_string{});
+        CHECK(opt.arg() == nullopt);
+        CHECK(opt.flags() == of::none);
+        CHECK(opt.doc() == nullopt);
         CHECK(opt.group() == 0);
     }
 
