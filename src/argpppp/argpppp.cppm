@@ -39,8 +39,10 @@ public:
     // TODO: move option into some sort of container (how?)
     // TODO: obviously this lacks the callback
     // TODO: test this
-    void add_option(option o)
+    // TODO: if we do take an universal reference here we should probably also take a normal one
+    void add_option(option&& o)
     {
+        // TODO: read up: why do I have to call move again here? I already have an universal refewrence, no?
         m_options.push_back(std::move(o));
     }
 
