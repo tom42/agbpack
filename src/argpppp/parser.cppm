@@ -4,6 +4,9 @@
 module;
 
 #include <argp.h>
+// TODO: trying to track down compilation problems with g++
+#include <optional>
+#include <string>
 #include <vector>
 
 export module argpppp:parser;
