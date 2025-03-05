@@ -25,7 +25,8 @@ export constexpr of operator|(of l, of r)
     return of(std::to_underlying(l) | std::to_underlying(r));
 }
 
-export constexpr int to_int(of flags)
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
+constexpr int to_int(of flags)
 {
     return std::to_underlying(flags);
 }
