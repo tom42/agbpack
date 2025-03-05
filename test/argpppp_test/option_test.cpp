@@ -35,6 +35,19 @@ TEST_CASE("option_test")
         CHECK(opt.doc() == optional_string{});
         CHECK(opt.group() == 0);
     }
+
+    SECTION("to_argp_option")
+    {
+        const option opt("name", 'n', "arg", of::arg_optional, "doc", 123);
+        const auto argp_option = to_argp_option(opt);
+        // TODO: verify name
+        // TODO: verify key
+        // TODO: verify arg
+        // TODO: verify flags
+        // TODO: verify doc
+        // TODO: verify group
+        (void)argp_option; // TODO: remove
+    }
 }
 
 }

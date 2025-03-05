@@ -64,8 +64,7 @@ public:
         argp_options.reserve(m_options.size());
         for (const auto& o : m_options)
         {
-            // TODO: this conversion from our option class to argp_option could be extracted and unit tested
-            argp_options.push_back({c_str(o.name()), o.key(), c_str(o.arg()), to_int(o.flags()), c_str(o.doc()), o.group()});
+            argp_options.push_back(to_argp_option(o));
         }
         argp_options.push_back({});
 

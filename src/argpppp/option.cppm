@@ -3,6 +3,7 @@
 
 module;
 
+#include <argp.h>
 #include <string>
 #include <utility>
 
@@ -45,5 +46,13 @@ private:
     optional_string m_doc;
     int m_group;
 };
+
+// TODO: this requires strings not to go out of scope. At the very least document this!
+// TODO: unit test this
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
+inline struct argp_option to_argp_option(const option& o)
+{
+    return {c_str(o.name()), o.key(), c_str(o.arg()), to_int(o.flags()), c_str(o.doc()), o.group()};
+}
 
 }
