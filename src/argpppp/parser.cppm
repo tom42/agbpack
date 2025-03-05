@@ -74,11 +74,13 @@ private:
 };
 
 // TODO: put into cpp file?
-export inline void add_header(parser& p, optional_string s, int group = 0)
+export inline void add_header(parser& p, optional_string /*s*/, int group = 0)
 {
     // TODO: commented out because g++ bugs
-    //p.add_option(option({}, 0, {}, of::none, std::move(s), group));
-    p.add_option(option({}, 0, {}, of::none, s, group));
+    //p.add_option({option({}, 0, {}, of::none, std::move(s), group)}});
+    //p.add_option(option({}, 0, {}, of::none, s, group));
+    (void)group;
+    p.add_option({});
 }
 
 }
