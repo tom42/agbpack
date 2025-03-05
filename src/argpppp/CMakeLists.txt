@@ -8,7 +8,6 @@ set(
   of.cppm
   option.cppm
   optional_string.cppm
-  parser.cppm
   PRIVATE
   argpppp.cpp)
 
