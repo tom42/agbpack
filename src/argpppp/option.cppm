@@ -22,7 +22,7 @@ public:
         , m_key(key)
         , m_arg(std::move(arg))
         , m_flags(flags)
-        , m_doc(doc)
+        , m_doc(std::move(doc))
         , m_group(group)
     {}
 
