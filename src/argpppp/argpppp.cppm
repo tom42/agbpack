@@ -76,4 +76,10 @@ private:
     std::vector<option> m_options;
 };
 
+// TODO: put into cpp file?
+export inline void add_header(parser& p, optional_string s, int group = 0)
+{
+    p.add_option(option({}, 0, {}, of::none, std::move(s), group));
+}
+
 }
