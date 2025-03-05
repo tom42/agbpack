@@ -48,7 +48,6 @@ private:
 };
 
 // TODO: this requires strings not to go out of scope. At the very least document this!
-// TODO: unit test this
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 inline struct argp_option to_argp_option(const option& o)
 {

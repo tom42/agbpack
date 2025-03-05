@@ -40,13 +40,12 @@ TEST_CASE("option_test")
     {
         const option opt("name", 'n', "arg", of::arg_optional, "doc", 123);
         const auto argp_option = to_argp_option(opt);
-        // TODO: verify name
-        // TODO: verify key
-        // TODO: verify arg
-        // TODO: verify flags
-        // TODO: verify doc
-        // TODO: verify group
-        (void)argp_option; // TODO: remove
+        CHECK(!strcmp(argp_option.name, "name"));
+        CHECK(argp_option.key == 'n');
+        CHECK(!strcmp(argp_option.arg, "arg"));
+        CHECK(argp_option.flags == to_int(of::arg_optional));
+        CHECK(!strcmp(argp_option.doc, "doc"));
+        CHECK(argp_option.group == 123);
     }
 }
 
