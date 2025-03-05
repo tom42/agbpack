@@ -4,7 +4,6 @@
 module;
 
 #include <argp.h>
-#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -14,23 +13,14 @@ module;
 
 export module argpppp;
 export import :of;
+export import :optional_string;
 
 namespace argpppp
 {
 
 export std::string program_name(const char* argv0);
 
-// TODO: consider putting this into its own module partition? (along with c_str)
-export using optional_string = std::optional<std::string>;
-
-ARGPPPP_EXPORT_FOR_UNIT_TESTING
-inline const char* c_str(const optional_string& s)
-{
-    return s ? s->c_str() : nullptr;
-}
-
-// TODO: add fields
-//       * group
+// TODO: move to own module partition
 export class option final
 {
 public:
