@@ -25,6 +25,7 @@ export using optional_string = std::optional<std::string>;
 // TODO: deinline this
 // TODO: take into account that s may be empty
 // TODO: unit test this
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
 inline const char* c_str(const optional_string& s)
 {
     return s ? s->c_str() : nullptr;
