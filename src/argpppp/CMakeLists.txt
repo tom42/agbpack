@@ -6,6 +6,7 @@ set(
   PUBLIC FILE_SET CXX_MODULES FILES
   argpppp.cppm
   of.cppm
+  option.cppm
   optional_string.cppm
   PRIVATE
   argpppp.cpp)
