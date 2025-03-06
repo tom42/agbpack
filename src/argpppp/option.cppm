@@ -4,6 +4,7 @@
 module;
 
 #include <argp.h>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -17,7 +18,7 @@ namespace argpppp
 export class option final
 {
 public:
-    option(optional_string name = {}, int key = {}, optional_string arg = {}, of flags = {}, optional_string doc = {}, int group = {})
+    option(optional_string name = std::nullopt, int key = 0, optional_string arg = std::nullopt, of flags = of::none, optional_string doc = std::nullopt, int group = 0)
         : m_name(std::move(name))
         , m_key(key)
         , m_arg(std::move(arg))
