@@ -63,10 +63,15 @@ void parser::parse(int argc, char** argv)
     argp_parse(&argp, argc, argv, 0, nullptr, this);
 }
 
-error_t parser::parse_option_static(int /*key*/, char */*arg*/, argp_state */*state*/)
+error_t parser::parse_option(int /*key*/, char* /*arg*/, argp_state* /*state*/)
 {
-    // TODO: probably we don't want to do much besides delegating to the instance version of parse_option, no?
     return ARGP_ERR_UNKNOWN;
+}
+
+error_t parser::parse_option_static(int key, char* arg, argp_state* state)
+{
+    parser* p = static_cast<parser*>(state->input);
+    return p->parse_option(key, arg, state);
 }
 
 }

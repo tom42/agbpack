@@ -36,6 +36,7 @@ public:
     void parse(int argc, char** argv);
 
 private:
+    error_t parse_option(int key, char *arg, argp_state *state);
     static error_t parse_option_static(int key, char *arg, argp_state *state);
 
     optional_string m_args_doc;
