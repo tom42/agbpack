@@ -27,12 +27,14 @@ public:
     // TODO: test this
     void add_option(const option& o);
 
-    // TODO: do we test this? And how?
+    void args_doc(const optional_string& s);
+
     void doc(const optional_string& s);
 
     void parse(int argc, char** argv);
 
 private:
+    optional_string m_args_doc;
     optional_string m_doc;
     std::vector<option> m_options;
 };

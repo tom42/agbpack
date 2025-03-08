@@ -48,6 +48,7 @@ int main(int argc, char** argv)
         add_header(parser, "This is a group header");
         parser.add_option({ "option-with-doc", 'o', {}, {}, "Here is a doc string", {} });
         parser.add_option({ "yodel", 'y', "loudness", argpppp::of::arg_optional | argpppp::of::no_usage, "Das Jodeldiplom", {}});
+        parser.args_doc("arg1 arg2 ...");
         parser.parse(argc, argv);
         return EXIT_SUCCESS;
     }

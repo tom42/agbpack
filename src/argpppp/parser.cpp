@@ -38,6 +38,11 @@ void parser::add_option(const option& o)
     m_options.push_back(o);
 }
 
+void parser::args_doc(const optional_string& s)
+{
+    m_args_doc = s;
+}
+
 void parser::doc(const optional_string& s)
 {
     m_doc = s;
@@ -47,13 +52,12 @@ void parser::parse(int argc, char** argv)
 {
     // TODO: fill in all remaining fields
     //       * parser (callback function)
-    //       * args_doc
-    //       * children
     //       * help_filter
     //       * argp_domain
 
+    constexpr argp_child* children = nullptr;
     const auto argp_options = to_argp_options(m_options);
-    const argp argp { argp_options.data(), nullptr, "TODO: args doc", c_str(m_doc), nullptr, nullptr, nullptr };
+    const argp argp { argp_options.data(), nullptr, c_str(m_args_doc), c_str(m_doc), children, nullptr, nullptr };
 
     argp_parse(&argp, argc, argv, 0, nullptr, this);
 }
