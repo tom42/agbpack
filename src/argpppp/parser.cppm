@@ -25,10 +25,7 @@ export class parser final
 {
 public:
     // TODO: do we test this? And how?
-    void doc(const optional_string& s)
-    {
-        m_doc = s;
-    }
+    void doc(const optional_string& s);
 
     // TODO: obviously this lacks the callback
     // TODO: test this
