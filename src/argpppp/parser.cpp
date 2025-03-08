@@ -58,7 +58,7 @@ void parser::parse(int argc, char** argv)
     constexpr const char* argp_domain = nullptr;
 
     const auto argp_options = to_argp_options(m_options);
-    const argp argp { argp_options.data(), nullptr, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
+    const argp argp { argp_options.data(), parse_option_static, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
     argp_parse(&argp, argc, argv, 0, nullptr, this);
 }

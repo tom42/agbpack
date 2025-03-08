@@ -3,6 +3,7 @@
 
 module;
 
+#include <argp.h>
 #include <string>
 #include <vector>
 
@@ -35,6 +36,8 @@ public:
     void parse(int argc, char** argv);
 
 private:
+    static error_t parse_option_static(int key, char *arg, argp_state *state);
+
     optional_string m_args_doc;
     optional_string m_doc;
     std::vector<option> m_options;
