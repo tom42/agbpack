@@ -65,11 +65,13 @@ void parser::parse(int argc, char** argv)
 
 error_t parser::parse_option(int /*key*/, char* /*arg*/, argp_state* /*state*/)
 {
+    // TODO: actually do something useful here
     return ARGP_ERR_UNKNOWN;
 }
 
 error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 {
+    // TODO: at the very latest, catch all exceptions here. We could then pass them through state->input to parser::parse, which could rethrow them
     parser* p = static_cast<parser*>(state->input);
     return p->parse_option(key, arg, state);
 }
