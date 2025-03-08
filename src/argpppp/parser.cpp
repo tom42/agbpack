@@ -7,10 +7,15 @@ module;
 #include <string>
 
 module argpppp;
-// TODO: do I need to import other module partitions here? Like :optional_string?
+// TODO: do I need to import other module partitions here? Like :optional_string or :option?
 
 namespace argpppp
 {
+
+void parser::add_option(const option& o)
+{
+    m_options.push_back(o);
+}
 
 void parser::doc(const optional_string& s)
 {

@@ -24,15 +24,12 @@ namespace argpppp
 export class parser final
 {
 public:
-    // TODO: do we test this? And how?
-    void doc(const optional_string& s);
-
     // TODO: obviously this lacks the callback
     // TODO: test this
-    void add_option(const option& o)
-    {
-        m_options.push_back(o);
-    }
+    void add_option(const option& o);
+
+    // TODO: do we test this? And how?
+    void doc(const optional_string& s);
 
     void parse(int argc, char** argv)
     {
