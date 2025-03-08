@@ -17,7 +17,7 @@ namespace argpppp
 export class option final
 {
 public:
-    option(const optional_string& name = std::nullopt, int key = 0, const optional_string& arg = std::nullopt, of flags = of::none, const optional_string& doc = std::nullopt, int group = 0)
+    option(const optional_string& name = {}, int key = 0, const optional_string& arg = {}, of flags = of::none, const optional_string& doc = {}, int group = 0)
         : m_name(name)
         , m_key(key)
         , m_arg(arg)
