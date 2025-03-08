@@ -52,14 +52,13 @@ void parser::parse(int argc, char** argv)
 {
     // TODO: fill in all remaining fields
     //       * parser (callback function)
-    //       * help_filter
-    //       * argp_domain
 
-    constexpr argp_child* children = nullptr;
-    constexpr auto help_filter = nullptr;
+    constexpr const argp_child* children = nullptr;
+    constexpr const auto help_filter = nullptr;
+    constexpr const char* argp_domain = nullptr;
 
     const auto argp_options = to_argp_options(m_options);
-    const argp argp { argp_options.data(), nullptr, c_str(m_args_doc), c_str(m_doc), children, help_filter, nullptr };
+    const argp argp { argp_options.data(), nullptr, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
     argp_parse(&argp, argc, argv, 0, nullptr, this);
 }
