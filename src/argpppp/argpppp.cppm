@@ -5,7 +5,6 @@ module;
 
 #include <argp.h>
 #include <string>
-#include <utility>
 #include <vector>
 
 // TODO: API documentation
@@ -31,19 +30,16 @@ export class parser final
 {
 public:
     // TODO: do we test this? And how?
-    void doc(optional_string s)
+    void doc(const optional_string& s)
     {
-        m_doc = std::move(s);
+        m_doc = s;
     }
 
-    // TODO: move option into some sort of container (how?)
     // TODO: obviously this lacks the callback
     // TODO: test this
-    // TODO: if we do take an universal reference here we should probably also take a normal one
-    void add_option(option&& o)
+    void add_option(const option& o)
     {
-        // TODO: read up: why do I have to call move again here? I already have an universal refewrence, no?
-        m_options.push_back(std::move(o));
+        m_options.push_back(o);
     }
 
     void parse(int argc, char** argv)
@@ -82,9 +78,9 @@ private:
 //       If somebody goes and calls this with an empty optional, then we get an argp_option that most likely does nothing useful,
 //       or, if group is 0, terminates the list of options.
 //       => change this to take std::string. Maybe this also helps working around g++ bugs we're currently facing
-export inline void add_header(parser& p, optional_string s, int group = 0)
+export inline void add_header(parser& p, const optional_string& s, int group = 0)
 {
-    p.add_option(option({}, 0, {}, of::none, std::move(s), group));
+    p.add_option(option({}, 0, {}, of::none, s, group));
 }
 
 }

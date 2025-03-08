@@ -6,7 +6,6 @@ module;
 #include <argp.h>
 #include <optional>
 #include <string>
-#include <utility>
 
 export module argpppp:option;
 import :of;
@@ -18,12 +17,12 @@ namespace argpppp
 export class option final
 {
 public:
-    option(optional_string name = std::nullopt, int key = 0, optional_string arg = std::nullopt, of flags = of::none, optional_string doc = std::nullopt, int group = 0)
-        : m_name(std::move(name))
+    option(const optional_string& name = std::nullopt, int key = 0, const optional_string& arg = std::nullopt, of flags = of::none, const optional_string& doc = std::nullopt, int group = 0)
+        : m_name(name)
         , m_key(key)
-        , m_arg(std::move(arg))
+        , m_arg(arg)
         , m_flags(flags)
-        , m_doc(std::move(doc))
+        , m_doc(doc)
         , m_group(group)
     {}
 
