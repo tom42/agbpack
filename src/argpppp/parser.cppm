@@ -4,6 +4,7 @@
 module;
 
 #include <argp.h>
+#include <string>
 #include <vector>
 
 export module argpppp:parser;
@@ -67,11 +68,7 @@ private:
 };
 
 // TODO: put into cpp file?
-// TODO: aaactually, taking optional_string here makes no sense:
-//       If somebody goes and calls this with an empty optional, then we get an argp_option that most likely does nothing useful,
-//       or, if group is 0, terminates the list of options.
-//       => change this to take std::string. Maybe this also helps working around g++ bugs we're currently facing
-export inline void add_header(parser& p, const optional_string& s, int group = 0)
+export inline void add_header(parser& p, const std::string& s, int group = 0)
 {
     p.add_option(option({}, 0, {}, of::none, s, group));
 }
