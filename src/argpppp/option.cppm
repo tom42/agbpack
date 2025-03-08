@@ -52,7 +52,7 @@ private:
 // Converts an option to an argp_option which can be passed to argp_parse.
 // Note that the option must not go out of scope while the argp_option is in use.
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
-inline struct argp_option to_argp_option(const option& o)
+inline argp_option to_argp_option(const option& o)
 {
     return {c_str(o.name()), o.key(), c_str(o.arg()), to_int(o.flags()), c_str(o.doc()), o.group()};
 }
