@@ -3,7 +3,6 @@
 
 module;
 
-#include <argp.h>
 #include <string>
 #include <vector>
 
@@ -31,31 +30,7 @@ public:
     // TODO: do we test this? And how?
     void doc(const optional_string& s);
 
-    void parse(int argc, char** argv)
-    {
-        // TODO: fill in all required fields
-        //       * options
-        //       * parser (callback function)
-        //       * args_doc
-        //       * doc
-        //       * children
-        //       * help_filter
-        //       * argp_domain
-        // TODO: move parser implementation to cpp file
-
-        // TODO: turn option instances into argp_option structures. Can we unit test this? It IS testworthy, isn't it?
-        // TODO: do we build op this vector here, or as options are added
-        std::vector<argp_option> argp_options;
-        argp_options.reserve(m_options.size() + 1);
-        for (const auto& o : m_options)
-        {
-            argp_options.push_back(to_argp_option(o));
-        }
-        argp_options.push_back({});
-
-        struct argp argp { argp_options.data(), nullptr, nullptr, c_str(m_doc), nullptr, nullptr, nullptr };
-        argp_parse(&argp, argc, argv, 0, nullptr, this);
-    }
+    void parse(int argc, char** argv);
 
 private:
     optional_string m_doc;
