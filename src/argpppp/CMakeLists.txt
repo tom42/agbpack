@@ -10,7 +10,8 @@ set(
   optional_string.cppm
   parser.cppm
   PRIVATE
-  argpppp.cpp)
+  argpppp.cpp
+  parser.cpp)
 
 # Production version of argpppp
 add_library(argpppp)
