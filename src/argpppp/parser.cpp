@@ -102,6 +102,7 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
     catch (...)
     {
         // Do not let exceptions escape into argp, which is written in C.
+        // Instead, pass exception to calling C++ code through argpppp_input instance.
         input->exception = std::current_exception();
         return EINVAL;
     }
