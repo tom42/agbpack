@@ -65,7 +65,9 @@ void parser::parse(int argc, char** argv)
 
 error_t parser::parse_option(int /*key*/, char* /*arg*/, argp_state* /*state*/)
 {
-    // TODO: actually do something useful here
+    // TODO: actually do something useful here:
+    //       * find a registered handler for our key. If there is one, invoke it and handle its result
+    //       * if there is none, handle key ourselves.
     return ARGP_ERR_UNKNOWN;
 }
 
