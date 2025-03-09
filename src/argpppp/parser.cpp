@@ -5,6 +5,7 @@ module;
 
 #include <algorithm>
 #include <argp.h>
+#include <functional>
 #include <iterator>
 #include <optional>
 #include <string>
@@ -31,11 +32,18 @@ std::vector<argp_option> to_argp_options(const std::vector<option>& options)
     return argp_options;
 }
 
+struct argpppp_input
+{
+    parser* parser = nullptr;
+    std::exception_ptr exception;
+};
+
 }
 
-void parser::add_option(const option& o)
+void parser::add_option(const option& o, const std::function<void()>& c)
 {
     m_options.push_back(o);
+    m_callbacks[o.key()] = c;
 }
 
 void parser::args_doc(const optional_string& s)
@@ -50,9 +58,6 @@ void parser::doc(const optional_string& s)
 
 void parser::parse(int argc, char** argv)
 {
-    // TODO: fill in all remaining fields
-    //       * parser (callback function)
-
     constexpr const argp_child* children = nullptr;
     constexpr const auto help_filter = nullptr;
     constexpr const char* argp_domain = nullptr;
@@ -60,22 +65,46 @@ void parser::parse(int argc, char** argv)
     const auto argp_options = to_argp_options(m_options);
     const argp argp { argp_options.data(), parse_option_static, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
-    argp_parse(&argp, argc, argv, 0, nullptr, this);
+    argpppp_input input { this, {} };
+    argp_parse(&argp, argc, argv, 0, nullptr, &input);
+
+    // TODO: turn argpppp_input into a proper class and make this a method on it (rethrow_exception_if_any or something - without the if)
+    if (input.exception)
+    {
+        std::rethrow_exception(input.exception);
+    }
 }
 
-error_t parser::parse_option(int /*key*/, char* /*arg*/, argp_state* /*state*/)
+error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
 {
     // TODO: actually do something useful here:
     //       * find a registered handler for our key. If there is one, invoke it and handle its result
     //       * if there is none, handle key ourselves.
+    auto callback = m_callbacks.find(key);
+    if (callback != m_callbacks.end())
+    {
+        // TODO: should actually process return value of callback, but callbacks don't have a return value yet
+        //       Speaking of callbacks: have an alias for these, will you please?
+        callback->second();
+    }
+
     return ARGP_ERR_UNKNOWN;
 }
 
 error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 {
     // TODO: at the very latest, catch all exceptions here. We could then pass them through state->input to parser::parse, which could rethrow them
-    parser* p = static_cast<parser*>(state->input);
-    return p->parse_option(key, arg, state);
+    argpppp_input* input = static_cast<argpppp_input*>(state->input);
+    try
+    {
+        return input->parser->parse_option(key, arg, state);
+    }
+    catch (...)
+    {
+        // Do not let exceptions escape into argp, which is written in C.
+        input->exception = std::current_exception();
+        return EINVAL;
+    }
 }
 
 }

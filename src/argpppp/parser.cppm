@@ -4,6 +4,8 @@
 module;
 
 #include <argp.h>
+#include <functional>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -27,7 +29,8 @@ export class parser final
 public:
     // TODO: obviously this lacks the callback
     // TODO: test this
-    void add_option(const option& o);
+    // TODO: why don't we make the callback part of our option type? Is there any drawback to this? (All the default args, maybe?)
+    void add_option(const option& o, const std::function<void()>& callback);
 
     void args_doc(const optional_string& s);
 
@@ -42,12 +45,13 @@ private:
     optional_string m_args_doc;
     optional_string m_doc;
     std::vector<option> m_options;
+    std::map<int, std::function<void()>> m_callbacks;
 };
 
 // TODO: put into cpp file?
 export inline void add_header(parser& p, const std::string& s, int group = 0)
 {
-    p.add_option(option({}, 0, {}, of::none, s, group));
+    p.add_option(option({}, 0, {}, of::none, s, group), []{});
 }
 
 }
