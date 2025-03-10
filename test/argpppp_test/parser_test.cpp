@@ -6,6 +6,7 @@
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstring>
 #include <functional> // TODO: this is required for g++, but not clang and MSVC. Why?
+#include <ranges>
 #include <stdexcept>
 #include <vector>
 
@@ -23,6 +24,29 @@ std::vector<char> make_arg(const char* s)
     return std::vector<char>(s, s + strlen(s) + 1);
 }
 
+void parse(argpppp::parser& parser, const std::string& command_line)
+{
+    // 1) Build vector of zero terminated arguments.
+    std::vector<std::vector<char>> args;
+    args.push_back(make_arg("program_name"));
+    for (auto word : std::views::split(command_line, ' '))
+    {
+        // TODO: can we somehow use make_arg above for this?
+        std::vector<char> arg(word.begin(), word.end());
+        arg.push_back(0); // Add teminating zero
+        args.push_back(arg);
+    }
+
+    // 2) Build argv, a vector containing char pointers to the zero terminated arguments
+    std::vector<char*> argv;
+    for (auto& arg : args)
+    {
+        argv.push_back(arg.data());
+    }
+
+    parser.parse(static_cast<int>(argv.size()), argv.data());
+}
+
 }
 
 TEST_CASE("parser_test")
@@ -31,21 +55,20 @@ TEST_CASE("parser_test")
 
     SECTION("Exceptions abort parsing and are propagated to caller")
     {
-        auto arg0 = make_arg("program_name");
-        auto arg1 = make_arg("-a");
-        auto arg2 = make_arg("-b");
-        std::vector<char*> argv;
-        argv.push_back(arg0.data());
-        argv.push_back(arg1.data());
-        argv.push_back(arg2.data());
-
         parser.add_option({ {}, 'a' }, []{ throw std::runtime_error("This exception should occur."); });
         parser.add_option({ {}, 'b' }, []{ throw std::runtime_error("This exception should not occur."); });
 
         CHECK_THROWS_MATCHES(
-            parser.parse(static_cast<int>(argv.size()), argv.data()),
+            parse(parser, "-a -b"),
             std::runtime_error,
             Catch::Matchers::Message("This exception should occur."));
+    }
+
+    SECTION("TODO: section name")
+    {
+        // TODO: set up a parser
+        // TODO: parse two options: both should successfully parse
+        //parse(parser, "TODO: supply one or two options");
     }
 }
 

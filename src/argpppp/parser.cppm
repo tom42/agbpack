@@ -36,6 +36,7 @@ public:
 
     void doc(const optional_string& s);
 
+    // TODO: should this not get a return value?
     void parse(int argc, char** argv);
 
 private:
