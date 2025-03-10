@@ -61,7 +61,7 @@ private:
 
 }
 
-void parser::add_option(const option& o, const std::function<void()>& c)
+void parser::add_option(const option& o, const option_callback& c)
 {
     m_options.push_back(o);
     m_callbacks[o.key()] = c;
@@ -101,7 +101,6 @@ error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
     if (callback != m_callbacks.end())
     {
         // TODO: should actually process return value of callback, but callbacks don't have a return value yet
-        //       Speaking of callbacks: have an alias for these, will you please?
         callback->second();
     }
 
