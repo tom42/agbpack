@@ -51,7 +51,7 @@ private:
 // TODO: put into cpp file?
 export inline void add_header(parser& p, const std::string& s, int group = 0)
 {
-    p.add_option(option({}, 0, {}, of::none, s, group), []{});
+    p.add_option(option({}, 0, {}, of::none, s, group), {});
 }
 
 }

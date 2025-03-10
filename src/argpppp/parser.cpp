@@ -32,10 +32,34 @@ std::vector<argp_option> to_argp_options(const std::vector<option>& options)
     return argp_options;
 }
 
-struct argpppp_input
+// TODO: rename to context, purge all occurrences of 'argpppp_input' and 'input'
+// TODO: temporarily make parser noncopyable to ensure we did not mess up anythin
+// TODO: consider using a pointer rather than a parser reference. Might be less confusing
+class argpppp_input final
 {
-    parser* parser = nullptr;
-    std::exception_ptr exception;
+public:
+    // Nothing really bad will happen if we allow copying, but we only need to
+    // route a context pointer through argp_parse, so we forbid copying.
+    argpppp_input(const argpppp_input&) = delete;
+    argpppp_input& operator=(const argpppp_input&) = delete;
+
+    argpppp_input(parser& p) : m_parser(p) {}
+
+    parser& get_parser() { return m_parser; }
+
+    void set_exception(std::exception_ptr e) { m_exception = e; }
+
+    void rethrow_exception_if_any()
+    {
+        if (m_exception)
+        {
+            std::rethrow_exception(m_exception);
+        }
+    }
+
+private:
+    parser& m_parser;
+    std::exception_ptr m_exception;
 };
 
 }
@@ -65,14 +89,10 @@ void parser::parse(int argc, char** argv)
     const auto argp_options = to_argp_options(m_options);
     const argp argp { argp_options.data(), parse_option_static, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
-    argpppp_input input { this, {} };
+    argpppp_input input(*this);
     argp_parse(&argp, argc, argv, 0, nullptr, &input);
 
-    // TODO: turn argpppp_input into a proper class and make this a method on it (rethrow_exception_if_any or something - without the if)
-    if (input.exception)
-    {
-        std::rethrow_exception(input.exception);
-    }
+    input.rethrow_exception_if_any();
 }
 
 error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
@@ -94,16 +114,17 @@ error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
 error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 {
     // TODO: at the very latest, catch all exceptions here. We could then pass them through state->input to parser::parse, which could rethrow them
-    argpppp_input* input = static_cast<argpppp_input*>(state->input);
+    // TODO: here too, consider using a pointer to input: less dereferencing and it'd communicate intent
+    argpppp_input& input = *static_cast<argpppp_input*>(state->input);
     try
     {
-        return input->parser->parse_option(key, arg, state);
+        return input.get_parser().parse_option(key, arg, state);
     }
     catch (...)
     {
         // Do not let exceptions escape into argp, which is written in C.
         // Instead, pass exception to calling C++ code through argpppp_input instance.
-        input->exception = std::current_exception();
+        input.set_exception(std::current_exception());
         return EINVAL;
     }
 }
