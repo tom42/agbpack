@@ -39,14 +39,13 @@ TEST_CASE("parser_test")
         argv.push_back(arg1.data());
         argv.push_back(arg2.data());
 
-        parser.add_option({ {}, 'a' }, []{ throw std::runtime_error("Exception a"); });
+        parser.add_option({ {}, 'a' }, []{ throw std::runtime_error("This exception should occur."); });
         parser.add_option({ {}, 'b' }, []{ throw std::runtime_error("This exception should not occur."); });
 
-        // TODO: turn this into some sort of run_parse(parser, "command line without program name") function
         CHECK_THROWS_MATCHES(
             parser.parse(static_cast<int>(argv.size()), argv.data()),
             std::runtime_error,
-            Catch::Matchers::Message("Exception a"));
+            Catch::Matchers::Message("This exception should occur."));
     }
 }
 
