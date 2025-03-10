@@ -66,7 +66,20 @@ TEST_CASE("parser_test")
 
     SECTION("TODO: section name")
     {
-        // TODO: set up a parser
+        bool a_seen = false;
+        bool b_seen = false;
+        bool c_seen = false;
+
+        parser.add_option({ {}, 'a' }, [&]() noexcept { a_seen = true; });
+        parser.add_option({ {}, 'b' }, [&]() noexcept { b_seen = true; });
+        parser.add_option({ {}, 'c' }, [&]() noexcept { c_seen = true; });
+
+        parse(parser, "-c -a");
+
+        CHECK(a_seen == true);
+        CHECK(b_seen == false);
+        CHECK(c_seen == false);
+
         // TODO: parse two options: both should successfully parse
         //parse(parser, "TODO: supply one or two options");
     }
