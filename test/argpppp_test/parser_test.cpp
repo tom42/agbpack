@@ -74,6 +74,7 @@ TEST_CASE("parser_test")
         parser.add_option({ {}, 'b' }, [&]() noexcept { b_seen = true; });
         parser.add_option({ {}, 'c' }, [&]() noexcept { c_seen = true; });
 
+        // TODO: what would be the return code of parse here?
         parse(parser, "-c -a");
 
         CHECK(a_seen == true);

@@ -102,7 +102,8 @@ error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
     {
         // TODO: should actually process return value of callback, but callbacks don't have a return value yet
         //       * Callback returns true: return 0 for success
-        //       * Callback returns false: print error message and return error code, see ARGP_PARSE manual
+        //       * Callback returns false: print error message and return error code, see ARGP_PARSE manual (https://www.gnu.org/software/libc/manual/html_node/Argp-Helper-Functions.html)
+        //         suggests EINVAL
         //       * Can we have callbacks that return error messages instead?
         callback->second();
         return 0;
