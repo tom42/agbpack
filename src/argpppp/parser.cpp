@@ -32,18 +32,17 @@ std::vector<argp_option> to_argp_options(const std::vector<option>& options)
     return argp_options;
 }
 
-// TODO: rename to context, purge all occurrences of 'argpppp_input' and 'input'
 // TODO: temporarily make parser noncopyable to ensure we did not mess up anythin
 // TODO: consider using a pointer rather than a parser reference. Might be less confusing
-class argpppp_input final
+class argpppp_context final
 {
 public:
     // Nothing really bad will happen if we allow copying, but we only need to
     // route a context pointer through argp_parse, so we forbid copying.
-    argpppp_input(const argpppp_input&) = delete;
-    argpppp_input& operator=(const argpppp_input&) = delete;
+    argpppp_context(const argpppp_context&) = delete;
+    argpppp_context& operator=(const argpppp_context&) = delete;
 
-    argpppp_input(parser& p) : m_parser(p) {}
+    argpppp_context(parser& p) : m_parser(p) {}
 
     parser& get_parser() { return m_parser; }
 
@@ -89,10 +88,10 @@ void parser::parse(int argc, char** argv)
     const auto argp_options = to_argp_options(m_options);
     const argp argp { argp_options.data(), parse_option_static, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
-    argpppp_input input(*this);
-    argp_parse(&argp, argc, argv, 0, nullptr, &input);
+    argpppp_context context(*this);
+    argp_parse(&argp, argc, argv, 0, nullptr, &context);
 
-    input.rethrow_exception_if_any();
+    context.rethrow_exception_if_any();
 }
 
 error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
@@ -113,16 +112,16 @@ error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
 
 error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 {
-    argpppp_input* input = static_cast<argpppp_input*>(state->input);
+    argpppp_context* context = static_cast<argpppp_context*>(state->input);
     try
     {
-        return input->get_parser().parse_option(key, arg, state);
+        return context->get_parser().parse_option(key, arg, state);
     }
     catch (...)
     {
         // Do not let exceptions escape into argp, which is written in C.
-        // Instead, pass exception to calling C++ code through argpppp_input instance.
-        input->set_exception(std::current_exception());
+        // Instead, pass exception to calling C++ code through argpppp_context instance.
+        context->set_exception(std::current_exception());
         return EINVAL;
     }
 }
