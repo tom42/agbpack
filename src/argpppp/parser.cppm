@@ -27,10 +27,8 @@ namespace argpppp
 export class parser final
 {
 public:
-    // TODO: obviously this lacks the callback
-    // TODO: test this
     // TODO: why don't we make the callback part of our option type? Is there any drawback to this? (All the default args, maybe?)
-    void add_option(const option& o, const std::function<void()>& callback);
+    void add_option(const option& o, const std::function<void()>& c);
 
     void args_doc(const optional_string& s);
 
