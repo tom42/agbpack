@@ -101,7 +101,11 @@ error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
     if (callback != m_callbacks.end())
     {
         // TODO: should actually process return value of callback, but callbacks don't have a return value yet
+        //       * Callback returns true: return 0 for success
+        //       * Callback returns false: print error message and return error code, see ARGP_PARSE manual
+        //       * Can we have callbacks that return error messages instead?
         callback->second();
+        return 0;
     }
 
     return ARGP_ERR_UNKNOWN;
@@ -116,7 +120,7 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
     }
     catch (...)
     {
-        // Do not let exceptions escape into argp, which is written in C.
+        // Do not let exception escape into argp, which is written in C.
         // Instead, pass exception to calling C++ code through argpppp_context instance.
         context->set_exception(std::current_exception());
         return EINVAL;

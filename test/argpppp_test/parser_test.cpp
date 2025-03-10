@@ -64,7 +64,7 @@ TEST_CASE("parser_test")
             Catch::Matchers::Message("This exception should occur."));
     }
 
-    SECTION("TODO: section name")
+    SECTION("Successful parsing of switches")
     {
         bool a_seen = false;
         bool b_seen = false;
@@ -78,10 +78,7 @@ TEST_CASE("parser_test")
 
         CHECK(a_seen == true);
         CHECK(b_seen == false);
-        CHECK(c_seen == false);
-
-        // TODO: parse two options: both should successfully parse
-        //parse(parser, "TODO: supply one or two options");
+        CHECK(c_seen == true);
     }
 }
 
