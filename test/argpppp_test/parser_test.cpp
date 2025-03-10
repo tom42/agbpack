@@ -5,8 +5,8 @@
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstring>
+#include <functional> // TODO: this is required for g++, but not clang and MSVC. Why?
 #include <stdexcept>
-#include <string>
 #include <vector>
 
 import argpppp;

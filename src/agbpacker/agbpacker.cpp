@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+#include <functional> // TODO: this is required for g++, but not clang and MSVC. Why?
 #include <iostream>
 #include <stdexcept>
 #include "agbpack_config.hpp"
