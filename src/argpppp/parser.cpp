@@ -32,8 +32,6 @@ std::vector<argp_option> to_argp_options(const std::vector<option>& options)
     return argp_options;
 }
 
-// TODO: temporarily make parser noncopyable to ensure we did not mess up anythin
-// TODO: consider using a pointer rather than a parser reference. Might be less confusing
 class argpppp_context final
 {
 public:
@@ -42,9 +40,9 @@ public:
     argpppp_context(const argpppp_context&) = delete;
     argpppp_context& operator=(const argpppp_context&) = delete;
 
-    argpppp_context(parser& p) : m_parser(p) {}
+    argpppp_context(parser* p) : m_parser(p) {}
 
-    parser& get_parser() { return m_parser; }
+    parser* get_parser() { return m_parser; }
 
     void set_exception(std::exception_ptr e) { m_exception = e; }
 
@@ -57,7 +55,7 @@ public:
     }
 
 private:
-    parser& m_parser;
+    parser* m_parser;
     std::exception_ptr m_exception;
 };
 
@@ -88,7 +86,7 @@ void parser::parse(int argc, char** argv)
     const auto argp_options = to_argp_options(m_options);
     const argp argp { argp_options.data(), parse_option_static, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
-    argpppp_context context(*this);
+    argpppp_context context(this);
     argp_parse(&argp, argc, argv, 0, nullptr, &context);
 
     context.rethrow_exception_if_any();
@@ -115,7 +113,7 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
     argpppp_context* context = static_cast<argpppp_context*>(state->input);
     try
     {
-        return context->get_parser().parse_option(key, arg, state);
+        return context->get_parser()->parse_option(key, arg, state);
     }
     catch (...)
     {
