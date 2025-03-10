@@ -113,7 +113,6 @@ error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
 
 error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 {
-    // TODO: at the very latest, catch all exceptions here. We could then pass them through state->input to parser::parse, which could rethrow them
     argpppp_input* input = static_cast<argpppp_input*>(state->input);
     try
     {
