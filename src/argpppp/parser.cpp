@@ -114,17 +114,16 @@ error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
 error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 {
     // TODO: at the very latest, catch all exceptions here. We could then pass them through state->input to parser::parse, which could rethrow them
-    // TODO: here too, consider using a pointer to input: less dereferencing and it'd communicate intent
-    argpppp_input& input = *static_cast<argpppp_input*>(state->input);
+    argpppp_input* input = static_cast<argpppp_input*>(state->input);
     try
     {
-        return input.get_parser().parse_option(key, arg, state);
+        return input->get_parser().parse_option(key, arg, state);
     }
     catch (...)
     {
         // Do not let exceptions escape into argp, which is written in C.
         // Instead, pass exception to calling C++ code through argpppp_input instance.
-        input.set_exception(std::current_exception());
+        input->set_exception(std::current_exception());
         return EINVAL;
     }
 }
