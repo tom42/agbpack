@@ -85,6 +85,21 @@ TEST_CASE("parser_test")
         CHECK(b_seen == false);
         CHECK(c_seen == true);
     }
+
+    SECTION("TODO: test name")
+    {
+        bool a_seen = false;
+        bool b_seen = false;
+
+        parser.add_option({ {}, 'a' }, [&]() noexcept { a_seen = true; return false; });
+        parser.add_option({ {}, 'b' }, [&]() noexcept { b_seen = true; });
+
+        // TODO: what would be the return code of parse here?
+        parse(parser, "-a -b");
+
+        CHECK(a_seen == true);
+        CHECK(b_seen == false);
+    }
 }
 
 }
