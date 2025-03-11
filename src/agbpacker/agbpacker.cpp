@@ -43,13 +43,13 @@ int main(int argc, char** argv)
         // TODO: remove all the noexcepts here: we don't have all these empty lambdas, this is just to get things going, but g++ wants the lambdas to be noexcept
         argpppp::parser parser;
         parser.doc("Compress and decompress data for the GBA BIOS");
-        add_option(parser, { "compress", 'c' }, []() noexcept {});
-        add_option(parser, { "decompress", 'd' }, []() noexcept {});
+        add_option(parser, { "compress", 'c' }, []() noexcept { return true; });
+        add_option(parser, { "decompress", 'd' }, []() noexcept { return true; });
         // TODO: test options below, remove
-        add_option(parser, { "This is a documentation option", {}, {}, argpppp::of::doc }, []() noexcept {});
+        add_option(parser, { "This is a documentation option", {}, {}, argpppp::of::doc }, []() noexcept { return true; });
         add_header(parser, "This is a group header");
-        add_option(parser, { "option-with-doc", 'o', {}, {}, "Here is a doc string" }, []() noexcept {});
-        add_option(parser, { "yodel", 'y', "loudness", argpppp::of::arg_optional | argpppp::of::no_usage, "Das Jodeldiplom" }, []() noexcept {});
+        add_option(parser, { "option-with-doc", 'o', {}, {}, "Here is a doc string" }, []() noexcept { return true; });
+        add_option(parser, { "yodel", 'y', "loudness", argpppp::of::arg_optional | argpppp::of::no_usage, "Das Jodeldiplom" }, []() noexcept { return true; });
         parser.args_doc("arg1 arg2 ...");
         parser.parse(argc, argv);
         return EXIT_SUCCESS;
