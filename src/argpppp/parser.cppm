@@ -47,7 +47,13 @@ private:
     std::map<int, option_callback> m_callbacks;
 };
 
-// TODO: put into cpp file?
+// TODO: put these methods into cpp file?
+
+export inline void add_option(parser& p, const option& o, const option_callback& c)
+{
+    p.add_option(o, c);
+}
+
 export inline void add_header(parser& p, const std::string& s, int group = 0)
 {
     p.add_option(option({}, 0, {}, of::none, s, group), {});
