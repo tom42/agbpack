@@ -59,8 +59,8 @@ TEST_CASE("parser_test")
 
     SECTION("Exceptions abort parsing and are propagated to caller")
     {
-        add_option(parser, { {}, 'a' }, []()->bool{ throw std::runtime_error("This exception should occur."); });
-        add_option(parser, { {}, 'b' }, []()->bool{ throw std::runtime_error("This exception should not occur."); });
+        add_option(parser, { {}, 'a' }, [](auto)->bool{ throw std::runtime_error("This exception should occur."); });
+        add_option(parser, { {}, 'b' }, [](auto)->bool{ throw std::runtime_error("This exception should not occur."); });
 
         CHECK_THROWS_MATCHES(
             parse(parser, "-a -b"),
@@ -74,9 +74,9 @@ TEST_CASE("parser_test")
         bool b_seen = false;
         bool c_seen = false;
 
-        add_option(parser, { {}, 'a' }, [&]() noexcept { return a_seen = true; });
-        add_option(parser, { {}, 'b' }, [&]() noexcept { return b_seen = true; });
-        add_option(parser, { {}, 'c' }, [&]() noexcept { return c_seen = true; });
+        add_option(parser, { {}, 'a' }, [&](auto) noexcept { return a_seen = true; });
+        add_option(parser, { {}, 'b' }, [&](auto) noexcept { return b_seen = true; });
+        add_option(parser, { {}, 'c' }, [&](auto) noexcept { return c_seen = true; });
 
         // TODO: what would be the return code of parse here?
         parse(parser, "-c -a");
@@ -91,8 +91,8 @@ TEST_CASE("parser_test")
         bool a_seen = false;
         bool b_seen = false;
 
-        add_option(parser, { {}, 'a' }, [&]() noexcept { a_seen = true; return false; });
-        add_option(parser, { {}, 'b' }, [&]() noexcept { b_seen = true; return true; });
+        add_option(parser, { {}, 'a' }, [&](auto) noexcept { a_seen = true; return false; });
+        add_option(parser, { {}, 'b' }, [&](auto) noexcept { b_seen = true; return true; });
 
         // TODO: what would be the return code of parse here?
         parse(parser, "-a -b");

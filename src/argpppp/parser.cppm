@@ -17,7 +17,7 @@ import :optional_string;
 namespace argpppp
 {
 
-export using option_callback = std::function<bool()>;
+export using option_callback = std::function<bool(char*)>;
 
 // TODO: this could use the program_name thing above too, no?
 // TODO: features

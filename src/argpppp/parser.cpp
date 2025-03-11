@@ -101,7 +101,7 @@ void parser::parse(int argc, char** argv)
     context.rethrow_exception_if_any();
 }
 
-error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
+error_t parser::parse_option(int key, char* arg, argp_state* /*state*/)
 {
     // TODO: mrmpf: we currently have the problem that it is possible to register options that have key=0 and a callback, or maybe they don't even need a callback
     //              either way, since key=0 is actually ARGP_KEY_ARG, if we do register such options, then we eventually attempt to invoke them. Bad, particularly if there is no callback
@@ -122,7 +122,7 @@ error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
     auto callback = m_callbacks.find(key);
     if (callback != m_callbacks.end())
     {
-        return handle_option_callback_result(callback->second());
+        return handle_option_callback_result(callback->second(arg));
     }
 
     // TODO: there is no callback. So here goes now the idiomatic argp_parse switch on key.
