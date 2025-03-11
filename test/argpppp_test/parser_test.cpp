@@ -18,10 +18,17 @@ namespace argpppp_test
 namespace
 {
 
+template <typename Iterator>
+std::vector<char> make_arg(Iterator begin, Iterator end)
+{
+    std::vector<char> arg(begin, end);
+    arg.push_back(0); // Add terminating zero
+    return arg;
+}
+
 std::vector<char> make_arg(const char* s)
 {
-    // Copy including terminating zero
-    return std::vector<char>(s, s + strlen(s) + 1);
+    return make_arg(s, s + strlen(s));
 }
 
 void parse(argpppp::parser& parser, const std::string& command_line)
@@ -31,10 +38,7 @@ void parse(argpppp::parser& parser, const std::string& command_line)
     args.push_back(make_arg("program_name"));
     for (auto word : std::views::split(command_line, ' '))
     {
-        // TODO: can we somehow use make_arg above for this?
-        std::vector<char> arg(word.begin(), word.end());
-        arg.push_back(0); // Add teminating zero
-        args.push_back(arg);
+        args.push_back(make_arg(word.begin(), word.end()));
     }
 
     // 2) Build argv, a vector containing char pointers to the zero terminated arguments
