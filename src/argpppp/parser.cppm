@@ -19,8 +19,6 @@ namespace argpppp
 
 export using option_callback = std::function<void()>;
 
-// TODO: how to deal with exceptions? Swallowing them kind of sucks too, no? (Yes but then, since they're going through C code, leaks will happen anyway...)
-//        => Well we could store them and rethrow them once argp_parse returns, no? Would that not be the cleanest thing?
 // TODO: this could use the program_name thing above too, no?
 // TODO: features
 //       * Does not terminate your application, unless you want it to
