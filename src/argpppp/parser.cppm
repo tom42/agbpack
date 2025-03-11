@@ -17,6 +17,7 @@ import :optional_string;
 namespace argpppp
 {
 
+// TODO: this needs a return value other than bool, so that we can pass back a custom error message
 export using option_callback = std::function<bool(char*)>;
 
 // TODO: this could use the program_name thing above too, no?
@@ -35,6 +36,8 @@ public:
     void doc(const optional_string& s);
 
     // TODO: should this not get a return value?
+    // TODO: should we not start working on not exiting on error?
+    //       => See what exactly we did in shrinkler-gba
     void parse(int argc, char** argv);
 
 private:
