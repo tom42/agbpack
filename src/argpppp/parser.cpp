@@ -59,6 +59,15 @@ std::vector<argp_option> to_argp_options(const std::vector<option>& options)
     return argp_options;
 }
 
+error_t handle_option_callback_result(bool option_callback_result)
+{
+    // TODO: process return value of callback. Basically there are three possible outcomes
+    //       * Callback returns 'success': return 0 for success
+    //       * Callback returns 'failed' + nothing: print generic error message and return EINVAL. See ARGP_PARSE manual (https://www.gnu.org/software/libc/manual/html_node/Argp-Helper-Functions.html)
+    //       * Callback returns 'failed' + error message: print callback's error message and return EINVAL. See ARGP_PARSE manual (https://www.gnu.org/software/libc/manual/html_node/Argp-Helper-Functions.html)
+    return option_callback_result ? 0 : EINVAL;
+}
+
 }
 
 void parser::add_option(const option& o, const option_callback& c)
@@ -94,21 +103,13 @@ void parser::parse(int argc, char** argv)
 
 error_t parser::parse_option(int key, char* /*arg*/, argp_state* /*state*/)
 {
-    // TODO: actually do something useful here:
-    //       * find a registered handler for our key. If there is one, invoke it and handle its result
-    //       * if there is none, handle key ourselves.
     auto callback = m_callbacks.find(key);
     if (callback != m_callbacks.end())
     {
-        // TODO: should actually process return value of callback, but callbacks don't have a return value yet
-        //       * Callback returns true: return 0 for success
-        //       * Callback returns false: print error message and return error code, see ARGP_PARSE manual (https://www.gnu.org/software/libc/manual/html_node/Argp-Helper-Functions.html)
-        //         suggests EINVAL
-        //       * Can we have callbacks that return error messages instead?
-        callback->second();
-        return 0;
+        return handle_option_callback_result(callback->second());
     }
 
+    // TODO: there is no callback. So here goes now the idiomatic argp_parse switch on key.
     return ARGP_ERR_UNKNOWN;
 }
 
