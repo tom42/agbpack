@@ -12,13 +12,12 @@ module;
 export module argpppp:parser;
 import :of;
 import :option;
+import :option_callback_result;
 import :optional_string;
 
 namespace argpppp
 {
 
-// TODO: this needs a return value other than bool, so that we can pass back a custom error message
-export using option_callback_result = bool;
 export using option_callback = std::function<option_callback_result(char*)>;
 
 // TODO: this could use the program_name thing above too, no?

@@ -11,6 +11,7 @@ module;
 export module argpppp;
 export import :of;
 export import :option;
+export import :option_callback_result;
 export import :optional_string;
 export import :parser;
 

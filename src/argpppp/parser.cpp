@@ -59,13 +59,14 @@ std::vector<argp_option> to_argp_options(const std::vector<option>& options)
     return argp_options;
 }
 
-error_t handle_option_callback_result(bool option_callback_result)
+// TODO: is this testworthy?
+error_t handle_option_callback_result(const option_callback_result& result)
 {
     // TODO: process return value of callback. Basically there are three possible outcomes
     //       * Callback returns 'success': return 0 for success
     //       * Callback returns 'failed' + nothing: print generic error message and return EINVAL. See ARGP_PARSE manual (https://www.gnu.org/software/libc/manual/html_node/Argp-Helper-Functions.html)
     //       * Callback returns 'failed' + error message: print callback's error message and return EINVAL. See ARGP_PARSE manual (https://www.gnu.org/software/libc/manual/html_node/Argp-Helper-Functions.html)
-    return option_callback_result ? 0 : EINVAL;
+    return result.is_successful() ? 0 : EINVAL;
 }
 
 }

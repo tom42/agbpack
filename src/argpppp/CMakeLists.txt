@@ -7,6 +7,7 @@ set(
   argpppp.cppm
   of.cppm
   option.cppm
+  option_callback_result.cppm
   optional_string.cppm
   parser.cppm
   PRIVATE
