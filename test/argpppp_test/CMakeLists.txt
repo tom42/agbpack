@@ -5,7 +5,6 @@ add_executable(
   argpppp_unit_test
   of_test.cpp
   option_test.cpp
-  option_callback_result_test.cpp
   optional_string_test.cpp
   parser_test.cpp
   program_name_test.cpp)
