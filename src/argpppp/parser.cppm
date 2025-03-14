@@ -27,7 +27,6 @@ export using option_callback = std::function<bool(char*)>;
 export class parser final
 {
 public:
-    // TODO: why don't we make the callback part of our option type? Is there any drawback to this? (All the default args, maybe?)
     void add_option(const option& o, const option_callback& c);
 
     void args_doc(const optional_string& s);
