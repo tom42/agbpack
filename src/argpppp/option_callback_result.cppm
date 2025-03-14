@@ -36,7 +36,7 @@ private:
 };
 
 // TODO: unit test?
-export option_callback_result error(const std::string& error_message)
+export inline option_callback_result error(const std::string& error_message)
 {
     return option_callback_result(error_message);
 }
