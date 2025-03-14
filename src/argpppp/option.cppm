@@ -59,7 +59,9 @@ inline argp_option to_argp_option(const option& o)
     return {c_str(o.name()), o.key(), c_str(o.arg()), to_int(o.flags()), c_str(o.doc()), o.group()};
 }
 
-// TODO: here too: document that options must not go out of scope?
+// Converts a vector of options to a vector of argp_options for use with argp_parse.
+// The resulting vector is terminated by an argp_option with all fields set to zero.
+// The original vector of options must not go out of scope while the vector of argp_options is in use.
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 inline std::vector<argp_option> to_argp_options(const std::vector<option>& options)
 {
