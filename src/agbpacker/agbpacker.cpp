@@ -54,6 +54,7 @@ int main(int argc, char** argv)
         add_option(parser, { {}, 'v' }, [](auto) noexcept { std::cout << "v seen\n"; return false; });
         parser.args_doc("arg1 arg2 ...");
         parser.parse(argc, argv);
+        std::cout << "BYE\n";
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
