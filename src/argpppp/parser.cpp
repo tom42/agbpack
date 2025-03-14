@@ -3,13 +3,9 @@
 
 module;
 
-#include <algorithm>
 #include <argp.h>
-#include <functional>
+#include <exception>
 #include <iterator>
-#include <optional>
-#include <string>
-#include <vector>
 
 module argpppp;
 // TODO: do I need to import other module partitions here? Like :optional_string or :option?
@@ -46,18 +42,6 @@ private:
     parser* m_parser;
     std::exception_ptr m_exception;
 };
-
-// TODO: here too: document that options must not go out of scope?
-// TODO: do we want to export and unit test this?
-// TODO: we could stick this into the option partition thing, no?
-std::vector<argp_option> to_argp_options(const std::vector<option>& options)
-{
-    std::vector<argp_option> argp_options;
-    argp_options.reserve(options.size() + 1);
-    std::transform(options.begin(), options.end(), back_inserter(argp_options), to_argp_option);
-    argp_options.push_back({});
-    return argp_options;
-}
 
 // TODO: is this testworthy?
 error_t handle_option_callback_result(bool result)

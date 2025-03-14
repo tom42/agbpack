@@ -3,9 +3,11 @@
 
 module;
 
+#include <algorithm>
 #include <argp.h>
 #include <optional>
 #include <string>
+#include <vector>
 
 export module argpppp:option;
 import :of;
@@ -55,6 +57,18 @@ ARGPPPP_EXPORT_FOR_UNIT_TESTING
 inline argp_option to_argp_option(const option& o)
 {
     return {c_str(o.name()), o.key(), c_str(o.arg()), to_int(o.flags()), c_str(o.doc()), o.group()};
+}
+
+// TODO: here too: document that options must not go out of scope?
+// TODO: do we want to export and unit test this?
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
+inline std::vector<argp_option> to_argp_options(const std::vector<option>& options)
+{
+    std::vector<argp_option> argp_options;
+    argp_options.reserve(options.size() + 1);
+    std::transform(options.begin(), options.end(), back_inserter(argp_options), to_argp_option);
+    argp_options.push_back({});
+    return argp_options;
 }
 
 }
