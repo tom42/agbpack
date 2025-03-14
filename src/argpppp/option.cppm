@@ -60,7 +60,6 @@ inline argp_option to_argp_option(const option& o)
 }
 
 // TODO: here too: document that options must not go out of scope?
-// TODO: do we want to export and unit test this?
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 inline std::vector<argp_option> to_argp_options(const std::vector<option>& options)
 {
