@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-#include <argp.h>
 #include <catch2/catch_test_macros.hpp>
 #include <optional>
 #include <vector>

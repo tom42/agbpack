@@ -5,6 +5,7 @@ module;
 
 #include <algorithm>
 #include <argp.h>
+#include <iterator>
 #include <optional>
 #include <string>
 #include <vector>
