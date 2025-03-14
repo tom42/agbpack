@@ -88,12 +88,12 @@ void parser::parse(int argc, char** argv)
     constexpr const argp_child* children = nullptr;
     constexpr const auto help_filter = nullptr;
     constexpr const char* argp_domain = nullptr;
-
     const auto argp_options = to_argp_options(m_options);
     const argp argp { argp_options.data(), parse_option_static, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
+    constexpr auto flags = 0;
     argpppp_context context(this);
-    argp_parse(&argp, argc, argv, 0, nullptr, &context);
+    argp_parse(&argp, argc, argv, flags, nullptr, &context);
 
     context.rethrow_exception_if_any();
 }
