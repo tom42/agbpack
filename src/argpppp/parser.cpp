@@ -6,6 +6,7 @@ module;
 #include <argp.h>
 #include <exception>
 #include <iterator>
+#include <stdexcept>
 
 module argpppp;
 // TODO: do I need to import other module partitions here? Like :optional_string or :option?
@@ -57,8 +58,22 @@ error_t handle_option_callback_result(bool result)
 
 void parser::add_option(const option& o, const option_callback& c)
 {
-    m_options.push_back(o);
-    m_callbacks[o.key()] = c;
+    if (o.key() == 0)
+    {
+        if (c)
+        {
+            throw std::logic_error("add_option: special options with key = 0 must not have callbacks");
+        }
+    }
+    else
+    {
+        if (!c)
+        {
+            throw std::logic_error("add_option: option must have a callback");
+        }
+        m_options.push_back(o);
+        m_callbacks[o.key()] = c;
+    }
 }
 
 void parser::args_doc(const optional_string& s)

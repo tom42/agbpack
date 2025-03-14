@@ -57,6 +57,22 @@ TEST_CASE("parser_test")
 {
     argpppp::parser parser;
 
+    SECTION("add_option throws if an option with key = 0 has a callback")
+    {
+        CHECK_THROWS_MATCHES(
+            add_option(parser, { "This is a documentation option", {}, {}, argpppp::of::doc }, [](auto) noexcept { return true; } ),
+            std::logic_error,
+            Catch::Matchers::Message("add_option: special options with key = 0 must not have callbacks"));
+    }
+
+    SECTION("add_option throws if an option with key != 0 does not have a callback")
+    {
+        CHECK_THROWS_MATCHES(
+            add_option(parser, { {}, 'a' }, {}),
+            std::logic_error,
+            Catch::Matchers::Message("add_option: option must have a callback"));
+    }
+
     SECTION("Exceptions abort parsing and are propagated to caller")
     {
         add_option(parser, { {}, 'a' }, [](auto)->bool{ throw std::runtime_error("This exception should occur."); });
