@@ -102,19 +102,17 @@ TEST_CASE("parser_test")
         CHECK(c_seen == true);
     }
 
-    SECTION("TODO: test name")
+    SECTION("Parsing should stop if an option callback returns false")
     {
         bool a_seen = false;
-        bool b_seen = false;
 
         add_option(parser, { {}, 'a' }, [&](auto) noexcept { a_seen = true; return false; });
-        add_option(parser, { {}, 'b' }, [&](auto) noexcept { b_seen = true; return true; });
+        add_option(parser, { {}, 'b' }, [](auto)->bool{ throw std::runtime_error("This exception should not occur."); });
 
         // TODO: what would be the return code of parse here?
         parse(parser, "-a -b");
 
         CHECK(a_seen == true);
-        CHECK(b_seen == false);
     }
 }
 
