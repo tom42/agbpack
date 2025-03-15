@@ -35,17 +35,10 @@ int main(int argc, char** argv)
         //       * output file
         argpppp::parser parser;
         parser.doc("Compress and decompress data for the GBA BIOS");
-        parser.args_doc("arg1 arg2 ...");
+        parser.args_doc("<input> <output>");
         add_option(parser, { "compress", 'c' }, [](auto){ return true; });
         add_option(parser, { "decompress", 'd' }, [](auto){ return true; });
-        // TODO: test options below, remove
-        add_header(parser, "This is a group header");
-        add_option(parser, { "option-with-doc", 'o', {}, {}, "Here is a doc string" }, [](auto){ return true; });
-        add_option(parser, { "yodel", 'y', "loudness", argpppp::of::arg_optional | argpppp::of::no_usage, "Das Jodeldiplom" }, [](auto){ return true; });
-        add_option(parser, { {}, 'u' }, [](auto){ std::cout << "u seen\n"; return true; });
-        add_option(parser, { {}, 'v' }, [](auto){ std::cout << "v seen\n"; return false; });
         parser.parse(argc, argv);
-        std::cout << "BYE\n";
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
