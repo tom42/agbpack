@@ -19,7 +19,7 @@ namespace argpppp
 
 export using option_callback = std::function<bool(char*)>;
 
-// TODO: this could use the program_name thing above too, no?
+// TODO: this could use the program_name thing above too, no? (well do we DO want to have the program name thing at all?)
 // TODO: features
 //       * Does not terminate your application, unless you want it to
 //       * Properly prints your program name, in any damn case
@@ -27,6 +27,7 @@ export using option_callback = std::function<bool(char*)>;
 export class parser final
 {
 public:
+    // TODO: rename this to add, so that using it becomes parser.add(option, ...)?
     void add_option(const option& o, const option_callback& c);
 
     void args_doc(const optional_string& s);
@@ -49,12 +50,6 @@ private:
 };
 
 // TODO: put helper methods into cpp file? And possibly also their own cppm file?
-
-// TODO: not sure we really want to have this. It does not solve any problems
-export inline void add_option(parser& p, const option& o, const option_callback& c)
-{
-    p.add_option(o, c);
-}
 
 export inline void add_header(parser& p, const std::string& s, int group = 0)
 {

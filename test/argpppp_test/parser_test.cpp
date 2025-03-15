@@ -60,7 +60,7 @@ TEST_CASE("parser_test")
     SECTION("add_option throws if an option with key = 0 has a callback")
     {
         CHECK_THROWS_MATCHES(
-            add_option(parser, { "This is a documentation option", {}, {}, argpppp::of::doc }, [](auto) noexcept { return true; } ),
+            parser.add_option({ "This is a documentation option", {}, {}, argpppp::of::doc }, [](auto) noexcept { return true; } ),
             std::logic_error,
             Catch::Matchers::Message("add_option: special options with key = 0 must not have callbacks"));
     }
@@ -68,15 +68,15 @@ TEST_CASE("parser_test")
     SECTION("add_option throws if an option with key != 0 does not have a callback")
     {
         CHECK_THROWS_MATCHES(
-            add_option(parser, { {}, 'a' }, {}),
+            parser.add_option({ {}, 'a' }, {}),
             std::logic_error,
             Catch::Matchers::Message("add_option: option must have a callback"));
     }
 
     SECTION("Exceptions abort parsing and are propagated to caller")
     {
-        add_option(parser, { {}, 'a' }, [](auto)->bool{ throw std::runtime_error("This exception should occur."); });
-        add_option(parser, { {}, 'b' }, [](auto)->bool{ throw std::runtime_error("This exception should not occur."); });
+        parser.add_option({ {}, 'a' }, [](auto)->bool{ throw std::runtime_error("This exception should occur."); });
+        parser.add_option({ {}, 'b' }, [](auto)->bool{ throw std::runtime_error("This exception should not occur."); });
 
         CHECK_THROWS_MATCHES(
             parse(parser, "-a -b"),
@@ -90,9 +90,9 @@ TEST_CASE("parser_test")
         bool b_seen = false;
         bool c_seen = false;
 
-        add_option(parser, { {}, 'a' }, [&](auto) noexcept { return a_seen = true; });
-        add_option(parser, { {}, 'b' }, [&](auto) noexcept { return b_seen = true; });
-        add_option(parser, { {}, 'c' }, [&](auto) noexcept { return c_seen = true; });
+        parser.add_option({ {}, 'a' }, [&](auto) noexcept { return a_seen = true; });
+        parser.add_option({ {}, 'b' }, [&](auto) noexcept { return b_seen = true; });
+        parser.add_option({ {}, 'c' }, [&](auto) noexcept { return c_seen = true; });
 
         // TODO: what would be the return code of parse here?
         parse(parser, "-c -a");
@@ -106,8 +106,8 @@ TEST_CASE("parser_test")
     {
         bool a_seen = false;
 
-        add_option(parser, { {}, 'a' }, [&](auto) noexcept { a_seen = true; return false; });
-        add_option(parser, { {}, 'b' }, [](auto)->bool{ throw std::runtime_error("This exception should not occur."); });
+        parser.add_option({ {}, 'a' }, [&](auto) noexcept { a_seen = true; return false; });
+        parser.add_option({ {}, 'b' }, [](auto)->bool{ throw std::runtime_error("This exception should not occur."); });
 
         // TODO: what would be the return code of parse here?
         parse(parser, "-a -b");
