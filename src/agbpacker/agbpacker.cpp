@@ -18,12 +18,6 @@ int main(int argc, char** argv)
 {
     try
     {
-        // TODO: rethink api
-        //       Do we want to do like below, or do we want to have something like
-        //       argpppp::options opts;
-        //       add_option(opts, some_option(), &variable)
-        //       add_option(opts, some_other_option(), &some_other_variable)
-        //       => The procedural version leads to code that can be more naturally extended, no?
         // TODO: so what options do we need here?
         //       -c => compress   \ These two override eachother, -c could be default
         //       -d => decompress /
