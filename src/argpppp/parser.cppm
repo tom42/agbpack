@@ -48,8 +48,6 @@ private:
     std::map<int, option_callback> m_callbacks;
 };
 
-// TODO: put helper methods into cpp file? And possibly also their own cppm file?
-
 export inline void add_option(parser& p, const option& o, const option_callback& c)
 {
     p.add_option(o, c);

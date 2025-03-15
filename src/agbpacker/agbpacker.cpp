@@ -42,15 +42,15 @@ int main(int argc, char** argv)
         // TODO: re argpppp: while it initially seemed to be funny it looks totally hideous. Maybe rename it to just argpp
         argpppp::parser parser;
         parser.doc("Compress and decompress data for the GBA BIOS");
-        parser.add_option({ "compress", 'c' }, [](auto){ return true; });
-        parser.add_option({ "decompress", 'd' }, [](auto){ return true; });
+        parser.args_doc("arg1 arg2 ...");
+        add_option(parser, { "compress", 'c' }, [](auto){ return true; });
+        add_option(parser, { "decompress", 'd' }, [](auto){ return true; });
         // TODO: test options below, remove
         add_header(parser, "This is a group header");
-        parser.add_option({ "option-with-doc", 'o', {}, {}, "Here is a doc string" }, [](auto){ return true; });
-        parser.add_option({ "yodel", 'y', "loudness", argpppp::of::arg_optional | argpppp::of::no_usage, "Das Jodeldiplom" }, [](auto){ return true; });
-        parser.add_option({ {}, 'u' }, [](auto){ std::cout << "u seen\n"; return true; });
-        parser.add_option({ {}, 'v' }, [](auto){ std::cout << "v seen\n"; return false; });
-        parser.args_doc("arg1 arg2 ...");
+        add_option(parser, { "option-with-doc", 'o', {}, {}, "Here is a doc string" }, [](auto){ return true; });
+        add_option(parser, { "yodel", 'y', "loudness", argpppp::of::arg_optional | argpppp::of::no_usage, "Das Jodeldiplom" }, [](auto){ return true; });
+        add_option(parser, { {}, 'u' }, [](auto){ std::cout << "u seen\n"; return true; });
+        add_option(parser, { {}, 'v' }, [](auto){ std::cout << "v seen\n"; return false; });
         parser.parse(argc, argv);
         std::cout << "BYE\n";
         return EXIT_SUCCESS;
