@@ -45,7 +45,6 @@ int main(int argc, char** argv)
         parser.add_option({ "compress", 'c' }, [](auto){ return true; });
         parser.add_option({ "decompress", 'd' }, [](auto){ return true; });
         // TODO: test options below, remove
-        parser.add_option({ "This is a documentation option", {}, {}, argpppp::of::doc }, {});
         add_header(parser, "This is a group header");
         parser.add_option({ "option-with-doc", 'o', {}, {}, "Here is a doc string" }, [](auto){ return true; });
         parser.add_option({ "yodel", 'y', "loudness", argpppp::of::arg_optional | argpppp::of::no_usage, "Das Jodeldiplom" }, [](auto){ return true; });
