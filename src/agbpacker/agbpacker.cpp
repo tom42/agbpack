@@ -29,7 +29,7 @@ public:
     mode mode = mode::compress;
 };
 
-void parse_command_line(int argc, char** argv)
+options parse_command_line(int argc, char** argv)
 {
     // TODO: so what options do we need here?
     //       -c => compress   \ These two override eachother, -c could be default
@@ -46,12 +46,21 @@ void parse_command_line(int argc, char** argv)
     //       Arguments
     //       * input file
     //       * output file
+    options options;
+
+    // TODO: actually parse and store compression method
+    //       => For this, argpppp actually should process the return value of the lambda!
+    // TODO: do we also expect the compression method for decompression? (Would be simpler, but also rather silly, no?)
+    // TODO: enforce that there are exactly two arguments
     argpppp::parser parser;
     parser.doc("Compress and decompress data for the GBA BIOS");
     parser.args_doc("<input> <output>");
-    add_option(parser, { "compress", 'c', {}, {}, "Files are compressed by default" }, [](auto){ return true; });
-    add_option(parser, { "decompress", 'd' }, [](auto){ return true; });
+    add_option(parser, { "compress", 'c', {}, {}, "Files are compressed by default" }, [&options](auto){ options.mode = mode::compress; return true; });
+    add_option(parser, { "decompress", 'd' }, [&options](auto){ options.mode = mode::decompress; return true; });
+    add_option(parser, { "method", 'm', "method", {}, "Compression method, default is LZSS" }, [](auto){ return true; });
     parser.parse(argc, argv);
+
+    return options;
 }
 
 }
@@ -60,7 +69,9 @@ int main(int argc, char** argv)
 {
     try
     {
-        parse_command_line(argc, argv);
+        auto options = parse_command_line(argc, argv);
+        // TODO: test code below. Remove and implement compression/decompression insead
+        std::cout << (options.mode == mode::compress ? "compress" : "decompress") << "\n";
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
