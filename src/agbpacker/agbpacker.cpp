@@ -17,7 +17,7 @@ const char* argp_program_version = "agbpacker " AGBPACK_VERSION;
 namespace
 {
 
-enum class mode
+enum class program_mode
 {
     compress,
     decompress
@@ -26,7 +26,7 @@ enum class mode
 class options final
 {
 public:
-    mode mode = mode::compress;
+    program_mode mode = program_mode::compress;
 };
 
 options parse_command_line(int argc, char** argv)
@@ -48,6 +48,8 @@ options parse_command_line(int argc, char** argv)
     //       * output file
     options options;
 
+    // TODO: re compression mode: we can do better, no?
+    //       It would be more beautiful to accept only one of -c/-d
     // TODO: actually parse and store compression method
     //       => For this, argpppp actually should process the return value of the lambda!
     // TODO: do we also expect the compression method for decompression? (Would be simpler, but also rather silly, no?)
@@ -55,8 +57,8 @@ options parse_command_line(int argc, char** argv)
     argpppp::parser parser;
     parser.doc("Compress and decompress data for the GBA BIOS");
     parser.args_doc("<input> <output>");
-    add_option(parser, { "compress", 'c', {}, {}, "Files are compressed by default" }, [&options](auto){ options.mode = mode::compress; return true; });
-    add_option(parser, { "decompress", 'd' }, [&options](auto){ options.mode = mode::decompress; return true; });
+    add_option(parser, { "compress", 'c', {}, {}, "Files are compressed by default" }, [&options](auto){ options.mode = program_mode::compress; return true; });
+    add_option(parser, { "decompress", 'd' }, [&options](auto){ options.mode = program_mode::decompress; return true; });
     add_option(parser, { "method", 'm', "method", {}, "Compression method, default is LZSS" }, [](auto){ return true; });
     parser.parse(argc, argv);
 
@@ -71,7 +73,7 @@ int main(int argc, char** argv)
     {
         auto options = parse_command_line(argc, argv);
         // TODO: test code below. Remove and implement compression/decompression insead
-        std::cout << (options.mode == mode::compress ? "compress" : "decompress") << "\n";
+        std::cout << (options.mode == program_mode::compress ? "compress" : "decompress") << "\n";
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
