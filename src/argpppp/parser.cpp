@@ -55,6 +55,8 @@ error_t handle_option_callback_result(bool result)
 
 void parser::add_option(const option& o, const option_callback& c)
 {
+    m_options.push_back(o);
+
     if (o.key() == 0)
     {
         if (c)
@@ -68,7 +70,6 @@ void parser::add_option(const option& o, const option_callback& c)
         {
             throw std::logic_error("add_option: option must have a callback");
         }
-        m_options.push_back(o);
         m_callbacks[o.key()] = c;
     }
 }
