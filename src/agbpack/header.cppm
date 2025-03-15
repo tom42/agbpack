@@ -75,7 +75,7 @@ using compression_options = std::variant<lzss_options, huffman_options, rle_opti
 
 inline auto as_integer(compression_options options)
 {
-    return std::visit([](auto&& opts) noexcept { return std::to_underlying(opts); }, options);
+    return std::visit([](auto&& opts){ return std::to_underlying(opts); }, options);
 }
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING

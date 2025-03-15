@@ -40,18 +40,17 @@ int main(int argc, char** argv)
         //       * input file
         //       * output file
         // TODO: re argpppp: while it initially seemed to be funny it looks totally hideous. Maybe rename it to just argpp
-        // TODO: remove all the noexcepts here: we don't have all these empty lambdas, this is just to get things going, but g++ wants the lambdas to be noexcept
         argpppp::parser parser;
         parser.doc("Compress and decompress data for the GBA BIOS");
-        parser.add_option({ "compress", 'c' }, [](auto) noexcept { return true; });
-        parser.add_option({ "decompress", 'd' }, [](auto) noexcept { return true; });
+        parser.add_option({ "compress", 'c' }, [](auto){ return true; });
+        parser.add_option({ "decompress", 'd' }, [](auto){ return true; });
         // TODO: test options below, remove
         parser.add_option({ "This is a documentation option", {}, {}, argpppp::of::doc }, {});
         add_header(parser, "This is a group header");
-        parser.add_option({ "option-with-doc", 'o', {}, {}, "Here is a doc string" }, [](auto) noexcept { return true; });
-        parser.add_option({ "yodel", 'y', "loudness", argpppp::of::arg_optional | argpppp::of::no_usage, "Das Jodeldiplom" }, [](auto) noexcept { return true; });
-        parser.add_option({ {}, 'u' }, [](auto) noexcept { std::cout << "u seen\n"; return true; });
-        parser.add_option({ {}, 'v' }, [](auto) noexcept { std::cout << "v seen\n"; return false; });
+        parser.add_option({ "option-with-doc", 'o', {}, {}, "Here is a doc string" }, [](auto){ return true; });
+        parser.add_option({ "yodel", 'y', "loudness", argpppp::of::arg_optional | argpppp::of::no_usage, "Das Jodeldiplom" }, [](auto){ return true; });
+        parser.add_option({ {}, 'u' }, [](auto){ std::cout << "u seen\n"; return true; });
+        parser.add_option({ {}, 'v' }, [](auto){ std::cout << "v seen\n"; return false; });
         parser.args_doc("arg1 arg2 ...");
         parser.parse(argc, argv);
         std::cout << "BYE\n";

@@ -550,7 +550,7 @@ private:
 class tree_node_compare final
 {
 public:
-    bool operator()(const huffman_tree_node_ptr& a, const huffman_tree_node_ptr& b) noexcept
+    bool operator()(const huffman_tree_node_ptr& a, const huffman_tree_node_ptr& b)
     {
         if (a->frequency() != b->frequency())
         {

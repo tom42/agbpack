@@ -60,7 +60,7 @@ TEST_CASE("parser_test")
     SECTION("add_option throws if an option with key = 0 has a callback")
     {
         CHECK_THROWS_MATCHES(
-            parser.add_option({ "This is a documentation option", {}, {}, argpppp::of::doc }, [](auto) noexcept { return true; } ),
+            parser.add_option({ "This is a documentation option", {}, {}, argpppp::of::doc }, [](auto){ return true; } ),
             std::logic_error,
             Catch::Matchers::Message("add_option: special options with key = 0 must not have callbacks"));
     }
@@ -90,9 +90,9 @@ TEST_CASE("parser_test")
         bool b_seen = false;
         bool c_seen = false;
 
-        parser.add_option({ {}, 'a' }, [&](auto) noexcept { return a_seen = true; });
-        parser.add_option({ {}, 'b' }, [&](auto) noexcept { return b_seen = true; });
-        parser.add_option({ {}, 'c' }, [&](auto) noexcept { return c_seen = true; });
+        parser.add_option({ {}, 'a' }, [&](auto){ return a_seen = true; });
+        parser.add_option({ {}, 'b' }, [&](auto){ return b_seen = true; });
+        parser.add_option({ {}, 'c' }, [&](auto){ return c_seen = true; });
 
         // TODO: what would be the return code of parse here?
         parse(parser, "-c -a");
@@ -106,7 +106,7 @@ TEST_CASE("parser_test")
     {
         bool a_seen = false;
 
-        parser.add_option({ {}, 'a' }, [&](auto) noexcept { a_seen = true; return false; });
+        parser.add_option({ {}, 'a' }, [&](auto){ a_seen = true; return false; });
         parser.add_option({ {}, 'b' }, [](auto)->bool{ throw std::runtime_error("This exception should not occur."); });
 
         // TODO: what would be the return code of parse here?
