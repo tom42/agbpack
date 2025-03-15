@@ -36,7 +36,7 @@ int main(int argc, char** argv)
         argpppp::parser parser;
         parser.doc("Compress and decompress data for the GBA BIOS");
         parser.args_doc("<input> <output>");
-        add_option(parser, { "compress", 'c' }, [](auto){ return true; });
+        add_option(parser, { "compress", 'c', {}, {}, "Files are compressed by default" }, [](auto){ return true; });
         add_option(parser, { "decompress", 'd' }, [](auto){ return true; });
         parser.parse(argc, argv);
         return EXIT_SUCCESS;
