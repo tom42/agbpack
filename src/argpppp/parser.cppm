@@ -27,7 +27,6 @@ export using option_callback = std::function<bool(char*)>;
 export class parser final
 {
 public:
-    // TODO: rename this to add, so that using it becomes parser.add(option, ...)?
     void add_option(const option& o, const option_callback& c);
 
     void args_doc(const optional_string& s);
