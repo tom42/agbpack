@@ -46,7 +46,7 @@ private:
 };
 
 // TODO: is this testworthy? => Sure is
-error_t handle_option_callback_result(bool result)
+error_t handle_option_callback_result(bool result, const argp_state* state)
 {
     // TODO: print error message using argp_error/argp_failure if return value is false.
     // TODO: how should the error message look like?
@@ -59,7 +59,9 @@ error_t handle_option_callback_result(bool result)
     }
     else
     {
-        // TODO: print error message. According to argp manual it is argp_failure we should use here
+        // TODO: format a default error message
+        // TODO: this is now becoming a problem: if we call argp_failure, then the damn thing exits our unit test suite.
+        argp_failure(state, EXIT_FAILURE, 0, "meh");
         return EINVAL;
     }
 }
@@ -112,13 +114,13 @@ void parser::parse(int argc, char** argv, pf flags)
     context.rethrow_exception_if_any();
 }
 
-error_t parser::parse_option(int key, char* arg, argp_state* /*state*/)
+error_t parser::parse_option(int key, char* arg, argp_state* state)
 {
     auto callback = m_callbacks.find(key);
     if (callback != m_callbacks.end())
     {
         const auto callback_result = callback->second(arg);
-        return handle_option_callback_result(callback_result);
+        return handle_option_callback_result(callback_result, state);
     }
 
     // TODO: apparently, state->name is the program name (read that up again! so, if we wanted we could probably set it here, and it'd always be correct, no?
