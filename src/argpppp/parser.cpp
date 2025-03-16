@@ -121,6 +121,7 @@ error_t parser::parse_option(int key, char* arg, argp_state* /*state*/)
         return handle_option_callback_result(callback_result);
     }
 
+    // TODO: apparently, state->name is the program name (read that up again! so, if we wanted we could probably set it here, and it'd always be correct, no?
     // TODO: there is no callback. So here goes now the idiomatic argp_parse switch on key.
     return ARGP_ERR_UNKNOWN;
 }
