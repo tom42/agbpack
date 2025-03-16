@@ -7,7 +7,7 @@
 
 import argpppp;
 
-namespace argpppp_test
+namespace argpppp_unit_test
 {
 
 using argpppp::of;

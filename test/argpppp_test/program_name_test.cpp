@@ -5,7 +5,7 @@
 
 import argpppp;
 
-namespace argpppp_test
+namespace argpppp_unit_test
 {
 
 TEST_CASE("program_name_test")

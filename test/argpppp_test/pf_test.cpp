@@ -5,8 +5,7 @@
 
 import argpppp;
 
-// TODO: should this not be argpppp_unit_test?
-namespace argpppp_test
+namespace argpppp_unit_test
 {
 
 using argpppp::pf;
