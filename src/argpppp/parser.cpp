@@ -59,7 +59,7 @@ error_t handle_option_callback_result(bool result)
     }
     else
     {
-        // TODO: print error message
+        // TODO: print error message. According to argp manual it is argp_failure we should use here
         return EINVAL;
     }
 }
@@ -79,6 +79,7 @@ void parser::add_option(const option& o, const option_callback& c)
     }
     else
     {
+        // TODO: verify that if the option has a non-printable key it has a long name? (This IS a requirement, isn't it?)
         if (!c)
         {
             throw std::logic_error("add_option: option must have a callback");
