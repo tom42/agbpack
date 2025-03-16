@@ -13,6 +13,7 @@ export module argpppp:parser;
 import :of;
 import :option;
 import :optional_string;
+import :pf;
 
 namespace argpppp
 {
@@ -36,7 +37,7 @@ public:
     // TODO: should this not get a return value?
     // TODO: should we not start working on not exiting on error?
     //       => See what exactly we did in shrinkler-gba
-    void parse(int argc, char** argv);
+    void parse(int argc, char** argv, pf flags = pf::none);
 
 private:
     error_t parse_option(int key, char *arg, argp_state *state);

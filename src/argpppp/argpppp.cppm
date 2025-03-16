@@ -13,6 +13,7 @@ export import :of;
 export import :option;
 export import :optional_string;
 export import :parser;
+export import :pf;
 
 namespace argpppp
 {
