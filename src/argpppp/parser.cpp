@@ -45,10 +45,14 @@ private:
     std::exception_ptr m_exception;
 };
 
-// TODO: is this testworthy?
+// TODO: is this testworthy? => Sure is
 error_t handle_option_callback_result(bool result)
 {
-    // TODO: print error message using argp_error (or argp_failure) if return value is false.
+    // TODO: print error message using argp_error/argp_failure if return value is false.
+    // TODO: how should the error message look like?
+    //       * well it should include the option name, and the invalid value.
+    //       * Problem: the option short name may be missing. So we have to print the long name in this case
+    // TODO: if the callback supplied an error rather than a boolean, then the error should be printed instead
     return result ? 0 : EINVAL;
 }
 
@@ -104,7 +108,8 @@ error_t parser::parse_option(int key, char* arg, argp_state* /*state*/)
     auto callback = m_callbacks.find(key);
     if (callback != m_callbacks.end())
     {
-        return handle_option_callback_result(callback->second(arg));
+        const auto callback_result = callback->second(arg);
+        return handle_option_callback_result(callback_result);
     }
 
     // TODO: there is no callback. So here goes now the idiomatic argp_parse switch on key.
