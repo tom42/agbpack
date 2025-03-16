@@ -53,7 +53,15 @@ error_t handle_option_callback_result(bool result)
     //       * well it should include the option name, and the invalid value.
     //       * Problem: the option short name may be missing. So we have to print the long name in this case
     // TODO: if the callback supplied an error rather than a boolean, then the error should be printed instead
-    return result ? 0 : EINVAL;
+    if (result)
+    {
+        return 0;
+    }
+    else
+    {
+        // TODO: print error message
+        return EINVAL;
+    }
 }
 
 }
