@@ -15,6 +15,10 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+using argpppp::of;
+using argpppp::parser;
+using argpppp::pf;
+
 namespace
 {
 
@@ -31,7 +35,7 @@ std::vector<char> make_arg(const char* s)
     return make_arg(s, s + strlen(s));
 }
 
-void parse(argpppp::parser& parser, const std::string& command_line)
+void parse(parser& parser, const std::string& command_line)
 {
     // 1) Build vector of zero terminated arguments.
     std::vector<std::vector<char>> args;
@@ -48,19 +52,19 @@ void parse(argpppp::parser& parser, const std::string& command_line)
         argv.push_back(arg.data());
     }
 
-    parser.parse(static_cast<int>(argv.size()), argv.data());
+    parser.parse(static_cast<int>(argv.size()), argv.data(), pf::no_exit);
 }
 
 }
 
 TEST_CASE("parser_test")
 {
-    argpppp::parser parser;
+    parser parser;
 
     SECTION("add_option throws if an option with key = 0 has a callback")
     {
         CHECK_THROWS_MATCHES(
-            add_option(parser, { "This is a documentation option", {}, {}, argpppp::of::doc }, [](auto){ return true; } ),
+            add_option(parser, { "This is a documentation option", {}, {}, of::doc }, [](auto){ return true; } ),
             std::logic_error,
             Catch::Matchers::Message("add_option: special options with key = 0 must not have callbacks"));
     }

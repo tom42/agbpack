@@ -60,7 +60,7 @@ error_t handle_option_callback_result(bool result, const argp_state* state)
     else
     {
         // TODO: format a default error message
-        // TODO: this is now becoming a problem: if we call argp_failure, then the damn thing exits our unit test suite.
+        // TODO: probably want to be able to replace this with some sort of test double for unit testing
         argp_failure(state, EXIT_FAILURE, 0, "meh");
         return EINVAL;
     }
