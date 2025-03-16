@@ -50,7 +50,7 @@ options parse_command_line(int argc, char** argv)
 
     // TODO: re compression mode: we can do better, no?
     //       It would be more beautiful to accept only one of -c/-d
-    //       Yeah damit, put that already requires us again to be able to print an error message, no?
+    //       Yeah damit, put that already requires us again to be able to print/return an error message, no?
     // TODO: actually parse and store compression method
     //       => For this, argpppp actually should process the return value of the lambda!
     // TODO: do we also expect the compression method for decompression? (Would be simpler, but also rather silly, no?)
