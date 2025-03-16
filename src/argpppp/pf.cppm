@@ -23,7 +23,6 @@ export enum class pf
     silent = no_exit | no_errs | no_help
 };
 
-// TODO: add test, for the sake of completeness
 export constexpr pf operator|(pf l, pf r)
 {
     return pf(std::to_underlying(l) | std::to_underlying(r));
