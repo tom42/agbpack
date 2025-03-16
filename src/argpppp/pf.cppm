@@ -28,7 +28,6 @@ export constexpr pf operator|(pf l, pf r)
     return pf(std::to_underlying(l) | std::to_underlying(r));
 }
 
-// TODO: add test, for the sake of completeness
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 constexpr unsigned int to_uint(pf flags)
 {

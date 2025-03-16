@@ -18,6 +18,12 @@ TEST_CASE("pf_test")
         constexpr auto result = pf::parse_argv0 | pf::long_only;
         CHECK(result == pf(0x41));
     }
+
+    SECTION("to_uint")
+    {
+        constexpr auto result = to_uint(pf::silent);
+        CHECK(result == 0x32);
+    }
 }
 
 }
