@@ -4,6 +4,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <limits>
 #include <optional>
 #include <vector>
 
@@ -12,6 +13,7 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+using argpppp::need_long_name;
 using argpppp::of;
 using argpppp::option;
 using argpppp::optional_string;
@@ -43,12 +45,23 @@ TEST_CASE("option_test")
 
     SECTION("constructor throws if a long name is required but not given")
     {
-        CHECK(option({}, 0).name().has_value() == false);
         CHECK(option({}, 'x').name().has_value() == false);
         CHECK_THROWS_MATCHES(
             option({}, 256),
             std::invalid_argument,
             Catch::Matchers::Message("option without printable short name needs a long name"));
+    }
+
+    SECTION("need_long_name")
+    {
+        CHECK(need_long_name(std::numeric_limits<int>::min()) == true);
+        CHECK(need_long_name(-1) == true);
+        CHECK(need_long_name(0) == false);
+        CHECK(need_long_name(1) == true);
+        CHECK(need_long_name('a') == false);
+        CHECK(need_long_name(255) == true);
+        CHECK(need_long_name(256) == true);
+        CHECK(need_long_name(std::numeric_limits<int>::max()) == true);
     }
 
     SECTION("to_argp_option")

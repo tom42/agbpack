@@ -40,8 +40,6 @@ option::option(const optional_string& name, int key, const optional_string& arg,
     }
 }
 
-// TODO: add more tests: properly test at boundaries of equivalence classes
-//       Note: once we've done that, the test that checks whether the ctor throws can be much simpler
 bool need_long_name(int key)
 {
     if (key == 0)
