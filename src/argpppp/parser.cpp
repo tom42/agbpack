@@ -100,7 +100,7 @@ error_t parser::parse_option(int key, char* arg, argp_state* state)
     if (callback != m_callbacks.end())
     {
         const auto callback_result = callback->second(arg);
-        return handle_option_callback_result(callback_result, state);
+        return handle_option_callback_result(callback_result, key, arg, state);
     }
 
     // TODO: apparently, state->name is the program name (read that up again! so, if we wanted we could probably set it here, and it'd always be correct, no?
@@ -126,7 +126,7 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 }
 
 // TODO: is this testworthy? => Sure is
-error_t parser::handle_option_callback_result(bool result, const argp_state* state)
+error_t parser::handle_option_callback_result(bool result, int /*key*/, char* /*arg*/, const argp_state * state)
 {
     // TODO: how should the error message look like?
     //       * well it should include the option name, and the invalid value.
@@ -144,7 +144,11 @@ error_t parser::handle_option_callback_result(bool result, const argp_state* sta
         //       * Unfortunately we have neither
         //       * Well we could make key and arg arguments of this function, and make this function a member function
         //         * Why a member function? Because we have then access to the options array where we can find the option by key
-        // TODO: probably want to be able to replace this with some sort of test double for unit testing
+        // TODO: probably want to be able to replace this (this probably being argp_failure) with some sort of test double for unit testing
+
+        // TODO: OK: using the key, find the option. It should be present, so we can throw a logic error or something if it is not there
+        // TODO: OK, part 2: using the option and the argument, format a default message and pass that to argp_failure
+        //       Ugh: what if arg is missing because it is not required or optional?
         argp_failure(state, EXIT_FAILURE, 0, "meh");
         return EINVAL;
     }

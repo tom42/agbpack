@@ -42,7 +42,7 @@ public:
 private:
     error_t parse_option(int key, char *arg, argp_state *state);
     static error_t parse_option_static(int key, char *arg, argp_state *state);
-    error_t handle_option_callback_result(bool result, const argp_state* state);
+    error_t handle_option_callback_result(bool result, int key, char* arg, const argp_state* state);
 
     optional_string m_args_doc;
     optional_string m_doc;
