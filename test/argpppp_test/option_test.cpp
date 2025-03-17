@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include <optional>
 #include <vector>
 
@@ -41,10 +43,12 @@ TEST_CASE("option_test")
 
     SECTION("constructor throws if a long name is required but not given")
     {
-        // TODO: missing long name, key = 0
-        // TODO: missing long name, but key is printable
-        // TODO: missing long name, key is not printable
-        FAIL("TODO: implement");
+        CHECK(option({}, 0).name().has_value() == false);
+        CHECK(option({}, 'x').name().has_value() == false);
+        CHECK_THROWS_MATCHES(
+            option({}, 256),
+            std::invalid_argument,
+            Catch::Matchers::Message("option without printable short name needs a long name"));
     }
 
     SECTION("to_argp_option")
