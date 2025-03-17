@@ -24,7 +24,24 @@ bool in_closed_range(T x, T min, T max)
     return (min <= x) && (x <= max);
 }
 
-// TODO: in principle this could do with some more testing
+}
+
+option::option(const optional_string& name, int key, const optional_string& arg, of flags, const optional_string& doc, int group)
+    : m_name(name)
+    , m_key(key)
+    , m_arg(arg)
+    , m_flags(flags)
+    , m_doc(doc)
+    , m_group(group)
+{
+    if (need_long_name(key) && !m_name)
+    {
+        throw std::invalid_argument("option without printable short name needs a long name");
+    }
+}
+
+// TODO: add more tests: properly test at boundaries of equivalence classes
+//       Note: once we've done that, the test that checks whether the ctor throws can be much simpler
 bool need_long_name(int key)
 {
     if (key == 0)
@@ -42,22 +59,6 @@ bool need_long_name(int key)
 
     // Options whose key is not a printable character need a long name.
     return !isprint(key);
-}
-
-}
-
-option::option(const optional_string& name, int key, const optional_string& arg, of flags, const optional_string& doc, int group)
-    : m_name(name)
-    , m_key(key)
-    , m_arg(arg)
-    , m_flags(flags)
-    , m_doc(doc)
-    , m_group(group)
-{
-    if (need_long_name(key) && !m_name)
-    {
-        throw std::invalid_argument("option without printable short name needs a long name");
-    }
 }
 
 argp_option to_argp_option(const option& o)

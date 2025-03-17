@@ -43,6 +43,9 @@ private:
     int m_group;
 };
 
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
+bool need_long_name(int key);
+
 // Converts an option to an argp_option which can be passed to argp_parse.
 // Note that the option must not go out of scope while the argp_option is in use.
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
