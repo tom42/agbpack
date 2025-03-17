@@ -5,6 +5,7 @@ module;
 
 #include <algorithm>
 #include <iterator>
+#include <vector>
 
 module argpppp;
 
