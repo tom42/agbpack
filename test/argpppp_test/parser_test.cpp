@@ -65,7 +65,7 @@ TEST_CASE("parser_test")
     {
         CHECK_THROWS_MATCHES(
             add_option(parser, { "This is a documentation option", {}, {}, of::doc }, [](auto){ return true; } ),
-            std::logic_error,
+            std::invalid_argument,
             Catch::Matchers::Message("add_option: special options with key = 0 must not have callbacks"));
     }
 
@@ -73,7 +73,7 @@ TEST_CASE("parser_test")
     {
         CHECK_THROWS_MATCHES(
             add_option(parser, { {}, 'a' }, {}),
-            std::logic_error,
+            std::invalid_argument,
             Catch::Matchers::Message("add_option: option must have a callback"));
     }
 

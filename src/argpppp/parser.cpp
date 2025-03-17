@@ -80,7 +80,7 @@ void parser::add_option(const option& o, const option_callback& c)
     {
         if (c)
         {
-            throw std::logic_error("add_option: special options with key = 0 must not have callbacks");
+            throw std::invalid_argument("add_option: special options with key = 0 must not have callbacks");
         }
     }
     else
@@ -89,7 +89,7 @@ void parser::add_option(const option& o, const option_callback& c)
         //       Yes, but should not be tested here but in option ctor: if the key is != 0 but not printable, then a long name is required
         if (!c)
         {
-            throw std::logic_error("add_option: option must have a callback");
+            throw std::invalid_argument("add_option: option must have a callback");
         }
         m_callbacks[o.key()] = c;
     }
