@@ -48,7 +48,6 @@ private:
 // TODO: is this testworthy? => Sure is
 error_t handle_option_callback_result(bool result, const argp_state* state)
 {
-    // TODO: print error message using argp_error/argp_failure if return value is false.
     // TODO: how should the error message look like?
     //       * well it should include the option name, and the invalid value.
     //       * Problem: the option short name may be missing. So we have to print the long name in this case
@@ -59,7 +58,12 @@ error_t handle_option_callback_result(bool result, const argp_state* state)
     }
     else
     {
-        // TODO: format a default error message
+        // TODO: format a default error message. For this we need:
+        //       * The option
+        //       * The argument
+        //       * Unfortunately we have neither
+        //       * Well we could make key and arg arguments of this function, and make this function a member function
+        //         * Why a member function? Because we have then access to the options array where we can find the option by key
         // TODO: probably want to be able to replace this with some sort of test double for unit testing
         argp_failure(state, EXIT_FAILURE, 0, "meh");
         return EINVAL;
@@ -82,6 +86,7 @@ void parser::add_option(const option& o, const option_callback& c)
     else
     {
         // TODO: verify that if the option has a non-printable key it has a long name? (This IS a requirement, isn't it?)
+        //       Yes, but should not be tested here but in option ctor: if the key is != 0 but not printable, then a long name is required
         if (!c)
         {
             throw std::logic_error("add_option: option must have a callback");
@@ -124,6 +129,7 @@ error_t parser::parse_option(int key, char* arg, argp_state* state)
     }
 
     // TODO: apparently, state->name is the program name (read that up again! so, if we wanted we could probably set it here, and it'd always be correct, no?
+    //       ugh...not sure...would it also be correct for builtin options such as --help or --version?
     // TODO: there is no callback. So here goes now the idiomatic argp_parse switch on key.
     return ARGP_ERR_UNKNOWN;
 }
