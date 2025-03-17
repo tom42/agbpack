@@ -45,31 +45,6 @@ private:
     std::exception_ptr m_exception;
 };
 
-// TODO: is this testworthy? => Sure is
-error_t handle_option_callback_result(bool result, const argp_state* state)
-{
-    // TODO: how should the error message look like?
-    //       * well it should include the option name, and the invalid value.
-    //       * Problem: the option short name may be missing. So we have to print the long name in this case
-    // TODO: if the callback supplied an error rather than a boolean, then the error should be printed instead
-    if (result)
-    {
-        return 0;
-    }
-    else
-    {
-        // TODO: format a default error message. For this we need:
-        //       * The option
-        //       * The argument
-        //       * Unfortunately we have neither
-        //       * Well we could make key and arg arguments of this function, and make this function a member function
-        //         * Why a member function? Because we have then access to the options array where we can find the option by key
-        // TODO: probably want to be able to replace this with some sort of test double for unit testing
-        argp_failure(state, EXIT_FAILURE, 0, "meh");
-        return EINVAL;
-    }
-}
-
 }
 
 void parser::add_option(const option& o, const option_callback& c)
@@ -146,6 +121,31 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
         // Do not let exception escape into argp, which is written in C.
         // Instead, pass exception to calling C++ code through argpppp_context instance.
         context->set_exception(std::current_exception());
+        return EINVAL;
+    }
+}
+
+// TODO: is this testworthy? => Sure is
+error_t parser::handle_option_callback_result(bool result, const argp_state* state)
+{
+    // TODO: how should the error message look like?
+    //       * well it should include the option name, and the invalid value.
+    //       * Problem: the option short name may be missing. So we have to print the long name in this case
+    // TODO: if the callback supplied an error rather than a boolean, then the error should be printed instead
+    if (result)
+    {
+        return 0;
+    }
+    else
+    {
+        // TODO: format a default error message. For this we need:
+        //       * The option
+        //       * The argument
+        //       * Unfortunately we have neither
+        //       * Well we could make key and arg arguments of this function, and make this function a member function
+        //         * Why a member function? Because we have then access to the options array where we can find the option by key
+        // TODO: probably want to be able to replace this with some sort of test double for unit testing
+        argp_failure(state, EXIT_FAILURE, 0, "meh");
         return EINVAL;
     }
 }
