@@ -4,6 +4,7 @@
 module;
 
 #include <algorithm>
+#include <argp.h>
 #include <iterator>
 #include <vector>
 
