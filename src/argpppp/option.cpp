@@ -13,6 +13,17 @@ module argpppp;
 namespace argpppp
 {
 
+namespace
+{
+
+bool need_long_name(int /*key*/)
+{
+    // TODO: real implementation
+    return false;
+}
+
+}
+
 option::option(const optional_string& name, int key, const optional_string& arg, of flags, const optional_string& doc, int group)
     : m_name(name)
     , m_key(key)
@@ -20,7 +31,12 @@ option::option(const optional_string& name, int key, const optional_string& arg,
     , m_flags(flags)
     , m_doc(doc)
     , m_group(group)
-{}
+{
+    if (need_long_name(key) && !m_name)
+    {
+        // TODO: throw exception
+    }
+}
 
 argp_option to_argp_option(const option& o)
 {

@@ -39,6 +39,14 @@ TEST_CASE("option_test")
         CHECK(opt.group() == 0);
     }
 
+    SECTION("constructor throws if a long name is required but not given")
+    {
+        // TODO: missing long name, key = 0
+        // TODO: missing long name, but key is printable
+        // TODO: missing long name, key is not printable
+        FAIL("TODO: implement");
+    }
+
     SECTION("to_argp_option")
     {
         const option opt("name", 'n', "arg", of::arg_optional, "doc", 123);
