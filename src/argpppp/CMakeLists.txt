@@ -12,6 +12,7 @@ set(
   pf.cppm
   PRIVATE
   argpppp.cpp
+  option.cpp
   parser.cpp)
 
 # Production version of argpppp
