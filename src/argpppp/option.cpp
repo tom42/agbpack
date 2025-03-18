@@ -6,6 +6,7 @@ module;
 #include <algorithm>
 #include <argp.h>
 #include <climits>
+#include <format>
 #include <iterator>
 #include <stdexcept>
 #include <vector>
@@ -56,6 +57,26 @@ bool need_long_name(int key)
     }
 
     return !is_printable_key(key);
+}
+
+std::string get_names(const option& o)
+{
+    if (is_printable_key(o.key()) && o.name())
+    {
+        return std::format("'-{:c}' / '--{}'", o.key(), *o.name());
+    }
+
+    if (is_printable_key(o.key()))
+    {
+        return std::format("'-{:c}'", o.key());
+    }
+
+    if (o.name())
+    {
+        return std::format("'--{}'", *o.name());
+    }
+
+    throw std::invalid_argument("get_names: option has no name");
 }
 
 argp_option to_argp_option(const option& o)

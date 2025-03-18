@@ -72,6 +72,17 @@ TEST_CASE("option_test")
         CHECK(need_long_name('a') == false);
     }
 
+    SECTION("get_names")
+    {
+        CHECK(get_names(option({}, 's')) == "'-s'");
+        CHECK(get_names(option("long-name")) == "'--long-name'");
+        CHECK(get_names(option("long-name", 's')) == "'-s' / '--long-name'");
+        CHECK_THROWS_MATCHES(
+            get_names(option()),
+            std::invalid_argument,
+            Catch::Matchers::Message("get_names: option has no name"));
+    }
+
     SECTION("to_argp_option")
     {
         const option opt("name", 'n', "arg", of::arg_optional, "doc", 123);

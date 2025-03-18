@@ -49,6 +49,9 @@ bool is_printable_key(int key);
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 bool need_long_name(int key);
 
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
+std::string get_names(const option& o);
+
 // Converts an option to an argp_option which can be passed to argp_parse.
 // Note that the option must not go out of scope while the argp_option is in use.
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
