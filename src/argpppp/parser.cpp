@@ -7,6 +7,7 @@ module;
 #include <exception>
 #include <iterator>
 #include <ranges>
+#include <vector>
 #include <stdexcept>
 
 module argpppp;
