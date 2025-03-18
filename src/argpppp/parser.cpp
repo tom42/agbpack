@@ -10,7 +10,6 @@ module;
 #include <stdexcept>
 
 module argpppp;
-// TODO: do I need to import other module partitions here? Like :optional_string or :option?
 import :pf;
 
 namespace argpppp
