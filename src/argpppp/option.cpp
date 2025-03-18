@@ -47,7 +47,6 @@ bool is_printable_key(int key)
     return in_closed_range(key, 0, UCHAR_MAX) && isprint(key);
 }
 
-// TODO: simplify unit test
 bool need_long_name(int key)
 {
     if (key == 0)

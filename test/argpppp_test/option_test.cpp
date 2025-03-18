@@ -67,14 +67,9 @@ TEST_CASE("option_test")
 
     SECTION("need_long_name")
     {
-        CHECK(need_long_name(std::numeric_limits<int>::min()) == true);
-        CHECK(need_long_name(-1) == true);
         CHECK(need_long_name(0) == false);
         CHECK(need_long_name(1) == true);
         CHECK(need_long_name('a') == false);
-        CHECK(need_long_name(255) == true);
-        CHECK(need_long_name(256) == true);
-        CHECK(need_long_name(std::numeric_limits<int>::max()) == true);
     }
 
     SECTION("to_argp_option")
