@@ -44,6 +44,9 @@ private:
 };
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
+bool is_printable_key(int key);
+
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
 bool need_long_name(int key);
 
 // Converts an option to an argp_option which can be passed to argp_parse.

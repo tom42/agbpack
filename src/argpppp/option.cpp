@@ -40,6 +40,15 @@ option::option(const optional_string& name, int key, const optional_string& arg,
     }
 }
 
+// TODO: unit test
+bool is_printable_key(int key)
+{
+    // key may be outside the range [0, 255].
+    // Except for EOF, isprint is not defined for values outside [0, 255].
+    return in_closed_range(key, 0, UCHAR_MAX) && isprint(key);
+}
+
+// TODO: simplify unit test
 bool need_long_name(int key)
 {
     if (key == 0)
@@ -48,15 +57,7 @@ bool need_long_name(int key)
         return false;
     }
 
-    if (!in_closed_range(key, 0, UCHAR_MAX))
-    {
-        // Return value of isprint is undefined in this range, so we need to filter it out first.
-        // Keys in this range are not printable, so a long name is needed.
-        return true;
-    }
-
-    // Options whose key is not a printable character need a long name.
-    return !isprint(key);
+    return !is_printable_key(key);
 }
 
 argp_option to_argp_option(const option& o)
