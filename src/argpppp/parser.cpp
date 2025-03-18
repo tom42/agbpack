@@ -45,6 +45,16 @@ private:
     std::exception_ptr m_exception;
 };
 
+auto find_option_or_throw(const std::vector<option>& options, int key)
+{
+    auto opt = std::ranges::find_if(options, [=](const option& o) { return o.key() == key; });
+    if (opt == options.end())
+    {
+        // TODO: option not found: throw
+    }
+    return opt;
+}
+
 }
 
 void parser::add_option(const option& o, const option_callback& c)
@@ -151,11 +161,7 @@ error_t parser::handle_option_callback_result(bool result, int key, char* arg, c
         // TODO: find option by key. How to do this?
         // TODO: handle case of option not found (some internal error?)
         // TODO: what is the return value of std::ranges::find? => An iterator, apparently.
-        auto opt = std::ranges::find_if(m_options, [=](const option& o){ return o.key() == key; });
-        if (opt == m_options.end())
-        {
-            // TODO: option not found: throw
-        }
+        auto opt = find_option_or_throw(m_options, key);
 
         // TODO: number of problems here:
         //       * arg may be null
