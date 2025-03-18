@@ -51,7 +51,7 @@ auto find_option_or_throw(const std::vector<option>& options, int key)
     auto opt = std::ranges::find_if(options, [=](const option& o) { return o.key() == key; });
     if (opt == options.end())
     {
-        // TODO: option not found: throw
+        throw std::logic_error("find_option_or_throw: option not found");
     }
     return opt;
 }
@@ -155,13 +155,9 @@ error_t parser::handle_option_callback_result(bool result, int key, char* arg, c
         //         * Why a member function? Because we have then access to the options array where we can find the option by key
         // TODO: probably want to be able to replace this (this probably being argp_failure) with some sort of test double for unit testing
 
-        // TODO: OK: using the key, find the option. It should be present, so we can throw a logic error or something if it is not there
         // TODO: OK, part 2: using the option and the argument, format a default message and pass that to argp_failure
         //       Ugh: what if arg is missing because it is not required or optional?
 
-        // TODO: find option by key. How to do this?
-        // TODO: handle case of option not found (some internal error?)
-        // TODO: what is the return value of std::ranges::find? => An iterator, apparently.
         auto opt = find_option_or_throw(m_options, key);
 
         // TODO: number of problems here:
