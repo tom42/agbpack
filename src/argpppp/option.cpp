@@ -40,11 +40,10 @@ option::option(const optional_string& name, int key, const optional_string& arg,
     }
 }
 
-// TODO: unit test
 bool is_printable_key(int key)
 {
     // key may be outside the range [0, 255].
-    // Except for EOF, isprint is not defined for values outside [0, 255].
+    // Except for EOF, isprint is not defined for values outside this range.
     return in_closed_range(key, 0, UCHAR_MAX) && isprint(key);
 }
 
