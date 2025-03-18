@@ -6,6 +6,7 @@ module;
 #include <argp.h>
 #include <exception>
 #include <iterator>
+#include <ranges>
 #include <stdexcept>
 
 module argpppp;
@@ -147,6 +148,12 @@ error_t parser::handle_option_callback_result(bool result, int /*key*/, char* /*
         // TODO: OK: using the key, find the option. It should be present, so we can throw a logic error or something if it is not there
         // TODO: OK, part 2: using the option and the argument, format a default message and pass that to argp_failure
         //       Ugh: what if arg is missing because it is not required or optional?
+
+        // TODO: find option by key. How to do this?
+        // TODO: handle case of option not found (some internal error?)
+        // TODO: what is the return value of std::ranges::find?
+        std::ranges::find();
+
         argp_failure(state, EXIT_FAILURE, 0, "meh");
         return EINVAL;
     }
