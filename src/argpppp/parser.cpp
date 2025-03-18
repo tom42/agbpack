@@ -60,8 +60,6 @@ void parser::add_option(const option& o, const option_callback& c)
     }
     else
     {
-        // TODO: verify that if the option has a non-printable key it has a long name? (This IS a requirement, isn't it?)
-        //       Yes, but should not be tested here but in option ctor: if the key is != 0 but not printable, then a long name is required
         if (!c)
         {
             throw std::invalid_argument("add_option: option must have a callback");
