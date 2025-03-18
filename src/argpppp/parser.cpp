@@ -125,7 +125,7 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 }
 
 // TODO: is this testworthy? => Sure is
-error_t parser::handle_option_callback_result(bool result, int /*key*/, char* /*arg*/, const argp_state * state)
+error_t parser::handle_option_callback_result(bool result, int key, char* arg, const argp_state * state)
 {
     // TODO: how should the error message look like?
     //       * well it should include the option name, and the invalid value.
@@ -151,10 +151,23 @@ error_t parser::handle_option_callback_result(bool result, int /*key*/, char* /*
 
         // TODO: find option by key. How to do this?
         // TODO: handle case of option not found (some internal error?)
-        // TODO: what is the return value of std::ranges::find?
-        std::ranges::find();
+        // TODO: what is the return value of std::ranges::find? => An iterator, apparently.
+        auto opt = std::ranges::find_if(m_options, [=](const option& o){ return o.key() == key; });
+        if (opt == m_options.end())
+        {
+            // TODO: option not found: throw
+        }
 
-        argp_failure(state, EXIT_FAILURE, 0, "meh");
+        // TODO: number of problems here:
+        //       * arg may be null
+        //         * It may be optional and was not given (but is it then null or empty? Need to check with a real argp_parser I guess)
+        //           * We may have a switch which never gets an argument. In this case we might want want to use a different message
+        //         * The option key may not be printable
+        //         * The option name may not be given
+        //         * Obviously we want a way to get the option name(s) as a string
+        //           * This is going to be tested
+        // TODO: we really ought to have some hook to capture argp_failure output
+        argp_failure(state, EXIT_FAILURE, 0, "invalid argument '%s' for option '-%c'", arg, opt->key());
         return EINVAL;
     }
 }
