@@ -83,6 +83,15 @@ TEST_CASE("option_test")
             Catch::Matchers::Message("get_names: option has no name"));
     }
 
+    SECTION("get_default_error_message")
+    {
+        // TODO: tests:
+        //       * Argument is 0
+        //       * Option with optional argument: no special case for the moment I guess
+        //       * Option without argument (other test?)
+        CHECK(get_default_error_message(option({}, 'x'), "foo") == "invalid argument 'foo' for option '-x'");
+    }
+
     SECTION("to_argp_option")
     {
         const option opt("name", 'n', "arg", of::arg_optional, "doc", 123);

@@ -79,12 +79,12 @@ std::string get_names(const option& o)
     throw std::invalid_argument("get_names: option has no name");
 }
 
-std::string get_default_error_message(const option& /*o*/, const char* /*arg*/)
+std::string get_default_error_message(const option& o, const char* arg)
 {
     // TODO: implement, TEST
     //       * For options with arguments: ignore the fact that there are options with optional arguments. Just keep in mind: arg may be 0
     //       * For options without arguments: have a special error message
-    return "meh: %s";
+    return std::format("invalid argument '{}' for option {}", arg, get_names(o));
 }
 
 argp_option to_argp_option(const option& o)
