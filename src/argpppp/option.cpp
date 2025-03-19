@@ -84,6 +84,11 @@ std::string get_default_error_message(const option& o, const char* arg)
     // TODO: implement, TEST
     //       * For options with arguments: ignore the fact that there are options with optional arguments. Just keep in mind: arg may be 0
     //       * For options without arguments: have a special error message
+    if (!arg)
+    {
+        arg = "";
+    }
+
     return std::format("invalid argument '{}' for option {}", arg, get_names(o));
 }
 
