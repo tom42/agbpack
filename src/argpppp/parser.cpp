@@ -165,7 +165,10 @@ error_t parser::handle_option_callback_result(bool result, int key, char* arg, c
         //         * It may be optional and was not given (but is it then null or empty? Need to check with a real argp_parser I guess)
         //           * We may have a switch which never gets an argument. In this case we might want want to use a different message
         // TODO: we really ought to have some hook to capture argp_failure output
-        argp_failure(state, EXIT_FAILURE, 0, "invalid argument '%s' for option %s", arg, get_names(*opt).c_str());
+        // TODO: re %s: we protect us from error messages returning strings with percent signs:
+        //              * Document?
+        //              * It certainly is testworthy, no?
+        argp_failure(state, EXIT_FAILURE, 0, "%s", get_default_error_message(*opt, arg).c_str());
         return EINVAL;
     }
 }
