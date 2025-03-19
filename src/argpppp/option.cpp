@@ -81,15 +81,21 @@ std::string get_names(const option& o)
 
 std::string get_default_error_message(const option& o, const char* arg)
 {
-    // TODO: implement, TEST
-    //       * For options with arguments: ignore the fact that there are options with optional arguments. Just keep in mind: arg may be 0
-    //       * For options without arguments: have a special error message
     if (!arg)
     {
         arg = "";
     }
 
-    return std::format("invalid argument '{}' for option {}", arg, get_names(o));
+    if (o.arg())
+    {
+        // This results in a somewhat silly message for an option with optional argument when the argument is not given.
+        // However, an option with optional argument that fails when the argument is not given is somewhat silly, too.
+        return std::format("invalid argument '{}' for option {}", arg, get_names(o));
+    }
+    else
+    {
+        return std::format("unexpected option {}", get_names(o));
+    }
 }
 
 argp_option to_argp_option(const option& o)
