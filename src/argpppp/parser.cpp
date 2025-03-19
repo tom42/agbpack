@@ -168,7 +168,8 @@ error_t parser::handle_option_callback_result(bool result, int key, char* arg, c
         // TODO: re %s: we protect us from error messages returning strings with percent signs:
         //              * Document?
         //              * It certainly is testworthy, no?
-        argp_failure(state, EXIT_FAILURE, 0, "%s", get_default_error_message(*opt, arg).c_str());
+        auto error_message = get_default_error_message(*opt, arg);
+        argp_failure(state, EXIT_FAILURE, 0, "%s", error_message.c_str());
         return EINVAL;
     }
 }
