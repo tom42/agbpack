@@ -135,11 +135,8 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 }
 
 // TODO: is this testworthy? => Sure is
-error_t parser::handle_option_callback_result(bool result, int key, char* arg, const argp_state * state)
+error_t parser::handle_option_callback_result(bool result, int key, char* arg, const argp_state* state)
 {
-    // TODO: how should the error message look like?
-    //       * well it should include the option name, and the invalid value.
-    //       * Problem: the option short name may be missing. So we have to print the long name in this case
     // TODO: if the callback supplied an error rather than a boolean, then the error should be printed instead
     if (result)
     {
@@ -147,23 +144,8 @@ error_t parser::handle_option_callback_result(bool result, int key, char* arg, c
     }
     else
     {
-        // TODO: format a default error message. For this we need:
-        //       * The option
-        //       * The argument
-        //       * Unfortunately we have neither
-        //       * Well we could make key and arg arguments of this function, and make this function a member function
-        //         * Why a member function? Because we have then access to the options array where we can find the option by key
-        // TODO: probably want to be able to replace this (this probably being argp_failure) with some sort of test double for unit testing
-
-        // TODO: OK, part 2: using the option and the argument, format a default message and pass that to argp_failure
-        //       Ugh: what if arg is missing because it is not required or optional?
-
         auto opt = find_option_or_throw(m_options, key);
 
-        // TODO: number of problems here:
-        //       * arg may be null
-        //         * It may be optional and was not given (but is it then null or empty? Need to check with a real argp_parser I guess)
-        //           * We may have a switch which never gets an argument. In this case we might want want to use a different message
         // TODO: we really ought to have some hook to capture argp_failure output
         // TODO: re %s: we protect us from error messages returning strings with percent signs:
         //              * Document?
