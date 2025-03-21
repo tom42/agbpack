@@ -114,6 +114,9 @@ error_t parser::parse_option(int key, char* arg, argp_state* state)
 
     // TODO: apparently, state->name is the program name (read that up again! so, if we wanted we could probably set it here, and it'd always be correct, no?
     //       ugh...not sure...would it also be correct for builtin options such as --help or --version?
+    //       * => No, actually that does not work. What works is modifying argv[0], but this brings along other problems:
+    //         For instance life time management of the buffer we set argv[0] to. If we want to do this then it's best to have main handle that.
+    //         We can, however, provide a way to do so, no?
     // TODO: there is no callback. So here goes now the idiomatic argp_parse switch on key.
     return ARGP_ERR_UNKNOWN;
 }
