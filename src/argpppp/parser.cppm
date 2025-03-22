@@ -18,7 +18,8 @@ import :pf;
 namespace argpppp
 {
 
-export using option_callback = std::function<bool(char*)>;
+export using option_callback_result = bool;
+export using option_callback = std::function<option_callback_result(char*)>;
 
 // TODO: features
 //       * Does not terminate your application, unless you want it to
@@ -39,7 +40,7 @@ public:
 private:
     error_t parse_option(int key, char *arg, argp_state *state);
     static error_t parse_option_static(int key, char *arg, argp_state *state);
-    error_t handle_option_callback_result(bool result, int key, char* arg, const argp_state* state);
+    error_t handle_option_callback_result(const option_callback_result& result, int key, char* arg, const argp_state* state);
 
     optional_string m_args_doc;
     optional_string m_doc;

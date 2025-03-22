@@ -139,7 +139,7 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 }
 
 // TODO: is this testworthy? => Sure is
-error_t parser::handle_option_callback_result(bool result, int key, char* arg, const argp_state* state)
+error_t parser::handle_option_callback_result(const option_callback_result& result, int key, char* arg, const argp_state* state)
 {
     // TODO: if the callback supplied an error rather than a boolean, then the error should be printed instead
     if (result)
