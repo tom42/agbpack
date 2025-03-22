@@ -166,4 +166,10 @@ error_t parser::handle_option_callback_result_for_type(bool result, int key, cha
     }
 }
 
+error_t parser::handle_option_callback_result_for_type(const arg_error& /*error*/, int /*key*/, char* /*arg*/, const argp_state* /*state*/) const
+{
+    // TODO: implement, test: print error message using argp_failure
+    return EINVAL;
+}
+
 }

@@ -19,8 +19,11 @@ import :pf;
 namespace argpppp
 {
 
+// TODO: name?
+class arg_error final {};
+
 // TODO: add a way to supply an error. Probably want to have a class for this, not just a naked std::string
-export using option_callback_result = std::variant<bool>;
+export using option_callback_result = std::variant<bool, arg_error>;
 export using option_callback = std::function<option_callback_result(char*)>;
 
 // TODO: features
@@ -44,6 +47,7 @@ private:
     static error_t parse_option_static(int key, char *arg, argp_state *state);
     error_t handle_option_callback_result(const option_callback_result& result, int key, char* arg, const argp_state* state) const;
     error_t handle_option_callback_result_for_type(bool result, int key, char* arg, const argp_state* state) const;
+    error_t handle_option_callback_result_for_type(const arg_error& error, int key, char* arg, const argp_state* state) const;
 
     optional_string m_args_doc;
     optional_string m_doc;
