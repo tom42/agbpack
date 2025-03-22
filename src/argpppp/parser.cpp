@@ -139,10 +139,8 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
     }
 }
 
-// TODO: is this testworthy? => Sure is
 error_t parser::handle_option_callback_result(const option_callback_result& result, int key, char* arg, const argp_state* state) const
 {
-    // TODO: if the callback supplied an error rather than a boolean, then the error should be printed instead
     return std::visit([&](const auto& result) { return handle_option_callback_result_for_type(result, key, arg, state); }, result);
 }
 
@@ -155,20 +153,15 @@ error_t parser::handle_option_callback_result_for_type(bool result, int key, cha
     else
     {
         auto opt = find_option_or_throw(m_options, key);
-
-        // TODO: we really ought to have some hook to capture argp_failure output
-        // TODO: re %s: we protect us from error messages returning strings with percent signs:
-        //              * Document?
-        //              * It certainly is testworthy, no?
         auto error_message = get_default_error_message(*opt, arg);
         argp_failure(state, EXIT_FAILURE, 0, "%s", error_message.c_str());
         return EINVAL;
     }
 }
 
-error_t parser::handle_option_callback_result_for_type(const arg_error& /*error*/, int /*key*/, char* /*arg*/, const argp_state* /*state*/) const
+error_t parser::handle_option_callback_result_for_type(const arg_error& error, int, char*, const argp_state* state) const
 {
-    // TODO: implement, test: print error message using argp_failure
+    argp_failure(state, EXIT_FAILURE, 0, "%s", error.message().c_str());
     return EINVAL;
 }
 

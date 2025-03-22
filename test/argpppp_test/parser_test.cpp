@@ -16,6 +16,7 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+using argpppp::arg_error;
 using argpppp::of;
 using argpppp::parser;
 using argpppp::pf;
@@ -113,6 +114,19 @@ TEST_CASE("parser_test")
 
         add_option(parser, { {}, 'a' }, [&](auto){ a_seen = true; return false; });
         add_option(parser, { {}, 'b' }, [](auto)->bool{ throw std::runtime_error("This exception should not occur."); });
+
+        auto result = parse(parser, "-a -b");
+
+        CHECK(result == EINVAL);
+        CHECK(a_seen == true);
+    }
+
+    SECTION("Parsing should stop if an option callback returns arg_error")
+    {
+        bool a_seen = false;
+
+        add_option(parser, { {}, 'a' }, [&](auto) { a_seen = true; return arg_error("custom error message"); });
+        add_option(parser, { {}, 'b' }, [](auto)->bool { throw std::runtime_error("This exception should not occur."); });
 
         auto result = parse(parser, "-a -b");
 
