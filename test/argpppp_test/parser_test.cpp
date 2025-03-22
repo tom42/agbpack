@@ -4,6 +4,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <cerrno>
 #include <cstring>
 #include <functional>
 #include <ranges>
@@ -35,7 +36,7 @@ std::vector<char> make_arg(const char* s)
     return make_arg(s, s + strlen(s));
 }
 
-void parse(parser& parser, const std::string& command_line)
+auto parse(parser& parser, const std::string& command_line)
 {
     // 1) Build vector of zero terminated arguments.
     std::vector<std::vector<char>> args;
@@ -52,7 +53,7 @@ void parse(parser& parser, const std::string& command_line)
         argv.push_back(arg.data());
     }
 
-    parser.parse(static_cast<int>(argv.size()), argv.data(), pf::no_exit);
+    return parser.parse(static_cast<int>(argv.size()), argv.data(), pf::no_exit);
 }
 
 }
@@ -98,9 +99,9 @@ TEST_CASE("parser_test")
         add_option(parser, { {}, 'b' }, [&](auto){ return b_seen = true; });
         add_option(parser, { {}, 'c' }, [&](auto){ return c_seen = true; });
 
-        // TODO: what would be the return code of parse here?
-        parse(parser, "-c -a");
+        auto result = parse(parser, "-c -a");
 
+        CHECK(result == 0);
         CHECK(a_seen == true);
         CHECK(b_seen == false);
         CHECK(c_seen == true);
@@ -113,9 +114,9 @@ TEST_CASE("parser_test")
         add_option(parser, { {}, 'a' }, [&](auto){ a_seen = true; return false; });
         add_option(parser, { {}, 'b' }, [](auto)->bool{ throw std::runtime_error("This exception should not occur."); });
 
-        // TODO: what would be the return code of parse here?
-        parse(parser, "-a -b");
+        auto result = parse(parser, "-a -b");
 
+        CHECK(result == EINVAL);
         CHECK(a_seen == true);
     }
 }

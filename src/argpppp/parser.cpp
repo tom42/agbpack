@@ -89,7 +89,7 @@ void parser::doc(const optional_string& s)
     m_doc = s;
 }
 
-void parser::parse(int argc, char** argv, pf flags)
+int parser::parse(int argc, char** argv, pf flags)
 {
     constexpr const argp_child* children = nullptr;
     constexpr const auto help_filter = nullptr;
@@ -98,9 +98,10 @@ void parser::parse(int argc, char** argv, pf flags)
     const argp argp { argp_options.data(), parse_option_static, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
     argpppp_context context(this);
-    argp_parse(&argp, argc, argv, to_uint(flags), nullptr, &context);
+    auto result = argp_parse(&argp, argc, argv, to_uint(flags), nullptr, &context);
 
     context.rethrow_exception_if_any();
+    return result;
 }
 
 error_t parser::parse_option(int key, char* arg, argp_state* state)
