@@ -11,7 +11,6 @@ set(
   parser.cppm
   pf.cppm
   PRIVATE
-  argpppp.cpp
   option.cpp
   parser.cpp)
 
