@@ -141,7 +141,7 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 
 error_t parser::handle_option_callback_result(const option_callback_result& result, int key, char* arg, const argp_state* state) const
 {
-    return std::visit([&](const auto& result) { return handle_option_callback_result_for_type(result, key, arg, state); }, result);
+    return std::visit([&](const auto& r) { return handle_option_callback_result_for_type(r, key, arg, state); }, result);
 }
 
 error_t parser::handle_option_callback_result_for_type(bool result, int key, char* arg, const argp_state* state) const
