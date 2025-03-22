@@ -20,7 +20,6 @@ namespace argpppp
 
 export using option_callback = std::function<bool(char*)>;
 
-// TODO: this could use the program_name thing above too, no? (well do we DO want to have the program name thing at all?)
 // TODO: features
 //       * Does not terminate your application, unless you want it to
 // TODO: document (README.md): argpppp does resource management for you, e.g. doc()
