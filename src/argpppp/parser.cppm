@@ -19,6 +19,7 @@ import :pf;
 namespace argpppp
 {
 
+// TODO: add a way to supply an error. Probably want to have a class for this, not just a naked std::string
 export using option_callback_result = std::variant<bool>;
 export using option_callback = std::function<option_callback_result(char*)>;
 
