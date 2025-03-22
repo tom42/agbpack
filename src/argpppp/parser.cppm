@@ -7,6 +7,7 @@ module;
 #include <functional>
 #include <map>
 #include <string>
+#include <variant>
 #include <vector>
 
 export module argpppp:parser;
@@ -18,7 +19,7 @@ import :pf;
 namespace argpppp
 {
 
-export using option_callback_result = bool;
+export using option_callback_result = std::variant<bool>;
 export using option_callback = std::function<option_callback_result(char*)>;
 
 // TODO: features
@@ -35,12 +36,13 @@ public:
 
     // TODO: should we not start working on not exiting on error?
     //       => See what exactly we did in shrinkler-gba
-    int parse(int argc, char** argv, pf flags = pf::none);
+    int parse(int argc, char** argv, pf flags = pf::none) const;
 
 private:
-    error_t parse_option(int key, char *arg, argp_state *state);
+    error_t parse_option(int key, char *arg, argp_state *state) const;
     static error_t parse_option_static(int key, char *arg, argp_state *state);
-    error_t handle_option_callback_result(const option_callback_result& result, int key, char* arg, const argp_state* state);
+    error_t handle_option_callback_result(const option_callback_result& result, int key, char* arg, const argp_state* state) const;
+    error_t handle_option_callback_result_for_type(bool result, int key, char* arg, const argp_state* state) const;
 
     optional_string m_args_doc;
     optional_string m_doc;

@@ -7,6 +7,7 @@ module;
 #include <exception>
 #include <iterator>
 #include <ranges>
+#include <variant>
 #include <vector>
 #include <stdexcept>
 
@@ -27,9 +28,9 @@ public:
     argpppp_context(const argpppp_context&) = delete;
     argpppp_context& operator=(const argpppp_context&) = delete;
 
-    argpppp_context(parser* p) : m_parser(p) {}
+    argpppp_context(const parser* p) : m_parser(p) {}
 
-    parser* get_parser() { return m_parser; }
+    const parser* get_parser() { return m_parser; }
 
     void set_exception(std::exception_ptr e) { m_exception = e; }
 
@@ -42,7 +43,7 @@ public:
     }
 
 private:
-    parser* m_parser;
+    const parser* m_parser;
     std::exception_ptr m_exception;
 };
 
@@ -89,7 +90,7 @@ void parser::doc(const optional_string& s)
     m_doc = s;
 }
 
-int parser::parse(int argc, char** argv, pf flags)
+int parser::parse(int argc, char** argv, pf flags) const
 {
     constexpr const argp_child* children = nullptr;
     constexpr const auto help_filter = nullptr;
@@ -104,7 +105,7 @@ int parser::parse(int argc, char** argv, pf flags)
     return result;
 }
 
-error_t parser::parse_option(int key, char* arg, argp_state* state)
+error_t parser::parse_option(int key, char* arg, argp_state* state) const
 {
     auto callback = m_callbacks.find(key);
     if (callback != m_callbacks.end())
@@ -139,9 +140,14 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
 }
 
 // TODO: is this testworthy? => Sure is
-error_t parser::handle_option_callback_result(const option_callback_result& result, int key, char* arg, const argp_state* state)
+error_t parser::handle_option_callback_result(const option_callback_result& result, int key, char* arg, const argp_state* state) const
 {
     // TODO: if the callback supplied an error rather than a boolean, then the error should be printed instead
+    return std::visit([&](const auto& result) { return handle_option_callback_result_for_type(result, key, arg, state); }, result);
+}
+
+error_t parser::handle_option_callback_result_for_type(bool result, int key, char* arg, const argp_state* state) const
+{
     if (result)
     {
         return 0;
