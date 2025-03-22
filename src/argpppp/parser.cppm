@@ -20,7 +20,13 @@ namespace argpppp
 {
 
 // TODO: name?
-export class arg_error final {};
+export class arg_error final
+{
+public:
+    explicit arg_error(const std::string& message) : m_message(message) {}
+private:
+    std::string m_message;
+};
 
 // TODO: add a way to supply an error. Probably want to have a class for this, not just a naked std::string
 export using option_callback_result = std::variant<bool, arg_error>;
