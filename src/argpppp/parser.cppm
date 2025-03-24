@@ -34,8 +34,6 @@ export using option_callback = std::function<option_callback_result(char*)>;
 
 export using failure_callback = std::function<void(int, const std::string&)>;
 
-// TODO: features
-//       * Does not terminate your application, unless you want it to
 // TODO: document (README.md): argpppp does resource management for you, e.g. doc()
 export class parser final
 {
@@ -48,8 +46,6 @@ public:
 
     void set_failure_callback(const failure_callback& c);
 
-    // TODO: should we not start working on not exiting on error?
-    //       => See what exactly we did in shrinkler-gba
     int parse(int argc, char** argv, pf flags = pf::none) const;
 
 private:
