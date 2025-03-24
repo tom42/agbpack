@@ -80,12 +80,12 @@ void parser::add_option(const option& o, const option_callback& c)
     }
 }
 
-void parser::args_doc(const optional_string& s)
+void parser::set_args_doc(const optional_string& s)
 {
     m_args_doc = s;
 }
 
-void parser::doc(const optional_string& s)
+void parser::set_doc(const optional_string& s)
 {
     m_doc = s;
 }

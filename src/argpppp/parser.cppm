@@ -42,11 +42,10 @@ export class parser final
 public:
     void add_option(const option& o, const option_callback& c);
 
-    void args_doc(const optional_string& s);
+    void set_args_doc(const optional_string& s);
 
-    void doc(const optional_string& s);
+    void set_doc(const optional_string& s);
 
-    // TODO: rename args_doc/doc above to set_xxx to be in line with this?
     void set_failure_callback(const failure_callback& c);
 
     // TODO: should we not start working on not exiting on error?

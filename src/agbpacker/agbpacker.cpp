@@ -56,8 +56,8 @@ options parse_command_line(int argc, char** argv)
     // TODO: do we also expect the compression method for decompression? (Would be simpler, but also rather silly, no?)
     // TODO: enforce that there are exactly two arguments
     argpppp::parser parser;
-    parser.doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack");
-    parser.args_doc("<input> <output>");
+    parser.set_doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack");
+    parser.set_args_doc("<input> <output>");
     add_option(parser, { "compress", 'c', {}, {}, "Files are compressed by default" }, [&options](auto){ options.mode = program_mode::compress; return true; });
     add_option(parser, { "decompress", 'd' }, [&options](auto){ options.mode = program_mode::decompress; return true; });
     add_option(parser, { "method", 'm', "method", {}, "Compression method, default is LZSS" }, [](auto){ return true; });
