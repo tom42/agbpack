@@ -32,6 +32,8 @@ private:
 export using option_callback_result = std::variant<bool, arg_error>;
 export using option_callback = std::function<option_callback_result(char*)>;
 
+export using failure_callback = std::function<void(int, const std::string&)>;
+
 // TODO: features
 //       * Does not terminate your application, unless you want it to
 // TODO: document (README.md): argpppp does resource management for you, e.g. doc()
@@ -44,6 +46,10 @@ public:
 
     void doc(const optional_string& s);
 
+    // TODO: rename args_doc/doc above to set_xxx to be in line with this?
+    // TODO: implement, use, test
+    void set_failure_callback(const failure_callback& c);
+
     // TODO: should we not start working on not exiting on error?
     //       => See what exactly we did in shrinkler-gba
     int parse(int argc, char** argv, pf flags = pf::none) const;
@@ -51,14 +57,18 @@ public:
 private:
     error_t parse_option(int key, char *arg, argp_state *state) const;
     static error_t parse_option_static(int key, char *arg, argp_state *state);
+
     error_t handle_option_callback_result(const option_callback_result& result, int key, char* arg, const argp_state* state) const;
     error_t handle_option_callback_result_for_type(bool result, int key, char* arg, const argp_state* state) const;
     error_t handle_option_callback_result_for_type(const arg_error& error, int key, char* arg, const argp_state* state) const;
+
+    void report_failure(const argp_state* state, int status, int errnum, const std::string& message) const;
 
     optional_string m_args_doc;
     optional_string m_doc;
     std::vector<option> m_options;
     std::map<int, option_callback> m_callbacks;
+    failure_callback m_failure_callback; // TODO: initialize with default
 };
 
 export inline void add_option(parser& p, const option& o, const option_callback& c)

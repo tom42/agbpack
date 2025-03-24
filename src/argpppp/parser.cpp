@@ -154,15 +154,27 @@ error_t parser::handle_option_callback_result_for_type(bool result, int key, cha
     {
         auto opt = find_option_or_throw(m_options, key);
         auto error_message = get_default_error_message(*opt, arg);
-        argp_failure(state, EXIT_FAILURE, 0, "%s", error_message.c_str());
+        report_failure(state, EXIT_FAILURE, 0, error_message);
         return EINVAL;
     }
 }
 
 error_t parser::handle_option_callback_result_for_type(const arg_error& error, int, char*, const argp_state* state) const
 {
-    argp_failure(state, EXIT_FAILURE, 0, "%s", error.message().c_str());
+    report_failure(state, EXIT_FAILURE, 0, error.message());
     return EINVAL;
+}
+
+void parser::report_failure(const argp_state* state, int status, int errnum, const std::string& message) const
+{
+    if (m_failure_callback)
+    {
+        m_failure_callback(errnum, message);
+    }
+    else
+    {
+        argp_failure(state, status, errnum, "%s", message.c_str());
+    }
 }
 
 }
