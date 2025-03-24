@@ -119,13 +119,19 @@ error_t parser::parse_option(int key, char* arg, argp_state* state) const
         return handle_option_callback_result(callback_result, key, arg, state);
     }
 
+    switch (key)
+    {
+        case ARGP_KEY_ARG:
+            return handle_key_arg();
+        default:
+            return ARGP_ERR_UNKNOWN;
+    }
+
     // TODO: apparently, state->name is the program name (read that up again! so, if we wanted we could probably set it here, and it'd always be correct, no?
     //       ugh...not sure...would it also be correct for builtin options such as --help or --version?
     //       * => No, actually that does not work. What works is modifying argv[0], but this brings along other problems:
     //         For instance life time management of the buffer we set argv[0] to. If we want to do this then it's best to have main handle that.
     //         We can, however, provide a way to do so, no?
-    // TODO: there is no callback. So here goes now the idiomatic argp_parse switch on key.
-    return ARGP_ERR_UNKNOWN;
 }
 
 error_t parser::parse_option_static(int key, char* arg, argp_state* state)
@@ -168,6 +174,16 @@ error_t parser::handle_option_callback_result_for_type(const arg_error& error, i
 {
     report_failure(state, EXIT_FAILURE, 0, error.message());
     return EINVAL;
+}
+
+error_t parser::handle_key_arg() const
+{
+    // TODO: implement this: tuck away the argument
+    // TODO: now there are two/three possibilites:
+    //       * We do not check argument count at all, so we return 0 here (all good)
+    //       * We do check argument count, so we either report 0 or report a failure and return EINVAL here
+    //       * We do check argument count, but not here. We do so when ARGP_KEY_END is encountered. Not sure which is better/correct
+    return ARGP_ERR_UNKNOWN;
 }
 
 void parser::report_failure(const argp_state* state, int status, int errnum, const std::string& message) const

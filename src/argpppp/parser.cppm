@@ -56,6 +56,8 @@ private:
     error_t handle_option_callback_result_for_type(bool result, int key, char* arg, const argp_state* state) const;
     error_t handle_option_callback_result_for_type(const arg_error& error, int key, char* arg, const argp_state* state) const;
 
+    error_t handle_key_arg() const;
+
     void report_failure(const argp_state* state, int status, int errnum, const std::string& message) const;
 
     optional_string m_args_doc;
