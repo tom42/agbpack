@@ -90,6 +90,11 @@ void parser::doc(const optional_string& s)
     m_doc = s;
 }
 
+void parser::set_failure_callback(const failure_callback& c)
+{
+    m_failure_callback = c;
+}
+
 int parser::parse(int argc, char** argv, pf flags) const
 {
     constexpr const argp_child* children = nullptr;

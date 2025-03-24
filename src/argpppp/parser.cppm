@@ -47,7 +47,6 @@ public:
     void doc(const optional_string& s);
 
     // TODO: rename args_doc/doc above to set_xxx to be in line with this?
-    // TODO: implement, use, test
     void set_failure_callback(const failure_callback& c);
 
     // TODO: should we not start working on not exiting on error?
@@ -68,7 +67,7 @@ private:
     optional_string m_doc;
     std::vector<option> m_options;
     std::map<int, option_callback> m_callbacks;
-    failure_callback m_failure_callback; // TODO: initialize with default
+    failure_callback m_failure_callback;
 };
 
 export inline void add_option(parser& p, const option& o, const option_callback& c)

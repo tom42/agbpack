@@ -9,6 +9,7 @@
 #include <functional>
 #include <ranges>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 import argpppp;
@@ -62,6 +63,8 @@ auto parse(parser& parser, const std::string& command_line)
 TEST_CASE("parser_test")
 {
     parser parser;
+    std::string failure_message;
+    parser.set_failure_callback([&failure_message](int, const std::string& msg) { failure_message += msg; });
 
     SECTION("add_option throws if an option with key = 0 has a callback")
     {
@@ -118,6 +121,7 @@ TEST_CASE("parser_test")
         auto result = parse(parser, "-a -b");
 
         CHECK(result == EINVAL);
+        CHECK(failure_message == "unexpected option '-a'");
         CHECK(a_seen == true);
     }
 
@@ -131,6 +135,7 @@ TEST_CASE("parser_test")
         auto result = parse(parser, "-a -b");
 
         CHECK(result == EINVAL);
+        CHECK(failure_message == "custom error message");
         CHECK(a_seen == true);
     }
 }
