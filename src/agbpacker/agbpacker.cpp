@@ -55,6 +55,7 @@ options parse_command_line(int argc, char** argv)
     //       => For this, argpppp actually should process the return value of the lambda!
     // TODO: do we also expect the compression method for decompression? (Would be simpler, but also rather silly, no?)
     // TODO: enforce that there are exactly two arguments
+    // TODO: there should be no method option. The method should be an argument of --compress. It could be optional, in which case we'd use LZSS.
     argpppp::parser parser;
     parser.set_doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack");
     parser.set_args_doc("<input> <output>");
