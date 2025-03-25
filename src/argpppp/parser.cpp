@@ -95,7 +95,7 @@ void parser::set_failure_callback(const failure_callback& c)
     m_failure_callback = c;
 }
 
-int parser::parse(int argc, char** argv, pf flags) const
+parse_result parser::parse(int argc, char** argv, pf flags) const
 {
     constexpr const argp_child* children = nullptr;
     constexpr const auto help_filter = nullptr;
@@ -104,10 +104,10 @@ int parser::parse(int argc, char** argv, pf flags) const
     const argp argp { argp_options.data(), parse_option_static, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
     argpppp_context context(this);
-    auto result = argp_parse(&argp, argc, argv, to_uint(flags), nullptr, &context);
+    auto errnum = argp_parse(&argp, argc, argv, to_uint(flags), nullptr, &context);
 
     context.rethrow_exception_if_any();
-    return result;
+    return parse_result(errnum);
 }
 
 error_t parser::parse_option(int key, char* arg, argp_state* state) const
@@ -183,7 +183,8 @@ error_t parser::handle_key_arg() const
     //       * We do not check argument count at all, so we return 0 here (all good)
     //       * We do check argument count, so we either report 0 or report a failure and return EINVAL here
     //       * We do check argument count, but not here. We do so when ARGP_KEY_END is encountered. Not sure which is better/correct
-    return ARGP_ERR_UNKNOWN;
+    //         * Well obviously we can check for minimum arg count only once we know there aren't more argument, which is when we get ARGP_KEY_END, so we should not check # of args *here*
+    return 0;
 }
 
 void parser::report_failure(const argp_state* state, int status, int errnum, const std::string& message) const

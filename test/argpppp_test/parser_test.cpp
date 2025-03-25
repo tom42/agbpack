@@ -21,6 +21,8 @@ using argpppp::arg_error;
 using argpppp::of;
 using argpppp::parser;
 using argpppp::pf;
+using string = std::string;
+using std::vector;
 
 namespace
 {
@@ -105,7 +107,7 @@ TEST_CASE("parser_test")
 
         auto result = parse(parser, "-c -a");
 
-        CHECK(result == 0);
+        CHECK(result.errnum() == 0);
         CHECK(failure_message == "");
         CHECK(a_seen == true);
         CHECK(b_seen == false);
@@ -121,7 +123,7 @@ TEST_CASE("parser_test")
 
         auto result = parse(parser, "-a -b");
 
-        CHECK(result == EINVAL);
+        CHECK(result.errnum() == EINVAL);
         CHECK(failure_message == "unexpected option '-a'");
         CHECK(a_seen == true);
     }
@@ -135,9 +137,18 @@ TEST_CASE("parser_test")
 
         auto result = parse(parser, "-a -b");
 
-        CHECK(result == EINVAL);
+        CHECK(result.errnum() == EINVAL);
         CHECK(failure_message == "custom error message");
         CHECK(a_seen == true);
+    }
+
+    SECTION("Unlimited number of arguments")
+    {
+        auto result = parse(parser, "arg1 arg2 arg3 arg4");
+
+        CHECK(result.errnum() == 0);
+        CHECK(result.args() == vector<string>{"arg1", "arg2", "arg3", "arg4"});
+        CHECK(failure_message == "");
     }
 }
 
