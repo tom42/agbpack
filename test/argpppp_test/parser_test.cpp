@@ -106,6 +106,7 @@ TEST_CASE("parser_test")
         auto result = parse(parser, "-c -a");
 
         CHECK(result == 0);
+        CHECK(failure_message == "");
         CHECK(a_seen == true);
         CHECK(b_seen == false);
         CHECK(c_seen == true);
