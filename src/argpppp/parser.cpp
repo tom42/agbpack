@@ -28,9 +28,14 @@ public:
     argpppp_context(const argpppp_context&) = delete;
     argpppp_context& operator=(const argpppp_context&) = delete;
 
-    argpppp_context(const parser* p) : m_parser(p) {}
+    argpppp_context(const parser* p, parse_result* r)
+        : m_parser(p)
+        , m_result(r)
+    {}
 
     const parser* get_parser() { return m_parser; }
+
+    parse_result* get_result() { return m_result; }
 
     void set_exception(std::exception_ptr e) { m_exception = e; }
 
@@ -44,6 +49,7 @@ public:
 
 private:
     const parser* m_parser;
+    parse_result* m_result;
     std::exception_ptr m_exception;
 };
 
@@ -103,11 +109,12 @@ parse_result parser::parse(int argc, char** argv, pf flags) const
     const auto argp_options = to_argp_options(m_options);
     const argp argp { argp_options.data(), parse_option_static, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
-    argpppp_context context(this);
-    auto errnum = argp_parse(&argp, argc, argv, to_uint(flags), nullptr, &context);
+    parse_result result;
+    argpppp_context context(this, &result);
+    result.errnum = argp_parse(&argp, argc, argv, to_uint(flags), nullptr, &context);
 
     context.rethrow_exception_if_any();
-    return parse_result(errnum);
+    return result;
 }
 
 error_t parser::parse_option(int key, char* arg, argp_state* state) const
@@ -122,7 +129,7 @@ error_t parser::parse_option(int key, char* arg, argp_state* state) const
     switch (key)
     {
         case ARGP_KEY_ARG:
-            return handle_key_arg();
+            return handle_key_arg(arg, state);
         default:
             return ARGP_ERR_UNKNOWN;
     }
@@ -176,14 +183,15 @@ error_t parser::handle_option_callback_result_for_type(const arg_error& error, i
     return EINVAL;
 }
 
-error_t parser::handle_key_arg() const
+error_t parser::handle_key_arg(char* arg, argp_state* state) const
 {
-    // TODO: implement this: tuck away the argument
     // TODO: now there are two/three possibilites:
     //       * We do not check argument count at all, so we return 0 here (all good)
     //       * We do check argument count, so we either report 0 or report a failure and return EINVAL here
     //       * We do check argument count, but not here. We do so when ARGP_KEY_END is encountered. Not sure which is better/correct
     //         * Well obviously we can check for minimum arg count only once we know there aren't more argument, which is when we get ARGP_KEY_END, so we should not check # of args *here*
+    argpppp_context* context = static_cast<argpppp_context*>(state->input); // TODO: we have this exact mantra already twice => factor out into a function
+    context->get_result()->args.push_back(arg);
     return 0;
 }
 
