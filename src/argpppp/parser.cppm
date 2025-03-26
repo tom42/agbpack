@@ -34,18 +34,10 @@ export using option_callback = std::function<option_callback_result(char*)>;
 
 export using failure_callback = std::function<void(int, const std::string&)>;
 
-export class parse_result final
+export struct parse_result final
 {
-public:
-    explicit parse_result(int errnum) : m_errnum(errnum) {}
-
-    int errnum() const { return m_errnum; }
-
-    const std::vector<std::string>& args() const { return m_args; }
-
-private:
-    int m_errnum;
-    std::vector<std::string> m_args;
+    int errnum = 0;
+    std::vector<std::string> args;
 };
 
 // TODO: document (README.md): argpppp does resource management for you, e.g. doc()
