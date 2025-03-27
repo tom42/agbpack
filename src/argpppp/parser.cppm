@@ -4,6 +4,7 @@
 module;
 
 #include <argp.h>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <string>
@@ -52,6 +53,8 @@ public:
 
     void set_failure_callback(const failure_callback& c);
 
+    void set_nargs(std::size_t nargs);
+
     parse_result parse(int argc, char** argv, pf flags = pf::none) const;
 
 private:
@@ -63,6 +66,7 @@ private:
     error_t handle_option_callback_result_for_type(const arg_error& error, int key, char* arg, const argp_state* state) const;
 
     error_t handle_key_arg(char* arg, argp_state* state) const;
+    error_t handle_key_end(char* arg, argp_state* state) const;
 
     void report_failure(const argp_state* state, int status, int errnum, const std::string& message) const;
 
@@ -71,6 +75,7 @@ private:
     std::vector<option> m_options;
     std::map<int, option_callback> m_callbacks;
     failure_callback m_failure_callback;
+    std::optional<std::size_t> m_nargs; // TODO: do we need to initialize this? (uh well, probably we should simply use a range formed by a minimum and maximum value or something)
 };
 
 export inline void add_option(parser& p, const option& o, const option_callback& c)

@@ -101,6 +101,11 @@ void parser::set_failure_callback(const failure_callback& c)
     m_failure_callback = c;
 }
 
+void parser::set_nargs(std::size_t nargs)
+{
+    m_nargs = nargs;
+}
+
 parse_result parser::parse(int argc, char** argv, pf flags) const
 {
     constexpr const argp_child* children = nullptr;
@@ -130,6 +135,8 @@ error_t parser::parse_option(int key, char* arg, argp_state* state) const
     {
         case ARGP_KEY_ARG:
             return handle_key_arg(arg, state);
+        case ARGP_KEY_END:
+            return handle_key_end(arg, state);
         default:
             return ARGP_ERR_UNKNOWN;
     }
@@ -192,6 +199,27 @@ error_t parser::handle_key_arg(char* arg, argp_state* state) const
     //         * Well obviously we can check for minimum arg count only once we know there aren't more argument, which is when we get ARGP_KEY_END, so we should not check # of args *here*
     argpppp_context* context = static_cast<argpppp_context*>(state->input); // TODO: we have this exact mantra already twice => factor out into a function
     context->get_result()->args.push_back(arg);
+    return 0;
+}
+
+error_t parser::handle_key_end(char* /*arg*/, argp_state* state) const
+{
+    // TODO: out of curiosity: what is the value of arg for the case of ARG_KEY_END?
+    argpppp_context* context = static_cast<argpppp_context*>(state->input); // TODO: we have this exact mantra already twice => factor out into a function
+    if (!m_nargs.has_value())
+    {
+        return 0;
+    }
+
+    if (context->get_result()->args.size() < *m_nargs)
+    {
+        report_failure(state, EXIT_FAILURE, 0, "too few arguments");
+        return EINVAL;
+    }
+
+    // TODO: also check whether there are too many arguments
+    // TODO: and then, while we're at it, make the thing take a *range* of arguments (that is, min and max args don't need to be the same value)
+
     return 0;
 }
 

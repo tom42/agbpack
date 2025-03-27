@@ -150,6 +150,17 @@ TEST_CASE("parser_test")
         CHECK(result.args == vector<string>{"arg1", "arg2", "arg3", "arg4"});
         CHECK(failure_message == "");
     }
+
+    SECTION("Too few arguments")
+    {
+        parser.set_nargs(2);
+
+        auto result = parse(parser, "x");
+
+        CHECK(result.errnum == EINVAL);
+        CHECK(result.args == vector<string>{"x"});
+        CHECK(failure_message == "too few arguments");
+    }
 }
 
 }
