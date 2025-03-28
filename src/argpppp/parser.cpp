@@ -23,8 +23,6 @@ namespace
 class argpppp_context final
 {
 public:
-    // Nothing really bad will happen if we allow copying, but we only need to
-    // route a context pointer through argp_parse, so we forbid copying.
     argpppp_context(const argpppp_context&) = delete;
     argpppp_context& operator=(const argpppp_context&) = delete;
 
