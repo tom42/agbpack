@@ -29,11 +29,11 @@ public:
     argpppp_context& operator=(const argpppp_context&) = delete;
 
     argpppp_context(const parser* p, parse_result* r)
-        : parser(p)
+        : this_parser(p)
         , result(r)
     {}
 
-    const parser* const parser; // TODO: why whould this be a pointer? => reference?
+    const parser* const this_parser; // TODO: why whould this be a pointer? => reference?
     parse_result* const result; // TODO: here too, why a pointer? => reference?
     std::exception_ptr exception;
 };
@@ -146,7 +146,7 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
     argpppp_context* context = static_cast<argpppp_context*>(state->input);
     try
     {
-        return context->parser->parse_option(key, arg, state);
+        return context->this_parser->parse_option(key, arg, state);
     }
     catch (...)
     {
