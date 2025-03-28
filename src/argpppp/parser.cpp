@@ -28,12 +28,12 @@ public:
     argpppp_context(const argpppp_context&) = delete;
     argpppp_context& operator=(const argpppp_context&) = delete;
 
-    argpppp_context(const parser* p, parse_result& r)
+    argpppp_context(const parser& p, parse_result& r)
         : this_parser(p)
         , result(r)
     {}
 
-    const parser* const this_parser; // TODO: why whould this be a pointer? => reference?
+    const parser& this_parser;
     parse_result& result;
     std::exception_ptr exception;
 };
@@ -107,8 +107,9 @@ parse_result parser::parse(int argc, char** argv, pf flags) const
     const auto argp_options = to_argp_options(m_options);
     const argp argp { argp_options.data(), parse_option_static, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
+    // TODO: why would we not make result a field of context?
     parse_result result;
-    argpppp_context context(this, result);
+    argpppp_context context(*this, result);
     result.errnum = argp_parse(&argp, argc, argv, to_uint(flags), nullptr, &context);
 
     rethrow_exception_if_any(context);
@@ -146,7 +147,7 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
     argpppp_context* context = static_cast<argpppp_context*>(state->input);
     try
     {
-        return context->this_parser->parse_option(key, arg, state);
+        return context->this_parser.parse_option(key, arg, state);
     }
     catch (...)
     {
