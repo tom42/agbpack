@@ -29,29 +29,22 @@ public:
     argpppp_context& operator=(const argpppp_context&) = delete;
 
     argpppp_context(const parser* p, parse_result* r)
-        : m_parser(p)
-        , m_result(r)
+        : parser(p)
+        , result(r)
     {}
 
-    const parser* get_parser() { return m_parser; }
-
-    parse_result* get_result() { return m_result; }
-
-    void set_exception(std::exception_ptr e) { m_exception = e; }
-
-    void rethrow_exception_if_any()
-    {
-        if (m_exception)
-        {
-            std::rethrow_exception(m_exception);
-        }
-    }
-
-private:
-    const parser* m_parser;
-    parse_result* m_result;
-    std::exception_ptr m_exception;
+    const parser* const parser; // TODO: why whould this be a pointer? => reference?
+    parse_result* const result; // TODO: here too, why a pointer? => reference?
+    std::exception_ptr exception;
 };
+
+void rethrow_exception_if_any(const argpppp_context& context)
+{
+    if (context.exception)
+    {
+        std::rethrow_exception(context.exception);
+    }
+}
 
 auto find_option_or_throw(const std::vector<option>& options, int key)
 {
@@ -118,7 +111,7 @@ parse_result parser::parse(int argc, char** argv, pf flags) const
     argpppp_context context(this, &result);
     result.errnum = argp_parse(&argp, argc, argv, to_uint(flags), nullptr, &context);
 
-    context.rethrow_exception_if_any();
+    rethrow_exception_if_any(context);
     return result;
 }
 
@@ -153,13 +146,13 @@ error_t parser::parse_option_static(int key, char* arg, argp_state* state)
     argpppp_context* context = static_cast<argpppp_context*>(state->input);
     try
     {
-        return context->get_parser()->parse_option(key, arg, state);
+        return context->parser->parse_option(key, arg, state);
     }
     catch (...)
     {
         // Do not let exception escape into argp, which is written in C.
         // Instead, pass exception to calling C++ code through argpppp_context instance.
-        context->set_exception(std::current_exception());
+        context->exception = std::current_exception();
         return EINVAL;
     }
 }
@@ -193,7 +186,7 @@ error_t parser::handle_option_callback_result_for_type(const arg_error& error, i
 error_t parser::handle_key_arg(char* arg, argp_state* state) const
 {
     argpppp_context* context = static_cast<argpppp_context*>(state->input); // TODO: we have this exact mantra already twice => factor out into a function
-    context->get_result()->args.push_back(arg);
+    context->result->args.push_back(arg);
     return 0;
 }
 
@@ -205,13 +198,13 @@ error_t parser::handle_key_end(argp_state* state) const
         return 0;
     }
 
-    if (context->get_result()->args.size() < *m_nargs)
+    if (context->result->args.size() < *m_nargs)
     {
         report_failure(state, EXIT_FAILURE, 0, "too few arguments");
         return EINVAL;
     }
 
-    if (context->get_result()->args.size() > *m_nargs)
+    if (context->result->args.size() > *m_nargs)
     {
         report_failure(state, EXIT_FAILURE, 0, "too many arguments");
         return EINVAL;

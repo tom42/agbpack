@@ -7,6 +7,7 @@ module;
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <optional> // TODO: remove once we replaced m_nargs with an interval
 #include <string>
 #include <variant>
 #include <vector>
