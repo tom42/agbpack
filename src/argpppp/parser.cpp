@@ -28,13 +28,13 @@ public:
     argpppp_context(const argpppp_context&) = delete;
     argpppp_context& operator=(const argpppp_context&) = delete;
 
-    argpppp_context(const parser* p, parse_result* r)
+    argpppp_context(const parser* p, parse_result& r)
         : this_parser(p)
         , result(r)
     {}
 
     const parser* const this_parser; // TODO: why whould this be a pointer? => reference?
-    parse_result* const result; // TODO: here too, why a pointer? => reference?
+    parse_result& result;
     std::exception_ptr exception;
 };
 
@@ -108,7 +108,7 @@ parse_result parser::parse(int argc, char** argv, pf flags) const
     const argp argp { argp_options.data(), parse_option_static, c_str(m_args_doc), c_str(m_doc), children, help_filter, argp_domain };
 
     parse_result result;
-    argpppp_context context(this, &result);
+    argpppp_context context(this, result);
     result.errnum = argp_parse(&argp, argc, argv, to_uint(flags), nullptr, &context);
 
     rethrow_exception_if_any(context);
@@ -186,7 +186,7 @@ error_t parser::handle_option_callback_result_for_type(const arg_error& error, i
 error_t parser::handle_key_arg(char* arg, argp_state* state) const
 {
     argpppp_context* context = static_cast<argpppp_context*>(state->input); // TODO: we have this exact mantra already twice => factor out into a function
-    context->result->args.push_back(arg);
+    context->result.args.push_back(arg);
     return 0;
 }
 
@@ -198,13 +198,13 @@ error_t parser::handle_key_end(argp_state* state) const
         return 0;
     }
 
-    if (context->result->args.size() < *m_nargs)
+    if (context->result.args.size() < *m_nargs)
     {
         report_failure(state, EXIT_FAILURE, 0, "too few arguments");
         return EINVAL;
     }
 
-    if (context->result->args.size() > *m_nargs)
+    if (context->result.args.size() > *m_nargs)
     {
         report_failure(state, EXIT_FAILURE, 0, "too many arguments");
         return EINVAL;
