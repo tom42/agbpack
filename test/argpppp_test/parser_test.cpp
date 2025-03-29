@@ -193,6 +193,14 @@ TEST_CASE("parser_test")
         CHECK(parse(parser, "1 2 3").errnum == 0);
         CHECK(parse(parser, "1 2 3 4").errnum == EINVAL);
     }
+
+    SECTION("set_nargs throws if min is > max")
+    {
+        CHECK_THROWS_MATCHES(
+            parser.set_nargs(3, 2),
+            std::logic_error,
+            Catch::Matchers::Message("min_args must be <= max_args"));
+    }
 }
 
 }

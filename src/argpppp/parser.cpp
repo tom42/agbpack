@@ -105,7 +105,11 @@ void parser::set_nargs(std::size_t nargs)
 
 void parser::set_nargs(std::size_t min_args, std::size_t max_args)
 {
-    // TODO: throw if min > max?
+    if (min_args > max_args)
+    {
+        throw std::logic_error("min_args must be <= max_args");
+    }
+
     m_min_args = min_args;
     m_max_args = max_args;
 }
