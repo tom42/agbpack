@@ -78,8 +78,11 @@ private:
     std::vector<option> m_options;
     std::map<int, option_callback> m_callbacks;
     failure_callback m_failure_callback;
-    std::size_t m_min_args = std::numeric_limits<std::size_t>::min();
-    std::size_t m_max_args = std::numeric_limits<std::size_t>::max();
+
+    // Workaround for MSVC x86: can't fully qualify std::size_t when used as a template argument below
+    using size_t = std::size_t;
+    std::size_t m_min_args = std::numeric_limits<size_t>::min();
+    std::size_t m_max_args = std::numeric_limits<size_t>::max();
 };
 
 export inline void add_option(parser& p, const option& o, const option_callback& c)
