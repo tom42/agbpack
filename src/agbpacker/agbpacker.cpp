@@ -9,7 +9,9 @@
 import agbpack;
 import argpppp;
 
-extern "C" const char* argp_program_version = "agbpacker " AGBPACK_VERSION;
+#define PROGRAM_NAME "agbpacker"
+extern "C" const char* argp_program_version = PROGRAM_NAME " " AGBPACK_VERSION;
+char program_name[] = PROGRAM_NAME;
 
 namespace
 {
@@ -70,6 +72,7 @@ int main(int argc, char** argv)
 {
     try
     {
+        argv[0] = program_name;
         auto options = parse_command_line(argc, argv);
         // TODO: test code below. Remove and implement compression/decompression insead
         std::cout << (options.mode == program_mode::compress ? "compress" : "decompress") << "\n";
