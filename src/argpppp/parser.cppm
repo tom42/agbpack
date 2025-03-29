@@ -42,7 +42,6 @@ export struct parse_result final
     std::vector<std::string> args;
 };
 
-// TODO: document (README.md): argpppp does resource management for you, e.g. doc()
 export class parser final
 {
 public:
