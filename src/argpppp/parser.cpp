@@ -4,6 +4,7 @@
 module;
 
 #include <argp.h>
+#include <cstddef>
 #include <exception>
 #include <iterator>
 #include <ranges>
@@ -99,7 +100,14 @@ void parser::set_failure_callback(const failure_callback& c)
 
 void parser::set_nargs(std::size_t nargs)
 {
-    m_nargs = nargs;
+    set_nargs(nargs, nargs);
+}
+
+void parser::set_nargs(std::size_t min_args, std::size_t max_args)
+{
+    // TODO: throw if min > max?
+    m_min_args = min_args;
+    m_max_args = max_args;
 }
 
 parse_result parser::parse(int argc, char** argv, pf flags) const
@@ -189,24 +197,19 @@ error_t parser::handle_key_arg(char* arg, argp_state* state) const
 error_t parser::handle_key_end(argp_state* state) const
 {
     auto context = get_context(state);
-    if (!m_nargs.has_value())
-    {
-        return 0;
-    }
 
-    if (context->result.args.size() < *m_nargs)
+    if (context->result.args.size() < m_min_args)
     {
         report_failure(state, EXIT_FAILURE, 0, "too few arguments");
         return EINVAL;
     }
 
-    if (context->result.args.size() > *m_nargs)
+    if (context->result.args.size() > m_max_args)
     {
         report_failure(state, EXIT_FAILURE, 0, "too many arguments");
         return EINVAL;
     }
 
-    // TODO: and then, while we're at it, make the thing take a *range* of arguments (that is, min and max args don't need to be the same value)
     return 0;
 }
 

@@ -183,6 +183,16 @@ TEST_CASE("parser_test")
         CHECK(result.args == vector<string>{"x", "y"});
         CHECK(failure_message == "");
     }
+
+    SECTION("Minimum and maximum number of arguments differ")
+    {
+        parser.set_nargs(2, 3);
+
+        CHECK(parse(parser, "1").errnum == EINVAL);
+        CHECK(parse(parser, "1 2").errnum == 0);
+        CHECK(parse(parser, "1 2 3").errnum == 0);
+        CHECK(parse(parser, "1 2 3 4").errnum == EINVAL);
+    }
 }
 
 }

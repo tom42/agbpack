@@ -6,8 +6,8 @@ module;
 #include <argp.h>
 #include <cstddef>
 #include <functional>
+#include <limits>
 #include <map>
-#include <optional> // TODO: remove once we replaced m_nargs with an interval
 #include <string>
 #include <variant>
 #include <vector>
@@ -56,6 +56,8 @@ public:
 
     void set_nargs(std::size_t nargs);
 
+    void set_nargs(std::size_t min_args, std::size_t max_args);
+
     parse_result parse(int argc, char** argv, pf flags = pf::none) const;
 
 private:
@@ -76,7 +78,8 @@ private:
     std::vector<option> m_options;
     std::map<int, option_callback> m_callbacks;
     failure_callback m_failure_callback;
-    std::optional<std::size_t> m_nargs; // TODO: do we need to initialize this? (uh well, probably we should simply use a range formed by a minimum and maximum value or something)
+    std::size_t m_min_args = std::numeric_limits<std::size_t>::min();
+    std::size_t m_max_args = std::numeric_limits<std::size_t>::max();
 };
 
 export inline void add_option(parser& p, const option& o, const option_callback& c)
