@@ -11,7 +11,7 @@ import argpppp;
 
 #define PROGRAM_NAME "agbpacker"
 extern "C" { const char* argp_program_version = PROGRAM_NAME " " AGBPACK_VERSION; }
-char program_name[] = PROGRAM_NAME;
+static char program_name[] = PROGRAM_NAME;
 
 namespace
 {
