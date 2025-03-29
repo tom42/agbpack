@@ -172,6 +172,17 @@ TEST_CASE("parser_test")
         CHECK(result.args == vector<string>{"x", "y", "z"});
         CHECK(failure_message == "too many arguments");
     }
+
+    SECTION("Correct number of arguments")
+    {
+        parser.set_nargs(2);
+
+        auto result = parse(parser, "x y");
+
+        CHECK(result.errnum == 0);
+        CHECK(result.args == vector<string>{"x", "y"});
+        CHECK(failure_message == "");
+    }
 }
 
 }
