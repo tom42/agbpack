@@ -9,10 +9,7 @@
 import agbpack;
 import argpppp;
 
-extern "C"
-{
-const char* argp_program_version = "agbpacker " AGBPACK_VERSION;
-}
+extern "C" const char* argp_program_version = "agbpacker " AGBPACK_VERSION;
 
 namespace
 {
