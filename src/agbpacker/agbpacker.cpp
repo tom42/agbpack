@@ -1,8 +1,14 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-int main(int /*argc*/, char** /*argv*/)
+import agbpack;
+import argpppp;
+
+int main(int argc, char** argv)
 {
+    // TODO: test code, replace by original code below
+    argpppp::parser parser;
+    parser.parse(argc, argv);
 }
 
 // TODO: get stuff below built again
