@@ -4,6 +4,7 @@
 # TODO: not sure whether this is good: we have already raised warning levels
 #       * Should we do this in the top level CMakeLists.txt before we've raised warning levels?
 #       * Should we change the argpppp build process accordingly, since it also uses FetchContent to get argpppp?
+# TODO: this adds argpppp tests to the build process. This is something we do not want to be done by default, but needs fixing on argpppp's side
 include(FetchContent)
 FetchContent_Declare(
   argpppp

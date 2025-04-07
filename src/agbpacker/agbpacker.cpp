@@ -1,8 +1,14 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+#include "agbpack_config.hpp"
+
 import agbpack;
 import argpppp;
+
+#define PROGRAM_NAME "agbpacker"
+extern "C" { const char* argp_program_version = PROGRAM_NAME " " AGBPACK_VERSION; }
+static char program_name[] = PROGRAM_NAME;
 
 int main(int argc, char** argv)
 {
@@ -16,14 +22,6 @@ int main(int argc, char** argv)
 #include <functional>
 #include <iostream>
 #include <stdexcept>
-#include "agbpack_config.hpp"
-
-import agbpack;
-import argpppp;
-
-#define PROGRAM_NAME "agbpacker"
-extern "C" { const char* argp_program_version = PROGRAM_NAME " " AGBPACK_VERSION; }
-static char program_name[] = PROGRAM_NAME;
 
 namespace
 {
