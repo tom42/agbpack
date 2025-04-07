@@ -1,6 +1,12 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+int main(int /*argc*/, char** /*argv*/)
+{
+}
+
+// TODO: get stuff below built again
+/*
 #include <functional>
 #include <iostream>
 #include <stdexcept>
@@ -84,3 +90,4 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 }
+*/
