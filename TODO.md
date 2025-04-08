@@ -4,6 +4,7 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Upgrade to a version of argpppp where Catch2 3.7.1 is used.
 * Turn our debug tools into real tools in src, with proper argp_parse command line parser
   * agbpack-tool / agbpacker: simple compression/decompression tool exposing all implemented schemes
     * Rationale: will be useful as a tool in itself
