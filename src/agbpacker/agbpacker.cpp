@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+#include <iostream>
+#include <stdexcept>
 #include "agbpack_config.hpp"
 
 import agbpack;
@@ -13,15 +15,24 @@ static char program_name[] = PROGRAM_NAME;
 int main(int argc, char** argv)
 {
     // TODO: test code, replace by original code below
-    argpppp::parser parser;
-    parser.parse(argc, argv);
+    try
+    {
+        argv[0] = program_name;
+        argpppp::parser parser;
+        parser.set_doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack");
+        add_option(parser, {}, {}); // TODO: bogus option to fix g++ debug build linking problems. Replace by real options
+        parser.parse(argc, argv);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << argv[0] << ": " << e.what() << "\n";
+        return EXIT_FAILURE;
+    }
 }
 
 // TODO: get stuff below built again
 /*
 #include <functional>
-#include <iostream>
-#include <stdexcept>
 
 namespace
 {
@@ -65,8 +76,6 @@ options parse_command_line(int argc, char** argv)
     // TODO: do we also expect the compression method for decompression? (Would be simpler, but also rather silly, no?)
     // TODO: enforce that there are exactly two arguments
     // TODO: there should be no method option. The method should be an argument of --compress. It could be optional, in which case we'd use LZSS.
-    argpppp::parser parser;
-    parser.set_doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack");
     parser.set_args_doc("<input> <output>");
     add_option(parser, { "compress", 'c', {}, {}, "Files are compressed by default" }, [&options](auto){ options.mode = program_mode::compress; return true; });
     add_option(parser, { "decompress", 'd' }, [&options](auto){ options.mode = program_mode::decompress; return true; });
@@ -87,11 +96,6 @@ int main(int argc, char** argv)
         // TODO: test code below. Remove and implement compression/decompression insead
         std::cout << (options.mode == program_mode::compress ? "compress" : "decompress") << "\n";
         return EXIT_SUCCESS;
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << argv[0] << ": " << e.what() << "\n";
-        return EXIT_FAILURE;
     }
 }
 */
