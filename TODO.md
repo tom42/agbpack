@@ -5,10 +5,7 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Overhaul project
-  * Upgrade to newer version of argpppp
   * Redo (top-level) CMakeLists.txt similar to argpppp
-  * Note our way of adding CMake paths is broken. Probably we want to *prepend* stuff
-    * Here is an interesting post: https://discourse.cmake.org/t/how-to-properly-import-cmake-files-modules/2816/2
 * Upgrade to a version of argpppp where Catch2 3.7.1 is used.
 * Turn our debug tools into real tools in src, with proper argp_parse command line parser
   * agbpack-tool / agbpacker: simple compression/decompression tool exposing all implemented schemes

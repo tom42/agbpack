@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.31.5)
 project(agbpack VERSION 0.0.1 LANGUAGES CXX)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 include(CTest)
 
