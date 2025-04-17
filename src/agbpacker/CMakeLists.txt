@@ -9,7 +9,7 @@ include(FetchContent)
 FetchContent_Declare(
   argpppp
   GIT_REPOSITORY https://github.com/tom42/argpppp
-  GIT_TAG        v0.0.1)
+  GIT_TAG        v0.0.3)
 FetchContent_MakeAvailable(argpppp)
 
 add_executable(agbpacker agbpacker.cpp)
