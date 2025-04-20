@@ -5,13 +5,30 @@ cmake_minimum_required(VERSION 3.31.5)
 project(agbpack VERSION 0.0.1 LANGUAGES CXX)
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-include(CTest)
 
-# Build all 3rd party code before globally raising warning levels.
-if(BUILD_TESTING)
+################################################################################
+# Options
+################################################################################
+
+option(agbpack_BUILD_TESTING "Build agbpack tests." ${PROJECT_IS_TOP_LEVEL})
+option(agbpack_BUILD_AGBPACKER "Build the agbpacker executable." ${PROJECT_IS_TOP_LEVEL})
+option(agbpack_BUILD_LZSS_ANALYZE "Build the lzss-analyze executable." ${PROJECT_IS_TOP_LEVEL})
+
+
+################################################################################
+# Set up testing
+################################################################################
+
+if(agbpack_BUILD_TESTING)
+  enable_testing()
   include(VtgTesting)
   vtg_testing_setup_catch2(3.7.1)
 endif()
+
+
+################################################################################
+# Build our own code
+################################################################################
 
 # Raise warning levels. From now on we should only build our own code.
 set(CMAKE_CXX_STANDARD 23)
@@ -26,6 +43,18 @@ configure_file(
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
 add_subdirectory(src)
-if(BUILD_TESTING)
+if(argpppp_BUILD_TESTING)
   add_subdirectory(test)
+endif()
+
+
+################################################################################
+# Add custom targets (reuse lint etc.)
+################################################################################
+
+if(PROJECT_IS_TOP_LEVEL)
+  add_custom_target(
+    reuse-lint
+    COMMAND reuse lint
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
 endif()
