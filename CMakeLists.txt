@@ -43,7 +43,7 @@ configure_file(
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
 add_subdirectory(src)
-if(argpppp_BUILD_TESTING)
+if(agbpack_BUILD_TESTING)
   add_subdirectory(test)
 endif()
 

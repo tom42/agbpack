@@ -22,7 +22,7 @@ target_compile_definitions(agbpack PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=)
 
 # Unit testing version of agbpack.
 # This may export more symbols than the production version, so that internals of agbpack can be tested.
-if(BUILD_TESTING)
+if(agbpack_BUILD_TESTING)
   add_library(agbpack_unit_testing)
   target_sources(agbpack_unit_testing ${agbpack_sources})
   target_compile_definitions(agbpack_unit_testing PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=export)
