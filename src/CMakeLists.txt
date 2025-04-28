@@ -2,5 +2,11 @@
 # SPDX-License-Identifier: MIT
 
 add_subdirectory(agbpack)
-add_subdirectory(agbpacker)
-add_subdirectory(lzss-analyze)
+
+if(agbpack_BUILD_AGBPACKER)
+  add_subdirectory(agbpacker)
+endif()
+
+if(agbpack_BUILD_LZSS_ANALYZE)
+  add_subdirectory(lzss-analyze)
+endif()
