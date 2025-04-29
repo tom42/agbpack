@@ -4,6 +4,11 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Reimplement optimal_lzss_encoder
+  * But use clownlzss for this (all of it, or just the encoder bits?)
+  * Ugh: just looked at clownlzss.c: is it really leaking memory? There is a single malloc in there, bit where is the free?
+  * Once we have this we could measure: if it performs faster than the existing encoder, then there is
+    no reason to have the existing encoder
 * Honor all the options added to CMakeLists.txt
   * Only get argpppp if tools are used
 * Turn our debug tools into real tools in src, with proper argp_parse command line parser
@@ -20,15 +25,6 @@ SPDX-License-Identifier: MIT
     * That in turn means we can go back to shrinkler-gba and a release of that
     * And that in turn means we can release an 1k and a 4k prod for the GBA
       * Would that not be awesome?
-* Our first test case for the optimized encoder:
-  * " abc_abcdef abcdef" => The 2nd run should be encoded as "abcdef"
-  * Wwe have that as part of chosen_match_length test, but maybe we should continue testing this on the decoder level
-* optimal_lzss_parser
-  * It passes the current tests
-    * But unfortunately the delta source code test produces a larger file than the greedy parser
-      * Can we debug this?
-        * Can we produce a minimum example with smaller input?
-        * Can we construct a small example where greedy parsing is worse than lazy/optimal parsing?
 * Do the data types in common.cppm even make sense (agbpack_io_datatype, agbpack_u8, agbpack_u16, agbpack_u32)?
   * agbpack_io_datatype: possibly, apart from the fact that it is not used consistently
   * agbpack_u8, agbpack_u16, agbpack_u32: probably not, we could probaby just as well use fixed size standard types (uint8_t etc)
