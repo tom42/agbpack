@@ -16,7 +16,6 @@ namespace agbpack_test
 using size_t = std::size_t;
 using agbpack::lzss_decoder;
 using agbpack::lzss_encoder;
-using agbpack::optimal_lzss_encoder;
 
 namespace
 {
@@ -39,15 +38,13 @@ public:
 
     size_t expected_encoded_size(const lzss_encoder&) const { return m_expected_greedy_encoded_size; }
 
-    size_t expected_encoded_size(const optimal_lzss_encoder&) const { return m_expected_optimal_encoded_size; }
-
 private:
     const char* m_filename;
     size_t m_expected_greedy_encoded_size;
     size_t m_expected_optimal_encoded_size;
 };
 
-using lzss_encoder_types = std::tuple<lzss_encoder, optimal_lzss_encoder>;
+using lzss_encoder_types = std::tuple<lzss_encoder>;
 
 }
 

@@ -468,8 +468,7 @@ private:
     bool m_vram_safe = false;
 };
 
-// TODO: put this into a cpp module instead of having it inline?
-// TODO: better to use the first longest match or the last one? (for subsequent entropy coder?)
+// TODO: remove
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 inline vector<match> find_longest_matches(const vector<agbpack_u8>& input, bool vram_safe)
 {
@@ -507,7 +506,7 @@ inline vector<match> find_longest_matches(const vector<agbpack_u8>& input, bool 
     return longest_matches;
 }
 
-// TODO: put this into a cpp module instead of having it inline?
+// TODO: remove
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 inline vector<match> choose_matches(const vector<match>& ml)
 {
@@ -560,104 +559,5 @@ inline vector<match> choose_matches(const vector<match>& ml)
 
     return cml;
 }
-
-export class optimal_lzss_encoder final
-{
-public:
-    template <std::input_iterator InputIterator, typename OutputIterator>
-    void encode(InputIterator input, InputIterator eof, OutputIterator output)
-    {
-        static_assert_input_type<InputIterator>();
-
-        // Based on https://cbloom.com/algs/dictionary.html
-        //
-        // "We run through the entire file and create an array, ml[n], storing the maximum match length at each position.
-        // The trick is now to run *backwards* through the file to find the optimal way to choose literals and matches throughout.
-        // We assume literals and matches are coded in L and M bits.
-        //
-        // We run backwards, creating several arrays as we go. At each byte, we store the best choice: literal or match,
-        // and the number of bytes needed to code all the data from that point on to the end of the file.
-        // Then, at some preceding byte we choose literal or match based on the minimum total output length resulting.
-        // Obviously, when we get back to the first byte, we have chosen the optimal coding for the file. Here's how it works:
-        //
-        // Let out[n] be the total output length to code from byte n to the EOF.
-        // Let cml[n] be the chosen match length for byte n; (1 <= cml[n] <= ml[n]), where 1 indicates a literal
-        // Let N be the last byte in the file, and c the current pos.
-        //
-        // A.    out[N] = 0
-        //       cml[N] = 1
-        //       c = N - 1
-        //
-        // B.	 for all 2 <= l <= ml[c], compute:
-        //           output[l] = M + out[c + l]
-        //       output[1] = L + out[c + 1]
-        //       find the 1 <= l <= ml[c] which minimizes output[l]
-        //
-        //       cml[c] = l
-        //       out[c] = output[l]
-        //       c -= 1
-        //
-        // C.    if c > 0 , goto B
-        //
-        //	     create the output:
-        //           c = 0
-        //           send cml[c]
-        //           c += cml[c]
-        //           repeat
-
-        const auto uncompressed_data = vector<agbpack_u8>(input, eof);
-        const auto ml = find_longest_matches(uncompressed_data, m_vram_safe);
-        const auto cml = choose_matches(ml);
-        const auto encoded_data = write_bitstream(cml, uncompressed_data);
-        const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
-
-        // TODO: the following mantra should go into some sort of helper, no? We have it by now multiple times...
-        // Copy header and encoded data to output
-        unbounded_byte_writer<OutputIterator> writer(output);
-        write32(writer, header.to_uint32_t());
-        write(writer, encoded_data.begin(), encoded_data.end());
-        write_padding_bytes(writer);
-    }
-
-    void vram_safe(bool enable)
-    {
-        m_vram_safe = enable;
-    }
-
-    bool vram_safe() const
-    {
-        return m_vram_safe;
-    }
-
-private:
-    static vector<agbpack_u8> write_bitstream(const vector<match>& chosen_matches, const vector<agbpack_u8>& uncompressed_data)
-    {
-        assert(chosen_matches.size() == uncompressed_data.size());
-
-        vector<agbpack_u8> bitstream;
-        lzss_bitstream_writer writer(bitstream);
-
-        auto u = uncompressed_data.begin();
-        for (auto c = chosen_matches.begin(); c < chosen_matches.end(); )
-        {
-            if (c->length() < minimum_match_length)
-            {
-                writer.write_literal(*u);
-                ++u;
-                ++c;
-            }
-            else
-            {
-                writer.write_reference(c->length(), c->offset());
-                u += make_signed(c->length()); // We need c to update u, so update u first, then c!
-                c += make_signed(c->length());
-            }
-        }
-
-        return bitstream;
-    }
-
-    bool m_vram_safe = false;
-};
 
 }
