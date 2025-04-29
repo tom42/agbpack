@@ -12,7 +12,8 @@ SPDX-License-Identifier: MIT
     * Rationale: will be useful as a tool in itself
     * Also useful for comparison with other GBA LZSS implementations
     * We have something to tinker around with C++ argp_parse wrappers
-  * lzss-analyze: sure, we can make that a tool too
+  * agbpack_test_tools_common: this is not used anymore. See what bits we can use to implement
+    agbpacker, delete the rest.
 * Consider switching gears?
   * Why not simply use clownlzss? It gives us what we want: optimal LZSS encoding
   * So what if we incorporate clownlzss into agbpack?
