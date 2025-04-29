@@ -468,42 +468,4 @@ private:
     bool m_vram_safe = false;
 };
 
-// TODO: remove
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-inline vector<match> find_longest_matches(const vector<agbpack_u8>& input, bool vram_safe)
-{
-    vector<match> longest_matches;
-    longest_matches.reserve(input.size());
-
-    // TODO: this is somewhat unfortunate: for literals and stuff this returns silly data, e.g. (l=0, m=0)
-    //       This may be OK for the greedy encoder, but here we want literals to have a length=1.
-    //       We can of course document that anything with match_length < minimum_match_length has an invalid offset, but somehow I dislike this, no?
-    //       * Problem: bloom's document says
-    //           "Let cml[n] be the chosen match length for byte n; (1 <= cml[n] <= ml[n]),
-    //            *where 1 indicates a literal*"
-    //         This is not how greedy_match_finder works, which may return 0 for a literal. OUCH.
-    //       * The problem is that we never properly defined what the fields of match mean in what case and that
-    //         for matches with length < 3 match finder returns weird results. Things do work if we interpret
-    //         anything with length < minimum_match_length as 'encoder a literal', which is actually what both
-    //         lzss_encoder and optimal_lzss_encoder do
-    greedy_match_finder match_finder(input, get_minimum_offset(vram_safe) - 1); // TODO: this subtraction is REALLY ugly (see above where already have this)
-
-    for (size_t i = 0; i < input.size(); ++i)
-    {
-        auto m = match_finder.find_match(i);
-        // TODO: the if/else here is a bit of a kludge. Or is it?
-        //       Actually, maybe it is not: anything with a length < 3 we encode as a literal, and offset=0 refers to itself!
-        if (m.length() < minimum_match_length)
-        {
-            longest_matches.push_back(match(1, 0));
-        }
-        else
-        {
-            longest_matches.push_back(m);
-        }
-    }
-
-    return longest_matches;
-}
-
 }

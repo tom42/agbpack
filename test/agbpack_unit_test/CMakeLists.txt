@@ -7,7 +7,6 @@ target_sources(
   PRIVATE
   bitstream_writer_test.cpp
   byte_reader_test.cpp
-  find_longest_matches_test.cpp
   header_test.cpp
   huffman_decoder_tree_test.cpp
   huffman_encoder_tree_test.cpp
