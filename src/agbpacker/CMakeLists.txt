@@ -3,7 +3,6 @@
 
 # TODO: not sure whether this is good: we have already raised warning levels
 #       * Should we do this in the top level CMakeLists.txt before we've raised warning levels?
-#       * Should we change the argpppp build process accordingly, since it also uses FetchContent to get argpppp?
 include(FetchContent)
 FetchContent_Declare(
   argpppp

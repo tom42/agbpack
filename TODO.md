@@ -5,7 +5,6 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Honor all the options added to CMakeLists.txt
-  * Purge most occurrences of argpppp from CMakeLists
   * Only get argpppp if tools are used
 * Turn our debug tools into real tools in src, with proper argp_parse command line parser
   * agbpack-tool / agbpacker: simple compression/decompression tool exposing all implemented schemes
