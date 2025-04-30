@@ -13,6 +13,7 @@ set(
   header.cppm
   rle.cppm
   PRIVATE
+  clownlzss.c
   header.cpp)
 
 # Production version of agbpack.
