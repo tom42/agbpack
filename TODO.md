@@ -8,6 +8,9 @@ SPDX-License-Identifier: MIT
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
   * This means, in particular, that we also remove specializations for random access iterators we did for the LZSS encoder
 * Reimplement optimal_lzss_encoder
+  * Added clownlzss sources
+    * Make them reuse compliant (use toml file for this)
+    * Get them built
   * But use clownlzss for this (all of it, or just the encoder bits?)
   * Ugh: just looked at clownlzss.c: is it really leaking memory? There is a single malloc in there, bit where is the free?
   * Once we have this we could measure: if it performs faster than the existing encoder, then there is
