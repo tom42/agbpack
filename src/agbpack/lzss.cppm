@@ -468,4 +468,35 @@ private:
     bool m_vram_safe = false;
 };
 
+export class optimal_lzss_encoder final
+{
+public:
+    template <std::input_iterator InputIterator, typename OutputIterator>
+    void encode(InputIterator /*input*/, InputIterator /*eof*/, OutputIterator /*output*/)
+    {
+        static_assert_input_type<InputIterator>();
+
+        // TODO: implement
+        //       * Slurp in uncompressed data
+        //       * Find matches using clownlzss (the C library I guess)
+        //       * Encode data
+        //       * Create header
+        //       * Write header to output       \ Should we even bother unifying this, if we're going to rewrite encoders?
+        //       * Write encoded data to output /
+    }
+
+    void vram_safe(bool enable)
+    {
+        m_vram_safe = enable;
+    }
+
+    bool vram_safe() const
+    {
+        return m_vram_safe;
+    }
+
+private:
+    bool m_vram_safe = false;
+};
+
 }
