@@ -4,6 +4,9 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Need to set warning flags now per target:
+  * Search for all add_executable and set the warnings
+  * Same for all add_library
 * Redo encoders/decoders
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
   * This means, in particular, that we also remove specializations for random access iterators we did for the LZSS encoder
