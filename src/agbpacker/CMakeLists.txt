@@ -1,13 +1,11 @@
 # SPDX-FileCopyrightText: 2025 Thomas Mathys
 # SPDX-License-Identifier: MIT
 
-# TODO: not sure whether this is good: we have already raised warning levels
-#       * Should we do this in the top level CMakeLists.txt before we've raised warning levels?
 include(FetchContent)
 FetchContent_Declare(
   argpppp
   GIT_REPOSITORY https://github.com/tom42/argpppp
-  GIT_TAG        v0.0.5)
+  GIT_TAG        v0.0.6)
 FetchContent_MakeAvailable(argpppp)
 
 add_executable(agbpacker agbpacker.cpp)
