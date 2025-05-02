@@ -29,7 +29,6 @@ endif()
 # Build our own code
 ################################################################################
 
-# Raise warning levels. From now on we should only build our own code.
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)

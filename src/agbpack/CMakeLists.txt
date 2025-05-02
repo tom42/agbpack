@@ -13,18 +13,18 @@ set(
   header.cppm
   rle.cppm
   PRIVATE
-  clownlzss.c
   header.cpp)
 
 # Production version of agbpack.
 add_library(agbpack)
 target_sources(agbpack ${agbpack_sources})
 target_compile_definitions(agbpack PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=)
+vtg_target_enable_warnings(agbpack)
 
 # Unit testing version of agbpack.
-# This may export more symbols than the production version, so that internals of agbpack can be tested.
 if(agbpack_BUILD_TESTING)
   add_library(agbpack_unit_testing)
   target_sources(agbpack_unit_testing ${agbpack_sources})
   target_compile_definitions(agbpack_unit_testing PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=export)
+  vtg_target_enable_warnings(agbpack_unit_testing)
 endif()

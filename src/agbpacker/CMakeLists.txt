@@ -9,5 +9,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(argpppp)
 
 add_executable(agbpacker agbpacker.cpp)
+vtg_target_enable_warnings(agbpacker)
 target_link_libraries(agbpacker PRIVATE agbpack argpppp)
 install(TARGETS agbpacker DESTINATION bin)

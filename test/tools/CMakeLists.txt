@@ -8,3 +8,4 @@ target_sources(
   agbpack_test_tools_common.cppm
   PRIVATE
   agbpack_test_tools_common.cpp)
+vtg_target_enable_warnings(agbpack_test_tools_common)

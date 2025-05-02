@@ -15,6 +15,7 @@ target_sources(
   lzss_bitstream_writer_test.cpp
   greedy_match_finder_test.cpp
   node_priority_queue_test.cpp)
+vtg_target_enable_warnings(agbpack_unit_test)
 target_link_libraries(
   agbpack_unit_test
   PRIVATE

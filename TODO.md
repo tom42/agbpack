@@ -4,22 +4,17 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Need to set warning flags now per target:
-  * Search for all add_executable and set the warnings
-  * Same for all add_library
 * Redo encoders/decoders
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
   * This means, in particular, that we also remove specializations for random access iterators we did for the LZSS encoder
 * Reimplement optimal_lzss_encoder
   * Added clownlzss sources
     * Plan:
-      * Integrate clownlzss.c as part of agbpack
+      * Integrate clownlzss.c as part of agbpack => In progress, but need to compile it separately as an object library due to warnings
+        (we can't compile it as part of the remaining agbpack sources - their warning level is simply too high)
       * Wenn we do so, can we avoid having to install clownlzss.h with the module?
         * Or is this even a problem?
     * Make them reuse compliant (use toml file for this)
-    * Get them built
-      * Problem: our compiler flags are too hard for this
-      * This is generally a problem, and we really need to figure out what to do about this.
   * But use clownlzss for this (all of it, or just the encoder bits?)
   * Ugh: just looked at clownlzss.c: is it really leaking memory? There is a single malloc in there, bit where is the free?
   * Once we have this we could measure: if it performs faster than the existing encoder, then there is
