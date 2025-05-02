@@ -1,6 +1,12 @@
 # SPDX-FileCopyrightText: 2024 Thomas Mathys
 # SPDX-License-Identifier: MIT
 
+# clownlzss does not build with our warning flags.
+# We compile it as a separate object library without warnings enabled and then
+# include it in agbpack. Not having warnings enabled is acceptable here, since
+# this is the unmodified source code from the original repository.
+add_library(clownzss_objects OBJECT clownlzss.c)
+
 set(
   agbpack_sources
   PUBLIC FILE_SET CXX_MODULES FILES
