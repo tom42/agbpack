@@ -10,6 +10,7 @@ module;
 #include <concepts>
 #include <cstddef>
 #include <iterator>
+#include <ranges>
 #include <utility>
 #include <vector>
 #include "clownlzss.h"
@@ -475,7 +476,7 @@ export class optimal_lzss_encoder final
 {
 public:
     template <std::input_iterator InputIterator, typename OutputIterator>
-    void encode(InputIterator input, InputIterator eof, OutputIterator /*output*/)
+    void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
         static_assert_input_type<InputIterator>();
 
@@ -491,9 +492,26 @@ public:
 
         ClownLZSS::Matches matches;
         size_t total_matches;
-        if (!ClownLZSS::FindOptimalMatches(filler_value, maximum_match_length, maximum_match_distance, nullptr, literal_cost, GetMatchCost, data.data(), bytes_per_value, data.size() / bytes_per_value, &matches, &total_matches, nullptr))
+        if (!ClownLZSS::FindOptimalMatches(filler_value, maximum_match_length, maximum_match_distance, nullptr, literal_cost, get_match_cost, data.data(), bytes_per_value, data.size() / bytes_per_value, &matches, &total_matches, nullptr))
         {
             throw "TODO: yikes: FindOptimalMatches. What to do? (at the very least throw a proper exception - is there some sort of internal error we already have?";
+        }
+
+        // TODO: own method?
+        vector<agbpack_u8> encoded_data;
+        lzss_bitstream_writer writer(encoded_data);
+        for (const auto& match : std::ranges::subrange(&matches[0], &matches[total_matches]))
+        {
+            if (CLOWNLZSS_MATCH_IS_LITERAL(&match))
+            {
+                // TODO: write literal
+                writer.write_literal(data[match.destination]);
+            }
+            else
+            {
+                // TODO: write reference
+                writer.write_reference(match.length, match.destination - match.source);
+            }
         }
 
         // TODO: make use of stuff below
@@ -515,6 +533,14 @@ public:
         //       * Create header
         //       * Write header to output       \ Should we even bother unifying this, if we're going to rewrite encoders?
         //       * Write encoded data to output /
+
+        const auto header = header::create(lzss_options::reserved, data.size());
+
+        // Copy header and encoded data to output
+        unbounded_byte_writer<OutputIterator> writer2(output); // TODO: writer2 => writer. We had to move this out of the way because this method does too much and therefore has too many variables.
+        write32(writer2, header.to_uint32_t());
+        write(writer2, encoded_data.begin(), encoded_data.end());
+        write_padding_bytes(writer2);
     }
 
     void vram_safe(bool enable)
@@ -528,9 +554,8 @@ public:
     }
 
 private:
-    // TODO: proper casing
     // TODO: also have vram safe variant
-    static size_t GetMatchCost(const size_t, const size_t length, void* const)
+    static size_t get_match_cost(const size_t, const size_t length, void* const)
     {
         if (length < minimum_match_length)
         {
