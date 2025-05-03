@@ -492,7 +492,8 @@ public:
 
         ClownLZSS::Matches matches;
         size_t total_matches;
-        if (!ClownLZSS::FindOptimalMatches(filler_value, maximum_match_length, maximum_match_distance, nullptr, literal_cost, get_match_cost, data.data(), bytes_per_value, data.size() / bytes_per_value, &matches, &total_matches, nullptr))
+        auto match_cost_callback = vram_safe() ? get_match_cost_vram_safe : get_match_cost;
+        if (!ClownLZSS::FindOptimalMatches(filler_value, maximum_match_length, maximum_match_distance, nullptr, literal_cost, match_cost_callback, data.data(), bytes_per_value, data.size() / bytes_per_value, &matches, &total_matches, nullptr))
         {
             throw "TODO: yikes: FindOptimalMatches. What to do? (at the very least throw a proper exception - is there some sort of internal error we already have?";
         }
@@ -519,7 +520,6 @@ public:
                 inline constexpr auto bios_compression_type = 0x10;
                 inline constexpr auto minimum_match_length = 3;
                 inline constexpr auto minimum_match_distance = 1;
-                inline constexpr auto minimum_match_distance_vram_safe = 2;
                 inline constexpr auto maximum_encoded_length = 0xfu;
                 inline constexpr auto maximum_encoded_offset = 0xfffu;
     if (!ClownLZSS::FindOptimalMatches(filler_value, maximum_match_length, maximum_match_distance, nullptr, literal_cost, match_cost_callback, data, bytes_per_value, data_size / bytes_per_value, &matches, &total_matches, nullptr))
@@ -558,6 +558,16 @@ private:
     static size_t get_match_cost(const size_t, const size_t length, void* const)
     {
         if (length < minimum_match_length)
+        {
+            return 0;
+        }
+
+        return match_cost;
+    }
+
+    static size_t get_match_cost_vram_safe(const size_t distance, const size_t length, void* const)
+    {
+        if ((length < minimum_match_length) || (distance < minimum_vram_safe_offset))
         {
             return 0;
         }
