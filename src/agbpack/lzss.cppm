@@ -12,6 +12,7 @@ module;
 #include <iterator>
 #include <utility>
 #include <vector>
+#include "clownlzss.h"
 
 export module agbpack:lzss;
 import :common;
@@ -31,6 +32,8 @@ inline constexpr size_t maximum_offset = 4096;
 inline constexpr size_t minimum_vram_safe_offset = 2;
 inline constexpr size_t minimum_match_length = 3;
 inline constexpr size_t maximum_match_length = 18;
+inline constexpr auto literal_cost = 1 + 8;
+inline constexpr auto match_cost = 1 + 16;
 
 constexpr size_t get_minimum_offset(bool vram_safe)
 {
@@ -472,9 +475,38 @@ export class optimal_lzss_encoder final
 {
 public:
     template <std::input_iterator InputIterator, typename OutputIterator>
-    void encode(InputIterator /*input*/, InputIterator /*eof*/, OutputIterator /*output*/)
+    void encode(InputIterator input, InputIterator eof, OutputIterator /*output*/)
     {
         static_assert_input_type<InputIterator>();
+
+        const auto data = vector<agbpack_u8>(input, eof);
+
+        // TODO: check return value (what do we do if bad? I guess we throw some exception?)
+        // TODO: argument values: we can copy most of them from our packer from the clownlzss tool I guess
+        // TODO: see which of these constants we already have at the top of this file. Maybe move all up there - I do not want to have duplicated stuff in there, really
+        constexpr auto filler_value = -1;
+        constexpr auto maximum_match_length = 18;
+        constexpr auto maximum_match_distance = 0x1000;
+        constexpr auto bytes_per_value = 1;
+
+        ClownLZSS::Matches matches;
+        size_t total_matches;
+        if (!ClownLZSS::FindOptimalMatches(filler_value, maximum_match_length, maximum_match_distance, nullptr, literal_cost, GetMatchCost, data.data(), bytes_per_value, data.size() / bytes_per_value, &matches, &total_matches, nullptr))
+        {
+            throw "TODO: yikes: FindOptimalMatches. What to do? (at the very least throw a proper exception - is there some sort of internal error we already have?";
+        }
+
+        // TODO: make use of stuff below
+        /*
+                inline constexpr auto bios_compression_type = 0x10;
+                inline constexpr auto minimum_match_length = 3;
+                inline constexpr auto minimum_match_distance = 1;
+                inline constexpr auto minimum_match_distance_vram_safe = 2;
+                inline constexpr auto maximum_encoded_length = 0xfu;
+                inline constexpr auto maximum_encoded_offset = 0xfffu;
+    if (!ClownLZSS::FindOptimalMatches(filler_value, maximum_match_length, maximum_match_distance, nullptr, literal_cost, match_cost_callback, data, bytes_per_value, data_size / bytes_per_value, &matches, &total_matches, nullptr))
+                    return false;
+                */
 
         // TODO: implement
         //       * Slurp in uncompressed data
@@ -496,6 +528,18 @@ public:
     }
 
 private:
+    // TODO: proper casing
+    // TODO: also have vram safe variant
+    static size_t GetMatchCost(const size_t, const size_t length, void* const)
+    {
+        if (length < minimum_match_length)
+        {
+            return 0;
+        }
+
+        return match_cost;
+    }
+
     bool m_vram_safe = false;
 };
 

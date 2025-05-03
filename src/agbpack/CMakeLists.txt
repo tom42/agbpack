@@ -21,15 +21,22 @@ set(
   PRIVATE
   header.cpp)
 
+ # TODO: document where this comes from and what it does (https://gitlab.kitware.com/cmake/cmake/-/issues/18837)
+ # TODO: document why we need this
+ # TODO: do we want this to be target specific (use target_compile_options instead of add_compile_options)? It'd mean we have to duplicate it too... (e.g. add_compile_options(MainApp PUBLIC "/Zc:__cplusplus"))
+if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
+  add_compile_options("/Zc:__cplusplus")
+endif()
+
 # Production version of agbpack.
-add_library(agbpack)
+add_library(agbpack $<TARGET_OBJECTS:clownzss_objects>)
 target_sources(agbpack ${agbpack_sources})
 target_compile_definitions(agbpack PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=)
 vtg_target_enable_warnings(agbpack)
 
 # Unit testing version of agbpack.
 if(agbpack_BUILD_TESTING)
-  add_library(agbpack_unit_testing)
+  add_library(agbpack_unit_testing $<TARGET_OBJECTS:clownzss_objects>)
   target_sources(agbpack_unit_testing ${agbpack_sources})
   target_compile_definitions(agbpack_unit_testing PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=export)
   vtg_target_enable_warnings(agbpack_unit_testing)
