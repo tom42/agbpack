@@ -505,26 +505,13 @@ public:
         {
             if (CLOWNLZSS_MATCH_IS_LITERAL(&match))
             {
-                // TODO: write literal
                 writer.write_literal(data[match.destination]);
             }
             else
             {
-                // TODO: write reference
                 writer.write_reference(match.length, match.destination - match.source);
             }
         }
-
-        // TODO: make use of stuff below
-        /*
-                inline constexpr auto bios_compression_type = 0x10;
-                inline constexpr auto minimum_match_length = 3;
-                inline constexpr auto minimum_match_distance = 1;
-                inline constexpr auto maximum_encoded_length = 0xfu;
-                inline constexpr auto maximum_encoded_offset = 0xfffu;
-    if (!ClownLZSS::FindOptimalMatches(filler_value, maximum_match_length, maximum_match_distance, nullptr, literal_cost, match_cost_callback, data, bytes_per_value, data_size / bytes_per_value, &matches, &total_matches, nullptr))
-                    return false;
-                */
 
         // TODO: implement
         //       * Slurp in uncompressed data
@@ -554,7 +541,6 @@ public:
     }
 
 private:
-    // TODO: also have vram safe variant
     static size_t get_match_cost(const size_t, const size_t length, void* const)
     {
         if (length < minimum_match_length)
