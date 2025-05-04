@@ -488,10 +488,10 @@ public:
         const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
         // Copy header and encoded data to output
-        unbounded_byte_writer<OutputIterator> writer2(output); // TODO: writer2 => writer. We had to move this out of the way because this method does too much and therefore has too many variables.
-        write32(writer2, header.to_uint32_t());
-        write(writer2, encoded_data.begin(), encoded_data.end());
-        write_padding_bytes(writer2);
+        unbounded_byte_writer<OutputIterator> writer(output);
+        write32(writer, header.to_uint32_t());
+        write(writer, encoded_data.begin(), encoded_data.end());
+        write_padding_bytes(writer);
     }
 
     void vram_safe(bool enable)
