@@ -483,17 +483,8 @@ public:
     {
         static_assert_input_type<InputIterator>();
 
-        const auto data = vector<agbpack_u8>(input, eof);
-
-        // TODO: check return value (what do we do if bad? I guess we throw some exception?)
-        // TODO: put this into its own method, really
-        ClownLZSS::Matches matches;
-        size_t total_matches;
-        auto match_cost_callback = vram_safe() ? get_match_cost_vram_safe : get_match_cost;
-        if (!ClownLZSS::FindOptimalMatches(filler_value, maximum_match_length, maximum_match_distance, nullptr, literal_cost, match_cost_callback, data.data(), bytes_per_value, data.size() / bytes_per_value, &matches, &total_matches, nullptr))
-        {
-            throw "TODO: yikes: FindOptimalMatches. What to do? (at the very least throw a proper exception - is there some sort of internal error we already have?";
-        }
+        const auto uncompressed_data = vector<agbpack_u8>(input, eof);
+        const auto [matches, total_matches] = find_optimal_matches(uncompressed_data);
 
         // TODO: own method?
         vector<agbpack_u8> encoded_data;
@@ -502,7 +493,7 @@ public:
         {
             if (CLOWNLZSS_MATCH_IS_LITERAL(&match))
             {
-                writer.write_literal(data[match.destination]);
+                writer.write_literal(uncompressed_data[match.destination]);
             }
             else
             {
@@ -518,7 +509,7 @@ public:
         //       * Write header to output       \ Should we even bother unifying this, if we're going to rewrite encoders?
         //       * Write encoded data to output /
 
-        const auto header = header::create(lzss_options::reserved, data.size());
+        const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
         // Copy header and encoded data to output
         unbounded_byte_writer<OutputIterator> writer2(output); // TODO: writer2 => writer. We had to move this out of the way because this method does too much and therefore has too many variables.
@@ -538,6 +529,33 @@ public:
     }
 
 private:
+    std::pair<ClownLZSS::Matches, size_t> find_optimal_matches(const vector<agbpack_u8>& data)
+    {
+        ClownLZSS::Matches matches;
+        size_t total_matches;
+        auto match_cost_callback = vram_safe() ? get_match_cost_vram_safe : get_match_cost;
+
+        // TODO: check return value (what do we do if bad? I guess we throw some exception?)
+        if (!ClownLZSS::FindOptimalMatches(
+            filler_value,
+            maximum_match_length,
+            maximum_match_distance,
+            nullptr,
+            literal_cost,
+            match_cost_callback,
+            data.data(),
+            bytes_per_value,
+            data.size() / bytes_per_value,
+            &matches,
+            &total_matches,
+            nullptr))
+        {
+            throw "TODO: yikes: FindOptimalMatches. What to do? (at the very least throw a proper exception - is there some sort of internal error we already have?";
+        }
+
+        return std::make_pair(std::move(matches), total_matches);
+    }
+
     static size_t get_match_cost(const size_t, const size_t length, void* const)
     {
         if (length < minimum_match_length)
