@@ -484,23 +484,7 @@ public:
         static_assert_input_type<InputIterator>();
 
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
-        const auto [matches, total_matches] = find_optimal_matches(uncompressed_data);
-
-        // TODO: own method?
-        vector<agbpack_u8> encoded_data;
-        lzss_bitstream_writer writer(encoded_data);
-        for (const auto& match : std::ranges::subrange(&matches[0], &matches[total_matches]))
-        {
-            if (CLOWNLZSS_MATCH_IS_LITERAL(&match))
-            {
-                writer.write_literal(uncompressed_data[match.destination]);
-            }
-            else
-            {
-                writer.write_reference(match.length, match.destination - match.source);
-            }
-        }
-
+        const auto encoded_data = encode_internal(uncompressed_data);
         const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
         // Copy header and encoded data to output
@@ -521,7 +505,13 @@ public:
     }
 
 private:
-    std::pair<ClownLZSS::Matches, size_t> find_optimal_matches(const vector<agbpack_u8>& data)
+    vector<agbpack_u8> encode_internal(const vector<agbpack_u8>& uncompressed_data)
+    {
+        const auto [matches, total_matches] = find_optimal_matches(uncompressed_data);
+        return encode_matches(uncompressed_data, matches, total_matches);
+    }
+
+    std::pair<ClownLZSS::Matches, size_t> find_optimal_matches(const vector<agbpack_u8>& uncompressed_data)
     {
         ClownLZSS::Matches matches;
         size_t total_matches;
@@ -534,9 +524,9 @@ private:
             nullptr,
             literal_cost,
             match_cost_callback,
-            data.data(),
+            uncompressed_data.data(),
             bytes_per_value,
-            data.size() / bytes_per_value,
+            uncompressed_data.size() / bytes_per_value,
             &matches,
             &total_matches,
             nullptr))
@@ -545,6 +535,26 @@ private:
         }
 
         return std::make_pair(std::move(matches), total_matches);
+    }
+
+    vector<agbpack_u8> encode_matches(const vector<agbpack_u8>& uncompressed_data, const ClownLZSS::Matches& matches, size_t total_matches)
+    {
+        vector<agbpack_u8> encoded_data;
+        lzss_bitstream_writer writer(encoded_data);
+
+        for (const auto& match : std::ranges::subrange(&matches[0], &matches[total_matches]))
+        {
+            if (CLOWNLZSS_MATCH_IS_LITERAL(&match))
+            {
+                writer.write_literal(uncompressed_data[match.destination]);
+            }
+            else
+            {
+                writer.write_reference(match.length, match.destination - match.source);
+            }
+        }
+
+        return encoded_data;
     }
 
     static size_t get_match_cost(const size_t, const size_t length, void* const)
