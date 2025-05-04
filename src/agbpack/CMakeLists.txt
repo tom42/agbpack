@@ -21,9 +21,10 @@ set(
   PRIVATE
   header.cpp)
 
- # TODO: document where this comes from and what it does (https://gitlab.kitware.com/cmake/cmake/-/issues/18837)
- # TODO: document why we need this
- # TODO: do we want this to be target specific (use target_compile_options instead of add_compile_options)? It'd mean we have to duplicate it too... (e.g. add_compile_options(MainApp PUBLIC "/Zc:__cplusplus"))
+ # Make MSVC correctly define __cplusplus, so that we can use all the C++ specific things provided by the clownlzss.h header.
+ # See also:
+ # * https://gitlab.kitware.com/cmake/cmake/-/issues/18837
+ # * https://learn.microsoft.com/en-us/cpp/build/reference/zc-cplusplus
 if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
   add_compile_options("/Zc:__cplusplus")
 endif()
