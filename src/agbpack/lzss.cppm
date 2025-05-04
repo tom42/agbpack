@@ -486,7 +486,6 @@ public:
         // TODO: argument values: we can copy most of them from our packer from the clownlzss tool I guess
         // TODO: see which of these constants we already have at the top of this file. Maybe move all up there - I do not want to have duplicated stuff in there, really
         constexpr auto filler_value = -1;
-        constexpr auto maximum_match_length = 18;
         constexpr auto maximum_match_distance = 0x1000;
         constexpr auto bytes_per_value = 1;
 
