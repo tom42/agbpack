@@ -549,7 +549,7 @@ private:
             &total_matches,
             nullptr))
         {
-            throw "TODO: yikes: FindOptimalMatches. What to do? (at the very least throw a proper exception - is there some sort of internal error we already have?";
+            throw encode_exception("optimal LZSS encoding failed. That should not happen, unless the system is extremely low on memory");
         }
 
         return std::make_pair(std::move(matches), total_matches);
