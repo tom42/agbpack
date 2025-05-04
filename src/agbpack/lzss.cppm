@@ -35,6 +35,9 @@ inline constexpr size_t minimum_match_length = 3;
 inline constexpr size_t maximum_match_length = 18;
 inline constexpr auto literal_cost = 1 + 8;
 inline constexpr auto match_cost = 1 + 16;
+inline constexpr auto filler_value = -1;
+inline constexpr auto maximum_match_distance = 0x1000;
+inline constexpr auto bytes_per_value = 1;
 
 constexpr size_t get_minimum_offset(bool vram_safe)
 {
@@ -483,12 +486,7 @@ public:
         const auto data = vector<agbpack_u8>(input, eof);
 
         // TODO: check return value (what do we do if bad? I guess we throw some exception?)
-        // TODO: argument values: we can copy most of them from our packer from the clownlzss tool I guess
-        // TODO: see which of these constants we already have at the top of this file. Maybe move all up there - I do not want to have duplicated stuff in there, really
-        constexpr auto filler_value = -1;
-        constexpr auto maximum_match_distance = 0x1000;
-        constexpr auto bytes_per_value = 1;
-
+        // TODO: put this into its own method, really
         ClownLZSS::Matches matches;
         size_t total_matches;
         auto match_cost_callback = vram_safe() ? get_match_cost_vram_safe : get_match_cost;
