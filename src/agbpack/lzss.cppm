@@ -535,7 +535,6 @@ private:
         size_t total_matches;
         auto match_cost_callback = vram_safe() ? get_match_cost_vram_safe : get_match_cost;
 
-        // TODO: check return value (what do we do if bad? I guess we throw some exception?)
         if (!ClownLZSS::FindOptimalMatches(
             filler_value,
             maximum_match_length,
