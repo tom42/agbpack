@@ -501,14 +501,6 @@ public:
             }
         }
 
-        // TODO: implement
-        //       * Slurp in uncompressed data
-        //       * Find matches using clownlzss (the C library I guess)
-        //       * Encode data
-        //       * Create header
-        //       * Write header to output       \ Should we even bother unifying this, if we're going to rewrite encoders?
-        //       * Write encoded data to output /
-
         const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
         // Copy header and encoded data to output
