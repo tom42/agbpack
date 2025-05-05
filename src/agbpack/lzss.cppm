@@ -329,6 +329,7 @@ public:
         for (; offset > m_minimum_match_offset; --offset)
         {
             // TODO: close to end of input it is pointless iterating all over [0, maximum_match_length] if that exceeds input. But is it worth optimizing this?
+            // Inner loop: check for match at current position, increasing match length each iteration.
             size_t length = 0;
             for (; length < maximum_match_length; ++length)
             {
