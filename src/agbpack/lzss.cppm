@@ -323,8 +323,6 @@ public:
         //       Basic idea: two nested loops.
         //       * Outer loop: search backwards through sliding window (towards larger offset, away from current position => Nope, wrong, we start at longest offset and keep doing so while it is not 0)
         //         * Inner loop: search forwards, increasing string length.
-        //           * Two problems here:
-        //             * The maximum match length to search for is of course maximum_match_length, but towards the end of the buffer it may be shorter
 
         size_t offset = std::min(current_position, maximum_offset);
 
