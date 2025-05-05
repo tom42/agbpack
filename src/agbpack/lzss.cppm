@@ -328,8 +328,10 @@ public:
         size_t offset = std::min(current_position, maximum_offset);
         for (; offset > m_minimum_match_offset; --offset)
         {
-            // TODO: close to end of input it is pointless iterating all over [0, maximum_match_length] if that exceeds input. But is it worth optimizing this?
             // Inner loop: check for match at current position, increasing match length each iteration.
+            // Note: close to the end of input, iterating over the entire range [0, maximum_match_length]
+            // is pointless if that exceeds the available input. This could easily be optimized, but
+            // considering we're doing linear search that would be a micro optimization.
             size_t length = 0;
             for (; length < maximum_match_length; ++length)
             {
