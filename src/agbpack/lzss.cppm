@@ -234,10 +234,7 @@ private:
                 assert(in_closed_range(length, minimum_match_length, maximum_match_length) && "lzss_decoder is broken");
                 assert(in_closed_range(offset, minimum_offset, maximum_offset) && "lzss_decoder is broken");
 
-                // TODO: call the following three from one function, details are not important here (orly?)
-                throw_if_not_vram_safe(offset);
-                throw_if_outside_sliding_window(offset, nbytes_written);
-                throw_if_reference_overflows_uncompressed_size(length, nbytes_written, header->uncompressed_size());
+                throw_if_bad_reference(length, offset, nbytes_written, header->uncompressed_size());
 
                 receiver.reference(length, offset);
                 nbytes_written += length;
@@ -250,6 +247,13 @@ private:
         }
 
         parse_padding_bytes(reader);
+    }
+
+    void throw_if_bad_reference(size_t length, size_t offset, size_t nbytes_written, size_t uncompressed_size)
+    {
+        throw_if_not_vram_safe(offset);
+        throw_if_outside_sliding_window(offset, nbytes_written);
+        throw_if_reference_overflows_uncompressed_size(length, nbytes_written, uncompressed_size);
     }
 
     void throw_if_not_vram_safe(size_t offset)
