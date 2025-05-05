@@ -324,8 +324,8 @@ public:
         //       * Outer loop: search backwards through sliding window (towards larger offset, away from current position => Nope, wrong, we start at longest offset and keep doing so while it is not 0)
         //         * Inner loop: search forwards, increasing string length.
 
+        // Outer loop: step through sliding window, starting at longest possible offset.
         size_t offset = std::min(current_position, maximum_offset);
-
         for (; offset > m_minimum_match_offset; --offset)
         {
             // TODO: close to end of input it is pointless iterating all over [0, maximum_match_length] if that exceeds input. But is it worth optimizing this?
