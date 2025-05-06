@@ -319,11 +319,6 @@ public:
     {
         match best_match(0, 0); // TODO: start with length=0, or length=2 (minimum_match_length-1)?
 
-        // TODO: implement this.
-        //       Basic idea: two nested loops.
-        //       * Outer loop: search backwards through sliding window (towards larger offset, away from current position => Nope, wrong, we start at longest offset and keep doing so while it is not 0)
-        //         * Inner loop: search forwards, increasing string length.
-
         // Outer loop: step through sliding window, starting at longest possible offset.
         size_t offset = std::min(current_position, maximum_offset);
         for (; offset > m_minimum_match_offset; --offset)
