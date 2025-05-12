@@ -13,7 +13,7 @@ module;
 #include <ranges>
 #include <utility>
 #include <vector>
-#include "clownlzss.h"
+#include "clownlzss/clownlzss.h"
 
 export module agbpack:lzss;
 import :common;
