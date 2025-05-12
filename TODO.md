@@ -15,8 +15,6 @@ SPDX-License-Identifier: MIT
       * Wenn we do so, can we avoid having to install clownlzss.h with the module?
         * Or is this even a problem?
     * Make them reuse compliant (use toml file for this)
-  * But use clownlzss for this (all of it, or just the encoder bits?)
-  * Ugh: just looked at clownlzss.c: is it really leaking memory? There is a single malloc in there, bit where is the free?
   * Once we have this we could measure: if it performs faster than the existing encoder, then there is
     no reason to have the existing encoder
 * Honor all the options added to CMakeLists.txt
