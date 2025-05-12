@@ -14,7 +14,6 @@ SPDX-License-Identifier: MIT
         (we can't compile it as part of the remaining agbpack sources - their warning level is simply too high)
       * Wenn we do so, can we avoid having to install clownlzss.h with the module?
         * Or is this even a problem?
-    * Make them reuse compliant (use toml file for this)
   * Once we have this we could measure: if it performs faster than the existing encoder, then there is
     no reason to have the existing encoder
 * Honor all the options added to CMakeLists.txt
