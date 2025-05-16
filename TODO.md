@@ -8,8 +8,6 @@ SPDX-License-Identifier: MIT
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
   * This means, in particular, that we also remove specializations for random access iterators we did for the LZSS encoder
 * Reimplement optimal_lzss_encoder using clownlzss
-  * Once we have this we could measure: if it performs faster than the existing encoder, then there is
-    no reason to have the existing encoder
   * Do we have to install clownlzss.h along with the module since clownlzss.h is used in a .cppm file?
 * Honor all the options added to CMakeLists.txt
   * Only get argpppp if tools are used
