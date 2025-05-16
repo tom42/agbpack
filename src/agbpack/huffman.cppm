@@ -936,9 +936,14 @@ private:
     static size_t calculate_encoded_tree_size(const serialized_tree& serialized_tree)
     {
         // Calculate size of encoded tree.
-        // serialized_tree.size() already includes the tree size byte, so we just need to add alignment bytes.
+        // serialized_tree.size() already includes the tree size byte, so we just need to add alignment bytes (see below).
         size_t size = serialized_tree.size();
 
+        // Align the size of the encoded tree to a multiple of 4 bytes.
+        // This is done so that the bitstream that follows the encoded tree is 32 bit aligned
+        // and can be read from memory in units of 32 bits by the GBA's ARM7TDMI CPU.
+        // Note that in the grit source code the encoded tree is padded to 512 bytes,
+        // but this does not seem to be necessary. A multiple of 4 bytes seems to be enough.
         while ((size % 4) != 0)
         {
             ++size;
