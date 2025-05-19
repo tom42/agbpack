@@ -9,8 +9,6 @@ SPDX-License-Identifier: MIT
   * This means, in particular, that we also remove specializations for random access iterators we did for the LZSS encoder
 * Reimplement optimal_lzss_encoder using clownlzss
   * Do we have to install clownlzss.h along with the module since clownlzss.h is used in a .cppm file?
-* Honor all the options added to CMakeLists.txt
-  * Only get argpppp if tools are used
 * Turn our debug tools into real tools in src, with proper argp_parse command line parser
   * agbpack-tool / agbpacker: simple compression/decompression tool exposing all implemented schemes
     * Rationale: will be useful as a tool in itself
