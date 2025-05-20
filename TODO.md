@@ -4,11 +4,14 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Add install target
+  * Problem: 'make install' seems to install argpppp (verify that)
+    * Need to fix this argpppp side, but don't know yet how
+  * Need to add an install target for agbpack: reuse argpppp code
+    * Big question here: Do we have to install clownlzss.h along with the module since clownlzss.h is used in a .cppm file?
 * Redo encoders/decoders
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
   * This means, in particular, that we also remove specializations for random access iterators we did for the LZSS encoder
-* Reimplement optimal_lzss_encoder using clownlzss
-  * Do we have to install clownlzss.h along with the module since clownlzss.h is used in a .cppm file?
 * Turn our debug tools into real tools in src, with proper argp_parse command line parser
   * agbpack-tool / agbpacker: simple compression/decompression tool exposing all implemented schemes
     * Rationale: will be useful as a tool in itself
