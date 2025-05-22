@@ -4,10 +4,10 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Add install target
-  * Problem: 'make install' seems to install argpppp (verify that)
-    * Need to fix this argpppp side, but don't know yet how
-  * Need to add an install target for agbpack: reuse argpppp code
+* Add install target(s)
+  * The existing install target for agbpacker should be configurable
+  * Add a new install target for agbpack (the static library)
+    * See whether we can reuse code from argpppp
     * Big question here: Do we have to install clownlzss.h along with the module since clownlzss.h is used in a .cppm file?
 * Redo encoders/decoders
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
