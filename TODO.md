@@ -7,8 +7,9 @@ SPDX-License-Identifier: MIT
 * Add install target(s)
   * The existing install target for agbpacker should be configurable
   * Add a new install target for agbpack (the static library)
-    * See whether we can reuse code from argpppp
     * Big question here: Do we have to install clownlzss.h along with the module since clownlzss.h is used in a .cppm file?
+      * Yes as expected: implemented an install target similar to argpppp. When that installed library is consumed,
+        then when the BMIs are compiled, the clownlzss.h header is not found. Sigh.
 * Redo encoders/decoders
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
   * This means, in particular, that we also remove specializations for random access iterators we did for the LZSS encoder

@@ -33,6 +33,7 @@ endif()
 add_library(agbpack $<TARGET_OBJECTS:clownzss_objects>)
 target_sources(agbpack ${agbpack_sources})
 target_compile_definitions(agbpack PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=)
+target_compile_features(agbpack PUBLIC cxx_std_23)
 vtg_target_enable_warnings(agbpack)
 
 # Unit testing version of agbpack.
@@ -40,5 +41,10 @@ if(agbpack_BUILD_TESTING)
   add_library(agbpack_unit_testing $<TARGET_OBJECTS:clownzss_objects>)
   target_sources(agbpack_unit_testing ${agbpack_sources})
   target_compile_definitions(agbpack_unit_testing PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=export)
+  target_compile_features(agbpack_unit_testing PUBLIC cxx_std_23)
   vtg_target_enable_warnings(agbpack_unit_testing)
+endif()
+
+if(agbpack_INSTALL_STATIC_LIBRARY)
+  include(InstallAgbpack)
 endif()
