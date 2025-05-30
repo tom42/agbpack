@@ -4,6 +4,19 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Install targets:
+  * Back to drawing board: we fail to build BMIs because we issue warnings:
+    * Test this with argpppp
+      * Install the library
+      * Use it with both compilers:
+        * g++
+        * clang
+        * And possibly both release and debug builds
+    * It's not going to work because apparently, when building BMIs, compiler flags get messed up. Sigh.
+      * We already have learnt that we should not set warnings: now we've got one reason more:
+        * If we do so, warning flags end up as "settings" with the installed library, and are apparently used
+          regardless of the compiler that is used to build BMIs => Need to fix this
+        * Fix this in VtgEnableWarnings.cmake and deploy that into all projects that currently make use of it
 * Add install target(s)
   * The existing install target for agbpacker should be configurable
   * Add a new install target for agbpack (the static library)
