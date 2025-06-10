@@ -6,8 +6,7 @@ SPDX-License-Identifier: MIT
 # TODO
 * Install targets:
   * Update agbpack similar to argppp
-    * Use latest vtgcmake enable warnings
-    * Use similar sort of cmake options
+    * Use latest vtgcmake enable warnings (in progress, need to honor option and switch warnings on/off)
     * Use similar CMakePresets.json
     * Use same github Workflow (can really use the same, I think, including reuse lint)
 * Add install target(s)

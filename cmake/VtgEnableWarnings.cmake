@@ -3,6 +3,10 @@
 
 function(vtg_target_enable_warnings target)
 
+  if(NOT vtg_ENABLE_WARNINGS)
+    return()
+  endif()
+
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     # Using -Weverything is not recommended by clang developers, see
     # https://quuxplusone.github.io/blog/2018/12/06/dont-use-weverything
