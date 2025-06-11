@@ -4,9 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Install targets:
-  * Update agbpack similar to argppp
-    * Use same github Workflow (can really use the same, I think, including reuse lint)
 * Add install target(s)
   * The existing install target for agbpacker should be configurable
   * Add a new install target for agbpack (the static library)
