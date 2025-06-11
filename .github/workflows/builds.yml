@@ -107,7 +107,7 @@ jobs:
     - name: Install reuse
       shell: bash
       run: |
-        sudo apt install reuse
+        pipx install reuse
 
     - name: Run reuse lint
       shell: bash
