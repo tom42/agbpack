@@ -32,10 +32,10 @@ jobs:
     - name: Checkout sources
       uses: actions/checkout@v4
 
-    - name: Install Catch2
+    - name: Install Catch2 and latest reuse
       shell: bash
       run: |
-        sudo apt install catch2
+        sudo apt install catch2 reuse
 
     - name: Configure CMake
       run: >
