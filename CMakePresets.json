@@ -1,0 +1,46 @@
+{
+  "$comment": [
+    "SPDX-FileCopyrightText: 2025 Thomas Mathys",
+    "SPDX-License-Identifier: MIT"
+  ],
+  "version": 10,
+  "configurePresets": [
+    {
+      "name": "dev-base",
+      "description": "Development/CI with warnings enabled",
+      "hidden": true,
+      "cacheVariables": {
+        "agbpack_BUILD_TESTING": "ON",
+        "agbpack_ENABLE_WARNINGS": "ON",
+        "agbpack_BUILD_AGBPACKER": "ON",
+        "agbpack_INSTALL_STATIC_LIBRARY": "ON"
+      }
+    },
+    {
+      "name": "dev-linux-ninja",
+      "inherits": "dev-base",
+      "generator": "Ninja",
+      "installDir": "/tmp"
+    },
+    {
+      "name": "dev-linux-ninja-clang",
+      "inherits": "dev-linux-ninja",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++"
+      }
+    },
+    {
+      "name": "dev-linux-ninja-gcc",
+      "inherits": "dev-linux-ninja",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "dev-windows-default",
+      "inherits": "dev-base"
+    }
+  ]
+}
