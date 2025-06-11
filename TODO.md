@@ -4,6 +4,10 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Fix github workflow or reuse configuration
+  * Ubuntu 24.04 has a too old FSF reuse tool installed which does not honor our REUSE.toml files
+    * Need to figure out how to install a newer one, maybe try with pipx: https://github.com/fsfe/reuse-tool
+      * If that works and installs the desired version, fix the workflow of argpppp too so that it is identical
 * Add install target(s)
   * The existing install target for agbpacker should be configurable
   * Add a new install target for agbpack (the static library)
