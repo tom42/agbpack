@@ -67,8 +67,7 @@ SPDX-License-Identifier: MIT
   * code coverage for unit tests
   * clang-fmt
   * clang-tidy
-  * Add reuse custom target to CMakeLists.txt?
-  * Cmake Built-in static analyzers, e.g. "include only what you need". Anything else?
+  * https://github.com/include-what-you-use: unfortunately this segfaults
 * Checklist for a new code base
   * Automate the build => That is, have a top level shell script that runs stuff
     * configure
