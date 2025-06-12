@@ -43,7 +43,7 @@ SPDX-License-Identifier: MIT
   * Some lzss decoder tests, certainly at least that one: aaaaaaaaaaaaaaaaaaa
   * Problem:
     * We need an emulator to sensibly do this with
-    * And we also need a way to crunch our stuff, although we could use a script for this
+    * And we also need a way to crunch our stuff, although we could use a script for this (well we're going to have agbpacker, no?)
     * Well maybe not, then?
 * There is a test for the RLE decoder which tests decoding through a file stream
   * This is confusing, and what we really want is probably such a test for each encoder/decoder
