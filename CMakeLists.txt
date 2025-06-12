@@ -14,6 +14,7 @@ option(agbpack_BUILD_TESTING "Build agbpack tests" OFF)
 option(agbpack_ENABLE_WARNINGS "Build agbpack with warnings enabled" OFF)
 option(agbpack_BUILD_AGBPACKER "Build the agbpacker executable" ${PROJECT_IS_TOP_LEVEL})
 option(agbpack_INSTALL_STATIC_LIBRARY "Install the agbpack static library" ${PROJECT_IS_TOP_LEVEL})
+option(agbpack_INSTALL_AGBPACKER "Install the agbpacker executable" ${PROJECT_IS_TOP_LEVEL})
 
 
 ################################################################################
