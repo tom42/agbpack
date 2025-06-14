@@ -26,7 +26,7 @@ set(
  # * https://gitlab.kitware.com/cmake/cmake/-/issues/18837
  # * https://learn.microsoft.com/en-us/cpp/build/reference/zc-cplusplus
 if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
-  add_compile_options("/Zc:__cplusplus")
+  set(agbpack_compile_options /Zc:__cplusplus)
 endif()
 
 # Production version of agbpack.
@@ -34,6 +34,7 @@ add_library(agbpack $<TARGET_OBJECTS:clownzss_objects>)
 target_sources(agbpack ${agbpack_sources})
 target_compile_definitions(agbpack PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=)
 target_compile_features(agbpack PUBLIC cxx_std_23)
+target_compile_options(agbpack PRIVATE ${agbpack_compile_options})
 vtg_target_enable_warnings(agbpack)
 
 # Unit testing version of agbpack.
@@ -42,6 +43,7 @@ if(agbpack_BUILD_TESTING)
   target_sources(agbpack_unit_testing ${agbpack_sources})
   target_compile_definitions(agbpack_unit_testing PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=export)
   target_compile_features(agbpack_unit_testing PUBLIC cxx_std_23)
+  target_compile_options(agbpack_unit_testing PRIVATE ${agbpack_compile_options})
   vtg_target_enable_warnings(agbpack_unit_testing)
 endif()
 
