@@ -18,22 +18,22 @@
       }
     },
     {
-      "name": "dev-linux-ninja",
+      "name": "dev-linux",
       "inherits": "dev-base",
       "generator": "Ninja",
       "installDir": "/tmp"
     },
     {
-      "name": "dev-linux-ninja-clang",
-      "inherits": "dev-linux-ninja",
+      "name": "dev-linux-clang",
+      "inherits": "dev-linux",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_CXX_COMPILER": "clang++"
       }
     },
     {
-      "name": "dev-linux-ninja-gcc",
-      "inherits": "dev-linux-ninja",
+      "name": "dev-linux-gcc",
+      "inherits": "dev-linux",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_CXX_COMPILER": "g++"

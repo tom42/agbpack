@@ -42,7 +42,7 @@ jobs:
         cmake
         -B ${{steps.strings.outputs.build-output-dir}}
         -S ${{github.workspace}}
-        --preset dev-linux-ninja
+        --preset dev-linux
         -DCMAKE_CXX_COMPILER=${{matrix.cxx_compiler}}
         -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
 
