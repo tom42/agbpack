@@ -20,6 +20,14 @@ install(
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/agbpack
   CXX_MODULES_DIRECTORY .)
 
+# Workaround, until I've figured out how to install private headers for BMI building:
+# Copy private headers that are used in .cppm files to same location as the .cppm files,
+# so that the headers can be found when BMI's are compiled for the installed library.
+install(
+  FILES
+  "${PROJECT_SOURCE_DIR}/src/agbpack/clownlzss/clownlzss.h"
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/agbpack/src)
+
 # Generate and install agbpackConfigVersion.cmake
 write_basic_package_version_file(
   "${PROJECT_BINARY_DIR}/agbpackConfigVersion.cmake"

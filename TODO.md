@@ -5,12 +5,18 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Add install target(s)
+  * We keep writing a mini project for testing the consumation of an installed
+    library => Maybe write that project one last time and put it under version control?
   * Add a new install target for agbpack (the static library)
     * Big question here: Do we have to install clownlzss.h along with the module since clownlzss.h is used in a .cppm file?
-      * Yes as expected: implemented an install target similar to argpppp. When that installed library is consumed,
-        then when the BMIs are compiled, the clownlzss.h header is not found. Sigh.
       * We could install the clownlzss.h header, problem is, it's got compiler flags attached to it (/Zc:__cplusplus),
         so we have the same problem we had with warning flags.
+      * Well for starters see whether it is a problem at all and whether we can get
+        rid of it using generator expressions:
+        * For testing, set up an experiment where we have a gcc specific option in there
+        * Can compile that library with gcc and install it?
+        * Can we then consume that library with clang without clang choking on
+          a gcc specific option that somehow slipped in?
 * Redo encoders/decoders
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
   * This means, in particular, that we also remove specializations for random access iterators we did for the LZSS encoder
