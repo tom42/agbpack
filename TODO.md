@@ -73,7 +73,6 @@ SPDX-License-Identifier: MIT
   * code coverage for unit tests
   * clang-fmt
   * clang-tidy
-  * https://github.com/include-what-you-use: unfortunately this segfaults
 * Checklist for a new code base
   * Automate the build => That is, have a top level shell script that runs stuff
     * configure
