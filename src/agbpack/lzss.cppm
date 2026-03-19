@@ -507,6 +507,12 @@ public:
 private:
     vector<agbpack_u8> encode_internal(const vector<agbpack_u8>& uncompressed_data)
     {
+        if (uncompressed_data.empty())
+        {
+            // Code further on does not work well with zero-sized input.
+            return {};
+        }
+
         const auto [matches, total_matches] = find_optimal_matches(uncompressed_data);
         return encode_matches(uncompressed_data, matches, total_matches);
     }
