@@ -73,9 +73,3 @@ SPDX-License-Identifier: MIT
   * code coverage for unit tests
   * clang-fmt
   * clang-tidy
-* Checklist for a new code base
-  * Automate the build => That is, have a top level shell script that runs stuff
-    * configure
-    * build
-    * run tests
-    * reuse lint
