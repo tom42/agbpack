@@ -92,7 +92,10 @@ std::optional<header> header::parse_for_type(compression_type wanted_type, uint3
     auto header = parse(header_data);
     if (!header || (header->type() != wanted_type))
     {
-        return {};
+        // Overwrite result, no return statement here.
+        // This avoids triggering Clang's -Wnrvo warning when returning result below.
+        // Consider switching off this warning if it becomes annoying.
+        header = {};
     }
 
     return header;
