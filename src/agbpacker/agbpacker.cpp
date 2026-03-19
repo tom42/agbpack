@@ -10,31 +10,7 @@ import argpppp;
 
 #define PROGRAM_NAME "agbpacker"
 extern "C" { const char* argp_program_version = PROGRAM_NAME " " AGBPACK_VERSION; }
-//static char program_name[] = PROGRAM_NAME; // TODO: see what to do with this
-
-int main(int /*argc*/, char** /*argv*/)
-{
-    // TODO: test code, replace by original code below
-    /*
-    try
-    {
-        argv[0] = program_name;
-        argpppp::parser parser;
-        parser.set_doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack");
-        add_option(parser, {}, {}); // TODO: bogus option to fix g++ debug build linking problems. Replace by real options
-        parser.parse(argc, argv);
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << argv[0] << ": " << e.what() << "\n";
-        return EXIT_FAILURE;
-    }
-    */
-}
-
-// TODO: get stuff below built again
-/*
-#include <functional>
+static char program_name[] = PROGRAM_NAME;
 
 namespace
 {
@@ -45,11 +21,36 @@ enum class program_mode
     decompress
 };
 
-class options final
+struct options final
 {
-public:
     program_mode mode = program_mode::compress;
 };
+
+}
+
+int main(int argc, char** argv)
+{
+    try
+    {
+        argv[0] = program_name;
+        argpppp::options options;
+        options.doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack");
+        argpppp::parse_command_line(argc, argv, options);
+        // TODO: handle parse errors somehow (parse_command_line returns a parse_result)
+
+        // TODO: test code, replace by original code below
+        // add_option(parser, {}, {}); // TODO: bogus option to fix g++ debug build linking problems. Replace by real options
+        return EXIT_SUCCESS;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << argv[0] << ": " << e.what() << "\n";
+        return EXIT_FAILURE;
+    }
+}
+
+// TODO: get stuff below built again
+/*
 
 options parse_command_line(int argc, char** argv)
 {
@@ -85,8 +86,6 @@ options parse_command_line(int argc, char** argv)
     parser.parse(argc, argv);
 
     return options;
-}
-
 }
 
 int main(int argc, char** argv)
