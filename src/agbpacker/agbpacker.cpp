@@ -10,11 +10,12 @@ import argpppp;
 
 #define PROGRAM_NAME "agbpacker"
 extern "C" { const char* argp_program_version = PROGRAM_NAME " " AGBPACK_VERSION; }
-static char program_name[] = PROGRAM_NAME;
+//static char program_name[] = PROGRAM_NAME; // TODO: see what to do with this
 
-int main(int argc, char** argv)
+int main(int /*argc*/, char** /*argv*/)
 {
     // TODO: test code, replace by original code below
+    /*
     try
     {
         argv[0] = program_name;
@@ -28,6 +29,7 @@ int main(int argc, char** argv)
         std::cerr << argv[0] << ": " << e.what() << "\n";
         return EXIT_FAILURE;
     }
+    */
 }
 
 // TODO: get stuff below built again
