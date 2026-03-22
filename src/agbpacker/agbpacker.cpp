@@ -26,17 +26,26 @@ struct options final
     program_mode mode = program_mode::compress;
 };
 
+bool parse_command_line(int argc, char* argv[])
+{
+    argpppp::options options;
+    options.doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack");
+    auto parse_result = argpppp::parse_command_line(argc, argv, options);
+    return parse_result.errnum == 0;
 }
 
-int main(int argc, char** argv)
+}
+
+int main(int argc, char* argv[])
 {
     try
     {
         argv[0] = program_name;
-        argpppp::options options;
-        options.doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack");
-        argpppp::parse_command_line(argc, argv, options);
-        // TODO: handle parse errors somehow (parse_command_line returns a parse_result)
+        if (!parse_command_line(argc, argv))
+        {
+            // Should not happen because we let argp_parse exit.
+            return EXIT_FAILURE;
+        }
 
         // TODO: test code, replace by original code below
         // add_option(parser, {}, {}); // TODO: bogus option to fix g++ debug build linking problems. Replace by real options
