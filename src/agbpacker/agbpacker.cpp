@@ -29,7 +29,12 @@ struct options final
 bool parse_command_line(int argc, char* argv[])
 {
     argpppp::options options;
-    options.doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack");
+    // TODO: figure out to specify input and output:
+    //       * 2 positional arguments: <input> <output>
+    //       * 1 positional argument: <input>, output is optionally specified with option
+    options
+        .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack")
+        .num_args(1);
     auto parse_result = argpppp::parse_command_line(argc, argv, options);
     return parse_result.errnum == 0;
 }
