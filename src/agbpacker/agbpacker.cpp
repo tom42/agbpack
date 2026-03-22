@@ -52,8 +52,6 @@ int main(int argc, char* argv[])
             return EXIT_FAILURE;
         }
 
-        // TODO: test code, replace by original code below
-        // add_option(parser, {}, {}); // TODO: bogus option to fix g++ debug build linking problems. Replace by real options
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
