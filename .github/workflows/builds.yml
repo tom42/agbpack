@@ -18,7 +18,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        cxx_compiler: [clang++, g++-14]
+        # Temporarily we do not build with g++ until g++ 15.2 is easily available on GitHub.
+        # g++ 14 segfaults on our C++ module usage.
+        cxx_compiler: [clang++]
         build_type: [Release, Debug]
 
     steps:
