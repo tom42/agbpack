@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2025 Thomas Mathys
 # SPDX-License-Identifier: MIT
 
+# TODO: this might have to move to agbpacker_core
 include(FetchContent)
 FetchContent_Declare(
   argpppp
@@ -10,7 +11,7 @@ FetchContent_MakeAvailable(argpppp)
 
 add_executable(agbpacker agbpacker.cpp)
 vtg_target_enable_warnings(agbpacker)
-target_link_libraries(agbpacker PRIVATE agbpack argpppp)
+target_link_libraries(agbpacker PRIVATE agbpack argpppp agbpacker_core) # TODO: see which of agbpack and argpppp we still need
 
 if(agbpack_INSTALL_AGBPACKER)
   include(GNUInstallDirs)

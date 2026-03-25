@@ -4,5 +4,6 @@
 add_subdirectory(agbpack)
 
 if(agbpack_BUILD_AGBPACKER)
+  add_subdirectory(agbpacker_core)
   add_subdirectory(agbpacker)
 endif()

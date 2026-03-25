@@ -29,7 +29,7 @@ if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
   set(agbpack_compile_options /Zc:__cplusplus)
 endif()
 
-# Production version of agbpack.
+# Production version of agbpack
 add_library(agbpack $<TARGET_OBJECTS:clownzss_objects>)
 target_sources(agbpack ${agbpack_sources})
 target_compile_definitions(agbpack PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=)
@@ -38,7 +38,7 @@ target_compile_options(agbpack PRIVATE ${agbpack_compile_options})
 target_include_directories(agbpack PRIVATE clownlzss)
 vtg_target_enable_warnings(agbpack)
 
-# Unit testing version of agbpack.
+# Unit testing version of agbpack
 if(agbpack_BUILD_TESTING)
   add_library(agbpack_unit_testing $<TARGET_OBJECTS:clownzss_objects>)
   target_sources(agbpack_unit_testing ${agbpack_sources})
