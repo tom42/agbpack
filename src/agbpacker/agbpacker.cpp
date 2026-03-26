@@ -12,6 +12,7 @@ import argpppp;
 extern "C" { const char* argp_program_version = PROGRAM_NAME " " AGBPACK_VERSION; }
 static char program_name[] = PROGRAM_NAME;
 
+// TODO: move all this stuff into agbpacker_core
 namespace
 {
 
@@ -43,12 +44,15 @@ bool parse_command_line(int argc, char* argv[])
 
 }
 
+import agbpacker_core;
+
 int main(int argc, char* argv[])
 {
     try
     {
         argv[0] = program_name;
-        if (!parse_command_line(argc, argv))
+        auto result = agbpacker_core::parse_command_line(argc, argv);
+        if (!result.success)
         {
             // Should not happen because we let argp_parse exit.
             return EXIT_FAILURE;
