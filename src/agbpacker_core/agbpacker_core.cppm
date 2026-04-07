@@ -7,9 +7,16 @@ export module agbpacker_core;
 namespace agbpacker_core
 {
 
+enum class program_mode
+{
+    compress,
+    decompress
+};
+
 export struct parse_command_line_result final
 {
-    bool success{};
+    program_mode mode = program_mode::compress;
+    bool success = false;
 };
 
 export parse_command_line_result parse_command_line(int argc, char* argv[]);
