@@ -3,7 +3,6 @@
 
 export module agbpacker_core;
 
-// TODO: possibly want to put command line parsing stuff into own partition
 namespace agbpacker_core
 {
 
