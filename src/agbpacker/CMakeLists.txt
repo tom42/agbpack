@@ -1,14 +1,6 @@
 # SPDX-FileCopyrightText: 2025 Thomas Mathys
 # SPDX-License-Identifier: MIT
 
-# TODO: this might have to move to agbpacker_core
-include(FetchContent)
-FetchContent_Declare(
-  argpppp
-  GIT_REPOSITORY https://github.com/tom42/argpppp
-  GIT_TAG        v0.4.0)
-FetchContent_MakeAvailable(argpppp)
-
 add_executable(agbpacker agbpacker.cpp)
 vtg_target_enable_warnings(agbpacker)
 target_link_libraries(agbpacker PRIVATE agbpacker_core)
