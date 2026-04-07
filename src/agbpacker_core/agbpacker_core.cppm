@@ -12,6 +12,6 @@ export struct parse_command_line_result final
     bool success{};
 };
 
-export parse_command_line_result parse_command_line(int argc, const char* argv[]);
+export parse_command_line_result parse_command_line(int argc, char* argv[]);
 
 }
