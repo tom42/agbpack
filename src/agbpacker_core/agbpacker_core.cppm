@@ -18,6 +18,6 @@ export struct parse_command_line_result final
     bool success = false;
 };
 
-export parse_command_line_result parse_command_line(int argc, char* argv[]);
+export parse_command_line_result parse_command_line(int argc, char* argv[], bool is_unit_test = false);
 
 }

@@ -7,7 +7,26 @@ import argpppp;
 namespace agbpacker_core
 {
 
-parse_command_line_result parse_command_line(int argc, char* argv[])
+using argpppp::pf;
+
+namespace
+{
+
+argpppp::command_line_parser make_parser(bool is_unit_test)
+{
+    argpppp::command_line_parser parser;
+
+    if (is_unit_test)
+    {
+        parser.flags(pf::no_errs | pf::no_exit);
+    }
+
+    return parser;
+}
+
+}
+
+parse_command_line_result parse_command_line(int argc, char* argv[], bool is_unit_test)
 {
     argpppp::options command_line_options;
     // TODO: figure out to specify input and output:
@@ -18,7 +37,9 @@ parse_command_line_result parse_command_line(int argc, char* argv[])
     command_line_options
         .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack")
         .num_args(1);
-    auto parse_result = argpppp::parse_command_line(argc, argv, command_line_options);
+
+    auto parser = make_parser(is_unit_test);
+    auto parse_result = parser.parse(argc, argv, command_line_options);
 
     parse_command_line_result result;
     result.success = parse_result.errnum == 0;
