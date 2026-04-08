@@ -4,6 +4,7 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Replace our odd static asserts by concepts: there's a way to get at the element type of iterators, that could be the solution
 * Add install target(s)
   * We keep writing a mini project for testing the consumation of an installed
     library => Maybe write that project one last time and put it under version control?
