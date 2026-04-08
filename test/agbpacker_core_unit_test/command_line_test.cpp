@@ -11,6 +11,7 @@ import agbpacker_core;
 namespace agbpacker_core_unit_test
 {
 
+using agbpacker_core::program_mode;
 using agbpacker_core::parse_command_line_result;
 using std::string_view;
 using std::vector;
@@ -77,6 +78,7 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
 
         CHECK(result.success == true);
         CHECK(result.input_file == "file");
+        CHECK(result.mode == program_mode::compress);
     }
 }
 
