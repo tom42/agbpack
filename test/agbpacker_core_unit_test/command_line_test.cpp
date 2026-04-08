@@ -37,11 +37,9 @@ protected:
         // This is sufficient for our test cases, quoting and such are low level details handled by getopt.
         vector<vector<char>> args;
         args.push_back(make_arg("program_name"));
-        // TODO: split and add args
         for (auto arg : std::views::split(command_line, ' '))
         {
-            // TODO: yikes: does not build
-            //make_arg(arg);
+            args.push_back(make_arg(string_view(arg)));
         }
 
         // Build argv, a vector containing char pointers to the zero terminated arguments
