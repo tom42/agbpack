@@ -75,8 +75,8 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
     {
         auto result = parse_command_line("file");
 
-        // TODO: check file name
         CHECK(result.success == true);
+        CHECK(result.input_file == "file");
     }
 }
 
