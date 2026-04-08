@@ -17,6 +17,7 @@ function(vtg_target_enable_warnings target)
     target_compile_options(${target} PRIVATE -Wno-c++98-compat)
     target_compile_options(${target} PRIVATE -Wno-c++98-compat-bind-to-temporary-copy)
     target_compile_options(${target} PRIVATE -Wno-c++98-compat-pedantic)
+    target_compile_options(${target} PRIVATE -Wno-covered-switch-default)
     target_compile_options(${target} PRIVATE -Wno-ctad-maybe-unsupported)
     target_compile_options(${target} PRIVATE -Wno-padded)
     target_compile_options(${target} PRIVATE -Wno-switch-default)
@@ -71,6 +72,25 @@ function(vtg_target_enable_warnings target)
   if(MSVC)
     target_compile_options(${target} PRIVATE /WX)
     target_compile_options(${target} PRIVATE /W4)
+  endif()
+
+endfunction()
+
+function(vtg_target_enable_warnings_for_test target)
+
+  if(NOT vtg_ENABLE_WARNINGS)
+    return()
+  endif()
+
+  vtg_target_enable_warnings(${target})
+
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    target_compile_options(${target} PRIVATE -Wno-float-equal)
+    target_compile_options(${target} PRIVATE -Wno-missing-noreturn)
+  endif()
+
+  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    target_compile_options(${target} PRIVATE -Wno-float-equal)
   endif()
 
 endfunction()

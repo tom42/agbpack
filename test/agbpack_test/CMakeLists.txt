@@ -18,6 +18,6 @@ add_executable(
   rle_decoder_test.cpp
   testdata.cpp)
 target_include_directories(agbpack_test PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
-vtg_target_enable_warnings(agbpack_test)
+vtg_target_enable_warnings_for_test(agbpack_test)
 target_link_libraries(agbpack_test PRIVATE agbpack Catch2::Catch2WithMain)
 catch_discover_tests(agbpack_test)
