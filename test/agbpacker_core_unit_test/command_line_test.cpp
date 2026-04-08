@@ -22,7 +22,7 @@ vector<char> make_arg(string_view s)
 {
     vector<char> arg;
     arg.reserve(s.size() + 1);
-    arg.append_range(s);
+    arg.insert(arg.end(), s.begin(), s.end()); // vector::append_range is not supported by clang 18, which we use on github.
     arg.push_back(0); // Add terminating zero
     return arg;
 }
