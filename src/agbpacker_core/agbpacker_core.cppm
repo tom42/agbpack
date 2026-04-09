@@ -22,6 +22,7 @@ export struct parse_command_line_result final
     bool success = false;
     program_mode mode = program_mode::compress;
     std::string input_file;
+    std::string output_file;
 };
 
 export parse_command_line_result parse_command_line(int argc, char* argv[], bool is_unit_test = false);

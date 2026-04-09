@@ -48,6 +48,7 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
     if (result.success)
     {
         result.input_file = parse_result.args.at(0);
+        result.output_file = result.input_file; // TODO: should only do this if no output file given
     }
 
     return result;

@@ -82,6 +82,7 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
 
         CHECK(result.success == true);
         CHECK(result.input_file == "file");
+        CHECK(result.output_file == "file");
         CHECK(result.mode == program_mode::compress);
     }
 }
