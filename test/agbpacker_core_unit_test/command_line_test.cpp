@@ -85,6 +85,16 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
         CHECK(result.output_file == "file");
         CHECK(result.mode == program_mode::compress);
     }
+
+    SECTION("Output file given")
+    {
+        // TODO: Do we need to check both orders?
+        auto result = parse_command_line("-o file.output file.input");
+
+        CHECK(result.success == true);
+        // TODO: check input file
+        // TODO: check output file
+    }
 }
 
 }
