@@ -52,9 +52,6 @@ options parse_command_line(int argc, char** argv)
     //       * delta8
     //       * delta16
     //       * LZSS needs some more options: greedy/optimal/others
-    //       Arguments
-    //       * input file
-    //       * output file
     options options;
 
     // TODO: re compression mode: we can do better, no?
@@ -63,7 +60,6 @@ options parse_command_line(int argc, char** argv)
     // TODO: actually parse and store compression method
     //       => For this, argpppp actually should process the return value of the lambda!
     // TODO: do we also expect the compression method for decompression? (Would be simpler, but also rather silly, no?)
-    // TODO: enforce that there are exactly two arguments
     // TODO: there should be no method option. The method should be an argument of --compress. It could be optional, in which case we'd use LZSS.
     parser.set_args_doc("<input> <output>");
     add_option(parser, { "compress", 'c', {}, {}, "Files are compressed by default" }, [&options](auto){ options.mode = program_mode::compress; return true; });

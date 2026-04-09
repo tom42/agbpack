@@ -31,11 +31,6 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 {
     parse_command_line_result result;
     argpppp::options command_line_options;
-    // TODO: figure out to specify input and output:
-    //       * 2 positional arguments: <input> <output>
-    //       * 1 positional argument: <input>, output is optionally specified with option
-    //           1a) If not given, output file name is same as input file name
-    //           2a) If not given, output file name is somehow derived from input file name
     // TODO: compression mode: consider making this an optional argument of -c/--compress?
     // TODO: Add args documentation
     command_line_options
