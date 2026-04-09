@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators.hpp>
 #include <ranges>
 #include <string_view>
 #include <vector>
@@ -88,12 +89,15 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
 
     SECTION("Output file given")
     {
-        // TODO: Do we need to check both orders?
-        auto result = parse_command_line("-o file.output file.input");
+        auto command_line = GENERATE(
+            "file.input -o file.output",
+            "-o file.output file.input");
+
+        auto result = parse_command_line(command_line);
 
         CHECK(result.success == true);
-        // TODO: check input file
-        // TODO: check output file
+        CHECK(result.input_file == "file.input");
+        CHECK(result.output_file == "file.output");
     }
 }
 
