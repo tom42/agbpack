@@ -69,16 +69,4 @@ options parse_command_line(int argc, char** argv)
 
     return options;
 }
-
-int main(int argc, char** argv)
-{
-    try
-    {
-        argv[0] = program_name;
-        auto options = parse_command_line(argc, argv);
-        // TODO: test code below. Remove and implement compression/decompression insead
-        std::cout << (options.mode == program_mode::compress ? "compress" : "decompress") << "\n";
-        return EXIT_SUCCESS;
-    }
-}
 */
