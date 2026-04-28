@@ -13,6 +13,7 @@ import agbpacker_core;
 namespace agbpacker_core_unit_test
 {
 
+using agbpacker_core::compression_method;
 using agbpacker_core::program_mode;
 using agbpacker_core::parse_command_line_result;
 using std::make_pair;
@@ -87,6 +88,7 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
         CHECK(result.input_file == "file");
         CHECK(result.output_file == "file");
         CHECK(result.mode == program_mode::compress);
+        CHECK(result.method == compression_method::lzss);
     }
 
     SECTION("Output file given")

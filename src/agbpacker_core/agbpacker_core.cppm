@@ -18,10 +18,20 @@ enum class program_mode
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
+enum class compression_method
+{
+    // TODO: add all compression methods (how do we distinguish between greedy and optimal lzss?)
+    //       * and what about 4/8 bit huffman?
+    //       * and what about 8/16 bit delta?
+    lzss
+};
+
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 struct parse_command_line_result final
 {
     bool success = false;
     program_mode mode = program_mode::compress;
+    compression_method method = compression_method::lzss;
     std::string input_file;
     std::string output_file;
 };
