@@ -7,6 +7,8 @@ import argpppp;
 namespace agbpacker_core
 {
 
+using argpppp::callback;
+using argpppp::ok;
 using argpppp::pf;
 using argpppp::value;
 
@@ -36,6 +38,17 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
         .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack")
         .args_doc("FILE")
         .num_args(1)
+        // TODO: const/reference for args?
+        // TODO: consider having an overload of callback where args not need be given?
+        //       * Yes but also consider order of args:
+        //         * Currently its option struct first, then the option text
+        //         * Consider switching this, on the basis that the other way round is more common
+        //       * Other possibility: pass the option description and the value in a single parameter object
+        //         * Benefit: we only ever need one or two overloads of callback()
+        //           * One taking the parameter object. and this one we design such that declaring it as const auto& is acceptable good, and declaring it as just auto is still fine
+        //           * One taking no arguments at all
+        // TODO: add optional argument specifying the compression mode => but then, what is the point of having a special overload for callback?
+        .add({ 'c', "compress", "Compress the input file"}, callback([](const auto&, auto) { return ok(); })) // TODO: this passes tests, but we really need to set program mode here
         .add({ 'o', "output-file", "Output file name. If not given, input file is overwritten", "FILE" }, value(result.output_file));
 
     auto parser = make_parser(is_unit_test);
