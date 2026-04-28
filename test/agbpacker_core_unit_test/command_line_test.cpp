@@ -5,6 +5,7 @@
 #include <catch2/generators/catch_generators.hpp>
 #include <ranges>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 import agbpacker_core;
@@ -14,6 +15,7 @@ namespace agbpacker_core_unit_test
 
 using agbpacker_core::program_mode;
 using agbpacker_core::parse_command_line_result;
+using std::make_pair;
 using std::string_view;
 using std::vector;
 
@@ -118,7 +120,18 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
         CHECK(result.mode == program_mode::decompress);
     }
 
-    // TODO: add test where we use -c,-d and -d,-c
+    SECTION("--compress and --decompress option")
+    {
+        auto [command_line, expected_mode] = GENERATE(
+            make_pair("-c -d file", program_mode::decompress),
+            make_pair("-d -c file", program_mode::compress));
+
+        auto result = parse_command_line(command_line);
+
+        CHECK(result.success == true);
+        CHECK(result.input_file == "file");
+        CHECK(result.mode == expected_mode);
+    }
 }
 
 }
