@@ -24,7 +24,7 @@ option(agbpack_INSTALL_AGBPACKER "Install the agbpacker executable" ${PROJECT_IS
 if(agbpack_BUILD_TESTING)
   enable_testing()
   include(VtgTesting)
-  vtg_testing_setup_catch2(3.13.0)
+  vtg_testing_setup_catch2(3.7.0)
 endif()
 
 
