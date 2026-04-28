@@ -47,8 +47,9 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
         //         * Benefit: we only ever need one or two overloads of callback()
         //           * One taking the parameter object. and this one we design such that declaring it as const auto& is acceptable good, and declaring it as just auto is still fine
         //           * One taking no arguments at all
-        // TODO: add optional argument specifying the compression mode => but then, what is the point of having a special overload for callback?
-        .add({ 'c', "compress", "Compress the input file"}, callback([](const auto&, auto) { return ok(); })) // TODO: this passes tests, but we really need to set program mode here
+        // TODO: add optional argument specifying the compression mode => but then, what is the point of having a special overload for callback? => well for -d it'd still be totally awesome
+        .add({ 'c', "compress", "Compress the input file" }, callback([](const auto&, const auto&) { return ok(); })) // TODO: this passes tests, but we really need to set program mode here
+        .add({ 'd', "decompress", "Decompress the input file" }, callback([&](const auto&, const auto&) { result.mode = program_mode::decompress; return ok(); }))
         .add({ 'o', "output-file", "Output file name. If not given, input file is overwritten", "FILE" }, value(result.output_file));
 
     auto parser = make_parser(is_unit_test);

@@ -108,6 +108,17 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
         CHECK(result.input_file == "file");
         CHECK(result.mode == program_mode::compress);
     }
+
+    SECTION("--decompress option")
+    {
+        auto result = parse_command_line("-d file");
+
+        CHECK(result.success == true);
+        CHECK(result.input_file == "file");
+        CHECK(result.mode == program_mode::decompress);
+    }
+
+    // TODO: add test where we use -c,-d and -d,-c
 }
 
 }
