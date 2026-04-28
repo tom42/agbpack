@@ -1,6 +1,10 @@
 // SPDX-FileCopyrightText: 2026 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+module;
+
+#include <functional> // Required by g++ 15.2
+
 module agbpacker_core;
 import argpppp;
 
