@@ -134,6 +134,16 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
         CHECK(result.input_file == "file");
         CHECK(result.mode == expected_mode);
     }
+
+    SECTION("TODO: name")
+    {
+        // TODO: check also different compression method
+        // TODO: check also unknown compression method (possibly in a different test)
+        auto result = parse_command_line("-c=lzss file");
+
+        CHECK(result.success == true);
+        CHECK(result.method == compression_method::lzss);
+    }
 }
 
 }
