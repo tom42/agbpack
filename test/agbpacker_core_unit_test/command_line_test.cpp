@@ -137,10 +137,10 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
 
     SECTION("--compress option with compression method argument")
     {
-        // TODO: check also different compression method
         // TODO: check also unknown compression method (possibly in a different test)
         auto [command_line, expected_compression_method] = GENERATE(
-            make_pair("-c=lzss file", compression_method::lzss));
+            make_pair("-c=lzss file", compression_method::lzss),
+            make_pair("-c=rle file", compression_method::rle));
 
         auto result = parse_command_line("-c=lzss file");
 
