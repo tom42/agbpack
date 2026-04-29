@@ -135,7 +135,7 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
         CHECK(result.mode == expected_mode);
     }
 
-    SECTION("TODO: name")
+    SECTION("--compress option with compression method argument")
     {
         // TODO: check also different compression method
         // TODO: check also unknown compression method (possibly in a different test)
