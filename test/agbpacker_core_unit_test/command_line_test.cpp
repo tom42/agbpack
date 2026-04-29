@@ -139,10 +139,13 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
     {
         // TODO: check also different compression method
         // TODO: check also unknown compression method (possibly in a different test)
+        auto [command_line, expected_compression_method] = GENERATE(
+            make_pair("-c=lzss file", compression_method::lzss));
+
         auto result = parse_command_line("-c=lzss file");
 
         CHECK(result.success == true);
-        CHECK(result.method == compression_method::lzss);
+        CHECK(result.method == expected_compression_method);
     }
 }
 
