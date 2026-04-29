@@ -20,10 +20,13 @@ enum class program_mode
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 enum class compression_method
 {
-    // TODO: add all compression methods (how do we distinguish between greedy and optimal lzss?)
-    //       * and what about 4/8 bit huffman?
-    //       * and what about 8/16 bit delta?
-    lzss
+    lzss,
+    optimal_lzss,
+    h4,
+    h8,
+    rle,
+    delta8,
+    delta16
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
