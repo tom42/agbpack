@@ -142,7 +142,7 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
             make_pair("-c=lzss file", compression_method::lzss),
             make_pair("-c=rle file", compression_method::rle));
 
-        auto result = parse_command_line("-c=lzss file");
+        auto result = parse_command_line(command_line);
 
         CHECK(result.success == true);
         CHECK(result.method == expected_compression_method);
