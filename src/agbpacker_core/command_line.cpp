@@ -38,7 +38,7 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 {
     parse_command_line_result result;
     argpppp::options command_line_options;
-    // TODO: compression mode: consider making this an optional argument of -c/--compress?
+
     command_line_options
         .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack")
         .args_doc("FILE")
