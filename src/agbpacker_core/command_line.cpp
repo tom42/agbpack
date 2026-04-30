@@ -38,7 +38,6 @@ argpppp::command_line_parser make_parser(bool is_unit_test)
 parse_command_line_result parse_command_line(int argc, char* argv[], bool is_unit_test)
 {
     parse_command_line_result result;
-    argpppp::options command_line_options;
 
     auto parse_compression_method = [&](const argpppp::option& /*opt*/, const char* arg)
     {
@@ -63,6 +62,7 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
             return ok();
     };
 
+    argpppp::options command_line_options;
     command_line_options
         .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack")
         .args_doc("FILE")
