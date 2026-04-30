@@ -46,6 +46,8 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 
             if (arg)
             {
+                // TODO: no ad-hoc string parsing here - delegate to parsing method
+                // TODO: handle errors from parsing method (return error() with appripriate message created from opt)
                 if (!strcmp(arg, "lzss"))
                 {
                     result.method = compression_method::lzss;
