@@ -4,6 +4,7 @@
 module;
 
 #include <functional> // Required by g++ 15.2
+#include <cstring> // TODO: see whether to remove this once we've fully implemented compression mode parsing
 
 module agbpacker_core;
 import argpppp;
@@ -39,6 +40,27 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
     parse_command_line_result result;
     argpppp::options command_line_options;
 
+    auto parse_compression_method = [&](const argpppp::option& /*opt*/, const char* arg)
+    {
+            result.mode = program_mode::compress;
+
+            if (arg)
+            {
+                if (!strcmp(arg, "lzss"))
+                {
+                    result.method = compression_method::lzss;
+                }
+                else if (!strcmp(arg, "rle"))
+                {
+                    result.method = compression_method::rle;
+                }
+            }
+
+            // TODO: check arg
+            // TODO: issue error message if unknown compression method
+            return ok();
+    };
+
     command_line_options
         .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack")
         .args_doc("FILE")
@@ -52,12 +74,14 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
         //         * Benefit: we only ever need one or two overloads of callback()
         //           * One taking the parameter object. and this one we design such that declaring it as const auto& is acceptable good, and declaring it as just auto is still fine
         //           * One taking no arguments at all
+        //           * Question: should we have a special overload for add() that makes the callback() thing optional/redundant
+        //           * Question: use string_view rather than const char*? (OK, but what if it is empty? how can we distinguish between not there and there but empty string? Question is, do we need to make that distinction)
         // TODO: add optional argument specifying the compression mode => but then, what is the point of having a special overload for callback? => well for -d it'd still be totally awesome
         // TODO: make METHOD optional
         // TODO: document what METHOD is
         // TODO: have a way of displaying all compression methods (how?)
         // TODO: actually parse compression method
-        .add({ 'c', "compress", "Compress the input file", "METHOD", of::arg_optional }, callback([&](const auto&, const auto&) { result.mode = program_mode::compress; return ok(); }))
+        .add({ 'c', "compress", "Compress the input file", "METHOD", of::arg_optional }, callback(parse_compression_method))
         .add({ 'd', "decompress", "Decompress the input file" }, callback([&](const auto&, const auto&) { result.mode = program_mode::decompress; return ok(); }))
         .add({ 'o', "output-file", "Output file name. If not given, input file is overwritten", "FILE" }, value(result.output_file));
 
