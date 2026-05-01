@@ -80,10 +80,9 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
         //           * One taking no arguments at all
         //           * Question: should we have a special overload for add() that makes the callback() thing optional/redundant
         //           * Question: use string_view rather than const char*? (OK, but what if it is empty? how can we distinguish between not there and there but empty string? Question is, do we need to make that distinction)
-        // TODO: add optional argument specifying the compression mode => but then, what is the point of having a special overload for callback? => well for -d it'd still be totally awesome
-        // TODO: document what METHOD is
-        // TODO: have a way of displaying all compression methods (how?)
-        .add({ 'c', "compress", "Compress the input file", "METHOD", of::arg_optional }, callback(parse_compression_method))
+        // TODO: obtain default compression method from constant, and use that to get the default compression method name
+        // TODO: create list of compression methods programmatically (it's not even correct yet)
+        .add({ 'c', "compress", "Compress the input file using the specified compression method. Compression method defaults to 'lzss' if not given. Valid compression methods are: foo, bar, baz", "METHOD", of::arg_optional }, callback(parse_compression_method))
         .add({ 'd', "decompress", "Decompress the input file" }, callback([&](const auto&, const auto&) { result.mode = program_mode::decompress; return ok(); }))
         .add({ 'o', "output-file", "Output file name. If not given, input file is overwritten", "FILE" }, value(result.output_file));
 
