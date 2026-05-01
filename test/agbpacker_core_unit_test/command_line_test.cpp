@@ -137,7 +137,6 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
 
     SECTION("--compress option with compression method argument")
     {
-        // TODO: check also unknown compression method (possibly in a different test)
         auto [command_line, expected_compression_method] = GENERATE(
             make_pair("-clzss file", compression_method::lzss),
             make_pair("-crle file", compression_method::rle));
@@ -146,6 +145,13 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
 
         CHECK(result.success == true);
         CHECK(result.method == expected_compression_method);
+    }
+
+    SECTION("--compress option with invalid compression method argument")
+    {
+        auto result = parse_command_line("-cinvalid_method file");
+
+        CHECK(result.success == false);
     }
 }
 

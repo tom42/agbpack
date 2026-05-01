@@ -13,6 +13,7 @@ namespace agbpacker_core
 {
 
 using argpppp::callback;
+using argpppp::error;
 using argpppp::of;
 using argpppp::ok;
 using argpppp::pf;
@@ -39,14 +40,13 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 {
     parse_command_line_result result;
 
-    auto parse_compression_method = [&](const argpppp::option& /*opt*/, const char* arg)
+    auto parse_compression_method = [&](const argpppp::option& opt, const char* arg)
     {
             result.mode = program_mode::compress;
 
             if (arg)
             {
                 // TODO: no ad-hoc string parsing here - delegate to parsing method
-                // TODO: handle errors from parsing method (return error() with appripriate message created from opt)
                 if (!strcmp(arg, "lzss"))
                 {
                     result.method = compression_method::lzss;
@@ -55,10 +55,12 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
                 {
                     result.method = compression_method::rle;
                 }
+                else
+                {
+                    return error(opt, arg, "unknown compression method");
+                }
             }
 
-            // TODO: check arg
-            // TODO: issue error message if unknown compression method
             return ok();
     };
 
@@ -79,10 +81,8 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
         //           * Question: should we have a special overload for add() that makes the callback() thing optional/redundant
         //           * Question: use string_view rather than const char*? (OK, but what if it is empty? how can we distinguish between not there and there but empty string? Question is, do we need to make that distinction)
         // TODO: add optional argument specifying the compression mode => but then, what is the point of having a special overload for callback? => well for -d it'd still be totally awesome
-        // TODO: make METHOD optional
         // TODO: document what METHOD is
         // TODO: have a way of displaying all compression methods (how?)
-        // TODO: actually parse compression method
         .add({ 'c', "compress", "Compress the input file", "METHOD", of::arg_optional }, callback(parse_compression_method))
         .add({ 'd', "decompress", "Decompress the input file" }, callback([&](const auto&, const auto&) { result.mode = program_mode::decompress; return ok(); }))
         .add({ 'o', "output-file", "Output file name. If not given, input file is overwritten", "FILE" }, value(result.output_file));
