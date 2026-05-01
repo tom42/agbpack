@@ -13,18 +13,21 @@ namespace agbpacker_core
 {
 
 using argpppp::callback;
+using argpppp::command_line_parser;
 using argpppp::error;
 using argpppp::of;
 using argpppp::ok;
+using argpppp::option;
+using argpppp::options;
 using argpppp::pf;
 using argpppp::value;
 
 namespace
 {
 
-argpppp::command_line_parser make_parser(bool is_unit_test)
+command_line_parser make_parser(bool is_unit_test)
 {
-    argpppp::command_line_parser parser;
+    command_line_parser parser;
 
     if (is_unit_test)
     {
@@ -40,7 +43,7 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 {
     parse_command_line_result result;
 
-    auto parse_compression_method = [&](const argpppp::option& opt, const char* arg)
+    auto parse_compression_method = [&](const option& opt, const char* arg)
     {
             result.mode = program_mode::compress;
 
@@ -64,12 +67,11 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
             return ok();
     };
 
-    argpppp::options command_line_options;
+    options command_line_options;
     command_line_options
         .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack")
         .args_doc("FILE")
         .num_args(1)
-        // TODO: const/reference for args?
         // TODO: consider having an overload of callback where args not need be given?
         //       * Yes but also consider order of args:
         //         * Currently its option struct first, then the option text
@@ -83,7 +85,7 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
         // TODO: obtain default compression method from constant, and use that to get the default compression method name
         // TODO: create list of compression methods programmatically (it's not even correct yet)
         .add({ 'c', "compress", "Compress the input file using the specified compression method. Compression method defaults to 'lzss' if not given. Valid compression methods are: foo, bar, baz", "METHOD", of::arg_optional }, callback(parse_compression_method))
-        .add({ 'd', "decompress", "Decompress the input file" }, callback([&](const auto&, const auto&) { result.mode = program_mode::decompress; return ok(); }))
+        .add({ 'd', "decompress", "Decompress the input file" }, callback([&](const option&, const char*) { result.mode = program_mode::decompress; return ok(); }))
         .add({ 'o', "output-file", "Output file name. If not given, input file is overwritten", "FILE" }, value(result.output_file));
 
     auto parser = make_parser(is_unit_test);
