@@ -35,6 +35,7 @@ struct parse_command_line_result final
     bool success = false;
     program_mode mode = program_mode::compress;
     compression_method method = compression_method::lzss;
+    bool vram_safe = false;
     std::string input_file;
     std::string output_file;
 };

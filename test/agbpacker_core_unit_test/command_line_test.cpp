@@ -89,6 +89,7 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
         CHECK(result.output_file == "file");
         CHECK(result.mode == program_mode::compress);
         CHECK(result.method == compression_method::lzss);
+        CHECK(result.vram_safe == false);
     }
 
     SECTION("Output file given")
@@ -152,6 +153,14 @@ TEST_CASE_METHOD(command_line_fixture, "command_line_test")
         auto result = parse_command_line("-cinvalid_method file");
 
         CHECK(result.success == false);
+    }
+
+    SECTION("--vram-safe option")
+    {
+        auto result = parse_command_line("--vram-safe file");
+
+        CHECK(result.success == true);
+        CHECK(result.vram_safe == true);
     }
 }
 
