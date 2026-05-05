@@ -69,7 +69,7 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 
     options command_line_options;
     command_line_options
-        .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack")
+        .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack\n\nData is LZSS compressed by default if neither of -c or -d is given.")
         .args_doc("FILE")
         .num_args(1)
         // TODO: consider having an overload of callback where args not need be given?
@@ -84,7 +84,6 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
         //           * Question: use string_view rather than const char*? (OK, but what if it is empty? how can we distinguish between not there and there but empty string? Question is, do we need to make that distinction)
         // TODO: obtain default compression method from constant, and use that to get the default compression method name
         // TODO: create list of compression methods programmatically (it's not even correct yet)
-        // TODO: should document somewhere that compression is the default (doc string?)
         .add({ 'c', "compress", "Compress the input file using the specified compression method. Compression method defaults to 'lzss' if not given. Valid compression methods are: foo, bar, baz", "METHOD", of::arg_optional }, callback(parse_compression_method))
         .add({ 'd', "decompress", "Decompress the input file" }, callback([&](const option&, const char*) { result.mode = program_mode::decompress; return ok(); }))
         .add({ 'o', "output-file", "Output file name. If not given, input file is overwritten", "FILE" }, value(result.output_file))
