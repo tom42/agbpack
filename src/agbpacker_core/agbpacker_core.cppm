@@ -29,6 +29,11 @@ enum class compression_method
     delta16
 };
 
+struct compression_method_info final
+{
+    // TODO: name. problem: what field to use here? can we use a string? (yes if it's constexpr, optherwise, use const char*?)
+};
+
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 struct parse_command_line_result final
 {
