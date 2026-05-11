@@ -6,45 +6,11 @@ module;
 #include <string>
 
 export module agbpacker_core;
+export import :compression_method;
+export import :command_line;
 
 namespace agbpacker_core
 {
 
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-enum class compression_method
-{
-    lzss,
-    optimal_lzss,
-    h4,
-    h8,
-    rle,
-    delta8,
-    delta16
-};
-
-struct compression_method_info final
-{
-    // TODO: name. problem: what field to use here? can we use a string? (yes if it's constexpr, optherwise, use const char*?)
-};
-
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-enum class program_mode
-{
-    compress,
-    decompress
-};
-
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-struct parse_command_line_result final
-{
-    bool success = false;
-    program_mode mode = program_mode::compress;
-    compression_method method = compression_method::lzss;
-    bool vram_safe = false;
-    std::string input_file;
-    std::string output_file;
-};
-
-export parse_command_line_result parse_command_line(int argc, char* argv[], bool is_unit_test = false);
 
 }

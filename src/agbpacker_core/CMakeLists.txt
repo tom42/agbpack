@@ -12,6 +12,8 @@ set(
   agbpacker_core_sources
   PUBLIC FILE_SET CXX_MODULES FILES
   agbpacker_core.cppm
+  command_line.cppm
+  compression_method.cppm
   PRIVATE
   command_line.cpp)
 
