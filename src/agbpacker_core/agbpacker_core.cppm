@@ -11,13 +11,6 @@ namespace agbpacker_core
 {
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-enum class program_mode
-{
-    compress,
-    decompress
-};
-
-AGBPACK_EXPORT_FOR_UNIT_TESTING
 enum class compression_method
 {
     lzss,
@@ -32,6 +25,13 @@ enum class compression_method
 struct compression_method_info final
 {
     // TODO: name. problem: what field to use here? can we use a string? (yes if it's constexpr, optherwise, use const char*?)
+};
+
+AGBPACK_EXPORT_FOR_UNIT_TESTING
+enum class program_mode
+{
+    compress,
+    decompress
 };
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
