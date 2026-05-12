@@ -15,7 +15,8 @@ set(
   command_line.cppm
   compression_method.cppm
   PRIVATE
-  command_line.cpp)
+  command_line.cpp
+  compression_method.cpp)
 
 # Production version of agbpacker_core
 add_library(agbpacker_core)

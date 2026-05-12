@@ -10,6 +10,7 @@ export module agbpacker_core:compression_method;
 namespace agbpacker_core
 {
 
+// TODO: names: h4 vs. delta8: 'h', huff, d, delta?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 enum class compression_method
 {
@@ -23,14 +24,12 @@ enum class compression_method
 };
 
 // TODO: work on this
-//       * create compression_method.cpp
-//       * add an array with all infos in there
 //       * find a way to get at that array, somehow
 //       * then, get all compression methods and dump these into command line docs
 //       * then, use this to verify compression methods, and integrate that into command line parsing too
 struct compression_method_info final
 {
-    std::string name;
+    const char* name;
 };
 
 }
