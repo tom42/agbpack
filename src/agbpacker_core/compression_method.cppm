@@ -10,7 +10,6 @@ export module agbpacker_core:compression_method;
 namespace agbpacker_core
 {
 
-// TODO: names: h4 vs. delta8: 'h', huff, d, delta?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 enum class compression_method
 {
@@ -19,8 +18,8 @@ enum class compression_method
     h4,
     h8,
     rle,
-    delta8,
-    delta16
+    d8,
+    d16
 };
 
 // TODO: work on this
