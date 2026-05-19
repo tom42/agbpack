@@ -28,6 +28,7 @@ enum class compression_method
 //       * then, use this to verify compression methods, and integrate that into command line parsing too
 struct compression_method_info final
 {
+    compression_method method;
     const char* name;
 };
 
