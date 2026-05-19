@@ -10,7 +10,6 @@ module agbpacker_core;
 namespace agbpacker_core
 {
 
-// TODO: Accessor method, or do we simply declare it publicly?
 constexpr std::array<compression_method_info, 7> compression_methods =
 {
     compression_method_info(compression_method::lzss, "lzss"),

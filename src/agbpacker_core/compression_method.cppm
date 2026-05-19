@@ -3,6 +3,7 @@
 
 module;
 
+#include <span>
 #include <string>
 
 export module agbpacker_core:compression_method;
@@ -31,5 +32,9 @@ struct compression_method_info final
     compression_method method;
     const char* name;
 };
+
+// TODO: ensure the span and element member things are all constant
+// TODO: did we screw that up in shrinkler-gba?
+std::span<compression_method_info> all_compression_methods();
 
 }
