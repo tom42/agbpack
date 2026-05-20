@@ -33,8 +33,6 @@ struct compression_method_info final
     const char* name;
 };
 
-// TODO: ensure the span and element member things are all constant
-// TODO: did we screw that up in shrinkler-gba?
-std::span<compression_method_info> all_compression_methods();
+std::span<const compression_method_info> all_compression_methods();
 
 }
