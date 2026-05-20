@@ -4,10 +4,14 @@
 module;
 
 #include <array>
+#include <span>
 
 module agbpacker_core;
 
 namespace agbpacker_core
+{
+
+namespace
 {
 
 constexpr std::array<compression_method_info, 7> compression_methods =
@@ -20,5 +24,12 @@ constexpr std::array<compression_method_info, 7> compression_methods =
     compression_method_info{ compression_method::d8, "d8" },
     compression_method_info{ compression_method::d16, "d16" }
 };
+
+}
+
+std::span<const compression_method_info> all_compression_methods()
+{
+    return compression_methods;
+}
 
 }
