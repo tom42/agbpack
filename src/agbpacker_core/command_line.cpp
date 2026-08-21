@@ -19,7 +19,8 @@ using argpppp::command_line_parser;
 using argpppp::error;
 using argpppp::of;
 using argpppp::ok;
-using argpppp::option;
+using argpppp::option; // TODO: remove if not needed
+using argpppp::option_occurrence;
 using argpppp::options;
 using argpppp::pf;
 using argpppp::value;
@@ -59,24 +60,24 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 {
     parse_command_line_result result;
 
-    auto parse_compression_method = [&](const option& opt, const char* arg)
+    auto parse_compression_method = [&](option_occurrence opt)
     {
             result.mode = program_mode::compress;
 
-            if (arg)
+            if (opt.c_arg())
             {
                 // TODO: no ad-hoc string parsing here - delegate to parsing method which knows about all compression methods
-                if (!strcmp(arg, "lzss"))
+                if (!strcmp(opt.c_arg(), "lzss"))
                 {
                     result.method = compression_method::lzss;
                 }
-                else if (!strcmp(arg, "rle"))
+                else if (!strcmp(opt.c_arg(), "rle"))
                 {
                     result.method = compression_method::rle;
                 }
                 else
                 {
-                    return error(opt, arg, "unknown compression method");
+                    return error(opt, "unknown compression method");
                 }
             }
 
@@ -89,18 +90,11 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
         .args_doc("FILE")
         .num_args(1)
         // TODO: consider having an overload of callback where args not need be given?
-        //       * Yes but also consider order of args:
-        //         * Currently its option struct first, then the option text
-        //         * Consider switching this, on the basis that the other way round is more common
-        //       * Other possibility: pass the option description and the value in a single parameter object
-        //         * Benefit: we only ever need one or two overloads of callback()
-        //           * One taking the parameter object. and this one we design such that declaring it as const auto& is acceptable good, and declaring it as just auto is still fine
-        //           * One taking no arguments at all
         //           * Question: should we have a special overload for add() that makes the callback() thing optional/redundant
-        //           * Question: use string_view rather than const char*? (OK, but what if it is empty? how can we distinguish between not there and there but empty string? Question is, do we need to make that distinction)
+        //             * Basically, special case callback, so that lambda expressions can be bassed to add and they get wrapped into a callback
         // TODO: obtain default compression method from constant, and use that to get the default compression method name
         .add({ 'c', "compress", format("Compress the input file using the specified compression method. Compression method defaults to 'lzss' if not given. Valid compression methods are: {}", list_compression_methods()), "METHOD", of::arg_optional }, callback(parse_compression_method))
-        .add({ 'd', "decompress", "Decompress the input file" }, callback([&](const option&, const char*) { result.mode = program_mode::decompress; return ok(); }))
+        .add({ 'd', "decompress", "Decompress the input file" }, callback([&] { result.mode = program_mode::decompress; return ok(); }))
         .add({ 'o', "output-file", "Output file name. If not given, input file is overwritten", "FILE" }, value(result.output_file))
         .add({ {}, "vram-safe", "Use VRAM safe version of compression method if available" }, value(result.vram_safe));
 
