@@ -14,7 +14,6 @@ import argpppp;
 namespace agbpacker_core
 {
 
-using argpppp::callback;
 using argpppp::command_line_parser;
 using argpppp::error;
 using argpppp::of;
@@ -89,12 +88,9 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
         .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack\n\nData is LZSS compressed by default if neither of -c or -d is given.")
         .args_doc("FILE")
         .num_args(1)
-        // TODO: consider having an overload of callback where args not need be given?
-        //           * Question: should we have a special overload for add() that makes the callback() thing optional/redundant
-        //             * Basically, special case callback, so that lambda expressions can be bassed to add and they get wrapped into a callback
         // TODO: obtain default compression method from constant, and use that to get the default compression method name
-        .add({ 'c', "compress", format("Compress the input file using the specified compression method. Compression method defaults to 'lzss' if not given. Valid compression methods are: {}", list_compression_methods()), "METHOD", of::arg_optional }, callback(parse_compression_method))
-        .add({ 'd', "decompress", "Decompress the input file" }, callback([&] { result.mode = program_mode::decompress; return ok(); }))
+        .add({ 'c', "compress", format("Compress the input file using the specified compression method. Compression method defaults to 'lzss' if not given. Valid compression methods are: {}", list_compression_methods()), "METHOD", of::arg_optional }, parse_compression_method)
+        .add({ 'd', "decompress", "Decompress the input file" }, [&] { result.mode = program_mode::decompress; return ok(); })
         .add({ 'o', "output-file", "Output file name. If not given, input file is overwritten", "FILE" }, value(result.output_file))
         .add({ {}, "vram-safe", "Use VRAM safe version of compression method if available" }, value(result.vram_safe));
 

@@ -26,6 +26,8 @@ int main(int argc, char* argv[])
             return EXIT_FAILURE;
         }
 
+        // TODO: do something here
+
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
