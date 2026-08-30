@@ -18,9 +18,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        # Temporarily we do not build with g++ until g++ 15.2 is easily available on GitHub.
-        # g++ 14 segfaults on our C++ module usage.
-        cxx_compiler: [clang++]
+        preset: [dev-linux-clang, dev-linux-gcc]
         build_type: [Release, Debug]
 
     steps:
@@ -44,8 +42,7 @@ jobs:
         cmake
         -B ${{steps.strings.outputs.build-output-dir}}
         -S ${{github.workspace}}
-        --preset dev-linux
-        -DCMAKE_CXX_COMPILER=${{matrix.cxx_compiler}}
+        --preset ${{matrix.preset}}
         -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
 
     - name: Build
