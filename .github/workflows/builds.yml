@@ -12,7 +12,7 @@ on:
 
 jobs:
   build-linux:
-    name: Linux Builds (${{matrix.cxx_compiler}}, ${{matrix.build_type}})
+    name: Linux Builds
     runs-on: ubuntu-26.04
 
     strategy:
@@ -57,7 +57,7 @@ jobs:
       run: ctest --build-config ${{matrix.build_type}}
 
   build-windows:
-    name: Windows Builds (${{matrix.arch}}, ${{matrix.build_type}})
+    name: Windows Builds
     runs-on: windows-latest
 
     strategy:
