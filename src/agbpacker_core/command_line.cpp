@@ -50,6 +50,12 @@ string list_compression_methods()
         | to<string>();
 }
 
+const char* to_string(compression_method /*method*/)
+{
+    // TODO: real implementation: what we need is a find_compression_method that works by ID (and what do we do if not found?)
+    return "gaah";
+}
+
 }
 
 parse_command_line_result parse_command_line(int argc, char* argv[], bool is_unit_test)
@@ -78,11 +84,11 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 
     options command_line_options;
     command_line_options
+        // TODO: deduplicate/unhardcode LZSS here too (can we simply remove it?)
         .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack\n\nData is LZSS compressed by default if neither of -c or -d is given.")
         .args_doc("FILE")
         .num_args(1)
-        // TODO: obtain default compression method from constant, and use that to get the default compression method name
-        .add({ 'c', "compress", format("Compress the input file using the specified compression method. Compression method defaults to 'lzss' if not given. Valid compression methods are: {}", list_compression_methods()), "METHOD", of::arg_optional }, parse_compression_method)
+        .add({ 'c', "compress", format("Compress the input file using the specified compression method. Compression method defaults to '{}' if not given. Valid compression methods are: {}", to_string(result.method), list_compression_methods()), "METHOD", of::arg_optional }, parse_compression_method)
         .add({ 'd', "decompress", "Decompress the input file" }, [&] { result.mode = program_mode::decompress; return ok(); })
         .add({ 'o', "output-file", "Output file name. If not given, input file is overwritten", "FILE" }, value(result.output_file))
         .add({ {}, "vram-safe", "Use VRAM safe version of compression method if available" }, value(result.vram_safe));
