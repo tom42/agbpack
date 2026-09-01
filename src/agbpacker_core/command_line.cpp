@@ -17,7 +17,6 @@ using argpppp::command_line_parser;
 using argpppp::error;
 using argpppp::of;
 using argpppp::ok;
-using argpppp::option_occurrence;
 using argpppp::options;
 using argpppp::pf;
 using argpppp::value;
@@ -57,7 +56,7 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 {
     parse_command_line_result result;
 
-    auto parse_compression_method = [&](option_occurrence opt)
+    auto parse_compression_method = [&](auto&& opt)
     {
         result.mode = program_mode::compress;
 
