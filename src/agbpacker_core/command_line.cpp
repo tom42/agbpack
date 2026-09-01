@@ -75,6 +75,7 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
                 }
                 else
                 {
+                    // TODO: of course, a sane implementation would report the compression method back (for showing off, anyway)
                     return error(opt, "unknown compression method");
                 }
             }
