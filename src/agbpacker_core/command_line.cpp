@@ -3,7 +3,6 @@
 
 module;
 
-#include <cstring> // TODO: see whether to remove this once we've fully implemented compression mode parsing
 #include <format>
 #include <functional> // Required by g++ 15.2
 #include <ranges>
@@ -64,18 +63,13 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 
             if (opt.c_arg())
             {
-                // TODO: no ad-hoc string parsing here - delegate to parsing method which knows about all compression methods
-                if (!strcmp(opt.c_arg(), "lzss"))
+                auto method_info = find_compression_method(opt.c_arg());
+                if (method_info)
                 {
-                    result.method = compression_method::lzss;
-                }
-                else if (!strcmp(opt.c_arg(), "rle"))
-                {
-                    result.method = compression_method::rle;
+                    result.method = method_info->method;
                 }
                 else
                 {
-                    // TODO: of course, a sane implementation would report the compression method back (for showing off, anyway)
                     return error(opt, "unknown compression method");
                 }
             }
