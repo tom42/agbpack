@@ -11,6 +11,8 @@ import :compression_method;
 namespace agbpacker_core
 {
 
+inline constexpr auto default_compression_method = compression_method::lzss;
+
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 enum class program_mode
 {
@@ -23,7 +25,7 @@ struct parse_command_line_result final
 {
     bool success = false;
     program_mode mode = program_mode::compress;
-    compression_method method = compression_method::lzss;
+    compression_method method = default_compression_method;
     bool vram_safe = false;
     std::string input_file;
     std::string output_file;
