@@ -18,7 +18,6 @@ using argpppp::command_line_parser;
 using argpppp::error;
 using argpppp::of;
 using argpppp::ok;
-using argpppp::option; // TODO: remove if not needed
 using argpppp::option_occurrence;
 using argpppp::options;
 using argpppp::pf;
