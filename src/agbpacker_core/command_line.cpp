@@ -59,22 +59,22 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 
     auto parse_compression_method = [&](option_occurrence opt)
     {
-            result.mode = program_mode::compress;
+        result.mode = program_mode::compress;
 
-            if (opt.c_arg())
+        if (opt.c_arg())
+        {
+            auto method_info = find_compression_method(opt.c_arg());
+            if (method_info)
             {
-                auto method_info = find_compression_method(opt.c_arg());
-                if (method_info)
-                {
-                    result.method = method_info->method;
-                }
-                else
-                {
-                    return error(opt, "unknown compression method");
-                }
+                result.method = method_info->method;
             }
+            else
+            {
+                return error(opt, "unknown compression method");
+            }
+        }
 
-            return ok();
+        return ok();
     };
 
     options command_line_options;
