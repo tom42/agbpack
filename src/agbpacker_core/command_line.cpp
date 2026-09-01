@@ -50,10 +50,9 @@ string list_compression_methods()
         | to<string>();
 }
 
-const char* to_string(compression_method /*method*/)
+const char* to_string(compression_method method)
 {
-    // TODO: real implementation: what we need is a find_compression_method that works by ID (and what do we do if not found?)
-    return "gaah";
+    return find_compression_method(method)->name;
 }
 
 }

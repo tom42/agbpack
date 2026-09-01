@@ -32,6 +32,9 @@ struct compression_method_info final
 std::span<const compression_method_info> all_compression_methods();
 
 AGBPACK_EXPORT_FOR_UNIT_TESTING
+const compression_method_info* find_compression_method(compression_method method);
+
+AGBPACK_EXPORT_FOR_UNIT_TESTING
 const compression_method_info* find_compression_method(std::string_view name);
 
 }

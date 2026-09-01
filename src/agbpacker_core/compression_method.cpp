@@ -34,6 +34,12 @@ std::span<const compression_method_info> all_compression_methods()
     return compression_methods;
 }
 
+const compression_method_info* find_compression_method(compression_method method)
+{
+    auto i = std::ranges::find(compression_methods, method, &compression_method_info::method);
+    return i != compression_methods.end() ? &*i : nullptr;
+}
+
 const compression_method_info* find_compression_method(std::string_view name)
 {
     auto i = std::ranges::find(compression_methods, name, &compression_method_info::name);
