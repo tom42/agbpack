@@ -83,8 +83,7 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
 
     options command_line_options;
     command_line_options
-        // TODO: deduplicate/unhardcode LZSS here too (can we simply remove it?)
-        .doc("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack\n\nData is LZSS compressed by default if neither of -c or -d is given.")
+        .doc(format("Compress and decompress data for the GBA BIOS\nhttps://github.com/tom42/agbpack\n\nIf neither of -c or -d is given, data is compressed using method '{}'.", to_string(result.method)))
         .args_doc("FILE")
         .num_args(1)
         .add({ 'c', "compress", format("Compress the input file using the specified compression method. Compression method defaults to '{}' if not given. Valid compression methods are: {}", to_string(result.method), list_compression_methods()), "METHOD", of::arg_optional }, parse_compression_method)
