@@ -18,8 +18,7 @@ enum class program_mode
     decompress
 };
 
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-struct parse_command_line_result final
+export struct parse_command_line_result final
 {
     bool success = false;
     program_mode mode = program_mode::compress;

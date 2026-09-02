@@ -14,19 +14,30 @@ static char program_name[] = PROGRAM_NAME;
 
 import agbpacker_core;
 
+namespace
+{
+
+void run(const agbpacker_core::parse_command_line_result& /*options*/) // TODO: I think we wanted to stick this into agbpacker_core, that's why that module does not export much
+{
+    // TODO: do something here
+    throw std::runtime_error("YIKES");
+}
+
+}
+
 int main(int argc, char* argv[])
 {
     try
     {
         argv[0] = program_name;
-        auto result = agbpacker_core::parse_command_line(argc, argv);
-        if (!result.success)
+        auto options = agbpacker_core::parse_command_line(argc, argv);
+        if (!options.success)
         {
             // Should not happen because we let argp_parse exit.
             return EXIT_FAILURE;
         }
 
-        // TODO: do something here
+        run(options);
 
         return EXIT_SUCCESS;
     }
