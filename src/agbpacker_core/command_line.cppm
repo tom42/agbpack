@@ -11,8 +11,7 @@ import :compression_method;
 namespace agbpacker_core
 {
 
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-enum class program_mode
+export enum class program_mode
 {
     compress,
     decompress
