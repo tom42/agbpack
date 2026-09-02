@@ -8,9 +8,3 @@ module;
 export module agbpacker_core;
 export import :compression_method;
 export import :command_line;
-
-namespace agbpacker_core
-{
-
-
-}
