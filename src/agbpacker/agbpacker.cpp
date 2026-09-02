@@ -19,14 +19,21 @@ namespace
 
 using namespace agbpacker_core;
 
+// TODO: might want to put this function into agbpacker_core and unit test it
+void compress()
+{
+    // TODO: do something here (do not forget to honor all relevant options in that function)
+}
+
 void run(const parse_command_line_result& options)
 {
-    // TODO: do something here
     switch (options.mode)
     {
         case program_mode::compress:
+            compress();
             break;
         case program_mode::decompress:
+            // TODO: call a function decompress() (do not forget to honor all relevant options in that function)
             break;
         default:
             throw std::logic_error("bad program mode");
