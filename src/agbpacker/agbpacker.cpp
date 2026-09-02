@@ -17,10 +17,20 @@ import agbpacker_core;
 namespace
 {
 
-void run(const agbpacker_core::parse_command_line_result& /*options*/) // TODO: I think we wanted to stick this into agbpacker_core, that's why that module does not export much
+using namespace agbpacker_core;
+
+void run(const parse_command_line_result& options)
 {
     // TODO: do something here
-    throw std::runtime_error("YIKES");
+    switch (options.mode)
+    {
+        case program_mode::compress:
+            break;
+        case program_mode::decompress:
+            break;
+        default:
+            throw std::logic_error("bad program mode");
+    }
 }
 
 }
