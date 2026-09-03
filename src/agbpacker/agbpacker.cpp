@@ -23,6 +23,26 @@ using namespace agbpacker_core;
 void compress()
 {
     // TODO: do something here (do not forget to honor all relevant options in that function)
+    //       * method (e.g. lzss)
+    //       * vram safety (if it applies)
+    //       * input file
+    //       * optional output file
+    // TODO: so here is what we do:
+    //       * read input file
+    //       * compress in-memory, take into account method and vram safety flag
+    //       * write back to input file or output file if given
+}
+
+// TODO: might want to put this function into agbpacker_core and unit test it
+void decompress()
+{
+    // TODO: do something here (do not forget to honor all relevant options in that function)
+    //       * input file
+    //       * output file
+    // TODO: so here is what we do
+    //       * read input file
+    //       * decompress in-memory (method can be read from file itself)
+    //       * write back to input file or output file if given
 }
 
 void run(const parse_command_line_result& options)
@@ -33,7 +53,7 @@ void run(const parse_command_line_result& options)
             compress();
             break;
         case program_mode::decompress:
-            // TODO: call a function decompress() (do not forget to honor all relevant options in that function)
+            decompress();
             break;
         default:
             throw std::logic_error("bad program mode");
