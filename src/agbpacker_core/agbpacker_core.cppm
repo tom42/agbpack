@@ -5,3 +5,4 @@ export module agbpacker_core;
 
 export import :compression_method;
 export import :command_line;
+export import :file;

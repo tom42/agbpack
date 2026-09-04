@@ -1,8 +1,10 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+#include <cstdio> // TODO: needed?
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 #include "agbpack_config.hpp"
 
 import agbpack;
@@ -19,8 +21,34 @@ namespace
 
 using namespace agbpacker_core;
 
+// TODO: state on open? do we forbid creation
+class file final
+{
+public:
+    // TODO: return type. We NEED this signature since we're going to call into C API
+    static file open(const char* filename, const char* mode)
+    {
+        std::fopen(filename, mode); // TODO: not like this, use fcloser. And handle errors;
+        return {};
+    }
+
+private:
+};
+
+// TODO: define a byte_vector?
+std::vector<unsigned char> read_file(const std::string& filename)
+{
+    // TODO: open file (handle errors)
+    // TODO: find fle size (handle errors)
+    // TODO: read entire file (handle errors)
+    // TODO: autoclose file, no error handling here
+    // TODO: return data
+    file::open(filename.c_str(), "rb");
+    return {};
+}
+
 // TODO: might want to put this function into agbpacker_core and unit test it
-void compress()
+void compress(const parse_command_line_result& options)
 {
     // TODO: do something here (do not forget to honor all relevant options in that function)
     //       * method (e.g. lzss)
@@ -29,12 +57,18 @@ void compress()
     //       * optional output file
     // TODO: so here is what we do:
     //       * read input file
+    //         * So we need:
+    //         * fopen, handle errors
+    //         * Get file size, handle errors
+    //         * fread, handle errors
+    //         * fclose, handle errors (really? do we need this?) (yes, we do)
     //       * compress in-memory, take into account method and vram safety flag
     //       * write back to input file or output file if given
+    auto data = read_file(options.input_file);
 }
 
 // TODO: might want to put this function into agbpacker_core and unit test it
-void decompress()
+void decompress(const parse_command_line_result& /*options*/)
 {
     // TODO: do something here (do not forget to honor all relevant options in that function)
     //       * input file
@@ -50,10 +84,10 @@ void run(const parse_command_line_result& options)
     switch (options.mode)
     {
         case program_mode::compress:
-            compress();
+            compress(options);
             break;
         case program_mode::decompress:
-            decompress();
+            decompress(options);
             break;
         default:
             throw std::logic_error("bad program mode");

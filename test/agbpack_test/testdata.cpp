@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <iterator>
 #include <system_error>
-#include "agbpack_test_config.hpp"
+#include "../agbpack_test_config.hpp" // TODO: this is not exactly pretty => should set proper path in CMakeLists.txt to begin with
 #include "testdata.hpp"
 
 namespace agbpack_test

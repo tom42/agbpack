@@ -1,11 +1,6 @@
 # SPDX-FileCopyrightText: 2024 Thomas Mathys
 # SPDX-License-Identifier: MIT
 
-set(AGBPACK_TEST_TESTDATA_DIRECTORY "${PROJECT_SOURCE_DIR}/test/testdata")
-configure_file(
-  agbpack_test_config.hpp.in
-  "${CMAKE_CURRENT_BINARY_DIR}/agbpack_test_config.hpp")
-
 add_executable(
   agbpack_test
   delta_decoder_test.cpp
