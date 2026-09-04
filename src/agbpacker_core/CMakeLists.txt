@@ -5,7 +5,7 @@ include(FetchContent)
 FetchContent_Declare(
   argpppp
   GIT_REPOSITORY https://github.com/tom42/argpppp
-  GIT_TAG        03ec353411a8472b6a4c05f2532f769a3c841b46) # TODO: temporarily use development version of argpppp until there is a release
+  GIT_TAG        v0.5.0)
 FetchContent_MakeAvailable(argpppp)
 
 set(
