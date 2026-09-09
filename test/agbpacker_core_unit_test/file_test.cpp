@@ -38,7 +38,7 @@ TEST_CASE("file_test")
 
     SECTION("fcloser, open existing file")
     {
-        auto fp = fcloser::open(full_path("file/file.txt").c_str(), "rb");
+        auto fp = fcloser::open(full_path("file/file.txt"), "rb");
         CHECK(std::ftell(fp.get()) == 0);
     }
 }

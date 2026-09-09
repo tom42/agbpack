@@ -5,6 +5,7 @@ module;
 
 #include <cstdio>
 #include <memory>
+#include <string>
 
 export module agbpacker_core:file;
 
@@ -20,6 +21,8 @@ export struct fcloser
     void operator()(FILE* fp) const;
 
     static unique_file_ptr open(const char* filename, const char* mode);
+
+    static unique_file_ptr open(const std::string& filename, const char* mode);
 };
 
 }
