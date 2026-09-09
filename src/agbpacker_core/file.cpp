@@ -29,4 +29,9 @@ unique_file_ptr fcloser::open(const char* filename, const char* mode)
     return fp;
 }
 
+unique_file_ptr fcloser::open(const std::string& filename, const char* mode)
+{
+    return open(filename.c_str(), mode);
+}
+
 }
