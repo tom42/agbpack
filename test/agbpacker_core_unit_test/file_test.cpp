@@ -34,13 +34,13 @@ TEST_CASE("file_test")
     SECTION("fcloser, open nonexistent file")
     {
         CHECK_THROWS_AS(
-            fcloser::open(full_path("file/nonexistent.txt"), "rb"),
+            fcloser::open(full_path("file/nonexistent.txt"), "r"),
             std::system_error);
     }
 
     SECTION("fcloser, open existing file")
     {
-        auto fp = fcloser::open(full_path("file/file.txt"), "rb");
+        auto fp = fcloser::open(full_path("file/file.txt"), "r");
         CHECK(std::ftell(fp.get()) == 0);
     }
 }
