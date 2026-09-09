@@ -12,7 +12,7 @@ export module agbpacker_core:file;
 namespace agbpacker_core
 {
 
-struct fcloser;
+export struct fcloser;
 
 using unique_file_ptr = std::unique_ptr<FILE, fcloser>;
 
