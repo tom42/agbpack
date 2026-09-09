@@ -26,9 +26,9 @@ class file final
 {
 public:
     // TODO: return type. We NEED this signature since we're going to call into C API
-    static file open(const char* filename, const char* mode)
+    static file open(const char* /*filename*/, const char* /*mode*/)
     {
-        std::fopen(filename, mode); // TODO: not like this, use fcloser. And handle errors;
+        //std::fopen(filename, mode); // TODO: not like this, use fcloser. And handle errors;
         return {};
     }
 
