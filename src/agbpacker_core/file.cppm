@@ -25,4 +25,10 @@ export struct fcloser final
     static unique_file_ptr open(const std::string& filename, const char* mode);
 };
 
+export class file final
+{
+public:
+private:
+};
+
 }
