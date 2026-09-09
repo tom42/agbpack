@@ -33,7 +33,9 @@ TEST_CASE("file_test")
 {
     SECTION("fcloser, open nonexistent file")
     {
-        CHECK_THROWS_AS(fcloser::open("nonexistent-file", "rb"), std::system_error);
+        CHECK_THROWS_AS(
+            fcloser::open(full_path("file/nonexistent.txt"), "rb"),
+            std::system_error);
     }
 
     SECTION("fcloser, open existing file")
