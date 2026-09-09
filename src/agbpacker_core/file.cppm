@@ -16,7 +16,7 @@ export struct fcloser;
 
 using unique_file_ptr = std::unique_ptr<FILE, fcloser>;
 
-export struct fcloser
+export struct fcloser final
 {
     void operator()(FILE* fp) const;
 
