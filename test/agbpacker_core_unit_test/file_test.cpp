@@ -14,6 +14,7 @@ namespace agbpacker_core_unit_test
 {
 
 using agbpacker_core::fcloser;
+using agbpacker_core::file;
 
 namespace
 {
@@ -42,6 +43,19 @@ TEST_CASE("file_test")
     {
         auto fp = fcloser::open(full_path("file/file.txt"), "r");
         CHECK(std::ftell(fp.get()) == 0);
+    }
+
+    SECTION("file, open nonexistent file")
+    {
+        CHECK_THROWS_AS(
+            file::open(full_path("file/nonexistent.txt"), "r"),
+            std::system_error);
+    }
+
+    SECTION("file, open existing file")
+    {
+        auto file = file::open(full_path("file/file.txt"), "r");
+        // TODO: do we verify here we can access the file?
     }
 }
 

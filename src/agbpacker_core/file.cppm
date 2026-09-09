@@ -28,7 +28,14 @@ export struct fcloser final
 export class file final
 {
 public:
+    static file open(const char* filename, const char* mode);
+
+    static file open(const std::string& filename, const char* mode);
+
 private:
+    file(const char* filename, const char* mode);
+
+    unique_file_ptr m_file_ptr;
 };
 
 }

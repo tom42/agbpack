@@ -34,4 +34,17 @@ unique_file_ptr fcloser::open(const std::string& filename, const char* mode)
     return open(filename.c_str(), mode);
 }
 
+file file::open(const char* filename, const char* mode)
+{
+    return file(filename, mode);
+}
+
+file file::open(const std::string& filename, const char* mode)
+{
+    return open(filename.c_str(), mode);
+}
+
+file::file(const char* filename, const char* mode)
+    : m_file_ptr(fcloser::open(filename, mode)) {}
+
 }
