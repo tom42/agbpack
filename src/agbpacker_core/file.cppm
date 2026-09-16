@@ -32,6 +32,8 @@ public:
 
     static file open(const std::string& filename, const char* mode);
 
+    long tell();
+
 private:
     file(const char* filename, const char* mode);
 

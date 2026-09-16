@@ -55,7 +55,7 @@ TEST_CASE("file_test")
     SECTION("file, open existing file")
     {
         auto file = file::open(full_path("file/file.txt"), "r");
-        // TODO: do we verify here we can access the file?
+        CHECK(file.tell() == 0);
     }
 }
 

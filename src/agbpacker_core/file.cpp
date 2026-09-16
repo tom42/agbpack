@@ -12,6 +12,20 @@ module agbpacker_core;
 namespace agbpacker_core
 {
 
+namespace
+{
+
+template <typename TPredicate>
+void throw_system_error_if(TPredicate predicate)
+{
+    if (predicate())
+    {
+        throw std::system_error(errno, std::generic_category());
+    }
+}
+
+}
+
 void fcloser::operator()(FILE* fp) const
 {
     fclose(fp);
@@ -20,12 +34,7 @@ void fcloser::operator()(FILE* fp) const
 unique_file_ptr fcloser::open(const char* filename, const char* mode)
 {
     unique_file_ptr fp(std::fopen(filename, mode));
-
-    if (!fp)
-    {
-        throw std::system_error(errno, std::generic_category());
-    }
-
+    throw_system_error_if([&] { return !fp; });
     return fp;
 }
 
@@ -42,6 +51,14 @@ file file::open(const char* filename, const char* mode)
 file file::open(const std::string& filename, const char* mode)
 {
     return open(filename.c_str(), mode);
+}
+
+long file::tell()
+{
+    // TODO: ftell needs testing
+    long pos = ftell(m_file_ptr.get());
+    throw_system_error_if([&] { return pos == -1L; });
+    return pos;
 }
 
 file::file(const char* filename, const char* mode)
