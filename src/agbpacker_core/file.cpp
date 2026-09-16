@@ -43,7 +43,7 @@ int to_c_origin(seek_origin origin)
 
 void fcloser::operator()(FILE* fp) const
 {
-    fclose(fp);
+    std::fclose(fp);
 }
 
 unique_file_ptr fcloser::open(const char* filename, const char* mode)
@@ -70,15 +70,24 @@ file file::open(const std::string& filename, const char* mode)
 
 void file::seek(long offset, seek_origin origin)
 {
-    int result = fseek(m_file_ptr.get(), offset, to_c_origin(origin));
+    int result = std::fseek(m_file_ptr.get(), offset, to_c_origin(origin));
     throw_system_error_if([&] { return result != 0; });
 }
 
 long file::tell()
 {
-    long pos = ftell(m_file_ptr.get());
+    long pos = std::ftell(m_file_ptr.get());
     throw_system_error_if([&] { return pos == -1L; });
     return pos;
+}
+
+void file::read(void* buffer, std::size_t nbytes)
+{
+    // TODO: error handling (nbytes not read)
+    //       * May be an error
+    //       * Or may be eof
+    //       * This read() will throw in both cases
+    std::fread(buffer, 1, nbytes, m_file_ptr.get());
 }
 
 file::file(const char* filename, const char* mode)

@@ -3,6 +3,7 @@
 
 module;
 
+#include <cstddef>
 #include <cstdio>
 #include <memory>
 #include <string>
@@ -42,6 +43,8 @@ public:
     void seek(long offset, seek_origin origin);
 
     long tell();
+
+    void read(void* buffer, std::size_t nbytes);
 
 private:
     file(const char* filename, const char* mode);

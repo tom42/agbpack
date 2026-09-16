@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <string_view>
 #include <system_error>
+#include <vector>
 #include "../agbpack_test_config.hpp" // TODO: this is not exactly pretty => should set proper path in CMakeLists.txt to begin with
 
 import agbpacker_core;
@@ -73,6 +74,24 @@ TEST_CASE("file_test")
 
         file.seek(1, seek_origin::set);
         CHECK(file.tell() == 1);
+    }
+
+    SECTION("read")
+    {
+        auto file = file::open(full_path("file/file.txt"), "r");
+        file.seek(0, seek_origin::end); // TODO: might want to have a size() member function for this mantra
+        auto size = file.tell();
+        file.seek(0, seek_origin::set);
+
+        // TODO: read file. Things to think about:
+        //       * Signature? Do we have size/count args like fread, or just one nbytes arg?
+        //       * How to do error handling? This is rather broken with fread
+        //       * How to pass the buffer? Do we want a convenience overload that returns vector<unsigned char>?
+
+        std::vector<char> buffer(size);
+        file.read(buffer.data(), size);
+
+        CHECK(buffer == std::vector<char>{ 'f', 'i', 'l', 'e', ' ', 'c', 'o', 'n', 't', 'e', 'n', 't'});
     }
 }
 
