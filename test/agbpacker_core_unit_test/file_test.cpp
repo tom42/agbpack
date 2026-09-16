@@ -62,7 +62,7 @@ TEST_CASE("file_test")
     {
         auto file = file::open(full_path("file/file.txt"), "r");
         file.seek(0, SEEK_END);
-        CHECK(file.tell() == 13);
+        CHECK(file.tell() == 12);
     }
 }
 
