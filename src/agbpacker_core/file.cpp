@@ -24,6 +24,21 @@ void throw_system_error_if(TPredicate predicate)
     }
 }
 
+int to_c_origin(seek_origin origin)
+{
+    switch (origin)
+    {
+        case seek_origin::set:
+            return SEEK_SET;
+        case seek_origin::cur:
+            return SEEK_CUR;
+        case seek_origin::end:
+            return SEEK_END;
+        default:
+            throw "TODO: YIKES: (proper exception)";
+    }
+}
+
 }
 
 void fcloser::operator()(FILE* fp) const
@@ -53,9 +68,9 @@ file file::open(const std::string& filename, const char* mode)
     return open(filename.c_str(), mode);
 }
 
-void file::seek(long offset, int origin)
+void file::seek(long offset, seek_origin origin)
 {
-    int result = fseek(m_file_ptr.get(), offset, origin);
+    int result = fseek(m_file_ptr.get(), offset, to_c_origin(origin));
     throw_system_error_if([&] { return result != 0; });
 }
 

@@ -25,6 +25,13 @@ export struct fcloser final
     static unique_file_ptr open(const std::string& filename, const char* mode);
 };
 
+export enum class seek_origin
+{
+    set,
+    cur,
+    end
+};
+
 export class file final
 {
 public:
@@ -32,8 +39,7 @@ public:
 
     static file open(const std::string& filename, const char* mode);
 
-    // TODO: use a scoped enum to represent origin?
-    void seek(long offset, int origin);
+    void seek(long offset, seek_origin origin);
 
     long tell();
 

@@ -15,6 +15,7 @@ namespace agbpacker_core_unit_test
 
 using agbpacker_core::fcloser;
 using agbpacker_core::file;
+using agbpacker_core::seek_origin;
 
 namespace
 {
@@ -61,8 +62,17 @@ TEST_CASE("file_test")
     SECTION("seek and tell")
     {
         auto file = file::open(full_path("file/file.txt"), "r");
-        file.seek(0, SEEK_END);
+        file.seek(0, seek_origin::end);
         CHECK(file.tell() == 12);
+
+        file.seek(-1, seek_origin::cur);
+        CHECK(file.tell() == 11);
+
+        file.seek(-2, seek_origin::cur);
+        CHECK(file.tell() == 9);
+
+        file.seek(1, seek_origin::set);
+        CHECK(file.tell() == 1);
     }
 }
 
