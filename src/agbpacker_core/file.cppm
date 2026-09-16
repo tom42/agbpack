@@ -32,6 +32,9 @@ public:
 
     static file open(const std::string& filename, const char* mode);
 
+    // TODO: use a scoped enum to represent origin?
+    void seek(long offset, int origin);
+
     long tell();
 
 private:

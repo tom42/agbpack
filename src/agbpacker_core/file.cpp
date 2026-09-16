@@ -53,9 +53,14 @@ file file::open(const std::string& filename, const char* mode)
     return open(filename.c_str(), mode);
 }
 
+void file::seek(long offset, int origin)
+{
+    int result = fseek(m_file_ptr.get(), offset, origin);
+    throw_system_error_if([&] { return result != 0; });
+}
+
 long file::tell()
 {
-    // TODO: ftell needs testing
     long pos = ftell(m_file_ptr.get());
     throw_system_error_if([&] { return pos == -1L; });
     return pos;

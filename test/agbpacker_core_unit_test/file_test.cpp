@@ -57,6 +57,13 @@ TEST_CASE("file_test")
         auto file = file::open(full_path("file/file.txt"), "r");
         CHECK(file.tell() == 0);
     }
+
+    SECTION("seek and tell")
+    {
+        auto file = file::open(full_path("file/file.txt"), "r");
+        file.seek(0, SEEK_END);
+        CHECK(file.tell() == 13);
+    }
 }
 
 }
