@@ -44,6 +44,8 @@ public:
 
     long tell();
 
+    std::size_t size();
+
     void read(void* buffer, std::size_t nbytes);
 
 private:

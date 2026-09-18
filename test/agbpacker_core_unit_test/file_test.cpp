@@ -76,15 +76,21 @@ TEST_CASE("file_test")
         CHECK(file.tell() == 1);
     }
 
+    SECTION("size")
+    {
+        auto file = file::open(full_path("file/file.txt"), "r");
+        file.seek(3, seek_origin::set);
+
+        CHECK(file.size() == 12);
+        CHECK(file.tell() == 3);
+    }
+
     SECTION("read")
     {
         auto file = file::open(full_path("file/file.txt"), "r");
-        file.seek(0, seek_origin::end); // TODO: might want to have a size() member function for this mantra
-        auto size = file.tell();
-        file.seek(0, seek_origin::set);
+        auto size = file.size();
 
         // TODO: read file. Things to think about:
-        //       * Signature? Do we have size/count args like fread, or just one nbytes arg?
         //       * How to do error handling? This is rather broken with fread
         //       * How to pass the buffer? Do we want a convenience overload that returns vector<unsigned char>?
 

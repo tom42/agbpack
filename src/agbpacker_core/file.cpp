@@ -91,6 +91,17 @@ void file::read(void* buffer, std::size_t nbytes)
     (void)nbytes_read; // TODO: actually evaluate
 }
 
+std::size_t file::size()
+{
+    long old_pos = tell();
+
+    seek(0, seek_origin::end);
+    long size = tell();
+
+    seek(old_pos, seek_origin::set);
+    return static_cast<std::size_t>(size);
+}
+
 file::file(const char* filename, const char* mode)
     : m_file_ptr(fcloser::open(filename, mode)) {}
 
