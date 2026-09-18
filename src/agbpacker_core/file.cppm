@@ -7,6 +7,7 @@ module;
 #include <cstdio>
 #include <memory>
 #include <string>
+#include <vector>
 
 export module agbpacker_core:file;
 
@@ -39,6 +40,10 @@ public:
     static file open(const char* filename, const char* mode);
 
     static file open(const std::string& filename, const char* mode);
+
+    static std::vector<unsigned char> read_all_bytes(const char* filename);
+
+    static std::vector<unsigned char> read_all_bytes(const std::string& filename);
 
     void seek(long offset, seek_origin origin);
 

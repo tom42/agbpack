@@ -68,6 +68,16 @@ file file::open(const std::string& filename, const char* mode)
     return open(filename.c_str(), mode);
 }
 
+std::vector<unsigned char> file::read_all_bytes(const char* /*filename*/)
+{
+    throw "TODO: implement";
+}
+
+std::vector<unsigned char> file::read_all_bytes(const std::string& filename)
+{
+    return read_all_bytes(filename.c_str());
+}
+
 void file::seek(long offset, seek_origin origin)
 {
     int result = std::fseek(m_file_ptr.get(), offset, to_c_origin(origin));

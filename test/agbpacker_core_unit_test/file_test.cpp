@@ -88,7 +88,7 @@ TEST_CASE("file_test")
     SECTION("read")
     {
         auto file = file::open(full_path("file/file.txt"), "r");
-        auto size = file.size();
+        auto size = file.size(); // TODO: consider reading just e.g. 3 bytes or so
 
         // TODO: read file. Things to think about:
         //       * How to do error handling? This is rather broken with fread
@@ -98,6 +98,12 @@ TEST_CASE("file_test")
         file.read(buffer.data(), size);
 
         CHECK(buffer == std::vector<char>{ 'f', 'i', 'l', 'e', ' ', 'c', 'o', 'n', 't', 'e', 'n', 't'});
+    }
+
+    SECTION("read_all_bytes")
+    {
+        auto all_bytes = file::read_all_bytes(full_path("file/file.txt"));
+        CHECK(all_bytes == std::vector<unsigned char>{ 'f', 'i', 'l', 'e', ' ', 'c', 'o', 'n', 't', 'e', 'n', 't'});
     }
 }
 
