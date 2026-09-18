@@ -5,6 +5,7 @@ module;
 
 #include <cerrno>
 #include <cstdio>
+#include <stdexcept>
 #include <system_error>
 
 module agbpacker_core;
@@ -35,7 +36,7 @@ int to_c_origin(seek_origin origin)
         case seek_origin::end:
             return SEEK_END;
         default:
-            throw "TODO: YIKES: (proper exception)";
+            throw std::invalid_argument("invalid seek origin");
     }
 }
 
