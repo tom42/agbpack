@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <cstddef>
 #include <cstdio>
 #include <filesystem>
 #include <string_view>
@@ -88,16 +89,15 @@ TEST_CASE("file_test")
     SECTION("read")
     {
         auto file = file::open(full_path("file/file.txt"), "r");
-        auto size = file.size(); // TODO: consider reading just e.g. 3 bytes or so
+        const std::size_t nbytes = 3;
 
         // TODO: read file. Things to think about:
         //       * How to do error handling? This is rather broken with fread
-        //       * How to pass the buffer? Do we want a convenience overload that returns vector<unsigned char>?
 
-        std::vector<char> buffer(size);
-        file.read(buffer.data(), size);
+        std::vector<char> buffer(nbytes);
+        file.read(buffer.data(), nbytes);
 
-        CHECK(buffer == std::vector<char>{ 'f', 'i', 'l', 'e', ' ', 'c', 'o', 'n', 't', 'e', 'n', 't'});
+        CHECK(buffer == std::vector<char>{ 'f', 'i', 'l' });
     }
 
     SECTION("read_all_bytes")
