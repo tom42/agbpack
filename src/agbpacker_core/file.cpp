@@ -87,7 +87,8 @@ void file::read(void* buffer, std::size_t nbytes)
     //       * May be an error
     //       * Or may be eof
     //       * This read() will throw in both cases
-    std::fread(buffer, 1, nbytes, m_file_ptr.get());
+    size_t nbytes_read = std::fread(buffer, 1, nbytes, m_file_ptr.get());
+    (void)nbytes_read; // TODO: actually evaluate
 }
 
 file::file(const char* filename, const char* mode)
