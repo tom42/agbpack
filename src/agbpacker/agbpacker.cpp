@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-#include <cstdio> // TODO: needed?
 #include <iostream>
 #include <stdexcept>
+#include <system_error>
 #include <vector>
 #include "agbpack_config.hpp"
 
@@ -21,16 +21,16 @@ namespace
 
 using namespace agbpacker_core;
 
-// TODO: define a byte_vector?
 std::vector<unsigned char> read_file(const std::string& filename)
 {
-    // TODO: open file (handle errors)
-    // TODO: find fle size (handle errors)
-    // TODO: read entire file (handle errors)
-    // TODO: autoclose file, no error handling here
-    // TODO: return data
-    file::open(filename.c_str(), "rb");
-    return {};
+    try
+    {
+        return file::read_all_bytes(filename);
+    }
+    catch (const std::system_error& e)
+    {
+        throw std::runtime_error("could not read " + filename + ": " + e.what());
+    }
 }
 
 // TODO: might want to put this function into agbpacker_core and unit test it
