@@ -7,6 +7,7 @@ module;
 #include <cstdio>
 #include <stdexcept>
 #include <system_error>
+#include <vector>
 
 module agbpacker_core;
 
