@@ -106,7 +106,13 @@ void file::read(void* buffer, std::size_t nbytes)
     //       * Or may be eof
     //       * This read() will throw in both cases
     size_t nbytes_read = std::fread(buffer, 1, nbytes, m_file_ptr.get());
-    (void)nbytes_read; // TODO: actually evaluate
+    if (nbytes == nbytes_read)
+    {
+        return;
+    }
+
+    // TODO: if ferror() says there is an error, throw it
+    // TODO: otherwise it's a read past EOF, in that case throw too
 }
 
 std::size_t file::size()
