@@ -91,9 +91,6 @@ TEST_CASE("file_test")
         auto file = file::open(full_path("file/file.txt"), "r");
         const std::size_t nbytes = 3;
 
-        // TODO: read file. Things to think about:
-        //       * How to do error handling? This is rather broken with fread
-
         std::vector<char> buffer(nbytes);
         file.read(buffer.data(), nbytes);
 
