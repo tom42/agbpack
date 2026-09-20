@@ -12,7 +12,7 @@ add_executable(
   rle_encoder_test.cpp
   rle_decoder_test.cpp
   testdata.cpp)
-target_include_directories(agbpack_test PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+target_include_directories(agbpack_test PRIVATE "${PROJECT_BINARY_DIR}/test")
 vtg_target_enable_warnings_for_test(agbpack_test)
 target_link_libraries(agbpack_test PRIVATE agbpack Catch2::Catch2WithMain)
 catch_discover_tests(agbpack_test)

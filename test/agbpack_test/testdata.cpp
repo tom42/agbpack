@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <iterator>
 #include <system_error>
-#include "../agbpack_test_config.hpp" // TODO: this is not exactly pretty => should set proper path in CMakeLists.txt to begin with
+#include "agbpack_test_config.hpp"
 #include "testdata.hpp"
 
 namespace agbpack_test
@@ -15,7 +15,7 @@ namespace
 
 std::vector<unsigned char> read_file(const std::string& basename)
 {
-    const auto name = std::filesystem::path(agbpack_test_testdata_directory) / basename;
+    const auto name = std::filesystem::path(testdata_directory) / basename;
 
     auto filestream = open_binary_file(name.string());
     auto filesize = get_file_size(name.string());
@@ -77,12 +77,12 @@ std::ifstream open_binary_file(const std::string& path)
 
 std::string test_data_directory::get_decoded_file_path(const std::string& basename) const
 {
-    return (std::filesystem::path(agbpack_test_testdata_directory) / std::filesystem::path(m_directory) / (basename + ".decoded")).string();
+    return (std::filesystem::path(testdata_directory) / std::filesystem::path(m_directory) / (basename + ".decoded")).string();
 }
 
 std::string test_data_directory::get_encoded_file_path(const std::string& basename) const
 {
-    return (std::filesystem::path(agbpack_test_testdata_directory) / std::filesystem::path(m_directory) / (basename + ".encoded")).string();
+    return (std::filesystem::path(testdata_directory) / std::filesystem::path(m_directory) / (basename + ".encoded")).string();
 }
 
 void test_data_fixture::set_test_data_directory(const std::string& directory)

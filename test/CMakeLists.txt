@@ -4,7 +4,7 @@
 set(AGBPACK_TEST_TESTDATA_DIRECTORY "${PROJECT_SOURCE_DIR}/test/testdata")
 configure_file(
   agbpack_test_config.hpp.in
-  "${CMAKE_CURRENT_BINARY_DIR}/agbpack_test_config.hpp")
+  "${PROJECT_BINARY_DIR}/test/agbpack_test_config.hpp")
 
 add_subdirectory(agbpack_unit_testkit)
 add_subdirectory(agbpack_unit_test)

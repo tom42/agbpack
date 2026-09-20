@@ -8,7 +8,7 @@
 #include <string_view>
 #include <system_error>
 #include <vector>
-#include "../agbpack_test_config.hpp" // TODO: this is not exactly pretty => should set proper path in CMakeLists.txt to begin with
+#include "agbpack_test_config.hpp"
 
 import agbpacker_core;
 
@@ -24,11 +24,8 @@ namespace
 
 std::string full_path(std::string_view basename)
 {
-    // TODO: agbpack_test_testdata_directory is in agbpack_test specific namespace
-    //       * do we care?
-    //       * do we even need it to be in a namespace
     namespace fs = std::filesystem;
-    return (fs::path(agbpack_test::agbpack_test_testdata_directory) / fs::path(basename)).string();
+    return (fs::path(agbpack_test::testdata_directory) / fs::path(basename)).string();
 }
 
 }
