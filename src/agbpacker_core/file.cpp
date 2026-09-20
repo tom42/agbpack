@@ -17,12 +17,17 @@ namespace agbpacker_core
 namespace
 {
 
+void throw_system_error()
+{
+    throw std::system_error(errno, std::generic_category());
+}
+
 template <typename TPredicate>
 void throw_system_error_if(TPredicate predicate)
 {
     if (predicate())
     {
-        throw std::system_error(errno, std::generic_category());
+        throw_system_error();
     }
 }
 
@@ -101,18 +106,23 @@ long file::tell()
 
 void file::read(void* buffer, std::size_t nbytes)
 {
-    // TODO: error handling (nbytes not read)
-    //       * May be an error
-    //       * Or may be eof
-    //       * This read() will throw in both cases
     size_t nbytes_read = std::fread(buffer, 1, nbytes, m_file_ptr.get());
     if (nbytes == nbytes_read)
     {
         return;
     }
 
-    // TODO: if ferror() says there is an error, throw it
-    // TODO: otherwise it's a read past EOF, in that case throw too
+    if (std::feof(m_file_ptr.get()))
+    {
+        throw std::logic_error("read past end of file");
+    }
+
+    if (std::ferror(m_file_ptr.get()))
+    {
+        throw_system_error();
+    }
+
+    throw std::logic_error("unknown error");
 }
 
 std::size_t file::size()

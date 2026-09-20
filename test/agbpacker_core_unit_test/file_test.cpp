@@ -2,9 +2,12 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstddef>
 #include <cstdio>
 #include <filesystem>
+#include <stdexcept>
 #include <string_view>
 #include <system_error>
 #include <vector>
@@ -87,11 +90,23 @@ TEST_CASE("file_test")
     {
         auto file = file::open(full_path("file/file.txt"), "r");
         const std::size_t nbytes = 3;
-
         std::vector<char> buffer(nbytes);
+
         file.read(buffer.data(), nbytes);
 
         CHECK(buffer == std::vector<char>{ 'f', 'i', 'l' });
+    }
+
+    SECTION("read past end of file")
+    {
+        auto file = file::open(full_path("file/file.txt"), "r");
+        const std::size_t nbytes = 13;
+        std::vector<char> buffer(nbytes);
+
+        CHECK_THROWS_MATCHES(
+            file.read(buffer.data(), nbytes),
+            std::logic_error,
+            Catch::Matchers::Message("read past end of file"));
     }
 
     SECTION("read_all_bytes")
