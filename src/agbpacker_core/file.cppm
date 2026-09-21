@@ -62,7 +62,7 @@ public:
 
     static std::vector<unsigned char> read_all_bytes(zstring_view filename);
 
-    static void write_all_bytes(const std::string& filename, const std::vector<unsigned char>& data); // TODO: see whether 2nd argument should be span instead. Probably yes.
+    static void write_all_bytes(zstring_view filename, const std::vector<unsigned char>& data); // TODO: see whether 2nd argument should be span instead. Probably yes.
 
     void seek(long offset, seek_origin origin);
 

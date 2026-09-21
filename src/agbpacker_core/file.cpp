@@ -81,7 +81,7 @@ std::vector<unsigned char> file::read_all_bytes(zstring_view filename)
     return buffer;
 }
 
-void file::write_all_bytes(const std::string& /*filename*/, const std::vector<unsigned char>& /*data*/)
+void file::write_all_bytes(zstring_view /*filename*/, const std::vector<unsigned char>& /*data*/)
 {
     throw "TODO: YIKES: implement";
 }
