@@ -33,7 +33,7 @@ std::string full_path(std::string_view basename)
 // TODO: this is going to fly apart as soon as we add another test. Should have a class test_directory which is able to generate random filenames
 std::string output_filename(std::string_view basename)
 {
-    fs::create_directory(agbpack_test::testoutput_directory);
+    fs::create_directories(agbpack_test::testoutput_directory);
     return (fs::path(agbpack_test::testoutput_directory) / fs::path(basename)).string();
 }
 
