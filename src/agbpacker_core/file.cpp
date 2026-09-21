@@ -5,6 +5,7 @@ module;
 
 #include <cerrno>
 #include <cstdio>
+#include <span>
 #include <stdexcept>
 #include <system_error>
 #include <vector>
@@ -81,9 +82,10 @@ std::vector<unsigned char> file::read_all_bytes(zstring_view filename)
     return buffer;
 }
 
-void file::write_all_bytes(zstring_view /*filename*/, const std::vector<unsigned char>& /*data*/)
+void file::write_all_bytes(zstring_view filename, std::span<const unsigned char> data)
 {
-    throw "TODO: YIKES: implement";
+    auto file = open(filename, "wb");
+    file.write(data.data(), data.size());
 }
 
 void file::seek(long offset, seek_origin origin)
@@ -97,6 +99,17 @@ long file::tell()
     long pos = std::ftell(m_file_ptr.get());
     throw_system_error_if([&] { return pos == -1L; });
     return pos;
+}
+
+std::size_t file::size()
+{
+    long old_pos = tell();
+
+    seek(0, seek_origin::end);
+    long size = tell();
+
+    seek(old_pos, seek_origin::set);
+    return static_cast<std::size_t>(size);
 }
 
 void file::read(void* buffer, std::size_t nbytes)
@@ -120,15 +133,11 @@ void file::read(void* buffer, std::size_t nbytes)
     throw std::logic_error("unknown error");
 }
 
-std::size_t file::size()
+// TODO: this is missing a unit test. It is currently tested indirectly only through the test of write_all_bytes
+void file::write(const void* buffer, std::size_t nbytes)
 {
-    long old_pos = tell();
-
-    seek(0, seek_origin::end);
-    long size = tell();
-
-    seek(old_pos, seek_origin::set);
-    return static_cast<std::size_t>(size);
+    std::fwrite(buffer, 1, nbytes, m_file_ptr.get());
+    // TODO: error handling (what failure modes are there?)
 }
 
 file::file(const char* filename, const char* mode)

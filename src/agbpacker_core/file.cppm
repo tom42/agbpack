@@ -6,6 +6,7 @@ module;
 #include <cstddef>
 #include <cstdio>
 #include <memory>
+#include <span>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -62,7 +63,8 @@ public:
 
     static std::vector<unsigned char> read_all_bytes(zstring_view filename);
 
-    static void write_all_bytes(zstring_view filename, const std::vector<unsigned char>& data); // TODO: see whether 2nd argument should be span instead. Probably yes.
+    // TODO: if we pass a span, do we pass it by value or by reference?
+    static void write_all_bytes(zstring_view filename, std::span<const unsigned char> data);
 
     void seek(long offset, seek_origin origin);
 
@@ -71,6 +73,8 @@ public:
     std::size_t size();
 
     void read(void* buffer, std::size_t nbytes);
+
+    void write(const void* buffer, std::size_t nbytes);
 
 private:
     file(const char* filename, const char* mode);

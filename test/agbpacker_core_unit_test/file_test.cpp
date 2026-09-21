@@ -103,9 +103,11 @@ TEST_CASE("file_test")
 
     SECTION("write_all_bytes")
     {
-        // TODO: write test for write_all_bytes. Problem:
-        //       * we need some input data (well that's just a string/vector, no?)
-        //       * we need a place to write it to (well that would be CWD for starters, or not? or maybe use some CMake binary directory?)
+        const std::vector<unsigned char> data{ 'd', 'a', 't', 'a' };
+
+        file::write_all_bytes("foo.dat", data); // TODO: use absolute path into build directory
+
+        CHECK(file::read_all_bytes("foo.dat") == data);
     }
 }
 
