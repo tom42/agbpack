@@ -33,6 +33,8 @@ std::string full_path(std::string_view basename)
 
 }
 
+// TODO: extract fcloser tests into own file
+// TODO: create zstring_view tests, but in own file
 TEST_CASE("file_test")
 {
     SECTION("fcloser, open nonexistent file")

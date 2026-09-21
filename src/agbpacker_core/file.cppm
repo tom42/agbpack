@@ -34,6 +34,10 @@ export enum class seek_origin
     end
 };
 
+// TODO: do we need to export this?
+AGBPACK_EXPORT_FOR_UNIT_TESTING
+class zstring_view final {};
+
 // TODO: possibly create a class zstring_view and pass that, remove overloads taking const char* and string
 export class file final
 {
