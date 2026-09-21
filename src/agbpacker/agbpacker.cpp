@@ -42,12 +42,6 @@ void compress(const parse_command_line_result& options)
     //       * input file
     //       * optional output file
     // TODO: so here is what we do:
-    //       * read input file
-    //         * So we need:
-    //         * fopen, handle errors
-    //         * Get file size, handle errors
-    //         * fread, handle errors
-    //         * fclose, handle errors (really? do we need this?) (yes, we do)
     //       * compress in-memory, take into account method and vram safety flag
     //       * write back to input file or output file if given
     auto data = read_file(options.input_file);
