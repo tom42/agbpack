@@ -5,9 +5,9 @@
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstddef>
-#include <cstdio>
 #include <filesystem>
 #include <stdexcept>
+#include <string>
 #include <string_view>
 #include <system_error>
 #include <vector>
@@ -18,7 +18,6 @@ import agbpacker_core;
 namespace agbpacker_core_unit_test
 {
 
-using agbpacker_core::fcloser;
 using agbpacker_core::file;
 using agbpacker_core::seek_origin;
 
@@ -33,23 +32,9 @@ std::string full_path(std::string_view basename)
 
 }
 
-// TODO: extract fcloser tests into own file
 // TODO: create zstring_view tests, but in own file
 TEST_CASE("file_test")
 {
-    SECTION("fcloser, open nonexistent file")
-    {
-        CHECK_THROWS_AS(
-            fcloser::open(full_path("file/nonexistent.txt"), "r"),
-            std::system_error);
-    }
-
-    SECTION("fcloser, open existing file")
-    {
-        auto fp = fcloser::open(full_path("file/file.txt"), "r");
-        CHECK(std::ftell(fp.get()) == 0);
-    }
-
     SECTION("file, open nonexistent file")
     {
         CHECK_THROWS_AS(

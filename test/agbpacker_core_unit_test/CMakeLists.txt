@@ -5,6 +5,7 @@ add_executable(
   agbpacker_core_unit_test
   command_line_test.cpp
   compression_method_test.cpp
+  fcloser_test.cpp
   file_test.cpp)
 target_include_directories(agbpacker_core_unit_test PRIVATE "${PROJECT_BINARY_DIR}/test")
 vtg_target_enable_warnings_for_test(agbpacker_core_unit_test)
