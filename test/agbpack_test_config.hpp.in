@@ -7,7 +7,7 @@
 namespace agbpack_test
 {
 
-constexpr inline const char* testdata_directory = "@AGBPACK_TEST_TESTDATA_DIRECTORY@";
+inline constexpr const char* testdata_directory = "@AGBPACK_TEST_TESTDATA_DIRECTORY@";
 
 }
 
