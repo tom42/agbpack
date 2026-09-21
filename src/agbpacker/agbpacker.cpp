@@ -33,6 +33,20 @@ std::vector<unsigned char> read_file(const std::string& filename)
     }
 }
 
+// TODO: take arguments:
+//       * uncompressed data
+//       * compression mode
+//       * vram safety flag
+// TODO: this has the same name as the function below, which is somewhat silly
+std::vector<unsigned char> compress()
+{
+    // TODO: get appropriate encoder
+    // TODO: configure the encoder (vram safety)
+    // TODO: run the encoder
+    // TODO: return encoder's output
+    return {};
+}
+
 // TODO: might want to put this function into agbpacker_core and unit test it
 void compress(const parse_command_line_result& options)
 {
@@ -44,7 +58,8 @@ void compress(const parse_command_line_result& options)
     // TODO: so here is what we do:
     //       * compress in-memory, take into account method and vram safety flag
     //       * write back to input file or output file if given
-    auto data = read_file(options.input_file);
+    auto uncompressed_data = read_file(options.input_file);
+    auto compressed_data = compress();
 }
 
 // TODO: might want to put this function into agbpacker_core and unit test it
