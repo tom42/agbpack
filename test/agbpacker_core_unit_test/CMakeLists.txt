@@ -6,7 +6,8 @@ add_executable(
   command_line_test.cpp
   compression_method_test.cpp
   fcloser_test.cpp
-  file_test.cpp)
+  file_test.cpp
+  zstring_view_test.cpp)
 target_include_directories(agbpacker_core_unit_test PRIVATE "${PROJECT_BINARY_DIR}/test")
 vtg_target_enable_warnings_for_test(agbpacker_core_unit_test)
 target_link_libraries(agbpacker_core_unit_test PRIVATE agbpacker_core_unit_testing Catch2::Catch2WithMain)

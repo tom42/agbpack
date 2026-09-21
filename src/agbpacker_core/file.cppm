@@ -7,6 +7,7 @@ module;
 #include <cstdio>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 export module agbpacker_core:file;
@@ -36,7 +37,22 @@ export enum class seek_origin
 
 // TODO: do we need to export this?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
-class zstring_view final {};
+class zstring_view final
+{
+public:
+    zstring_view(const char* s) : m_view(s) {}
+
+    zstring_view(const std::string& s) : m_view(s.c_str()) {}
+
+    const char* c_str() const
+    {
+        // Returning data() here is fine because we control how m_view is constructed.
+        return m_view.data();
+    }
+
+private:
+    std::string_view m_view;
+};
 
 // TODO: possibly create a class zstring_view and pass that, remove overloads taking const char* and string
 export class file final
