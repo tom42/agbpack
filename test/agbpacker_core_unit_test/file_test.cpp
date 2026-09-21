@@ -101,6 +101,13 @@ TEST_CASE("file_test")
         auto all_bytes = file::read_all_bytes(full_path("file/file.txt"));
         CHECK(all_bytes == std::vector<unsigned char>{ 'f', 'i', 'l', 'e', ' ', 'c', 'o', 'n', 't', 'e', 'n', 't'});
     }
+
+    SECTION("write_all_bytes")
+    {
+        // TODO: write test for write_all_bytes. Problem:
+        //       * we need some input data (well that's just a string/vector, no?)
+        //       * we need a place to write it to (well that would be CWD for starters, or not? or maybe use some CMake binary directory?)
+    }
 }
 
 }
