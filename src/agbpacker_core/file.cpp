@@ -17,7 +17,7 @@ namespace agbpacker_core
 namespace
 {
 
-void throw_system_error()
+[[noreturn]] void throw_system_error()
 {
     throw std::system_error(errno, std::generic_category());
 }
