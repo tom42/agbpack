@@ -91,6 +91,11 @@ std::vector<unsigned char> file::read_all_bytes(const std::string& filename)
     return read_all_bytes(filename.c_str());
 }
 
+void file::write_all_bytes(const std::string& /*filename*/, const std::vector<unsigned char>& /*data*/)
+{
+    throw "TODO: YIKES: implement";
+}
+
 void file::seek(long offset, seek_origin origin)
 {
     int result = std::fseek(m_file_ptr.get(), offset, to_c_origin(origin));

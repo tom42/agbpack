@@ -33,6 +33,20 @@ std::vector<unsigned char> read_file(const std::string& filename)
     }
 }
 
+void write_file(const std::string& filename, const std::vector<unsigned char>& data)
+{
+    // TODO: call a file::write_all_bytes(filename) method (yet to write)
+    try
+    {
+        file::write_all_bytes(filename, data);
+    }
+    catch (const std::system_error& e)
+    {
+        // TODO: test this branch (once, manually)
+        throw std::runtime_error("could not write " + filename + ": " + e.what());
+    }
+}
+
 // TODO: take arguments:
 //       * uncompressed data
 //       * compression mode
@@ -60,6 +74,7 @@ void compress(const parse_command_line_result& options)
     //       * write back to input file or output file if given
     auto uncompressed_data = read_file(options.input_file);
     auto compressed_data = compress();
+    write_file(options.output_file, compressed_data);
 }
 
 // TODO: might want to put this function into agbpacker_core and unit test it

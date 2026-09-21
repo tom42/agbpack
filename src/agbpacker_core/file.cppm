@@ -34,6 +34,7 @@ export enum class seek_origin
     end
 };
 
+// TODO: possibly create a class zstring_view and pass that, remove overloads taking const char* and string
 export class file final
 {
 public:
@@ -44,6 +45,8 @@ public:
     static std::vector<unsigned char> read_all_bytes(const char* filename);
 
     static std::vector<unsigned char> read_all_bytes(const std::string& filename);
+
+    static void write_all_bytes(const std::string& filename, const std::vector<unsigned char>& data); // TODO: see whether 2nd argument should be span instead. Probably yes.
 
     void seek(long offset, seek_origin origin);
 
