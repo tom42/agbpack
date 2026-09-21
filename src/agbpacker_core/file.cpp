@@ -133,11 +133,12 @@ void file::read(void* buffer, std::size_t nbytes)
     throw std::logic_error("unknown error");
 }
 
-// TODO: this is missing a unit test. It is currently tested indirectly only through the test of write_all_bytes
 void file::write(const void* buffer, std::size_t nbytes)
 {
     std::fwrite(buffer, 1, nbytes, m_file_ptr.get());
-    // TODO: error handling (what failure modes are there?)
+    // TODO: error handling
+    //       * what failure modes are there?
+    //       * unit test
 }
 
 file::file(const char* filename, const char* mode)

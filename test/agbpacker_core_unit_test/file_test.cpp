@@ -114,10 +114,6 @@ TEST_CASE("file_test")
         file.read(buffer.data(), 4);
 
         CHECK(buffer == std::vector<char>{ 'd', 'a', 't', 'a' });
-
-        // TODO: write data
-        // TODO: write some more data
-        // TODO: read, should all be good?
     }
 
     SECTION("read_all_bytes")
