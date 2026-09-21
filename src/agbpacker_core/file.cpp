@@ -65,17 +65,12 @@ unique_file_ptr fcloser::open(const std::string& filename, const char* mode)
     return open(filename.c_str(), mode);
 }
 
-file file::open(const char* filename, const char* mode)
+file file::open(zstring_view filename, const char* mode)
 {
-    return file(filename, mode);
+    return file(filename.c_str(), mode);
 }
 
-file file::open(const std::string& filename, const char* mode)
-{
-    return open(filename.c_str(), mode);
-}
-
-std::vector<unsigned char> file::read_all_bytes(const char* filename)
+std::vector<unsigned char> file::read_all_bytes(zstring_view filename)
 {
     auto file = open(filename, "rb");
     std::size_t filesize = file.size();
@@ -84,11 +79,6 @@ std::vector<unsigned char> file::read_all_bytes(const char* filename)
     file.read(buffer.data(), filesize);
 
     return buffer;
-}
-
-std::vector<unsigned char> file::read_all_bytes(const std::string& filename)
-{
-    return read_all_bytes(filename.c_str());
 }
 
 void file::write_all_bytes(const std::string& /*filename*/, const std::vector<unsigned char>& /*data*/)

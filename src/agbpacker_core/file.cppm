@@ -58,13 +58,9 @@ private:
 export class file final
 {
 public:
-    static file open(const char* filename, const char* mode);
+    static file open(zstring_view filename, const char* mode);
 
-    static file open(const std::string& filename, const char* mode);
-
-    static std::vector<unsigned char> read_all_bytes(const char* filename);
-
-    static std::vector<unsigned char> read_all_bytes(const std::string& filename);
+    static std::vector<unsigned char> read_all_bytes(zstring_view filename);
 
     static void write_all_bytes(const std::string& filename, const std::vector<unsigned char>& data); // TODO: see whether 2nd argument should be span instead. Probably yes.
 
