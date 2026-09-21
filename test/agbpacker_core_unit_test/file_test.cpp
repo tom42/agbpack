@@ -102,6 +102,24 @@ TEST_CASE("file_test")
             Catch::Matchers::Message("read past end of file"));
     }
 
+    SECTION("write")
+    {
+        auto file = file::open(output_filename("write.dat"), "w+b");
+
+        file.write("d", 1);
+        file.write("ata", 3);
+
+        //file.seek(0, seek_origin::set); // TODO: uncomment this to make the test pass. Oddly enough, without this we do not read past EOF on windows, but read all 0 bytes. Why?
+        std::vector<char> buffer(4);
+        file.read(buffer.data(), 4);
+
+        CHECK(buffer == std::vector<char>{ 'd', 'a', 't', 'a' });
+
+        // TODO: write data
+        // TODO: write some more data
+        // TODO: read, should all be good?
+    }
+
     SECTION("read_all_bytes")
     {
         auto all_bytes = file::read_all_bytes(full_path("file/file.txt"));
