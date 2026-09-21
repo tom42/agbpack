@@ -20,13 +20,13 @@ namespace agbpacker_core_unit_test
 
 using agbpacker_core::file;
 using agbpacker_core::seek_origin;
+namespace fs = std::filesystem;
 
 namespace
 {
 
 std::string full_path(std::string_view basename)
 {
-    namespace fs = std::filesystem;
     return (fs::path(agbpack_test::testdata_directory) / fs::path(basename)).string();
 }
 
