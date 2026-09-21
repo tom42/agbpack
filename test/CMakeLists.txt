@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 set(AGBPACK_TEST_TESTDATA_DIRECTORY "${PROJECT_SOURCE_DIR}/test/testdata")
+set(AGBPACK_TEST_TESTOUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/test/testoutput")
 configure_file(
   agbpack_test_config.hpp.in
   "${PROJECT_BINARY_DIR}/test/agbpack_test_config.hpp")

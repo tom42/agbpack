@@ -9,6 +9,8 @@ namespace agbpack_test
 
 inline constexpr const char* testdata_directory = "@AGBPACK_TEST_TESTDATA_DIRECTORY@";
 
+inline constexpr const char* testoutput_directory = "@AGBPACK_TEST_TESTOUTPUT_DIRECTORY@";
+
 }
 
 #endif
