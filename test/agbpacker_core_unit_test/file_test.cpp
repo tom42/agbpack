@@ -32,7 +32,6 @@ std::string full_path(std::string_view basename)
 
 }
 
-// TODO: create zstring_view tests, but in own file
 TEST_CASE("file_test")
 {
     SECTION("file, open nonexistent file")
