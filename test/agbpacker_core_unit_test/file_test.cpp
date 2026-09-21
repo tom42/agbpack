@@ -30,6 +30,13 @@ std::string full_path(std::string_view basename)
     return (fs::path(agbpack_test::testdata_directory) / fs::path(basename)).string();
 }
 
+// TODO: this is going to fly apart as soon as we add another test. Should have a class test_directory which is able to generate random filenames
+std::string output_filename(std::string_view basename)
+{
+    fs::create_directory(agbpack_test::testoutput_directory);
+    return (fs::path(agbpack_test::testoutput_directory) / fs::path(basename)).string();
+}
+
 }
 
 TEST_CASE("file_test")
@@ -104,10 +111,11 @@ TEST_CASE("file_test")
     SECTION("write_all_bytes")
     {
         const std::vector<unsigned char> data{ 'd', 'a', 't', 'a' };
+        const auto filename = output_filename("write_all_bytes.dat");
 
-        file::write_all_bytes("foo.dat", data); // TODO: use absolute path into build directory
+        file::write_all_bytes(filename, data);
 
-        CHECK(file::read_all_bytes("foo.dat") == data);
+        CHECK(file::read_all_bytes(filename) == data);
     }
 }
 
