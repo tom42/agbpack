@@ -55,7 +55,6 @@ private:
     std::string_view m_view;
 };
 
-// TODO: possibly create a class zstring_view and pass that, remove overloads taking const char* and string
 export class file final
 {
 public:
@@ -63,7 +62,6 @@ public:
 
     static std::vector<unsigned char> read_all_bytes(zstring_view filename);
 
-    // TODO: if we pass a span, do we pass it by value or by reference?
     static void write_all_bytes(zstring_view filename, std::span<const unsigned char> data);
 
     void seek(long offset, seek_origin origin);
