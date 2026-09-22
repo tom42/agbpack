@@ -20,8 +20,9 @@ namespace
 {
 
 using namespace agbpacker_core;
+using bytevector = std::vector<unsigned char>;
 
-std::vector<unsigned char> read_file(const std::string& filename)
+bytevector read_file(const std::string& filename)
 {
     try
     {
@@ -33,7 +34,7 @@ std::vector<unsigned char> read_file(const std::string& filename)
     }
 }
 
-void write_file(const std::string& filename, const std::vector<unsigned char>& data)
+void write_file(const std::string& filename, const bytevector& data)
 {
     try
     {
@@ -45,12 +46,8 @@ void write_file(const std::string& filename, const std::vector<unsigned char>& d
     }
 }
 
-// TODO: take arguments:
-//       * uncompressed data
-//       * compression mode
-//       * vram safety flag
 // TODO: this has the same name as the function below, which is somewhat silly
-std::vector<unsigned char> compress()
+bytevector compress(const bytevector& /*data*/, const parse_command_line_result& /*options*/)
 {
     // TODO: get appropriate encoder
     // TODO: configure the encoder (vram safety)
@@ -71,7 +68,7 @@ void compress(const parse_command_line_result& options)
     //       * compress in-memory, take into account method and vram safety flag
     //       * write back to input file or output file if given
     auto uncompressed_data = read_file(options.input_file);
-    auto compressed_data = compress();
+    auto compressed_data = compress(uncompressed_data, options);
     write_file(options.output_file, compressed_data);
 }
 
