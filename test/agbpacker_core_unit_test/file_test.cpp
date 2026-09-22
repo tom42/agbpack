@@ -54,13 +54,6 @@ public:
     }
 
 private:
-    /*auto random()
-    {
-        return m_dist(m_prng)
-    }*/
-
-    std::mt19937 m_prng(std::random_device());
-    std::uniform_int_distribution<int> m_dist;
 };
 
 }
