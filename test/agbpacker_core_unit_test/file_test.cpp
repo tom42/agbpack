@@ -29,7 +29,7 @@ namespace
 
 std::string full_path(std::string_view basename)
 {
-    return (fs::path(agbpack_test::testdata_directory) / fs::path(basename)).string();
+    return (fs::path(agbpack_test::testdata_directory) / basename).string();
 }
 
 class test_directory
