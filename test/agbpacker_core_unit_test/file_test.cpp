@@ -32,7 +32,7 @@ std::string full_path(std::string_view basename)
     return (fs::path(agbpack_test::testdata_directory) / basename).string();
 }
 
-class test_directory
+class test_directory final
 {
 public:
     test_directory(std::string_view path)
