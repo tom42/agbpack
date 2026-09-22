@@ -114,7 +114,7 @@ std::size_t file::size()
 
 void file::read(void* buffer, std::size_t nbytes)
 {
-    size_t nbytes_read = std::fread(buffer, 1, nbytes, m_file_ptr.get());
+    std::size_t nbytes_read = std::fread(buffer, 1, nbytes, m_file_ptr.get());
     if (nbytes == nbytes_read)
     {
         return;
