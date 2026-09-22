@@ -95,7 +95,7 @@ void run(const parse_command_line_result& options)
             decompress(options);
             break;
         default:
-            throw std::logic_error("bad program mode");
+            throw std::logic_error("invalid program mode");
     }
 }
 
