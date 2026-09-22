@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: 2026 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-#include <iostream> // TODO: delete
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
@@ -64,12 +63,6 @@ private:
 
 TEST_CASE("file_test")
 {
-    // TODO: not here, use a fixture (?)
-    test_directory test_directory(agbpack_test::testoutput_directory);
-    std::cout << test_directory.foo() << "\n";
-    std::cout << test_directory.foo() << "\n";
-    std::cout << test_directory.foo() << "\n";
-
     SECTION("file, open nonexistent file")
     {
         CHECK_THROWS_AS(
