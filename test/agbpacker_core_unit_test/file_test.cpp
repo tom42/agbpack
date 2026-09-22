@@ -139,6 +139,15 @@ TEST_CASE_PERSISTENT_FIXTURE(fixture, "file_test")
         CHECK(buffer == std::vector<char>{ 'd', 'a', 't', 'a' });
     }
 
+    SECTION("write fails")
+    {
+        // TODO: implement:
+        //       * Open file for reading
+        //       * Write to file, should fail
+        //auto file = file::open(full_path("file/file.txt"), "r"); // TODO: for safety, create a dedicated file for this, do not modify one that is needed otherwise
+        //file.write("x", 1);
+    }
+
     SECTION("read_all_bytes")
     {
         auto all_bytes = file::read_all_bytes(full_path("file/file.txt"));
