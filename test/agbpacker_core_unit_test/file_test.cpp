@@ -57,7 +57,7 @@ private:
 
 struct fixture
 {
-    mutable test_directory test_directory{ agbpack_test::testoutput_directory };
+    mutable test_directory test_dir { agbpack_test::testoutput_directory };
 };
 
 }
@@ -127,7 +127,7 @@ TEST_CASE_PERSISTENT_FIXTURE(fixture, "file_test")
 
     SECTION("write")
     {
-        auto file = file::open(test_directory.tempname(), "w+b");
+        auto file = file::open(test_dir.tempname(), "w+b");
 
         file.write("d", 1);
         file.write("ata", 3);
@@ -148,7 +148,7 @@ TEST_CASE_PERSISTENT_FIXTURE(fixture, "file_test")
     SECTION("write_all_bytes")
     {
         const std::vector<unsigned char> data{ 'd', 'a', 't', 'a' };
-        const auto filename = test_directory.tempname();
+        const auto filename = test_dir.tempname();
 
         file::write_all_bytes(filename, data);
 
