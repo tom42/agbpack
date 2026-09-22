@@ -46,14 +46,42 @@ void write_file(const std::string& filename, const bytevector& data)
     }
 }
 
-// TODO: this has the same name as the function below, which is somewhat silly
-bytevector compress(const bytevector& /*data*/, const parse_command_line_result& /*options*/)
+// TODO: obviously we need to return something polymorphic here
+//       * Either define some sort of interface, or use a variant
+agbpack::lzss_encoder create_encoder(compression_method method)
 {
+    // TODO: support all methods here:
+    /*
+    lzss,
+    optimal_lzss,
+    h4,
+    h8,
+    rle,
+    d8,
+    d16
+     */
+    switch (method)
+    {
+        case compression_method::lzss:
+            return agbpack::lzss_encoder();
+        default:
+            throw std::invalid_argument("invalid compression method");
+    }
+}
+
+// TODO: this has the same name as the function below, which is somewhat silly
+// TODO: do we test whether e.g. gbacrusher can decompress our output?
+bytevector compress(const bytevector& data, const parse_command_line_result& options)
+{
+    bytevector compressed_data;
+    auto encoder = create_encoder(options.method);
+    encoder.encode(data.begin(), data.end(), back_inserter(compressed_data));
+
     // TODO: get appropriate encoder
     // TODO: configure the encoder (vram safety)
     // TODO: run the encoder
     // TODO: return encoder's output
-    return {};
+    return compressed_data;
 }
 
 // TODO: might want to put this function into agbpacker_core and unit test it
