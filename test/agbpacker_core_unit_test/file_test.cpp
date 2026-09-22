@@ -1,11 +1,13 @@
 // SPDX-FileCopyrightText: 2026 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+#include <iostream> // TODO: delete
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstddef>
 #include <filesystem>
+#include <random>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -33,14 +35,44 @@ std::string full_path(std::string_view basename)
 // TODO: this is going to fly apart as soon as we add another test. Should have a class test_directory which is able to generate random filenames
 std::string output_filename(std::string_view basename)
 {
-    fs::create_directories(agbpack_test::testoutput_directory);
     return (fs::path(agbpack_test::testoutput_directory) / fs::path(basename)).string();
 }
+
+class test_directory final
+{
+public:
+    test_directory(std::string_view path)
+    {
+        fs::create_directories(path);
+    }
+
+    // TODO: name
+    std::string foo()
+    {
+        // TODO: return non-empty random filename
+        return "?";
+    }
+
+private:
+    /*auto random()
+    {
+        return m_dist(m_prng)
+    }*/
+
+    std::mt19937 m_prng(std::random_device());
+    std::uniform_int_distribution<int> m_dist;
+};
 
 }
 
 TEST_CASE("file_test")
 {
+    // TODO: not here, use a fixture (?)
+    test_directory test_directory(agbpack_test::testoutput_directory);
+    std::cout << test_directory.foo() << "\n";
+    std::cout << test_directory.foo() << "\n";
+    std::cout << test_directory.foo() << "\n";
+
     SECTION("file, open nonexistent file")
     {
         CHECK_THROWS_AS(
