@@ -11,8 +11,7 @@ export module agbpacker_core:compression_method;
 namespace agbpacker_core
 {
 
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-enum class compression_method
+export enum class compression_method
 {
     lzss,
     optimal_lzss,
