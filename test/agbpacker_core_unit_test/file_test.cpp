@@ -7,6 +7,7 @@
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstddef>
 #include <filesystem>
+#include <format>
 #include <random>
 #include <stdexcept>
 #include <string>
