@@ -42,10 +42,15 @@ public:
 
     std::string tempname()
     {
-        return (fs::path(agbpack_test::testoutput_directory) / std::format("{}.tmp", m_dist(m_prng))).string();
+        return (fs::path(agbpack_test::testoutput_directory) / random_basename()).string();
     }
 
 private:
+    std::string random_basename()
+    {
+        return std::format("{}.tmp", m_dist(m_prng));
+    }
+
     std::mt19937 m_prng{ std::random_device{}() };
     std::uniform_int_distribution<int> m_dist;
 };
