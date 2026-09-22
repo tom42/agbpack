@@ -38,7 +38,7 @@ std::string output_filename(std::string_view basename)
     return (fs::path(agbpack_test::testoutput_directory) / fs::path(basename)).string();
 }
 
-class test_directory final
+class test_directory
 {
 public:
     test_directory(std::string_view path)
