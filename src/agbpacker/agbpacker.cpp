@@ -50,20 +50,17 @@ void write_file(const std::string& filename, const bytevector& data)
 //       * Either define some sort of interface, or use a variant
 agbpack::lzss_encoder create_encoder(compression_method method)
 {
-    // TODO: support all methods here:
-    /*
-    lzss,
-    optimal_lzss,
-    h4,
-    h8,
-    rle,
-    d8,
-    d16
-     */
     switch (method)
     {
         case compression_method::lzss:
-            return agbpack::lzss_encoder();
+            return agbpack::lzss_encoder(); // TODO: do we need to set the vram safe flag here?
+        // TODO: support all methods below here
+        case compression_method::optimal_lzss:
+        case compression_method::h4:
+        case compression_method::h8:
+        case compression_method::rle:
+        case compression_method::d8:
+        case compression_method::d16:
         default:
             throw std::invalid_argument("invalid compression method");
     }
