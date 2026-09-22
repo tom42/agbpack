@@ -55,11 +55,15 @@ private:
     std::mt19937 m_prng{ std::random_device{}() };
     std::uniform_int_distribution<int> m_dist;
 };
+
+struct fixture
+{
+    mutable test_directory test_directory{ agbpack_test::testoutput_directory };
 };
 
 }
 
-TEST_CASE("file_test")
+TEST_CASE_PERSISTENT_FIXTURE(fixture, "file_test")
 {
     SECTION("file, open nonexistent file")
     {
