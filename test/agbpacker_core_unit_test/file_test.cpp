@@ -32,12 +32,6 @@ std::string full_path(std::string_view basename)
     return (fs::path(agbpack_test::testdata_directory) / fs::path(basename)).string();
 }
 
-// TODO: this is going to fly apart as soon as we add another test. Should have a class test_directory which is able to generate random filenames
-std::string output_filename(std::string_view basename)
-{
-    return (fs::path(agbpack_test::testoutput_directory) / fs::path(basename)).string();
-}
-
 class test_directory
 {
 public:
@@ -128,7 +122,7 @@ TEST_CASE_PERSISTENT_FIXTURE(fixture, "file_test")
 
     SECTION("write")
     {
-        auto file = file::open(output_filename("write.dat"), "w+b");
+        auto file = file::open(test_directory.tempname(), "w+b");
 
         file.write("d", 1);
         file.write("ata", 3);
@@ -149,7 +143,7 @@ TEST_CASE_PERSISTENT_FIXTURE(fixture, "file_test")
     SECTION("write_all_bytes")
     {
         const std::vector<unsigned char> data{ 'd', 'a', 't', 'a' };
-        const auto filename = output_filename("write_all_bytes.dat");
+        const auto filename = test_directory.tempname();
 
         file::write_all_bytes(filename, data);
 
