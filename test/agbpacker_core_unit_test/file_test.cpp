@@ -46,8 +46,7 @@ public:
         fs::create_directories(path);
     }
 
-    // TODO: name
-    std::string foo()
+    std::string tempname()
     {
         return std::format("{}.tmp", m_dist(m_prng));
     }
