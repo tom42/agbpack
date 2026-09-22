@@ -42,7 +42,7 @@ public:
 
     std::string tempname()
     {
-        return std::format("{}.tmp", m_dist(m_prng));
+        return (fs::path(agbpack_test::testoutput_directory) / std::format("{}.tmp", m_dist(m_prng))).string();
     }
 
 private:
