@@ -135,10 +135,8 @@ void file::read(void* buffer, std::size_t nbytes)
 
 void file::write(const void* buffer, std::size_t nbytes)
 {
-    std::fwrite(buffer, 1, nbytes, m_file_ptr.get());
-    // TODO: error handling
-    //       * what failure modes are there?
-    //       * unit test
+    std::size_t nbytes_written = std::fwrite(buffer, 1, nbytes, m_file_ptr.get());
+    throw_system_error_if([&] { return nbytes_written != nbytes; });
 }
 
 file::file(const char* filename, const char* mode)

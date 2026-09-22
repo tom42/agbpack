@@ -22,6 +22,7 @@ namespace agbpacker_core_unit_test
 
 using agbpacker_core::file;
 using agbpacker_core::seek_origin;
+using agbpacker_core::zstring_view;
 namespace fs = std::filesystem;
 
 namespace
@@ -30,6 +31,11 @@ namespace
 std::string full_path(std::string_view basename)
 {
     return (fs::path(agbpack_test::testdata_directory) / basename).string();
+}
+
+void create_empty_file(zstring_view filename)
+{
+    file::open(filename, "w");
 }
 
 class test_directory final
@@ -141,11 +147,13 @@ TEST_CASE_PERSISTENT_FIXTURE(fixture, "file_test")
 
     SECTION("write fails")
     {
-        // TODO: implement:
-        //       * Open file for reading
-        //       * Write to file, should fail
-        //auto file = file::open(full_path("file/file.txt"), "r"); // TODO: for safety, create a dedicated file for this, do not modify one that is needed otherwise
-        //file.write("x", 1);
+        auto filename = test_dir.tempname();
+        create_empty_file(filename);
+        auto file = file::open(filename, "r");
+
+        CHECK_THROWS_AS(
+            file.write("x", 1),
+            std::system_error);
     }
 
     SECTION("read_all_bytes")
