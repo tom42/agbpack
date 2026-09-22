@@ -36,7 +36,6 @@ export enum class seek_origin
     end
 };
 
-// TODO: do we need to export this?
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class zstring_view final
 {
