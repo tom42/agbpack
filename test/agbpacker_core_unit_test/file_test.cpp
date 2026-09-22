@@ -49,8 +49,7 @@ public:
     // TODO: name
     std::string foo()
     {
-        // TODO: return non-empty random filename
-        return "?";
+        return std::format("{}.tmp", m_dist(m_prng));
     }
 
 private:
