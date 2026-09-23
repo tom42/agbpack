@@ -481,6 +481,9 @@ private:
 export class optimal_lzss_encoder final
 {
 public:
+    // TODO: unit test for construction with argument
+    explicit optimal_lzss_encoder(bool vram_safe = false) : m_vram_safe(vram_safe) {}
+
     template <std::input_iterator InputIterator, typename OutputIterator>
     void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
