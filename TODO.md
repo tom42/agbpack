@@ -72,5 +72,4 @@ SPDX-License-Identifier: MIT
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
   * code coverage for unit tests
-  * clang-fmt
   * clang-tidy
