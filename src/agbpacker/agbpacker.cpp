@@ -22,6 +22,7 @@ namespace
 
 using namespace agbpacker_core;
 using bytevector = std::vector<unsigned char>;
+using encoder = std::variant<agbpack::lzss_encoder, agbpack::optimal_lzss_encoder>;
 
 bytevector read_file(const std::string& filename)
 {
@@ -53,14 +54,15 @@ void write_file(const std::string& filename, const bytevector& data)
 // TODO: test whether vram_safe flag is applied:
 //       * lzss
 //       * optimal_lzss
-agbpack::lzss_encoder create_encoder(compression_method method, bool vram_safe)
+encoder create_encoder(compression_method method, bool vram_safe)
 {
     switch (method)
     {
         case compression_method::lzss:
             return agbpack::lzss_encoder(vram_safe);
-        // TODO: support all methods below here
         case compression_method::optimal_lzss:
+            return agbpack::optimal_lzss_encoder(vram_safe);
+        // TODO: support all methods below here
         case compression_method::h4:
         case compression_method::h8:
         case compression_method::rle:
@@ -75,9 +77,10 @@ agbpack::lzss_encoder create_encoder(compression_method method, bool vram_safe)
 // TODO: do we test whether e.g. gbacrusher can decompress our output?
 bytevector compress(const bytevector& data, const parse_command_line_result& options)
 {
+    // TODO: handle exceptions (e.g. add message "could not compress" or somesuch)
     bytevector compressed_data;
     auto encoder = create_encoder(options.method, options.vram_safe);
-    encoder.encode(data.begin(), data.end(), back_inserter(compressed_data));
+    std::visit([&](auto&& e) { e.encode(data.begin(), data.end(), back_inserter(compressed_data)); }, encoder);
     return compressed_data;
 }
 
