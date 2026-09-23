@@ -83,9 +83,8 @@ encoder create_encoder(compression_method method, bool vram_safe)
     }
 }
 
-// TODO: this has the same name as the function below, which is somewhat silly
 // TODO: do we test whether e.g. gbacrusher can decompress our output?
-bytevector compress(const bytevector& data, const parse_command_line_result& options)
+bytevector encode(const bytevector& data, const parse_command_line_result& options)
 {
     // TODO: handle exceptions (e.g. add message "could not compress <filename>: <message from encoder>" or somesuch)
     bytevector compressed_data;
@@ -97,7 +96,7 @@ bytevector compress(const bytevector& data, const parse_command_line_result& opt
 void compress(const parse_command_line_result& options)
 {
     auto uncompressed_data = read_file(options.input_file);
-    auto compressed_data = compress(uncompressed_data, options);
+    auto compressed_data = encode(uncompressed_data, options);
     write_file(options.output_file, compressed_data);
 }
 
