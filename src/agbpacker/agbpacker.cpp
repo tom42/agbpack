@@ -94,17 +94,8 @@ bytevector compress(const bytevector& data, const parse_command_line_result& opt
     return compressed_data;
 }
 
-// TODO: might want to put this function into agbpacker_core and unit test it
 void compress(const parse_command_line_result& options)
 {
-    // TODO: do something here (do not forget to honor all relevant options in that function)
-    //       * method (e.g. lzss)
-    //       * vram safety (if it applies)
-    //       * input file
-    //       * optional output file
-    // TODO: so here is what we do:
-    //       * compress in-memory, take into account method and vram safety flag
-    //       * write back to input file or output file if given
     auto uncompressed_data = read_file(options.input_file);
     auto compressed_data = compress(uncompressed_data, options);
     write_file(options.output_file, compressed_data);
