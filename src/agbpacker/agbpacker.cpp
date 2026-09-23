@@ -70,7 +70,7 @@ encoder create_encoder(compression_method method, bool vram_safe)
         case compression_method::optimal_lzss:
             return agbpack::optimal_lzss_encoder(vram_safe);
         case compression_method::h4:
-            return agbpack::huffman_encoder(); // TODO: need to configure h4 here!
+            return agbpack::huffman_encoder(agbpack::huffman_options::h4);
         // TODO: support all methods below here
         case compression_method::h8:
         case compression_method::rle:
