@@ -22,7 +22,10 @@ namespace
 
 using namespace agbpacker_core;
 using bytevector = std::vector<unsigned char>;
-using encoder = std::variant<agbpack::lzss_encoder, agbpack::optimal_lzss_encoder>;
+using encoder = std::variant<
+    agbpack::lzss_encoder,
+    agbpack::optimal_lzss_encoder,
+    agbpack::huffman_encoder>;
 
 bytevector read_file(const std::string& filename)
 {
@@ -66,8 +69,9 @@ encoder create_encoder(compression_method method, bool vram_safe)
             return agbpack::lzss_encoder(vram_safe);
         case compression_method::optimal_lzss:
             return agbpack::optimal_lzss_encoder(vram_safe);
-        // TODO: support all methods below here
         case compression_method::h4:
+            return agbpack::huffman_encoder(); // TODO: need to configure h4 here!
+        // TODO: support all methods below here
         case compression_method::h8:
         case compression_method::rle:
         case compression_method::d8:
