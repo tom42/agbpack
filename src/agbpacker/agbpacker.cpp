@@ -25,7 +25,8 @@ using bytevector = std::vector<unsigned char>;
 using encoder = std::variant<
     agbpack::lzss_encoder,
     agbpack::optimal_lzss_encoder,
-    agbpack::huffman_encoder>;
+    agbpack::huffman_encoder,
+    agbpack::rle_encoder>;
 
 bytevector read_file(const std::string& filename)
 {
@@ -71,8 +72,9 @@ encoder create_encoder(compression_method method, bool vram_safe)
             return agbpack::huffman_encoder(agbpack::huffman_options::h4);
         case compression_method::h8:
             return agbpack::huffman_encoder(agbpack::huffman_options::h8);
-        // TODO: support all methods below here
         case compression_method::rle:
+            return agbpack::rle_encoder();
+        // TODO: support all methods below here
         case compression_method::d8:
         case compression_method::d16:
         default:
