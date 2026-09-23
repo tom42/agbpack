@@ -971,7 +971,7 @@ public:
     // TODO: have constant for default value
     //       * Also in lzss_encoder
     //       * Also in optimal_lzss_encoder
-    // TODO: should validate options, either by calling method or by factoring out validation
+    // TODO: should validate options before writing them into m_options, either by calling method or by factoring out validation
     explicit huffman_encoder(huffman_options options = huffman_options::h8) : m_options(options) {}
 
     template <std::input_iterator InputIterator, typename OutputIterator>
