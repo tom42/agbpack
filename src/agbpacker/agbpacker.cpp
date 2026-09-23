@@ -52,8 +52,6 @@ void write_file(const std::string& filename, const bytevector& data)
 }
 
 // TODO: do not forget to add tests for the custom ctors we added
-// TODO: obviously we need to return something polymorphic here
-//       * Either define some sort of interface, or use a variant
 // TODO: configure the encoder where applicable (vram safety)
 // TODO: test whether vram_safe flag is applied:
 //       * lzss
