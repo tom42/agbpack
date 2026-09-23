@@ -69,6 +69,11 @@ private:
 export class delta_encoder final
 {
 public:
+    // TODO: unit test when constructing with options
+    // TODO: validate options
+    // TODO: introduce constant for default (orly?)
+    explicit class delta_encoder(delta_options options = delta_options::delta8) : m_options(options) {}
+
     template <std::input_iterator InputIterator, typename OutputIterator>
     void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
