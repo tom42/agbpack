@@ -49,12 +49,15 @@ void write_file(const std::string& filename, const bytevector& data)
 // TODO: obviously we need to return something polymorphic here
 //       * Either define some sort of interface, or use a variant
 // TODO: configure the encoder where applicable (vram safety)
-agbpack::lzss_encoder create_encoder(compression_method method, bool /*vram_safe*/)
+// TODO: test whether vram_safe flag is applied:
+//       * lzss
+//       * optimal_lzss
+agbpack::lzss_encoder create_encoder(compression_method method, bool vram_safe)
 {
     switch (method)
     {
         case compression_method::lzss:
-            return agbpack::lzss_encoder(); // TODO: do we need to set the vram safe flag here?
+            return agbpack::lzss_encoder(vram_safe);
         // TODO: support all methods below here
         case compression_method::optimal_lzss:
         case compression_method::h4:
