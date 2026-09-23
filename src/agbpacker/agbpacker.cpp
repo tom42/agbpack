@@ -54,7 +54,6 @@ void write_file(const std::string& filename, const bytevector& data)
 }
 
 // TODO: do not forget to add tests for the custom ctors we added
-// TODO: configure the encoder where applicable (vram safety)
 // TODO: test whether vram_safe flag is applied:
 //       * lzss
 //       * optimal_lzss
@@ -77,8 +76,8 @@ encoder create_encoder(compression_method method, bool vram_safe)
             return agbpack::rle_encoder();
         case compression_method::d8:
             return agbpack::delta_encoder(agbpack::delta_options::delta8);
-        // TODO: support all methods below here
         case compression_method::d16:
+            return agbpack::delta_encoder(agbpack::delta_options::delta16);
         default:
             throw std::invalid_argument("invalid compression method");
     }
@@ -88,7 +87,7 @@ encoder create_encoder(compression_method method, bool vram_safe)
 // TODO: do we test whether e.g. gbacrusher can decompress our output?
 bytevector compress(const bytevector& data, const parse_command_line_result& options)
 {
-    // TODO: handle exceptions (e.g. add message "could not compress" or somesuch)
+    // TODO: handle exceptions (e.g. add message "could not compress <filename>: <message from encoder>" or somesuch)
     bytevector compressed_data;
     auto encoder = create_encoder(options.method, options.vram_safe);
     std::visit([&](auto&& e) { e.encode(data.begin(), data.end(), back_inserter(compressed_data)); }, encoder);
