@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <system_error>
+#include <variant>
 #include <vector>
 #include "agbpack_config.hpp"
 
