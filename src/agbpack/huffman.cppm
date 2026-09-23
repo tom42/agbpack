@@ -967,6 +967,13 @@ private:
 export class huffman_encoder final
 {
 public:
+    // TODO: add unit test for construction with arg
+    // TODO: have constant for default value
+    //       * Also in lzss_encoder
+    //       * Also in optimal_lzss_encoder
+    // TODO: should validate options, either by calling method or by factoring out validation
+    explicit huffman_encoder(huffman_options options = huffman_options::h8) : m_options(options) {}
+
     template <std::input_iterator InputIterator, typename OutputIterator>
     void encode(InputIterator input, InputIterator eof, OutputIterator output)
     {
