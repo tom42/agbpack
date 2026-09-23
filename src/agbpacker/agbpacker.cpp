@@ -49,7 +49,7 @@ void write_file(const std::string& filename, const bytevector& data)
 // TODO: obviously we need to return something polymorphic here
 //       * Either define some sort of interface, or use a variant
 // TODO: configure the encoder where applicable (vram safety)
-agbpack::lzss_encoder create_encoder(compression_method method)
+agbpack::lzss_encoder create_encoder(compression_method method, bool /*vram_safe*/)
 {
     switch (method)
     {
@@ -72,7 +72,7 @@ agbpack::lzss_encoder create_encoder(compression_method method)
 bytevector compress(const bytevector& data, const parse_command_line_result& options)
 {
     bytevector compressed_data;
-    auto encoder = create_encoder(options.method);
+    auto encoder = create_encoder(options.method, options.vram_safe);
     encoder.encode(data.begin(), data.end(), back_inserter(compressed_data));
     return compressed_data;
 }
