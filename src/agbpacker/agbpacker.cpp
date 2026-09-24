@@ -108,13 +108,15 @@ void compress(const parse_command_line_result& options)
 
 void decompress(const parse_command_line_result& /*options*/)
 {
-    // TODO: do something here (do not forget to honor all relevant options in that function)
-    //       * input file
-    //       * output file
     // TODO: so here is what we do
     //       * read input file
-    //       * decompress in-memory (method can be read from file itself)
+    //       * detect compression method
+    //         * For that, the file must be at least 4 bytes in size (I think - look it up)
+    //         * If so we can read those 4 bytes and try to parse them into a header (that may fail!)
+    //         * In the case of success, move to next step
+    //       * create decoder, decompress in-memory
     //       * write back to input file or output file if given
+    // TODO: add exception handling similar to compress() above
 }
 
 void run(const parse_command_line_result& options)
