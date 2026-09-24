@@ -86,11 +86,17 @@ encoder create_encoder(compression_method method, bool vram_safe)
 // TODO: do we test whether e.g. gbacrusher can decompress our output?
 bytevector compress(const bytevector& data, const parse_command_line_result& options)
 {
-    // TODO: handle exceptions (e.g. add message "could not compress <filename>: <message from encoder>" or somesuch)
-    bytevector compressed_data;
-    auto encoder = create_encoder(options.method, options.vram_safe);
-    std::visit([&](auto&& e) { e.encode(data.begin(), data.end(), back_inserter(compressed_data)); }, encoder);
-    return compressed_data;
+    try
+    {
+        bytevector compressed_data;
+        auto encoder = create_encoder(options.method, options.vram_safe);
+        std::visit([&](auto&& e) { e.encode(data.begin(), data.end(), back_inserter(compressed_data)); }, encoder);
+        return compressed_data;
+    }
+    catch (const agbpack::agbpack_exception& e)
+    {
+        throw std::runtime_error("could not compress " + options.input_file + ": " + e.what());
+    }
 }
 
 void compress(const parse_command_line_result& options)
@@ -100,7 +106,6 @@ void compress(const parse_command_line_result& options)
     write_file(options.output_file, compressed_data);
 }
 
-// TODO: might want to put this function into agbpacker_core and unit test it
 void decompress(const parse_command_line_result& /*options*/)
 {
     // TODO: do something here (do not forget to honor all relevant options in that function)
