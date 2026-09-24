@@ -97,7 +97,7 @@ public:
         }
         catch (const decode_exception&)
         {
-            throw encode_exception("input must contain an even number of bytes for 16 bit delta encoding");
+            throw encode_exception("data must contain an even number of bytes for 16 bit delta encoding");
         }
     }
 

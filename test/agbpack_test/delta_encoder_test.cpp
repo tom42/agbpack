@@ -53,7 +53,7 @@ TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
         CHECK_THROWS_MATCHES(
             encode_file(encoder, "delta.bad.16.input-with-odd-length.bin"),
             agbpack::encode_exception,
-            Catch::Matchers::Message("input must contain an even number of bytes for 16 bit delta encoding"));
+            Catch::Matchers::Message("data must contain an even number of bytes for 16 bit delta encoding"));
     }
 
     SECTION("Invalid options")
