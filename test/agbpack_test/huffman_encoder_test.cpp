@@ -76,6 +76,14 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
         CHECK(e.options() == options);
     }
 
+    SECTION("Construction with invalid options")
+    {
+        CHECK_THROWS_MATCHES(
+            huffman_encoder(huffman_options(-1)),
+            std::invalid_argument,
+            Catch::Matchers::Message("TODO: exception message"));
+    }
+
     SECTION("Successful encoding")
     {
         // Note: not too much thought has been put into constructing test data for 4 bit huffman coding,

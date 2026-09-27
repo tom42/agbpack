@@ -967,7 +967,6 @@ private:
 export class huffman_encoder final
 {
 public:
-    // TODO: add unit test for construction with arg
     // TODO: have constant for default value
     //       * Also in lzss_encoder
     //       * Also in optimal_lzss_encoder
