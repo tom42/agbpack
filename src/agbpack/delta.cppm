@@ -69,8 +69,7 @@ private:
 export class delta_encoder final
 {
 public:
-    // TODO: unit test when constructing with options
-    // TODO: validate options
+    // TODO: validate options (test that too)
     // TODO: introduce constant for default (orly?)
     explicit class delta_encoder(delta_options options = delta_options::delta8) : m_options(options) {}
 

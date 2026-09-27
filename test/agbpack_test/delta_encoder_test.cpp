@@ -13,10 +13,20 @@ import agbpack;
 namespace agbpack_test
 {
 
+using agbpack::delta_encoder;
+using agbpack::delta_options;
+
 TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
 {
     agbpack::delta_encoder encoder;
     set_test_data_directory("delta");
+
+    SECTION("Construction with options")
+    {
+        const auto options = GENERATE(delta_options::delta8, delta_options::delta16);
+        agbpack::delta_encoder e(options);
+        CHECK(e.options() == options);
+    }
 
     SECTION("Successful 8 bit encoding")
     {
