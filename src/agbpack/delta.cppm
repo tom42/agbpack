@@ -104,15 +104,21 @@ public:
 
     void options(delta_options options)
     {
+        throw_if_invalid(options);
+        m_options = options;
+    }
+
+private:
+    static delta_options throw_if_invalid(delta_options options)
+    {
         if (!is_valid(options))
         {
             throw std::invalid_argument("invalid delta compression options");
         }
 
-        m_options = options;
+        return options;
     }
 
-private:
     template <typename InputIterator, std::output_iterator<agbpack_io_datatype> OutputIterator>
     agbpack_u32 encode8or16(InputIterator input, InputIterator eof, OutputIterator output)
     {
