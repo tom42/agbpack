@@ -69,6 +69,13 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
         CHECK(encoder.options() == huffman_options::h8);
     }
 
+    SECTION("Construction with valid options")
+    {
+        const auto options = GENERATE(huffman_options::h4, huffman_options::h8);
+        huffman_encoder e(options);
+        CHECK(e.options() == options);
+    }
+
     SECTION("Successful encoding")
     {
         // Note: not too much thought has been put into constructing test data for 4 bit huffman coding,
