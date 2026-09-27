@@ -61,6 +61,11 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
     agbpack::huffman_decoder decoder;
     set_test_data_directory("huffman_encoder");
 
+    SECTION("Construction without options")
+    {
+        CHECK(encoder.options() == 666);
+    }
+
     SECTION("Successful encoding")
     {
         // Note: not too much thought has been put into constructing test data for 4 bit huffman coding,
