@@ -17,6 +17,8 @@ import agbpack;
 namespace agbpack_test
 {
 
+using agbpack::huffman_decoder;
+using agbpack::huffman_encoder;
 using agbpack::huffman_options;
 using std::size_t;
 using std::string;
@@ -39,9 +41,9 @@ public:
     {
         switch (options)
         {
-            case agbpack::huffman_options::h4:
+            case huffman_options::h4:
                 return m_expected_encoded_size_h4;
-            case agbpack::huffman_options::h8:
+            case huffman_options::h8:
                 return m_expected_encoded_size_h8;
         }
 
@@ -58,8 +60,8 @@ private:
 
 TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
 {
-    agbpack::huffman_encoder encoder;
-    agbpack::huffman_decoder decoder;
+    huffman_encoder encoder;
+    huffman_decoder decoder;
     set_test_data_directory("huffman_encoder");
 
     SECTION("Construction without options")
