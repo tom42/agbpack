@@ -69,7 +69,7 @@ private:
 export class delta_encoder final
 {
 public:
-    explicit class delta_encoder(delta_options options = default_options)
+    explicit delta_encoder(delta_options options = default_options)
         : m_options(throw_if_invalid(options)) {}
 
     template <std::input_iterator InputIterator, typename OutputIterator>
