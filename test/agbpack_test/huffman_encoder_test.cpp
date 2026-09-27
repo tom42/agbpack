@@ -17,8 +17,9 @@ import agbpack;
 namespace agbpack_test
 {
 
-using string = std::string;
-using size_t = std::size_t;
+using agbpack::huffman_options;
+using std::size_t;
+using std::string;
 
 namespace
 {
@@ -34,7 +35,7 @@ public:
 
     const string& filename() const { return m_filename; }
 
-    size_t expected_encoded_size(agbpack::huffman_options options) const
+    size_t expected_encoded_size(huffman_options options) const
     {
         switch (options)
         {
@@ -63,7 +64,7 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
 
     SECTION("Construction without options")
     {
-        CHECK(encoder.options() == 666);
+        CHECK(encoder.options() == huffman_options::h8);
     }
 
     SECTION("Successful encoding")
@@ -72,7 +73,7 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
         // based on the assumption that 8 bit encoding is the hairy bit due to overflow problems in
         // huffman tree serialization. Basically we just encode all the data which is constructed with
         // 8 bit huffman coding in mind also using 4 bit encoding.
-        const auto huffman_options = GENERATE(agbpack::huffman_options::h4, agbpack::huffman_options::h8);
+        const auto huffman_options = GENERATE(huffman_options::h4, huffman_options::h8);
         const auto parameters = GENERATE(
             test_parameters("huffman.good.8.0-bytes.txt", 8, 8),
             test_parameters("huffman.good.8.1-byte.txt", 12, 12),
@@ -96,7 +97,7 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
     SECTION("Invalid options")
     {
         CHECK_THROWS_MATCHES(
-            encoder.options(agbpack::huffman_options(-1)),
+            encoder.options(huffman_options(-1)),
             std::invalid_argument,
             Catch::Matchers::Message("invalid huffman compression options"));
     }
