@@ -29,6 +29,14 @@ TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
         CHECK(e.options() == options);
     }
 
+    SECTION("Construction with invalid options")
+    {
+        CHECK_THROWS_MATCHES(
+            delta_encoder(delta_options(-1)),
+            std::invalid_argument,
+            Catch::Matchers::Message("invalid delta compression options"));
+    }
+
     SECTION("Successful 8 bit encoding")
     {
         const auto filename = GENERATE(
