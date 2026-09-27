@@ -1005,6 +1005,8 @@ public:
         encode_internal(code_table, uncompressed_data, writer);
     }
 
+    huffman_options options() const { return m_options; }
+
     void options(huffman_options options)
     {
         if (!is_valid(options))
