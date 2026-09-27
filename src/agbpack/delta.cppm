@@ -69,8 +69,7 @@ private:
 export class delta_encoder final
 {
 public:
-    // TODO: introduce constant for default (orly?)
-    explicit class delta_encoder(delta_options options = delta_options::delta8)
+    explicit class delta_encoder(delta_options options = default_options)
         : m_options(throw_if_invalid(options)) {}
 
     template <std::input_iterator InputIterator, typename OutputIterator>
@@ -155,7 +154,8 @@ private:
         return reader.nbytes_read();
     }
 
-    delta_options m_options = delta_options::delta8;
+    static constexpr delta_options default_options = delta_options::delta8;
+    delta_options m_options = default_options;
 };
 
 }
