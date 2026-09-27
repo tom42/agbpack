@@ -970,8 +970,8 @@ public:
     // TODO: have constant for default value
     //       * Also in lzss_encoder
     //       * Also in optimal_lzss_encoder
-    // TODO: should validate options before writing them into m_options, either by calling method or by factoring out validation
-    explicit huffman_encoder(huffman_options options = huffman_options::h8) : m_options(options) {}
+    explicit huffman_encoder(huffman_options options = huffman_options::h8)
+        : m_options(throw_if_invalid(options)) {}
 
     template <std::input_iterator InputIterator, typename OutputIterator>
     void encode(InputIterator input, InputIterator eof, OutputIterator output)
@@ -1008,15 +1008,21 @@ public:
 
     void options(huffman_options options)
     {
+        throw_if_invalid(options);
+        m_options = options;
+    }
+
+private:
+    static huffman_options throw_if_invalid(huffman_options options)
+    {
         if (!is_valid(options))
         {
             throw std::invalid_argument("invalid huffman compression options");
         }
 
-        m_options = options;
+        return options;
     }
 
-private:
     template <typename OutputIterator>
     static void encode_internal(
         const code_table& code_table,

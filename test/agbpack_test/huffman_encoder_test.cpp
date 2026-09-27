@@ -81,7 +81,7 @@ TEST_CASE_METHOD(test_data_fixture, "huffman_encoder_test")
         CHECK_THROWS_MATCHES(
             huffman_encoder(huffman_options(-1)),
             std::invalid_argument,
-            Catch::Matchers::Message("TODO: exception message"));
+            Catch::Matchers::Message("invalid huffman compression options"));
     }
 
     SECTION("Successful encoding")
