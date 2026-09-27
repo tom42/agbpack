@@ -15,16 +15,17 @@ namespace agbpack_test
 
 using agbpack::delta_encoder;
 using agbpack::delta_options;
+using agbpack::encode_exception;
 
 TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
 {
-    agbpack::delta_encoder encoder;
+    delta_encoder encoder;
     set_test_data_directory("delta");
 
     SECTION("Construction with options")
     {
         const auto options = GENERATE(delta_options::delta8, delta_options::delta16);
-        agbpack::delta_encoder e(options);
+        delta_encoder e(options);
         CHECK(e.options() == options);
     }
 
@@ -36,7 +37,7 @@ TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
             "delta.good.8.sine.bin");
         const auto expected_encoded_data = read_encoded_file(filename);
 
-        encoder.options(agbpack::delta_options::delta8);
+        encoder.options(delta_options::delta8);
         const auto encoded_data = encode_file(encoder, filename);
 
         CHECK(encoded_data == expected_encoded_data);
@@ -50,7 +51,7 @@ TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
             "delta.good.16.sine.bin");
         const auto expected_encoded_data = read_encoded_file(filename);
 
-        encoder.options(agbpack::delta_options::delta16);
+        encoder.options(delta_options::delta16);
         const auto encoded_data = encode_file(encoder, filename);
 
         CHECK(encoded_data == expected_encoded_data);
@@ -58,18 +59,18 @@ TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
 
     SECTION("Encoding a file with odd length using 16 bit encoding fails")
     {
-        encoder.options(agbpack::delta_options::delta16);
+        encoder.options(delta_options::delta16);
 
         CHECK_THROWS_MATCHES(
             encode_file(encoder, "delta.bad.16.input-with-odd-length.bin"),
-            agbpack::encode_exception,
+            encode_exception,
             Catch::Matchers::Message("data must contain an even number of bytes for 16 bit delta encoding"));
     }
 
     SECTION("Invalid options")
     {
         CHECK_THROWS_MATCHES(
-            encoder.options(agbpack::delta_options(-1)),
+            encoder.options(delta_options(-1)),
             std::invalid_argument,
             Catch::Matchers::Message("invalid delta compression options"));
     }
