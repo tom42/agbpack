@@ -101,6 +101,8 @@ public:
         }
     }
 
+    delta_options options() const { return m_options; }
+
     void options(delta_options options)
     {
         if (!is_valid(options))
