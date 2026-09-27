@@ -22,7 +22,7 @@ TEST_CASE_METHOD(test_data_fixture, "delta_encoder_test")
     delta_encoder encoder;
     set_test_data_directory("delta");
 
-    SECTION("Construction with options")
+    SECTION("Construction with valid options")
     {
         const auto options = GENERATE(delta_options::delta8, delta_options::delta16);
         delta_encoder e(options);
