@@ -418,8 +418,7 @@ private:
 export class lzss_encoder final
 {
 public:
-    // TODO: unit test for construction with argument
-    // TODO: have constant for default value
+    // TODO: constant for default value
     explicit lzss_encoder(bool vram_safe = false) : m_vram_safe(vram_safe) {}
 
     template <std::input_iterator InputIterator, typename OutputIterator>
@@ -482,7 +481,6 @@ private:
 export class optimal_lzss_encoder final
 {
 public:
-    // TODO: unit test for construction with argument
     // TODO: have constant for default value
     explicit optimal_lzss_encoder(bool vram_safe = false) : m_vram_safe(vram_safe) {}
 

@@ -66,6 +66,13 @@ TEMPLATE_LIST_TEST_CASE_METHOD(
         CHECK(encoder.vram_safe() == false);
     }
 
+    SECTION("Construction with valid options")
+    {
+        bool vram_safe = GENERATE(false, true);
+        TestType e(vram_safe);
+        CHECK(e.vram_safe() == vram_safe);
+    }
+
     SECTION("Successful encoding")
     {
         const auto parameters = GENERATE(
