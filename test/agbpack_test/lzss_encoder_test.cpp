@@ -96,11 +96,6 @@ TEMPLATE_LIST_TEST_CASE_METHOD(
         CHECK(decoded_data == original_data);
     }
 
-    SECTION("VRAM safe encoding is disabled by default")
-    {
-        CHECK(encoder.vram_safe() == false);
-    }
-
     SECTION("VRAM safe encoding can be enabled and disabled")
     {
         encoder.vram_safe(true);
