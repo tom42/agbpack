@@ -53,7 +53,6 @@ void write_file(const std::string& filename, const bytevector& data)
     }
 }
 
-// TODO: do not forget to add tests for the custom ctors we added
 // TODO: test whether vram_safe flag is applied:
 //       * lzss
 //       * optimal_lzss
