@@ -481,8 +481,7 @@ private:
 export class optimal_lzss_encoder final
 {
 public:
-    // TODO: have constant for default value
-    explicit optimal_lzss_encoder(bool vram_safe = false) : m_vram_safe(vram_safe) {}
+    explicit optimal_lzss_encoder(bool vram_safe = default_vram_safe) : m_vram_safe(vram_safe) {}
 
     template <std::input_iterator InputIterator, typename OutputIterator>
     void encode(InputIterator input, InputIterator eof, OutputIterator output)
@@ -589,7 +588,8 @@ private:
         return match_cost;
     }
 
-    bool m_vram_safe = false;
+    static constexpr bool default_vram_safe = false;
+    bool m_vram_safe = default_vram_safe;
 };
 
 }
