@@ -105,9 +105,19 @@ void compress(const parse_command_line_result& options)
     write_file(options.output_file, compressed_data);
 }
 
+agbpack::compression_type detect_compression_type(const bytevector& /*compressed_data*/)
+{
+    // TODO: check compressed_data is big enough (this may fail - needs to be at least 4 bytes big)
+    // TODO: create a GBA header as uint32_t
+    // TODO: parse compression type, use stuff from header.cppm to do so. Again, this may fail.
+    return{}; // TODO: actually return compression type
+}
+
 void decompress(const parse_command_line_result& options)
 {
-    read_file(options.input_file);
+    auto compressed_data = read_file(options.input_file);
+    auto compression_type = detect_compression_type(compressed_data);
+    (void)compression_type; // TODO: delete, do something with the detected type
     // TODO: so here is what we do
     //       * detect compression method
     //         * For that, the file must be at least 4 bytes in size (I think - look it up)

@@ -17,7 +17,7 @@ namespace agbpack
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 inline constexpr uint32_t maximum_uncompressed_size = 0xffffff;
 
-enum class compression_type : unsigned int
+export enum class compression_type : unsigned int
 {
     lzss = 1,
     huffman = 2,
