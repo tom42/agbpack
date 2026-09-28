@@ -105,10 +105,10 @@ void compress(const parse_command_line_result& options)
     write_file(options.output_file, compressed_data);
 }
 
-void decompress(const parse_command_line_result& /*options*/)
+void decompress(const parse_command_line_result& options)
 {
+    read_file(options.input_file);
     // TODO: so here is what we do
-    //       * read input file
     //       * detect compression method
     //         * For that, the file must be at least 4 bytes in size (I think - look it up)
     //         * If so we can read those 4 bytes and try to parse them into a header (that may fail!)
