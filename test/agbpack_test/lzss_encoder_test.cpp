@@ -61,6 +61,11 @@ TEMPLATE_LIST_TEST_CASE_METHOD(
     lzss_decoder decoder;
     this->set_test_data_directory("lzss_encoder");
 
+    SECTION("Construction without options")
+    {
+        CHECK(encoder.vram_safe() == false);
+    }
+
     SECTION("Successful encoding")
     {
         const auto parameters = GENERATE(
