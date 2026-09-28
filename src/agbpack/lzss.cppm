@@ -450,7 +450,7 @@ private:
     vector<agbpack_u8> encode_internal(const vector<agbpack_u8>& input)
     {
         vector<agbpack_u8> encoded_data;
-        greedy_match_finder match_finder(input, get_minimum_offset(m_vram_safe) - 1); // TODO: unhardcode. What's somewhat ugly: greedy_match_finder uses zero based offfset, whereas global constant uses one based offset
+        greedy_match_finder match_finder(input, get_minimum_offset(m_vram_safe) - 1); // TODO: unhardcode. What's somewhat ugly: greedy_match_finder uses zero based offset, whereas global constant uses one based offset
         lzss_bitstream_writer writer(encoded_data);
 
         size_t current_position = 0;
