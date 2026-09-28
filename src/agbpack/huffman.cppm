@@ -967,10 +967,7 @@ private:
 export class huffman_encoder final
 {
 public:
-    // TODO: have constant for default value
-    //       * Also in lzss_encoder
-    //       * Also in optimal_lzss_encoder
-    explicit huffman_encoder(huffman_options options = huffman_options::h8)
+    explicit huffman_encoder(huffman_options options = default_options)
         : m_options(throw_if_invalid(options)) {}
 
     template <std::input_iterator InputIterator, typename OutputIterator>
@@ -1045,7 +1042,8 @@ private:
         bit_writer.flush();
     }
 
-    huffman_options m_options = huffman_options::h8;
+    static constexpr huffman_options default_options = huffman_options::h8;
+    huffman_options m_options = default_options;
 };
 
 }
