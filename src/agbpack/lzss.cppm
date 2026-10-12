@@ -494,6 +494,8 @@ public:
         static_assert_input_type<InputIterator>();
 
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
+        // TODO: if we're lucky, encode_internal and its dependencies are not templates, so if we want to hide
+        //       clownlzss.h from the .cppm files we might be able to do so by having those bits inside separate methods that are not templatized.
         const auto encoded_data = encode_internal(uncompressed_data);
         const auto header = header::create(lzss_options::reserved, uncompressed_data.size());
 
