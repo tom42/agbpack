@@ -3,6 +3,7 @@
 
 module;
 
+#include <cstdlib>
 #include <vector>
 #include "clownlzss.h"
 
@@ -15,6 +16,16 @@ using std::vector;
 
 namespace
 {
+
+struct match_deleter final
+{
+    void operator()(ClownLZSS_Match* const ptr)
+    {
+        std::free(ptr);
+    }
+};
+
+using clownlzss_matches = std::unique_ptr<ClownLZSS_Match[], match_deleter>;
 
 size_t get_match_cost(const size_t, const size_t length, void* const)
 {
@@ -36,13 +47,13 @@ size_t get_match_cost_vram_safe(const size_t distance, const size_t length, void
     return match_cost;
 }
 
-std::pair<ClownLZSS::Matches, size_t> find_optimal_matches(const vector<agbpack_u8>& uncompressed_data, bool vram_safe)
+std::pair<clownlzss_matches, size_t> find_optimal_matches(const vector<agbpack_u8>& uncompressed_data, bool vram_safe)
 {
-    ClownLZSS::Matches matches;
     size_t total_matches;
     auto match_cost_callback = vram_safe ? get_match_cost_vram_safe : get_match_cost;
 
-    if (!ClownLZSS::FindOptimalMatches(
+    ClownLZSS_Match* matches_pointer = nullptr;
+    if (!ClownLZSS_FindOptimalMatches( // TODO: review is this correct? compare call inside C++ interface vs. what we're doing here
         filler_value,
         maximum_match_length,
         maximum_match_distance,
@@ -52,17 +63,18 @@ std::pair<ClownLZSS::Matches, size_t> find_optimal_matches(const vector<agbpack_
         uncompressed_data.data(),
         bytes_per_value,
         uncompressed_data.size() / bytes_per_value,
-        &matches,
+        &matches_pointer,
         &total_matches,
         nullptr))
     {
         throw encode_exception("optimal LZSS encoding failed. That should not happen, unless the system is extremely low on memory");
     }
+    clownlzss_matches matches(matches_pointer); // Now wrap raw pointer before doing anything else!
 
     return std::make_pair(std::move(matches), total_matches);
 }
 
-vector<agbpack_u8> encode_matches(const vector<agbpack_u8>& uncompressed_data, const ClownLZSS::Matches& matches, size_t total_matches)
+vector<agbpack_u8> encode_matches(const vector<agbpack_u8>& uncompressed_data, const clownlzss_matches& matches, size_t total_matches)
 {
     vector<agbpack_u8> encoded_data;
     lzss_bitstream_writer writer(encoded_data);
