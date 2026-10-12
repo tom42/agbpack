@@ -21,10 +21,11 @@ set(
   PRIVATE
   header.cpp)
 
- # Make MSVC correctly define __cplusplus, so that we can use all the C++ specific things provided by the clownlzss.h header.
- # See also:
- # * https://gitlab.kitware.com/cmake/cmake/-/issues/18837
- # * https://learn.microsoft.com/en-us/cpp/build/reference/zc-cplusplus
+# Make MSVC correctly define __cplusplus, so that we can use all the C++ specific things provided by the clownlzss.h header.
+# See also:
+# * https://gitlab.kitware.com/cmake/cmake/-/issues/18837
+# * https://learn.microsoft.com/en-us/cpp/build/reference/zc-cplusplus
+# TODO: get rid of this (fix: either modify clownlzss.h not to use __cplusplus, or do not use its C++ interface)
 if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
   set(agbpack_compile_options /Zc:__cplusplus)
 endif()

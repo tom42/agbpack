@@ -23,6 +23,7 @@ install(
 # Workaround, until I've figured out how to install private headers for BMI building:
 # Copy private headers that are used in .cppm files to same location as the .cppm files,
 # so that the headers can be found when BMI's are compiled for the installed library.
+# TODO: get rid of this (how to fix: no cppm file must include clownlzss.h)
 install(
   FILES
   "${PROJECT_SOURCE_DIR}/src/agbpack/clownlzss/clownlzss.h"

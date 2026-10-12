@@ -13,7 +13,7 @@ module;
 #include <ranges>
 #include <utility>
 #include <vector>
-#include "clownlzss.h"
+#include "clownlzss.h" // TODO: do not include clownlzss.h here, so that we do not have to install it with .cppm files
 
 export module agbpack:lzss;
 import :common;
