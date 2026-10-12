@@ -458,15 +458,15 @@ private:
         {
             auto match = match_finder.find_match(current_position);
 
-            if (match.length() >= minimum_match_length)
-            {
-                writer.write_reference(match.length(), match.offset());
-                current_position += match.length();
-            }
-            else
+            if (match.length() < minimum_match_length)
             {
                 writer.write_literal(input[current_position]);
                 current_position += 1;
+            }
+            else
+            {
+                writer.write_reference(match.length(), match.offset());
+                current_position += match.length();
             }
         }
 
