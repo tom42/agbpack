@@ -303,6 +303,11 @@ private:
     size_t m_offset;
 };
 
+bool match_is_literal(const match& m)
+{
+    return m.length() < minimum_match_length;
+}
+
 // Simple implementation using two nested loops each doing linear search.
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class greedy_match_finder final
@@ -458,7 +463,7 @@ private:
         {
             auto match = match_finder.find_match(current_position);
 
-            if (match.length() < minimum_match_length)
+            if (match_is_literal(match))
             {
                 writer.write_literal(input[current_position]);
                 current_position += 1;
