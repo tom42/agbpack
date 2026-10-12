@@ -53,7 +53,7 @@ std::pair<clownlzss_matches, size_t> find_optimal_matches(const vector<agbpack_u
     auto match_cost_callback = vram_safe ? get_match_cost_vram_safe : get_match_cost;
 
     ClownLZSS_Match* matches_pointer = nullptr;
-    if (!ClownLZSS_FindOptimalMatches( // TODO: review is this correct? compare call inside C++ interface vs. what we're doing here
+    if (!ClownLZSS_FindOptimalMatches(
         filler_value,
         maximum_match_length,
         maximum_match_distance,
