@@ -4,6 +4,14 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* CMake improvements
+  * Define a namespaced library target alias thing (e.g. agbpack::<whatever>) (why? just because some CMake book says it's good practice? => yes, that's pretty much why)
+  * Get rid of having to special case clownlzss compilation for MSVC
+    * Probably means we have to redo the C++ RAII wrapper ourselves and move on
+      * Not a big deal, right?
+    * Goal: remove the need to install the clownlzss header.
+      * That means we have to put the wrapper code into a .cpp file, not a .cppm file
+  * When done all the install target specific things listed below become obsolete
 * Replace our odd static asserts by concepts: there's a way to get at the element type of iterators, that could be the solution
 * Add install target(s)
   * We keep writing a mini project for testing the consumation of an installed
