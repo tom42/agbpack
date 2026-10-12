@@ -19,6 +19,7 @@ set(
   header.cppm
   rle.cppm
   PRIVATE
+  lzss.cpp
   header.cpp)
 
 # Make MSVC correctly define __cplusplus, so that we can use all the C++ specific things provided by the clownlzss.h header.

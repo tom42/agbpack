@@ -13,7 +13,6 @@ module;
 #include <ranges>
 #include <utility>
 #include <vector>
-#include "clownlzss.h" // TODO: do not include clownlzss.h here, so that we do not have to install it with .cppm files
 
 export module agbpack:lzss;
 import :common;
@@ -517,83 +516,7 @@ public:
     }
 
 private:
-    vector<agbpack_u8> encode_internal(const vector<agbpack_u8>& uncompressed_data)
-    {
-        if (uncompressed_data.empty())
-        {
-            // Code further on does not work well with zero-sized input.
-            return {};
-        }
-
-        const auto [matches, total_matches] = find_optimal_matches(uncompressed_data);
-        return encode_matches(uncompressed_data, matches, total_matches);
-    }
-
-    std::pair<ClownLZSS::Matches, size_t> find_optimal_matches(const vector<agbpack_u8>& uncompressed_data)
-    {
-        ClownLZSS::Matches matches;
-        size_t total_matches;
-        auto match_cost_callback = vram_safe() ? get_match_cost_vram_safe : get_match_cost;
-
-        if (!ClownLZSS::FindOptimalMatches(
-            filler_value,
-            maximum_match_length,
-            maximum_match_distance,
-            nullptr,
-            literal_cost,
-            match_cost_callback,
-            uncompressed_data.data(),
-            bytes_per_value,
-            uncompressed_data.size() / bytes_per_value,
-            &matches,
-            &total_matches,
-            nullptr))
-        {
-            throw encode_exception("optimal LZSS encoding failed. That should not happen, unless the system is extremely low on memory");
-        }
-
-        return std::make_pair(std::move(matches), total_matches);
-    }
-
-    vector<agbpack_u8> encode_matches(const vector<agbpack_u8>& uncompressed_data, const ClownLZSS::Matches& matches, size_t total_matches)
-    {
-        vector<agbpack_u8> encoded_data;
-        lzss_bitstream_writer writer(encoded_data);
-
-        for (const auto& match : std::ranges::subrange(&matches[0], &matches[total_matches]))
-        {
-            if (CLOWNLZSS_MATCH_IS_LITERAL(&match))
-            {
-                writer.write_literal(uncompressed_data[match.destination]);
-            }
-            else
-            {
-                writer.write_reference(match.length, match.destination - match.source);
-            }
-        }
-
-        return encoded_data;
-    }
-
-    static size_t get_match_cost(const size_t, const size_t length, void* const)
-    {
-        if (length < minimum_match_length)
-        {
-            return 0;
-        }
-
-        return match_cost;
-    }
-
-    static size_t get_match_cost_vram_safe(const size_t distance, const size_t length, void* const)
-    {
-        if ((length < minimum_match_length) || (distance < minimum_vram_safe_offset))
-        {
-            return 0;
-        }
-
-        return match_cost;
-    }
+    vector<agbpack_u8> encode_internal(const vector<agbpack_u8>& uncompressed_data);
 
     static constexpr bool default_vram_safe = false;
     bool m_vram_safe = default_vram_safe;
