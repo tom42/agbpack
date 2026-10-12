@@ -303,7 +303,7 @@ private:
     size_t m_offset;
 };
 
-bool match_is_literal(const match& m)
+inline bool match_is_literal(const match& m)
 {
     return m.length() < minimum_match_length;
 }
