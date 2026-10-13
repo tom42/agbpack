@@ -7,7 +7,7 @@ include(CMakePackageConfigHelpers)
 # Install agbpack module and exports
 # Based on https://crascit.com/2024/04/04/cxx-modules-cmake-shared-libraries/#h-installing-shared-libraries-with-c-20-modules
 install(
-  TARGETS agbpack
+  TARGETS agbpack clownlzss_objects
   EXPORT agbpackTargets
   FILE_SET CXX_MODULES
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/agbpack/src
