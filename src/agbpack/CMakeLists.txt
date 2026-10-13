@@ -6,6 +6,7 @@
 # include it in agbpack. Not having warnings enabled is acceptable here, since
 # this is the unmodified source code from the original repository.
 add_library(clownzss_objects OBJECT clownlzss/clownlzss.c)
+target_include_directories(clownzss_objects PUBLIC clownlzss)
 
 set(
   agbpack_sources
@@ -27,7 +28,6 @@ add_library(agbpack)
 target_sources(agbpack ${agbpack_sources})
 target_compile_definitions(agbpack PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=)
 target_compile_features(agbpack PUBLIC cxx_std_23)
-target_include_directories(agbpack PRIVATE clownlzss)
 target_link_libraries(agbpack PRIVATE clownzss_objects)
 vtg_target_enable_warnings(agbpack)
 
@@ -37,7 +37,6 @@ if(agbpack_BUILD_TESTING)
   target_sources(agbpack_unit_testing ${agbpack_sources})
   target_compile_definitions(agbpack_unit_testing PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=export)
   target_compile_features(agbpack_unit_testing PUBLIC cxx_std_23)
-  target_include_directories(agbpack_unit_testing PRIVATE clownlzss)
   target_link_libraries(agbpack_unit_testing PRIVATE clownzss_objects)
   vtg_target_enable_warnings(agbpack_unit_testing)
 endif()
