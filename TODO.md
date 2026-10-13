@@ -28,9 +28,6 @@ SPDX-License-Identifier: MIT
   * agbpack-tool / agbpacker: simple compression/decompression tool exposing all implemented schemes
     * Rationale: will be useful as a tool in itself
     * Also useful for comparison with other GBA LZSS implementations
-    * We have something to tinker around with C++ argp_parse wrappers
-  * agbpack_test_tools_common: this is not used anymore. See what bits we can use to implement
-    agbpacker, delete the rest.
 * Do the data types in common.cppm even make sense (agbpack_io_datatype, agbpack_u8, agbpack_u16, agbpack_u32)?
   * agbpack_io_datatype: possibly, apart from the fact that it is not used consistently
   * agbpack_u8, agbpack_u16, agbpack_u32: probably not, we could probaby just as well use fixed size standard types (uint8_t etc)
