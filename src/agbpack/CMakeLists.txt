@@ -9,7 +9,6 @@
 #       * Document what we're doing here
 #         * Why are we not using target_include_directories?
 #         * Why do we need to install the library (See https://stackoverflow.com/questions/40183810/why-does-cmake-export-require-static-libraries-used-to-build-a-shared-library and CMake doc linked by that page)
-#       * Do we merge InstallAfbpack.cmake into this file (why?)
 add_library(clownlzss_objects OBJECT clownlzss/clownlzss.c)
 
 set(
