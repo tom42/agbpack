@@ -5,6 +5,10 @@
 # We compile it as a separate object library without warnings enabled and then
 # include it in agbpack. Not having warnings enabled is acceptable here, since
 # this is the unmodified source code from the original repository.
+# TODO: the way we're using clownlzss_objects now (with target_link_libraries) breaks installation
+#       * Either revert it (use generator expression to pull in objects and target_include_directories)
+#       * Or attempt to fix it (https://stackoverflow.com/questions/40183810/why-does-cmake-export-require-static-libraries-used-to-build-a-shared-library)
+#       * Or compile it as part of agbpack_sources, problem here is the warnings
 add_library(clownzss_objects OBJECT clownlzss/clownlzss.c)
 target_include_directories(clownzss_objects PUBLIC clownlzss)
 
