@@ -9,6 +9,12 @@
 #       * Document what we're doing here
 #         * Why are we not using target_include_directories?
 #         * Why do we need to install the library (See https://stackoverflow.com/questions/40183810/why-does-cmake-export-require-static-libraries-used-to-build-a-shared-library and CMake doc linked by that page)
+#       * Do something useful inside agbpack_install_test.cpp (like actually referencing some symbol from agbpack, and printing something, like some header. Or maybe compressing something)
+#       * The installation test does break. If we install into /tmp, then, if we try to use agbpack installed there, find_package works, but when we try to use the library
+#         using target_link_libraries we get a CMake error: Imported target "agbpack" includes non-existent path "/tmp/include" in its INTERFACE_INCLUDE_DIRECTORIES.
+#         I am not sure this ever worked. We may have always installed into /usr, where /usr/include most likely always existed.
+#         * Or maybe we broke it when messing around with clownlzss_objects. Maybe undo that and use generator expressions again
+#           * It complains about INTERFACE_INCLUDE_DIRECTORIES, so hopefully it's that
 add_library(clownlzss_objects OBJECT clownlzss/clownlzss.c)
 
 set(
