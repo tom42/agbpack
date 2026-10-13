@@ -10,7 +10,6 @@
 #       * Or attempt to fix it (https://stackoverflow.com/questions/40183810/why-does-cmake-export-require-static-libraries-used-to-build-a-shared-library)
 #       * Or compile it as part of agbpack_sources, problem here is the warnings
 add_library(clownlzss_objects OBJECT clownlzss/clownlzss.c)
-target_include_directories(clownlzss_objects PUBLIC clownlzss)
 
 set(
   agbpack_sources

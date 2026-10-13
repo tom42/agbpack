@@ -5,7 +5,7 @@ module;
 
 #include <cstdlib>
 #include <vector>
-#include "clownlzss.h"
+#include "clownlzss/clownlzss.h"
 
 module agbpack;
 
