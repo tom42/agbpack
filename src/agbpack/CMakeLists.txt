@@ -41,6 +41,7 @@ set(
 
 # Production version of agbpack
 add_library(agbpack)
+add_library(agbpack::agbpack ALIAS agbpack)
 target_sources(agbpack ${agbpack_sources})
 target_compile_definitions(agbpack PRIVATE AGBPACK_EXPORT_FOR_UNIT_TESTING=)
 target_compile_features(agbpack PUBLIC cxx_std_23)
