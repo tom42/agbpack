@@ -14,7 +14,8 @@ install(
 install(
   EXPORT agbpackTargets
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/agbpack
-  CXX_MODULES_DIRECTORY .)
+  CXX_MODULES_DIRECTORY .
+  NAMESPACE agbpack::)
 
 # Generate and install agbpackConfigVersion.cmake
 write_basic_package_version_file(
