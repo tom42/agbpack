@@ -6,6 +6,7 @@
 # include it in agbpack. Not having warnings enabled is acceptable here, since
 # this is the unmodified source code from the original repository.
 # TODO: random cleanup
+#       * Rethink how we handle clownlzss: we can now see an imported target clownlzss_objects in imported targets. Do we want this?
 #       * Document what we're doing here
 #         * Why are we not using target_include_directories?
 #         * Why do we need to install the library (See https://stackoverflow.com/questions/40183810/why-does-cmake-export-require-static-libraries-used-to-build-a-shared-library and CMake doc linked by that page)
