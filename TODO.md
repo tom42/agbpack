@@ -4,17 +4,11 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* CMake improvements
-  * Define a namespaced library target alias thing (e.g. agbpack::<whatever>) (why? just because some CMake book says it's good practice? => yes, that's pretty much why)
-  * When done all the install target specific things listed below become obsolete
 * Replace our odd static asserts by concepts: there's a way to get at the element type of iterators, that could be the solution
 * Add install target(s)
-  * We keep writing a mini project for testing the consumation of an installed
-    library => Maybe write that project one last time and put it under version control?
+  * Run installation test on CI?
   * Add a new install target for agbpack (the static library)
-    * Big question here: Do we have to install clownlzss.h along with the module since clownlzss.h is used in a .cppm file?
-      * We could install the clownlzss.h header, problem is, it's got compiler flags attached to it (/Zc:__cplusplus),
-        so we have the same problem we had with warning flags.
+    * Big question here: Do we have to install clownlzss.h along with the module since clownlzss.h is used in a .cppm file? (Well this is not true anymore)
       * Well for starters see whether it is a problem at all and whether we can get
         rid of it using generator expressions:
         * For testing, set up an experiment where we have a gcc specific option in there
