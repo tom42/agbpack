@@ -10,11 +10,7 @@ install(
   TARGETS agbpack clownlzss_objects
   EXPORT agbpackTargets
   FILE_SET CXX_MODULES
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/agbpack/src
-  FILE_SET HEADERS
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-  INCLUDES
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/agbpack/src)
 install(
   EXPORT agbpackTargets
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/agbpack
