@@ -8,13 +8,6 @@ SPDX-License-Identifier: MIT
 * Add install target(s)
   * Run installation test on CI?
   * Add a new install target for agbpack (the static library)
-    * Big question here: Do we have to install clownlzss.h along with the module since clownlzss.h is used in a .cppm file? (Well this is not true anymore)
-      * Well for starters see whether it is a problem at all and whether we can get
-        rid of it using generator expressions:
-        * For testing, set up an experiment where we have a gcc specific option in there
-        * Can compile that library with gcc and install it?
-        * Can we then consume that library with clang without clang choking on
-          a gcc specific option that somehow slipped in?
 * Redo encoders/decoders
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
   * This means, in particular, that we also remove specializations for random access iterators we did for the LZSS encoder
