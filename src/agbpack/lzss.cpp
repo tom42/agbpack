@@ -98,7 +98,6 @@ vector<agbpack_u8> encode_matches(const vector<agbpack_u8>& uncompressed_data, c
 
 // TODO: explain somewhere why this is in a cpp file?
 //       * Yes but first
-//         * Test whether installing and consuming the library still works on Unixoids (GNU/Linux, anyway)
 //         * Do all the installation related stuff listed in TODO.md
 //           * Library target alias thing?
 //           * In particular, archive the test project we use for installation testing, so that we don't have to create it over and over again.
