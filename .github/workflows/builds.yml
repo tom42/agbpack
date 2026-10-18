@@ -50,6 +50,9 @@ jobs:
       working-directory: ${{steps.strings.outputs.build-output-dir}}
       run: ctest --build-config ${{matrix.build_type}} --output-on-failure
 
+    - name: Install
+      run: cmake --build ${{steps.strings.outputs.build-output-dir}} --config ${{matrix.build_type}} --target install
+
   build-windows:
     name: Windows Builds
     runs-on: windows-latest
