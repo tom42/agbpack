@@ -105,10 +105,8 @@ jobs:
 
     - name: Install reuse
       shell: bash
-      run: |
-        pipx install reuse
+      run: pipx install reuse
 
     - name: Run reuse lint
       shell: bash
-      run: |
-        reuse lint
+      run: reuse lint
