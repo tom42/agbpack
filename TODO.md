@@ -7,6 +7,10 @@ SPDX-License-Identifier: MIT
 * Replace our odd static asserts by concepts: there's a way to get at the element type of iterators, that could be the solution
 * Add install target(s)
   * Run installation test on CI? => Yes but be sure it runs in its own installation directory
+    * Linux: installs agbpack, but still need to test the installation (compile and run test program that uses the installation)
+    * Windows:
+      * Install agbpack (does not work, needs local debugging)
+      * Build and run the installation test
 * Redo encoders/decoders
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
   * This means, in particular, that we also remove specializations for random access iterators we did for the LZSS encoder
