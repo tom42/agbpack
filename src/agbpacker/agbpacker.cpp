@@ -139,7 +139,9 @@ void decompress(const parse_command_line_result& options)
     //         * In the case of success, move to next step
     //       * create decoder, decompress in-memory
     //       * write back to input file or output file if given
-    // TODO: add exception handling similar to compress() above
+    // TODO: add exception handling similar to compress() above => yes but not here, have same structure as compression:
+    //       * Top level:      read input file, compress, write output file
+    //       * Also top level: read input file, decompress, write output file <= agbpack specific exception handling goes into the middle (2nd) step
 }
 
 void run(const parse_command_line_result& options)
