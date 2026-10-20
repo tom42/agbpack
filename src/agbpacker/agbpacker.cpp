@@ -84,11 +84,21 @@ encoder create_encoder(compression_method method, bool vram_safe)
 }
 
 // TODO: create all possible decoders.
+//       * lzss = 1,
+//       * huffman = 2,
+//       * rle = 3,
+//       * delta = 8
 // TODO: pass vram safe flag to lzss decoder
 // TODO: pass vram safe flag to optimal lzss decoder
-decoder create_decoder(agbpack::compression_type, bool)
+decoder create_decoder(agbpack::compression_type type, bool)
 {
-    throw std::runtime_error("TODO: YIKES: implement");
+    switch (type)
+    {
+        case agbpack::compression_type::lzss:
+            return agbpack::lzss_decoder(); // TODO: pass vram_safe flag
+        default:
+            throw std::invalid_argument("invalid compression method");
+    }
 }
 
 // TODO: do we test whether e.g. gbacrusher can decompress our output?
