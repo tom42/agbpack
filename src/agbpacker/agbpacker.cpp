@@ -124,7 +124,7 @@ agbpack::compression_type detect_compression_type(const bytevector& compressed_d
     // TODO: we can now parse the compression type from the data (and what about the options?)
     //       * we *really* should not be doing this manually again here
 
-    return{}; // TODO: actually return compression type
+    return agbpack::compression_type::lzss; // TODO: real header detection. However, this lets us work on decoding instead
 }
 
 bytevector decode(const bytevector& data, const parse_command_line_result& options)
