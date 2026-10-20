@@ -83,14 +83,14 @@ encoder create_encoder(compression_method method, bool vram_safe)
 }
 
 // TODO: do we test whether e.g. gbacrusher can decompress our output?
-bytevector compress(const bytevector& data, const parse_command_line_result& options)
+bytevector encode(const bytevector& data, const parse_command_line_result& options)
 {
     try
     {
-        bytevector compressed_data;
+        bytevector encoded_data;
         auto encoder = create_encoder(options.method, options.vram_safe);
-        std::visit([&](auto&& e) { e.encode(data.begin(), data.end(), back_inserter(compressed_data)); }, encoder);
-        return compressed_data;
+        std::visit([&](auto&& e) { e.encode(data.begin(), data.end(), back_inserter(encoded_data)); }, encoder);
+        return encoded_data;
     }
     catch (const agbpack::agbpack_exception& e)
     {
@@ -101,7 +101,7 @@ bytevector compress(const bytevector& data, const parse_command_line_result& opt
 void compress(const parse_command_line_result& options)
 {
     auto uncompressed_data = read_file(options.input_file);
-    auto compressed_data = compress(uncompressed_data, options);
+    auto compressed_data = encode(uncompressed_data, options);
     write_file(options.output_file, compressed_data);
 }
 
@@ -127,11 +127,27 @@ agbpack::compression_type detect_compression_type(const bytevector& compressed_d
     return{}; // TODO: actually return compression type
 }
 
+bytevector decode(const bytevector& data, const parse_command_line_result& options)
+{
+    // TODO: implement/structure same way as encode()
+    try
+    {
+        auto compression_type = detect_compression_type(data);
+        (void)compression_type; // TODO: delete, do something with the detected type
+        return{};
+    }
+    catch (const std::exception& e) // TODO: exception type (agbpack::agbpack_exception)
+    {
+        throw std::runtime_error("could not decompress " + options.input_file + ": " + e.what());
+    }
+}
+
 void decompress(const parse_command_line_result& options)
 {
     auto compressed_data = read_file(options.input_file);
-    auto compression_type = detect_compression_type(compressed_data);
-    (void)compression_type; // TODO: delete, do something with the detected type
+    auto uncompressed_data = decode(compressed_data, options);
+    // TODO: write file and be done with it
+
     // TODO: so here is what we do
     //       * detect compression method
     //         * For that, the file must be at least 4 bytes in size (I think - look it up)
@@ -139,9 +155,6 @@ void decompress(const parse_command_line_result& options)
     //         * In the case of success, move to next step
     //       * create decoder, decompress in-memory
     //       * write back to input file or output file if given
-    // TODO: add exception handling similar to compress() above => yes but not here, have same structure as compression:
-    //       * Top level:      read input file, compress, write output file
-    //       * Also top level: read input file, decompress, write output file <= agbpack specific exception handling goes into the middle (2nd) step
 }
 
 void run(const parse_command_line_result& options)
