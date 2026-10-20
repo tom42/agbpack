@@ -111,7 +111,7 @@ agbpack::compression_type detect_compression_type(const bytevector& compressed_d
     // TODO: create a GBA header as uint32_t
     // TODO: parse compression type, use stuff from header.cppm to do so. Again, this may fail.
 
-    if (compressed_data.size() >= 4) // TODO: actual condition: < 4
+    if (compressed_data.size() < 4)
     {
         // TODO: exception type to throw? => we want it to be wrapped into a "could not decompress <filename>" message
         // TODO: consider putting this into agbpack and making it available
