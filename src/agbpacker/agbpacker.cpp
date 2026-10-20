@@ -89,7 +89,6 @@ encoder create_encoder(compression_method method, bool vram_safe)
 //       * rle = 3,
 //       * delta = 8
 // TODO: pass vram safe flag to lzss decoder
-// TODO: pass vram safe flag to optimal lzss decoder
 decoder create_decoder(agbpack::compression_type type, bool)
 {
     switch (type)
