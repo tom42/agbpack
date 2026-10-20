@@ -146,15 +146,13 @@ void decompress(const parse_command_line_result& options)
 {
     auto compressed_data = read_file(options.input_file);
     auto uncompressed_data = decode(compressed_data, options);
-    // TODO: write file and be done with it
-
+    write_file(options.output_file, uncompressed_data);
     // TODO: so here is what we do
     //       * detect compression method
     //         * For that, the file must be at least 4 bytes in size (I think - look it up)
     //         * If so we can read those 4 bytes and try to parse them into a header (that may fail!)
     //         * In the case of success, move to next step
     //       * create decoder, decompress in-memory
-    //       * write back to input file or output file if given
 }
 
 void run(const parse_command_line_result& options)
