@@ -136,7 +136,7 @@ bytevector decode(const bytevector& data, const parse_command_line_result& optio
         (void)compression_type; // TODO: delete, do something with the detected type
         return{};
     }
-    catch (const std::exception& e) // TODO: exception type (agbpack::agbpack_exception)
+    catch (const agbpack::agbpack_exception& e)
     {
         throw std::runtime_error("could not decompress " + options.input_file + ": " + e.what());
     }
