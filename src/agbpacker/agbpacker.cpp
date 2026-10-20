@@ -28,10 +28,11 @@ using encoder = std::variant<
     agbpack::huffman_encoder,
     agbpack::rle_encoder,
     agbpack::delta_encoder>;
-using decoder = std::variant< // TODO: add all variants
+using decoder = std::variant<
     agbpack::lzss_decoder,
     agbpack::huffman_decoder,
-    agbpack::rle_decoder>;
+    agbpack::rle_decoder,
+    agbpack::delta_decoder>;
 
 bytevector read_file(const std::string& filename)
 {
@@ -86,9 +87,6 @@ encoder create_encoder(compression_method method, bool vram_safe)
     }
 }
 
-// TODO: create all possible decoders.
-//       * rle = 3,
-//       * delta = 8
 decoder create_decoder(agbpack::compression_type type, bool)
 {
     switch (type)
@@ -99,6 +97,8 @@ decoder create_decoder(agbpack::compression_type type, bool)
             return agbpack::huffman_decoder();
         case agbpack::compression_type::rle:
             return agbpack::rle_decoder();
+        case agbpack::compression_type::delta:
+            return agbpack::delta_decoder();
         default:
             throw std::invalid_argument("invalid compression method");
     }
