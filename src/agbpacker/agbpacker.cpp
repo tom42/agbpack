@@ -28,6 +28,7 @@ using encoder = std::variant<
     agbpack::huffman_encoder,
     agbpack::rle_encoder,
     agbpack::delta_encoder>;
+using decoder = std::variant<agbpack::lzss_decoder>; // TODO: add all variants
 
 bytevector read_file(const std::string& filename)
 {
@@ -82,6 +83,14 @@ encoder create_encoder(compression_method method, bool vram_safe)
     }
 }
 
+// TODO: create all possible decoders.
+// TODO: pass vram safe flag to lzss decoder
+// TODO: pass vram safe flag to optimal lzss decoder
+decoder create_decoder(agbpack::compression_type, bool)
+{
+    throw std::runtime_error("TODO: YIKES: implement");
+}
+
 // TODO: do we test whether e.g. gbacrusher can decompress our output?
 bytevector encode(const bytevector& data, const parse_command_line_result& options)
 {
@@ -129,12 +138,11 @@ agbpack::compression_type detect_compression_type(const bytevector& compressed_d
 
 bytevector decode(const bytevector& data, const parse_command_line_result& options)
 {
-    // TODO: implement/structure same way as encode()
     try
     {
         auto compression_type = detect_compression_type(data);
-        (void)compression_type; // TODO: delete, do something with the detected type
-        return{};
+        auto encoder = create_decoder(compression_type, options.vram_safe);
+        return{}; // TODO: actually decode and return
     }
     catch (const agbpack::agbpack_exception& e)
     {
