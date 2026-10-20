@@ -150,9 +150,11 @@ bytevector decode(const bytevector& data, const parse_command_line_result& optio
 {
     try
     {
+        bytevector decoded_data;
         auto compression_type = detect_compression_type(data);
-        auto encoder = create_decoder(compression_type, options.vram_safe);
-        return{}; // TODO: actually decode and return
+        auto decoder = create_decoder(compression_type, options.vram_safe);
+        std::visit([&](auto&& e) { e.decode(data.begin(), data.end(), back_inserter(decoded_data)); }, decoder);
+        return decoded_data;
     }
     catch (const agbpack::agbpack_exception& e)
     {
@@ -170,7 +172,6 @@ void decompress(const parse_command_line_result& options)
     //         * For that, the file must be at least 4 bytes in size (I think - look it up)
     //         * If so we can read those 4 bytes and try to parse them into a header (that may fail!)
     //         * In the case of success, move to next step
-    //       * create decoder, decompress in-memory
 }
 
 void run(const parse_command_line_result& options)
