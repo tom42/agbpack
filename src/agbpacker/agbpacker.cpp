@@ -104,7 +104,6 @@ decoder create_decoder(agbpack::compression_type type, bool vram_safe)
     }
 }
 
-// TODO: do we test whether e.g. gbacrusher can decompress our output?
 bytevector encode(const bytevector& data, const parse_command_line_result& options)
 {
     try
