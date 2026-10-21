@@ -87,12 +87,12 @@ encoder create_encoder(compression_method method, bool vram_safe)
     }
 }
 
-decoder create_decoder(agbpack::compression_type type, bool)
+decoder create_decoder(agbpack::compression_type type, bool vram_safe)
 {
     switch (type)
     {
         case agbpack::compression_type::lzss:
-            return agbpack::lzss_decoder(); // TODO: pass vram_safe flag
+            return agbpack::lzss_decoder(vram_safe);
         case agbpack::compression_type::huffman:
             return agbpack::huffman_decoder();
         case agbpack::compression_type::rle:
