@@ -144,7 +144,8 @@ agbpack::compression_type detect_compression_type(const bytevector& compressed_d
     // TODO: we can now extract an uint32_t from the data
 
     // TODO: we can now parse the compression type from the data (and what about the options?)
-    //       * we *really* should not be doing this manually again here
+    //       * This may fail
+    //       * We *really* should not be doing this manually again here
 
     return agbpack::compression_type::lzss; // TODO: real header detection. However, this lets us work on decoding instead
 }
@@ -170,11 +171,6 @@ void decompress(const parse_command_line_result& options)
     auto compressed_data = read_file(options.input_file);
     auto uncompressed_data = decode(compressed_data, options);
     write_file(options.output_file, uncompressed_data);
-    // TODO: so here is what we do
-    //       * detect compression method
-    //         * For that, the file must be at least 4 bytes in size (I think - look it up)
-    //         * If so we can read those 4 bytes and try to parse them into a header (that may fail!)
-    //         * In the case of success, move to next step
 }
 
 void run(const parse_command_line_result& options)
