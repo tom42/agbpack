@@ -84,6 +84,7 @@ class header final
 public:
     compression_type type() const { return m_type; }
 
+    // TODO: remove/make private: nobody seems to use it
     compression_options options() const { return m_options; }
 
     template <typename TOptions>
