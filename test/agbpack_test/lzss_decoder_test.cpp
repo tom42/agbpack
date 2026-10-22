@@ -63,6 +63,18 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
     agbpack::lzss_decoder decoder;
     set_test_data_directory("lzss_decoder");
 
+    SECTION("Construction without options")
+    {
+        CHECK(decoder.vram_safe() == false);
+    }
+
+    SECTION("Construction with valid options")
+    {
+        bool vram_safe = GENERATE(false, true);
+        agbpack::lzss_decoder d(vram_safe);
+        CHECK(d.vram_safe() == vram_safe);
+    }
+
     SECTION("Valid input")
     {
         const auto filename = GENERATE(

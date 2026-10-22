@@ -166,7 +166,6 @@ private:
 export class lzss_decoder final
 {
 public:
-    // TODO: construction with argument needs unit testing
     explicit lzss_decoder(bool vram_safe = default_vram_safe) : m_vram_safe(vram_safe) {}
 
     template <std::input_iterator InputIterator, typename OutputIterator>
