@@ -140,4 +140,35 @@ std::optional<header> header::parse(uint32_t header_data)
     return header(type, *options, (header_data >> 8) & 0xffffff);
 }
 
+std::expected<header2, const char*> header2::try_parse(std::span<const unsigned char> s)
+{
+    if (s.size() < 4)
+    {
+        return std::unexpected("premature end of data");
+    }
+
+    byte_reader reader(begin(s), end(s));
+    return try_parse(read32(reader));
+}
+
+std::expected<header2, const char*> header2::try_parse(uint32_t /*u*/)
+{
+    // TODO: actually parse and pass compression type (this may fail)
+    // TODO: actually parse and pass options (this may fail too)
+    // TODO: actually parse and pass uncompressed size
+    return header2(compression_type::huffman, huffman_options::h8, 0x123456);
+}
+
+// TODO: should this constructor verify data once more, or maybe not?
+//       * Well the old one did, the only thing it did not was checking whether type and options match
+//         * So we reimplement those checks
+//         * And think whether we want the missing one
+// TODO: why us uncompressed_size of type std::size_t? This only causes us to need a cast
+//       * Well it's because some public interface functions wotk with size_t, then stuff gets validated and finally cast here
+header2::header2(compression_type type, compression_options options, std::size_t uncompressed_size)
+    : m_type(type)
+    , m_options(options)
+    , m_uncompressed_size(static_cast<uint32_t>(uncompressed_size))
+{}
+
 }
