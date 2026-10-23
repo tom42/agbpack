@@ -153,12 +153,12 @@ std::expected<header2, const char*> header2::try_parse(std::span<const unsigned 
 
 std::expected<header2, const char*> header2::try_parse(uint32_t header_data)
 {
-    // TODO: actually parse and pass uncompressed size
     auto type = compression_type((header_data >> 4) & 0xf); // TODO: error handling
     // TODO: create_unvalidated_options creates optional(). That is fine, but would we rather have std::expected?
     auto options = create_unvalidated_options(type, header_data & 0xf); // TODO: error handling
+    auto uncompressed_size = (header_data >> 8) & 0xffffff;
 
-    return header2(type, options.value(), 0x123456);
+    return header2(type, options.value(), uncompressed_size);
 }
 
 // TODO: should this constructor verify data once more, or maybe not?

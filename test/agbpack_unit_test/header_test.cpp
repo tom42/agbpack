@@ -99,7 +99,7 @@ TEST_CASE("header_test")
 
         CHECK(header.type() == compression_type::delta);
         CHECK(header.options<delta_options>() == delta_options::delta8);
-        // TODO: check size
+        CHECK(header.uncompressed_size() == 0xabcdef);
     }
 }
 
