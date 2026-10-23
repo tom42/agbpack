@@ -85,17 +85,20 @@ TEST_CASE("header_test")
 
     SECTION("try_parse from uint32_t, huffman header")
     {
-        // TODO: have another test case with:
-        //       * different compression type
-        //       * different options
-        //       * different size
-        //const uint32_t u = GENERATE(, 0xabcdef81);
-
         const auto header = header2::try_parse(0x12345628).value();
 
         CHECK(header.type() == compression_type::huffman);
         CHECK(header.options<huffman_options>() == huffman_options::h8);
         CHECK(header.uncompressed_size() == 0x123456);
+    }
+
+    SECTION("try_parse from uint32_t, delta header")
+    {
+        const auto header = header2::try_parse(0xabcdef81).value();
+
+        CHECK(header.type() == compression_type::delta);
+        // TODO: Check options
+        // TODO: check size
     }
 }
 
