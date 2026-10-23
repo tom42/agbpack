@@ -89,7 +89,9 @@ TEST_CASE("header_test")
         //       * different compression type
         //       * different options
         //       * different size
-        const auto header = header2::try_parse(0x12345628).value();
+        const uint32_t u = GENERATE(0x12345628);
+
+        const auto header = header2::try_parse(u).value();
 
         CHECK(header.type() == compression_type::huffman);
         CHECK(header.options<huffman_options>() == huffman_options::h8);
