@@ -19,6 +19,7 @@ using bytevector = std::vector<unsigned char>;
 
 // TODO: when done, see which usings we still need
 using agbpack::compression_type;
+using agbpack::delta_options;
 using agbpack::encode_exception;
 using agbpack::header;
 using agbpack::header2;
@@ -97,7 +98,7 @@ TEST_CASE("header_test")
         const auto header = header2::try_parse(0xabcdef81).value();
 
         CHECK(header.type() == compression_type::delta);
-        // TODO: Check options
+        CHECK(header.options<delta_options>() == delta_options::delta8);
         // TODO: check size
     }
 }
