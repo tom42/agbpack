@@ -83,15 +83,15 @@ TEST_CASE("header_test")
         CHECK(header.error() == "premature end of data"s);
     }
 
-    SECTION("try_parse from uint32_t")
+    SECTION("try_parse from uint32_t, huffman header")
     {
         // TODO: have another test case with:
         //       * different compression type
         //       * different options
         //       * different size
-        const uint32_t u = GENERATE(0x12345628);
+        //const uint32_t u = GENERATE(, 0xabcdef81);
 
-        const auto header = header2::try_parse(u).value();
+        const auto header = header2::try_parse(0x12345628).value();
 
         CHECK(header.type() == compression_type::huffman);
         CHECK(header.options<huffman_options>() == huffman_options::h8);
