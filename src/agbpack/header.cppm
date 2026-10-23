@@ -84,20 +84,17 @@ class header final
 public:
     compression_type type() const { return m_type; }
 
-    // TODO: remove/make private: nobody seems to use it
-    compression_options options() const { return m_options; }
-
     template <typename TOptions>
     TOptions options_as() const
     {
-        return std::get<TOptions>(options());
+        return std::get<TOptions>(m_options);
     }
 
     uint32_t uncompressed_size() const { return m_uncompressed_size; }
 
     uint32_t to_uint32_t() const
     {
-        return (uncompressed_size() << 8) | (std::to_underlying(type()) << 4) | as_integer(options());
+        return (uncompressed_size() << 8) | (std::to_underlying(type()) << 4) | as_integer(m_options);
     }
 
     static header create(lzss_options options, std::size_t uncompressed_size);
