@@ -137,7 +137,7 @@ public:
 
     static std::expected<header2, const char*> try_parse(std::span<const unsigned char> s);
 
-    static std::expected<header2, const char*> try_parse(uint32_t u);
+    static std::expected<header2, const char*> try_parse(uint32_t header_data);
 
 private:
     compression_type m_type;

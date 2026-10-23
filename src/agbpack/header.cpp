@@ -151,7 +151,7 @@ std::expected<header2, const char*> header2::try_parse(std::span<const unsigned 
     return try_parse(read32(reader));
 }
 
-std::expected<header2, const char*> header2::try_parse(uint32_t /*u*/)
+std::expected<header2, const char*> header2::try_parse(uint32_t /*header_data*/)
 {
     // TODO: actually parse and pass compression type (this may fail)
     // TODO: actually parse and pass options (this may fail too)
