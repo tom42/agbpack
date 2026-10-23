@@ -101,6 +101,11 @@ TEST_CASE("header_test")
         CHECK(header.options<delta_options>() == delta_options::delta8);
         CHECK(header.uncompressed_size() == 0xabcdef);
     }
+
+    SECTION("try_parse from uint32_t, invalid compression type")
+    {
+        // TODO: parse invalid compression type, check error
+    }
 }
 
 }
