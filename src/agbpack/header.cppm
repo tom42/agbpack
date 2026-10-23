@@ -78,6 +78,10 @@ inline auto as_integer(compression_options options)
     return std::visit([](auto&& opts){ return std::to_underlying(opts); }, options);
 }
 
+// TODO: this class has a rather hideous interface, unsuitable for exporting. Replace it by something better.
+//       * Example: the create functions below, why are they typed on option enums? Two compression methods do not even have options
+//         * Why would we force callers to pass an options enum that does not even allow a selection?
+//           * That would be useful for templated code or some other sort of generic handling of headers.
 AGBPACK_EXPORT_FOR_UNIT_TESTING
 class header final
 {

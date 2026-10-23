@@ -19,7 +19,7 @@ using agbpack::header;
 using agbpack::huffman_options;
 using agbpack::maximum_uncompressed_size;
 
-TEST_CASE("header_test")
+TEST_CASE("header_test_old") // TODO: remove once class is replaced
 {
     SECTION("create, valid size")
     {
