@@ -78,10 +78,10 @@ TEST_CASE("header_test")
     {
         const bytevector data = { 0x28, 0x56, 0x34 };
 
-        const auto header = header2::try_parse(data);
+        const auto parse_result = header2::try_parse(data);
 
-        CHECK(header.has_value() == false);
-        CHECK(header.error() == "premature end of data"s);
+        CHECK(parse_result.has_value() == false);
+        CHECK(parse_result.error() == "premature end of data"s);
     }
 
     SECTION("try_parse from uint32_t, huffman header")
@@ -104,7 +104,10 @@ TEST_CASE("header_test")
 
     SECTION("try_parse from uint32_t, invalid compression type")
     {
-        // TODO: parse invalid compression type, check error
+        const auto parse_result = header2::try_parse(0);
+
+        CHECK(parse_result.has_value() == false);
+        CHECK(parse_result.error() == "invalid compression type"s);
     }
 }
 
