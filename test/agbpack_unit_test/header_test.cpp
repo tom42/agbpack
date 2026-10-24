@@ -109,6 +109,15 @@ TEST_CASE("header_test")
         CHECK(parse_result.has_value() == false);
         CHECK(parse_result.error() == "invalid compression type"s);
     }
+
+    SECTION("try_parse from uint32_t, invalid huffman compression options")
+    {
+        const auto parse_result = header2::try_parse(0x2f);
+
+        // TODO: should not have a value
+        // TODO: error should be invalid compression options (or possibly with name if we can easily do this)
+        // TODO: should we also have a test with another compression type?
+    }
 }
 
 }
