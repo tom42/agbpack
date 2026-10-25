@@ -61,6 +61,14 @@ TEST_CASE("header_test_old") // TODO: remove once class is replaced
 
 TEST_CASE("header_test")
 {
+    SECTION("create_lzss")
+    {
+        const auto header = header2::create_lzss(0xabcdef);
+
+        CHECK(header.type() == compression_type::lzss);
+        CHECK(header.uncompressed_size() == 0xabcdef);
+    }
+
     SECTION("try_parse from span, enough data")
     {
         const auto data = GENERATE(

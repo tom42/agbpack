@@ -128,7 +128,7 @@ private:
 export class header2 final
 {
 public:
-    // TODO: create lzss header
+    static header2 create_lzss(std::size_t uncompressed_size);
     // TODO: create huffman header
     // TODO: create rle header
     // TODO: delta header
