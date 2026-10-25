@@ -155,6 +155,11 @@ header2 header2::create_rle(std::size_t uncompressed_size)
     return header2(compression_type::rle, rle_options::reserved, uncompressed_size);
 }
 
+header2 header2::create_delta(delta_options options, std::size_t uncompressed_size)
+{
+    return header2(compression_type::delta, options, uncompressed_size);
+}
+
 std::expected<header2, const char*> header2::try_parse(std::span<const unsigned char> s)
 {
     if (s.size() < 4)

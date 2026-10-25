@@ -86,6 +86,15 @@ TEST_CASE("header_test")
         CHECK(header.uncompressed_size() == 0x234567);
     }
 
+    SECTION("create_delta")
+    {
+        const auto header = header2::create_delta(delta_options::delta8, 0x345678);
+
+        CHECK(header.type() == compression_type::delta);
+        CHECK(header.options<delta_options>() == delta_options::delta8);
+        CHECK(header.uncompressed_size() == 0x345678);
+    }
+
     SECTION("try_parse from span, enough data")
     {
         const auto data = GENERATE(
