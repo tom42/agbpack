@@ -166,9 +166,7 @@ std::expected<header2, const char*> header2::try_parse(uint32_t header_data)
         return std::unexpected("invalid compression options");
     }
 
-    auto uncompressed_size = (header_data >> 8) & 0xffffff;
-
-    return header2(type, options.value(), uncompressed_size);
+    return header2(type, options.value(), (header_data >> 8) & 0xffffff);
 }
 
 // TODO: should this constructor verify data once more, or maybe not?
