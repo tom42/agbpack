@@ -169,12 +169,28 @@ std::expected<header2, const char*> header2::try_parse(uint32_t header_data)
     return header2(type, options.value(), (header_data >> 8) & 0xffffff);
 }
 
-// TODO: should this constructor verify data once more, or maybe not?
-//       * Well the old one did, the only thing it did not was checking whether type and options match
-//         * So we reimplement those checks
-//         * And think whether we want the missing one
+// TODO: check whether type and options match?
+//       * Probably should have had a type instead of two enums where this is not needed. Oh well.
 header2::header2(compression_type type, compression_options options, std::size_t uncompressed_size)
 {
+    if (!is_valid(type))
+    {
+        // TODO: can we test this?
+        throw std::invalid_argument("invalid compression type");
+    }
+
+    if (!is_valid_variant(options))
+    {
+        // TODO: can we test this?
+        throw std::invalid_argument("invalid compression options");
+    }
+
+    if (uncompressed_size > maximum_uncompressed_size)
+    {
+        // TODO: can we test this?
+        throw encode_exception("data to encode is too big");
+    }
+
     m_type = type;
     m_options = options;
     m_uncompressed_size = static_cast<uint32_t>(uncompressed_size);
