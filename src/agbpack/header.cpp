@@ -173,8 +173,6 @@ std::expected<header2, const char*> header2::try_parse(uint32_t header_data)
 //       * Well the old one did, the only thing it did not was checking whether type and options match
 //         * So we reimplement those checks
 //         * And think whether we want the missing one
-// TODO: why us uncompressed_size of type std::size_t? This only causes us to need a cast
-//       * Well it's because some public interface functions wotk with size_t, then stuff gets validated and finally cast here
 header2::header2(compression_type type, compression_options options, std::size_t uncompressed_size)
     : m_type(type)
     , m_options(options)
