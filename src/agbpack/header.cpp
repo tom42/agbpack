@@ -161,6 +161,11 @@ std::expected<header2, const char*> header2::try_parse(uint32_t header_data)
 
     // TODO: create_unvalidated_options creates optional(). That is fine, but would we rather have std::expected?
     auto options = create_unvalidated_options(type, header_data & 0xf); // TODO: error handling
+    if (!options || !is_valid_variant(*options))
+    {
+        return std::unexpected("invalid compression options");
+    }
+
     auto uncompressed_size = (header_data >> 8) & 0xffffff;
 
     return header2(type, options.value(), uncompressed_size);
