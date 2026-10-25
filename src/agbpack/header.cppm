@@ -128,12 +128,19 @@ private:
 export class header2 final
 {
 public:
+    // TODO: create lzss header
+    // TODO: create huffman header
+    // TODO: create rle header
+    // TODO: delta header
+
     compression_type type() const { return m_type; }
 
     template <typename TOptions>
     TOptions options() const { return std::get<TOptions>(m_options); }
 
     uint32_t uncompressed_size() const { return m_uncompressed_size; }
+
+    // TODO: add to_uint32_t. Need creation functions first before we can do so
 
     static std::expected<header2, const char*> try_parse(std::span<const unsigned char> s);
 
