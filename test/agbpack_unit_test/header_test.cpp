@@ -69,6 +69,15 @@ TEST_CASE("header_test")
         CHECK(header.uncompressed_size() == 0xabcdef);
     }
 
+    SECTION("create_huffman")
+    {
+        const auto header = header2::create_huffman(huffman_options::h4, 0x123456);
+
+        CHECK(header.type() == compression_type::huffman);
+        CHECK(header.options<huffman_options>() == huffman_options::h4);
+        CHECK(header.uncompressed_size() == 0x123456);
+    }
+
     SECTION("try_parse from span, enough data")
     {
         const auto data = GENERATE(

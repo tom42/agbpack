@@ -129,7 +129,7 @@ export class header2 final
 {
 public:
     static header2 create_lzss(std::size_t uncompressed_size);
-    // TODO: create huffman header
+    static header2 create_huffman(huffman_options options, std::size_t uncompressed_size);
     // TODO: create rle header
     // TODO: delta header
 
