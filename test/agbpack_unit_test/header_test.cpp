@@ -78,6 +78,14 @@ TEST_CASE("header_test")
         CHECK(header.uncompressed_size() == 0x123456);
     }
 
+    SECTION("create_rle")
+    {
+        const auto header = header2::create_rle(0x234567);
+
+        CHECK(header.type() == compression_type::rle);
+        CHECK(header.uncompressed_size() == 0x234567);
+    }
+
     SECTION("try_parse from span, enough data")
     {
         const auto data = GENERATE(

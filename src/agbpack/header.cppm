@@ -130,7 +130,7 @@ export class header2 final
 public:
     static header2 create_lzss(std::size_t uncompressed_size);
     static header2 create_huffman(huffman_options options, std::size_t uncompressed_size);
-    // TODO: create rle header
+    static header2 create_rle(std::size_t uncompressed_size);
     // TODO: delta header
 
     compression_type type() const { return m_type; }

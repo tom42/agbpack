@@ -150,6 +150,11 @@ header2 header2::create_huffman(huffman_options options, std::size_t uncompresse
     return header2(compression_type::huffman, options, uncompressed_size);
 }
 
+header2 header2::create_rle(std::size_t uncompressed_size)
+{
+    return header2(compression_type::rle, rle_options::reserved, uncompressed_size);
+}
+
 std::expected<header2, const char*> header2::try_parse(std::span<const unsigned char> s)
 {
     if (s.size() < 4)
