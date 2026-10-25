@@ -116,7 +116,14 @@ TEST_CASE("header_test")
 
         CHECK(parse_result.has_value() == false);
         CHECK(parse_result.error() == "invalid compression options"s);
-        // TODO: should we also have a test with another compression type?
+    }
+
+    SECTION("try_parse from uint32_t, invalid delta compression options")
+    {
+        const auto parse_result = header2::try_parse(0x80);
+
+        CHECK(parse_result.has_value() == false);
+        CHECK(parse_result.error() == "invalid compression options"s);
     }
 }
 
