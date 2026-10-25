@@ -174,9 +174,10 @@ std::expected<header2, const char*> header2::try_parse(uint32_t header_data)
 //         * So we reimplement those checks
 //         * And think whether we want the missing one
 header2::header2(compression_type type, compression_options options, std::size_t uncompressed_size)
-    : m_type(type)
-    , m_options(options)
-    , m_uncompressed_size(static_cast<uint32_t>(uncompressed_size))
-{}
+{
+    m_type = type;
+    m_options = options;
+    m_uncompressed_size = static_cast<uint32_t>(uncompressed_size);
+}
 
 }
