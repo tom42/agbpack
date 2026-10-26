@@ -69,59 +69,6 @@ std::optional<compression_options> create_unvalidated_options(compression_type t
 
 }
 
-std::optional<header> header::parse_for_type(compression_type wanted_type, uint32_t header_data)
-{
-    auto header = parse(header_data);
-    if (!header || (header->type() != wanted_type))
-    {
-        // Overwrite result, no return statement here.
-        // This avoids triggering Clang's -Wnrvo warning when returning result below.
-        // Consider switching off this warning if it becomes annoying.
-        header = {};
-    }
-
-    return header;
-}
-
-header::header(compression_type type, compression_options options, std::size_t uncompressed_size)
-{
-    if (!is_valid(type))
-    {
-        throw std::invalid_argument("invalid compression type");
-    }
-
-    if (!is_valid_variant(options))
-    {
-        throw std::invalid_argument("invalid compression options");
-    }
-
-    if (uncompressed_size > maximum_uncompressed_size)
-    {
-        throw encode_exception("data to encode is too big");
-    }
-
-    m_type = type;
-    m_options = options;
-    m_uncompressed_size = static_cast<uint32_t>(uncompressed_size);
-}
-
-std::optional<header> header::parse(uint32_t header_data)
-{
-    auto type = compression_type((header_data >> 4) & 0xf);
-    if (!is_valid(type))
-    {
-        return {};
-    }
-
-    auto options = create_unvalidated_options(type, header_data & 0xf);
-    if (!options || !is_valid_variant(*options))
-    {
-        return {};
-    }
-
-    return header(type, *options, (header_data >> 8) & 0xffffff);
-}
-
 header2 header2::create_lzss(std::size_t uncompressed_size)
 {
     return header2(compression_type::lzss, lzss_options::reserved, uncompressed_size);

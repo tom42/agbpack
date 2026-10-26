@@ -81,39 +81,6 @@ inline auto as_integer(compression_options options)
     return std::visit([](auto&& opts){ return std::to_underlying(opts); }, options);
 }
 
-// TODO: this class has a rather hideous interface, unsuitable for exporting. Replace it by something better.
-//       * Example: the create functions below, why are they typed on option enums? Two compression methods do not even have options
-//         * Why would we force callers to pass an options enum that does not even allow a selection?
-//           * That would be useful for templated code or some other sort of generic handling of headers.
-AGBPACK_EXPORT_FOR_UNIT_TESTING
-class header final
-{
-public:
-    compression_type type() const { return m_type; }
-
-    template <typename TOptions>
-    TOptions options_as() const
-    {
-        return std::get<TOptions>(m_options);
-    }
-
-    uint32_t uncompressed_size() const { return m_uncompressed_size; }
-
-    static std::optional<header> parse_for_type(compression_type wanted_type, uint32_t header_data);
-
-private:
-    compression_type m_type;
-    compression_options m_options;
-    uint32_t m_uncompressed_size;
-
-    // Note: this constructor does not check whether type and options match.
-    // That is, you can for instance construct a header with compression type LZSS and RLE compression options.
-    // It should therefore not be exposed to the public and remain private.
-    explicit header(compression_type type, compression_options options, std::size_t uncompressed_size);
-
-    static std::optional<header> parse(uint32_t header_data);
-};
-
 // TODO: rename once the other is gone
 export class header2 final
 {
