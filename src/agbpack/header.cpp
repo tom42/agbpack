@@ -122,7 +122,6 @@ header::header(compression_type type, compression_options options, std::size_t u
 {
     if (!is_valid(type))
     {
-        // TODO: can we test this?
         throw std::invalid_argument("invalid compression type");
     }
 
