@@ -14,18 +14,16 @@ import agbpack_unit_testkit;
 namespace agbpack_unit_test
 {
 
-// TODO: unify spelling: sometimes we use bytevector, sometimes byte_vector
-using bytevector = std::vector<unsigned char>;
-
-// TODO: when done, see which usings we still need
 using agbpack::compression_type;
 using agbpack::delta_options;
 using agbpack::encode_exception;
-using agbpack::header;
 using agbpack::header2;
 using agbpack::huffman_options;
 using agbpack::maximum_uncompressed_size;
 using namespace std::string_literals;
+
+// TODO: unify spelling: sometimes we use bytevector, sometimes byte_vector
+using bytevector = std::vector<unsigned char>;
 
 TEST_CASE("header_test")
 {
