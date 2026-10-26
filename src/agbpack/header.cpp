@@ -6,7 +6,9 @@ module;
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <expected>
 #include <optional>
+#include <span>
 #include <stdexcept>
 #include <variant>
 
