@@ -98,13 +98,12 @@ TEST_CASE("header_test")
             encode_exception,
             Catch::Matchers::Message("data to encode is too big"));
 
-        if constexpr (SIZE_MAX > 0xffffffff)
-        {
-            CHECK_THROWS_MATCHES(
-                header::create(huffman_options::h8, 0x100000000),
-                encode_exception,
-                Catch::Matchers::Message("data to encode is too big"));
-        }
+#if SIZE_MAX > 0xffffffff
+        CHECK_THROWS_MATCHES(
+            header::create(huffman_options::h8, 0x100000000),
+            encode_exception,
+            Catch::Matchers::Message("data to encode is too big"));
+#endif
     }
 
     SECTION("to_uint32_t")
