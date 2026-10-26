@@ -50,13 +50,6 @@ TEST_CASE("header_test_old") // TODO: remove once class is replaced
             Catch::Matchers::Message("data to encode is too big"));
 #endif
     }
-
-    SECTION("to_uint32_t")
-    {
-        auto header = header::create(huffman_options::h8, 0x123456);
-
-        CHECK(header.to_uint32_t() == 0x12345628);
-    }
 }
 
 TEST_CASE("header_test")
