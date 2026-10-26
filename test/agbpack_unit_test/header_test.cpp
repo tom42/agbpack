@@ -85,8 +85,9 @@ TEST_CASE("header_test")
 
     SECTION("create header with valid size")
     {
-        CHECK(header2::create_lzss(0).uncompressed_size() == 0);
-        CHECK(header2::create_lzss(maximum_uncompressed_size).uncompressed_size() == maximum_uncompressed_size);
+        auto valid_size = GENERATE(0u, maximum_uncompressed_size);
+
+        CHECK(header2::create_lzss(valid_size).uncompressed_size() == valid_size);
     }
 
     SECTION("create header with invalid size")
