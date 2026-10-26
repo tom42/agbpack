@@ -3,7 +3,6 @@
 
 module;
 
-#include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <expected>
