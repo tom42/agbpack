@@ -134,7 +134,6 @@ header::header(compression_type type, compression_options options, std::size_t u
 
     if (uncompressed_size > maximum_uncompressed_size)
     {
-        // TODO: can we test this?
         throw encode_exception("data to encode is too big");
     }
 
