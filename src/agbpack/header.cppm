@@ -99,11 +99,6 @@ public:
 
     uint32_t uncompressed_size() const { return m_uncompressed_size; }
 
-    uint32_t to_uint32_t() const
-    {
-        return (uncompressed_size() << 8) | (std::to_underlying(type()) << 4) | as_integer(m_options);
-    }
-
     static std::optional<header> parse_for_type(compression_type wanted_type, uint32_t header_data);
 
 private:
