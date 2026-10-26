@@ -205,8 +205,8 @@ private:
     {
         static_assert_input_type<InputIterator>();
 
-        auto header = header::parse_for_type(compression_type::lzss, read32(reader));
-        if (!header)
+        auto header = header2::try_parse(read32(reader));
+        if (!header.has_value() || (header.value().type() != compression_type::lzss))
         {
             throw decode_exception();
         }
