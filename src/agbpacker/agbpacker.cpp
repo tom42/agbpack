@@ -128,25 +128,14 @@ void compress(const parse_command_line_result& options)
 
 agbpack::compression_type detect_compression_type(const byte_vector& compressed_data)
 {
-    // TODO: check compressed_data is big enough (this may fail - needs to be at least 4 bytes big)
-    // TODO: create a GBA header as uint32_t
-    // TODO: parse compression type, use stuff from header.cppm to do so. Again, this may fail.
-
-    if (compressed_data.size() < 4)
+    auto header = agbpack::header::try_parse(compressed_data);
+    if (!header)
     {
-        // TODO: exception type to throw? => we want it to be wrapped into a "could not decompress <filename>" message
-        // TODO: consider putting this into agbpack and making it available
-        // TODO: message: "too small"?
+        // TODO: exception type: simply throw agbpack_exception? And what to do about error info? (well we can use or ignore that, does not matter)
         throw std::runtime_error("invalid header");
     }
 
-    // TODO: we can now extract an uint32_t from the data
-
-    // TODO: we can now parse the compression type from the data (and what about the options?)
-    //       * This may fail
-    //       * We *really* should not be doing this manually again here
-
-    return agbpack::compression_type::lzss; // TODO: real header detection. However, this lets us work on decoding instead
+    return header.value().type();
 }
 
 byte_vector decode(const byte_vector& data, const parse_command_line_result& options)
