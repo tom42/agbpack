@@ -22,8 +22,7 @@ using agbpack::huffman_options;
 using agbpack::maximum_uncompressed_size;
 using namespace std::string_literals;
 
-// TODO: unify spelling: sometimes we use bytevector, sometimes byte_vector
-using bytevector = std::vector<unsigned char>;
+using byte_vector = std::vector<unsigned char>;
 
 TEST_CASE("header_test")
 {
@@ -93,8 +92,8 @@ TEST_CASE("header_test")
     SECTION("try_parse from span, enough data")
     {
         const auto data = GENERATE(
-            bytevector{ 0x28, 0x56, 0x34, 0x12 },
-            bytevector{ 0x28, 0x56, 0x34, 0x12, 0x99 });
+            byte_vector{ 0x28, 0x56, 0x34, 0x12 },
+            byte_vector{ 0x28, 0x56, 0x34, 0x12, 0x99 });
 
         const auto header = header2::try_parse(data).value();
 
@@ -105,7 +104,7 @@ TEST_CASE("header_test")
 
     SECTION("try_parse from span, not enough data")
     {
-        const bytevector data = { 0x28, 0x56, 0x34 };
+        const byte_vector data = { 0x28, 0x56, 0x34 };
 
         const auto parse_result = header2::try_parse(data);
 

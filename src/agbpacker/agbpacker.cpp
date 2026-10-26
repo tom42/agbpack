@@ -21,7 +21,7 @@ namespace
 {
 
 using namespace agbpacker_core;
-using bytevector = std::vector<unsigned char>;
+using byte_vector = std::vector<unsigned char>;
 using encoder = std::variant<
     agbpack::lzss_encoder,
     agbpack::optimal_lzss_encoder,
@@ -34,7 +34,7 @@ using decoder = std::variant<
     agbpack::rle_decoder,
     agbpack::delta_decoder>;
 
-bytevector read_file(const std::string& filename)
+byte_vector read_file(const std::string& filename)
 {
     try
     {
@@ -46,7 +46,7 @@ bytevector read_file(const std::string& filename)
     }
 }
 
-void write_file(const std::string& filename, const bytevector& data)
+void write_file(const std::string& filename, const byte_vector& data)
 {
     try
     {
@@ -104,11 +104,11 @@ decoder create_decoder(agbpack::compression_type type, bool vram_safe)
     }
 }
 
-bytevector encode(const bytevector& data, const parse_command_line_result& options)
+byte_vector encode(const byte_vector& data, const parse_command_line_result& options)
 {
     try
     {
-        bytevector encoded_data;
+        byte_vector encoded_data;
         auto encoder = create_encoder(options.method, options.vram_safe);
         std::visit([&](auto&& e) { e.encode(data.begin(), data.end(), back_inserter(encoded_data)); }, encoder);
         return encoded_data;
@@ -126,7 +126,7 @@ void compress(const parse_command_line_result& options)
     write_file(options.output_file, compressed_data);
 }
 
-agbpack::compression_type detect_compression_type(const bytevector& compressed_data)
+agbpack::compression_type detect_compression_type(const byte_vector& compressed_data)
 {
     // TODO: check compressed_data is big enough (this may fail - needs to be at least 4 bytes big)
     // TODO: create a GBA header as uint32_t
@@ -149,11 +149,11 @@ agbpack::compression_type detect_compression_type(const bytevector& compressed_d
     return agbpack::compression_type::lzss; // TODO: real header detection. However, this lets us work on decoding instead
 }
 
-bytevector decode(const bytevector& data, const parse_command_line_result& options)
+byte_vector decode(const byte_vector& data, const parse_command_line_result& options)
 {
     try
     {
-        bytevector decoded_data;
+        byte_vector decoded_data;
         auto compression_type = detect_compression_type(data);
         auto decoder = create_decoder(compression_type, options.vram_safe);
         std::visit([&](auto&& e) { e.decode(data.begin(), data.end(), back_inserter(decoded_data)); }, decoder);
