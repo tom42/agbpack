@@ -88,6 +88,12 @@ TEST_CASE("header_test")
         CHECK(header.uncompressed_size() == 0x345678);
     }
 
+    SECTION("create header with valid size")
+    {
+        CHECK(header2::create_lzss(0).uncompressed_size() == 0);
+        CHECK(header2::create_lzss(maximum_uncompressed_size).uncompressed_size() == maximum_uncompressed_size);
+    }
+
     SECTION("to_uint32_t")
     {
         CHECK(header2::create_lzss(0x456789).to_uint32_t() == 0x45678910);
