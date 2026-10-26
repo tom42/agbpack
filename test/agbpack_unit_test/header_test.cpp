@@ -83,6 +83,14 @@ TEST_CASE("header_test")
 #endif
     }
 
+    SECTION("create header with invalid options")
+    {
+        CHECK_THROWS_MATCHES(
+            header::create_huffman(static_cast<huffman_options>(15), 0),
+            std::invalid_argument,
+            Catch::Matchers::Message("invalid compression options"));
+    }
+
     SECTION("to_uint32_t")
     {
         CHECK(header::create_lzss(0x456789).to_uint32_t() == 0x45678910);
