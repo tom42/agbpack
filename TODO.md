@@ -61,4 +61,4 @@ SPDX-License-Identifier: MIT
     * Instead of guessing around we might simply want to disassemble the damn thing.
 * See what other ideas from the cmake book we'd like to put into place (note: this should be run on github action!)
   * valgrind
-  * clang-tidy
+  * clang-tidy: see CMake book
