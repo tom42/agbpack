@@ -360,7 +360,7 @@ public:
         static_assert_input_type<InputIterator>();
 
         byte_reader<InputIterator> reader(input, eof);
-        auto header = header2::try_parse(read32(reader));
+        auto header = header::try_parse(read32(reader));
         if (!header || (header.value().type() != compression_type::huffman))
         {
             throw decode_exception();
@@ -985,7 +985,7 @@ public:
         // Create header.
         // This throws if uncompressed data is to big, which we want
         // to happen before we spend time on tree serialization.
-        auto header = header2::create_huffman(m_options, uncompressed_data.size());
+        auto header = header::create_huffman(m_options, uncompressed_data.size());
 
         // Create the tree for the encoder.
         // Also create the serialized variant of the tree and the code table for the encoder.

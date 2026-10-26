@@ -69,27 +69,27 @@ std::optional<compression_options> create_unvalidated_options(compression_type t
 
 }
 
-header2 header2::create_lzss(std::size_t uncompressed_size)
+header header::create_lzss(std::size_t uncompressed_size)
 {
-    return header2(compression_type::lzss, lzss_options::reserved, uncompressed_size);
+    return header(compression_type::lzss, lzss_options::reserved, uncompressed_size);
 }
 
-header2 header2::create_huffman(huffman_options options, std::size_t uncompressed_size)
+header header::create_huffman(huffman_options options, std::size_t uncompressed_size)
 {
-    return header2(compression_type::huffman, options, uncompressed_size);
+    return header(compression_type::huffman, options, uncompressed_size);
 }
 
-header2 header2::create_rle(std::size_t uncompressed_size)
+header header::create_rle(std::size_t uncompressed_size)
 {
-    return header2(compression_type::rle, rle_options::reserved, uncompressed_size);
+    return header(compression_type::rle, rle_options::reserved, uncompressed_size);
 }
 
-header2 header2::create_delta(delta_options options, std::size_t uncompressed_size)
+header header::create_delta(delta_options options, std::size_t uncompressed_size)
 {
-    return header2(compression_type::delta, options, uncompressed_size);
+    return header(compression_type::delta, options, uncompressed_size);
 }
 
-std::expected<header2, const char*> header2::try_parse(std::span<const unsigned char> s)
+std::expected<header, const char*> header::try_parse(std::span<const unsigned char> s)
 {
     if (s.size() < 4)
     {
@@ -100,7 +100,7 @@ std::expected<header2, const char*> header2::try_parse(std::span<const unsigned 
     return try_parse(read32(reader));
 }
 
-std::expected<header2, const char*> header2::try_parse(uint32_t header_data)
+std::expected<header, const char*> header::try_parse(uint32_t header_data)
 {
     auto type = compression_type((header_data >> 4) & 0xf);
     if (!is_valid(type))
@@ -115,12 +115,12 @@ std::expected<header2, const char*> header2::try_parse(uint32_t header_data)
         return std::unexpected("invalid compression options");
     }
 
-    return header2(type, options.value(), (header_data >> 8) & 0xffffff);
+    return header(type, options.value(), (header_data >> 8) & 0xffffff);
 }
 
 // TODO: check whether type and options match?
 //       * Probably should have had a type instead of two enums where this is not needed. Oh well.
-header2::header2(compression_type type, compression_options options, std::size_t uncompressed_size)
+header::header(compression_type type, compression_options options, std::size_t uncompressed_size)
 {
     if (!is_valid(type))
     {

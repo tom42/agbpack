@@ -81,14 +81,13 @@ inline auto as_integer(compression_options options)
     return std::visit([](auto&& opts){ return std::to_underlying(opts); }, options);
 }
 
-// TODO: rename once the other is gone
-export class header2 final
+export class header final
 {
 public:
-    static header2 create_lzss(std::size_t uncompressed_size);
-    static header2 create_huffman(huffman_options options, std::size_t uncompressed_size);
-    static header2 create_rle(std::size_t uncompressed_size);
-    static header2 create_delta(delta_options options, std::size_t uncompressed_size);
+    static header create_lzss(std::size_t uncompressed_size);
+    static header create_huffman(huffman_options options, std::size_t uncompressed_size);
+    static header create_rle(std::size_t uncompressed_size);
+    static header create_delta(delta_options options, std::size_t uncompressed_size);
 
     compression_type type() const { return m_type; }
 
@@ -102,16 +101,16 @@ public:
         return (uncompressed_size() << 8) | (std::to_underlying(type()) << 4) | as_integer(m_options);
     }
 
-    static std::expected<header2, const char*> try_parse(std::span<const unsigned char> s);
+    static std::expected<header, const char*> try_parse(std::span<const unsigned char> s);
 
-    static std::expected<header2, const char*> try_parse(uint32_t header_data);
+    static std::expected<header, const char*> try_parse(uint32_t header_data);
 
 private:
     compression_type m_type;
     compression_options m_options;
     uint32_t m_uncompressed_size;
 
-    header2(compression_type type, compression_options options, std::size_t uncompressed_size);
+    header(compression_type type, compression_options options, std::size_t uncompressed_size);
 };
 
 }

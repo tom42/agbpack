@@ -205,7 +205,7 @@ private:
     {
         static_assert_input_type<InputIterator>();
 
-        auto header = header2::try_parse(read32(reader));
+        auto header = header::try_parse(read32(reader));
         if (!header || (header.value().type() != compression_type::lzss))
         {
             throw decode_exception();
@@ -434,7 +434,7 @@ public:
 
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
         const auto encoded_data = encode_internal(uncompressed_data);
-        const auto header = header2::create_lzss(uncompressed_data.size());
+        const auto header = header::create_lzss(uncompressed_data.size());
 
         // Copy header and encoded data to output
         unbounded_byte_writer<OutputIterator> writer(output);
@@ -497,7 +497,7 @@ public:
 
         const auto uncompressed_data = vector<agbpack_u8>(input, eof);
         const auto encoded_data = encode_internal(uncompressed_data);
-        const auto header = header2::create_lzss(uncompressed_data.size());
+        const auto header = header::create_lzss(uncompressed_data.size());
 
         // Copy header and encoded data to output
         unbounded_byte_writer<OutputIterator> writer(output);

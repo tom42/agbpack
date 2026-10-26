@@ -24,7 +24,7 @@ public:
         static_assert_input_type<InputIterator>();
 
         byte_reader<InputIterator> reader(input, eof);
-        auto header = header2::try_parse(read32(reader));
+        auto header = header::try_parse(read32(reader));
         if (!header || (header.value().type() != compression_type::delta))
         {
             throw decode_exception();
@@ -86,7 +86,7 @@ public:
             std::vector<agbpack_u8> tmp;
             auto uncompressed_size = encode8or16(input, eof, back_inserter(tmp));
 
-            auto header = header2::create_delta(m_options, uncompressed_size);
+            auto header = header::create_delta(m_options, uncompressed_size);
 
             // Copy header and encoded data to output
             unbounded_byte_writer<OutputIterator> writer(output);
