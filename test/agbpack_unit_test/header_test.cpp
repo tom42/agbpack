@@ -27,19 +27,6 @@ using agbpack::huffman_options;
 using agbpack::maximum_uncompressed_size;
 using namespace std::string_literals;
 
-TEST_CASE("header_test_old") // TODO: remove once class is replaced
-{
-    SECTION("create, invalid size")
-    {
-#if SIZE_MAX > 0xffffffff
-        CHECK_THROWS_MATCHES(
-            header::create(huffman_options::h8, 0x100000000),
-            encode_exception,
-            Catch::Matchers::Message("data to encode is too big"));
-#endif
-    }
-}
-
 TEST_CASE("header_test")
 {
     SECTION("create_lzss")
