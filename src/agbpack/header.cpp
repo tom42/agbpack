@@ -49,7 +49,7 @@ bool is_valid_variant(compression_options options)
     return std::visit([](auto&& opts){ return is_valid(opts); }, options);
 }
 
-std::optional<compression_options> create_unvalidated_options(compression_type type, uint32_t options)
+compression_options create_unvalidated_options(compression_type type, uint32_t options)
 {
     switch (type)
     {
@@ -63,8 +63,7 @@ std::optional<compression_options> create_unvalidated_options(compression_type t
             return delta_options(options);
     }
 
-    assert(false && "Unknown compression type passed to create_unvalidated_options");
-    return {};
+    throw internal_error("unknown compression type passed to create_unvalidated_options");
 }
 
 }
@@ -108,14 +107,13 @@ std::expected<header, const char*> header::try_parse(uint32_t header_data)
         return std::unexpected("invalid compression type");
     }
 
-    // TODO: create_unvalidated_options creates optional(). That is fine, but would we rather have std::expected?
     auto options = create_unvalidated_options(type, header_data & 0xf);
-    if (!options || !is_valid_variant(*options))
+    if (!is_valid_variant(options))
     {
         return std::unexpected("invalid compression options");
     }
 
-    return header(type, options.value(), (header_data >> 8) & 0xffffff);
+    return header(type, options, (header_data >> 8) & 0xffffff);
 }
 
 // TODO: check whether type and options match?
