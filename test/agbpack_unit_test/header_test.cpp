@@ -95,6 +95,12 @@ TEST_CASE("header_test")
         CHECK(header.uncompressed_size() == 0x345678);
     }
 
+    SECTION("to_uint32_t")
+    {
+        CHECK(header2::create_lzss(0x456789).to_uint32_t() == 0x45678910);
+        CHECK(header2::create_huffman(huffman_options::h8, 0x567890).to_uint32_t() == 0x56789028);
+    }
+
     SECTION("try_parse from span, enough data")
     {
         const auto data = GENERATE(

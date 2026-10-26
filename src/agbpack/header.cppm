@@ -140,7 +140,10 @@ public:
 
     uint32_t uncompressed_size() const { return m_uncompressed_size; }
 
-    // TODO: add to_uint32_t. Need creation functions first before we can do so
+    uint32_t to_uint32_t() const
+    {
+        return (uncompressed_size() << 8) | (std::to_underlying(type()) << 4) | as_integer(m_options);
+    }
 
     static std::expected<header2, const char*> try_parse(std::span<const unsigned char> s);
 
