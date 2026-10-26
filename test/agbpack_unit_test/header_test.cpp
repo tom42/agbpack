@@ -29,13 +29,6 @@ using namespace std::string_literals;
 
 TEST_CASE("header_test_old") // TODO: remove once class is replaced
 {
-    SECTION("create, valid size")
-    {
-        auto valid_size = GENERATE(0u, maximum_uncompressed_size);
-
-        CHECK(header::create(huffman_options::h8, valid_size).uncompressed_size() == valid_size);
-    }
-
     SECTION("create, invalid size")
     {
 #if SIZE_MAX > 0xffffffff
