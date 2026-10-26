@@ -32,7 +32,7 @@ public:
 
         byte_reader<InputIterator> reader(input, eof);
         auto header = header2::try_parse(read32(reader));
-        if (!header.has_value() || (header.value().type() != compression_type::rle))
+        if (!header || (header.value().type() != compression_type::rle))
         {
             throw decode_exception();
         }

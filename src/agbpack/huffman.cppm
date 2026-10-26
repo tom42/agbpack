@@ -361,7 +361,7 @@ public:
 
         byte_reader<InputIterator> reader(input, eof);
         auto header = header2::try_parse(read32(reader));
-        if (!header.has_value() || (header.value().type() != compression_type::huffman))
+        if (!header || (header.value().type() != compression_type::huffman))
         {
             throw decode_exception();
         }
