@@ -38,11 +38,6 @@ TEST_CASE("header_test_old") // TODO: remove once class is replaced
 
     SECTION("create, invalid size")
     {
-        CHECK_THROWS_MATCHES(
-            header::create(huffman_options::h8, maximum_uncompressed_size + 1),
-            encode_exception,
-            Catch::Matchers::Message("data to encode is too big"));
-
 #if SIZE_MAX > 0xffffffff
         CHECK_THROWS_MATCHES(
             header::create(huffman_options::h8, 0x100000000),
@@ -92,6 +87,23 @@ TEST_CASE("header_test")
     {
         CHECK(header2::create_lzss(0).uncompressed_size() == 0);
         CHECK(header2::create_lzss(maximum_uncompressed_size).uncompressed_size() == maximum_uncompressed_size);
+    }
+
+    SECTION("create header with invalid size")
+    {
+        // TODO: more generic message? No "encode" in message?
+        CHECK_THROWS_MATCHES(
+            header2::create_lzss(maximum_uncompressed_size + 1),
+            encode_exception,
+            Catch::Matchers::Message("data to encode is too big"));
+
+        if constexpr (SIZE_MAX > 0xffffffff)
+        {
+            CHECK_THROWS_MATCHES(
+                header::create(huffman_options::h8, 0x100000000),
+                encode_exception,
+                Catch::Matchers::Message("data to encode is too big"));
+        }
     }
 
     SECTION("to_uint32_t")
