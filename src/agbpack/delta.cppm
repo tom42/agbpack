@@ -24,14 +24,14 @@ public:
         static_assert_input_type<InputIterator>();
 
         byte_reader<InputIterator> reader(input, eof);
-        auto header = header::parse_for_type(compression_type::delta, read32(reader));
-        if (!header)
+        auto header = header2::try_parse(read32(reader));
+        if (!header.has_value() || (header.value().type() != compression_type::delta))
         {
             throw decode_exception();
         }
 
         byte_writer<OutputIterator> writer(header->uncompressed_size(), output);
-        decode8or16(header->template options_as<delta_options>(), reader, writer);
+        decode8or16(header->template options<delta_options>(), reader, writer);
     }
 
 private:
