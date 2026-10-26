@@ -360,13 +360,13 @@ public:
         static_assert_input_type<InputIterator>();
 
         byte_reader<InputIterator> reader(input, eof);
-        auto header = header::parse_for_type(compression_type::huffman, read32(reader));
-        if (!header)
+        auto header = header2::try_parse(read32(reader));
+        if (!header.has_value() || (header.value().type() != compression_type::huffman))
         {
             throw decode_exception();
         }
 
-        const unsigned int symbol_size = get_symbol_size(header->template options_as<huffman_options>());
+        const unsigned int symbol_size = get_symbol_size(header->template options<huffman_options>());
         huffman_decoder_tree<InputIterator> tree(symbol_size, reader);
 
         throw_if_bitstream_is_misaligned(reader);
