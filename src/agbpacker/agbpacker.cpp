@@ -131,8 +131,8 @@ agbpack::compression_type detect_compression_type(const byte_vector& compressed_
     auto header = agbpack::header::try_parse(compressed_data);
     if (!header)
     {
-        // TODO: exception type: simply throw agbpack_exception? And what to do about error info? (well we can use or ignore that, does not matter)
-        throw std::runtime_error("invalid header");
+        // TODO: decode_exception adds some silly "encoded data is corrupt:" prefix to the message. Do we really need this? Here it is annoying
+        throw agbpack::decode_exception(header.error());
     }
 
     return header.value().type();
