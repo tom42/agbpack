@@ -110,6 +110,9 @@ private:
     compression_options m_options;
     uint32_t m_uncompressed_size;
 
+    // Note: this constructor does not check whether type and options match.
+    // That is, you can for instance construct a header with compression type LZSS and RLE compression options.
+    // It should therefore not be exposed to the public and remain private.
     header(compression_type type, compression_options options, std::size_t uncompressed_size);
 };
 

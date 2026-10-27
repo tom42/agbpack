@@ -115,8 +115,6 @@ std::expected<header, const char*> header::try_parse(uint32_t header_data)
     return header(type, options, (header_data >> 8) & 0xffffff);
 }
 
-// TODO: check whether type and options match?
-//       * Probably should have had a type instead of two enums where this is not needed. Oh well.
 header::header(compression_type type, compression_options options, std::size_t uncompressed_size)
 {
     if (!is_valid(type))
