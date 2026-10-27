@@ -131,7 +131,7 @@ header::header(compression_type type, compression_options options, std::size_t u
 
     if (uncompressed_size > maximum_uncompressed_size)
     {
-        throw encode_exception("data to encode is too big");
+        throw encode_exception("uncompressed size is too big");
     }
 
     m_type = type;

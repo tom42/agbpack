@@ -69,17 +69,16 @@ TEST_CASE("header_test")
 
     SECTION("create header with invalid size")
     {
-        // TODO: more generic message? No "encode" in message?
         CHECK_THROWS_MATCHES(
             header::create_lzss(maximum_uncompressed_size + 1),
             encode_exception,
-            Catch::Matchers::Message("data to encode is too big"));
+            Catch::Matchers::Message("uncompressed size is too big"));
 
 #if SIZE_MAX > 0xffffffff
         CHECK_THROWS_MATCHES(
             header::create_lzss(0x100000000),
             encode_exception,
-            Catch::Matchers::Message("data to encode is too big"));
+            Catch::Matchers::Message("uncompressed size is too big"));
 #endif
     }
 
