@@ -58,12 +58,11 @@ void write_file(const std::string& filename, const byte_vector& data)
     }
 }
 
-// TODO: test whether vram_safe flag is applied:
+// TODO: test whether vram_safe flag is applied (both encoder and decoder)
 //       * lzss
 //       * optimal_lzss
 // TODO: also pass vram_safe flags to decoder later (there it performs validation)
 //       * Maybe we document this in the command line?
-//       * Also, need to extend agbpack for this, both production code and unit tests
 encoder create_encoder(compression_method method, bool vram_safe)
 {
     switch (method)
