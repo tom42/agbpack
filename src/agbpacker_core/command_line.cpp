@@ -89,7 +89,7 @@ parse_command_line_result parse_command_line(int argc, char* argv[], bool is_uni
         .add({ 'c', "compress", format("Compress the input file using the specified compression method. Compression method defaults to '{}' if not given. Valid compression methods are: {}", to_string(result.method), list_compression_methods()), "METHOD", of::arg_optional }, parse_compression_method)
         .add({ 'd', "decompress", "Decompress the input file" }, [&] { result.mode = program_mode::decompress; return ok(); })
         .add({ 'o', "output-file", "Output file name. If not given, input file is overwritten", "FILE" }, value(result.output_file))
-        .add({ {}, "vram-safe", "Use VRAM safe version of compression method if available" }, value(result.vram_safe));
+        .add({ {}, "vram-safe", "When compressing: use VRAM safe version of compression method if available. When decompressing: verify that data is VRAM safe and fail if it is not" }, value(result.vram_safe));
 
     auto parser = make_parser(is_unit_test);
     auto parse_result = parser.parse(argc, argv, command_line_options);

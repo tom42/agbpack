@@ -58,19 +58,6 @@ void write_file(const std::string& filename, const byte_vector& data)
     }
 }
 
-// TODO: test whether vram_safe flag is applied (both encoder and decoder)
-//       * lzss
-//         * encoder: definitely produces different output, so it does something
-//       * optimal_lzss
-//         * encoder: definitely produces different output, so it does something
-// TODO: also pass vram_safe flags to decoder later (there it performs validation)
-//       * Maybe we document this in the command line?
-// TODO: test decoding of four files without --vram-safe: must all yield the same original (vram-original.txt)
-//                                              Normal  --vram-safe
-//       * lzss-no-vram-safe.encoded            OK      OK (FAILS)
-//       * lzss-vram-safe.encoded               OK      OK (SUCCEEDS)
-//       * optimal-lzss-no-vram-safe.encoded    OK      OK (FAILS)
-//       * optimal-lzss-vram-safe.encoded       OK      OK (SUCCEEDS)
 encoder create_encoder(compression_method method, bool vram_safe)
 {
     switch (method)
