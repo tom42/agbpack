@@ -14,10 +14,6 @@ SPDX-License-Identifier: MIT
 * Redo encoders/decoders
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
   * This means, in particular, that we also remove specializations for random access iterators we did for the LZSS encoder
-* Turn our debug tools into real tools in src, with proper argp_parse command line parser
-  * agbpack-tool / agbpacker: simple compression/decompression tool exposing all implemented schemes
-    * Rationale: will be useful as a tool in itself
-    * Also useful for comparison with other GBA LZSS implementations
 * Do the data types in common.cppm even make sense (agbpack_io_datatype, agbpack_u8, agbpack_u16, agbpack_u32)?
   * agbpack_io_datatype: possibly, apart from the fact that it is not used consistently
   * agbpack_u8, agbpack_u16, agbpack_u32: probably not, we could probaby just as well use fixed size standard types (uint8_t etc)
