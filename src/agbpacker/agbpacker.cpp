@@ -62,6 +62,7 @@ void write_file(const std::string& filename, const byte_vector& data)
 //       * lzss
 //         * encoder: definitely produces different output, so it does something
 //       * optimal_lzss
+//         * encoder: definitely produces different output, so it does something
 // TODO: also pass vram_safe flags to decoder later (there it performs validation)
 //       * Maybe we document this in the command line?
 encoder create_encoder(compression_method method, bool vram_safe)
