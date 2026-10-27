@@ -125,7 +125,6 @@ agbpack::compression_type detect_compression_type(const byte_vector& compressed_
     auto header = agbpack::header::try_parse(compressed_data);
     if (!header)
     {
-        // TODO: decode_exception adds some silly "encoded data is corrupt:" prefix to the message. Do we really need this? Here it is annoying
         throw agbpack::decode_exception(header.error());
     }
 

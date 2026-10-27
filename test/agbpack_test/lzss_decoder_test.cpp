@@ -145,7 +145,7 @@ TEST_CASE_METHOD(test_data_fixture, "lzss_decoder_test")
         CHECK_THROWS_MATCHES(
             decode_vector(decoder, not_vram_safe_encoded_data),
             agbpack::decode_exception,
-            Catch::Matchers::Message("encoded data is corrupt: encoded data is not VRAM safe"));
+            Catch::Matchers::Message("encoded data is corrupt: data is not VRAM safe"));
     }
 }
 

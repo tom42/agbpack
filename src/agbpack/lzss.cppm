@@ -261,7 +261,7 @@ private:
     {
         if (offset < get_minimum_offset(m_vram_safe))
         {
-            throw decode_exception("encoded data is not VRAM safe");
+            throw decode_exception("data is not VRAM safe");
         }
     }
 
