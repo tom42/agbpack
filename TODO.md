@@ -10,6 +10,8 @@ SPDX-License-Identifier: MIT
     * Linux: installs agbpack, but still need to test the installation (compile and run test program that uses the installation)
     * Windows:
       * Install agbpack (does not work, needs local debugging)
+        * Reportedly known not to work with Visual Studio Generator. Try with Ninja then. Where to I get Ninja for windows?
+        * How do we set up the CI build for Windows then? Do we not use Visual Studio at all anymore?
       * Build and run the installation test
 * Redo encoders/decoders
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
