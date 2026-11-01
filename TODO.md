@@ -12,6 +12,12 @@ SPDX-License-Identifier: MIT
       * Install agbpack (does not work, needs local debugging)
         * Reportedly known not to work with Visual Studio Generator. Try with Ninja then. Where to I get Ninja for windows?
         * How do we set up the CI build for Windows then? Do we not use Visual Studio at all anymore?
+          * We can do this, but it's hairy:
+            * We need to set up a visual studio command prompt
+              * This involves finding and runnin e.g. vcvars64.bat for 64 bit compilers
+                * There is a tool from MS called vswhere which may help with that
+              * We also need appropriate presets that tell cmake to use cl
+              * And whatnot. As I said, it's hairy
       * Build and run the installation test
 * Redo encoders/decoders
   * Forget about supporting non-random access iterators where not feasible - it's just plain pointless
