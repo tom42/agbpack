@@ -30,5 +30,6 @@ function(vtg_testing_setup_catch2 version)
 
   # Include Catch.cmake to get the catch_discover_tests function.
   include(Catch)
+  set(CMAKE_CATCH_DISCOVER_TESTS_DISCOVERY_MODE PRE_TEST)
 
 endfunction()
