@@ -81,7 +81,6 @@ jobs:
         -A ${{matrix.arch}}
         --preset dev-windows
         -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
-        -G Ninja
 
     - name: Build
       run: cmake --build ${{steps.strings.outputs.build-output-dir}} --config ${{matrix.build_type}}
@@ -89,9 +88,6 @@ jobs:
     - name: Test
       working-directory: ${{steps.strings.outputs.build-output-dir}}
       run: ctest --build-config ${{matrix.build_type}} --output-on-failure
-
-    - name: Install
-      run: cmake --install ${{steps.strings.outputs.build-output-dir}} --config ${{matrix.build_type}} --prefix ${{steps.strings.outputs.build-output-dir}}/install
 
   quality:
     name: Static Quality Checks
