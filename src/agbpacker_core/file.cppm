@@ -42,6 +42,9 @@ class zstring_view final
 public:
     zstring_view(const char* s) : m_view(s) {}
 
+    // Construction from std::string.
+    // This truncates strings that contain NUL characters.
+    // That's totally fine since all this class has is c_str().
     zstring_view(const std::string& s) : m_view(s.c_str()) {}
 
     const char* c_str() const
