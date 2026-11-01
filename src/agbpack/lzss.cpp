@@ -96,8 +96,6 @@ vector<agbpack_u8> encode_matches(const vector<agbpack_u8>& uncompressed_data, c
 
 }
 
-// TODO: explain somewhere why this is in a cpp file?
-//       * Yes but first: Do all the installation related stuff listed in TODO.md
 vector<agbpack_u8> optimal_lzss_encoder::encode_internal(const vector<agbpack_u8>& uncompressed_data)
 {
     if (uncompressed_data.empty())
