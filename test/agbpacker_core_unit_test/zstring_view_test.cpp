@@ -20,6 +20,7 @@ TEST_CASE("zstring_view_test")
         zstring_view view(underlying);
 
         CHECK(std::strcmp(view.c_str(), "abc") == 0);
+        CHECK(view.c_str() == underlying);
     }
 
     SECTION("construction from std::string")
@@ -28,6 +29,7 @@ TEST_CASE("zstring_view_test")
         zstring_view view(underlying);
 
         CHECK(std::strcmp(view.c_str(), "abcd") == 0);
+        CHECK(view.c_str() == underlying.c_str());
     }
 }
 
