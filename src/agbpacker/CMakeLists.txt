@@ -3,9 +3,10 @@
 
 add_executable(agbpacker agbpacker.cpp)
 vtg_target_enable_warnings(agbpacker)
+target_include_directories(agbpacker PRIVATE "${PROJECT_BINARY_DIR}")
 target_link_libraries(agbpacker PRIVATE agbpacker_core)
 
 if(agbpack_INSTALL_AGBPACKER)
   include(GNUInstallDirs)
-  install(TARGETS agbpacker DESTINATION ${CMAKE_INSTALL_BINDIR})
+  install(TARGETS agbpacker DESTINATION "${CMAKE_INSTALL_BINDIR}")
 endif()
