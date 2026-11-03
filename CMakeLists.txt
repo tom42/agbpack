@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 cmake_minimum_required(VERSION 3.31.5)
-project(agbpack VERSION 0.2.0 LANGUAGES C CXX)
+project(agbpack VERSION 0.2.1 LANGUAGES C CXX)
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 
@@ -42,10 +42,7 @@ endif()
 include(VtgEnableWarnings)
 
 # Create global configuration header
-configure_file(
-  agbpack_config.hpp.in
-  "${CMAKE_CURRENT_BINARY_DIR}/agbpack_config.hpp")
-include_directories("${CMAKE_CURRENT_BINARY_DIR}")
+configure_file(agbpack_config.hpp.in "${PROJECT_BINARY_DIR}/agbpack_config.hpp")
 
 add_subdirectory(src)
 if(agbpack_BUILD_TESTING)
